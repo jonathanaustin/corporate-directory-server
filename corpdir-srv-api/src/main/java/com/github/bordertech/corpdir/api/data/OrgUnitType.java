@@ -12,7 +12,7 @@ public class OrgUnitType implements Serializable {
 
 	private Long id;
 	private String alternateKey;
-	private String desc;
+	private String description;
 	private boolean custom;
 
 	/**
@@ -51,16 +51,16 @@ public class OrgUnitType implements Serializable {
 	 *
 	 * @return the description
 	 */
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
 	 *
-	 * @param desc the description
+	 * @param description the description
 	 */
-	public void setDesc(final String desc) {
-		this.desc = desc;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	/**

@@ -68,7 +68,7 @@ public final class MapperUtil {
 		to.setId(from.getId());
 		to.setAlternateKey(from.getAlternateKey());
 		to.setCustom(from.isCustom());
-		to.setDesc(from.getDesc());
+		to.setDescription(from.getDescription());
 		return to;
 	}
 
@@ -86,7 +86,7 @@ public final class MapperUtil {
 		to.setId(from.getId());
 		to.setAlternateKey(from.getAlternateKey());
 		to.setCustom(from.isCustom());
-		to.setDesc(from.getDesc());
+		to.setDescription(from.getDescription());
 		return to;
 	}
 
@@ -134,7 +134,7 @@ public final class MapperUtil {
 		}
 		to.setId(from.getId());
 		to.setAlternateKey(from.getAlternateKey());
-		to.setDesc(from.getDesc());
+		to.setDescription(from.getDescription());
 		to.setActive(from.isActive());
 		to.setCustom(from.isCustom());
 		OrgUnitTypeEntity type = convertOrgUnitTypeApiToEntity(from.getType());
@@ -155,7 +155,7 @@ public final class MapperUtil {
 		OrgUnit to = new OrgUnit();
 		to.setId(from.getId());
 		to.setAlternateKey(from.getAlternateKey());
-		to.setDesc(from.getDesc());
+		to.setDescription(from.getDescription());
 		to.setActive(from.isActive());
 		to.setCustom(from.isCustom());
 		OrgUnitType type = convertOrgUnitTypeEntityToApi(from.getType());

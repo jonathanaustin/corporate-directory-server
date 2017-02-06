@@ -9,9 +9,10 @@ import com.github.bordertech.corpdir.jpa.entity.OrgUnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitTypeEntity_;
 import java.util.List;
 import java.util.Objects;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -22,18 +23,19 @@ import javax.persistence.criteria.Root;
  * @author Jonathan Austin
  * @since 1.0.0
  */
+@Singleton
 public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 
-	private EntityManagerFactory emf;
+//	private EntityManagerFactory emf;
+	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("persist-unit");
 
-	/**
-	 * @param emf the entity manager factory
-	 */
-	@PersistenceUnit
-	public void setEmf(final EntityManagerFactory emf) {
-		this.emf = emf;
-	}
-
+//	/**
+//	 * @param emf the entity manager factory
+//	 */
+//	@PersistenceUnit
+//	public void setEmf(final EntityManagerFactory emf) {
+//		this.emf = emf;
+//	}
 	@Override
 	public List<OrgUnitType> getOrgUnitTypes() {
 

@@ -22,7 +22,7 @@ public class ImageEntity implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String mimeType;
-	private String desc;
+	private String description;
 	private Dimension dimension;
 	private byte[] bytes;
 	private boolean active;
@@ -63,16 +63,16 @@ public class ImageEntity implements Serializable {
 	 *
 	 * @return the description
 	 */
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
 	 *
-	 * @param desc the description
+	 * @param description the description
 	 */
-	public void setDesc(final String desc) {
-		this.desc = desc;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	/**

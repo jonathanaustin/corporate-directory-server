@@ -20,6 +20,7 @@
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>
 		<module>corpdir-srv-web</module>
+		<module>corpdir-srv-war</module>
 	</modules>
 
 </project>

@@ -34,3 +34,5 @@ Icon
 ### WComponents ###
 local_app.properties
 
+
+*.log
