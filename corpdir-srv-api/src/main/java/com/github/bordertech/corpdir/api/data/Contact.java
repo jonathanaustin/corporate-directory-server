@@ -16,10 +16,10 @@ public class Contact implements Serializable {
 	private String firstName;
 	private String lastName;
 	private String companyTitle;
-	private String address;
+	private Address address;
 	private Location location;
 	private List<Channel> channels;
-	private Long imageId;
+	private boolean hasImage;
 	private boolean active;
 	private boolean custom;
 
@@ -100,7 +100,7 @@ public class Contact implements Serializable {
 	/**
 	 * @return the address
 	 */
-	public String getAddress() {
+	public Address getAddress() {
 		return address;
 	}
 
@@ -108,7 +108,7 @@ public class Contact implements Serializable {
 	 *
 	 * @param address the address
 	 */
-	public void setAddress(final String address) {
+	public void setAddress(final Address address) {
 		this.address = address;
 	}
 
@@ -144,18 +144,18 @@ public class Contact implements Serializable {
 
 	/**
 	 *
-	 * @return the image id
+	 * @return true if contact has image
 	 */
-	public Long getImageId() {
-		return imageId;
+	public boolean getHasImage() {
+		return hasImage;
 	}
 
 	/**
 	 *
-	 * @param imageId the image id
+	 * @param hasImage true if contact has image
 	 */
-	public void setImageId(final Long imageId) {
-		this.imageId = imageId;
+	public void setHasImage(final boolean hasImage) {
+		this.hasImage = hasImage;
 	}
 
 	/**

@@ -1,6 +1,7 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import javax.persistence.Embeddable;
 
 /**
  * Address details.
@@ -8,33 +9,15 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
+@Embeddable
 public class AddressEntity implements Serializable {
 
-	private Long id;
 	private String addressLine1;
 	private String addressLine2;
 	private String suburb;
 	private String state;
 	private String postcode;
 	private String country;
-	private boolean active;
-	private boolean custom;
-
-	/**
-	 *
-	 * @return the unique id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 *
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
 
 	/**
 	 *
@@ -130,38 +113,6 @@ public class AddressEntity implements Serializable {
 	 */
 	public void setCountry(final String country) {
 		this.country = country;
-	}
-
-	/**
-	 *
-	 * @return true if active record
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 *
-	 * @param active true if active record
-	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 }

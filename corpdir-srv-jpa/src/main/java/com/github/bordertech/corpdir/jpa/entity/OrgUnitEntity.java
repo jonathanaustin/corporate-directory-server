@@ -1,7 +1,16 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Organization unit.
@@ -9,14 +18,22 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
+@Entity
+@Table(name = "OrgUnit")
 public class OrgUnitEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String alternateKey;
 	private String desc;
+	@ManyToOne(fetch = FetchType.EAGER)
 	private OrgUnitTypeEntity type;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<OrgUnitEntity> subOrgUnits;
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<PositionEntity> positions;
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<ContactEntity> contacts;
 	private boolean active;
 	private boolean custom;
@@ -30,7 +47,6 @@ public class OrgUnitEntity implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {

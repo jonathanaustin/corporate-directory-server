@@ -1,21 +1,34 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
- * Position in organization unit.
+ * Location of contact.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PositionEntity implements Serializable {
+@Entity
+@Table(name = "Location")
+public class LocationEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String alternateKey;
 	private String desc;
-	private List<PositionEntity> subPositions;
-	private List<ContactEntity> contacts;
+	private AddressEntity address;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	private List<LocationEntity> subLocations;
 	private boolean active;
 	private boolean custom;
 
@@ -28,7 +41,6 @@ public class PositionEntity implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {
@@ -37,7 +49,7 @@ public class PositionEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the alternate position key
+	 * @return the alternate location key
 	 */
 	public String getAlternateKey() {
 		return alternateKey;
@@ -45,7 +57,7 @@ public class PositionEntity implements Serializable {
 
 	/**
 	 *
-	 * @param alternateKey the alternate position key
+	 * @param alternateKey the alternate location key
 	 */
 	public void setAlternateKey(final String alternateKey) {
 		this.alternateKey = alternateKey;
@@ -69,34 +81,34 @@ public class PositionEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the positions managed by this position
+	 * @return the address
 	 */
-	public List<PositionEntity> getSubPositions() {
-		return subPositions;
+	public AddressEntity getAddress() {
+		return address;
 	}
 
 	/**
 	 *
-	 * @param subPositions the positions managed by this position
+	 * @param address the address
 	 */
-	public void setSubPositions(final List<PositionEntity> subPositions) {
-		this.subPositions = subPositions;
+	public void setAddress(final AddressEntity address) {
+		this.address = address;
 	}
 
 	/**
 	 *
-	 * @return the contacts in this position
+	 * @return the sub locations
 	 */
-	public List<ContactEntity> getContacts() {
-		return contacts;
+	public List<LocationEntity> getSubLocations() {
+		return subLocations;
 	}
 
 	/**
 	 *
-	 * @param contacts the contacts in this position
+	 * @param subLocations the sub locations
 	 */
-	public void setContacts(final List<ContactEntity> contacts) {
-		this.contacts = contacts;
+	public void setSubLocations(final List<LocationEntity> subLocations) {
+		this.subLocations = subLocations;
 	}
 
 	/**

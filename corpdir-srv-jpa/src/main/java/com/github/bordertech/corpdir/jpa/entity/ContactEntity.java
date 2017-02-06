@@ -1,7 +1,18 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * Contact details.
@@ -9,16 +20,24 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
+@Entity
+@Table(name = "Contact")
 public class ContactEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String alternateKey;
 	private String firstName;
 	private String lastName;
 	private String companyTitle;
-	private String address;
+	@Embedded
+	private AddressEntity address;
+	@ManyToOne(fetch = FetchType.EAGER)
 	private LocationEntity location;
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<ChannelEntity> channels;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private ImageEntity image;
 	private boolean active;
 	private boolean custom;
@@ -32,7 +51,6 @@ public class ContactEntity implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {
@@ -100,7 +118,7 @@ public class ContactEntity implements Serializable {
 	/**
 	 * @return the address
 	 */
-	public String getAddress() {
+	public AddressEntity getAddress() {
 		return address;
 	}
 
@@ -108,7 +126,7 @@ public class ContactEntity implements Serializable {
 	 *
 	 * @param address the address
 	 */
-	public void setAddress(final String address) {
+	public void setAddress(final AddressEntity address) {
 		this.address = address;
 	}
 

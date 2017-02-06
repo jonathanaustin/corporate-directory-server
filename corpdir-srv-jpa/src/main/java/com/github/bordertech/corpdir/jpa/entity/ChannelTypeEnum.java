@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 /**
  * Type of channel communication.
@@ -6,7 +6,7 @@ package com.github.bordertech.corpdir.entity;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ChannelTypeEnumEntity {
+public enum ChannelTypeEnum {
 
 	/**
 	 * Mobile phone.
@@ -27,7 +27,7 @@ public enum ChannelTypeEnumEntity {
 	 *
 	 * @param type the communication type
 	 */
-	ChannelTypeEnumEntity(final String type) {
+	ChannelTypeEnum(final String type) {
 		value = type;
 	}
 
@@ -44,8 +44,8 @@ public enum ChannelTypeEnumEntity {
 	 * @param value the type value
 	 * @return the channel type
 	 */
-	public static ChannelTypeEnumEntity fromValue(final String value) {
-		for (ChannelTypeEnumEntity c : ChannelTypeEnumEntity.values()) {
+	public static ChannelTypeEnum fromValue(final String value) {
+		for (ChannelTypeEnum c : ChannelTypeEnum.values()) {
 			if (c.value.equals(value)) {
 				return c;
 			}

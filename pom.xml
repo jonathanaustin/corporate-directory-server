@@ -18,6 +18,7 @@
 	<modules>
 		<module>config-srv-parent</module>
 		<module>corpdir-srv-api</module>
+		<module>corpdir-srv-jpa</module>
 		<module>corpdir-srv-web</module>
 	</modules>
 

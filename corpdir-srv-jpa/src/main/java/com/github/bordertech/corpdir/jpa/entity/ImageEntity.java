@@ -1,21 +1,30 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
+import java.awt.Dimension;
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * Location of contact.
+ * Image details.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class LocationEntity implements Serializable {
+@Entity
+@Table(name = "Image")
+public class ImageEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String alternateKey;
+	private String mimeType;
 	private String desc;
-	private AddressEntity address;
-	private List<LocationEntity> subLocations;
+	private Dimension dimension;
+	private byte[] bytes;
 	private boolean active;
 	private boolean custom;
 
@@ -28,7 +37,6 @@ public class LocationEntity implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {
@@ -37,18 +45,18 @@ public class LocationEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the alternate location key
+	 * @return the location id
 	 */
-	public String getAlternateKey() {
-		return alternateKey;
+	public String getMimeType() {
+		return mimeType;
 	}
 
 	/**
 	 *
-	 * @param alternateKey the alternate location key
+	 * @param mimeType the location id
 	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
+	public void setMimeType(final String mimeType) {
+		this.mimeType = mimeType;
 	}
 
 	/**
@@ -69,34 +77,34 @@ public class LocationEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the address
+	 * @return the image dimensions
 	 */
-	public AddressEntity getAddress() {
-		return address;
+	public Dimension getDimension() {
+		return dimension;
 	}
 
 	/**
 	 *
-	 * @param address the address
+	 * @param dimension the image dimensions
 	 */
-	public void setAddress(final AddressEntity address) {
-		this.address = address;
+	public void setDimension(final Dimension dimension) {
+		this.dimension = dimension;
 	}
 
 	/**
 	 *
-	 * @return the sub locations
+	 * @return the image bytes
 	 */
-	public List<LocationEntity> getSubLocations() {
-		return subLocations;
+	public byte[] getBytes() {
+		return bytes;
 	}
 
 	/**
 	 *
-	 * @param subLocations the sub locations
+	 * @param bytes the image bytes
 	 */
-	public void setSubLocations(final List<LocationEntity> subLocations) {
-		this.subLocations = subLocations;
+	public void setBytes(final byte[] bytes) {
+		this.bytes = bytes;
 	}
 
 	/**

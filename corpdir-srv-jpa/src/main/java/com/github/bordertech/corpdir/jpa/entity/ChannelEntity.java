@@ -1,6 +1,13 @@
-package com.github.bordertech.corpdir.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Channel of communication.
@@ -8,10 +15,15 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
+@Entity()
+@Table(name = "Channel")
 public class ChannelEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private ChannelTypeEnumEntity type;
+	@Enumerated(EnumType.STRING)
+	private ChannelTypeEnum type;
 	private String value;
 	private boolean custom;
 
@@ -24,7 +36,6 @@ public class ChannelEntity implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {
@@ -35,7 +46,7 @@ public class ChannelEntity implements Serializable {
 	 *
 	 * @return the channel type
 	 */
-	public ChannelTypeEnumEntity getType() {
+	public ChannelTypeEnum getType() {
 		return type;
 	}
 
@@ -43,7 +54,7 @@ public class ChannelEntity implements Serializable {
 	 *
 	 * @param type the channel type
 	 */
-	public void setType(final ChannelTypeEnumEntity type) {
+	public void setType(final ChannelTypeEnum type) {
 		this.type = type;
 	}
 
