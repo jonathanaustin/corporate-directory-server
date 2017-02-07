@@ -171,12 +171,12 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	public void deleteOrgUnitType(final Long typeId) {
 		EntityManager em = emf.createEntityManager();
 		try {
+			em.getTransaction().begin();
 			OrgUnitTypeEntity entity = em.find(OrgUnitTypeEntity.class, typeId);
 			if (entity != null) {
-				em.getTransaction().begin();
 				em.remove(entity);
-				em.getTransaction().commit();
 			}
+			em.getTransaction().commit();
 		} finally {
 			em.close();
 		}
