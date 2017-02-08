@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.config;
+package com.github.bordertech.corpdir.jersey.config;
 
 import com.github.bordertech.corpdir.api.OrgUnitTypeService;
 import com.github.bordertech.corpdir.jpa.OrgUnitTypeServiceImpl;

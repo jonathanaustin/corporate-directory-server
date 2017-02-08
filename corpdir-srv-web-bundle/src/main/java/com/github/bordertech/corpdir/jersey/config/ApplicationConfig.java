@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.config;
+package com.github.bordertech.corpdir.jersey.config;
 
 import org.glassfish.jersey.server.ResourceConfig;
 

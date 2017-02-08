@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>corpdir-srv-jpa</name>
-	<artifactId>corpdir-srv-jpa</artifactId>
+	<name>corpdir-srv-lde</name>
+	<artifactId>corpdir-srv-lde</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.corpdir</groupId>
@@ -18,31 +18,32 @@
 		<wc.qa.skip>true</wc.qa.skip>
 	</properties>
 
+	<build>
+		<!-- Allows project to be run via mvn jetty:run from the web-war directory. -->
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-srv-api</artifactId>
+			<artifactId>corpdir-srv-web-bundle</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<version>1</version>
-			<scope>provided</scope>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-server</artifactId>
+			<version>9.4.0.v20161208</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<!-- Generate JPA2 meta model. (Not hibernate specific but only used to generate the meta model. -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>5.2.6.Final</version>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-webapp</artifactId>
+			<version>9.4.0.v20161208</version>
 		</dependency>
 	</dependencies>
-
 
 </project>
