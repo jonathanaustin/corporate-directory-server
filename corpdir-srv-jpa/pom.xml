@@ -24,23 +24,22 @@
 			<artifactId>corpdir-srv-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<!-- Injection interface. -->
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
-			<version>1</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- JPA Interface. -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>javax.persistence</artifactId>
-			<version>2.1.1</version>
 			<scope>provided</scope>
 		</dependency>
 		<!-- Generate JPA2 meta model. (Not hibernate specific but only used to generate the meta model. -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-jpamodelgen</artifactId>
-			<version>5.2.6.Final</version>
 		</dependency>
 	</dependencies>
 

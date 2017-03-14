@@ -18,16 +18,6 @@
 		<wc.qa.skip>true</wc.qa.skip>
 	</properties>
 
-	<build>
-		<!-- Allows project to be run via mvn jetty:run from the web-war directory. -->
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
@@ -44,36 +34,29 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
-			<version>5.2.7.Final</version>
 		</dependency>
 		<!-- Derby DB for JPA -->
 		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derby</artifactId>
-			<version>10.13.1.1</version>
 		</dependency>
 
 		<!-- Jersey for REST Implementation -->
 		<dependency>
 			<groupId>org.glassfish.jersey.containers</groupId>
-			<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
 			<artifactId>jersey-container-servlet</artifactId>
-			<version>2.25.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>2.25</version>
 		</dependency>
 
 		<!-- slf4j-log4j -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.22</version>
 		</dependency>
 
 	</dependencies>
-
 
 </project>

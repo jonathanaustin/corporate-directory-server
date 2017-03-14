@@ -11,10 +11,10 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<sourceCompliance>1.7</sourceCompliance>
-		<targetCompliance>1.7</targetCompliance>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<sourceCompliance>1.8</sourceCompliance>
+		<targetCompliance>1.8</targetCompliance>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- QA Settings -->
 		<wc.qa.skip>true</wc.qa.skip>
