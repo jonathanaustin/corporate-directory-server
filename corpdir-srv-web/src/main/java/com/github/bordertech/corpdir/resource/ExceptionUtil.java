@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.resource;
 
-import com.github.bordertech.corpdir.api.NotFoundException;
-import com.github.bordertech.corpdir.api.ServiceException;
+import com.github.bordertech.corpdir.api.exception.NotFoundException;
+import com.github.bordertech.corpdir.api.exception.ServiceException;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Response;
 
@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ExceptionUtil {
+public final class ExceptionUtil {
 
 	/**
 	 * Private constructor.

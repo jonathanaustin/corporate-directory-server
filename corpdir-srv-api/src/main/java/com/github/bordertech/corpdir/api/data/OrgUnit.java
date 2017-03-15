@@ -13,7 +13,7 @@ public class OrgUnit implements Serializable {
 	private Long id;
 	private String alternateKey;
 	private String description;
-	private OrgUnitType type;
+	private UnitType type;
 	private boolean hasSubOrgUnits;
 	private boolean hasPositions;
 	private boolean hasContacts;
@@ -72,7 +72,7 @@ public class OrgUnit implements Serializable {
 	 *
 	 * @return the organization type
 	 */
-	public OrgUnitType getType() {
+	public UnitType getType() {
 		return type;
 	}
 
@@ -80,7 +80,7 @@ public class OrgUnit implements Serializable {
 	 *
 	 * @param type the organization type
 	 */
-	public void setType(final OrgUnitType type) {
+	public void setType(final UnitType type) {
 		this.type = type;
 	}
 

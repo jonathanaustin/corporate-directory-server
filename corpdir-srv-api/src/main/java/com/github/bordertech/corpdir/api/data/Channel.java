@@ -50,16 +50,16 @@ public class Channel implements Serializable {
 	/**
 	 * @return the channel value (eg mobile number, email)
 	 */
-	public String getValue() {
+	public String getChannelValue() {
 		return value;
 	}
 
 	/**
 	 *
-	 * @param value the channel value (eg mobile number, email)
+	 * @param channelValue the channel value (eg mobile number, email)
 	 */
-	public void setValue(final String value) {
-		this.value = value;
+	public void setChannelValue(final String channelValue) {
+		this.value = channelValue;
 	}
 
 	/**

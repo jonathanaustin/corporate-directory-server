@@ -21,6 +21,7 @@ public class ImageEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	private String mimeType;
 	private String description;
 	private Dimension dimension;

@@ -1,8 +1,8 @@
 package com.github.bordertech.corpdir.resource;
 
-import com.github.bordertech.corpdir.api.OrgUnitTypeService;
+import com.github.bordertech.corpdir.api.UnitTypeService;
 import com.github.bordertech.corpdir.api.data.OrgUnit;
-import com.github.bordertech.corpdir.api.data.OrgUnitType;
+import com.github.bordertech.corpdir.api.data.UnitType;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -20,25 +20,25 @@ import javax.ws.rs.core.MediaType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-@Path(value = "orgunittypes")
-public class OrgUnitTypeResource implements OrgUnitTypeService {
+@Path(value = "unittypes")
+public class UnitTypeResource implements UnitTypeService {
 
-	private OrgUnitTypeService impl;
+	private final UnitTypeService impl;
 
 	/**
 	 * @param impl the service implementation
 	 */
 	@Inject
-	public OrgUnitTypeResource(final OrgUnitTypeService impl) {
+	public UnitTypeResource(final UnitTypeService impl) {
 		this.impl = impl;
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<OrgUnitType> getOrgUnitTypes() {
+	public List<UnitType> getUnitTypes() {
 		try {
-			return impl.getOrgUnitTypes();
+			return impl.getUnitTypes();
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -72,9 +72,9 @@ public class OrgUnitTypeResource implements OrgUnitTypeService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public OrgUnitType getOrgUnitType(@PathParam("id") final Long typeId) {
+	public UnitType getUnitType(@PathParam("id") final Long typeId) {
 		try {
-			return impl.getOrgUnitType(typeId);
+			return impl.getUnitType(typeId);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -84,9 +84,9 @@ public class OrgUnitTypeResource implements OrgUnitTypeService {
 	@Path("/key/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public OrgUnitType getOrgUnitType(@PathParam("key") final String typeAltKey) {
+	public UnitType getUnitType(@PathParam("key") final String typeAltKey) {
 		try {
-			return impl.getOrgUnitType(typeAltKey);
+			return impl.getUnitType(typeAltKey);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -95,9 +95,9 @@ public class OrgUnitTypeResource implements OrgUnitTypeService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Long createOrgUnitType(final OrgUnitType type) {
+	public Long createUnitType(final UnitType type) {
 		try {
-			return impl.createOrgUnitType(type);
+			return impl.createUnitType(type);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -107,9 +107,9 @@ public class OrgUnitTypeResource implements OrgUnitTypeService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public OrgUnitType updateOrgUnitType(@PathParam("id") final Long typeId, final OrgUnitType type) {
+	public UnitType updateUnitType(@PathParam("id") final Long typeId, final UnitType type) {
 		try {
-			return impl.updateOrgUnitType(typeId, type);
+			return impl.updateUnitType(typeId, type);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -119,9 +119,9 @@ public class OrgUnitTypeResource implements OrgUnitTypeService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void deleteOrgUnitType(@PathParam("id") final Long typeId) {
+	public void deleteUnitType(@PathParam("id") final Long typeId) {
 		try {
-			impl.deleteOrgUnitType(typeId);
+			impl.deleteUnitType(typeId);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}

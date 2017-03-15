@@ -1,18 +1,16 @@
 package com.github.bordertech.corpdir.jpa;
 
-import com.github.bordertech.corpdir.api.OrgUnitTypeService;
+import com.github.bordertech.corpdir.api.UnitTypeService;
 import com.github.bordertech.corpdir.api.data.OrgUnit;
-import com.github.bordertech.corpdir.api.data.OrgUnitType;
+import com.github.bordertech.corpdir.api.data.UnitType;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity_;
-import com.github.bordertech.corpdir.jpa.entity.OrgUnitTypeEntity;
-import com.github.bordertech.corpdir.jpa.entity.OrgUnitTypeEntity_;
+import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
+import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity_;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -24,30 +22,20 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
+public class UnitTypeServiceImpl extends AbstractService implements UnitTypeService {
 
-//	private EntityManagerFactory emf;
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("persist-unit");
-
-//	/**
-//	 * @param emf the entity manager factory
-//	 */
-//	@PersistenceUnit
-//	public void setEmf(final EntityManagerFactory emf) {
-//		this.emf = emf;
-//	}
 	@Override
-	public List<OrgUnitType> getOrgUnitTypes() {
+	public List<UnitType> getUnitTypes() {
 
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
-			CriteriaQuery<OrgUnitTypeEntity> qry = cb.createQuery(OrgUnitTypeEntity.class);
+			CriteriaQuery<UnitTypeEntity> qry = cb.createQuery(UnitTypeEntity.class);
 
-			Root<OrgUnitTypeEntity> from = qry.from(OrgUnitTypeEntity.class);
+			Root<UnitTypeEntity> from = qry.from(UnitTypeEntity.class);
 			qry.select(from);
 
-			List<OrgUnitTypeEntity> rows = em.createQuery(qry).getResultList();
+			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
 
 			return MapperUtil.convertListOrgUnitTypeEntityToApi(rows);
 		} finally {
@@ -58,7 +46,7 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 
 	@Override
 	public List<OrgUnit> getOrgUnits(final Long typeId) {
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -77,7 +65,7 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 
 	@Override
 	public List<OrgUnit> getOrgUnits(final String typeAltKey) {
-		EntityManager em = emf.createEntityManager();
+		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 
@@ -95,13 +83,10 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	}
 
 	@Override
-	public OrgUnitType getOrgUnitType(final Long typeId) {
-		EntityManager em = emf.createEntityManager();
+	public UnitType getUnitType(final Long typeId) {
+		EntityManager em = getEntityManager();
 		try {
-			OrgUnitTypeEntity entity = em.find(OrgUnitTypeEntity.class, typeId);
-			if (entity == null) {
-				return null;
-			}
+			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
 			return MapperUtil.convertOrgUnitTypeEntityToApi(entity);
 		} finally {
 			em.close();
@@ -109,21 +94,10 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	}
 
 	@Override
-	public OrgUnitType getOrgUnitType(final String typeAltKey) {
-		EntityManager em = emf.createEntityManager();
+	public UnitType getUnitType(final String typeAltKey) {
+		EntityManager em = getEntityManager();
 		try {
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-
-			CriteriaQuery<OrgUnitTypeEntity> qry = cb.createQuery(OrgUnitTypeEntity.class);
-			Root<OrgUnitTypeEntity> from = qry.from(OrgUnitTypeEntity.class);
-			qry.select(from);
-			qry.where(cb.equal(from.get(OrgUnitTypeEntity_.alternateKey), typeAltKey));
-
-			OrgUnitTypeEntity entity = em.createQuery(qry).getSingleResult();
-			if (entity == null) {
-				return null;
-			}
-
+			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeAltKey);
 			return MapperUtil.convertOrgUnitTypeEntityToApi(entity);
 		} finally {
 			em.close();
@@ -131,10 +105,10 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	}
 
 	@Override
-	public Long createOrgUnitType(final OrgUnitType type) {
-		EntityManager em = emf.createEntityManager();
+	public Long createUnitType(final UnitType type) {
+		EntityManager em = getEntityManager();
 		try {
-			OrgUnitTypeEntity entity = MapperUtil.convertOrgUnitTypeApiToEntity(type);
+			UnitTypeEntity entity = MapperUtil.convertOrgUnitTypeApiToEntity(type);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
@@ -145,22 +119,23 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	}
 
 	@Override
-	public OrgUnitType updateOrgUnitType(final Long typeId, final OrgUnitType type) {
-		EntityManager em = emf.createEntityManager();
+	public UnitType updateUnitType(final Long typeId, final UnitType type) {
+		EntityManager em = getEntityManager();
 		try {
 			if (typeId == null || type == null || !Objects.equals(typeId, type.getId())) {
 				// TODO throw an exception
+				return type;
 			}
 
 			em.getTransaction().begin();
-			OrgUnitTypeEntity entity = em.find(OrgUnitTypeEntity.class, typeId);
+			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
 			if (entity == null) {
 				// TODO throw an exception
 			}
 			MapperUtil.copyOrgUnitTypeApiToEntity(type, entity);
 			em.merge(entity);
 			em.getTransaction().commit();
-			OrgUnitType updated = MapperUtil.convertOrgUnitTypeEntityToApi(entity);
+			UnitType updated = MapperUtil.convertOrgUnitTypeEntityToApi(entity);
 			return updated;
 		} finally {
 			em.close();
@@ -168,11 +143,11 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 	}
 
 	@Override
-	public void deleteOrgUnitType(final Long typeId) {
-		EntityManager em = emf.createEntityManager();
+	public void deleteUnitType(final Long typeId) {
+		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			OrgUnitTypeEntity entity = em.find(OrgUnitTypeEntity.class, typeId);
+			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
 			if (entity != null) {
 				em.remove(entity);
 			}
@@ -180,6 +155,33 @@ public class OrgUnitTypeServiceImpl implements OrgUnitTypeService {
 		} finally {
 			em.close();
 		}
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param id the record id
+	 * @return the entity
+	 */
+	private UnitTypeEntity getOrgUnitTypeEntity(final EntityManager em, final Long id) {
+		UnitTypeEntity entity = em.find(UnitTypeEntity.class, id);
+		return entity;
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param altKey the record alternate key
+	 * @return the entity
+	 */
+	private UnitTypeEntity getOrgUnitTypeEntity(final EntityManager em, final String altKey) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+
+		CriteriaQuery<UnitTypeEntity> qry = cb.createQuery(UnitTypeEntity.class);
+		Root<UnitTypeEntity> from = qry.from(UnitTypeEntity.class);
+		qry.select(from);
+		qry.where(cb.equal(from.get(UnitTypeEntity_.alternateKey), altKey));
+
+		UnitTypeEntity entity = em.createQuery(qry).getSingleResult();
+		return entity;
 	}
 
 }

@@ -1,13 +1,16 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,11 +27,17 @@ public class LocationEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@ManyToOne
+	private LocationEntity parentLocation;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "LocationEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<LocationEntity> subLocations;
+
+	@Embedded
+	private AddressEntity address;
+
 	private String alternateKey;
 	private String description;
-	private AddressEntity address;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<LocationEntity> subLocations;
 	private boolean active;
 	private boolean custom;
 
@@ -45,6 +54,20 @@ public class LocationEntity implements Serializable {
 	 */
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the parent location
+	 */
+	public LocationEntity getParentLocation() {
+		return parentLocation;
+	}
+
+	/**
+	 * @param parentLocation the parent location
+	 */
+	public void setParentLocation(final LocationEntity parentLocation) {
+		this.parentLocation = parentLocation;
 	}
 
 	/**
@@ -104,11 +127,28 @@ public class LocationEntity implements Serializable {
 	}
 
 	/**
+	 * Add a sub location.
 	 *
-	 * @param subLocations the sub locations
+	 * @param location the sub location to add
 	 */
-	public void setSubLocations(final List<LocationEntity> subLocations) {
-		this.subLocations = subLocations;
+	public void addSubLocation(final LocationEntity location) {
+		if (subLocations == null) {
+			subLocations = new ArrayList<>();
+		}
+		subLocations.add(location);
+		location.setParentLocation(this);
+	}
+
+	/**
+	 * Remove a sub location.
+	 *
+	 * @param location the sub location to remove
+	 */
+	public void removeSubLocation(final LocationEntity location) {
+		if (subLocations != null) {
+			subLocations.remove(location);
+		}
+		location.setParentLocation(null);
 	}
 
 	/**

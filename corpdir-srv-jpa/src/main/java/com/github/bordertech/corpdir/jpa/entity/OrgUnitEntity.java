@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -25,16 +26,22 @@ public class OrgUnitEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String alternateKey;
-	private String description;
-	@ManyToOne(fetch = FetchType.EAGER)
-	private OrgUnitTypeEntity type;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+
+	@ManyToOne
+	private OrgUnitEntity parentOrgUnit;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "OrgUnitEntity", cascade = CascadeType.ALL)
 	private List<OrgUnitEntity> subOrgUnits;
+
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<PositionEntity> positions;
 	@OneToMany(fetch = FetchType.LAZY)
 	private List<ContactEntity> contacts;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private UnitTypeEntity type;
+
+	private String alternateKey;
+	private String description;
 	private boolean active;
 	private boolean custom;
 
@@ -51,6 +58,20 @@ public class OrgUnitEntity implements Serializable {
 	 */
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the parent org unit
+	 */
+	public OrgUnitEntity getParentOrgUnit() {
+		return parentOrgUnit;
+	}
+
+	/**
+	 * @param parentOrgUnit the parent org unit
+	 */
+	public void setParentOrgUnit(final OrgUnitEntity parentOrgUnit) {
+		this.parentOrgUnit = parentOrgUnit;
 	}
 
 	/**
@@ -89,7 +110,7 @@ public class OrgUnitEntity implements Serializable {
 	 *
 	 * @return the organization type
 	 */
-	public OrgUnitTypeEntity getType() {
+	public UnitTypeEntity getType() {
 		return type;
 	}
 
@@ -97,7 +118,7 @@ public class OrgUnitEntity implements Serializable {
 	 *
 	 * @param type the organization type
 	 */
-	public void setType(final OrgUnitTypeEntity type) {
+	public void setType(final UnitTypeEntity type) {
 		this.type = type;
 	}
 
@@ -110,11 +131,28 @@ public class OrgUnitEntity implements Serializable {
 	}
 
 	/**
+	 * Add a sub org unit.
 	 *
-	 * @param subOrgUnits the units managed by this unit
+	 * @param orgUnit the sub org unit to add
 	 */
-	public void setSubOrgUnits(final List<OrgUnitEntity> subOrgUnits) {
-		this.subOrgUnits = subOrgUnits;
+	public void addSubOrgUnit(final OrgUnitEntity orgUnit) {
+		if (subOrgUnits == null) {
+			subOrgUnits = new ArrayList<>();
+		}
+		subOrgUnits.add(orgUnit);
+		orgUnit.setParentOrgUnit(this);
+	}
+
+	/**
+	 * Remove a sub org unit. ]
+	 *
+	 * @param orgUnit the orgUnit to remove
+	 */
+	public void removeSubOrgUnit(final OrgUnitEntity orgUnit) {
+		if (subOrgUnits != null) {
+			subOrgUnits.remove(orgUnit);
+		}
+		orgUnit.setParentOrgUnit(null);
 	}
 
 	/**
@@ -126,11 +164,27 @@ public class OrgUnitEntity implements Serializable {
 	}
 
 	/**
+	 * Add a position.
 	 *
-	 * @param positions the positions belonging to this unit
+	 * @param position the position to add
 	 */
-	public void setPositions(final List<PositionEntity> positions) {
-		this.positions = positions;
+	public void addPosition(final PositionEntity position) {
+		if (positions == null) {
+			positions = new ArrayList<>();
+		}
+		positions.add(position);
+	}
+
+	/**
+	 * Remove a position. ]
+	 *
+	 *
+	 * @param position the position to remove
+	 */
+	public void removePosition(final PositionEntity position) {
+		if (positions != null) {
+			positions.remove(position);
+		}
 	}
 
 	/**
@@ -142,11 +196,27 @@ public class OrgUnitEntity implements Serializable {
 	}
 
 	/**
+	 * Add a contact.
 	 *
-	 * @param contacts the contacts belonging to this unit
+	 * @param contact the contact to add
 	 */
-	public void setContacts(final List<ContactEntity> contacts) {
-		this.contacts = contacts;
+	public void addContact(final ContactEntity contact) {
+		if (contacts == null) {
+			contacts = new ArrayList<>();
+		}
+		contacts.add(contact);
+	}
+
+	/**
+	 * Remove a contact. ]
+	 *
+	 *
+	 * @param contact the contact to remove
+	 */
+	public void removeContact(final ContactEntity contact) {
+		if (contacts != null) {
+			contacts.remove(contact);
+		}
 	}
 
 	/**

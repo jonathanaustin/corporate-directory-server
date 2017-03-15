@@ -22,9 +22,10 @@ public class ChannelEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
 	@Enumerated(EnumType.STRING)
 	private ChannelTypeEnum type;
-	private String value;
+	private String channelValue;
 	private boolean custom;
 
 	/**
@@ -61,16 +62,16 @@ public class ChannelEntity implements Serializable {
 	/**
 	 * @return the channel value (eg mobile number, email)
 	 */
-	public String getValue() {
-		return value;
+	public String getChannelValue() {
+		return channelValue;
 	}
 
 	/**
 	 *
-	 * @param value the channel value (eg mobile number, email)
+	 * @param channelValue the channel value (eg mobile number, email)
 	 */
-	public void setValue(final String value) {
-		this.value = value;
+	public void setChannelValue(final String channelValue) {
+		this.channelValue = channelValue;
 	}
 
 	/**

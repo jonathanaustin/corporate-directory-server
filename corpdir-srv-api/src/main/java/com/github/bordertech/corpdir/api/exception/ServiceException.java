@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.api;
+package com.github.bordertech.corpdir.api.exception;
 
 /**
  * Service exception that can be thrown if error handling request.

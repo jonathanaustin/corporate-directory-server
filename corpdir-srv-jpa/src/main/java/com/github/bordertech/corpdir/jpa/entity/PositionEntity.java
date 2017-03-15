@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -24,12 +27,17 @@ public class PositionEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@ManyToOne
+	private PositionEntity parentPosition;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "PositionEntity", cascade = CascadeType.ALL)
+	private List<PositionEntity> subPositions;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<ContactEntity> contacts;
+
 	private String alternateKey;
 	private String description;
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private List<PositionEntity> subPositions;
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<ContactEntity> contacts;
 	private boolean active;
 	private boolean custom;
 
@@ -46,6 +54,20 @@ public class PositionEntity implements Serializable {
 	 */
 	public void setId(final Long id) {
 		this.id = id;
+	}
+
+	/**
+	 * @return the parent position
+	 */
+	public PositionEntity getParentPosition() {
+		return parentPosition;
+	}
+
+	/**
+	 * @param parentPosition the parent position
+	 */
+	public void setParentPosition(final PositionEntity parentPosition) {
+		this.parentPosition = parentPosition;
 	}
 
 	/**
@@ -89,11 +111,29 @@ public class PositionEntity implements Serializable {
 	}
 
 	/**
+	 * Add a sub position.
 	 *
-	 * @param subPositions the positions managed by this position
+	 * @param position the position to add
 	 */
-	public void setSubPositions(final List<PositionEntity> subPositions) {
-		this.subPositions = subPositions;
+	public void addSubPosition(final PositionEntity position) {
+		if (subPositions == null) {
+			subPositions = new ArrayList<>();
+		}
+		subPositions.add(position);
+		position.setParentPosition(this);
+	}
+
+	/**
+	 * Remove a sub position. ]
+	 *
+	 *
+	 * @param position the position to remove
+	 */
+	public void removePosition(final PositionEntity position) {
+		if (subPositions != null) {
+			subPositions.remove(position);
+		}
+		position.setParentPosition(null);
 	}
 
 	/**
@@ -105,11 +145,26 @@ public class PositionEntity implements Serializable {
 	}
 
 	/**
+	 * Add a contact.
 	 *
-	 * @param contacts the contacts in this position
+	 * @param contact the contact to add
 	 */
-	public void setContacts(final List<ContactEntity> contacts) {
-		this.contacts = contacts;
+	public void addContact(final ContactEntity contact) {
+		if (contacts == null) {
+			contacts = new ArrayList<>();
+		}
+		contacts.add(contact);
+	}
+
+	/**
+	 * Remove a contact. ]
+	 *
+	 * @param contact the contact to remove
+	 */
+	public void removeContact(final ContactEntity contact) {
+		if (contacts != null) {
+			contacts.remove(contact);
+		}
 	}
 
 	/**

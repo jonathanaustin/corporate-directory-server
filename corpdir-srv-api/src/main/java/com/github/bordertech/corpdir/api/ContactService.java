@@ -30,7 +30,7 @@ public interface ContactService {
 
 	void deleteContactImage(final Long contactId);
 
-	void assignContactImage(final Long contactId, final Long imageid);
+	void updateContactImage(final Long contactId, final Image image);
 
 	List<Contact> searchContacts(final String searchText, final Boolean assigned);
 

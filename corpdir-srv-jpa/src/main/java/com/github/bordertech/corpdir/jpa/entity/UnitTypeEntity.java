@@ -1,6 +1,11 @@
-package com.github.bordertech.corpdir.api.data;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Organization unit type.
@@ -8,8 +13,12 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class OrgUnitType implements Serializable {
+@Entity
+@Table(name = "OrgUnitType")
+public class UnitTypeEntity implements Serializable {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String alternateKey;
 	private String description;
@@ -24,7 +33,6 @@ public class OrgUnitType implements Serializable {
 	}
 
 	/**
-	 *
 	 * @param id the unique id
 	 */
 	public void setId(final Long id) {

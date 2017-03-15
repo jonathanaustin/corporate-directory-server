@@ -31,7 +31,7 @@ public interface OrgUnitService {
 
 	Long createOrgUnit(final OrgUnit orgUnit);
 
-	OrgUnit updateOrgUnit(final OrgUnit orgUnit);
+	OrgUnit updateOrgUnit(final Long orgUnitId, final OrgUnit orgUnit);
 
 	void deleteOrgUnit(final Long orgUnitId);
 

@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.api;
+package com.github.bordertech.corpdir.api.exception;
 
 /**
  * Not found exception.

@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -27,18 +28,22 @@ public class ContactEntity implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<ChannelEntity> channels;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private ImageEntity image;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	private LocationEntity location;
+
+	@Embedded
+	private AddressEntity address;
+
 	private String alternateKey;
 	private String firstName;
 	private String lastName;
 	private String companyTitle;
-	@Embedded
-	private AddressEntity address;
-	@ManyToOne(fetch = FetchType.EAGER)
-	private LocationEntity location;
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
-	private List<ChannelEntity> channels;
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-	private ImageEntity image;
 	private boolean active;
 	private boolean custom;
 
@@ -153,11 +158,22 @@ public class ContactEntity implements Serializable {
 	}
 
 	/**
-	 *
-	 * @param channels the channels
+	 * @param channel the channel to add
 	 */
-	public void setChannels(final List<ChannelEntity> channels) {
-		this.channels = channels;
+	public void addChannel(final ChannelEntity channel) {
+		if (channels == null) {
+			channels = new ArrayList<>();
+		}
+		channels.add(channel);
+	}
+
+	/**
+	 * @param channel the channel to add
+	 */
+	public void removeChannel(final ChannelEntity channel) {
+		if (channels != null) {
+			channels.remove(channel);
+		}
 	}
 
 	/**
