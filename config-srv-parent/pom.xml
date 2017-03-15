@@ -74,7 +74,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.6.0</version>
+					<version>3.6.1</version>
 				</plugin>
 
 				<!-- JAXB generation. -->
@@ -269,7 +269,7 @@
 				<plugin>
 					<groupId>org.jacoco</groupId>
 					<artifactId>jacoco-maven-plugin</artifactId>
-					<version>0.7.8</version>
+					<version>0.7.9</version>
 					<executions>
 						<!-- Prepare jacco agent. -->
 						<execution>
@@ -310,7 +310,7 @@
 						<dependency>
 							<groupId>org.jacoco</groupId>
 							<artifactId>org.jacoco.ant</artifactId>
-							<version>0.7.8</version>
+							<version>0.7.9</version>
 						</dependency>
 					</dependencies>
 					<executions>
@@ -377,7 +377,7 @@
 				<plugin>
 					<groupId>org.eclipse.jetty</groupId>
 					<artifactId>jetty-maven-plugin</artifactId>
-					<version>9.2.20.v20161216</version>
+					<version>9.4.0.v20161208</version>
 				</plugin>
 
 			</plugins>
