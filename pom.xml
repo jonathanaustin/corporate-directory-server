@@ -42,33 +42,33 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-jpamodelgen</artifactId>
-				<version>5.2.8.Final</version>
+				<version>5.1.4.Final</version>
 			</dependency>
 
 			<!-- Jetty for LDE -->
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-server</artifactId>
-				<version>9.4.0.v20161208</version>
+				<version>9.2.20.v20161216</version>
 			</dependency>
 			<dependency>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-webapp</artifactId>
-				<version>9.4.0.v20161208</version>
+				<version>9.2.21.v20170120</version>
 			</dependency>
 
 			<!-- Bundle of Implementations -->
 			<!-- Hibernate for JPA -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>5.2.8.Final</version>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>5.1.4.Final</version>
 			</dependency>
 			<!-- Derby DB for JPA -->
 			<dependency>
 				<groupId>org.apache.derby</groupId>
 				<artifactId>derby</artifactId>
-				<version>10.13.1.1</version>
+				<version>10.12.1.1</version>
 			</dependency>
 
 			<!-- Jersey for REST Implementation -->
