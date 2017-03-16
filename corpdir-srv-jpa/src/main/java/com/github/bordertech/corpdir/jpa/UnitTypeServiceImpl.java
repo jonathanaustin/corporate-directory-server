@@ -37,7 +37,7 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 
 			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
 
-			return MapperUtil.convertListOrgUnitTypeEntityToApi(rows);
+			return MapperUtil.convertListUnitTypeEntityToApi(rows);
 		} finally {
 			em.close();
 		}
@@ -86,8 +86,8 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 	public UnitType getUnitType(final Long typeId) {
 		EntityManager em = getEntityManager();
 		try {
-			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
-			return MapperUtil.convertOrgUnitTypeEntityToApi(entity);
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeId);
+			return MapperUtil.convertUnitTypeEntityToApi(entity);
 		} finally {
 			em.close();
 		}
@@ -97,8 +97,8 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 	public UnitType getUnitType(final String typeAltKey) {
 		EntityManager em = getEntityManager();
 		try {
-			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeAltKey);
-			return MapperUtil.convertOrgUnitTypeEntityToApi(entity);
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeAltKey);
+			return MapperUtil.convertUnitTypeEntityToApi(entity);
 		} finally {
 			em.close();
 		}
@@ -108,7 +108,7 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 	public Long createUnitType(final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
-			UnitTypeEntity entity = MapperUtil.convertOrgUnitTypeApiToEntity(type);
+			UnitTypeEntity entity = MapperUtil.convertUnitTypeApiToEntity(type);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
@@ -128,14 +128,14 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 			}
 
 			em.getTransaction().begin();
-			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeId);
 			if (entity == null) {
 				// TODO throw an exception
 			}
-			MapperUtil.copyOrgUnitTypeApiToEntity(type, entity);
+			MapperUtil.copyUnitTypeApiToEntity(type, entity);
 			em.merge(entity);
 			em.getTransaction().commit();
-			UnitType updated = MapperUtil.convertOrgUnitTypeEntityToApi(entity);
+			UnitType updated = MapperUtil.convertUnitTypeEntityToApi(entity);
 			return updated;
 		} finally {
 			em.close();
@@ -147,7 +147,7 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			UnitTypeEntity entity = getOrgUnitTypeEntity(em, typeId);
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeId);
 			if (entity != null) {
 				em.remove(entity);
 			}
@@ -162,7 +162,7 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 	 * @param id the record id
 	 * @return the entity
 	 */
-	private UnitTypeEntity getOrgUnitTypeEntity(final EntityManager em, final Long id) {
+	private UnitTypeEntity getUnitTypeEntity(final EntityManager em, final Long id) {
 		UnitTypeEntity entity = em.find(UnitTypeEntity.class, id);
 		return entity;
 	}
@@ -172,7 +172,7 @@ public class UnitTypeServiceImpl extends AbstractService implements UnitTypeServ
 	 * @param altKey the record alternate key
 	 * @return the entity
 	 */
-	private UnitTypeEntity getOrgUnitTypeEntity(final EntityManager em, final String altKey) {
+	private UnitTypeEntity getUnitTypeEntity(final EntityManager em, final String altKey) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 
 		CriteriaQuery<UnitTypeEntity> qry = cb.createQuery(UnitTypeEntity.class);

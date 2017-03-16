@@ -40,14 +40,14 @@ public final class MapperUtil {
 	 * @param rows the list of entity items
 	 * @return the list of converted API items
 	 */
-	public static List<UnitType> convertListOrgUnitTypeEntityToApi(final List<UnitTypeEntity> rows) {
+	public static List<UnitType> convertListUnitTypeEntityToApi(final List<UnitTypeEntity> rows) {
 		if (rows == null || rows.isEmpty()) {
 			return Collections.EMPTY_LIST;
 		}
 
 		List<UnitType> items = new ArrayList<>();
 		for (UnitTypeEntity row : rows) {
-			items.add(convertOrgUnitTypeEntityToApi(row));
+			items.add(convertUnitTypeEntityToApi(row));
 		}
 		return items;
 	}
@@ -58,11 +58,11 @@ public final class MapperUtil {
 	 * @param from the API item
 	 * @return the entity item
 	 */
-	public static UnitTypeEntity convertOrgUnitTypeApiToEntity(final UnitType from) {
+	public static UnitTypeEntity convertUnitTypeApiToEntity(final UnitType from) {
 		if (from == null) {
 			return null;
 		}
-		return copyOrgUnitTypeApiToEntity(from, new UnitTypeEntity());
+		return copyUnitTypeApiToEntity(from, new UnitTypeEntity());
 	}
 
 	/**
@@ -72,7 +72,7 @@ public final class MapperUtil {
 	 * @param to the entity item
 	 * @return the entity item
 	 */
-	public static UnitTypeEntity copyOrgUnitTypeApiToEntity(final UnitType from, final UnitTypeEntity to) {
+	public static UnitTypeEntity copyUnitTypeApiToEntity(final UnitType from, final UnitTypeEntity to) {
 		if (from == null) {
 			return to;
 		}
@@ -89,7 +89,7 @@ public final class MapperUtil {
 	 * @param from the entity item
 	 * @return the API item
 	 */
-	public static UnitType convertOrgUnitTypeEntityToApi(final UnitTypeEntity from) {
+	public static UnitType convertUnitTypeEntityToApi(final UnitTypeEntity from) {
 		if (from == null) {
 			return null;
 		}
@@ -148,7 +148,7 @@ public final class MapperUtil {
 		to.setDescription(from.getDescription());
 		to.setActive(from.isActive());
 		to.setCustom(from.isCustom());
-		UnitTypeEntity type = convertOrgUnitTypeApiToEntity(from.getType());
+		UnitTypeEntity type = convertUnitTypeApiToEntity(from.getType());
 		to.setType(type);
 		return to;
 	}
@@ -169,7 +169,7 @@ public final class MapperUtil {
 		to.setDescription(from.getDescription());
 		to.setActive(from.isActive());
 		to.setCustom(from.isCustom());
-		UnitType type = convertOrgUnitTypeEntityToApi(from.getType());
+		UnitType type = convertUnitTypeEntityToApi(from.getType());
 		to.setType(type);
 		return to;
 	}
