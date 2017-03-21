@@ -3,13 +3,12 @@ package com.github.bordertech.corpdir.jpa.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -29,11 +28,12 @@ public class PositionEntity implements Serializable {
 	private Long id;
 
 	@ManyToOne
+	@JoinColumn(name = "parentPosition_Id")
 	private PositionEntity parentPosition;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "PositionEntity", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentPosition")
 	private List<PositionEntity> subPositions;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY)
 	private List<ContactEntity> contacts;
 
 	private String alternateKey;

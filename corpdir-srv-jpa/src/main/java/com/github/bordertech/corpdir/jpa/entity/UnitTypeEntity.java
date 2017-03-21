@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * @since 1.0.0
  */
 @Entity
-@Table(name = "OrgUnitType")
+@Table(name = "UnitType")
 public class UnitTypeEntity implements Serializable {
 
 	@Id
