@@ -1,14 +1,11 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,69 +18,57 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class PositionEntity extends AbstractPersistentObject {
 
 	@ManyToOne
-	@JoinColumn(name = "parentPosition_Id")
-	private PositionEntity parentPosition;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentPosition")
-	private List<PositionEntity> subPositions;
+	private PositionTypeEntity type;
+
+	@ManyToOne
+	@JoinColumn(name = "reportToPosition_Id")
+	private PositionEntity reportToPosition;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reportToPosition")
+	private Set<PositionEntity> reportPositions;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<ContactEntity> contacts;
+	private Set<OrgUnitEntity> manageOrgUnits;
 
-	private String alternateKey;
+	@ManyToOne
+	private OrgUnitEntity belongsToOrgUnit;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	private Set<ContactEntity> contacts;
+
 	private String description;
-	private boolean active;
-	private boolean custom;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the parent position
-	 */
-	public PositionEntity getParentPosition() {
-		return parentPosition;
-	}
-
-	/**
-	 * @param parentPosition the parent position
-	 */
-	public void setParentPosition(final PositionEntity parentPosition) {
-		this.parentPosition = parentPosition;
+	protected PositionEntity() {
 	}
 
 	/**
 	 *
-	 * @return the alternate position key
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public String getAlternateKey() {
-		return alternateKey;
+	public PositionEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
 	}
 
 	/**
 	 *
-	 * @param alternateKey the alternate position key
+	 * @return the position type
 	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
+	public PositionTypeEntity getType() {
+		return type;
+	}
+
+	/**
+	 *
+	 * @param type the position type
+	 */
+	public void setType(final PositionTypeEntity type) {
+		this.type = type;
 	}
 
 	/**
@@ -103,44 +88,57 @@ public class PositionEntity implements Serializable {
 	}
 
 	/**
-	 *
-	 * @return the positions managed by this position
+	 * @return the position this position reports to
 	 */
-	public List<PositionEntity> getSubPositions() {
-		return subPositions;
+	public PositionEntity getReportToPosition() {
+		return reportToPosition;
 	}
 
 	/**
-	 * Add a sub position.
+	 * @param reportToPosition the position this position reports to
+	 */
+	public void setReportToPosition(final PositionEntity reportToPosition) {
+		this.reportToPosition = reportToPosition;
+	}
+
+	/**
+	 *
+	 * @return the positions that report to this position
+	 */
+	public Set<PositionEntity> getReportPositions() {
+		return reportPositions;
+	}
+
+	/**
+	 * Add a report position.
 	 *
 	 * @param position the position to add
 	 */
-	public void addSubPosition(final PositionEntity position) {
-		if (subPositions == null) {
-			subPositions = new ArrayList<>();
+	public void addReportPosition(final PositionEntity position) {
+		if (reportPositions == null) {
+			reportPositions = new HashSet<>();
 		}
-		subPositions.add(position);
-		position.setParentPosition(this);
+		reportPositions.add(position);
+		position.setReportToPosition(this);
 	}
 
 	/**
-	 * Remove a sub position. ]
-	 *
+	 * Remove a report position.
 	 *
 	 * @param position the position to remove
 	 */
-	public void removePosition(final PositionEntity position) {
-		if (subPositions != null) {
-			subPositions.remove(position);
+	public void removeReportPosition(final PositionEntity position) {
+		if (reportPositions != null) {
+			reportPositions.remove(position);
 		}
-		position.setParentPosition(null);
+		position.setReportToPosition(null);
 	}
 
 	/**
 	 *
 	 * @return the contacts in this position
 	 */
-	public List<ContactEntity> getContacts() {
+	public Set<ContactEntity> getContacts() {
 		return contacts;
 	}
 
@@ -151,13 +149,14 @@ public class PositionEntity implements Serializable {
 	 */
 	public void addContact(final ContactEntity contact) {
 		if (contacts == null) {
-			contacts = new ArrayList<>();
+			contacts = new HashSet<>();
 		}
 		contacts.add(contact);
+		contact.addPosition(this);
 	}
 
 	/**
-	 * Remove a contact. ]
+	 * Remove a contact.
 	 *
 	 * @param contact the contact to remove
 	 */
@@ -165,38 +164,56 @@ public class PositionEntity implements Serializable {
 		if (contacts != null) {
 			contacts.remove(contact);
 		}
+		contact.removePosition(this);
 	}
 
 	/**
 	 *
-	 * @return true if active record
+	 * @return the org units this position manages
 	 */
-	public boolean isActive() {
-		return active;
+	public Set<OrgUnitEntity> getManageOrgUnits() {
+		return manageOrgUnits;
+	}
+
+	/**
+	 * Add an org unit for this position to manage.
+	 *
+	 * @param orgUnit the org unit to add
+	 */
+	public void addManageOrgUnit(final OrgUnitEntity orgUnit) {
+		if (manageOrgUnits == null) {
+			manageOrgUnits = new HashSet<>();
+		}
+		manageOrgUnits.add(orgUnit);
+		orgUnit.setManagerPosition(this);
+	}
+
+	/**
+	 * Remove an org unit.
+	 *
+	 * @param orgUnit the org unit to remove
+	 */
+	public void removeManageOrgUnit(final OrgUnitEntity orgUnit) {
+		if (manageOrgUnits != null) {
+			manageOrgUnits.remove(orgUnit);
+		}
+		orgUnit.setManagerPosition(null);
 	}
 
 	/**
 	 *
-	 * @param active true if active record
+	 * @return the org unit this position belongs to
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
+	public OrgUnitEntity getBelongsToOrgUnit() {
+		return belongsToOrgUnit;
 	}
 
 	/**
 	 *
-	 * @return true if custom record
+	 * @param belongsToOrgUnit the org unit this position belongs to
 	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public void setBelongsToOrgUnit(final OrgUnitEntity belongsToOrgUnit) {
+		this.belongsToOrgUnit = belongsToOrgUnit;
 	}
 
 }

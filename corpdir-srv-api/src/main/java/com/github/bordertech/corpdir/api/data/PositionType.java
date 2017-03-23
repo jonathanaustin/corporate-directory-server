@@ -1,14 +1,15 @@
 package com.github.bordertech.corpdir.api.data;
 
 /**
- * Organization unit type.
+ * Position type.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class UnitType extends AbstractApiObject {
+public class PositionType extends AbstractApiObject {
 
 	private String description;
+	private int typeLevel;
 
 	/**
 	 *
@@ -24,6 +25,22 @@ public class UnitType extends AbstractApiObject {
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	/**
+	 *
+	 * @return the position level
+	 */
+	public int getTypeLevel() {
+		return typeLevel;
+	}
+
+	/**
+	 *
+	 * @param typeLevel the position level
+	 */
+	public void setTypeLevel(final int typeLevel) {
+		this.typeLevel = typeLevel;
 	}
 
 }

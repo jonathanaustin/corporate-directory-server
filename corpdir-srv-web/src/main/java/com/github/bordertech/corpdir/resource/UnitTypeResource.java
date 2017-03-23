@@ -3,6 +3,8 @@ package com.github.bordertech.corpdir.resource;
 import com.github.bordertech.corpdir.api.UnitTypeService;
 import com.github.bordertech.corpdir.api.data.OrgUnit;
 import com.github.bordertech.corpdir.api.data.UnitType;
+import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
+import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.DELETE;
@@ -36,7 +38,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<UnitType> getUnitTypes() {
+	public ServiceResponse<List<UnitType>> getUnitTypes() {
 		try {
 			return impl.getUnitTypes();
 		} catch (Exception e) {
@@ -45,48 +47,24 @@ public class UnitTypeResource implements UnitTypeService {
 	}
 
 	@GET
-	@Path("/{id}/units")
+	@Path("/{key}/units")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<OrgUnit> getOrgUnits(@PathParam("id") final Long typeId) {
+	public ServiceResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
 		try {
-			return impl.getOrgUnits(typeId);
+			return impl.getOrgUnits(typeKeyId);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
 	}
 
 	@GET
-	@Path("/key/{key}/units")
+	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public List<OrgUnit> getOrgUnits(@PathParam("key") final String typeAltKey) {
+	public ServiceResponse<UnitType> getUnitType(@PathParam("key") final String typeKeyId) {
 		try {
-			return impl.getOrgUnits(typeAltKey);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
-	}
-
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public UnitType getUnitType(@PathParam("id") final Long typeId) {
-		try {
-			return impl.getUnitType(typeId);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
-	}
-
-	@GET
-	@Path("/key/{key}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public UnitType getUnitType(@PathParam("key") final String typeAltKey) {
-		try {
-			return impl.getUnitType(typeAltKey);
+			return impl.getUnitType(typeKeyId);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
@@ -95,7 +73,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public Long createUnitType(final UnitType type) {
+	public ServiceResponse<String> createUnitType(final UnitType type) {
 		try {
 			return impl.createUnitType(type);
 		} catch (Exception e) {
@@ -104,24 +82,24 @@ public class UnitTypeResource implements UnitTypeService {
 	}
 
 	@PUT
-	@Path("/{id}")
+	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public UnitType updateUnitType(@PathParam("id") final Long typeId, final UnitType type) {
+	public ServiceResponse<UnitType> updateUnitType(@PathParam("key") final String typeKeyId, final UnitType type) {
 		try {
-			return impl.updateUnitType(typeId, type);
+			return impl.updateUnitType(typeKeyId, type);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}
 	}
 
 	@DELETE
-	@Path("/{id}")
+	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public void deleteUnitType(@PathParam("id") final Long typeId) {
+	public ServiceBasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
 		try {
-			impl.deleteUnitType(typeId);
+			return impl.deleteUnitType(typeKeyId);
 		} catch (Exception e) {
 			throw ExceptionUtil.convertException(e);
 		}

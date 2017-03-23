@@ -10,12 +10,29 @@ import java.io.Serializable;
  */
 public class Address implements Serializable {
 
+	private String workStation;
 	private String addressLine1;
 	private String addressLine2;
 	private String suburb;
 	private String state;
 	private String postcode;
 	private String country;
+
+	/**
+	 *
+	 * @return the work station
+	 */
+	public String getWorkStation() {
+		return workStation;
+	}
+
+	/**
+	 *
+	 * @param workStation the work station
+	 */
+	public void setWorkStation(final String workStation) {
+		this.workStation = workStation;
+	}
 
 	/**
 	 *

@@ -1,12 +1,8 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -17,30 +13,25 @@ import javax.persistence.Table;
  */
 @Entity()
 @Table(name = "Channel")
-public class ChannelEntity implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class ChannelEntity extends AbstractPersistentObject {
 
 	@Enumerated(EnumType.STRING)
 	private ChannelTypeEnum type;
 	private String channelValue;
-	private boolean custom;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
+	protected ChannelEntity() {
 	}
 
 	/**
-	 * @param id the unique id
+	 *
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public void setId(final Long id) {
-		this.id = id;
+	public ChannelEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
 	}
 
 	/**
@@ -72,22 +63,6 @@ public class ChannelEntity implements Serializable {
 	 */
 	public void setChannelValue(final String channelValue) {
 		this.channelValue = channelValue;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 }

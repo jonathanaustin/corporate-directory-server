@@ -1,11 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.awt.Dimension;
-import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
@@ -16,32 +11,26 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Image")
-public class ImageEntity implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class ImageEntity extends AbstractPersistentObject {
 
 	private String mimeType;
 	private String description;
-	private Dimension dimension;
-	private byte[] bytes;
-	private boolean active;
-	private boolean custom;
+	private byte[] image;
+	private byte[] thumbNail;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
+	protected ImageEntity() {
 	}
 
 	/**
-	 * @param id the unique id
+	 *
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public void setId(final Long id) {
-		this.id = id;
+	public ImageEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
 	}
 
 	/**
@@ -78,66 +67,34 @@ public class ImageEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the image dimensions
-	 */
-	public Dimension getDimension() {
-		return dimension;
-	}
-
-	/**
-	 *
-	 * @param dimension the image dimensions
-	 */
-	public void setDimension(final Dimension dimension) {
-		this.dimension = dimension;
-	}
-
-	/**
-	 *
 	 * @return the image bytes
 	 */
-	public byte[] getBytes() {
-		return bytes;
+	public byte[] getImage() {
+		return image;
 	}
 
 	/**
 	 *
-	 * @param bytes the image bytes
+	 * @param image the image bytes
 	 */
-	public void setBytes(final byte[] bytes) {
-		this.bytes = bytes;
+	public void setImage(final byte[] image) {
+		this.image = image;
 	}
 
 	/**
 	 *
-	 * @return true if active record
+	 * @return the thumbnail bytes
 	 */
-	public boolean isActive() {
-		return active;
+	public byte[] getThumbNail() {
+		return thumbNail;
 	}
 
 	/**
 	 *
-	 * @param active true if active record
+	 * @param thumbNail the thumbnail bytes
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public void setThumbNail(final byte[] thumbNail) {
+		this.thumbNail = thumbNail;
 	}
 
 }

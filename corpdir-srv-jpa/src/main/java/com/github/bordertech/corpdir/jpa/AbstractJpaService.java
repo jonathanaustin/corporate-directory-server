@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
  * @since 1.0.0
  */
 @Singleton
-public abstract class AbstractService {
+public abstract class AbstractJpaService {
 
 	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("persist-unit");
 

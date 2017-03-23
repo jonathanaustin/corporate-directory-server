@@ -1,13 +1,9 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -21,44 +17,54 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity implements Serializable {
+public class OrgUnitEntity extends AbstractPersistentObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@ManyToOne
+	private UnitTypeEntity type;
 
 	@ManyToOne
 	@JoinColumn(name = "parentOrgUnit_Id")
 	private OrgUnitEntity parentOrgUnit;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrgUnit")
-	private List<OrgUnitEntity> subOrgUnits;
+	private Set<OrgUnitEntity> subOrgUnits;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private PositionEntity managerPosition;
 
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<PositionEntity> positions;
-	@OneToMany(fetch = FetchType.LAZY)
-	private List<ContactEntity> contacts;
+	private Set<PositionEntity> positions;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	private UnitTypeEntity type;
-
-	private String alternateKey;
 	private String description;
-	private boolean active;
-	private boolean custom;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
+	protected OrgUnitEntity() {
 	}
 
 	/**
-	 * @param id the unique id
+	 *
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public void setId(final Long id) {
-		this.id = id;
+	public OrgUnitEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
+	}
+
+	/**
+	 *
+	 * @return the organization type
+	 */
+	public UnitTypeEntity getType() {
+		return type;
+	}
+
+	/**
+	 *
+	 * @param type the organization type
+	 */
+	public void setType(final UnitTypeEntity type) {
+		this.type = type;
 	}
 
 	/**
@@ -73,22 +79,6 @@ public class OrgUnitEntity implements Serializable {
 	 */
 	public void setParentOrgUnit(final OrgUnitEntity parentOrgUnit) {
 		this.parentOrgUnit = parentOrgUnit;
-	}
-
-	/**
-	 *
-	 * @return the alternate org unit key
-	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate org unit key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
 	}
 
 	/**
@@ -109,25 +99,9 @@ public class OrgUnitEntity implements Serializable {
 
 	/**
 	 *
-	 * @return the organization type
-	 */
-	public UnitTypeEntity getType() {
-		return type;
-	}
-
-	/**
-	 *
-	 * @param type the organization type
-	 */
-	public void setType(final UnitTypeEntity type) {
-		this.type = type;
-	}
-
-	/**
-	 *
 	 * @return the units managed by this unit
 	 */
-	public List<OrgUnitEntity> getSubOrgUnits() {
+	public Set<OrgUnitEntity> getSubOrgUnits() {
 		return subOrgUnits;
 	}
 
@@ -138,14 +112,14 @@ public class OrgUnitEntity implements Serializable {
 	 */
 	public void addSubOrgUnit(final OrgUnitEntity orgUnit) {
 		if (subOrgUnits == null) {
-			subOrgUnits = new ArrayList<>();
+			subOrgUnits = new HashSet<>();
 		}
 		subOrgUnits.add(orgUnit);
 		orgUnit.setParentOrgUnit(this);
 	}
 
 	/**
-	 * Remove a sub org unit. ]
+	 * Remove a sub org unit.
 	 *
 	 * @param orgUnit the orgUnit to remove
 	 */
@@ -158,9 +132,25 @@ public class OrgUnitEntity implements Serializable {
 
 	/**
 	 *
+	 * @return the manager position for this org unit
+	 */
+	public PositionEntity getManagerPosition() {
+		return managerPosition;
+	}
+
+	/**
+	 *
+	 * @param managerPosition the manager position for this org unit
+	 */
+	public void setManagerPosition(final PositionEntity managerPosition) {
+		this.managerPosition = managerPosition;
+	}
+
+	/**
+	 *
 	 * @return the positions belonging to this unit
 	 */
-	public List<PositionEntity> getPositions() {
+	public Set<PositionEntity> getPositions() {
 		return positions;
 	}
 
@@ -171,13 +161,14 @@ public class OrgUnitEntity implements Serializable {
 	 */
 	public void addPosition(final PositionEntity position) {
 		if (positions == null) {
-			positions = new ArrayList<>();
+			positions = new HashSet<>();
 		}
 		positions.add(position);
+		position.setBelongsToOrgUnit(this);
 	}
 
 	/**
-	 * Remove a position. ]
+	 * Remove a position.
 	 *
 	 *
 	 * @param position the position to remove
@@ -186,70 +177,7 @@ public class OrgUnitEntity implements Serializable {
 		if (positions != null) {
 			positions.remove(position);
 		}
-	}
-
-	/**
-	 *
-	 * @return the contacts belonging to this unit
-	 */
-	public List<ContactEntity> getContacts() {
-		return contacts;
-	}
-
-	/**
-	 * Add a contact.
-	 *
-	 * @param contact the contact to add
-	 */
-	public void addContact(final ContactEntity contact) {
-		if (contacts == null) {
-			contacts = new ArrayList<>();
-		}
-		contacts.add(contact);
-	}
-
-	/**
-	 * Remove a contact. ]
-	 *
-	 *
-	 * @param contact the contact to remove
-	 */
-	public void removeContact(final ContactEntity contact) {
-		if (contacts != null) {
-			contacts.remove(contact);
-		}
-	}
-
-	/**
-	 *
-	 * @return true if active record
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 *
-	 * @param active true if active record
-	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+		position.setBelongsToOrgUnit(null);
 	}
 
 }

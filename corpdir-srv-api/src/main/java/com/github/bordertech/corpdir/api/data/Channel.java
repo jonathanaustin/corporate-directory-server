@@ -1,35 +1,15 @@
 package com.github.bordertech.corpdir.api.data;
 
-import java.io.Serializable;
-
 /**
  * Channel of communication.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Channel implements Serializable {
+public class Channel extends AbstractApiObject {
 
-	private Long id;
 	private ChannelTypeEnum type;
 	private String value;
-	private boolean custom;
-
-	/**
-	 *
-	 * @return the unique id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 *
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
 
 	/**
 	 *
@@ -60,22 +40,6 @@ public class Channel implements Serializable {
 	 */
 	public void setChannelValue(final String channelValue) {
 		this.value = channelValue;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 }

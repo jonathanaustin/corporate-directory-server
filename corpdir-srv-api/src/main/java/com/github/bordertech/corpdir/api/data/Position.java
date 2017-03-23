@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.data;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Position in organization.
@@ -8,47 +9,15 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Position implements Serializable {
+public class Position extends AbstractApiObject {
 
-	private Long id;
-	private String alternateKey;
 	private String description;
-	private boolean hasPositions;
-	private boolean hasContacts;
-	private boolean active;
-	private boolean custom;
-
-	/**
-	 *
-	 * @return the unique id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 *
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	/**
-	 *
-	 * @return the alternate position key
-	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate position key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
-	}
+	private PositionType type;
+	private String belongsToOrgUnitId;
+	private String reportToPositionId;
+	private List<String> reportPositionIds;
+	private List<String> managesOrgUnitIds;
+	private List<String> contactIds;
 
 	/**
 	 *
@@ -68,66 +37,104 @@ public class Position implements Serializable {
 
 	/**
 	 *
-	 * @return true if manages positions
+	 * @return the position type
 	 */
-	public boolean isHasPositions() {
-		return hasPositions;
+	public PositionType getType() {
+		return type;
 	}
 
 	/**
 	 *
-	 * @param hasPositions true if manages positions
+	 * @param type the position type
 	 */
-	public void setHasPositions(final boolean hasPositions) {
-		this.hasPositions = hasPositions;
+	public void setType(final PositionType type) {
+		this.type = type;
 	}
 
 	/**
 	 *
-	 * @return true if has contacts
+	 * @return the org unit id the position belongs to
 	 */
-	public boolean isHasContacts() {
-		return hasContacts;
+	public String getBelongsToOrgUnitId() {
+		return belongsToOrgUnitId;
 	}
 
 	/**
 	 *
-	 * @param hasContacts true if has contacts
+	 * @param belongsToOrgUnitId the org unit id the position belongs to
 	 */
-	public void setHasContacts(final boolean hasContacts) {
-		this.hasContacts = hasContacts;
+	public void setBelongsToOrgUnitId(final String belongsToOrgUnitId) {
+		this.belongsToOrgUnitId = belongsToOrgUnitId;
+	}
+
+	/**
+	 * @return the position id this position reports to
+	 */
+	public String getReportToPositionId() {
+		return reportToPositionId;
+	}
+
+	/**
+	 * @param reportToPositionId the position id this position reports to
+	 */
+	public void setReportToPositionId(final String reportToPositionId) {
+		this.reportToPositionId = reportToPositionId;
 	}
 
 	/**
 	 *
-	 * @return true if active record
+	 * @return the position ids that report to this position
 	 */
-	public boolean isActive() {
-		return active;
+	public List<String> getReportPositionIds() {
+		if (reportPositionIds == null) {
+			reportPositionIds = new ArrayList<>();
+		}
+		return reportPositionIds;
+	}
+
+	/**
+	 * @param reportPositionIds the position ids that report to this position
+	 */
+	public void setReportPositionIds(final List<String> reportPositionIds) {
+		this.reportPositionIds = reportPositionIds;
 	}
 
 	/**
 	 *
-	 * @param active true if active record
+	 * @return the org unit ids this position manages
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
+	public List<String> getManagesOrgUnitIds() {
+		if (managesOrgUnitIds == null) {
+			managesOrgUnitIds = new ArrayList<>();
+		}
+		return managesOrgUnitIds;
 	}
 
 	/**
 	 *
-	 * @return true if custom record
+	 * @param managesOrgUnitIds the org unit ids this position manages
 	 */
-	public boolean isCustom() {
-		return custom;
+	public void setManagesOrgUnitIds(final List<String> managesOrgUnitIds) {
+		this.managesOrgUnitIds = managesOrgUnitIds;
 	}
 
 	/**
 	 *
-	 * @param custom true if custom record
+	 * @return the contact ids for this position
 	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public List<String> getContactIds() {
+		if (contactIds == null) {
+			contactIds = new ArrayList<>();
+		}
+		return contactIds;
+	}
+
+	/**
+	 *
+	 * @param contactIds the contact ids for this position
+	 */
+	public void setContactIds(final List<String> contactIds) {
+		this.contactIds = contactIds;
 	}
 
 }

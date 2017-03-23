@@ -2,6 +2,8 @@ package com.github.bordertech.corpdir.api;
 
 import com.github.bordertech.corpdir.api.data.OrgUnit;
 import com.github.bordertech.corpdir.api.data.UnitType;
+import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
+import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import java.util.List;
 
 /**
@@ -12,20 +14,16 @@ import java.util.List;
  */
 public interface UnitTypeService {
 
-	List<UnitType> getUnitTypes();
+	ServiceResponse<List<UnitType>> getUnitTypes();
 
-	List<OrgUnit> getOrgUnits(final Long typeId);
+	ServiceResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId);
 
-	List<OrgUnit> getOrgUnits(final String typeAltKey);
+	ServiceResponse<UnitType> getUnitType(final String typeKeyId);
 
-	UnitType getUnitType(final Long typeId);
+	ServiceResponse<String> createUnitType(final UnitType type);
 
-	UnitType getUnitType(final String typeAltKey);
+	ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type);
 
-	Long createUnitType(final UnitType type);
-
-	UnitType updateUnitType(final Long typeId, final UnitType type);
-
-	void deleteUnitType(final Long typeId);
+	ServiceBasicResponse deleteUnitType(final String typeKeyId);
 
 }

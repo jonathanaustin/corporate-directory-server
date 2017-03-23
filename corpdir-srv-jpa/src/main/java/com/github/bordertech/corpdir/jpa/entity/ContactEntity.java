@@ -1,15 +1,12 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -23,14 +20,14 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Contact")
-public class ContactEntity implements Serializable {
+public class ContactEntity extends AbstractPersistentObject {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private Set<PositionEntity> positions;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private List<ChannelEntity> channels;
+	private Set<ChannelEntity> channels;
+
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private ImageEntity image;
 
@@ -40,42 +37,23 @@ public class ContactEntity implements Serializable {
 	@Embedded
 	private AddressEntity address;
 
-	private String alternateKey;
 	private String firstName;
 	private String lastName;
 	private String companyTitle;
-	private boolean active;
-	private boolean custom;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
+	protected ContactEntity() {
 	}
 
 	/**
 	 *
-	 * @return the alternate contact key
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate contact key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
+	public ContactEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
 	}
 
 	/**
@@ -153,7 +131,7 @@ public class ContactEntity implements Serializable {
 	 *
 	 * @return the channels
 	 */
-	public List<ChannelEntity> getChannels() {
+	public Set<ChannelEntity> getChannels() {
 		return channels;
 	}
 
@@ -162,13 +140,13 @@ public class ContactEntity implements Serializable {
 	 */
 	public void addChannel(final ChannelEntity channel) {
 		if (channels == null) {
-			channels = new ArrayList<>();
+			channels = new HashSet<>();
 		}
 		channels.add(channel);
 	}
 
 	/**
-	 * @param channel the channel to add
+	 * @param channel the channel to remove
 	 */
 	public void removeChannel(final ChannelEntity channel) {
 		if (channels != null) {
@@ -194,34 +172,31 @@ public class ContactEntity implements Serializable {
 
 	/**
 	 *
-	 * @return true if active
+	 * @return the positions
 	 */
-	public boolean isActive() {
-		return active;
+	public Set<PositionEntity> getPositions() {
+		return positions;
 	}
 
 	/**
-	 *
-	 * @param active true if active
+	 * @param position the position to add
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
+	public void addPosition(final PositionEntity position) {
+		if (positions == null) {
+			positions = new HashSet<>();
+		}
+		positions.add(position);
+		position.addContact(this);
 	}
 
 	/**
-	 *
-	 * @return true if custom record
+	 * @param position the position to remove
 	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public void removePosition(final PositionEntity position) {
+		if (positions != null) {
+			positions.remove(position);
+		}
+		position.removeContact(this);
 	}
 
 }

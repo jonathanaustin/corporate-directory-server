@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.data;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Organization unit.
@@ -8,49 +9,14 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class OrgUnit implements Serializable {
+public class OrgUnit extends AbstractApiObject {
 
-	private Long id;
-	private String alternateKey;
 	private String description;
 	private UnitType type;
-	private boolean hasSubOrgUnits;
-	private boolean hasPositions;
-	private boolean hasContacts;
-	private boolean active;
-	private boolean custom;
-
-	/**
-	 *
-	 * @return the unique id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 *
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	/**
-	 *
-	 * @return the alternate org unit key
-	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate org unit key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
-	}
+	private String managerPositionId;
+	private String parentOrgUnitId;
+	private List<String> subOrgUnitIds;
+	private List<String> positionIds;
 
 	/**
 	 *
@@ -86,82 +52,72 @@ public class OrgUnit implements Serializable {
 
 	/**
 	 *
-	 * @return true if manages units
+	 * @return the manager position id
 	 */
-	public boolean isHasSubOrgUnits() {
-		return hasSubOrgUnits;
+	public String getManagerPositionId() {
+		return managerPositionId;
 	}
 
 	/**
 	 *
-	 * @param hasSubOrgUnits if manages units
+	 * @param managerPositionId the manager position id
 	 */
-	public void setHasSubOrgUnits(final boolean hasSubOrgUnits) {
-		this.hasSubOrgUnits = hasSubOrgUnits;
+	public void setManagerPositionId(final String managerPositionId) {
+		this.managerPositionId = managerPositionId;
 	}
 
 	/**
 	 *
-	 * @return true if has assigned positions
+	 * @return the parent org unit id or null if no parent
 	 */
-	public boolean isHasPositions() {
-		return hasPositions;
+	public String getParentOrgUnitId() {
+		return parentOrgUnitId;
 	}
 
 	/**
 	 *
-	 * @param hasPositions true if has assigned positions
+	 * @param parentOrgUnitId the parent org unit id
 	 */
-	public void setHasPositions(final boolean hasPositions) {
-		this.hasPositions = hasPositions;
+	public void setParentOrgUnitId(final String parentOrgUnitId) {
+		this.parentOrgUnitId = parentOrgUnitId;
 	}
 
 	/**
 	 *
-	 * @return true if has assigned contacts
+	 * @return the list of sub org unit ids
 	 */
-	public boolean isHasContacts() {
-		return hasContacts;
+	public List<String> getSubOrgUnitIds() {
+		if (subOrgUnitIds == null) {
+			subOrgUnitIds = new ArrayList<>();
+		}
+		return subOrgUnitIds;
 	}
 
 	/**
 	 *
-	 * @param hasContacts true if has assigned contacts
+	 * @param subOrgUnitIds the list of sub org unit ids
 	 */
-	public void setHasContacts(final boolean hasContacts) {
-		this.hasContacts = hasContacts;
+	public void setSubOrgUnitIds(final List<String> subOrgUnitIds) {
+		this.subOrgUnitIds = subOrgUnitIds;
 	}
 
 	/**
 	 *
-	 * @return true if active record
+	 * @return the position ids that belong to this org unit
 	 */
-	public boolean isActive() {
-		return active;
+	public List<String> getPositionIds() {
+		if (positionIds == null) {
+			positionIds = new ArrayList<>();
+		}
+		return positionIds;
 	}
 
 	/**
 	 *
-	 * @param active true if active record
+	 * @param positionIds the list of position ids that belong to this org unit
 	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public void setPositionIds(final List<String> positionIds) {
+		this.positionIds = positionIds;
 	}
 
 }

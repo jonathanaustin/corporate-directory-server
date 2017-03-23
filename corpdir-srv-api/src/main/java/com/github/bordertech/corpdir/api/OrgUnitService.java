@@ -1,8 +1,9 @@
 package com.github.bordertech.corpdir.api;
 
-import com.github.bordertech.corpdir.api.data.Contact;
 import com.github.bordertech.corpdir.api.data.OrgUnit;
 import com.github.bordertech.corpdir.api.data.Position;
+import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
+import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import java.util.List;
 
 /**
@@ -13,36 +14,24 @@ import java.util.List;
  */
 public interface OrgUnitService {
 
-	OrgUnit getOrgUnit(final Long orgUnitId);
+	ServiceResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId);
 
-	OrgUnit getOrgUnit(final String orgUnitAltKey);
+	ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
 
-	List<OrgUnit> getSubOrgUnits(final Long orgUnitId);
+	ServiceResponse<List<Position>> getAssignedPositions(final String orgUnitKeyId);
 
-	List<OrgUnit> getSubOrgUnits(final String orgUnitAltKey);
+	ServiceResponse<Position> getOrgUnitManager(final String orgUnitKeyId);
 
-	List<Position> getAssignedPositions(final Long orgUnitId);
+	ServiceResponse<String> createOrgUnit(final OrgUnit orgUnit);
 
-	List<Position> getAssignedPositions(final String orgUnitAltKey);
+	ServiceResponse<OrgUnit> updateOrgUnit(final String orgUnitKeyId, final OrgUnit orgUnit);
 
-	List<Contact> getLinkedContacts(final Long orgUnitId);
+	ServiceBasicResponse deleteOrgUnit(final String orgUnitKeyId);
 
-	List<Contact> getLinkedContacts(final String orgUnitAltKey);
+	ServiceBasicResponse assignOrgUnitToOrgUnit(final String orgUnitKeyId, final String parentOrgUnitKeyId);
 
-	Long createOrgUnit(final OrgUnit orgUnit);
+	ServiceBasicResponse assignPosition(final String orgUnitKeyId, final String positionKeyId);
 
-	OrgUnit updateOrgUnit(final Long orgUnitId, final OrgUnit orgUnit);
-
-	void deleteOrgUnit(final Long orgUnitId);
-
-	void assignOrgUnitToOrgUnit(final Long orgUnitId, final Long parentOrgUnitId);
-
-	void assignPosition(final Long orgUnitId, final Long positionId);
-
-	void unassignPosition(final Long orgUnitId, final Long positionId);
-
-	void linkContact(final Long orgUnitId, final Long contactId);
-
-	void unlinkContact(final Long orgUnitId, final Long contactId);
+	ServiceBasicResponse unassignPosition(final String orgUnitKeyId, final String positionKeyId);
 
 }

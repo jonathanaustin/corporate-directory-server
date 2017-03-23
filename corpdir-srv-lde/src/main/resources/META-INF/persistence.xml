@@ -8,8 +8,9 @@
 		<class>com.github.bordertech.corpdir.jpa.entity.ImageEntity</class>
 		<class>com.github.bordertech.corpdir.jpa.entity.LocationEntity</class>
 		<class>com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity</class>
 		<class>com.github.bordertech.corpdir.jpa.entity.PositionEntity</class>
+		<class>com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity</class>
+		<class>com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity</class>
 		<properties>
 			<!-- Provider-specific connection properties -->
 			<!--

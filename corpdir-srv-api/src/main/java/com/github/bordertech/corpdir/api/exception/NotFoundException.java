@@ -15,4 +15,12 @@ public class NotFoundException extends RuntimeException {
 		super(message);
 	}
 
+	/**
+	 * @param message the exception message
+	 * @param e the original exception
+	 */
+	public NotFoundException(final String message, final Throwable e) {
+		super(message, e);
+	}
+
 }

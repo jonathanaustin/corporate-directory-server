@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api;
 
 import com.github.bordertech.corpdir.api.data.Contact;
+import com.github.bordertech.corpdir.api.data.OrgUnit;
 import com.github.bordertech.corpdir.api.data.Position;
 import java.util.List;
 
@@ -12,28 +13,24 @@ import java.util.List;
  */
 public interface PositionService {
 
-	Position getPosition(final Long positionId);
+	Position getPosition(final String positionKeyId);
 
-	Position getPosition(final String positionAltKey);
+	List<Position> getReportPositions(final String positionKeyId);
 
-	List<Position> getSubPositions(final Long positionId);
+	List<Contact> getAssignedContacts(final String positionKeyId);
 
-	List<Position> getSubPositions(final String positionAltKey);
+	List<OrgUnit> getManagesOrgUnits(final String positionKeyId);
 
-	List<Contact> getAssignedContacts(final Long positionId);
+	String createPosition(final Position position);
 
-	List<Contact> getAssignedContacts(final String positionAltKey);
+	Position updatePosition(final String positionKeyId, final Position position);
 
-	Long createPosition(final Position position);
+	void deletePosition(final String positionKeyId);
 
-	Position updatePosition(final Position position);
+	void assignContact(final String positionKeyId, final String contactKeyId);
 
-	void deletePosition(final Long positionId);
+	void unassignContact(final String positionKeyId, final String contactKeyId);
 
-	void assignContact(final Long positionId, final Long contactId);
-
-	void unassignContact(final Long positionId, final Long contactId);
-
-	void assignPositionToPosition(final Long positionId, final Long newParentId);
+	void assignPositionToPosition(final String positionKeyId, final String reportToPositionKeyId);
 
 }

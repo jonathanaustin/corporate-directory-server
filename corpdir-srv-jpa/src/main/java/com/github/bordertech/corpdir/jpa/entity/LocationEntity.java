@@ -1,14 +1,10 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,39 +18,32 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Location")
-public class LocationEntity implements Serializable {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class LocationEntity extends AbstractPersistentObject {
 
 	@ManyToOne
 	@JoinColumn(name = "parentLocation_Id")
 	private LocationEntity parentLocation;
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentLocation")
-	private List<LocationEntity> subLocations;
+	private Set<LocationEntity> subLocations;
 
 	@Embedded
 	private AddressEntity address;
 
-	private String alternateKey;
 	private String description;
-	private boolean active;
-	private boolean custom;
 
 	/**
-	 *
-	 * @return the unique id
+	 * Default constructor.
 	 */
-	public Long getId() {
-		return id;
+	protected LocationEntity() {
 	}
 
 	/**
-	 * @param id the unique id
+	 *
+	 * @param id the entity id
+	 * @param businessKey the business key.
 	 */
-	public void setId(final Long id) {
-		this.id = id;
+	public LocationEntity(final Long id, final String businessKey) {
+		super(id, businessKey);
 	}
 
 	/**
@@ -69,22 +58,6 @@ public class LocationEntity implements Serializable {
 	 */
 	public void setParentLocation(final LocationEntity parentLocation) {
 		this.parentLocation = parentLocation;
-	}
-
-	/**
-	 *
-	 * @return the alternate location key
-	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate location key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
 	}
 
 	/**
@@ -123,7 +96,7 @@ public class LocationEntity implements Serializable {
 	 *
 	 * @return the sub locations
 	 */
-	public List<LocationEntity> getSubLocations() {
+	public Set<LocationEntity> getSubLocations() {
 		return subLocations;
 	}
 
@@ -134,7 +107,7 @@ public class LocationEntity implements Serializable {
 	 */
 	public void addSubLocation(final LocationEntity location) {
 		if (subLocations == null) {
-			subLocations = new ArrayList<>();
+			subLocations = new HashSet<>();
 		}
 		subLocations.add(location);
 		location.setParentLocation(this);
@@ -150,38 +123,6 @@ public class LocationEntity implements Serializable {
 			subLocations.remove(location);
 		}
 		location.setParentLocation(null);
-	}
-
-	/**
-	 *
-	 * @return true if active record
-	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 *
-	 * @param active true if active record
-	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 }

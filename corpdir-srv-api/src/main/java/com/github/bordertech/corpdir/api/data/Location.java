@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.data;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Location of contact.
@@ -8,47 +9,12 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Location implements Serializable {
+public class Location extends AbstractApiObject {
 
-	private Long id;
-	private String alternateKey;
 	private String description;
 	private Address address;
-	private boolean hasSubLocations;
-	private boolean active;
-	private boolean custom;
-
-	/**
-	 *
-	 * @return the unique id
-	 */
-	public Long getId() {
-		return id;
-	}
-
-	/**
-	 *
-	 * @param id the unique id
-	 */
-	public void setId(final Long id) {
-		this.id = id;
-	}
-
-	/**
-	 *
-	 * @return the alternate location key
-	 */
-	public String getAlternateKey() {
-		return alternateKey;
-	}
-
-	/**
-	 *
-	 * @param alternateKey the alternate location key
-	 */
-	public void setAlternateKey(final String alternateKey) {
-		this.alternateKey = alternateKey;
-	}
+	private String parentLocationId;
+	private List<String> subLocationIds;
 
 	/**
 	 *
@@ -84,50 +50,36 @@ public class Location implements Serializable {
 
 	/**
 	 *
-	 * @return true if has sub locations
+	 * @return the parent location id or null if no parent
 	 */
-	public boolean isHasSubLocations() {
-		return hasSubLocations;
+	public String getParentLocationId() {
+		return parentLocationId;
+	}
+
+	/**
+	 * @param parentLocationId the parent location id
+	 */
+	public void setParentLocationId(final String parentLocationId) {
+		this.parentLocationId = parentLocationId;
 	}
 
 	/**
 	 *
-	 * @param hasSubLocations true if has sub locations
+	 * @return the list of sub location ids
 	 */
-	public void setHasSubLocations(final boolean hasSubLocations) {
-		this.hasSubLocations = hasSubLocations;
+	public List<String> getSubLocationIds() {
+		if (subLocationIds == null) {
+			subLocationIds = new ArrayList<>();
+		}
+		return subLocationIds;
 	}
 
 	/**
 	 *
-	 * @return true if active record
+	 * @param subLocationIds the list of sub locations
 	 */
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 *
-	 * @param active true if active record
-	 */
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
+	public void setSubLocationIds(final List<String> subLocationIds) {
+		this.subLocationIds = subLocationIds;
 	}
 
 }

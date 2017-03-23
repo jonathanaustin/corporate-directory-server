@@ -1,8 +1,6 @@
 package com.github.bordertech.corpdir.api;
 
 import com.github.bordertech.corpdir.api.data.Contact;
-import com.github.bordertech.corpdir.api.data.Image;
-import com.github.bordertech.corpdir.api.data.OrgUnit;
 import com.github.bordertech.corpdir.api.data.Position;
 import java.util.List;
 
@@ -14,32 +12,24 @@ import java.util.List;
  */
 public interface ContactService {
 
-	Contact getContact(final Long contactId);
+	Contact getContact(final String contactKeyId);
 
-	Contact getContact(final String contactAltKey);
+	String createContact(final Contact contact);
 
-	Long createContact(final Contact contact);
+	Contact updateContact(final String contactKeyId, final Contact contact);
 
-	Contact updateContact(final Contact contact);
+	void deleteContact(final String contactKeyId);
 
-	void deleteContact(final Long contactId);
+	byte[] getContactImage(final String contactKeyId);
 
-	Image getContactImage(final Long contactId);
+	byte[] getContactThumbnail(final String contactKeyId);
 
-	Image getContactImage(final String contactAltKey);
+	void deleteContactImage(final String contactKeyId);
 
-	void deleteContactImage(final Long contactId);
-
-	void updateContactImage(final Long contactId, final Image image);
+	void updateContactImage(final String contactKeyId, final byte[] image);
 
 	List<Contact> searchContacts(final String searchText, final Boolean assigned);
 
-	List<Position> getAssignedPositions(final Long contactId);
-
-	List<Position> getAssignedPositions(final String contactAltKey);
-
-	List<OrgUnit> getLinkedOrgUnits(final Long contactId);
-
-	List<OrgUnit> getLinkedOrgUnits(final String contactAltKey);
+	List<Position> getAssignedPositions(final String contactKeyId);
 
 }

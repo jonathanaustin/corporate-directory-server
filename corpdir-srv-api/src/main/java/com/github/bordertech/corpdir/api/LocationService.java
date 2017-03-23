@@ -11,20 +11,16 @@ import java.util.List;
  */
 public interface LocationService {
 
-	Location getLocation(final Long locationId);
+	Location getLocation(final String locationKeyId);
 
-	Location getLocation(final String locationAltKey);
+	List<Location> getSubLocations(final String locationKeyId);
 
-	List<Location> getSubLocations(final Long locationId);
+	String createLocation(final Location locationKeyId);
 
-	List<Location> getSubLocations(final String locationAltKey);
+	Location updateLocation(final String locationKeyId, final Location location);
 
-	Long createLocation(final Location location);
+	void deleteLocation(final String locationKeyId);
 
-	Location updateLocation(final Location location);
-
-	void deleteLocation(final Long locationId);
-
-	void assignLocationToLocation(final Long locationId, final Long parentLocationId);
+	void assignLocationToLocation(final String locationKeyId, final String parentLocationKeyId);
 
 }
