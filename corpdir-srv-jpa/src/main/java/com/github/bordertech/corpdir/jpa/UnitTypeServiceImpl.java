@@ -77,7 +77,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	}
 
 	@Override
-	public ServiceResponse<String> createUnitType(final UnitType type) {
+	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
 			type.setId(null);
@@ -85,8 +85,8 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-			String apiId = MapperUtil.convertEntityIdforApi(entity.getId());
-			return new ServiceResponse<>(apiId);
+			UnitType data = UnitTypeMapper.convertEntityToApi(entity);
+			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
 		}

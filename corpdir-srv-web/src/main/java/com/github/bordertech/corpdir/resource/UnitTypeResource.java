@@ -61,7 +61,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<String> createUnitType(final UnitType type) {
+	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
 		return impl.createUnitType(type);
 	}
 

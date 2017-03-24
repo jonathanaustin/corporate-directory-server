@@ -20,7 +20,7 @@ public interface UnitTypeService {
 
 	ServiceResponse<UnitType> getUnitType(final String typeKeyId);
 
-	ServiceResponse<String> createUnitType(final UnitType type);
+	ServiceResponse<UnitType> createUnitType(final UnitType type);
 
 	ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type);
 
