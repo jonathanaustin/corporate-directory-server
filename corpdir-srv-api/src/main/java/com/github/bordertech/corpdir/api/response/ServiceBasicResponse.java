@@ -10,23 +10,13 @@ import java.io.Serializable;
  */
 public class ServiceBasicResponse implements Serializable {
 
-	private ResponseMetaData metaData;
-	private ResponseError responseError;
+	private MetaData meta;
 
-	public ResponseMetaData getMetaData() {
-		return metaData;
+	public MetaData getMeta() {
+		return meta;
 	}
 
-	public void setMetaData(final ResponseMetaData metaData) {
-		this.metaData = metaData;
+	public void setMeta(final MetaData meta) {
+		this.meta = meta;
 	}
-
-	public ResponseError getResponseError() {
-		return responseError;
-	}
-
-	public void setResponseError(final ResponseError responseError) {
-		this.responseError = responseError;
-	}
-
 }

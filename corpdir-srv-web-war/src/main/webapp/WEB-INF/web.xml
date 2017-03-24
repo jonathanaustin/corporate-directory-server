@@ -36,7 +36,7 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 		</init-param>
 		<init-param>
 			<param-name>swagger.api.basepath</param-name>
-			<param-value>http://localhost:8080/rest</param-value><!-- Our service root. -->
+			<param-value>http://localhost:8080/api</param-value><!-- Our service root. -->
 		</init-param>
 		<init-param>
 			<param-name>scan.all.resources</param-name>
@@ -46,6 +46,6 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/rest/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 </web-app>

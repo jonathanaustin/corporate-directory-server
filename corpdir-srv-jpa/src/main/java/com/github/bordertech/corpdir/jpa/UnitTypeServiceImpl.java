@@ -6,7 +6,6 @@ import com.github.bordertech.corpdir.api.data.UnitType;
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
-import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity_;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.mapper.MapperUtil;
 import com.github.bordertech.corpdir.jpa.mapper.OrgUnitMapper;
@@ -55,7 +54,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			CriteriaQuery<OrgUnitEntity> qry = cb.createQuery(OrgUnitEntity.class);
 			Root<OrgUnitEntity> from = qry.from(OrgUnitEntity.class);
 			qry.select(from);
-			qry.where(cb.equal(from.get(OrgUnitEntity_.type), type));
+			qry.where(cb.equal(from.get("type"), type));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
 			List<OrgUnit> data = OrgUnitMapper.convertEntitiesToApis(rows);
@@ -98,7 +97,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			UnitTypeEntity entity = UnitTypeMapper.convertApiToEntity(type);
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
 			MapperUtil.checkIdentifiersMatch(type, entity);
 			UnitTypeMapper.copyApiToEntity(type, entity);
 			em.merge(entity);

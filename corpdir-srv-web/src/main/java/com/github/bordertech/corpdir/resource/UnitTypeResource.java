@@ -39,11 +39,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<List<UnitType>> getUnitTypes() {
-		try {
-			return impl.getUnitTypes();
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.getUnitTypes();
 	}
 
 	@GET
@@ -51,11 +47,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
-		try {
-			return impl.getOrgUnits(typeKeyId);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.getOrgUnits(typeKeyId);
 	}
 
 	@GET
@@ -63,22 +55,14 @@ public class UnitTypeResource implements UnitTypeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<UnitType> getUnitType(@PathParam("key") final String typeKeyId) {
-		try {
-			return impl.getUnitType(typeKeyId);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.getUnitType(typeKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<String> createUnitType(final UnitType type) {
-		try {
-			return impl.createUnitType(type);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.createUnitType(type);
 	}
 
 	@PUT
@@ -86,11 +70,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<UnitType> updateUnitType(@PathParam("key") final String typeKeyId, final UnitType type) {
-		try {
-			return impl.updateUnitType(typeKeyId, type);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.updateUnitType(typeKeyId, type);
 	}
 
 	@DELETE
@@ -98,11 +78,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceBasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
-		try {
-			return impl.deleteUnitType(typeKeyId);
-		} catch (Exception e) {
-			throw ExceptionUtil.convertException(e);
-		}
+		return impl.deleteUnitType(typeKeyId);
 	}
 
 }

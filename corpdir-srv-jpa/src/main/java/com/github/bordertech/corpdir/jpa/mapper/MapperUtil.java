@@ -72,9 +72,8 @@ public final class MapperUtil {
 		if (testId == null || !testId.startsWith(ID_PREFIX)) {
 			return false;
 		}
-		String regex = Pattern.quote("^" + ID_PREFIX + "\\d+$");
-//		return testId.matches(regex);
-		return true;
+		String regex = "^" + Pattern.quote(ID_PREFIX) + "\\d+$";
+		return testId.matches(regex);
 	}
 
 	/**
