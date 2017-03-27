@@ -2,10 +2,10 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>config-srv-parent</name>
+	<name>config-qa-plugins</name>
 
 	<groupId>com.github.bordertech.corpdir</groupId>
-	<artifactId>config-srv-parent</artifactId>
+	<artifactId>config-qa-plugins</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 
 	<packaging>pom</packaging>

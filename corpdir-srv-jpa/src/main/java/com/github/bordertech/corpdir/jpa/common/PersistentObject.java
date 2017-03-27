@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa;
+package com.github.bordertech.corpdir.jpa.common;
 
 import java.io.Serializable;
 import java.sql.Timestamp;

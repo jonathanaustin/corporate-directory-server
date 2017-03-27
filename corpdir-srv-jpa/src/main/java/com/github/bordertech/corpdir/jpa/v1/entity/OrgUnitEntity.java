@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.entity;
 
-import com.github.bordertech.corpdir.jpa.AbstractPersistentObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentObject;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;

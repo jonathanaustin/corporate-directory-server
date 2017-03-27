@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.MapperUtil;
+import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
 import java.util.ArrayList;
 import java.util.Collection;

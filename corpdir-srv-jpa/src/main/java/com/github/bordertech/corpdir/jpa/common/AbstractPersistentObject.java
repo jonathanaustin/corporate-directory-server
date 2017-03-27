@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa;
+package com.github.bordertech.corpdir.jpa.common;
 
 import java.sql.Timestamp;
 import java.util.Objects;

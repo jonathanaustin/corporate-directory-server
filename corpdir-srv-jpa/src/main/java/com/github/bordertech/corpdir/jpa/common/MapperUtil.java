@@ -1,7 +1,7 @@
-package com.github.bordertech.corpdir.jpa;
+package com.github.bordertech.corpdir.jpa.common;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.api.v1.model.ApiObject;
+import com.github.bordertech.corpdir.api.common.ApiObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;

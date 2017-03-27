@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa;
+package com.github.bordertech.corpdir.jpa.common;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;

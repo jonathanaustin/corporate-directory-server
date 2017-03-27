@@ -1,5 +1,7 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
+import com.github.bordertech.corpdir.api.common.AbstractApiObject;
+
 /**
  * Channel of communication.
  *

@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
+import com.github.bordertech.corpdir.api.common.AbstractApiObject;
 import java.util.ArrayList;
 import java.util.List;
 

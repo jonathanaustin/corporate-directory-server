@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.api.v1.model;
+package com.github.bordertech.corpdir.api.common;
 
 import java.util.Date;
 
