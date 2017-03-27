@@ -2,8 +2,6 @@ package com.github.bordertech.corpdir.jpa;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * Abstract class that provides the entity manager.
@@ -14,13 +12,11 @@ import javax.persistence.Persistence;
 @Singleton
 public abstract class AbstractJpaService {
 
-	private final EntityManagerFactory emf = Persistence.createEntityManagerFactory("persist-unit");
-
 	/**
 	 * @return the entity manager
 	 */
 	protected EntityManager getEntityManager() {
-		return emf.createEntityManager();
+		return EmfUtil.getEMF().createEntityManager();
 	}
 
 }
