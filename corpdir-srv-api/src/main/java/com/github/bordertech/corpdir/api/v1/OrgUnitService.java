@@ -1,9 +1,9 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.api.v1.model.Position;
 import java.util.List;
 
 /**
@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface OrgUnitService {
 
+	ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topOnly);
+
 	ServiceResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId);
 
 	ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
@@ -22,7 +24,7 @@ public interface OrgUnitService {
 
 	ServiceResponse<Position> getOrgUnitManager(final String orgUnitKeyId);
 
-	ServiceResponse<String> createOrgUnit(final OrgUnit orgUnit);
+	ServiceResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit);
 
 	ServiceResponse<OrgUnit> updateOrgUnit(final String orgUnitKeyId, final OrgUnit orgUnit);
 

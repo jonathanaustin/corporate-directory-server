@@ -13,12 +13,12 @@ import java.util.List;
 public class Position extends AbstractApiObject {
 
 	private String description;
-	private PositionType type;
-	private String belongsToOrgUnitId;
-	private String reportToPositionId;
-	private List<String> reportPositionIds;
-	private List<String> managesOrgUnitIds;
-	private List<String> contactIds;
+	private String typeKey;
+	private String belongsToOrgUnitKey;
+	private String reportsToPositionKey;
+	private List<String> reportPositionKeys;
+	private List<String> managesOrgUnitKeys;
+	private List<String> contactKeys;
 
 	/**
 	 *
@@ -38,104 +38,104 @@ public class Position extends AbstractApiObject {
 
 	/**
 	 *
-	 * @return the position type
+	 * @return the position type key
 	 */
-	public PositionType getType() {
-		return type;
+	public String getTypeKey() {
+		return typeKey;
 	}
 
 	/**
 	 *
-	 * @param type the position type
+	 * @param typeKey the position type key
 	 */
-	public void setType(final PositionType type) {
-		this.type = type;
+	public void setTypeKey(final String typeKey) {
+		this.typeKey = typeKey;
 	}
 
 	/**
 	 *
-	 * @return the org unit id the position belongs to
+	 * @return the org unit key the position belongs to
 	 */
-	public String getBelongsToOrgUnitId() {
-		return belongsToOrgUnitId;
+	public String getBelongsToOrgUnitKey() {
+		return belongsToOrgUnitKey;
 	}
 
 	/**
 	 *
-	 * @param belongsToOrgUnitId the org unit id the position belongs to
+	 * @param belongsToOrgUnitKey the org unit key the position belongs to
 	 */
-	public void setBelongsToOrgUnitId(final String belongsToOrgUnitId) {
-		this.belongsToOrgUnitId = belongsToOrgUnitId;
+	public void setBelongsToOrgUnitKey(final String belongsToOrgUnitKey) {
+		this.belongsToOrgUnitKey = belongsToOrgUnitKey;
 	}
 
 	/**
-	 * @return the position id this position reports to
+	 * @return the position key this position reports to
 	 */
-	public String getReportToPositionId() {
-		return reportToPositionId;
+	public String getReportsToPositionKey() {
+		return reportsToPositionKey;
 	}
 
 	/**
-	 * @param reportToPositionId the position id this position reports to
+	 * @param reportsToPositionKey the position key this position reports to
 	 */
-	public void setReportToPositionId(final String reportToPositionId) {
-		this.reportToPositionId = reportToPositionId;
+	public void setReportsToPositionKey(final String reportsToPositionKey) {
+		this.reportsToPositionKey = reportsToPositionKey;
 	}
 
 	/**
 	 *
-	 * @return the position ids that report to this position
+	 * @return the position key that report to this position
 	 */
-	public List<String> getReportPositionIds() {
-		if (reportPositionIds == null) {
-			reportPositionIds = new ArrayList<>();
+	public List<String> getReportPositionKeys() {
+		if (reportPositionKeys == null) {
+			reportPositionKeys = new ArrayList<>();
 		}
-		return reportPositionIds;
+		return reportPositionKeys;
 	}
 
 	/**
-	 * @param reportPositionIds the position ids that report to this position
+	 * @param reportPositionKeys the position keys that report to this position
 	 */
-	public void setReportPositionIds(final List<String> reportPositionIds) {
-		this.reportPositionIds = reportPositionIds;
+	public void setReportPositionKeys(final List<String> reportPositionKeys) {
+		this.reportPositionKeys = reportPositionKeys;
 	}
 
 	/**
 	 *
-	 * @return the org unit ids this position manages
+	 * @return the org unit keys this position manages
 	 */
-	public List<String> getManagesOrgUnitIds() {
-		if (managesOrgUnitIds == null) {
-			managesOrgUnitIds = new ArrayList<>();
+	public List<String> getManagesOrgUnitKeys() {
+		if (managesOrgUnitKeys == null) {
+			managesOrgUnitKeys = new ArrayList<>();
 		}
-		return managesOrgUnitIds;
+		return managesOrgUnitKeys;
 	}
 
 	/**
 	 *
-	 * @param managesOrgUnitIds the org unit ids this position manages
+	 * @param managesOrgUnitKeys the org unit keys this position manages
 	 */
-	public void setManagesOrgUnitIds(final List<String> managesOrgUnitIds) {
-		this.managesOrgUnitIds = managesOrgUnitIds;
+	public void setManagesOrgUnitKeys(final List<String> managesOrgUnitKeys) {
+		this.managesOrgUnitKeys = managesOrgUnitKeys;
 	}
 
 	/**
 	 *
-	 * @return the contact ids for this position
+	 * @return the contact keys for this position
 	 */
-	public List<String> getContactIds() {
-		if (contactIds == null) {
-			contactIds = new ArrayList<>();
+	public List<String> getContactKeys() {
+		if (contactKeys == null) {
+			contactKeys = new ArrayList<>();
 		}
-		return contactIds;
+		return contactKeys;
 	}
 
 	/**
 	 *
-	 * @param contactIds the contact ids for this position
+	 * @param contactKeys the contact keys for this position
 	 */
-	public void setContactIds(final List<String> contactIds) {
-		this.contactIds = contactIds;
+	public void setContactKeys(final List<String> contactKeys) {
+		this.contactKeys = contactKeys;
 	}
 
 }

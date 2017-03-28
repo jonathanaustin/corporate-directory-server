@@ -1,9 +1,9 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface UnitTypeService {
 
-	ServiceResponse<List<UnitType>> getUnitTypes();
+	ServiceResponse<List<UnitType>> getUnitTypes(final String search);
 
 	ServiceResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId);
 

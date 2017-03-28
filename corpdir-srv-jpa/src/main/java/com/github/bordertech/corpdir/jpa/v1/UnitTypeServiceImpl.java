@@ -1,14 +1,16 @@
 package com.github.bordertech.corpdir.jpa.v1;
 
+import com.github.bordertech.corpdir.api.exception.NotFoundException;
+import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
+import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.v1.entity.UnitTypeEntity;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.UnitTypeMapper;
 import java.util.List;
@@ -28,12 +30,13 @@ import javax.persistence.criteria.Root;
 public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeService {
 
 	@Override
-	public ServiceResponse<List<UnitType>> getUnitTypes() {
+	public ServiceResponse<List<UnitType>> getUnitTypes(final String search) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<UnitTypeEntity> qry = cb.createQuery(UnitTypeEntity.class);
 
+			// TODO Implement Search criteria
 			Root<UnitTypeEntity> from = qry.from(UnitTypeEntity.class);
 			qry.select(from);
 
@@ -81,7 +84,12 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
-			type.setId(null);
+			MapperUtil.checkApiIDsForCreate(type);
+			// Check business key does not exist
+			UnitTypeEntity other = MapperUtil.getEntity(em, type.getBusinessKey(), UnitTypeEntity.class);
+			if (other != null) {
+				throw new ServiceException("A unit type already exists with business key [" + type.getBusinessKey() + "].");
+			}
 			UnitTypeEntity entity = UnitTypeMapper.convertApiToEntity(type);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -130,6 +138,10 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	 * @return the unit type entity
 	 */
 	protected UnitTypeEntity getUnitTypeEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, UnitTypeEntity.class);
+		UnitTypeEntity entity = MapperUtil.getEntity(em, keyId, UnitTypeEntity.class);
+		if (entity == null) {
+			throw new NotFoundException("Unit Type [" + keyId + "] not found.");
+		}
+		return entity;
 	}
 }

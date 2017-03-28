@@ -14,6 +14,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 /**
@@ -38,8 +39,8 @@ public class UnitTypeResource implements UnitTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<UnitType>> getUnitTypes() {
-		return impl.getUnitTypes();
+	public ServiceResponse<List<UnitType>> getUnitTypes(@QueryParam("search") final String search) {
+		return impl.getUnitTypes(search);
 	}
 
 	@GET

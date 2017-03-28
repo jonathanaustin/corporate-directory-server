@@ -31,7 +31,7 @@ public final class LocationMapper {
 		MapperUtil.handleCommonEntityToApi(from, to);
 		to.setDescription(from.getDescription());
 		to.setAddress(AddressMapper.convertEntityToApi(from.getAddress()));
-		to.setSubLocationIds(MapperUtil.convertEntitiesToApiIDs(from.getSubLocations()));
+		to.setSubLocationKeys(MapperUtil.convertEntitiesToApiIDs(from.getSubLocations()));
 		return to;
 	}
 

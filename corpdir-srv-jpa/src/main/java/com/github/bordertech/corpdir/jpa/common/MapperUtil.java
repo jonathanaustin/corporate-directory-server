@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.common.ApiObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -33,6 +32,18 @@ public final class MapperUtil {
 	 */
 	private MapperUtil() {
 		// prevent instatiation
+	}
+
+	/**
+	 *
+	 * @param entity the entity
+	 * @return the business key
+	 */
+	public static String getEntityBusinessKey(final PersistentObject entity) {
+		if (entity == null) {
+			return null;
+		}
+		return entity.getBusinessKey();
 	}
 
 	/**
@@ -120,6 +131,34 @@ public final class MapperUtil {
 	}
 
 	/**
+	 * @param em the entity manager
+	 * @param keyId the key or API id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistentObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+		T entity;
+		if (isEntityId(keyId)) {
+			Long id = convertApiIdforEntity(keyId);
+			entity = em.find(clazz, id);
+		} else {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+
+			CriteriaQuery<T> qry = cb.createQuery(clazz);
+			Root<T> from = qry.from(clazz);
+			qry.select(from);
+			qry.where(cb.equal(from.get("businessKey"), keyId));
+			try {
+				entity = em.createQuery(qry).getSingleResult();
+			} catch (NoResultException e) {
+				entity = null;
+			}
+		}
+		return entity;
+	}
+
+	/**
 	 * Check the ID and businessKey match between the API and entity object.
 	 *
 	 * @param api the API object
@@ -136,39 +175,25 @@ public final class MapperUtil {
 			throw new IllegalStateException("Business Keys do not match [" + api.getBusinessKey() + "] and [" + entity.getBusinessKey() + "].");
 		}
 		// TODO Maybe check version as well
-
 	}
 
 	/**
-	 * @param em the entity manager
-	 * @param keyId the key or API id
-	 * @param clazz the entity class
-	 * @param <T> the entity
-	 * @return the entity
+	 * Check the API object IDs are valid for create.
+	 *
+	 * @param api the API object
 	 */
-	public static <T extends PersistentObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
-		T entity = null;
-		if (isEntityId(keyId)) {
-			Long id = convertApiIdforEntity(keyId);
-			entity = em.find(clazz, id);
-		} else {
-			CriteriaBuilder cb = em.getCriteriaBuilder();
-
-			CriteriaQuery<T> qry = cb.createQuery(clazz);
-			Root<T> from = qry.from(clazz);
-			qry.select(from);
-			qry.where(cb.equal(from.get("businessKey"), keyId));
-			try {
-				entity = em.createQuery(qry).getSingleResult();
-			} catch (NoResultException e) {
-				throw new NotFoundException("Entity [" + clazz.getName() + "] with key [" + keyId + "] not found.", e);
-			}
+	public static void checkApiIDsForCreate(final ApiObject api) {
+		// Check business key
+		String key = api.getBusinessKey();
+		if (key == null || key.isEmpty()) {
+			throw new IllegalArgumentException("Business Key must be provided.");
 		}
-		if (entity == null) {
-			throw new NotFoundException("Entity [" + clazz.getName() + "] for id [" + keyId + "] not found.");
+		if (key.startsWith(ID_PREFIX)) {
+			throw new IllegalArgumentException("Business Key cannot start with a reserved character.");
 		}
-		return entity;
-
+		// Ignore ID and version
+		api.setId(null);
+		api.setVersion(null);
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.common;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * API Object common fields.
@@ -18,9 +18,9 @@ public interface ApiObject extends Serializable {
 
 	public void setBusinessKey(final String businessKey);
 
-	public Date getVersion();
+	public Timestamp getVersion();
 
-	public void setVersion(final Date version);
+	public void setVersion(final Timestamp version);
 
 	public boolean isCustom();
 

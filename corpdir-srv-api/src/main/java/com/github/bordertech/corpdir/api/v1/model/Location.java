@@ -14,8 +14,8 @@ public class Location extends AbstractApiObject {
 
 	private String description;
 	private Address address;
-	private String parentLocationId;
-	private List<String> subLocationIds;
+	private String parentLocationKey;
+	private List<String> subLocationKeys;
 
 	/**
 	 *
@@ -51,36 +51,36 @@ public class Location extends AbstractApiObject {
 
 	/**
 	 *
-	 * @return the parent location id or null if no parent
+	 * @return the parent location key or null if no parent
 	 */
-	public String getParentLocationId() {
-		return parentLocationId;
+	public String getParentLocationKey() {
+		return parentLocationKey;
 	}
 
 	/**
-	 * @param parentLocationId the parent location id
+	 * @param parentLocationKey the parent location id
 	 */
-	public void setParentLocationId(final String parentLocationId) {
-		this.parentLocationId = parentLocationId;
+	public void setParentLocationKey(final String parentLocationKey) {
+		this.parentLocationKey = parentLocationKey;
 	}
 
 	/**
 	 *
-	 * @return the list of sub location ids
+	 * @return the list of sub location keys
 	 */
-	public List<String> getSubLocationIds() {
-		if (subLocationIds == null) {
-			subLocationIds = new ArrayList<>();
+	public List<String> getSubLocationKeys() {
+		if (subLocationKeys == null) {
+			subLocationKeys = new ArrayList<>();
 		}
-		return subLocationIds;
+		return subLocationKeys;
 	}
 
 	/**
 	 *
-	 * @param subLocationIds the list of sub locations
+	 * @param subLocationKeys the list of sub locations
 	 */
-	public void setSubLocationIds(final List<String> subLocationIds) {
-		this.subLocationIds = subLocationIds;
+	public void setSubLocationKeys(final List<String> subLocationKeys) {
+		this.subLocationKeys = subLocationKeys;
 	}
 
 }

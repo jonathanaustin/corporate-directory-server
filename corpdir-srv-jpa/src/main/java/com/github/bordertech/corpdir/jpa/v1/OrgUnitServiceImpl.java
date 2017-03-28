@@ -1,19 +1,24 @@
 package com.github.bordertech.corpdir.jpa.v1;
 
+import com.github.bordertech.corpdir.api.exception.NotFoundException;
+import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
+import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Organization unit JPA service implementation.
@@ -23,6 +28,25 @@ import javax.persistence.EntityManager;
  */
 @Singleton
 public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitService {
+
+	@Override
+	public ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topOnly) {
+		EntityManager em = getEntityManager();
+		try {
+			CriteriaBuilder cb = em.getCriteriaBuilder();
+			CriteriaQuery<OrgUnitEntity> qry = cb.createQuery(OrgUnitEntity.class);
+
+			// TODO Implement Search criteria and topOnly
+			Root<OrgUnitEntity> from = qry.from(OrgUnitEntity.class);
+			qry.select(from);
+
+			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
+			List<OrgUnit> data = OrgUnitMapper.convertEntitiesToApis(rows);
+			return new ServiceResponse<>(data);
+		} finally {
+			em.close();
+		}
+	}
 
 	@Override
 	public ServiceResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId) {
@@ -73,15 +97,21 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 	}
 
 	@Override
-	public ServiceResponse<String> createOrgUnit(final OrgUnit orgUnit) {
+	public ServiceResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit) {
 		EntityManager em = getEntityManager();
 		try {
-			OrgUnitEntity entity = OrgUnitMapper.convertApiToEntity(orgUnit);
+			MapperUtil.checkApiIDsForCreate(orgUnit);
+			// Check business key does not exist
+			OrgUnitEntity other = MapperUtil.getEntity(em, orgUnit.getBusinessKey(), OrgUnitEntity.class);
+			if (other != null) {
+				throw new ServiceException("An org unit already exists with business key [" + orgUnit.getBusinessKey() + "].");
+			}
+			OrgUnitEntity entity = OrgUnitMapper.convertApiToEntity(em, orgUnit);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-			String apiId = MapperUtil.convertEntityIdforApi(entity.getId());
-			return new ServiceResponse<>(apiId);
+			OrgUnit data = OrgUnitMapper.convertEntityToApi(entity);
+			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
 		}
@@ -94,7 +124,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			em.getTransaction().begin();
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
 			MapperUtil.checkIdentifiersMatch(orgUnit, entity);
-			OrgUnitMapper.copyApiToEntity(orgUnit, entity);
+			OrgUnitMapper.copyApiToEntity(em, orgUnit, entity);
 			em.merge(entity);
 			em.getTransaction().commit();
 			OrgUnit data = OrgUnitMapper.convertEntityToApi(entity);
@@ -191,7 +221,11 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 	 * @return the org unit entity
 	 */
 	protected OrgUnitEntity getOrgUnitEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, OrgUnitEntity.class);
+		OrgUnitEntity entity = MapperUtil.getEntity(em, keyId, OrgUnitEntity.class);
+		if (entity == null) {
+			throw new NotFoundException("Org unit [" + keyId + "] not found.");
+		}
+		return entity;
 	}
 
 	/**
@@ -200,7 +234,11 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 	 * @return the position entity
 	 */
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		PositionEntity entity = MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		if (entity == null) {
+			throw new NotFoundException("Position [" + keyId + "] not found.");
+		}
+		return entity;
 	}
 
 }

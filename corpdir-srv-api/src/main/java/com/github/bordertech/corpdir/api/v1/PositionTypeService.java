@@ -1,5 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
+import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
+import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
 import java.util.List;
@@ -12,16 +14,16 @@ import java.util.List;
  */
 public interface PositionTypeService {
 
-	List<PositionType> getPositionTypes();
+	ServiceResponse<List<PositionType>> getPositionTypes();
 
-	List<Position> getPositions(final String typeKeyId);
+	ServiceResponse<List<Position>> getPositions(final String typeKeyId);
 
-	PositionType getPositionType(final String typeKeyId);
+	ServiceResponse<PositionType> getPositionType(final String typeKeyId);
 
-	String createPositionType(final PositionType type);
+	ServiceResponse<PositionType> createPositionType(final PositionType type);
 
-	PositionType updatePositionType(final String typeKeyId, final PositionType type);
+	ServiceResponse<PositionType> updatePositionType(final String typeKeyId, final PositionType type);
 
-	void deletePositionType(final String typeKeyId);
+	ServiceBasicResponse deletePositionType(final String typeKeyId);
 
 }

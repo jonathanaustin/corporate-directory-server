@@ -13,11 +13,11 @@ import java.util.List;
 public class OrgUnit extends AbstractApiObject {
 
 	private String description;
-	private UnitType type;
-	private String managerPositionId;
-	private String parentOrgUnitId;
-	private List<String> subOrgUnitIds;
-	private List<String> positionIds;
+	private String typeKey;
+	private String managerPositionKey;
+	private String parentOrgUnitKey;
+	private List<String> subOrgUnitKeys;
+	private List<String> positionKeys;
 
 	/**
 	 *
@@ -37,88 +37,88 @@ public class OrgUnit extends AbstractApiObject {
 
 	/**
 	 *
-	 * @return the organization type
+	 * @return the organization type key
 	 */
-	public UnitType getType() {
-		return type;
+	public String getTypeKey() {
+		return typeKey;
 	}
 
 	/**
 	 *
-	 * @param type the organization type
+	 * @param typeKey the organization type key
 	 */
-	public void setType(final UnitType type) {
-		this.type = type;
+	public void setTypeKey(final String typeKey) {
+		this.typeKey = typeKey;
 	}
 
 	/**
 	 *
-	 * @return the manager position id
+	 * @return the manager position key
 	 */
-	public String getManagerPositionId() {
-		return managerPositionId;
+	public String getManagerPositionKey() {
+		return managerPositionKey;
 	}
 
 	/**
 	 *
-	 * @param managerPositionId the manager position id
+	 * @param managerPositionKey the manager position key
 	 */
-	public void setManagerPositionId(final String managerPositionId) {
-		this.managerPositionId = managerPositionId;
+	public void setManagerPositionKey(final String managerPositionKey) {
+		this.managerPositionKey = managerPositionKey;
 	}
 
 	/**
 	 *
-	 * @return the parent org unit id or null if no parent
+	 * @return the parent org unit key or null if no parent
 	 */
-	public String getParentOrgUnitId() {
-		return parentOrgUnitId;
+	public String getParentOrgUnitKey() {
+		return parentOrgUnitKey;
 	}
 
 	/**
 	 *
-	 * @param parentOrgUnitId the parent org unit id
+	 * @param parentOrgUnitKey the parent org unit key
 	 */
-	public void setParentOrgUnitId(final String parentOrgUnitId) {
-		this.parentOrgUnitId = parentOrgUnitId;
+	public void setParentOrgUnitKey(final String parentOrgUnitKey) {
+		this.parentOrgUnitKey = parentOrgUnitKey;
 	}
 
 	/**
 	 *
-	 * @return the list of sub org unit ids
+	 * @return the list of sub org unit keys
 	 */
-	public List<String> getSubOrgUnitIds() {
-		if (subOrgUnitIds == null) {
-			subOrgUnitIds = new ArrayList<>();
+	public List<String> getSubOrgUnitKeys() {
+		if (subOrgUnitKeys == null) {
+			subOrgUnitKeys = new ArrayList<>();
 		}
-		return subOrgUnitIds;
+		return subOrgUnitKeys;
 	}
 
 	/**
 	 *
-	 * @param subOrgUnitIds the list of sub org unit ids
+	 * @param subOrgUnitKeys the list of sub org unit keys
 	 */
-	public void setSubOrgUnitIds(final List<String> subOrgUnitIds) {
-		this.subOrgUnitIds = subOrgUnitIds;
+	public void setSubOrgUnitKeys(final List<String> subOrgUnitKeys) {
+		this.subOrgUnitKeys = subOrgUnitKeys;
 	}
 
 	/**
 	 *
-	 * @return the position ids that belong to this org unit
+	 * @return the position keys that belong to this org unit
 	 */
-	public List<String> getPositionIds() {
-		if (positionIds == null) {
-			positionIds = new ArrayList<>();
+	public List<String> getPositionKeys() {
+		if (positionKeys == null) {
+			positionKeys = new ArrayList<>();
 		}
-		return positionIds;
+		return positionKeys;
 	}
 
 	/**
 	 *
-	 * @param positionIds the list of position ids that belong to this org unit
+	 * @param positionKeys the list of position keys that belong to this org unit
 	 */
-	public void setPositionIds(final List<String> positionIds) {
-		this.positionIds = positionIds;
+	public void setPositionKeys(final List<String> positionKeys) {
+		this.positionKeys = positionKeys;
 	}
 
 }

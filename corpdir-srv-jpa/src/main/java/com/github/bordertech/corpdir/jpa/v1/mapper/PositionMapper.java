@@ -36,11 +36,11 @@ public final class PositionMapper {
 		to.setDescription(from.getDescription());
 		if (from.getBelongsToOrgUnit() != null) {
 			Long id = from.getBelongsToOrgUnit().getId();
-			to.setBelongsToOrgUnitId(MapperUtil.convertEntityIdforApi(id));
+			to.setBelongsToOrgUnitKey(MapperUtil.convertEntityIdforApi(id));
 		}
-		to.setContactIds(MapperUtil.convertEntitiesToApiIDs(from.getContacts()));
-		to.setManagesOrgUnitIds(MapperUtil.convertEntitiesToApiIDs(from.getManageOrgUnits()));
-		to.setReportPositionIds(MapperUtil.convertEntitiesToApiIDs(from.getReportPositions()));
+		to.setContactKeys(MapperUtil.convertEntitiesToApiIDs(from.getContacts()));
+		to.setManagesOrgUnitKeys(MapperUtil.convertEntitiesToApiIDs(from.getManageOrgUnits()));
+		to.setReportPositionKeys(MapperUtil.convertEntitiesToApiIDs(from.getReportPositions()));
 		return to;
 	}
 

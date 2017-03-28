@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
+import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.ContactEntity;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,7 +38,7 @@ public final class ContactMapper {
 		to.setLastName(from.getLastName());
 		to.setHasImage(from.getImage() != null);
 		to.setAddress(AddressMapper.convertEntityToApi(from.getAddress()));
-		to.setLocation(LocationMapper.convertEntityToApi(from.getLocation()));
+		to.setLocationKey(MapperUtil.getEntityBusinessKey(from));
 		to.setChannels(ChannelMapper.convertEntitiesToApis(from.getChannels()));
 		return to;
 	}

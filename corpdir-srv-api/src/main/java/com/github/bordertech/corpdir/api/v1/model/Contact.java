@@ -16,10 +16,10 @@ public class Contact extends AbstractApiObject {
 	private String lastName;
 	private String companyTitle;
 	private Address address;
-	private Location location;
+	private String locationKey;
 	private boolean hasImage;
 	private List<Channel> channels;
-	private List<String> positionIds;
+	private List<String> positionKeys;
 
 	/**
 	 * @return the first name
@@ -79,17 +79,17 @@ public class Contact extends AbstractApiObject {
 	}
 
 	/**
-	 * @return the location
+	 * @return the location key
 	 */
-	public Location getLocation() {
-		return location;
+	public String getLocationKey() {
+		return locationKey;
 	}
 
 	/**
-	 * @param location the location
+	 * @param locationKey the location key
 	 */
-	public void setLocation(final Location location) {
-		this.location = location;
+	public void setLocationKey(final String locationKey) {
+		this.locationKey = locationKey;
 	}
 
 	/**
@@ -129,21 +129,21 @@ public class Contact extends AbstractApiObject {
 
 	/**
 	 *
-	 * @return the assigned position ids
+	 * @return the assigned position keys
 	 */
-	public List<String> getPositionIds() {
-		if (positionIds == null) {
-			positionIds = new ArrayList<>();
+	public List<String> getPositionKeys() {
+		if (positionKeys == null) {
+			positionKeys = new ArrayList<>();
 		}
-		return positionIds;
+		return positionKeys;
 	}
 
 	/**
 	 *
-	 * @param positionIds the assigned position ids
+	 * @param positionKeys the assigned position keys
 	 */
-	public void setPositionIds(final List<String> positionIds) {
-		this.positionIds = positionIds;
+	public void setPositionKeys(final List<String> positionKeys) {
+		this.positionKeys = positionKeys;
 	}
 
 }

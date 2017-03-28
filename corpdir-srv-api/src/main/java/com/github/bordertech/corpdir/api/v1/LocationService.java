@@ -1,5 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
+import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
+import com.github.bordertech.corpdir.api.response.ServiceResponse;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import java.util.List;
 
@@ -11,16 +13,16 @@ import java.util.List;
  */
 public interface LocationService {
 
-	Location getLocation(final String locationKeyId);
+	ServiceResponse<Location> getLocation(final String locationKeyId);
 
-	List<Location> getSubLocations(final String locationKeyId);
+	ServiceResponse<List<Location>> getSubLocations(final String locationKeyId);
 
-	String createLocation(final Location locationKeyId);
+	ServiceResponse<Location> createLocation(final Location locationKeyId);
 
-	Location updateLocation(final String locationKeyId, final Location location);
+	ServiceResponse<Location> updateLocation(final String locationKeyId, final Location location);
 
-	void deleteLocation(final String locationKeyId);
+	ServiceBasicResponse deleteLocation(final String locationKeyId);
 
-	void assignLocationToLocation(final String locationKeyId, final String parentLocationKeyId);
+	ServiceBasicResponse assignLocationToLocation(final String locationKeyId, final String parentLocationKeyId);
 
 }

@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.common;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 /**
  * Abstract API object for common fields.
@@ -13,7 +13,7 @@ public abstract class AbstractApiObject implements ApiObject {
 	private String businessKey;
 	private boolean active = true;
 	private boolean custom = true;
-	private Date version;
+	private Timestamp version;
 
 	@Override
 	public String getId() {
@@ -36,12 +36,12 @@ public abstract class AbstractApiObject implements ApiObject {
 	}
 
 	@Override
-	public Date getVersion() {
+	public Timestamp getVersion() {
 		return version;
 	}
 
 	@Override
-	public void setVersion(final Date version) {
+	public void setVersion(final Timestamp version) {
 		this.version = version;
 	}
 
