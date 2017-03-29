@@ -10,12 +10,12 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 /**
- * Abstract persistent object.
+ * Abstract persistent keyed object.
  *
  * @author jonathan
  */
 @MappedSuperclass
-public abstract class AbstractPersistentObject implements PersistentObject {
+public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,7 @@ public abstract class AbstractPersistentObject implements PersistentObject {
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractPersistentObject() {
+	protected AbstractPersistentKeyIdObject() {
 		// Default constructor
 	}
 
@@ -40,7 +40,7 @@ public abstract class AbstractPersistentObject implements PersistentObject {
 	 * @param id the entity id
 	 * @param businessKey the business key
 	 */
-	public AbstractPersistentObject(final Long id, final String businessKey) {
+	public AbstractPersistentKeyIdObject(final Long id, final String businessKey) {
 		this.id = id;
 		if (businessKey == null) {
 			this.businessKey = UUID.randomUUID().toString();
@@ -112,7 +112,7 @@ public abstract class AbstractPersistentObject implements PersistentObject {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj instanceof AbstractPersistentObject && Objects.equals(businessKey, ((AbstractPersistentObject) obj).businessKey);
+		return obj instanceof AbstractPersistentKeyIdObject && Objects.equals(businessKey, ((AbstractPersistentKeyIdObject) obj).businessKey);
 	}
 
 }

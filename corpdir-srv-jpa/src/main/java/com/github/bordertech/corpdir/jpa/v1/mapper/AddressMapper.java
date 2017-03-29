@@ -1,31 +1,19 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Address;
+import com.github.bordertech.corpdir.jpa.common.AbstractApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.v1.entity.AddressEntity;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link Address} and {@link AddressEntity}.
  *
  * @author jonathan
  */
-public final class AddressMapper {
+public class AddressMapper extends AbstractApiEntityMapper<Address, AddressEntity> {
 
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private AddressMapper() {
-		// prevent instatiation
-	}
-
-	/**
-	 * @param from the API item
-	 * @return the entity item
-	 */
-	public static AddressEntity convertApiToEntity(final Address from) {
-		if (from == null) {
-			return null;
-		}
-		AddressEntity to = new AddressEntity();
+	@Override
+	public void copyApiToEntity(final EntityManager em, final Address from, final AddressEntity to) {
 		to.setWorkStation(from.getWorkStation());
 		to.setAddressLine1(from.getAddressLine1());
 		to.setAddressLine2(from.getAddressLine2());
@@ -33,18 +21,10 @@ public final class AddressMapper {
 		to.setPostcode(from.getPostcode());
 		to.setState(from.getState());
 		to.setSuburb(from.getSuburb());
-		return to;
 	}
 
-	/**
-	 * @param from the entity item
-	 * @return the API item
-	 */
-	public static Address convertEntityToApi(final AddressEntity from) {
-		if (from == null) {
-			return null;
-		}
-		Address to = new Address();
+	@Override
+	public void copyEntityToApi(final EntityManager em, final AddressEntity from, final Address to) {
 		to.setWorkStation(from.getWorkStation());
 		to.setAddressLine1(from.getAddressLine1());
 		to.setAddressLine2(from.getAddressLine2());
@@ -52,7 +32,16 @@ public final class AddressMapper {
 		to.setPostcode(from.getPostcode());
 		to.setState(from.getState());
 		to.setSuburb(from.getSuburb());
-		return to;
+	}
+
+	@Override
+	protected Address createApiObject() {
+		return new Address();
+	}
+
+	@Override
+	protected AddressEntity createEntityObject() {
+		return new AddressEntity();
 	}
 
 }

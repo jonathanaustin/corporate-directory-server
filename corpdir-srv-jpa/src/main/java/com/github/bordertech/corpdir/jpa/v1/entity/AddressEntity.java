@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.entity;
 
-import java.io.Serializable;
+import com.github.bordertech.corpdir.jpa.common.PersistentObject;
 import javax.persistence.Embeddable;
 
 /**
@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
  * @since 1.0.0
  */
 @Embeddable
-public class AddressEntity implements Serializable {
+public class AddressEntity implements PersistentObject {
 
 	private String workStation;
 	private String addressLine1;

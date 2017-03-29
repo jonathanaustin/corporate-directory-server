@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import java.io.Serializable;
+import com.github.bordertech.corpdir.api.common.ApiObject;
 
 /**
  * Address details.
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Address implements Serializable {
+public class Address implements ApiObject {
 
 	private String workStation;
 	private String addressLine1;

@@ -1,39 +1,20 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
+import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.v1.entity.ChannelEntity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link Channel} and {@link ChannelEntity}.
  *
  * @author jonathan
  */
-public final class ChannelMapper {
+public class ChannelMapper extends AbstractKeyIdApiEntityMapper<Channel, ChannelEntity> {
 
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private ChannelMapper() {
-		// prevent instatiation
-	}
-
-	/**
-	 * @param from the API item
-	 * @return the entity item
-	 */
-	public static ChannelEntity convertApiToEntity(final Channel from) {
-		if (from == null) {
-			return null;
-		}
-		Long id = MapperUtil.convertApiIdforEntity(from.getId());
-		ChannelEntity to = new ChannelEntity(id, from.getBusinessKey());
-		MapperUtil.handleCommonApiToEntity(from, to);
+	@Override
+	public void copyApiToEntityFields(final EntityManager em, final Channel from, final ChannelEntity to) {
 		to.setChannelValue(from.getChannelValue());
 		if (from.getType() != null) {
 			switch (from.getType()) {
@@ -51,19 +32,10 @@ public final class ChannelMapper {
 					to.setType(null);
 			}
 		}
-		return to;
 	}
 
-	/**
-	 * @param from the entity item
-	 * @return the API item
-	 */
-	public static Channel convertEntityToApi(final ChannelEntity from) {
-		if (from == null) {
-			return null;
-		}
-		Channel to = new Channel();
-		MapperUtil.handleCommonEntityToApi(from, to);
+	@Override
+	public void copyEntityToApiFields(final EntityManager em, final ChannelEntity from, final Channel to) {
 		to.setChannelValue(from.getChannelValue());
 		if (from.getType() != null) {
 			switch (from.getType()) {
@@ -81,24 +53,16 @@ public final class ChannelMapper {
 					to.setType(null);
 			}
 		}
-		return to;
 	}
 
-	/**
-	 *
-	 * @param rows the list of entity items
-	 * @return the list of converted API items
-	 */
-	public static List<Channel> convertEntitiesToApis(final Collection<ChannelEntity> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
+	@Override
+	protected Channel createApiObject() {
+		return new Channel();
+	}
 
-		List<Channel> items = new ArrayList<>();
-		for (ChannelEntity row : rows) {
-			items.add(convertEntityToApi(row));
-		}
-		return items;
+	@Override
+	protected ChannelEntity createEntityObject(final Long id, final String businessKey) {
+		return new ChannelEntity(id, businessKey);
 	}
 
 }

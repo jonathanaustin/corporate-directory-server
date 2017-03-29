@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Image")
-public class ImageEntity extends AbstractPersistentObject {
+public class ImageEntity extends AbstractPersistentKeyIdObject {
 
 	private String mimeType;
 	private String description;

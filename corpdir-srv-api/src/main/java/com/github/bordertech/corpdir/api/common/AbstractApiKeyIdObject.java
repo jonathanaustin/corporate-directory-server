@@ -3,11 +3,11 @@ package com.github.bordertech.corpdir.api.common;
 import java.sql.Timestamp;
 
 /**
- * Abstract API object for common fields.
+ * Abstract API Keyed Object for common fields.
  *
  * @author jonathan
  */
-public abstract class AbstractApiObject implements ApiObject {
+public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 
 	private String id;
 	private String businessKey;

@@ -29,6 +29,9 @@ import javax.persistence.criteria.Root;
 @Singleton
 public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitService {
 
+	private final OrgUnitMapper orgUnitMapper = new OrgUnitMapper();
+	private final PositionMapper positionMapper = new PositionMapper();
+
 	@Override
 	public ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topOnly) {
 		EntityManager em = getEntityManager();
@@ -41,7 +44,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			qry.select(from);
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
-			List<OrgUnit> data = OrgUnitMapper.convertEntitiesToApis(rows);
+			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, rows);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -53,7 +56,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			OrgUnit data = OrgUnitMapper.convertEntityToApi(entity);
+			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -65,7 +68,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			List<OrgUnit> data = OrgUnitMapper.convertEntitiesToApis(entity.getSubOrgUnits());
+			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, entity.getSubOrgUnits());
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -77,7 +80,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			List<Position> data = PositionMapper.convertEntitiesToApis(entity.getPositions());
+			List<Position> data = positionMapper.convertEntitiesToApis(em, entity.getPositions());
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -89,7 +92,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			Position data = PositionMapper.convertEntityToApi(entity.getManagerPosition());
+			Position data = positionMapper.convertEntityToApi(em, entity.getManagerPosition());
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -106,11 +109,11 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			if (other != null) {
 				throw new ServiceException("An org unit already exists with business key [" + orgUnit.getBusinessKey() + "].");
 			}
-			OrgUnitEntity entity = OrgUnitMapper.convertApiToEntity(em, orgUnit);
+			OrgUnitEntity entity = orgUnitMapper.convertApiToEntity(em, orgUnit);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-			OrgUnit data = OrgUnitMapper.convertEntityToApi(entity);
+			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -124,10 +127,10 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			em.getTransaction().begin();
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
 			MapperUtil.checkIdentifiersMatch(orgUnit, entity);
-			OrgUnitMapper.copyApiToEntity(em, orgUnit, entity);
+			orgUnitMapper.copyApiToEntity(em, orgUnit, entity);
 			em.merge(entity);
 			em.getTransaction().commit();
-			OrgUnit data = OrgUnitMapper.convertEntityToApi(entity);
+			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();

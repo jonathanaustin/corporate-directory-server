@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "UnitType")
-public class UnitTypeEntity extends AbstractPersistentObject {
+public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
 
 	private String description;
 

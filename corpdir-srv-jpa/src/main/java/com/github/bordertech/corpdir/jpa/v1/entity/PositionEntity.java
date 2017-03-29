@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends AbstractPersistentObject {
+public class PositionEntity extends AbstractPersistentKeyIdObject {
 
 	@ManyToOne
 	private PositionTypeEntity type;

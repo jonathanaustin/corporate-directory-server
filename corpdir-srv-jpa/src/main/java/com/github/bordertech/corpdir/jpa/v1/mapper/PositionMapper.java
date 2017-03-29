@@ -1,65 +1,50 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link Position} and {@link PositionEntity}.
  *
  * @author jonathan
  */
-public final class PositionMapper {
+public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, PositionEntity> {
 
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private PositionMapper() {
-		// prevent instatiation
+	@Override
+	protected void copyApiToEntityFields(final EntityManager em, final Position from, final PositionEntity to) {
+		to.setDescription(from.getDescription());
+//		if (from.getBelongsToOrgUnit() != null) {
+//			Long id = from.getBelongsToOrgUnit().getId();
+//			to.setBelongsToOrgUnitKey(MapperUtil.convertEntityIdforApi(id));
+//		}
+//		to.setContactKeys(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
+//		to.setManagesOrgUnitKeys(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
+//		to.setReportPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getReportPositions()));
 	}
 
-	/**
-	 *
-	 * @param from the entity item
-	 * @return the API item
-	 */
-	public static Position convertEntityToApi(final PositionEntity from) {
-		if (from == null) {
-			return null;
-		}
-		Position to = new Position();
-		MapperUtil.handleCommonEntityToApi(from, to);
+	@Override
+	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
 		to.setDescription(from.getDescription());
 		if (from.getBelongsToOrgUnit() != null) {
 			Long id = from.getBelongsToOrgUnit().getId();
 			to.setBelongsToOrgUnitKey(MapperUtil.convertEntityIdforApi(id));
 		}
-		to.setContactKeys(MapperUtil.convertEntitiesToApiIDs(from.getContacts()));
-		to.setManagesOrgUnitKeys(MapperUtil.convertEntitiesToApiIDs(from.getManageOrgUnits()));
-		to.setReportPositionKeys(MapperUtil.convertEntitiesToApiIDs(from.getReportPositions()));
-		return to;
+		to.setContactKeys(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
+		to.setManagesOrgUnitKeys(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
+		to.setReportPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getReportPositions()));
 	}
 
-	/**
-	 * Convert {@link List} of {@link PositionEntity} to {@link Position}.
-	 *
-	 * @param rows the list of entity items
-	 * @return the list of converted API items
-	 */
-	public static List<Position> convertEntitiesToApis(final Collection<PositionEntity> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
+	@Override
+	protected Position createApiObject() {
+		return new Position();
+	}
 
-		List<Position> items = new ArrayList<>();
-		for (PositionEntity row : rows) {
-			items.add(convertEntityToApi(row));
-		}
-		return items;
+	@Override
+	protected PositionEntity createEntityObject(final Long id, final String businessKey) {
+		return new PositionEntity(id, businessKey);
 	}
 
 }

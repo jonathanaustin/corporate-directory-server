@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiObject;
+import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Location extends AbstractApiObject {
+public class Location extends AbstractApiKeyIdObject {
 
 	private String description;
 	private Address address;

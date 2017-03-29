@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiObject;
+import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
 
 /**
  * Position type.
@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.api.common.AbstractApiObject;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PositionType extends AbstractApiObject {
+public class PositionType extends AbstractApiKeyIdObject {
 
 	private String description;
 	private int typeLevel;

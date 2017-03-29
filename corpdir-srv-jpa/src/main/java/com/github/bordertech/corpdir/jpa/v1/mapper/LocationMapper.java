@@ -1,38 +1,42 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.api.v1.model.Location;
+import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.LocationEntity;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link Location} and {@link LocationEntity}.
  *
  * @author jonathan
  */
-public final class LocationMapper {
+public class LocationMapper extends AbstractKeyIdApiEntityMapper<Location, LocationEntity> {
 
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private LocationMapper() {
-		// prevent instatiation
+	private final AddressMapper addressMapper = new AddressMapper();
+
+	@Override
+	public void copyApiToEntityFields(final EntityManager em, final Location from, final LocationEntity to) {
+		to.setDescription(from.getDescription());
+		to.setAddress(addressMapper.convertApiToEntity(em, from.getAddress()));
+//		to.setSubLocationKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubLocations()));
 	}
 
-	/**
-	 *
-	 * @param from the entity item
-	 * @return the API item
-	 */
-	public static Location convertEntityToApi(final LocationEntity from) {
-		if (from == null) {
-			return null;
-		}
-		Location to = new Location();
-		MapperUtil.handleCommonEntityToApi(from, to);
+	@Override
+	public void copyEntityToApiFields(final EntityManager em, final LocationEntity from, final Location to) {
 		to.setDescription(from.getDescription());
-		to.setAddress(AddressMapper.convertEntityToApi(from.getAddress()));
-		to.setSubLocationKeys(MapperUtil.convertEntitiesToApiIDs(from.getSubLocations()));
-		return to;
+		to.setAddress(addressMapper.convertEntityToApi(em, from.getAddress()));
+		to.setSubLocationKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubLocations()));
+	}
+
+	@Override
+	protected Location createApiObject() {
+		return new Location();
+	}
+
+	@Override
+	protected LocationEntity createEntityObject(final Long id, final String businessKey) {
+		return new LocationEntity(id, businessKey);
 	}
 
 }

@@ -1,62 +1,52 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
+import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.common.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.entity.ContactEntity;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import com.github.bordertech.corpdir.jpa.v1.entity.LocationEntity;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link Contact} and {@link ContactEntity}.
  *
  * @author jonathan
  */
-public final class ContactMapper {
+public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, ContactEntity> {
 
-	/**
-	 * Private constructor to prevent instantiation.
-	 */
-	private ContactMapper() {
-		// prevent instatiation
+	private final AddressMapper addressMapper = new AddressMapper();
+	private final ChannelMapper channelMapper = new ChannelMapper();
+
+	@Override
+	public void copyApiToEntityFields(final EntityManager em, final Contact from, final ContactEntity to) {
+		to.setCompanyTitle(from.getCompanyTitle());
+		to.setFirstName(from.getFirstName());
+		to.setLastName(from.getLastName());
+		to.setAddress(addressMapper.convertApiToEntity(em, from.getAddress()));
+		LocationEntity location = MapperUtil.getEntity(em, from.getLocationKey(), LocationEntity.class);
+		to.setLocation(location);
+//		to.setChannels(channelMapper.convertEntitiesToApis(em, from.getChannels()));
 	}
 
-	/**
-	 *
-	 * @param from the entity item
-	 * @return the API item
-	 */
-	public static Contact convertEntityToApi(final ContactEntity from) {
-		if (from == null) {
-			return null;
-		}
-		Contact to = new Contact();
-		MapperUtil.handleCommonEntityToApi(from, to);
+	@Override
+	public void copyEntityToApiFields(final EntityManager em, final ContactEntity from, final Contact to) {
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
 		to.setHasImage(from.getImage() != null);
-		to.setAddress(AddressMapper.convertEntityToApi(from.getAddress()));
-		to.setLocationKey(MapperUtil.getEntityBusinessKey(from));
-		to.setChannels(ChannelMapper.convertEntitiesToApis(from.getChannels()));
-		return to;
+		to.setAddress(addressMapper.convertEntityToApi(em, from.getAddress()));
+		to.setLocationKey(MapperUtil.getEntityBusinessKey(from.getLocation()));
+		to.setChannels(channelMapper.convertEntitiesToApis(em, from.getChannels()));
 	}
 
-	/**
-	 * @param rows the list of entity items
-	 * @return the list of converted API items
-	 */
-	public static List<Contact> convertEntitiesToApis(final Collection<ContactEntity> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
+	@Override
+	protected Contact createApiObject() {
+		return new Contact();
+	}
 
-		List<Contact> items = new ArrayList<>();
-		for (ContactEntity row : rows) {
-			items.add(convertEntityToApi(row));
-		}
-		return items;
+	@Override
+	protected ContactEntity createEntityObject(final Long id, final String businessKey) {
+		return new ContactEntity(id, businessKey);
 	}
 
 }

@@ -1,12 +1,12 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.api.common.ApiObject;
+import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -39,7 +39,7 @@ public final class MapperUtil {
 	 * @param entity the entity
 	 * @return the business key
 	 */
-	public static String getEntityBusinessKey(final PersistentObject entity) {
+	public static String getEntityBusinessKey(final PersistentKeyIdObject entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -92,7 +92,7 @@ public final class MapperUtil {
 	 * @param from the persistent entity
 	 * @param to the API object
 	 */
-	public static void handleCommonEntityToApi(final PersistentObject from, final ApiObject to) {
+	public static void handleCommonKeyedEntityToApi(final PersistentKeyIdObject from, final ApiKeyIdObject to) {
 		to.setId(convertEntityIdforApi(from.getId()));
 		to.setBusinessKey(from.getBusinessKey());
 		to.setCustom(from.isCustom());
@@ -106,7 +106,7 @@ public final class MapperUtil {
 	 * @param from the API object
 	 * @param to the persistent entity
 	 */
-	public static void handleCommonApiToEntity(final ApiObject from, final PersistentObject to) {
+	public static void handleCommonKeyedApiToEntity(final ApiKeyIdObject from, final PersistentKeyIdObject to) {
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
 		Timestamp tmsp = from.getVersion() == null ? null : new Timestamp(from.getVersion().getTime());
@@ -114,17 +114,17 @@ public final class MapperUtil {
 	}
 
 	/**
-	 * Convert {@link Set} of {@link PersistentObject} to {@link List} of {@link String}.
+	 * Convert {@link Collection} of {@link PersistentKeyIdObject} to {@link List} of {@link String}.
 	 *
 	 * @param rows the list of entity items
-	 * @return the list of converted API ids
+	 * @return the list of converted API Keys
 	 */
-	public static List<String> convertEntitiesToApiIDs(final Set<? extends PersistentObject> rows) {
+	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistentKeyIdObject> rows) {
 		if (rows == null || rows.isEmpty()) {
 			return Collections.EMPTY_LIST;
 		}
 		List<String> items = new ArrayList<>();
-		for (PersistentObject row : rows) {
+		for (PersistentKeyIdObject row : rows) {
 			items.add(convertEntityIdforApi(row.getId()));
 		}
 		return items;
@@ -137,7 +137,7 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistentObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+	public static <T extends PersistentKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
 		T entity;
 		if (isEntityId(keyId)) {
 			Long id = convertApiIdforEntity(keyId);
@@ -164,7 +164,7 @@ public final class MapperUtil {
 	 * @param api the API object
 	 * @param entity the entity object
 	 */
-	public static void checkIdentifiersMatch(final ApiObject api, final PersistentObject entity) {
+	public static void checkIdentifiersMatch(final ApiKeyIdObject api, final PersistentKeyIdObject entity) {
 		Long id = convertApiIdforEntity(api.getId());
 		// Check ids
 		if (!Objects.equals(id, entity.getId())) {
@@ -182,7 +182,7 @@ public final class MapperUtil {
 	 *
 	 * @param api the API object
 	 */
-	public static void checkApiIDsForCreate(final ApiObject api) {
+	public static void checkApiIDsForCreate(final ApiKeyIdObject api) {
 		// Check business key
 		String key = api.getBusinessKey();
 		if (key == null || key.isEmpty()) {

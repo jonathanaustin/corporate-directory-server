@@ -29,6 +29,9 @@ import javax.persistence.criteria.Root;
 @Singleton
 public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeService {
 
+	private final OrgUnitMapper orgUnitMapper = new OrgUnitMapper();
+	private final UnitTypeMapper unitTypeMapper = new UnitTypeMapper();
+
 	@Override
 	public ServiceResponse<List<UnitType>> getUnitTypes(final String search) {
 		EntityManager em = getEntityManager();
@@ -41,7 +44,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.select(from);
 
 			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
-			List<UnitType> data = UnitTypeMapper.convertEntitiesToApis(rows);
+			List<UnitType> data = unitTypeMapper.convertEntitiesToApis(em, rows);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -61,7 +64,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.where(cb.equal(from.get("type"), type));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
-			List<OrgUnit> data = OrgUnitMapper.convertEntitiesToApis(rows);
+			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, rows);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -73,7 +76,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 		EntityManager em = getEntityManager();
 		try {
 			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
-			UnitType data = UnitTypeMapper.convertEntityToApi(entity);
+			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -90,11 +93,11 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			if (other != null) {
 				throw new ServiceException("A unit type already exists with business key [" + type.getBusinessKey() + "].");
 			}
-			UnitTypeEntity entity = UnitTypeMapper.convertApiToEntity(type);
+			UnitTypeEntity entity = unitTypeMapper.convertApiToEntity(em, type);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-			UnitType data = UnitTypeMapper.convertEntityToApi(entity);
+			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
@@ -108,10 +111,10 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			em.getTransaction().begin();
 			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
 			MapperUtil.checkIdentifiersMatch(type, entity);
-			UnitTypeMapper.copyApiToEntity(type, entity);
+			unitTypeMapper.copyApiToEntity(em, type, entity);
 			em.merge(entity);
 			em.getTransaction().commit();
-			UnitType data = UnitTypeMapper.convertEntityToApi(entity);
+			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
 			return new ServiceResponse<>(data);
 		} finally {
 			em.close();
