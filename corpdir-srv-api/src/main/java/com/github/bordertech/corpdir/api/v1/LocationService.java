@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface LocationService {
 
-	ServiceResponse<Location> getLocation(final String locationKeyId);
+	ServiceResponse<List<Location>> getLocations(final String search, final Boolean topLevel);
 
-	ServiceResponse<List<Location>> getSubLocations(final String locationKeyId);
+	ServiceResponse<Location> getLocation(final String locationKeyId);
 
 	ServiceResponse<Location> createLocation(final Location locationKeyId);
 
@@ -23,6 +23,10 @@ public interface LocationService {
 
 	ServiceBasicResponse deleteLocation(final String locationKeyId);
 
-	ServiceBasicResponse assignLocationToLocation(final String locationKeyId, final String parentLocationKeyId);
+	ServiceResponse<List<Location>> getSubLocations(final String locationKeyId);
+
+	ServiceResponse<Location> addSubLocation(final String locationKeyId, final String subLocationKeyId);
+
+	ServiceResponse<Location> removeSubLocation(final String locationKeyId, final String subLocationKeyId);
 
 }

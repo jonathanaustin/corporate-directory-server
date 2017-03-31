@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface ContactService {
 
+	ServiceResponse<List<Contact>> getContacts(final String search, final Boolean assigned);
+
 	ServiceResponse<Contact> getContact(final String contactKeyId);
 
 	ServiceResponse<Contact> createContact(final Contact contact);
@@ -24,14 +26,16 @@ public interface ContactService {
 
 	ServiceResponse<byte[]> getContactImage(final String contactKeyId);
 
-	ServiceResponse<byte[]> getContactThumbnail(final String contactKeyId);
-
 	ServiceBasicResponse deleteContactImage(final String contactKeyId);
 
-	ServiceBasicResponse updateContactImage(final String contactKeyId, final byte[] image);
+	ServiceBasicResponse setContactImage(final String contactKeyId, final byte[] image);
 
-	ServiceResponse<List<Contact>> searchContacts(final String searchText, final Boolean assigned);
+	ServiceResponse<byte[]> getContactThumbnail(final String contactKeyId);
 
-	ServiceResponse<List<Position>> getAssignedPositions(final String contactKeyId);
+	ServiceBasicResponse deleteContactThumbnail(final String contactKeyId);
+
+	ServiceBasicResponse setContactThumbnail(final String contactKeyId, final byte[] image);
+
+	ServiceResponse<List<Position>> getPositions(final String contactKeyId);
 
 }

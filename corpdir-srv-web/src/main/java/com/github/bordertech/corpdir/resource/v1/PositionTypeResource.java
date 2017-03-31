@@ -44,14 +44,6 @@ public class PositionTypeResource implements PositionTypeService {
 	}
 
 	@GET
-	@Path("/{key}/positions")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public ServiceResponse<List<Position>> getPositions(@PathParam("key") final String typeKeyId) {
-		return impl.getPositions(typeKeyId);
-	}
-
-	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -80,6 +72,14 @@ public class PositionTypeResource implements PositionTypeService {
 	@Override
 	public ServiceBasicResponse deletePositionType(@PathParam("key") final String typeKeyId) {
 		return impl.deletePositionType(typeKeyId);
+	}
+
+	@GET
+	@Path("/{key}/positions")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public ServiceResponse<List<Position>> getPositions(@PathParam("key") final String typeKeyId) {
+		return impl.getPositions(typeKeyId);
 	}
 
 }

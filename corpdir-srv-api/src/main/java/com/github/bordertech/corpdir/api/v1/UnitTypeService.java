@@ -16,8 +16,6 @@ public interface UnitTypeService {
 
 	ServiceResponse<List<UnitType>> getUnitTypes(final String search);
 
-	ServiceResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId);
-
 	ServiceResponse<UnitType> getUnitType(final String typeKeyId);
 
 	ServiceResponse<UnitType> createUnitType(final UnitType type);
@@ -25,5 +23,7 @@ public interface UnitTypeService {
 	ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type);
 
 	ServiceBasicResponse deleteUnitType(final String typeKeyId);
+
+	ServiceResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId);
 
 }

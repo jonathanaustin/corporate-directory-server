@@ -29,8 +29,8 @@ import javax.persistence.criteria.Root;
 @Singleton
 public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeService {
 
-	private final OrgUnitMapper orgUnitMapper = new OrgUnitMapper();
-	private final UnitTypeMapper unitTypeMapper = new UnitTypeMapper();
+	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
+	private static final UnitTypeMapper UNITTYPE_MAPPER = new UnitTypeMapper();
 
 	@Override
 	public ServiceResponse<List<UnitType>> getUnitTypes(final String search) {
@@ -44,8 +44,68 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.select(from);
 
 			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
-			List<UnitType> data = unitTypeMapper.convertEntitiesToApis(em, rows);
-			return new ServiceResponse<>(data);
+			List<UnitType> list = UNITTYPE_MAPPER.convertEntitiesToApis(em, rows);
+			return new ServiceResponse<>(list);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<UnitType> getUnitType(final String typeKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
+			return buildResponse(em, entity);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
+		EntityManager em = getEntityManager();
+		try {
+			MapperUtil.checkApiIDsForCreate(type);
+			// Check business key does not exist
+			UnitTypeEntity other = MapperUtil.getEntity(em, type.getBusinessKey(), UnitTypeEntity.class);
+			if (other != null) {
+				throw new ServiceException("A unit type already exists with business key [" + type.getBusinessKey() + "].");
+			}
+			UnitTypeEntity entity = UNITTYPE_MAPPER.convertApiToEntity(em, type);
+			em.getTransaction().begin();
+			em.persist(entity);
+			em.getTransaction().commit();
+			return buildResponse(em, entity);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
+			MapperUtil.checkIdentifiersMatch(type, entity);
+			UNITTYPE_MAPPER.copyApiToEntity(em, type, entity);
+			em.getTransaction().commit();
+			return buildResponse(em, entity);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceBasicResponse deleteUnitType(final String typeKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
+			em.remove(entity);
+			em.getTransaction().commit();
+			return new ServiceBasicResponse();
 		} finally {
 			em.close();
 		}
@@ -64,75 +124,22 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.where(cb.equal(from.get("type"), type));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
-			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, rows);
-			return new ServiceResponse<>(data);
+			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);
+			return new ServiceResponse<>(list);
 		} finally {
 			em.close();
 		}
 	}
 
-	@Override
-	public ServiceResponse<UnitType> getUnitType(final String typeKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
-			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
-		EntityManager em = getEntityManager();
-		try {
-			MapperUtil.checkApiIDsForCreate(type);
-			// Check business key does not exist
-			UnitTypeEntity other = MapperUtil.getEntity(em, type.getBusinessKey(), UnitTypeEntity.class);
-			if (other != null) {
-				throw new ServiceException("A unit type already exists with business key [" + type.getBusinessKey() + "].");
-			}
-			UnitTypeEntity entity = unitTypeMapper.convertApiToEntity(em, type);
-			em.getTransaction().begin();
-			em.persist(entity);
-			em.getTransaction().commit();
-			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type) {
-		EntityManager em = getEntityManager();
-		try {
-			em.getTransaction().begin();
-			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
-			MapperUtil.checkIdentifiersMatch(type, entity);
-			unitTypeMapper.copyApiToEntity(em, type, entity);
-			em.merge(entity);
-			em.getTransaction().commit();
-			UnitType data = unitTypeMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceBasicResponse deleteUnitType(final String typeKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			em.getTransaction().begin();
-			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
-			em.remove(entity);
-			em.getTransaction().commit();
-			return new ServiceBasicResponse();
-		} finally {
-			em.close();
-		}
+	/**
+	 *
+	 * @param em the entity manager
+	 * @param entity the unit type entity
+	 * @return the service response with unit type API object
+	 */
+	protected ServiceResponse<UnitType> buildResponse(final EntityManager em, final UnitTypeEntity entity) {
+		UnitType data = UNITTYPE_MAPPER.convertEntityToApi(em, entity);
+		return new ServiceResponse<>(data);
 	}
 
 	/**

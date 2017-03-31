@@ -16,8 +16,6 @@ public interface PositionTypeService {
 
 	ServiceResponse<List<PositionType>> getPositionTypes(final String search);
 
-	ServiceResponse<List<Position>> getPositions(final String typeKeyId);
-
 	ServiceResponse<PositionType> getPositionType(final String typeKeyId);
 
 	ServiceResponse<PositionType> createPositionType(final PositionType type);
@@ -25,5 +23,7 @@ public interface PositionTypeService {
 	ServiceResponse<PositionType> updatePositionType(final String typeKeyId, final PositionType type);
 
 	ServiceBasicResponse deletePositionType(final String typeKeyId);
+
+	ServiceResponse<List<Position>> getPositions(final String typeKeyId);
 
 }

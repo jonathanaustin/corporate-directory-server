@@ -29,11 +29,11 @@ import javax.persistence.criteria.Root;
 @Singleton
 public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitService {
 
-	private final OrgUnitMapper orgUnitMapper = new OrgUnitMapper();
-	private final PositionMapper positionMapper = new PositionMapper();
+	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
+	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
 
 	@Override
-	public ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topOnly) {
+	public ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topLevel) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -44,8 +44,8 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			qry.select(from);
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
-			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, rows);
-			return new ServiceResponse<>(data);
+			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);
+			return new ServiceResponse<>(list);
 		} finally {
 			em.close();
 		}
@@ -56,44 +56,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			List<OrgUnit> data = orgUnitMapper.convertEntitiesToApis(em, entity.getSubOrgUnits());
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceResponse<List<Position>> getAssignedPositions(final String orgUnitKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			List<Position> data = positionMapper.convertEntitiesToApis(em, entity.getPositions());
-			return new ServiceResponse<>(data);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public ServiceResponse<Position> getOrgUnitManager(final String orgUnitKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			Position data = positionMapper.convertEntityToApi(em, entity.getManagerPosition());
-			return new ServiceResponse<>(data);
+			return buildResponse(em, entity);
 		} finally {
 			em.close();
 		}
@@ -109,12 +72,11 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			if (other != null) {
 				throw new ServiceException("An org unit already exists with business key [" + orgUnit.getBusinessKey() + "].");
 			}
-			OrgUnitEntity entity = orgUnitMapper.convertApiToEntity(em, orgUnit);
+			OrgUnitEntity entity = ORGUNIT_MAPPER.convertApiToEntity(em, orgUnit);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
-			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
+			return buildResponse(em, entity);
 		} finally {
 			em.close();
 		}
@@ -127,11 +89,9 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			em.getTransaction().begin();
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
 			MapperUtil.checkIdentifiersMatch(orgUnit, entity);
-			orgUnitMapper.copyApiToEntity(em, orgUnit, entity);
-			em.merge(entity);
+			ORGUNIT_MAPPER.copyApiToEntity(em, orgUnit, entity);
 			em.getTransaction().commit();
-			OrgUnit data = orgUnitMapper.convertEntityToApi(em, entity);
-			return new ServiceResponse<>(data);
+			return buildResponse(em, entity);
 		} finally {
 			em.close();
 		}
@@ -152,32 +112,72 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 	}
 
 	@Override
-	public ServiceBasicResponse assignOrgUnitToOrgUnit(final String orgUnitKeyId, final String parentOrgUnitKeyId) {
+	public ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId) {
 		EntityManager em = getEntityManager();
 		try {
-			em.getTransaction().begin();
-			// Get the org unit
-			OrgUnitEntity orgUnit = getOrgUnitEntity(em, orgUnitKeyId);
-			// Get the new parent entity
-			OrgUnitEntity parent = getOrgUnitEntity(em, parentOrgUnitKeyId);
-			// Remove Org Unit from its OLD parent (if it had one)
-			OrgUnitEntity oldParent = orgUnit.getParentOrgUnit();
-			if (oldParent != null) {
-				oldParent.removeSubOrgUnit(orgUnit);
-				em.merge(oldParent);
-			}
-			// Add to the new parent
-			parent.addSubOrgUnit(orgUnit);
-			em.merge(parent);
-			em.getTransaction().commit();
-			return new ServiceBasicResponse();
+			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
+			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, entity.getSubOrgUnits());
+			return new ServiceResponse<>(list);
 		} finally {
 			em.close();
 		}
 	}
 
 	@Override
-	public ServiceBasicResponse assignPosition(final String orgUnitKeyId, final String positionKeyId) {
+	public ServiceResponse<OrgUnit> addSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			// Get the org unit
+			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
+			// Get the sub org unit
+			OrgUnitEntity subOrgUnit = getOrgUnitEntity(em, subOrgUnitKeyId);
+			// Remove Sub Org Unit from its OLD parent (if it had one)
+			OrgUnitEntity oldParent = subOrgUnit.getParentOrgUnit();
+			if (oldParent != null) {
+				oldParent.removeSubOrgUnit(subOrgUnit);
+			}
+			// Add to the new parent
+			entity.addSubOrgUnit(subOrgUnit);
+			em.getTransaction().commit();
+			return buildResponse(em, entity);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<OrgUnit> removeSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			// Get the org unit
+			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
+			// Get the sub org unit
+			OrgUnitEntity subOrgUnit = getOrgUnitEntity(em, subOrgUnitKeyId);
+			// Remove the sub org unit
+			entity.removeSubOrgUnit(subOrgUnit);
+			em.getTransaction().commit();
+			return buildResponse(em, entity);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<List<Position>> getPositions(final String orgUnitKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
+			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, entity.getPositions());
+			return new ServiceResponse<>(list);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public ServiceResponse<OrgUnit> addPosition(final String orgUnitKeyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -191,16 +191,15 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			}
 			// Add the position to the org unit
 			orgUnit.addPosition(position);
-			em.merge(orgUnit);
 			em.getTransaction().commit();
-			return new ServiceBasicResponse();
+			return buildResponse(em, orgUnit);
 		} finally {
 			em.close();
 		}
 	}
 
 	@Override
-	public ServiceBasicResponse unassignPosition(final String orgUnitKeyId, final String positionKeyId) {
+	public ServiceResponse<OrgUnit> removePosition(final String orgUnitKeyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -210,12 +209,34 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			PositionEntity position = getPositionEntity(em, positionKeyId);
 			// Remove the position from the org unit
 			orgUnit.removePosition(position);
-			em.merge(orgUnit);
 			em.getTransaction().commit();
-			return new ServiceBasicResponse();
+			return buildResponse(em, orgUnit);
 		} finally {
 			em.close();
 		}
+	}
+
+	@Override
+	public ServiceResponse<Position> getManagerPosition(final String orgUnitKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
+			Position data = POSITION_MAPPER.convertEntityToApi(em, entity.getManagerPosition());
+			return new ServiceResponse<>(data);
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
+	 *
+	 * @param em the entity manager
+	 * @param entity the org unit entity
+	 * @return the service response with org unit API object
+	 */
+	protected ServiceResponse<OrgUnit> buildResponse(final EntityManager em, final OrgUnitEntity entity) {
+		OrgUnit data = ORGUNIT_MAPPER.convertEntityToApi(em, entity);
+		return new ServiceResponse<>(data);
 	}
 
 	/**

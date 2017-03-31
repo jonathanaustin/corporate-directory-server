@@ -14,15 +14,9 @@ import java.util.List;
  */
 public interface OrgUnitService {
 
-	ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topOnly);
+	ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topLevel);
 
 	ServiceResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId);
-
-	ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
-
-	ServiceResponse<List<Position>> getAssignedPositions(final String orgUnitKeyId);
-
-	ServiceResponse<Position> getOrgUnitManager(final String orgUnitKeyId);
 
 	ServiceResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit);
 
@@ -30,10 +24,18 @@ public interface OrgUnitService {
 
 	ServiceBasicResponse deleteOrgUnit(final String orgUnitKeyId);
 
-	ServiceBasicResponse assignOrgUnitToOrgUnit(final String orgUnitKeyId, final String parentOrgUnitKeyId);
+	ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
 
-	ServiceBasicResponse assignPosition(final String orgUnitKeyId, final String positionKeyId);
+	ServiceResponse<OrgUnit> addSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
 
-	ServiceBasicResponse unassignPosition(final String orgUnitKeyId, final String positionKeyId);
+	ServiceResponse<OrgUnit> removeSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
+
+	ServiceResponse<List<Position>> getPositions(final String orgUnitKeyId);
+
+	ServiceResponse<OrgUnit> addPosition(final String orgUnitKeyId, final String positionKeyId);
+
+	ServiceResponse<OrgUnit> removePosition(final String orgUnitKeyId, final String positionKeyId);
+
+	ServiceResponse<Position> getManagerPosition(final String orgUnitKeyId);
 
 }

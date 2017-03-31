@@ -15,13 +15,9 @@ import java.util.List;
  */
 public interface PositionService {
 
+	ServiceResponse<List<Position>> getPositions(final String search, final Boolean assigned);
+
 	ServiceResponse<Position> getPosition(final String positionKeyId);
-
-	ServiceResponse<List<Position>> getReportPositions(final String positionKeyId);
-
-	ServiceResponse<List<Contact>> getAssignedContacts(final String positionKeyId);
-
-	ServiceResponse<List<OrgUnit>> getManagesOrgUnits(final String positionKeyId);
 
 	ServiceResponse<Position> createPosition(final Position position);
 
@@ -29,10 +25,18 @@ public interface PositionService {
 
 	ServiceBasicResponse deletePosition(final String positionKeyId);
 
-	ServiceBasicResponse assignContact(final String positionKeyId, final String contactKeyId);
+	ServiceResponse<List<Contact>> getContacts(final String positionKeyId);
 
-	ServiceBasicResponse unassignContact(final String positionKeyId, final String contactKeyId);
+	ServiceResponse<Position> addContact(final String positionKeyId, final String contactKeyId);
 
-	ServiceBasicResponse assignPositionToPosition(final String positionKeyId, final String reportToPositionKeyId);
+	ServiceResponse<Position> removeContact(final String positionKeyId, final String contactKeyId);
+
+	ServiceResponse<List<Position>> getReports(final String positionKeyId);
+
+	ServiceResponse<Position> addReport(final String positionKeyId, final String reportPositionKeyId);
+
+	ServiceResponse<Position> removeReport(final String positionKeyId, final String reportPositionKeyId);
+
+	ServiceResponse<List<OrgUnit>> getManages(final String positionKeyId);
 
 }

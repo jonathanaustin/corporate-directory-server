@@ -44,14 +44,6 @@ public class UnitTypeResource implements UnitTypeService {
 	}
 
 	@GET
-	@Path("/{key}/units")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public ServiceResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
-		return impl.getOrgUnits(typeKeyId);
-	}
-
-	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
@@ -80,6 +72,14 @@ public class UnitTypeResource implements UnitTypeService {
 	@Override
 	public ServiceBasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
 		return impl.deleteUnitType(typeKeyId);
+	}
+
+	@GET
+	@Path("/{key}/units")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public ServiceResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
+		return impl.getOrgUnits(typeKeyId);
 	}
 
 }
