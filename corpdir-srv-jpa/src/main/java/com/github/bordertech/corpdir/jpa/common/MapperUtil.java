@@ -117,7 +117,7 @@ public final class MapperUtil {
 	 * Convert {@link Collection} of {@link PersistentKeyIdObject} to {@link List} of {@link String}.
 	 *
 	 * @param rows the list of entity items
-	 * @return the list of converted API Keys
+	 * @return the list of converted API business keys
 	 */
 	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistentKeyIdObject> rows) {
 		if (rows == null || rows.isEmpty()) {
@@ -125,7 +125,7 @@ public final class MapperUtil {
 		}
 		List<String> items = new ArrayList<>();
 		for (PersistentKeyIdObject row : rows) {
-			items.add(convertEntityIdforApi(row.getId()));
+			items.add(row.getBusinessKey());
 		}
 		return items;
 	}
@@ -138,22 +138,53 @@ public final class MapperUtil {
 	 * @return the entity
 	 */
 	public static <T extends PersistentKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
-		T entity;
+		if (keyId == null) {
+			return null;
+		}
 		if (isEntityId(keyId)) {
 			Long id = convertApiIdforEntity(keyId);
-			entity = em.find(clazz, id);
+			return getEntityById(em, id, clazz);
 		} else {
-			CriteriaBuilder cb = em.getCriteriaBuilder();
+			return getEntityByBusinessKey(em, keyId, clazz);
+		}
+	}
 
-			CriteriaQuery<T> qry = cb.createQuery(clazz);
-			Root<T> from = qry.from(clazz);
-			qry.select(from);
-			qry.where(cb.equal(from.get("businessKey"), keyId));
-			try {
-				entity = em.createQuery(qry).getSingleResult();
-			} catch (NoResultException e) {
-				entity = null;
-			}
+	/**
+	 * @param em the entity manager
+	 * @param id the record id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistentKeyIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
+		if (id == null) {
+			return null;
+		}
+		T entity = em.find(clazz, id);
+		return entity;
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param businessKey the key or API id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistentKeyIdObject> T getEntityByBusinessKey(final EntityManager em, final String businessKey, final Class<T> clazz) {
+		if (businessKey == null) {
+			return null;
+		}
+		T entity;
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<T> qry = cb.createQuery(clazz);
+		Root<T> from = qry.from(clazz);
+		qry.select(from);
+		qry.where(cb.equal(from.get("businessKey"), businessKey));
+		try {
+			entity = em.createQuery(qry).getSingleResult();
+		} catch (NoResultException e) {
+			entity = null;
 		}
 		return entity;
 	}
@@ -194,6 +225,21 @@ public final class MapperUtil {
 		// Ignore ID and version
 		api.setId(null);
 		api.setVersion(null);
+	}
+
+	/**
+	 * Check if two collection of keys match.
+	 *
+	 * @param keys1 set of keys
+	 * @param keys2 set of keys
+	 * @return true if collection of keys match
+	 */
+	public static boolean keysMatch(final Collection<String> keys1, final Collection<String> keys2) {
+		// Treat Null and Empty as the same
+		if ((keys1 == null || keys1.isEmpty()) && (keys2 == null || keys2.isEmpty())) {
+			return true;
+		}
+		return (keys1 != null && keys2 != null && keys1.size() == keys2.size() && keys1.containsAll(keys2));
 	}
 
 }
