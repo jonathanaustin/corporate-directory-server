@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface PositionTypeService {
 
-	ServiceResponse<List<PositionType>> getPositionTypes();
+	ServiceResponse<List<PositionType>> getPositionTypes(final String search);
 
 	ServiceResponse<List<Position>> getPositions(final String typeKeyId);
 
