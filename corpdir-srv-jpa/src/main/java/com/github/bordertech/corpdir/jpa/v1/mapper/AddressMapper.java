@@ -15,8 +15,8 @@ public class AddressMapper extends AbstractApiEntityMapper<Address, AddressEntit
 	@Override
 	public void copyApiToEntity(final EntityManager em, final Address from, final AddressEntity to) {
 		to.setWorkStation(from.getWorkStation());
-		to.setAddressLine1(from.getAddressLine1());
-		to.setAddressLine2(from.getAddressLine2());
+		to.setLine1(from.getLine1());
+		to.setLine2(from.getLine2());
 		to.setCountry(from.getCountry());
 		to.setPostcode(from.getPostcode());
 		to.setState(from.getState());
@@ -26,8 +26,8 @@ public class AddressMapper extends AbstractApiEntityMapper<Address, AddressEntit
 	@Override
 	public void copyEntityToApi(final EntityManager em, final AddressEntity from, final Address to) {
 		to.setWorkStation(from.getWorkStation());
-		to.setAddressLine1(from.getAddressLine1());
-		to.setAddressLine2(from.getAddressLine2());
+		to.setLine1(from.getLine1());
+		to.setLine2(from.getLine2());
 		to.setCountry(from.getCountry());
 		to.setPostcode(from.getPostcode());
 		to.setState(from.getState());

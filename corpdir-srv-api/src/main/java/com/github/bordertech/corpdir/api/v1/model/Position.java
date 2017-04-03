@@ -14,10 +14,10 @@ public class Position extends AbstractApiKeyIdObject {
 
 	private String description;
 	private String typeKey;
-	private String belongsToOrgUnitKey;
-	private String reportsToPositionKey;
-	private List<String> reportPositionKeys;
-	private List<String> managesOrgUnitKeys;
+	private String ouKey;
+	private String parentKey;
+	private List<String> subKeys;
+	private List<String> manageOuKeys;
 	private List<String> contactKeys;
 
 	/**
@@ -56,67 +56,67 @@ public class Position extends AbstractApiKeyIdObject {
 	 *
 	 * @return the org unit key the position belongs to
 	 */
-	public String getBelongsToOrgUnitKey() {
-		return belongsToOrgUnitKey;
+	public String getOuKey() {
+		return ouKey;
 	}
 
 	/**
 	 *
-	 * @param belongsToOrgUnitKey the org unit key the position belongs to
+	 * @param ouKey the org unit key the position belongs to
 	 */
-	public void setBelongsToOrgUnitKey(final String belongsToOrgUnitKey) {
-		this.belongsToOrgUnitKey = belongsToOrgUnitKey;
+	public void setOuKey(final String ouKey) {
+		this.ouKey = ouKey;
 	}
 
 	/**
 	 * @return the position key this position reports to
 	 */
-	public String getReportsToPositionKey() {
-		return reportsToPositionKey;
+	public String getParentKey() {
+		return parentKey;
 	}
 
 	/**
-	 * @param reportsToPositionKey the position key this position reports to
+	 * @param parentKey the position key this position reports to
 	 */
-	public void setReportsToPositionKey(final String reportsToPositionKey) {
-		this.reportsToPositionKey = reportsToPositionKey;
+	public void setParentKey(final String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 	/**
 	 *
 	 * @return the position key that report to this position
 	 */
-	public List<String> getReportPositionKeys() {
-		if (reportPositionKeys == null) {
-			reportPositionKeys = new ArrayList<>();
+	public List<String> getSubKeys() {
+		if (subKeys == null) {
+			subKeys = new ArrayList<>();
 		}
-		return reportPositionKeys;
+		return subKeys;
 	}
 
 	/**
-	 * @param reportPositionKeys the position keys that report to this position
+	 * @param subKeys the position keys that report to this position
 	 */
-	public void setReportPositionKeys(final List<String> reportPositionKeys) {
-		this.reportPositionKeys = reportPositionKeys;
+	public void setSubKeys(final List<String> subKeys) {
+		this.subKeys = subKeys;
 	}
 
 	/**
 	 *
 	 * @return the org unit keys this position manages
 	 */
-	public List<String> getManagesOrgUnitKeys() {
-		if (managesOrgUnitKeys == null) {
-			managesOrgUnitKeys = new ArrayList<>();
+	public List<String> getManageOuKeys() {
+		if (manageOuKeys == null) {
+			manageOuKeys = new ArrayList<>();
 		}
-		return managesOrgUnitKeys;
+		return manageOuKeys;
 	}
 
 	/**
 	 *
-	 * @param managesOrgUnitKeys the org unit keys this position manages
+	 * @param manageOuKeys the org unit keys this position manages
 	 */
-	public void setManagesOrgUnitKeys(final List<String> managesOrgUnitKeys) {
-		this.managesOrgUnitKeys = managesOrgUnitKeys;
+	public void setManageOuKeys(final List<String> manageOuKeys) {
+		this.manageOuKeys = manageOuKeys;
 	}
 
 	/**

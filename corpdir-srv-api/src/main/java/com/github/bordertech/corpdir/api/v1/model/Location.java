@@ -14,8 +14,8 @@ public class Location extends AbstractApiKeyIdObject {
 
 	private String description;
 	private Address address;
-	private String parentLocationKey;
-	private List<String> subLocationKeys;
+	private String parentKey;
+	private List<String> subKeys;
 
 	/**
 	 *
@@ -53,34 +53,34 @@ public class Location extends AbstractApiKeyIdObject {
 	 *
 	 * @return the parent location key or null if no parent
 	 */
-	public String getParentLocationKey() {
-		return parentLocationKey;
+	public String getParentKey() {
+		return parentKey;
 	}
 
 	/**
-	 * @param parentLocationKey the parent location id
+	 * @param parentKey the parent location id
 	 */
-	public void setParentLocationKey(final String parentLocationKey) {
-		this.parentLocationKey = parentLocationKey;
+	public void setParentKey(final String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 	/**
 	 *
 	 * @return the list of sub location keys
 	 */
-	public List<String> getSubLocationKeys() {
-		if (subLocationKeys == null) {
-			subLocationKeys = new ArrayList<>();
+	public List<String> getSubKeys() {
+		if (subKeys == null) {
+			subKeys = new ArrayList<>();
 		}
-		return subLocationKeys;
+		return subKeys;
 	}
 
 	/**
 	 *
-	 * @param subLocationKeys the list of sub locations
+	 * @param subKeys the list of sub locations
 	 */
-	public void setSubLocationKeys(final List<String> subLocationKeys) {
-		this.subLocationKeys = subLocationKeys;
+	public void setSubKeys(final List<String> subKeys) {
+		this.subKeys = subKeys;
 	}
 
 }

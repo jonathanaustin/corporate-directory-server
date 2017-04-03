@@ -28,13 +28,13 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
 		to.setDescription(from.getDescription());
-		if (from.getBelongsToOrgUnit() != null) {
-			Long id = from.getBelongsToOrgUnit().getId();
-			to.setBelongsToOrgUnitKey(MapperUtil.convertEntityIdforApi(id));
+		if (from.getOrgUnit() != null) {
+			Long id = from.getOrgUnit().getId();
+			to.setOuKey(MapperUtil.convertEntityIdforApi(id));
 		}
 		to.setContactKeys(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
-		to.setManagesOrgUnitKeys(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
-		to.setReportPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getReportPositions()));
+		to.setManageOuKeys(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
+		to.setSubKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubPositions()));
 	}
 
 	@Override

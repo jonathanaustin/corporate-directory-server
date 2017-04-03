@@ -11,7 +11,7 @@ import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
 public class PositionType extends AbstractApiKeyIdObject {
 
 	private String description;
-	private int typeLevel;
+	private int level;
 
 	/**
 	 *
@@ -33,16 +33,16 @@ public class PositionType extends AbstractApiKeyIdObject {
 	 *
 	 * @return the position level
 	 */
-	public int getTypeLevel() {
-		return typeLevel;
+	public int getLevel() {
+		return level;
 	}
 
 	/**
 	 *
-	 * @param typeLevel the position level
+	 * @param level the position level
 	 */
-	public void setTypeLevel(final int typeLevel) {
-		this.typeLevel = typeLevel;
+	public void setLevel(final int level) {
+		this.level = level;
 	}
 
 }

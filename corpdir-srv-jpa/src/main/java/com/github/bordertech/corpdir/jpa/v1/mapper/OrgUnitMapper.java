@@ -20,8 +20,8 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 	protected void copyApiToEntityFields(final EntityManager em, final OrgUnit from, final OrgUnitEntity to) {
 		to.setDescription(from.getDescription());
 		to.setType(getUnitTypeEntity(em, from.getTypeKey()));
-		to.setManagerPosition(getPositionEntity(em, from.getManagerPositionKey()));
-		to.setParentOrgUnit(getOrgUnitEntity(em, from.getParentOrgUnitKey()));
+		to.setManagerPosition(getPositionEntity(em, from.getManagerPosKey()));
+		to.setParentOrgUnit(getOrgUnitEntity(em, from.getParentKey()));
 
 		// Positions
 		List<String> prevIds = MapperUtil.convertEntitiesToApiKeys(to.getPositions());
@@ -45,7 +45,7 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 
 		// Sub Org Units
 		prevIds = MapperUtil.convertEntitiesToApiKeys(to.getSubOrgUnits());
-		newIds = from.getSubOrgUnitKeys();
+		newIds = from.getSubKeys();
 		if (!MapperUtil.keysMatch(newIds, prevIds)) {
 			// Removed Sub OU
 			for (String id : prevIds) {
@@ -69,10 +69,10 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 	protected void copyEntityToApiFields(final EntityManager em, final OrgUnitEntity from, final OrgUnit to) {
 		to.setDescription(from.getDescription());
 		to.setTypeKey(MapperUtil.getEntityBusinessKey(from.getType()));
-		to.setManagerPositionKey(MapperUtil.getEntityBusinessKey(from.getManagerPosition()));
-		to.setParentOrgUnitKey(MapperUtil.getEntityBusinessKey(from.getParentOrgUnit()));
+		to.setManagerPosKey(MapperUtil.getEntityBusinessKey(from.getManagerPosition()));
+		to.setParentKey(MapperUtil.getEntityBusinessKey(from.getParentOrgUnit()));
 		to.setPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
-		to.setSubOrgUnitKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubOrgUnits()));
+		to.setSubKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubOrgUnits()));
 	}
 
 	@Override

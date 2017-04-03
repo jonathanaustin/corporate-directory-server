@@ -165,7 +165,7 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 			positions = new HashSet<>();
 		}
 		positions.add(position);
-		position.setBelongsToOrgUnit(this);
+		position.setOrgUnit(this);
 	}
 
 	/**
@@ -178,7 +178,7 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 		if (positions != null) {
 			positions.remove(position);
 		}
-		position.setBelongsToOrgUnit(null);
+		position.setOrgUnit(null);
 	}
 
 }

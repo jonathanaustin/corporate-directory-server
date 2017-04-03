@@ -26,7 +26,7 @@ public class LocationMapper extends AbstractKeyIdApiEntityMapper<Location, Locat
 	public void copyEntityToApiFields(final EntityManager em, final LocationEntity from, final Location to) {
 		to.setDescription(from.getDescription());
 		to.setAddress(addressMapper.convertEntityToApi(em, from.getAddress()));
-		to.setSubLocationKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubLocations()));
+		to.setSubKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubLocations()));
 	}
 
 	@Override

@@ -15,13 +15,13 @@ public class PositionTypeMapper extends AbstractKeyIdApiEntityMapper<PositionTyp
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final PositionType from, final PositionTypeEntity to) {
 		to.setDescription(from.getDescription());
-		to.setTypeLevel(from.getTypeLevel());
+		to.setTypeLevel(from.getLevel());
 	}
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final PositionTypeEntity from, final PositionType to) {
 		to.setDescription(from.getDescription());
-		to.setTypeLevel(from.getTypeLevel());
+		to.setLevel(from.getTypeLevel());
 	}
 
 	@Override

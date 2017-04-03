@@ -186,8 +186,8 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
 			// Remove it from the old org unit (if had one)
-			if (position.getBelongsToOrgUnit() != null) {
-				position.getBelongsToOrgUnit().removePosition(position);
+			if (position.getOrgUnit() != null) {
+				position.getOrgUnit().removePosition(position);
 			}
 			// Add the position to the org unit
 			orgUnit.addPosition(position);

@@ -25,16 +25,16 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	private PositionTypeEntity type;
 
 	@ManyToOne
-	@JoinColumn(name = "reportToPosition_Id")
-	private PositionEntity reportToPosition;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reportToPosition")
-	private Set<PositionEntity> reportPositions;
+	@JoinColumn(name = "parentPosition_Id")
+	private PositionEntity parentPosition;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentPosition")
+	private Set<PositionEntity> subPositions;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrgUnitEntity> manageOrgUnits;
 
 	@ManyToOne
-	private OrgUnitEntity belongsToOrgUnit;
+	private OrgUnitEntity orgUnit;
 
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<ContactEntity> contacts;
@@ -91,23 +91,23 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 * @return the position this position reports to
 	 */
-	public PositionEntity getReportToPosition() {
-		return reportToPosition;
+	public PositionEntity getParentPosition() {
+		return parentPosition;
 	}
 
 	/**
-	 * @param reportToPosition the position this position reports to
+	 * @param parentPosition the position this position reports to
 	 */
-	public void setReportToPosition(final PositionEntity reportToPosition) {
-		this.reportToPosition = reportToPosition;
+	public void setParentPosition(final PositionEntity parentPosition) {
+		this.parentPosition = parentPosition;
 	}
 
 	/**
 	 *
 	 * @return the positions that report to this position
 	 */
-	public Set<PositionEntity> getReportPositions() {
-		return reportPositions;
+	public Set<PositionEntity> getSubPositions() {
+		return subPositions;
 	}
 
 	/**
@@ -115,12 +115,12 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	 *
 	 * @param position the position to add
 	 */
-	public void addReportPosition(final PositionEntity position) {
-		if (reportPositions == null) {
-			reportPositions = new HashSet<>();
+	public void addSubPosition(final PositionEntity position) {
+		if (subPositions == null) {
+			subPositions = new HashSet<>();
 		}
-		reportPositions.add(position);
-		position.setReportToPosition(this);
+		subPositions.add(position);
+		position.setParentPosition(this);
 	}
 
 	/**
@@ -128,11 +128,11 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	 *
 	 * @param position the position to remove
 	 */
-	public void removeReportPosition(final PositionEntity position) {
-		if (reportPositions != null) {
-			reportPositions.remove(position);
+	public void removeSubPosition(final PositionEntity position) {
+		if (subPositions != null) {
+			subPositions.remove(position);
 		}
-		position.setReportToPosition(null);
+		position.setParentPosition(null);
 	}
 
 	/**
@@ -205,16 +205,16 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	 *
 	 * @return the org unit this position belongs to
 	 */
-	public OrgUnitEntity getBelongsToOrgUnit() {
-		return belongsToOrgUnit;
+	public OrgUnitEntity getOrgUnit() {
+		return orgUnit;
 	}
 
 	/**
 	 *
-	 * @param belongsToOrgUnit the org unit this position belongs to
+	 * @param orgUnit the org unit this position belongs to
 	 */
-	public void setBelongsToOrgUnit(final OrgUnitEntity belongsToOrgUnit) {
-		this.belongsToOrgUnit = belongsToOrgUnit;
+	public void setOrgUnit(final OrgUnitEntity orgUnit) {
+		this.orgUnit = orgUnit;
 	}
 
 }

@@ -11,8 +11,8 @@ import com.github.bordertech.corpdir.api.common.ApiObject;
 public class Address implements ApiObject {
 
 	private String workStation;
-	private String addressLine1;
-	private String addressLine2;
+	private String line1;
+	private String line2;
 	private String suburb;
 	private String state;
 	private String postcode;
@@ -38,32 +38,32 @@ public class Address implements ApiObject {
 	 *
 	 * @return address line 1
 	 */
-	public String getAddressLine1() {
-		return addressLine1;
+	public String getLine1() {
+		return line1;
 	}
 
 	/**
 	 *
-	 * @param addressLine1 address line 1
+	 * @param line1 address line 1
 	 */
-	public void setAddressLine1(final String addressLine1) {
-		this.addressLine1 = addressLine1;
+	public void setLine1(final String line1) {
+		this.line1 = line1;
 	}
 
 	/**
 	 *
 	 * @return address line 2
 	 */
-	public String getAddressLine2() {
-		return addressLine2;
+	public String getLine2() {
+		return line2;
 	}
 
 	/**
 	 *
-	 * @param addressLine2 address line 2
+	 * @param line2 address line 2
 	 */
-	public void setAddressLine2(final String addressLine2) {
-		this.addressLine2 = addressLine2;
+	public void setLine2(final String line2) {
+		this.line2 = line2;
 	}
 
 	/**

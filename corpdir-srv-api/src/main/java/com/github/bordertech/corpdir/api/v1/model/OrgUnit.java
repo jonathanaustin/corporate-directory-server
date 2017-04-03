@@ -14,9 +14,9 @@ public class OrgUnit extends AbstractApiKeyIdObject {
 
 	private String description;
 	private String typeKey;
-	private String managerPositionKey;
-	private String parentOrgUnitKey;
-	private List<String> subOrgUnitKeys;
+	private String managerPosKey;
+	private String parentKey;
+	private List<String> subKeys;
 	private List<String> positionKeys;
 
 	/**
@@ -55,51 +55,51 @@ public class OrgUnit extends AbstractApiKeyIdObject {
 	 *
 	 * @return the manager position key
 	 */
-	public String getManagerPositionKey() {
-		return managerPositionKey;
+	public String getManagerPosKey() {
+		return managerPosKey;
 	}
 
 	/**
 	 *
-	 * @param managerPositionKey the manager position key
+	 * @param managerPosKey the manager position key
 	 */
-	public void setManagerPositionKey(final String managerPositionKey) {
-		this.managerPositionKey = managerPositionKey;
+	public void setManagerPosKey(final String managerPosKey) {
+		this.managerPosKey = managerPosKey;
 	}
 
 	/**
 	 *
 	 * @return the parent org unit key or null if no parent
 	 */
-	public String getParentOrgUnitKey() {
-		return parentOrgUnitKey;
+	public String getParentKey() {
+		return parentKey;
 	}
 
 	/**
 	 *
-	 * @param parentOrgUnitKey the parent org unit key
+	 * @param parentKey the parent org unit key
 	 */
-	public void setParentOrgUnitKey(final String parentOrgUnitKey) {
-		this.parentOrgUnitKey = parentOrgUnitKey;
+	public void setParentKey(final String parentKey) {
+		this.parentKey = parentKey;
 	}
 
 	/**
 	 *
 	 * @return the list of sub org unit keys
 	 */
-	public List<String> getSubOrgUnitKeys() {
-		if (subOrgUnitKeys == null) {
-			subOrgUnitKeys = new ArrayList<>();
+	public List<String> getSubKeys() {
+		if (subKeys == null) {
+			subKeys = new ArrayList<>();
 		}
-		return subOrgUnitKeys;
+		return subKeys;
 	}
 
 	/**
 	 *
-	 * @param subOrgUnitKeys the list of sub org unit keys
+	 * @param subKeys the list of sub org unit keys
 	 */
-	public void setSubOrgUnitKeys(final List<String> subOrgUnitKeys) {
-		this.subOrgUnitKeys = subOrgUnitKeys;
+	public void setSubKeys(final List<String> subKeys) {
+		this.subKeys = subKeys;
 	}
 
 	/**
