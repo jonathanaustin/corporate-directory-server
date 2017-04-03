@@ -2,8 +2,8 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
-import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import javax.persistence.EntityManager;
 
 /**

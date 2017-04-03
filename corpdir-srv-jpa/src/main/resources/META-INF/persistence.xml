@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
-	<persistence-unit name="persist-unit" transaction-type="RESOURCE_LOCAL">
-		<!-- All persistence classes must be listed -->
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.ChannelEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.ContactEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.ImageEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.LocationEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.OrgUnitEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.PositionTypeEntity</class>
-		<class>com.github.bordertech.corpdir.jpa.v1.entity.UnitTypeEntity</class>
-	</persistence-unit>
+  <persistence-unit name="persist-unit" transaction-type="RESOURCE_LOCAL">
+    <!-- All persistence classes must be listed -->
+    <class>com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.LocationEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.ChannelEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.ImageEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.PositionEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.ContactEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity</class>
+  </persistence-unit>
 </persistence>

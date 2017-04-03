@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.util;
 
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;

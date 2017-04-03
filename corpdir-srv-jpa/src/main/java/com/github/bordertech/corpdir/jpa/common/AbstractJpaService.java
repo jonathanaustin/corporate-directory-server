@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
+import com.github.bordertech.corpdir.jpa.util.EmfUtil;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 

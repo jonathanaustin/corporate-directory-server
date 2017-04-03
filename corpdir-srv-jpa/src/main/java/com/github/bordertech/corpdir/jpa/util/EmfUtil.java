@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.util;
 
 import java.io.InputStream;
 import java.util.Properties;

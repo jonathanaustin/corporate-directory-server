@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
-import com.github.bordertech.corpdir.jpa.v1.entity.UnitTypeEntity;
+import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import javax.persistence.EntityManager;
 
 /**

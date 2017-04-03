@@ -2,9 +2,9 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
-import com.github.bordertech.corpdir.jpa.v1.entity.ContactEntity;
-import com.github.bordertech.corpdir.jpa.v1.entity.LocationEntity;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
+import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import javax.persistence.EntityManager;
 
 /**

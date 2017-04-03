@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa.v1.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 /**
  * Type of channel communication.

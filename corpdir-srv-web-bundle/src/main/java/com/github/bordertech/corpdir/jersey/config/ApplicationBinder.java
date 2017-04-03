@@ -3,9 +3,9 @@ package com.github.bordertech.corpdir.jersey.config;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
-import com.github.bordertech.corpdir.jpa.v1.OrgUnitServiceImpl;
-import com.github.bordertech.corpdir.jpa.v1.PositionTypeServiceImpl;
-import com.github.bordertech.corpdir.jpa.v1.UnitTypeServiceImpl;
+import com.github.bordertech.corpdir.jpa.v1.api.OrgUnitServiceImpl;
+import com.github.bordertech.corpdir.jpa.v1.api.PositionTypeServiceImpl;
+import com.github.bordertech.corpdir.jpa.v1.api.UnitTypeServiceImpl;
 import javax.inject.Singleton;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 

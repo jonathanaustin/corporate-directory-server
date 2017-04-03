@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa.v1;
+package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
@@ -8,9 +8,9 @@ import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
-import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.v1.entity.PositionTypeEntity;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionTypeMapper;
 import java.util.List;

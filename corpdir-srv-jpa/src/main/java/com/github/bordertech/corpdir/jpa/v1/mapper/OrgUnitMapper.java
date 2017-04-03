@@ -2,10 +2,10 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
-import com.github.bordertech.corpdir.jpa.common.MapperUtil;
-import com.github.bordertech.corpdir.jpa.v1.entity.OrgUnitEntity;
-import com.github.bordertech.corpdir.jpa.v1.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.v1.entity.UnitTypeEntity;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
+import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 

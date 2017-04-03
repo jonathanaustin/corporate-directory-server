@@ -1,25 +1,26 @@
-package com.github.bordertech.corpdir.jpa.v1.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Organization unit type.
+ * Position type.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 @Entity
-@Table(name = "UnitType")
-public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
+@Table(name = "PositionType")
+public class PositionTypeEntity extends AbstractPersistentKeyIdObject {
 
 	private String description;
+	private int typeLevel;
 
 	/**
 	 * Default constructor.
 	 */
-	protected UnitTypeEntity() {
+	protected PositionTypeEntity() {
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
 	 * @param id the entity id
 	 * @param businessKey the business key.
 	 */
-	public UnitTypeEntity(final Long id, final String businessKey) {
+	public PositionTypeEntity(final Long id, final String businessKey) {
 		super(id, businessKey);
 	}
 
@@ -45,6 +46,22 @@ public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setDescription(final String description) {
 		this.description = description;
+	}
+
+	/**
+	 *
+	 * @return the position level
+	 */
+	public int getTypeLevel() {
+		return typeLevel;
+	}
+
+	/**
+	 *
+	 * @param typeLevel the position level
+	 */
+	public void setTypeLevel(final int typeLevel) {
+		this.typeLevel = typeLevel;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jpa.v1.entity;
+package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
 import java.util.HashSet;

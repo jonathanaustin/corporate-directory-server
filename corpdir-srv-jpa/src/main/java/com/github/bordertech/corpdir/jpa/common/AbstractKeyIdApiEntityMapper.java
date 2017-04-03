@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jpa.common;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
