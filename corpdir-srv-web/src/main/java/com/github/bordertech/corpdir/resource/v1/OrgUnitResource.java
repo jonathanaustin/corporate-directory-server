@@ -107,7 +107,7 @@ public class OrgUnitResource implements OrgUnitService {
 	}
 
 	@PUT
-	@Path("/{key}/orgunits/{positionKey}")
+	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<OrgUnit> addPosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
@@ -115,7 +115,7 @@ public class OrgUnitResource implements OrgUnitService {
 	}
 
 	@DELETE
-	@Path("/{key}/orgunits/{positionKey}")
+	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<OrgUnit> removePosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
@@ -123,7 +123,7 @@ public class OrgUnitResource implements OrgUnitService {
 	}
 
 	@GET
-	@Path("/{key}/manager")
+	@Path("/{key}/managers")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public ServiceResponse<Position> getManagerPosition(@PathParam("key") final String orgUnitKeyId) {
