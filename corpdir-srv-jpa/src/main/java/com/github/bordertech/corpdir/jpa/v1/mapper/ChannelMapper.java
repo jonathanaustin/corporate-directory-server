@@ -15,7 +15,8 @@ public class ChannelMapper extends AbstractKeyIdApiEntityMapper<Channel, Channel
 
 	@Override
 	public void copyApiToEntityFields(final EntityManager em, final Channel from, final ChannelEntity to) {
-		to.setChannelValue(from.getChannelValue());
+		to.setChannelValue(from.getValue());
+		// Type
 		if (from.getType() != null) {
 			switch (from.getType()) {
 				case EMAIL:
@@ -36,7 +37,7 @@ public class ChannelMapper extends AbstractKeyIdApiEntityMapper<Channel, Channel
 
 	@Override
 	public void copyEntityToApiFields(final EntityManager em, final ChannelEntity from, final Channel to) {
-		to.setChannelValue(from.getChannelValue());
+		to.setValue(from.getChannelValue());
 		if (from.getType() != null) {
 			switch (from.getType()) {
 				case EMAIL:

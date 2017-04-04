@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.util;
 
-import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -229,6 +229,17 @@ public final class MapperUtil {
 	}
 
 	/**
+	 * Check if keys match.
+	 *
+	 * @param key1 entity key
+	 * @param key2 entity key
+	 * @return true if keys are equal
+	 */
+	public static boolean keyMatch(final String key1, final String key2) {
+		return Objects.equals(key1, key2);
+	}
+
+	/**
 	 * Check if two collection of keys match.
 	 *
 	 * @param keys1 set of keys
@@ -241,6 +252,50 @@ public final class MapperUtil {
 			return true;
 		}
 		return (keys1 != null && keys2 != null && keys1.size() == keys2.size() && keys1.containsAll(keys2));
+	}
+
+	/**
+	 * Return the Keys that have been removed from the original collection.
+	 *
+	 * @param origKeys collection of original keys
+	 * @param newKeys collection of new keys
+	 * @return list of keys no longer in the original collection
+	 */
+	public static List<String> keysRemoved(final Collection<String> origKeys, final Collection<String> newKeys) {
+		// All Keys new (ie none removed)
+		if (origKeys == null || origKeys.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
+		// All keys removed
+		if (newKeys == null || newKeys.isEmpty()) {
+			return new ArrayList<>(origKeys);
+		}
+		// Check for those removed
+		List<String> copy = new ArrayList<>(origKeys);
+		copy.removeAll(newKeys);
+		return copy;
+	}
+
+	/**
+	 * Return the Keys that have been added since the original collection.
+	 *
+	 * @param origKeys collection of original keys
+	 * @param newKeys collection of new keys
+	 * @return list of keys added to the original collection
+	 */
+	public static List<String> keysAdded(final Collection<String> origKeys, final Collection<String> newKeys) {
+		// No Keys added
+		if (newKeys == null || newKeys.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
+		// All Keys new (ie all added)
+		if (origKeys == null || origKeys.isEmpty()) {
+			return new ArrayList<>(newKeys);
+		}
+		// Check for those added
+		List<String> copy = new ArrayList<>(newKeys);
+		copy.removeAll(origKeys);
+		return copy;
 	}
 
 }

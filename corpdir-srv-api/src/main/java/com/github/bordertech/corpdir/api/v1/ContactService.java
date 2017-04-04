@@ -2,6 +2,7 @@ package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
 import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import java.util.List;
@@ -35,6 +36,8 @@ public interface ContactService {
 	ServiceBasicResponse deleteContactThumbnail(final String contactKeyId);
 
 	ServiceBasicResponse setContactThumbnail(final String contactKeyId, final byte[] image);
+
+	ServiceResponse<List<Channel>> getChannels(final String contactKeyId);
 
 	ServiceResponse<List<Position>> getPositions(final String contactKeyId);
 

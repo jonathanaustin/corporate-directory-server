@@ -1,10 +1,14 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
+import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
-import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
+import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
@@ -14,18 +18,47 @@ import javax.persistence.EntityManager;
  */
 public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, ContactEntity> {
 
-	private final AddressMapper addressMapper = new AddressMapper();
-	private final ChannelMapper channelMapper = new ChannelMapper();
+	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
+	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
 
 	@Override
 	public void copyApiToEntityFields(final EntityManager em, final Contact from, final ContactEntity to) {
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
-		to.setAddress(addressMapper.convertApiToEntity(em, from.getAddress()));
-		LocationEntity location = MapperUtil.getEntity(em, from.getLocationKey(), LocationEntity.class);
-		to.setLocation(location);
-//		to.setChannels(channelMapper.convertEntitiesToApis(em, from.getChannels()));
+		to.setAddress(ADDRESS_MAPPER.convertApiToEntity(em, from.getAddress()));
+
+		// Location
+		String origId = MapperUtil.getEntityBusinessKey(to.getLocation());
+		String newId = from.getLocationKey();
+		if (!MapperUtil.keyMatch(origId, newId)) {
+			to.setLocation(getLocationEntity(em, newId));
+		}
+
+		// Positions
+		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getPositions());
+		List<String> newIds = from.getPositionKeys();
+		if (!MapperUtil.keysMatch(origIds, newIds)) {
+			// Removed
+			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
+				PositionEntity pos = getPositionEntity(em, id);
+				to.removePosition(pos);
+			}
+			// Added
+			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
+				PositionEntity pos = getPositionEntity(em, id);
+				to.addPosition(pos);
+			}
+		}
+
+		// Channels
+		// Clear all channels and re-add (Use cascade delete, update, insert)
+		to.getChannels().clear();
+		for (Channel channel : from.getChannels()) {
+			ChannelEntity entity = CHANNEL_MAPPER.convertApiToEntity(em, channel);
+			to.addChannel(entity);
+		}
+
 	}
 
 	@Override
@@ -34,9 +67,13 @@ public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, Contact
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
 		to.setHasImage(from.getImage() != null);
-		to.setAddress(addressMapper.convertEntityToApi(em, from.getAddress()));
+		to.setAddress(ADDRESS_MAPPER.convertEntityToApi(em, from.getAddress()));
+		// Location
 		to.setLocationKey(MapperUtil.getEntityBusinessKey(from.getLocation()));
-		to.setChannels(channelMapper.convertEntitiesToApis(em, from.getChannels()));
+		// Positions
+		to.setPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
+		// Channels
+		to.setChannels(CHANNEL_MAPPER.convertEntitiesToApis(em, from.getChannels()));
 	}
 
 	@Override
@@ -47,6 +84,14 @@ public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, Contact
 	@Override
 	protected ContactEntity createEntityObject(final Long id, final String businessKey) {
 		return new ContactEntity(id, businessKey);
+	}
+
+	protected LocationEntity getLocationEntity(final EntityManager em, final String keyId) {
+		return MapperUtil.getEntity(em, keyId, LocationEntity.class);
+	}
+
+	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
+		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
 	}
 
 }
