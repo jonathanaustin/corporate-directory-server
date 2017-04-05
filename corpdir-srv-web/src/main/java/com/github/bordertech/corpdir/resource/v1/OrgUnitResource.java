@@ -70,7 +70,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse deleteOrgUnit(final String orgUnitKeyId) {
+	public BasicResponse deleteOrgUnit(@PathParam("key") final String orgUnitKeyId) {
 		return impl.deleteOrgUnit(orgUnitKeyId);
 	}
 
