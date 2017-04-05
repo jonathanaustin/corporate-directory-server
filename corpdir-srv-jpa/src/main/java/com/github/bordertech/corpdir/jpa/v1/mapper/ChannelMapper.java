@@ -62,8 +62,8 @@ public class ChannelMapper extends AbstractKeyIdApiEntityMapper<Channel, Channel
 	}
 
 	@Override
-	protected ChannelEntity createEntityObject(final Long id, final String businessKey) {
-		return new ChannelEntity(id, businessKey);
+	protected ChannelEntity createEntityObject(final Long id) {
+		return new ChannelEntity(id);
 	}
 
 }

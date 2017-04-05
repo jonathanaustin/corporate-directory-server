@@ -2,7 +2,6 @@ package com.github.bordertech.corpdir.jpa.common;
 
 import java.sql.Timestamp;
 import java.util.Objects;
-import java.util.UUID;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +21,7 @@ public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdOb
 	private Long id;
 
 	private String businessKey;
+	private String description;
 
 	private boolean active = true;
 	private boolean custom = true;
@@ -38,15 +38,9 @@ public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdOb
 
 	/**
 	 * @param id the entity id
-	 * @param businessKey the business key
 	 */
-	public AbstractPersistentKeyIdObject(final Long id, final String businessKey) {
+	public AbstractPersistentKeyIdObject(final Long id) {
 		this.id = id;
-		if (businessKey == null) {
-			this.businessKey = UUID.randomUUID().toString();
-		} else {
-			this.businessKey = businessKey;
-		}
 	}
 
 	@Override
@@ -57,6 +51,21 @@ public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdOb
 	@Override
 	public String getBusinessKey() {
 		return businessKey;
+	}
+
+	@Override
+	public void setBusinessKey(final String businessKey) {
+		this.businessKey = businessKey;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	@Override
@@ -107,12 +116,12 @@ public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdOb
 
 	@Override
 	public int hashCode() {
-		return businessKey.hashCode();
+		return id == null ? 31 : id.hashCode();
 	}
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj instanceof AbstractPersistentKeyIdObject && Objects.equals(businessKey, ((AbstractPersistentKeyIdObject) obj).businessKey);
+		return obj instanceof AbstractPersistentKeyIdObject && Objects.equals(id, ((AbstractPersistentKeyIdObject) obj).id);
 	}
 
 }

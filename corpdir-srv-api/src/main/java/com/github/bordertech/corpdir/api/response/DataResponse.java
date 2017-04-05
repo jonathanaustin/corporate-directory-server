@@ -7,11 +7,11 @@ package com.github.bordertech.corpdir.api.response;
  * @param <T> the data type in the response
  *
  */
-public class ServiceResponse<T> extends ServiceBasicResponse {
+public class DataResponse<T> extends BasicResponse {
 
 	private T data;
 
-	public ServiceResponse(final T data) {
+	public DataResponse(final T data) {
 		this.data = data;
 	}
 

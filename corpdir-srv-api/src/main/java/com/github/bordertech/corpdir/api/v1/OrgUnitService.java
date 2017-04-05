@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import java.util.List;
@@ -14,28 +14,28 @@ import java.util.List;
  */
 public interface OrgUnitService {
 
-	ServiceResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean topLevel);
+	DataResponse<List<OrgUnit>> getOrgUnits(final String search, final Boolean assigned);
 
-	ServiceResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId);
+	DataResponse<OrgUnit> getOrgUnit(final String orgUnitKeyId);
 
-	ServiceResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit);
+	DataResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit);
 
-	ServiceResponse<OrgUnit> updateOrgUnit(final String orgUnitKeyId, final OrgUnit orgUnit);
+	DataResponse<OrgUnit> updateOrgUnit(final String orgUnitKeyId, final OrgUnit orgUnit);
 
-	ServiceBasicResponse deleteOrgUnit(final String orgUnitKeyId);
+	BasicResponse deleteOrgUnit(final String orgUnitKeyId);
 
-	ServiceResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
+	DataResponse<List<OrgUnit>> getSubOrgUnits(final String orgUnitKeyId);
 
-	ServiceResponse<OrgUnit> addSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
+	DataResponse<OrgUnit> addSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
 
-	ServiceResponse<OrgUnit> removeSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
+	DataResponse<OrgUnit> removeSubOrgUnit(final String orgUnitKeyId, final String subOrgUnitKeyId);
 
-	ServiceResponse<List<Position>> getPositions(final String orgUnitKeyId);
+	DataResponse<List<Position>> getPositions(final String orgUnitKeyId);
 
-	ServiceResponse<OrgUnit> addPosition(final String orgUnitKeyId, final String positionKeyId);
+	DataResponse<OrgUnit> addPosition(final String orgUnitKeyId, final String positionKeyId);
 
-	ServiceResponse<OrgUnit> removePosition(final String orgUnitKeyId, final String positionKeyId);
+	DataResponse<OrgUnit> removePosition(final String orgUnitKeyId, final String positionKeyId);
 
-	ServiceResponse<Position> getManagerPosition(final String orgUnitKeyId);
+	DataResponse<Position> getManagerPosition(final String orgUnitKeyId);
 
 }

@@ -19,18 +19,17 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final Position from, final PositionEntity to) {
-		to.setDescription(from.getDescription());
 
 		// Type
-		String origId = MapperUtil.getEntityBusinessKey(to.getType());
-		String newId = from.getTypeKey();
+		String origId = MapperUtil.convertEntityIdforApi(to.getType());
+		String newId = from.getTypeId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			to.setType(getPositionTypeEntity(em, newId));
 		}
 
 		// Parent Position
-		origId = MapperUtil.getEntityBusinessKey(to.getParentPosition());
-		newId = from.getParentKey();
+		origId = MapperUtil.convertEntityIdforApi(to.getParentPosition());
+		newId = from.getParentId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig Parent
 			if (origId != null) {
@@ -45,8 +44,8 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 		}
 
 		// Belongs to OU
-		origId = MapperUtil.getEntityBusinessKey(to.getOrgUnit());
-		newId = from.getOuKey();
+		origId = MapperUtil.convertEntityIdforApi(to.getOrgUnit());
+		newId = from.getOuId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig OU
 			if (origId != null) {
@@ -62,7 +61,7 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 		// Sub Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getSubPositions());
-		List<String> newIds = from.getSubKeys();
+		List<String> newIds = from.getSubIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -78,7 +77,7 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 		// Contacts
 		origIds = MapperUtil.convertEntitiesToApiKeys(to.getContacts());
-		newIds = from.getContactKeys();
+		newIds = from.getContactIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -94,7 +93,7 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 		// Manages
 		origIds = MapperUtil.convertEntitiesToApiKeys(to.getManageOrgUnits());
-		newIds = from.getManageOuKeys();
+		newIds = from.getManageOuIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -112,15 +111,14 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
-		to.setDescription(from.getDescription());
 		// Key
-		to.setTypeKey(MapperUtil.getEntityBusinessKey(from.getType()));
-		to.setParentKey(MapperUtil.getEntityBusinessKey(from.getParentPosition()));
-		to.setOuKey(MapperUtil.getEntityBusinessKey(from.getOrgUnit()));
+		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
+		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParentPosition()));
+		to.setOuId(MapperUtil.convertEntityIdforApi(from.getOrgUnit()));
 		// Keys
-		to.setSubKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubPositions()));
-		to.setContactKeys(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
-		to.setManageOuKeys(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
+		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getSubPositions()));
+		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
+		to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
 	}
 
 	@Override
@@ -129,8 +127,8 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 	}
 
 	@Override
-	protected PositionEntity createEntityObject(final Long id, final String businessKey) {
-		return new PositionEntity(id, businessKey);
+	protected PositionEntity createEntityObject(final Long id) {
+		return new PositionEntity(id);
 	}
 
 	protected PositionTypeEntity getPositionTypeEntity(final EntityManager em, final String keyId) {

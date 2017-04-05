@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
@@ -15,30 +15,30 @@ import java.util.List;
  */
 public interface ContactService {
 
-	ServiceResponse<List<Contact>> getContacts(final String search, final Boolean assigned);
+	DataResponse<List<Contact>> getContacts(final String search, final Boolean assigned);
 
-	ServiceResponse<Contact> getContact(final String contactKeyId);
+	DataResponse<Contact> getContact(final String contactKeyId);
 
-	ServiceResponse<Contact> createContact(final Contact contact);
+	DataResponse<Contact> createContact(final Contact contact);
 
-	ServiceResponse<Contact> updateContact(final String contactKeyId, final Contact contact);
+	DataResponse<Contact> updateContact(final String contactKeyId, final Contact contact);
 
-	ServiceBasicResponse deleteContact(final String contactKeyId);
+	BasicResponse deleteContact(final String contactKeyId);
 
-	ServiceResponse<byte[]> getContactImage(final String contactKeyId);
+	DataResponse<byte[]> getContactImage(final String contactKeyId);
 
-	ServiceBasicResponse deleteContactImage(final String contactKeyId);
+	BasicResponse deleteContactImage(final String contactKeyId);
 
-	ServiceBasicResponse setContactImage(final String contactKeyId, final byte[] image);
+	BasicResponse setContactImage(final String contactKeyId, final byte[] image);
 
-	ServiceResponse<byte[]> getContactThumbnail(final String contactKeyId);
+	DataResponse<byte[]> getContactThumbnail(final String contactKeyId);
 
-	ServiceBasicResponse deleteContactThumbnail(final String contactKeyId);
+	BasicResponse deleteContactThumbnail(final String contactKeyId);
 
-	ServiceBasicResponse setContactThumbnail(final String contactKeyId, final byte[] image);
+	BasicResponse setContactThumbnail(final String contactKeyId, final byte[] image);
 
-	ServiceResponse<List<Channel>> getChannels(final String contactKeyId);
+	DataResponse<List<Channel>> getChannels(final String contactKeyId);
 
-	ServiceResponse<List<Position>> getPositions(final String contactKeyId);
+	DataResponse<List<Position>> getPositions(final String contactKeyId);
 
 }

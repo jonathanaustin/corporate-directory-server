@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import java.util.List;
 
@@ -13,20 +13,20 @@ import java.util.List;
  */
 public interface LocationService {
 
-	ServiceResponse<List<Location>> getLocations(final String search, final Boolean topLevel);
+	DataResponse<List<Location>> getLocations(final String search, final Boolean assigned);
 
-	ServiceResponse<Location> getLocation(final String locationKeyId);
+	DataResponse<Location> getLocation(final String locationKeyId);
 
-	ServiceResponse<Location> createLocation(final Location locationKeyId);
+	DataResponse<Location> createLocation(final Location locationKeyId);
 
-	ServiceResponse<Location> updateLocation(final String locationKeyId, final Location location);
+	DataResponse<Location> updateLocation(final String locationKeyId, final Location location);
 
-	ServiceBasicResponse deleteLocation(final String locationKeyId);
+	BasicResponse deleteLocation(final String locationKeyId);
 
-	ServiceResponse<List<Location>> getSubLocations(final String locationKeyId);
+	DataResponse<List<Location>> getSubLocations(final String locationKeyId);
 
-	ServiceResponse<Location> addSubLocation(final String locationKeyId, final String subLocationKeyId);
+	DataResponse<Location> addSubLocation(final String locationKeyId, final String subLocationKeyId);
 
-	ServiceResponse<Location> removeSubLocation(final String locationKeyId, final String subLocationKeyId);
+	DataResponse<Location> removeSubLocation(final String locationKeyId, final String subLocationKeyId);
 
 }

@@ -51,10 +51,9 @@ public class ContactEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public ContactEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public ContactEntity(final Long id) {
+		super(id);
 	}
 
 	/**

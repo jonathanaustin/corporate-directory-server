@@ -2,7 +2,6 @@ package com.github.bordertech.corpdir.jpa.util;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,18 +37,21 @@ public final class MapperUtil {
 	/**
 	 *
 	 * @param entity the entity
-	 * @return the business key
+	 * @return the API id format
 	 */
-	public static String getEntityBusinessKey(final PersistentKeyIdObject entity) {
+	public static String convertEntityIdforApi(final PersistentKeyIdObject entity) {
 		if (entity == null) {
 			return null;
 		}
-		return entity.getBusinessKey();
+		if (entity.getId() == null) {
+			throw new IllegalStateException("Entity does not have an ID.");
+		}
+		return convertEntityIdforApi(entity.getId());
 	}
 
 	/**
 	 *
-	 * @param id the entity id value
+	 * @param id the entity id
 	 * @return the API id format
 	 */
 	public static String convertEntityIdforApi(final Long id) {
@@ -94,8 +96,9 @@ public final class MapperUtil {
 	 * @param to the API object
 	 */
 	public static void handleCommonKeyedEntityToApi(final PersistentKeyIdObject from, final ApiKeyIdObject to) {
-		to.setId(convertEntityIdforApi(from.getId()));
+		to.setId(convertEntityIdforApi(from));
 		to.setBusinessKey(from.getBusinessKey());
+		to.setDescription(from.getDescription());
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
 		to.setVersion(from.getVersion());
@@ -108,10 +111,11 @@ public final class MapperUtil {
 	 * @param to the persistent entity
 	 */
 	public static void handleCommonKeyedApiToEntity(final ApiKeyIdObject from, final PersistentKeyIdObject to) {
+		to.setBusinessKey(from.getBusinessKey());
+		to.setDescription(from.getDescription());
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
-		Timestamp tmsp = from.getVersion() == null ? null : new Timestamp(from.getVersion().getTime());
-		to.setVersion(tmsp);
+		to.setVersion(from.getVersion());
 	}
 
 	/**
@@ -126,7 +130,7 @@ public final class MapperUtil {
 		}
 		List<String> items = new ArrayList<>();
 		for (PersistentKeyIdObject row : rows) {
-			items.add(row.getBusinessKey());
+			items.add(convertEntityIdforApi(row));
 		}
 		return items;
 	}
@@ -201,10 +205,6 @@ public final class MapperUtil {
 		// Check ids
 		if (!Objects.equals(id, entity.getId())) {
 			throw new IllegalStateException("IDs do not match [" + id + "] and [" + entity.getId() + "].");
-		}
-		// Check business keys
-		if (!Objects.equals(api.getBusinessKey(), entity.getBusinessKey())) {
-			throw new IllegalStateException("Business Keys do not match [" + api.getBusinessKey() + "] and [" + entity.getBusinessKey() + "].");
 		}
 		// TODO Maybe check version as well
 	}

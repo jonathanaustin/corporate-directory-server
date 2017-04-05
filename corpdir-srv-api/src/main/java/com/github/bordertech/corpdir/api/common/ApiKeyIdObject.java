@@ -17,6 +17,10 @@ public interface ApiKeyIdObject extends ApiObject {
 
 	public void setBusinessKey(final String businessKey);
 
+	public String getDescription();
+
+	public void setDescription(final String description);
+
 	public Timestamp getVersion();
 
 	public void setVersion(final Timestamp version);

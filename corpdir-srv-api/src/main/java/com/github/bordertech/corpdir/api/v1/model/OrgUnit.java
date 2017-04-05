@@ -12,113 +12,96 @@ import java.util.List;
  */
 public class OrgUnit extends AbstractApiKeyIdObject {
 
-	private String description;
-	private String typeKey;
-	private String managerPosKey;
-	private String parentKey;
-	private List<String> subKeys;
-	private List<String> positionKeys;
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+	private String typeId;
+	private String managerPosId;
+	private String parentId;
+	private List<String> subIds;
+	private List<String> positionIds;
 
 	/**
 	 *
 	 * @return the organization type key
 	 */
-	public String getTypeKey() {
-		return typeKey;
+	public String getTypeId() {
+		return typeId;
 	}
 
 	/**
 	 *
-	 * @param typeKey the organization type key
+	 * @param typeId the organization type key
 	 */
-	public void setTypeKey(final String typeKey) {
-		this.typeKey = typeKey;
+	public void setTypeId(final String typeId) {
+		this.typeId = typeId;
 	}
 
 	/**
 	 *
 	 * @return the manager position key
 	 */
-	public String getManagerPosKey() {
-		return managerPosKey;
+	public String getManagerPosId() {
+		return managerPosId;
 	}
 
 	/**
 	 *
-	 * @param managerPosKey the manager position key
+	 * @param managerPosId the manager position key
 	 */
-	public void setManagerPosKey(final String managerPosKey) {
-		this.managerPosKey = managerPosKey;
+	public void setManagerPosId(final String managerPosId) {
+		this.managerPosId = managerPosId;
 	}
 
 	/**
 	 *
 	 * @return the parent org unit key or null if no parent
 	 */
-	public String getParentKey() {
-		return parentKey;
+	public String getParentId() {
+		return parentId;
 	}
 
 	/**
 	 *
-	 * @param parentKey the parent org unit key
+	 * @param parentId the parent org unit key
 	 */
-	public void setParentKey(final String parentKey) {
-		this.parentKey = parentKey;
+	public void setParentId(final String parentId) {
+		this.parentId = parentId;
 	}
 
 	/**
 	 *
 	 * @return the list of sub org unit keys
 	 */
-	public List<String> getSubKeys() {
-		if (subKeys == null) {
-			subKeys = new ArrayList<>();
+	public List<String> getSubIds() {
+		if (subIds == null) {
+			subIds = new ArrayList<>();
 		}
-		return subKeys;
+		return subIds;
 	}
 
 	/**
 	 *
-	 * @param subKeys the list of sub org unit keys
+	 * @param subIds the list of sub org unit keys
 	 */
-	public void setSubKeys(final List<String> subKeys) {
-		this.subKeys = subKeys;
+	public void setSubIds(final List<String> subIds) {
+		this.subIds = subIds;
 	}
 
 	/**
 	 *
 	 * @return the position keys that belong to this org unit
 	 */
-	public List<String> getPositionKeys() {
-		if (positionKeys == null) {
-			positionKeys = new ArrayList<>();
+	public List<String> getPositionIds() {
+		if (positionIds == null) {
+			positionIds = new ArrayList<>();
 		}
-		return positionKeys;
+		return positionIds;
 	}
 
 	/**
 	 *
-	 * @param positionKeys the list of position keys that belong to this org unit
+	 * @param positionIds the list of position keys that belong to this org unit
 	 */
-	public void setPositionKeys(final List<String> positionKeys) {
-		this.positionKeys = positionKeys;
+	public void setPositionIds(final List<String> positionIds) {
+		this.positionIds = positionIds;
 	}
 
 }

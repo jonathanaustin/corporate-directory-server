@@ -14,12 +14,10 @@ public class UnitTypeMapper extends AbstractKeyIdApiEntityMapper<UnitType, UnitT
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final UnitType from, final UnitTypeEntity to) {
-		to.setDescription(from.getDescription());
 	}
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final UnitTypeEntity from, final UnitType to) {
-		to.setDescription(from.getDescription());
 	}
 
 	@Override
@@ -28,8 +26,8 @@ public class UnitTypeMapper extends AbstractKeyIdApiEntityMapper<UnitType, UnitT
 	}
 
 	@Override
-	protected UnitTypeEntity createEntityObject(final Long id, final String businessKey) {
-		return new UnitTypeEntity(id, businessKey);
+	protected UnitTypeEntity createEntityObject(final Long id) {
+		return new UnitTypeEntity(id);
 	}
 
 }

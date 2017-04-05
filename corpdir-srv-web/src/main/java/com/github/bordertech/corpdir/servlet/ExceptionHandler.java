@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.servlet;
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.ErrorDetail;
-import com.github.bordertech.corpdir.api.response.ServiceErrorResponse;
+import com.github.bordertech.corpdir.api.response.ErrorResponse;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
@@ -19,7 +19,7 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
 	@Override
 	public Response toResponse(final Throwable exception) {
 		ErrorDetail detail = createErrorDetail(exception);
-		ServiceErrorResponse resp = new ServiceErrorResponse(detail);
+		ErrorResponse resp = new ErrorResponse(detail);
 		return Response.status(detail.getStatus()).
 				entity(resp).
 				type("application/json").

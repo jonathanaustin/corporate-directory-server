@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author jonathan
  *
  */
-public class ServiceBasicResponse implements Serializable {
+public class BasicResponse implements Serializable {
 
 	private MetaData meta;
 

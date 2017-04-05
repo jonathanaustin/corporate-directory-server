@@ -2,15 +2,16 @@ package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
-import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
+import com.github.bordertech.corpdir.jpa.util.EmfUtil;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.UnitTypeMapper;
 import java.util.List;
@@ -33,26 +34,33 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	private static final UnitTypeMapper UNITTYPE_MAPPER = new UnitTypeMapper();
 
 	@Override
-	public ServiceResponse<List<UnitType>> getUnitTypes(final String search) {
+	public DataResponse<List<UnitType>> getUnitTypes(final String search) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaBuilder cb = em.getCriteriaBuilder();
 			CriteriaQuery<UnitTypeEntity> qry = cb.createQuery(UnitTypeEntity.class);
 
-			// TODO Implement Search criteria
 			Root<UnitTypeEntity> from = qry.from(UnitTypeEntity.class);
 			qry.select(from);
 
+			// Search
+			if (search != null && !search.isEmpty()) {
+				qry.where(EmfUtil.createSearchTextCriteria(cb, from, search));
+			}
+
+			// Order by
+			qry.orderBy(EmfUtil.getDefaultOrderBy(cb, from));
+
 			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
 			List<UnitType> list = UNITTYPE_MAPPER.convertEntitiesToApis(em, rows);
-			return new ServiceResponse<>(list);
+			return new DataResponse<>(list);
 		} finally {
 			em.close();
 		}
 	}
 
 	@Override
-	public ServiceResponse<UnitType> getUnitType(final String typeKeyId) {
+	public DataResponse<UnitType> getUnitType(final String typeKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
@@ -63,7 +71,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	}
 
 	@Override
-	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
+	public DataResponse<UnitType> createUnitType(final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
 			MapperUtil.checkApiIDsForCreate(type);
@@ -83,7 +91,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	}
 
 	@Override
-	public ServiceResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type) {
+	public DataResponse<UnitType> updateUnitType(final String typeKeyId, final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -98,21 +106,21 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	}
 
 	@Override
-	public ServiceBasicResponse deleteUnitType(final String typeKeyId) {
+	public BasicResponse deleteUnitType(final String typeKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
 			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
 			em.remove(entity);
 			em.getTransaction().commit();
-			return new ServiceBasicResponse();
+			return new BasicResponse();
 		} finally {
 			em.close();
 		}
 	}
 
 	@Override
-	public ServiceResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId) {
+	public DataResponse<List<OrgUnit>> getOrgUnits(final String typeKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			UnitTypeEntity type = getUnitTypeEntity(em, typeKeyId);
@@ -123,9 +131,11 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.select(from);
 			qry.where(cb.equal(from.get("type"), type));
 
+			qry.orderBy(cb.asc(from.get("description")));
+
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
 			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);
-			return new ServiceResponse<>(list);
+			return new DataResponse<>(list);
 		} finally {
 			em.close();
 		}
@@ -137,9 +147,9 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	 * @param entity the unit type entity
 	 * @return the service response with unit type API object
 	 */
-	protected ServiceResponse<UnitType> buildResponse(final EntityManager em, final UnitTypeEntity entity) {
+	protected DataResponse<UnitType> buildResponse(final EntityManager em, final UnitTypeEntity entity) {
 		UnitType data = UNITTYPE_MAPPER.convertEntityToApi(em, entity);
-		return new ServiceResponse<>(data);
+		return new DataResponse<>(data);
 	}
 
 	/**

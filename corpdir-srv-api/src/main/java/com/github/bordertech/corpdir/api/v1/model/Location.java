@@ -12,26 +12,9 @@ import java.util.List;
  */
 public class Location extends AbstractApiKeyIdObject {
 
-	private String description;
 	private Address address;
-	private String parentKey;
-	private List<String> subKeys;
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+	private String parentId;
+	private List<String> subIds;
 
 	/**
 	 *
@@ -53,34 +36,34 @@ public class Location extends AbstractApiKeyIdObject {
 	 *
 	 * @return the parent location key or null if no parent
 	 */
-	public String getParentKey() {
-		return parentKey;
+	public String getParentId() {
+		return parentId;
 	}
 
 	/**
-	 * @param parentKey the parent location id
+	 * @param parentId the parent location id
 	 */
-	public void setParentKey(final String parentKey) {
-		this.parentKey = parentKey;
+	public void setParentId(final String parentId) {
+		this.parentId = parentId;
 	}
 
 	/**
 	 *
 	 * @return the list of sub location keys
 	 */
-	public List<String> getSubKeys() {
-		if (subKeys == null) {
-			subKeys = new ArrayList<>();
+	public List<String> getSubIds() {
+		if (subIds == null) {
+			subIds = new ArrayList<>();
 		}
-		return subKeys;
+		return subIds;
 	}
 
 	/**
 	 *
-	 * @param subKeys the list of sub locations
+	 * @param subIds the list of sub locations
 	 */
-	public void setSubKeys(final List<String> subKeys) {
-		this.subKeys = subKeys;
+	public void setSubIds(final List<String> subIds) {
+		this.subIds = subIds;
 	}
 
 }

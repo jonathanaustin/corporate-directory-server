@@ -6,11 +6,11 @@ package com.github.bordertech.corpdir.api.response;
  * @author jonathan
  *
  */
-public class ServiceErrorResponse extends ServiceBasicResponse {
+public class ErrorResponse extends BasicResponse {
 
 	private ErrorDetail error;
 
-	public ServiceErrorResponse(final ErrorDetail data) {
+	public ErrorResponse(final ErrorDetail data) {
 		this.error = data;
 	}
 

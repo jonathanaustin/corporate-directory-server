@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
+import com.github.bordertech.corpdir.jpa.util.EmfUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,28 +19,36 @@ public class LocationMapper extends AbstractKeyIdApiEntityMapper<Location, Locat
 
 	@Override
 	public void copyApiToEntityFields(final EntityManager em, final Location from, final LocationEntity to) {
-		to.setDescription(from.getDescription());
+
+		boolean root = EmfUtil.isRootLocation(to);
+
 		to.setAddress(ADDRESS_MAPPER.convertApiToEntity(em, from.getAddress()));
 
-		// Parent Location
-		String origId = MapperUtil.getEntityBusinessKey(to.getParentLocation());
-		String newId = from.getParentKey();
-		if (!MapperUtil.keyMatch(origId, newId)) {
-			// Remove from Orig Parent
-			if (origId != null) {
-				LocationEntity loc = getLocationEntity(em, origId);
-				loc.removeSubLocation(to);
-			}
-			// Add to New Parent
-			if (newId != null) {
-				LocationEntity loc = getLocationEntity(em, newId);
-				loc.addSubLocation(to);
+		// Parent Location - (Never changes for ROOT)
+		if (!root) {
+			String origId = MapperUtil.convertEntityIdforApi(to.getParentLocation());
+			String newId = from.getParentId();
+			if (!MapperUtil.keyMatch(origId, newId)) {
+				// Remove from Orig Parent
+				if (origId != null) {
+					LocationEntity loc = getLocationEntity(em, origId);
+					loc.removeSubLocation(to);
+				}
+				// Add to New Parent
+				if (newId != null) {
+					LocationEntity loc = getLocationEntity(em, newId);
+					loc.addSubLocation(to);
+				}
 			}
 		}
 
 		// Sub Locations
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getSubLocations());
-		List<String> newIds = from.getSubKeys();
+		List<String> newIds = from.getSubIds();
+		// Make Sure ROOT always has itself as a sub unit
+		if (root) {
+			newIds.add(MapperUtil.convertEntityIdforApi(to));
+		}
 		if (!MapperUtil.keysMatch(newIds, origIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -57,10 +66,17 @@ public class LocationMapper extends AbstractKeyIdApiEntityMapper<Location, Locat
 
 	@Override
 	public void copyEntityToApiFields(final EntityManager em, final LocationEntity from, final Location to) {
-		to.setDescription(from.getDescription());
+		boolean root = EmfUtil.isRootLocation(from);
+
 		to.setAddress(ADDRESS_MAPPER.convertEntityToApi(em, from.getAddress()));
-		to.setParentKey(MapperUtil.getEntityBusinessKey(from.getParentLocation()));
-		to.setSubKeys(MapperUtil.convertEntitiesToApiKeys(from.getSubLocations()));
+		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParentLocation()));
+
+		List<String> subIds = MapperUtil.convertEntitiesToApiKeys(from.getSubLocations());
+		// For ROOT - Dont send itself as a child to the API
+		if (root) {
+			subIds.remove(MapperUtil.convertEntityIdforApi(from));
+		}
+		to.setSubIds(subIds);
 	}
 
 	@Override
@@ -69,8 +85,8 @@ public class LocationMapper extends AbstractKeyIdApiEntityMapper<Location, Locat
 	}
 
 	@Override
-	protected LocationEntity createEntityObject(final Long id, final String businessKey) {
-		return new LocationEntity(id, businessKey);
+	protected LocationEntity createEntityObject(final Long id) {
+		return new LocationEntity(id);
 	}
 
 	protected LocationEntity getLocationEntity(final EntityManager em, final String keyId) {

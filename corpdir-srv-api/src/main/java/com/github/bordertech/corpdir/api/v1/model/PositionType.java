@@ -10,24 +10,7 @@ import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
  */
 public class PositionType extends AbstractApiKeyIdObject {
 
-	private String description;
 	private int level;
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
-	}
 
 	/**
 	 *

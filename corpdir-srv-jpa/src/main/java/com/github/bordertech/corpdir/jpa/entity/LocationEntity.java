@@ -30,8 +30,6 @@ public class LocationEntity extends AbstractPersistentKeyIdObject {
 	@Embedded
 	private AddressEntity address;
 
-	private String description;
-
 	/**
 	 * Default constructor.
 	 */
@@ -41,10 +39,9 @@ public class LocationEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public LocationEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public LocationEntity(final Long id) {
+		super(id);
 	}
 
 	/**
@@ -59,22 +56,6 @@ public class LocationEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setParentLocation(final LocationEntity parentLocation) {
 		this.parentLocation = parentLocation;
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	/**

@@ -14,7 +14,6 @@ import javax.persistence.Table;
 @Table(name = "PositionType")
 public class PositionTypeEntity extends AbstractPersistentKeyIdObject {
 
-	private String description;
 	private int typeLevel;
 
 	/**
@@ -26,26 +25,9 @@ public class PositionTypeEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public PositionTypeEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
+	public PositionTypeEntity(final Long id) {
+		super(id);
 	}
 
 	/**

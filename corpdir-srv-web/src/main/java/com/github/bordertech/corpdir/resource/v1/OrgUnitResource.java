@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.resource.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
@@ -39,22 +39,22 @@ public class OrgUnitResource implements OrgUnitService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<OrgUnit>> getOrgUnits(@QueryParam("search") final String search, @QueryParam("topLevel") final Boolean topLevel) {
-		return impl.getOrgUnits(search, topLevel);
+	public DataResponse<List<OrgUnit>> getOrgUnits(@QueryParam("search") final String search, @QueryParam("assigned") final Boolean assigned) {
+		return impl.getOrgUnits(search, assigned);
 	}
 
 	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> getOrgUnit(@PathParam("key") final String orgUnitKeyId) {
+	public DataResponse<OrgUnit> getOrgUnit(@PathParam("key") final String orgUnitKeyId) {
 		return impl.getOrgUnit(orgUnitKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit) {
+	public DataResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit) {
 		return impl.createOrgUnit(orgUnit);
 	}
 
@@ -62,7 +62,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> updateOrgUnit(@PathParam("key") final String orgUnitKeyId, final OrgUnit orgUnit) {
+	public DataResponse<OrgUnit> updateOrgUnit(@PathParam("key") final String orgUnitKeyId, final OrgUnit orgUnit) {
 		return impl.updateOrgUnit(orgUnitKeyId, orgUnit);
 	}
 
@@ -70,7 +70,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceBasicResponse deleteOrgUnit(final String orgUnitKeyId) {
+	public BasicResponse deleteOrgUnit(final String orgUnitKeyId) {
 		return impl.deleteOrgUnit(orgUnitKeyId);
 	}
 
@@ -78,7 +78,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/orgunits")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<OrgUnit>> getSubOrgUnits(@PathParam("key") final String orgUnitKeyId) {
+	public DataResponse<List<OrgUnit>> getSubOrgUnits(@PathParam("key") final String orgUnitKeyId) {
 		return impl.getSubOrgUnits(orgUnitKeyId);
 	}
 
@@ -86,7 +86,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> addSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
+	public DataResponse<OrgUnit> addSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
 		return impl.addSubOrgUnit(orgUnitKeyId, subOrgUnitKeyId);
 	}
 
@@ -94,7 +94,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> removeSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
+	public DataResponse<OrgUnit> removeSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
 		return impl.removeSubOrgUnit(orgUnitKeyId, subOrgUnitKeyId);
 	}
 
@@ -102,7 +102,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/positions")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<Position>> getPositions(@PathParam("key") final String orgUnitKeyId) {
+	public DataResponse<List<Position>> getPositions(@PathParam("key") final String orgUnitKeyId) {
 		return impl.getPositions(orgUnitKeyId);
 	}
 
@@ -110,7 +110,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> addPosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
+	public DataResponse<OrgUnit> addPosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
 		return impl.addPosition(orgUnitKeyId, positionKeyId);
 	}
 
@@ -118,7 +118,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<OrgUnit> removePosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
+	public DataResponse<OrgUnit> removePosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
 		return impl.removePosition(orgUnitKeyId, positionKeyId);
 	}
 
@@ -126,7 +126,7 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}/managers")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<Position> getManagerPosition(@PathParam("key") final String orgUnitKeyId) {
+	public DataResponse<Position> getManagerPosition(@PathParam("key") final String orgUnitKeyId) {
 		return impl.getManagerPosition(orgUnitKeyId);
 	}
 

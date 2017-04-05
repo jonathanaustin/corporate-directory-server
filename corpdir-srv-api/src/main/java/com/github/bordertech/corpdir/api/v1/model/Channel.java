@@ -10,7 +10,7 @@ import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
  */
 public class Channel extends AbstractApiKeyIdObject {
 
-	private String contactKey;
+	private String contactId;
 	private ChannelTypeEnum type;
 	private String value;
 
@@ -18,16 +18,16 @@ public class Channel extends AbstractApiKeyIdObject {
 	 *
 	 * @return the contact key
 	 */
-	public String getContactKey() {
-		return contactKey;
+	public String getContactId() {
+		return contactId;
 	}
 
 	/**
 	 *
-	 * @param contactKey the contact key
+	 * @param contactId the contact key
 	 */
-	public void setContactKey(final String contactKey) {
-		this.contactKey = contactKey;
+	public void setContactId(final String contactId) {
+		this.contactId = contactId;
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.resource.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
@@ -39,7 +39,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<UnitType>> getUnitTypes(@QueryParam("search") final String search) {
+	public DataResponse<List<UnitType>> getUnitTypes(@QueryParam("search") final String search) {
 		return impl.getUnitTypes(search);
 	}
 
@@ -47,14 +47,14 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<UnitType> getUnitType(@PathParam("key") final String typeKeyId) {
+	public DataResponse<UnitType> getUnitType(@PathParam("key") final String typeKeyId) {
 		return impl.getUnitType(typeKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<UnitType> createUnitType(final UnitType type) {
+	public DataResponse<UnitType> createUnitType(final UnitType type) {
 		return impl.createUnitType(type);
 	}
 
@@ -62,7 +62,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<UnitType> updateUnitType(@PathParam("key") final String typeKeyId, final UnitType type) {
+	public DataResponse<UnitType> updateUnitType(@PathParam("key") final String typeKeyId, final UnitType type) {
 		return impl.updateUnitType(typeKeyId, type);
 	}
 
@@ -70,7 +70,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceBasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
+	public BasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
 		return impl.deleteUnitType(typeKeyId);
 	}
 
@@ -78,7 +78,7 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}/units")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
+	public DataResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
 		return impl.getOrgUnits(typeKeyId);
 	}
 

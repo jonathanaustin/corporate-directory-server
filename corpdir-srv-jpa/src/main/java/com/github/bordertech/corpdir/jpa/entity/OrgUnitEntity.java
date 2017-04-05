@@ -35,8 +35,6 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<PositionEntity> positions;
 
-	private String description;
-
 	/**
 	 * Default constructor.
 	 */
@@ -46,10 +44,9 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public OrgUnitEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public OrgUnitEntity(final Long id) {
+		super(id);
 	}
 
 	/**
@@ -80,22 +77,6 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setParentOrgUnit(final OrgUnitEntity parentOrgUnit) {
 		this.parentOrgUnit = parentOrgUnit;
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	/**

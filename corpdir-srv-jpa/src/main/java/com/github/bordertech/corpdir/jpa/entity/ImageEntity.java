@@ -15,7 +15,6 @@ import javax.persistence.Table;
 public class ImageEntity extends AbstractPersistentKeyIdObject {
 
 	private String mimeType;
-	private String description;
 	private byte[] image;
 	private byte[] thumbNail;
 
@@ -28,10 +27,9 @@ public class ImageEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public ImageEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public ImageEntity(final Long id) {
+		super(id);
 	}
 
 	/**
@@ -48,22 +46,6 @@ public class ImageEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setMimeType(final String mimeType) {
 		this.mimeType = mimeType;
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	/**

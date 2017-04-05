@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.resource.v1;
 
-import com.github.bordertech.corpdir.api.response.ServiceBasicResponse;
-import com.github.bordertech.corpdir.api.response.ServiceResponse;
+import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
@@ -39,7 +39,7 @@ public class PositionTypeResource implements PositionTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<PositionType>> getPositionTypes(@QueryParam("search") final String search) {
+	public DataResponse<List<PositionType>> getPositionTypes(@QueryParam("search") final String search) {
 		return impl.getPositionTypes(search);
 	}
 
@@ -47,14 +47,14 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<PositionType> getPositionType(@PathParam("key") final String typeKeyId) {
+	public DataResponse<PositionType> getPositionType(@PathParam("key") final String typeKeyId) {
 		return impl.getPositionType(typeKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<PositionType> createPositionType(final PositionType type) {
+	public DataResponse<PositionType> createPositionType(final PositionType type) {
 		return impl.createPositionType(type);
 	}
 
@@ -62,7 +62,7 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<PositionType> updatePositionType(@PathParam("key") final String typeKeyId, final PositionType type) {
+	public DataResponse<PositionType> updatePositionType(@PathParam("key") final String typeKeyId, final PositionType type) {
 		return impl.updatePositionType(typeKeyId, type);
 	}
 
@@ -70,7 +70,7 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceBasicResponse deletePositionType(@PathParam("key") final String typeKeyId) {
+	public BasicResponse deletePositionType(@PathParam("key") final String typeKeyId) {
 		return impl.deletePositionType(typeKeyId);
 	}
 
@@ -78,7 +78,7 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}/positions")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public ServiceResponse<List<Position>> getPositions(@PathParam("key") final String typeKeyId) {
+	public DataResponse<List<Position>> getPositions(@PathParam("key") final String typeKeyId) {
 		return impl.getPositions(typeKeyId);
 	}
 

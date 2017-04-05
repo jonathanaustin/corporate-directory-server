@@ -29,10 +29,9 @@ public class ChannelEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public ChannelEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public ChannelEntity(final Long id) {
+		super(id);
 	}
 
 	/**

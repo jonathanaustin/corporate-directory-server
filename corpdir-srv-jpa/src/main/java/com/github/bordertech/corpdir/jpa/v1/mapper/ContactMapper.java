@@ -29,15 +29,15 @@ public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, Contact
 		to.setAddress(ADDRESS_MAPPER.convertApiToEntity(em, from.getAddress()));
 
 		// Location
-		String origId = MapperUtil.getEntityBusinessKey(to.getLocation());
-		String newId = from.getLocationKey();
+		String origId = MapperUtil.convertEntityIdforApi(to.getLocation());
+		String newId = from.getLocationId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			to.setLocation(getLocationEntity(em, newId));
 		}
 
 		// Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getPositions());
-		List<String> newIds = from.getPositionKeys();
+		List<String> newIds = from.getPositionIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -69,9 +69,9 @@ public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, Contact
 		to.setHasImage(from.getImage() != null);
 		to.setAddress(ADDRESS_MAPPER.convertEntityToApi(em, from.getAddress()));
 		// Location
-		to.setLocationKey(MapperUtil.getEntityBusinessKey(from.getLocation()));
+		to.setLocationId(MapperUtil.convertEntityIdforApi(from.getLocation()));
 		// Positions
-		to.setPositionKeys(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
+		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
 		// Channels
 		to.setChannels(CHANNEL_MAPPER.convertEntitiesToApis(em, from.getChannels()));
 	}
@@ -82,8 +82,8 @@ public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, Contact
 	}
 
 	@Override
-	protected ContactEntity createEntityObject(final Long id, final String businessKey) {
-		return new ContactEntity(id, businessKey);
+	protected ContactEntity createEntityObject(final Long id) {
+		return new ContactEntity(id);
 	}
 
 	protected LocationEntity getLocationEntity(final EntityManager em, final String keyId) {

@@ -14,8 +14,6 @@ import javax.persistence.Table;
 @Table(name = "UnitType")
 public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
 
-	private String description;
-
 	/**
 	 * Default constructor.
 	 */
@@ -25,26 +23,9 @@ public class UnitTypeEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public UnitTypeEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
+	public UnitTypeEntity(final Long id) {
+		super(id);
 	}
 
 }

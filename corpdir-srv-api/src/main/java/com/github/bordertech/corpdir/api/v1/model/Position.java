@@ -12,130 +12,113 @@ import java.util.List;
  */
 public class Position extends AbstractApiKeyIdObject {
 
-	private String description;
-	private String typeKey;
-	private String ouKey;
-	private String parentKey;
-	private List<String> subKeys;
-	private List<String> manageOuKeys;
-	private List<String> contactKeys;
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
-	}
+	private String typeId;
+	private String ouId;
+	private String parentId;
+	private List<String> subIds;
+	private List<String> manageOuIds;
+	private List<String> contactIds;
 
 	/**
 	 *
 	 * @return the position type key
 	 */
-	public String getTypeKey() {
-		return typeKey;
+	public String getTypeId() {
+		return typeId;
 	}
 
 	/**
 	 *
-	 * @param typeKey the position type key
+	 * @param typeId the position type key
 	 */
-	public void setTypeKey(final String typeKey) {
-		this.typeKey = typeKey;
+	public void setTypeId(final String typeId) {
+		this.typeId = typeId;
 	}
 
 	/**
 	 *
 	 * @return the org unit key the position belongs to
 	 */
-	public String getOuKey() {
-		return ouKey;
+	public String getOuId() {
+		return ouId;
 	}
 
 	/**
 	 *
-	 * @param ouKey the org unit key the position belongs to
+	 * @param ouId the org unit key the position belongs to
 	 */
-	public void setOuKey(final String ouKey) {
-		this.ouKey = ouKey;
+	public void setOuId(final String ouId) {
+		this.ouId = ouId;
 	}
 
 	/**
 	 * @return the position key this position reports to
 	 */
-	public String getParentKey() {
-		return parentKey;
+	public String getParentId() {
+		return parentId;
 	}
 
 	/**
-	 * @param parentKey the position key this position reports to
+	 * @param parentId the position key this position reports to
 	 */
-	public void setParentKey(final String parentKey) {
-		this.parentKey = parentKey;
+	public void setParentId(final String parentId) {
+		this.parentId = parentId;
 	}
 
 	/**
 	 *
 	 * @return the position key that report to this position
 	 */
-	public List<String> getSubKeys() {
-		if (subKeys == null) {
-			subKeys = new ArrayList<>();
+	public List<String> getSubIds() {
+		if (subIds == null) {
+			subIds = new ArrayList<>();
 		}
-		return subKeys;
+		return subIds;
 	}
 
 	/**
-	 * @param subKeys the position keys that report to this position
+	 * @param subIds the position keys that report to this position
 	 */
-	public void setSubKeys(final List<String> subKeys) {
-		this.subKeys = subKeys;
+	public void setSubIds(final List<String> subIds) {
+		this.subIds = subIds;
 	}
 
 	/**
 	 *
 	 * @return the org unit keys this position manages
 	 */
-	public List<String> getManageOuKeys() {
-		if (manageOuKeys == null) {
-			manageOuKeys = new ArrayList<>();
+	public List<String> getManageOuIds() {
+		if (manageOuIds == null) {
+			manageOuIds = new ArrayList<>();
 		}
-		return manageOuKeys;
+		return manageOuIds;
 	}
 
 	/**
 	 *
-	 * @param manageOuKeys the org unit keys this position manages
+	 * @param manageOuIds the org unit keys this position manages
 	 */
-	public void setManageOuKeys(final List<String> manageOuKeys) {
-		this.manageOuKeys = manageOuKeys;
+	public void setManageOuIds(final List<String> manageOuIds) {
+		this.manageOuIds = manageOuIds;
 	}
 
 	/**
 	 *
 	 * @return the contact keys for this position
 	 */
-	public List<String> getContactKeys() {
-		if (contactKeys == null) {
-			contactKeys = new ArrayList<>();
+	public List<String> getContactIds() {
+		if (contactIds == null) {
+			contactIds = new ArrayList<>();
 		}
-		return contactKeys;
+		return contactIds;
 	}
 
 	/**
 	 *
-	 * @param contactKeys the contact keys for this position
+	 * @param contactIds the contact keys for this position
 	 */
-	public void setContactKeys(final List<String> contactKeys) {
-		this.contactKeys = contactKeys;
+	public void setContactIds(final List<String> contactIds) {
+		this.contactIds = contactIds;
 	}
 
 }

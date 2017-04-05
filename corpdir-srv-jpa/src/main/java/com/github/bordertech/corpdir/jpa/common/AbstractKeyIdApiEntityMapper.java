@@ -23,8 +23,7 @@ public abstract class AbstractKeyIdApiEntityMapper<A extends ApiKeyIdObject, P e
 			return null;
 		}
 		Long id = MapperUtil.convertApiIdforEntity(from.getId());
-		String key = from.getBusinessKey();
-		P to = createEntityObject(id, key);
+		P to = createEntityObject(id);
 		copyApiToEntity(em, from, to);
 		return to;
 	}
@@ -79,7 +78,7 @@ public abstract class AbstractKeyIdApiEntityMapper<A extends ApiKeyIdObject, P e
 
 	abstract protected A createApiObject();
 
-	abstract protected P createEntityObject(final Long id, final String businessKey);
+	abstract protected P createEntityObject(final Long id);
 
 	abstract protected void copyApiToEntityFields(final EntityManager em, final A from, final P to);
 

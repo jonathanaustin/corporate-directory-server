@@ -39,8 +39,6 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<ContactEntity> contacts;
 
-	private String description;
-
 	/**
 	 * Default constructor.
 	 */
@@ -50,10 +48,9 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	/**
 	 *
 	 * @param id the entity id
-	 * @param businessKey the business key.
 	 */
-	public PositionEntity(final Long id, final String businessKey) {
-		super(id, businessKey);
+	public PositionEntity(final Long id) {
+		super(id);
 	}
 
 	/**
@@ -70,22 +67,6 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setType(final PositionTypeEntity type) {
 		this.type = type;
-	}
-
-	/**
-	 *
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
-
-	/**
-	 *
-	 * @param description the description
-	 */
-	public void setDescription(final String description) {
-		this.description = description;
 	}
 
 	/**

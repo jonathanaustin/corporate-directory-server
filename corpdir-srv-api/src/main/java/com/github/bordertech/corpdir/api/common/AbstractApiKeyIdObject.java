@@ -11,6 +11,7 @@ public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 
 	private String id;
 	private String businessKey;
+	private String description;
 	private boolean active = true;
 	private boolean custom = true;
 	private Timestamp version;
@@ -33,6 +34,16 @@ public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	@Override

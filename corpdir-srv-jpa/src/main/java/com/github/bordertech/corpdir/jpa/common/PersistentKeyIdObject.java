@@ -13,6 +13,12 @@ public interface PersistentKeyIdObject extends PersistentObject {
 
 	public String getBusinessKey();
 
+	public void setBusinessKey(final String businessKey);
+
+	public String getDescription();
+
+	public void setDescription(final String description);
+
 	public Timestamp getVersion();
 
 	public void setVersion(final Timestamp version);
