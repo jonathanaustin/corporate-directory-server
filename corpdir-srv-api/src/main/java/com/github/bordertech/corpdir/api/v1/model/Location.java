@@ -1,8 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
-import java.util.ArrayList;
-import java.util.List;
+import com.github.bordertech.corpdir.api.common.AbstractApiNestedObject;
 
 /**
  * Location of contact.
@@ -10,11 +8,9 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Location extends AbstractApiKeyIdObject {
+public class Location extends AbstractApiNestedObject {
 
 	private Address address;
-	private String parentId;
-	private List<String> subIds;
 
 	/**
 	 *
@@ -30,40 +26,6 @@ public class Location extends AbstractApiKeyIdObject {
 	 */
 	public void setAddress(final Address address) {
 		this.address = address;
-	}
-
-	/**
-	 *
-	 * @return the parent location key or null if no parent
-	 */
-	public String getParentId() {
-		return parentId;
-	}
-
-	/**
-	 * @param parentId the parent location id
-	 */
-	public void setParentId(final String parentId) {
-		this.parentId = parentId;
-	}
-
-	/**
-	 *
-	 * @return the list of sub location keys
-	 */
-	public List<String> getSubIds() {
-		if (subIds == null) {
-			subIds = new ArrayList<>();
-		}
-		return subIds;
-	}
-
-	/**
-	 *
-	 * @param subIds the list of sub locations
-	 */
-	public void setSubIds(final List<String> subIds) {
-		this.subIds = subIds;
 	}
 
 }

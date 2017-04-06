@@ -1,7 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
@@ -10,7 +9,7 @@ import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.util.EmfUtil;
+import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
@@ -49,19 +48,19 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 			// Search
 			List<Predicate> preds = new ArrayList<>();
 			if (search != null && !search.isEmpty()) {
-				preds.add(EmfUtil.createSearchTextCriteria(cb, from, search));
+				preds.add(CriteriaUtil.createSearchTextCriteria(cb, from, search));
 			}
 			// Assigned
 			if (assigned != null) {
-				preds.add(EmfUtil.createAssignedCriteria(cb, from, assigned, "parentOrgUnit"));
+				preds.add(CriteriaUtil.createAssignedCriteria(cb, from, assigned));
 			}
 			// AND
 			if (!preds.isEmpty()) {
-				qry.where(EmfUtil.createAndCriteria(cb, preds));
+				qry.where(CriteriaUtil.createAndCriteria(cb, preds));
 			}
 
 			// Order by
-			qry.orderBy(EmfUtil.getDefaultOrderBy(cb, from));
+			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
 			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);
@@ -86,12 +85,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 	public DataResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit) {
 		EntityManager em = getEntityManager();
 		try {
-			MapperUtil.checkApiIDsForCreate(orgUnit);
-			// Check business key does not exist
-			OrgUnitEntity other = MapperUtil.getEntity(em, orgUnit.getBusinessKey(), OrgUnitEntity.class);
-			if (other != null) {
-				throw new ServiceException("An org unit already exists with business key [" + orgUnit.getBusinessKey() + "].");
-			}
+			MapperUtil.checkIdentifiersForCreate(em, orgUnit, OrgUnitEntity.class);
 			OrgUnitEntity entity = ORGUNIT_MAPPER.convertApiToEntity(em, orgUnit);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -108,17 +102,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		try {
 			em.getTransaction().begin();
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			MapperUtil.checkIdentifiersMatch(orgUnit, entity);
-			// Only the ROOT OU can have itself as the parent
-			boolean root = EmfUtil.isRootOrgUnit(entity);
-			if (!root) {
-				if (Objects.equals(orgUnit.getId(), orgUnit.getParentId())) {
-					throw new IllegalArgumentException("Only the Root OU can have itself as a parent OU.");
-				}
-				if (orgUnit.getSubIds().contains(orgUnit.getId())) {
-					throw new IllegalArgumentException("Only the Root OU can have itself as a child OU.");
-				}
-			}
+			MapperUtil.checkIdentifiersForUpdate(em, orgUnit, entity);
 			ORGUNIT_MAPPER.copyApiToEntity(em, orgUnit, entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
@@ -133,10 +117,6 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		try {
 			em.getTransaction().begin();
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			// Cannot delete the ROOT OU
-			if (EmfUtil.isRootOrgUnit(entity)) {
-				throw new IllegalArgumentException("Cannot delete the ROOT OU.");
-			}
 			em.remove(entity);
 			em.getTransaction().commit();
 			return new BasicResponse();
@@ -150,17 +130,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getOrgUnitEntity(em, orgUnitKeyId);
-			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, entity.getSubOrgUnits());
-			// For the ROOT OU - Dont send itself as a sub OU
-			if (EmfUtil.isRootOrgUnit(entity)) {
-				String rootId = MapperUtil.convertEntityIdforApi(entity);
-				for (OrgUnit ou : list) {
-					if (Objects.equals(ou.getId(), rootId)) {
-						list.remove(ou);
-						break;
-					}
-				}
-			}
+			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, entity.getChildren());
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -181,12 +151,12 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 				throw new IllegalArgumentException("Cannot add an OU to itself");
 			}
 			// Remove Sub Org Unit from its OLD parent (if it had one)
-			OrgUnitEntity oldParent = subOrgUnit.getParentOrgUnit();
+			OrgUnitEntity oldParent = subOrgUnit.getParent();
 			if (oldParent != null) {
-				oldParent.removeSubOrgUnit(subOrgUnit);
+				oldParent.removeChild(subOrgUnit);
 			}
 			// Add to the new parent
-			entity.addSubOrgUnit(subOrgUnit);
+			entity.addChild(subOrgUnit);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {
@@ -211,7 +181,7 @@ public class OrgUnitServiceImpl extends AbstractJpaService implements OrgUnitSer
 				throw new IllegalArgumentException("Cannot add an OU to itself");
 			}
 			// Remove the sub org unit
-			entity.removeSubOrgUnit(subOrgUnit);
+			entity.removeChild(subOrgUnit);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {

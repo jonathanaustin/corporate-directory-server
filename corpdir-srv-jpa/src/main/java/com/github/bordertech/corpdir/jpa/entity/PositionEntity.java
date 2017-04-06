@@ -1,11 +1,10 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentNestedSet;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,16 +18,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends AbstractPersistentKeyIdObject {
+public class PositionEntity extends AbstractPersistentNestedSet<PositionEntity> {
 
 	@ManyToOne
 	private PositionTypeEntity type;
-
-	@ManyToOne
-	@JoinColumn(name = "parentPosition_Id")
-	private PositionEntity parentPosition;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentPosition")
-	private Set<PositionEntity> subPositions;
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrgUnitEntity> manageOrgUnits;
@@ -67,53 +60,6 @@ public class PositionEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setType(final PositionTypeEntity type) {
 		this.type = type;
-	}
-
-	/**
-	 * @return the position this position reports to
-	 */
-	public PositionEntity getParentPosition() {
-		return parentPosition;
-	}
-
-	/**
-	 * @param parentPosition the position this position reports to
-	 */
-	public void setParentPosition(final PositionEntity parentPosition) {
-		this.parentPosition = parentPosition;
-	}
-
-	/**
-	 *
-	 * @return the positions that report to this position
-	 */
-	public Set<PositionEntity> getSubPositions() {
-		return subPositions;
-	}
-
-	/**
-	 * Add a report position.
-	 *
-	 * @param position the position to add
-	 */
-	public void addSubPosition(final PositionEntity position) {
-		if (subPositions == null) {
-			subPositions = new HashSet<>();
-		}
-		subPositions.add(position);
-		position.setParentPosition(this);
-	}
-
-	/**
-	 * Remove a report position.
-	 *
-	 * @param position the position to remove
-	 */
-	public void removeSubPosition(final PositionEntity position) {
-		if (subPositions != null) {
-			subPositions.remove(position);
-		}
-		position.setParentPosition(null);
 	}
 
 	/**

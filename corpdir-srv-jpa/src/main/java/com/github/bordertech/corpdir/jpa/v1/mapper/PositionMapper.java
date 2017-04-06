@@ -28,18 +28,18 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 		}
 
 		// Parent Position
-		origId = MapperUtil.convertEntityIdforApi(to.getParentPosition());
+		origId = MapperUtil.convertEntityIdforApi(to.getParent());
 		newId = from.getParentId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig Parent
 			if (origId != null) {
 				PositionEntity pos = getPositionEntity(em, origId);
-				pos.removeSubPosition(to);
+				pos.removeChild(to);
 			}
 			// Add to New Parent
 			if (newId != null) {
 				PositionEntity pos = getPositionEntity(em, newId);
-				pos.addSubPosition(to);
+				pos.addChild(to);
 			}
 		}
 
@@ -60,18 +60,18 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 		}
 
 		// Sub Positions
-		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getSubPositions());
+		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getChildren());
 		List<String> newIds = from.getSubIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				to.removeSubPosition(pos);
+				to.removeChild(pos);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				to.addSubPosition(pos);
+				to.addChild(pos);
 			}
 		}
 
@@ -113,10 +113,10 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
 		// Key
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
-		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParentPosition()));
+		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParent()));
 		to.setOuId(MapperUtil.convertEntityIdforApi(from.getOrgUnit()));
 		// Keys
-		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getSubPositions()));
+		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getChildren()));
 		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
 		to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
 	}

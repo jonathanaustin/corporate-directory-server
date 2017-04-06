@@ -1,11 +1,10 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentNestedSet;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,16 +17,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
+public class OrgUnitEntity extends AbstractPersistentNestedSet<OrgUnitEntity> {
 
 	@ManyToOne
 	private UnitTypeEntity type;
-
-	@ManyToOne
-	@JoinColumn(name = "parentOrgUnit_Id")
-	private OrgUnitEntity parentOrgUnit;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentOrgUnit")
-	private Set<OrgUnitEntity> subOrgUnits;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private PositionEntity managerPosition;
@@ -63,53 +56,6 @@ public class OrgUnitEntity extends AbstractPersistentKeyIdObject {
 	 */
 	public void setType(final UnitTypeEntity type) {
 		this.type = type;
-	}
-
-	/**
-	 * @return the parent org unit
-	 */
-	public OrgUnitEntity getParentOrgUnit() {
-		return parentOrgUnit;
-	}
-
-	/**
-	 * @param parentOrgUnit the parent org unit
-	 */
-	public void setParentOrgUnit(final OrgUnitEntity parentOrgUnit) {
-		this.parentOrgUnit = parentOrgUnit;
-	}
-
-	/**
-	 *
-	 * @return the units managed by this unit
-	 */
-	public Set<OrgUnitEntity> getSubOrgUnits() {
-		return subOrgUnits;
-	}
-
-	/**
-	 * Add a sub org unit.
-	 *
-	 * @param orgUnit the sub org unit to add
-	 */
-	public void addSubOrgUnit(final OrgUnitEntity orgUnit) {
-		if (subOrgUnits == null) {
-			subOrgUnits = new HashSet<>();
-		}
-		subOrgUnits.add(orgUnit);
-		orgUnit.setParentOrgUnit(this);
-	}
-
-	/**
-	 * Remove a sub org unit.
-	 *
-	 * @param orgUnit the orgUnit to remove
-	 */
-	public void removeSubOrgUnit(final OrgUnitEntity orgUnit) {
-		if (subOrgUnits != null) {
-			subOrgUnits.remove(orgUnit);
-		}
-		orgUnit.setParentOrgUnit(null);
 	}
 
 	/**

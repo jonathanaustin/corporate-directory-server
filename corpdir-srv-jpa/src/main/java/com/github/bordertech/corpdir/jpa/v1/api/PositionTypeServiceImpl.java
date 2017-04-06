@@ -1,17 +1,16 @@
 package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
-import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
-import com.github.bordertech.corpdir.jpa.util.EmfUtil;
+import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
+import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionTypeMapper;
 import java.util.List;
@@ -45,11 +44,11 @@ public class PositionTypeServiceImpl extends AbstractJpaService implements Posit
 
 			// Search
 			if (search != null && !search.isEmpty()) {
-				qry.where(EmfUtil.createSearchTextCriteria(cb, from, search));
+				qry.where(CriteriaUtil.createSearchTextCriteria(cb, from, search));
 			}
 
 			// Order by
-			qry.orderBy(EmfUtil.getDefaultOrderBy(cb, from));
+			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<PositionTypeEntity> rows = em.createQuery(qry).getResultList();
 			List<PositionType> list = POSITIONTYPE_MAPPER.convertEntitiesToApis(em, rows);
@@ -74,12 +73,7 @@ public class PositionTypeServiceImpl extends AbstractJpaService implements Posit
 	public DataResponse<PositionType> createPositionType(final PositionType type) {
 		EntityManager em = getEntityManager();
 		try {
-			MapperUtil.checkApiIDsForCreate(type);
-			// Check business key does not exist
-			PositionTypeEntity other = MapperUtil.getEntity(em, type.getBusinessKey(), PositionTypeEntity.class);
-			if (other != null) {
-				throw new ServiceException("A position type already exists with business key [" + type.getBusinessKey() + "].");
-			}
+			MapperUtil.checkIdentifiersForCreate(em, type, PositionTypeEntity.class);
 			PositionTypeEntity entity = POSITIONTYPE_MAPPER.convertApiToEntity(em, type);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -96,7 +90,7 @@ public class PositionTypeServiceImpl extends AbstractJpaService implements Posit
 		try {
 			em.getTransaction().begin();
 			PositionTypeEntity entity = getPositionTypeEntity(em, typeKeyId);
-			MapperUtil.checkIdentifiersMatch(type, entity);
+			MapperUtil.checkIdentifiersForUpdate(em, type, entity);
 			POSITIONTYPE_MAPPER.copyApiToEntity(em, type, entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
@@ -130,6 +124,9 @@ public class PositionTypeServiceImpl extends AbstractJpaService implements Posit
 			Root<PositionEntity> from = qry.from(PositionEntity.class);
 			qry.select(from);
 			qry.where(cb.equal(from.get("type"), type));
+
+			// Order by
+			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<PositionEntity> rows = em.createQuery(qry).getResultList();
 			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, rows);

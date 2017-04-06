@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
+import com.github.bordertech.corpdir.api.common.AbstractApiNestedObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,12 +10,10 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Position extends AbstractApiKeyIdObject {
+public class Position extends AbstractApiNestedObject {
 
 	private String typeId;
 	private String ouId;
-	private String parentId;
-	private List<String> subIds;
 	private List<String> manageOuIds;
 	private List<String> contactIds;
 
@@ -49,38 +47,6 @@ public class Position extends AbstractApiKeyIdObject {
 	 */
 	public void setOuId(final String ouId) {
 		this.ouId = ouId;
-	}
-
-	/**
-	 * @return the position key this position reports to
-	 */
-	public String getParentId() {
-		return parentId;
-	}
-
-	/**
-	 * @param parentId the position key this position reports to
-	 */
-	public void setParentId(final String parentId) {
-		this.parentId = parentId;
-	}
-
-	/**
-	 *
-	 * @return the position key that report to this position
-	 */
-	public List<String> getSubIds() {
-		if (subIds == null) {
-			subIds = new ArrayList<>();
-		}
-		return subIds;
-	}
-
-	/**
-	 * @param subIds the position keys that report to this position
-	 */
-	public void setSubIds(final List<String> subIds) {
-		this.subIds = subIds;
 	}
 
 	/**

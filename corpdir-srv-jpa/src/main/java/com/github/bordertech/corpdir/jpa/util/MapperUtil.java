@@ -1,6 +1,8 @@
 package com.github.bordertech.corpdir.jpa.util;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.api.common.ApiNestedObject;
+import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -195,37 +197,69 @@ public final class MapperUtil {
 	}
 
 	/**
-	 * Check the ID and businessKey match between the API and entity object.
+	 * Check the API object IDs are valid for create.
 	 *
+	 * @param em the entity manager
 	 * @param api the API object
-	 * @param entity the entity object
+	 * @param entityClass the entity class
+	 * @param <T> the entity type
 	 */
-	public static void checkIdentifiersMatch(final ApiKeyIdObject api, final PersistentKeyIdObject entity) {
-		Long id = convertApiIdforEntity(api.getId());
-		// Check ids
-		if (!Objects.equals(id, entity.getId())) {
-			throw new IllegalStateException("IDs do not match [" + id + "] and [" + entity.getId() + "].");
-		}
-		// TODO Maybe check version as well
+	public static <T extends PersistentKeyIdObject> void checkIdentifiersForCreate(final EntityManager em, final ApiKeyIdObject api, final Class<T> entityClass) {
+		checkBusinessKey(em, api.getBusinessKey(), entityClass);
+		// Ignore ID and version
+		api.setId(null);
+		api.setVersion(null);
 	}
 
 	/**
-	 * Check the API object IDs are valid for create.
+	 * Check the ID and businessKey match between the API and entity object.
 	 *
+	 * @param em the entity manager
 	 * @param api the API object
+	 * @param entity the entity object
+	 * @param <T> the entity type
 	 */
-	public static void checkApiIDsForCreate(final ApiKeyIdObject api) {
+	public static <T extends PersistentKeyIdObject> void checkIdentifiersForUpdate(final EntityManager em, final ApiKeyIdObject api, final T entity) {
+		// Check API/Entity ids match
+		Long apiId = convertApiIdforEntity(api.getId());
+		if (!Objects.equals(apiId, entity.getId())) {
+			throw new IllegalStateException("IDs do not match [" + apiId + "] and [" + entity.getId() + "].");
+		}
+		// Check if business key changed
+		if (!Objects.equals(api.getBusinessKey(), entity.getBusinessKey())) {
+			checkBusinessKey(em, api.getBusinessKey(), entity.getClass());
+		}
+		if (api instanceof ApiNestedObject) {
+			ApiNestedObject nested = (ApiNestedObject) api;
+			if (Objects.equals(nested.getId(), nested.getParentId())) {
+				throw new IllegalArgumentException("Cannot have itself as a parent OU.");
+			}
+			if (nested.getSubIds().contains(nested.getId())) {
+				throw new IllegalArgumentException("Cannot have itself as a child OU.");
+			}
+		}
+	}
+
+	/**
+	 * Check the Business Key.
+	 *
+	 * @param em the entity manager
+	 * @param key the business key
+	 * @param entityClass the entity class
+	 * @param <T> the entity type
+	 */
+	public static <T extends PersistentKeyIdObject> void checkBusinessKey(final EntityManager em, final String key, final Class<T> entityClass) {
 		// Check business key
-		String key = api.getBusinessKey();
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("Business Key must be provided.");
 		}
 		if (key.startsWith(ID_PREFIX)) {
 			throw new IllegalArgumentException("Business Key cannot start with a reserved character.");
 		}
-		// Ignore ID and version
-		api.setId(null);
-		api.setVersion(null);
+		T other = getEntityByBusinessKey(em, key, entityClass);
+		if (other != null) {
+			throw new ServiceException("Business key [" + key + "] already in use.");
+		}
 	}
 
 	/**

@@ -1,7 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
@@ -10,7 +9,7 @@ import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
-import com.github.bordertech.corpdir.jpa.util.EmfUtil;
+import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.UnitTypeMapper;
@@ -45,11 +44,11 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 
 			// Search
 			if (search != null && !search.isEmpty()) {
-				qry.where(EmfUtil.createSearchTextCriteria(cb, from, search));
+				qry.where(CriteriaUtil.createSearchTextCriteria(cb, from, search));
 			}
 
 			// Order by
-			qry.orderBy(EmfUtil.getDefaultOrderBy(cb, from));
+			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<UnitTypeEntity> rows = em.createQuery(qry).getResultList();
 			List<UnitType> list = UNITTYPE_MAPPER.convertEntitiesToApis(em, rows);
@@ -74,12 +73,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 	public DataResponse<UnitType> createUnitType(final UnitType type) {
 		EntityManager em = getEntityManager();
 		try {
-			MapperUtil.checkApiIDsForCreate(type);
-			// Check business key does not exist
-			UnitTypeEntity other = MapperUtil.getEntity(em, type.getBusinessKey(), UnitTypeEntity.class);
-			if (other != null) {
-				throw new ServiceException("A unit type already exists with business key [" + type.getBusinessKey() + "].");
-			}
+			MapperUtil.checkIdentifiersForCreate(em, type, UnitTypeEntity.class);
 			UnitTypeEntity entity = UNITTYPE_MAPPER.convertApiToEntity(em, type);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -96,7 +90,7 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 		try {
 			em.getTransaction().begin();
 			UnitTypeEntity entity = getUnitTypeEntity(em, typeKeyId);
-			MapperUtil.checkIdentifiersMatch(type, entity);
+			MapperUtil.checkIdentifiersForUpdate(em, type, entity);
 			UNITTYPE_MAPPER.copyApiToEntity(em, type, entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
@@ -131,7 +125,8 @@ public class UnitTypeServiceImpl extends AbstractJpaService implements UnitTypeS
 			qry.select(from);
 			qry.where(cb.equal(from.get("type"), type));
 
-			qry.orderBy(cb.asc(from.get("description")));
+			// Order by
+			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
 			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);

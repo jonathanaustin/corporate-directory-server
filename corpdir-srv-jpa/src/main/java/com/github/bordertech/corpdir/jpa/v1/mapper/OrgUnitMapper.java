@@ -5,7 +5,6 @@ import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
-import com.github.bordertech.corpdir.jpa.util.EmfUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -19,8 +18,6 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final OrgUnit from, final OrgUnitEntity to) {
-
-		boolean root = EmfUtil.isRootOrgUnit(to);
 
 		// Type
 		String origId = MapperUtil.convertEntityIdforApi(to.getType());
@@ -61,63 +58,48 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 			}
 		}
 
-		// Parent Org Unit - (Never changes for ROOT)
-		if (!root) {
-			origId = MapperUtil.convertEntityIdforApi(to.getParentOrgUnit());
-			newId = from.getParentId();
-			if (!MapperUtil.keyMatch(origId, newId)) {
-				// Remove from Orig Parent
-				if (origId != null) {
-					OrgUnitEntity ou = getOrgUnitEntity(em, origId);
-					ou.removeSubOrgUnit(to);
-				}
-				// Add to New Parent
-				if (newId != null) {
-					OrgUnitEntity ou = getOrgUnitEntity(em, newId);
-					ou.addSubOrgUnit(to);
-				}
+		// Parent Org Unit
+		origId = MapperUtil.convertEntityIdforApi(to.getParent());
+		newId = from.getParentId();
+		if (!MapperUtil.keyMatch(origId, newId)) {
+			// Remove from Orig Parent
+			if (origId != null) {
+				OrgUnitEntity ou = getOrgUnitEntity(em, origId);
+				ou.removeChild(to);
+			}
+			// Add to New Parent
+			if (newId != null) {
+				OrgUnitEntity ou = getOrgUnitEntity(em, newId);
+				ou.addChild(to);
 			}
 		}
 
 		// Sub Org Units
-		origIds = MapperUtil.convertEntitiesToApiKeys(to.getSubOrgUnits());
+		origIds = MapperUtil.convertEntitiesToApiKeys(to.getChildren());
 		newIds = from.getSubIds();
-		// Make Sure ROOT always has itself as a sub unit
-		if (root) {
-			newIds.add(MapperUtil.convertEntityIdforApi(to));
-		}
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				to.removeSubOrgUnit(ou);
+				to.removeChild(ou);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				to.addSubOrgUnit(ou);
+				to.addChild(ou);
 			}
 		}
 	}
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final OrgUnitEntity from, final OrgUnit to) {
-
-		boolean root = EmfUtil.isRootOrgUnit(from);
-
 		// Key
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
 		to.setManagerPosId(MapperUtil.convertEntityIdforApi(from.getManagerPosition()));
-		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParentOrgUnit()));
+		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParent()));
 		// Keys
 		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
-		List<String> subIds = MapperUtil.convertEntitiesToApiKeys(from.getSubOrgUnits());
-		// For ROOT - Dont send itself as a child to the API
-		if (root) {
-			subIds.remove(MapperUtil.convertEntityIdforApi(from));
-		}
-
-		to.setSubIds(subIds);
+		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getChildren()));
 	}
 
 	@Override
