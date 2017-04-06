@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.api.v1;
 
+import com.github.bordertech.corpdir.api.common.BasicService;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
@@ -13,32 +14,22 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ContactService {
+public interface ContactService extends BasicService<Contact> {
 
-	DataResponse<List<Contact>> getContacts(final String search, final Boolean assigned);
+	DataResponse<byte[]> getImage(final String keyId);
 
-	DataResponse<Contact> getContact(final String contactKeyId);
+	BasicResponse deleteImage(final String keyId);
 
-	DataResponse<Contact> createContact(final Contact contact);
+	BasicResponse setImage(final String keyId, final byte[] image);
 
-	DataResponse<Contact> updateContact(final String contactKeyId, final Contact contact);
+	DataResponse<byte[]> getThumbnail(final String keyId);
 
-	BasicResponse deleteContact(final String contactKeyId);
+	BasicResponse deleteThumbnail(final String keyId);
 
-	DataResponse<byte[]> getContactImage(final String contactKeyId);
+	BasicResponse setThumbnail(final String keyId, final byte[] image);
 
-	BasicResponse deleteContactImage(final String contactKeyId);
+	DataResponse<List<Channel>> getChannels(final String keyId);
 
-	BasicResponse setContactImage(final String contactKeyId, final byte[] image);
-
-	DataResponse<byte[]> getContactThumbnail(final String contactKeyId);
-
-	BasicResponse deleteContactThumbnail(final String contactKeyId);
-
-	BasicResponse setContactThumbnail(final String contactKeyId, final byte[] image);
-
-	DataResponse<List<Channel>> getChannels(final String contactKeyId);
-
-	DataResponse<List<Position>> getPositions(final String contactKeyId);
+	DataResponse<List<Position>> getPositions(final String keyId);
 
 }

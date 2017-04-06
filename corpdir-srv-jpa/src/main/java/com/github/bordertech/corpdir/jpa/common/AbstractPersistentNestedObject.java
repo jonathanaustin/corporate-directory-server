@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
  * @author jonathan
  */
 @MappedSuperclass
-public abstract class AbstractPersistentNestedSet<T extends PersistentNestedSet> extends AbstractPersistentKeyIdObject implements PersistentNestedSet<T> {
+public abstract class AbstractPersistentNestedObject<T extends PersistentNestedObject> extends AbstractPersistentKeyIdObject implements PersistentNestedObject<T> {
 
 	@ManyToOne
 	@JoinColumn(name = "parentId")
@@ -30,14 +30,14 @@ public abstract class AbstractPersistentNestedSet<T extends PersistentNestedSet>
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractPersistentNestedSet() {
+	protected AbstractPersistentNestedObject() {
 		// Default constructor
 	}
 
 	/**
 	 * @param id the entity id
 	 */
-	public AbstractPersistentNestedSet(final Long id) {
+	public AbstractPersistentNestedObject(final Long id) {
 		super(id);
 	}
 

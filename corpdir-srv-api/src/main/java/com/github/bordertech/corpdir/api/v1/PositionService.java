@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.response.BasicResponse;
+import com.github.bordertech.corpdir.api.common.BasicNestedService;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
@@ -13,30 +13,14 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface PositionService {
+public interface PositionService extends BasicNestedService<Position> {
 
-	DataResponse<List<Position>> getPositions(final String search, final Boolean assigned);
+	DataResponse<List<Contact>> getContacts(final String keyId);
 
-	DataResponse<Position> getPosition(final String positionKeyId);
+	DataResponse<Position> addContact(final String keyId, final String contactKeyId);
 
-	DataResponse<Position> createPosition(final Position position);
+	DataResponse<Position> removeContact(final String keyId, final String contactKeyId);
 
-	DataResponse<Position> updatePosition(final String positionKeyId, final Position position);
-
-	BasicResponse deletePosition(final String positionKeyId);
-
-	DataResponse<List<Contact>> getContacts(final String positionKeyId);
-
-	DataResponse<Position> addContact(final String positionKeyId, final String contactKeyId);
-
-	DataResponse<Position> removeContact(final String positionKeyId, final String contactKeyId);
-
-	DataResponse<List<Position>> getReports(final String positionKeyId);
-
-	DataResponse<Position> addReport(final String positionKeyId, final String reportPositionKeyId);
-
-	DataResponse<Position> removeReport(final String positionKeyId, final String reportPositionKeyId);
-
-	DataResponse<List<OrgUnit>> getManages(final String positionKeyId);
+	DataResponse<List<OrgUnit>> getManages(final String keyId);
 
 }

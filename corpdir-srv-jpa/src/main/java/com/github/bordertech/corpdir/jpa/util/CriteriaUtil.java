@@ -7,7 +7,7 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.PersistentNestedSet;
+import com.github.bordertech.corpdir.jpa.common.PersistentNestedObject;
 
 /**
  * Criteria helper.
@@ -58,7 +58,7 @@ public final class CriteriaUtil {
 	 * @param assigned flag if assigned
 	 * @return the predicate for assigned
 	 */
-	public static <T extends PersistentNestedSet> Predicate createAssignedCriteria(final CriteriaBuilder cb, final Root<T> root, final boolean assigned) {
+	public static <T extends PersistentNestedObject> Predicate createAssignedCriteria(final CriteriaBuilder cb, final Root<T> root, final boolean assigned) {
 		Path path = root.<String>get("parent");
 		Predicate pred = assigned ? cb.isNotNull(path) : cb.isNull(path);
 		return pred;

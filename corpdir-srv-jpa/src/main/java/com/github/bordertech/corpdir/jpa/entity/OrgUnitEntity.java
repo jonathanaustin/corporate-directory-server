@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentNestedSet;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentNestedObject;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -17,7 +17,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends AbstractPersistentNestedSet<OrgUnitEntity> {
+public class OrgUnitEntity extends AbstractPersistentNestedObject<OrgUnitEntity> {
 
 	@ManyToOne
 	private UnitTypeEntity type;

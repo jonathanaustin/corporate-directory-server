@@ -39,63 +39,63 @@ public class OrgUnitResource implements OrgUnitService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<OrgUnit>> getOrgUnits(@QueryParam("search") final String search, @QueryParam("assigned") final Boolean assigned) {
-		return impl.getOrgUnits(search, assigned);
+	public DataResponse<List<OrgUnit>> search(@QueryParam("search") final String search) {
+		return impl.search(search);
 	}
 
 	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> getOrgUnit(@PathParam("key") final String orgUnitKeyId) {
-		return impl.getOrgUnit(orgUnitKeyId);
+	public DataResponse<OrgUnit> retrieve(@PathParam("key") final String orgUnitKeyId) {
+		return impl.retrieve(orgUnitKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> createOrgUnit(final OrgUnit orgUnit) {
-		return impl.createOrgUnit(orgUnit);
+	public DataResponse<OrgUnit> create(final OrgUnit orgUnit) {
+		return impl.create(orgUnit);
 	}
 
 	@PUT
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> updateOrgUnit(@PathParam("key") final String orgUnitKeyId, final OrgUnit orgUnit) {
-		return impl.updateOrgUnit(orgUnitKeyId, orgUnit);
+	public DataResponse<OrgUnit> update(@PathParam("key") final String orgUnitKeyId, final OrgUnit orgUnit) {
+		return impl.update(orgUnitKeyId, orgUnit);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse deleteOrgUnit(@PathParam("key") final String orgUnitKeyId) {
-		return impl.deleteOrgUnit(orgUnitKeyId);
+	public BasicResponse delete(@PathParam("key") final String orgUnitKeyId) {
+		return impl.delete(orgUnitKeyId);
 	}
 
 	@GET
 	@Path("/{key}/orgunits")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<OrgUnit>> getSubOrgUnits(@PathParam("key") final String orgUnitKeyId) {
-		return impl.getSubOrgUnits(orgUnitKeyId);
+	public DataResponse<List<OrgUnit>> getSubs(@PathParam("key") final String orgUnitKeyId) {
+		return impl.getSubs(orgUnitKeyId);
 	}
 
 	@PUT
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> addSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
-		return impl.addSubOrgUnit(orgUnitKeyId, subOrgUnitKeyId);
+	public DataResponse<OrgUnit> addSub(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
+		return impl.addSub(orgUnitKeyId, subOrgUnitKeyId);
 	}
 
 	@DELETE
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> removeSubOrgUnit(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
-		return impl.removeSubOrgUnit(orgUnitKeyId, subOrgUnitKeyId);
+	public DataResponse<OrgUnit> removeSub(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
+		return impl.removeSub(orgUnitKeyId, subOrgUnitKeyId);
 	}
 
 	@GET

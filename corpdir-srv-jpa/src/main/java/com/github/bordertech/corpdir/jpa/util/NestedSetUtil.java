@@ -7,7 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.PersistentNestedSet;
+import com.github.bordertech.corpdir.jpa.common.PersistentNestedObject;
 
 /**
  * NestedSet processing helper.
@@ -24,18 +24,18 @@ public final class NestedSetUtil {
 		// prevent instatiation
 	}
 
-	public static <T extends PersistentNestedSet> void rebuildLeftRight(final EntityManager em, final T entity, final Class<T> entityClass) {
+	public static <T extends PersistentNestedObject> void rebuildLeftRight(final EntityManager em, final T entity, final Class<T> entityClass) {
 		if (entity.getParentId() == null) {
 			rebuildLeftRightThreadBasedOnParent(Arrays.asList(entity));
 		} else {
-			PersistentNestedSet parent = em.find(entityClass, entity.getParentId());
+			PersistentNestedObject parent = em.find(entityClass, entity.getParentId());
 			List<T> entities = findByThreadId(em, parent.getThreadId(), entityClass);
 			entities.add(entity);
 			rebuildLeftRightThreadBasedOnParent(entities);
 		}
 	}
 
-	private static <T extends PersistentNestedSet> List<T> findByThreadId(final EntityManager em, final Long threadId, final Class<T> objectClass) {
+	private static <T extends PersistentNestedObject> List<T> findByThreadId(final EntityManager em, final Long threadId, final Class<T> objectClass) {
 
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<T> qry = cb.createQuery(objectClass);
@@ -51,18 +51,18 @@ public final class NestedSetUtil {
 		return rows;
 	}
 
-	private static void rebuildLeftRightThreadBasedOnParent(final List<? extends PersistentNestedSet> entities) {
-		PersistentNestedSet root = findRootFromList(entities);
+	private static void rebuildLeftRightThreadBasedOnParent(final List<? extends PersistentNestedObject> entities) {
+		PersistentNestedObject root = findRootFromList(entities);
 		root.setLeftIdx(0L);
 		root.setThreadId(root.getId());
 		long current = rebuildLeftRightThreadBasedOnParentRec(entities, root.getId(), root, 1);
 		root.setRightIdx(current);
 	}
 
-	private static long rebuildLeftRightThreadBasedOnParentRec(final List<? extends PersistentNestedSet> entities, final Long threadId, final PersistentNestedSet parent,
+	private static long rebuildLeftRightThreadBasedOnParentRec(final List<? extends PersistentNestedObject> entities, final Long threadId, final PersistentNestedObject parent,
 			final long current) {
 		long tmpCurrent = current;
-		for (PersistentNestedSet entity : entities) {
+		for (PersistentNestedObject entity : entities) {
 			if (entity.getParentId() != null && entity.getParentId().equals(parent.getId())) {
 				entity.setThreadId(threadId);
 				entity.setLeftIdx(tmpCurrent++);
@@ -74,8 +74,8 @@ public final class NestedSetUtil {
 		return tmpCurrent;
 	}
 
-	private static PersistentNestedSet findRootFromList(final List<? extends PersistentNestedSet> entities) {
-		for (PersistentNestedSet entity : entities) {
+	private static PersistentNestedObject findRootFromList(final List<? extends PersistentNestedObject> entities) {
+		for (PersistentNestedObject entity : entities) {
 			if (entity.getParentId() == null || entity.getParentId().equals(entity.getId())) {
 				return entity;
 			}

@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.jpa.common;
 
 import java.util.Set;
 
-public interface PersistentNestedSet<T extends PersistentNestedSet> extends PersistentKeyIdObject {
+public interface PersistentNestedObject<T extends PersistentNestedObject> extends PersistentKeyIdObject {
 
 	void setParent(final T parent);
 

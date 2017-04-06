@@ -39,39 +39,39 @@ public class PositionTypeResource implements PositionTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<PositionType>> getPositionTypes(@QueryParam("search") final String search) {
-		return impl.getPositionTypes(search);
+	public DataResponse<List<PositionType>> search(@QueryParam("search") final String search) {
+		return impl.search(search);
 	}
 
 	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<PositionType> getPositionType(@PathParam("key") final String typeKeyId) {
-		return impl.getPositionType(typeKeyId);
+	public DataResponse<PositionType> retrieve(@PathParam("key") final String typeKeyId) {
+		return impl.retrieve(typeKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<PositionType> createPositionType(final PositionType type) {
-		return impl.createPositionType(type);
+	public DataResponse<PositionType> create(final PositionType type) {
+		return impl.create(type);
 	}
 
 	@PUT
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<PositionType> updatePositionType(@PathParam("key") final String typeKeyId, final PositionType type) {
-		return impl.updatePositionType(typeKeyId, type);
+	public DataResponse<PositionType> update(@PathParam("key") final String typeKeyId, final PositionType type) {
+		return impl.update(typeKeyId, type);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse deletePositionType(@PathParam("key") final String typeKeyId) {
-		return impl.deletePositionType(typeKeyId);
+	public BasicResponse delete(@PathParam("key") final String typeKeyId) {
+		return impl.delete(typeKeyId);
 	}
 
 	@GET

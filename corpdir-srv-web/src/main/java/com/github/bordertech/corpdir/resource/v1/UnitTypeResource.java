@@ -39,39 +39,39 @@ public class UnitTypeResource implements UnitTypeService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<UnitType>> getUnitTypes(@QueryParam("search") final String search) {
-		return impl.getUnitTypes(search);
+	public DataResponse<List<UnitType>> search(@QueryParam("search") final String search) {
+		return impl.search(search);
 	}
 
 	@GET
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<UnitType> getUnitType(@PathParam("key") final String typeKeyId) {
-		return impl.getUnitType(typeKeyId);
+	public DataResponse<UnitType> retrieve(@PathParam("key") final String typeKeyId) {
+		return impl.retrieve(typeKeyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<UnitType> createUnitType(final UnitType type) {
-		return impl.createUnitType(type);
+	public DataResponse<UnitType> create(final UnitType type) {
+		return impl.create(type);
 	}
 
 	@PUT
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<UnitType> updateUnitType(@PathParam("key") final String typeKeyId, final UnitType type) {
-		return impl.updateUnitType(typeKeyId, type);
+	public DataResponse<UnitType> update(@PathParam("key") final String typeKeyId, final UnitType type) {
+		return impl.update(typeKeyId, type);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse deleteUnitType(@PathParam("key") final String typeKeyId) {
-		return impl.deleteUnitType(typeKeyId);
+	public BasicResponse delete(@PathParam("key") final String typeKeyId) {
+		return impl.delete(typeKeyId);
 	}
 
 	@GET
