@@ -17,17 +17,15 @@ import javax.persistence.EntityManager;
 public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends PersistentNestedObject<P>> extends AbstractMapperKeyId<A, P> {
 
 	@Override
-	public P convertApiToEntity(final EntityManager em, final A from) {
-		P to = super.convertApiToEntity(em, from);
+	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
+		super.copyApiToEntity(em, from, to);
 		handleCopyNestedApiToEntity(em, from, to);
-		return to;
 	}
 
 	@Override
-	public A convertEntityToApi(final EntityManager em, final P from) {
-		A to = super.convertEntityToApi(em, from);
+	public void copyEntityToApi(final EntityManager em, final P from, final A to) {
+		super.copyEntityToApi(em, from, to);
 		handleCopyNestedEntityToApi(em, from, to);
-		return to;
 	}
 
 	protected void handleCopyNestedApiToEntity(final EntityManager em, final A from, final P to) {
@@ -39,11 +37,16 @@ public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends 
 			// Remove from Orig Parent
 			if (origId != null) {
 				P ou = getEntity(em, origId);
-				ou.removeChild(to);
+				if (ou != null) {
+					ou.removeChild(to);
+				}
 			}
 			// Add to New Parent
 			if (newId != null) {
 				P ou = getEntity(em, newId);
+				if (ou == null) {
+					throw new IllegalStateException("New Parent [" + newId + "] could not be found.");
+				}
 				ou.addChild(to);
 			}
 		}
@@ -55,11 +58,16 @@ public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends 
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				P ou = getEntity(em, id);
-				to.removeChild(ou);
+				if (ou != null) {
+					to.removeChild(ou);
+				}
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				P ou = getEntity(em, id);
+				if (ou == null) {
+					throw new IllegalStateException("New child [" + newId + "] could not be found.");
+				}
 				to.addChild(ou);
 			}
 		}

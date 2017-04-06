@@ -47,8 +47,8 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<PositionType> retrieve(@PathParam("key") final String typeKeyId) {
-		return impl.retrieve(typeKeyId);
+	public DataResponse<PositionType> retrieve(@PathParam("key") final String keyId) {
+		return impl.retrieve(keyId);
 	}
 
 	@POST
@@ -62,24 +62,24 @@ public class PositionTypeResource implements PositionTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<PositionType> update(@PathParam("key") final String typeKeyId, final PositionType type) {
-		return impl.update(typeKeyId, type);
+	public DataResponse<PositionType> update(@PathParam("key") final String keyId, final PositionType type) {
+		return impl.update(keyId, type);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse delete(@PathParam("key") final String typeKeyId) {
-		return impl.delete(typeKeyId);
+	public BasicResponse delete(@PathParam("key") final String keyId) {
+		return impl.delete(keyId);
 	}
 
 	@GET
 	@Path("/{key}/positions")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<Position>> getPositions(@PathParam("key") final String typeKeyId) {
-		return impl.getPositions(typeKeyId);
+	public DataResponse<List<Position>> getPositions(@PathParam("key") final String keyId) {
+		return impl.getPositions(keyId);
 	}
 
 }

@@ -47,8 +47,8 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<UnitType> retrieve(@PathParam("key") final String typeKeyId) {
-		return impl.retrieve(typeKeyId);
+	public DataResponse<UnitType> retrieve(@PathParam("key") final String keyId) {
+		return impl.retrieve(keyId);
 	}
 
 	@POST
@@ -62,24 +62,24 @@ public class UnitTypeResource implements UnitTypeService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<UnitType> update(@PathParam("key") final String typeKeyId, final UnitType type) {
-		return impl.update(typeKeyId, type);
+	public DataResponse<UnitType> update(@PathParam("key") final String keyId, final UnitType type) {
+		return impl.update(keyId, type);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse delete(@PathParam("key") final String typeKeyId) {
-		return impl.delete(typeKeyId);
+	public BasicResponse delete(@PathParam("key") final String keyId) {
+		return impl.delete(keyId);
 	}
 
 	@GET
 	@Path("/{key}/units")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String typeKeyId) {
-		return impl.getOrgUnits(typeKeyId);
+	public DataResponse<List<OrgUnit>> getOrgUnits(@PathParam("key") final String keyId) {
+		return impl.getOrgUnits(keyId);
 	}
 
 }

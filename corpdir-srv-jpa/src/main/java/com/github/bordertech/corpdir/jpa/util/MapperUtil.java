@@ -270,6 +270,10 @@ public final class MapperUtil {
 	 * @return true if keys are equal
 	 */
 	public static boolean keyMatch(final String key1, final String key2) {
+		// Treat Null and Empty as the same
+		if ((key1 == null || key1.isEmpty()) && (key2 == null || key2.isEmpty())) {
+			return true;
+		}
 		return Objects.equals(key1, key2);
 	}
 

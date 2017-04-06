@@ -47,8 +47,8 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> retrieve(@PathParam("key") final String orgUnitKeyId) {
-		return impl.retrieve(orgUnitKeyId);
+	public DataResponse<OrgUnit> retrieve(@PathParam("key") final String keyId) {
+		return impl.retrieve(keyId);
 	}
 
 	@POST
@@ -62,72 +62,72 @@ public class OrgUnitResource implements OrgUnitService {
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> update(@PathParam("key") final String orgUnitKeyId, final OrgUnit orgUnit) {
-		return impl.update(orgUnitKeyId, orgUnit);
+	public DataResponse<OrgUnit> update(@PathParam("key") final String keyId, final OrgUnit orgUnit) {
+		return impl.update(keyId, orgUnit);
 	}
 
 	@DELETE
 	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse delete(@PathParam("key") final String orgUnitKeyId) {
-		return impl.delete(orgUnitKeyId);
+	public BasicResponse delete(@PathParam("key") final String keyId) {
+		return impl.delete(keyId);
 	}
 
 	@GET
 	@Path("/{key}/orgunits")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<OrgUnit>> getSubs(@PathParam("key") final String orgUnitKeyId) {
-		return impl.getSubs(orgUnitKeyId);
+	public DataResponse<List<OrgUnit>> getSubs(@PathParam("key") final String keyId) {
+		return impl.getSubs(keyId);
 	}
 
 	@PUT
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> addSub(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
-		return impl.addSub(orgUnitKeyId, subOrgUnitKeyId);
+	public DataResponse<OrgUnit> addSub(@PathParam("key") final String keyId, @PathParam("subKey") final String subKeyId) {
+		return impl.addSub(keyId, subKeyId);
 	}
 
 	@DELETE
 	@Path("/{key}/orgunits/{subKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> removeSub(@PathParam("key") final String orgUnitKeyId, @PathParam("subKey") final String subOrgUnitKeyId) {
-		return impl.removeSub(orgUnitKeyId, subOrgUnitKeyId);
+	public DataResponse<OrgUnit> removeSub(@PathParam("key") final String keyId, @PathParam("subKey") final String subKeyId) {
+		return impl.removeSub(keyId, subKeyId);
 	}
 
 	@GET
 	@Path("/{key}/positions")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<Position>> getPositions(@PathParam("key") final String orgUnitKeyId) {
-		return impl.getPositions(orgUnitKeyId);
+	public DataResponse<List<Position>> getPositions(@PathParam("key") final String keyId) {
+		return impl.getPositions(keyId);
 	}
 
 	@PUT
 	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> addPosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
-		return impl.addPosition(orgUnitKeyId, positionKeyId);
+	public DataResponse<OrgUnit> addPosition(@PathParam("key") final String keyId, @PathParam("positionKey") final String positionKeyId) {
+		return impl.addPosition(keyId, positionKeyId);
 	}
 
 	@DELETE
 	@Path("/{key}/positions/{positionKey}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<OrgUnit> removePosition(@PathParam("key") final String orgUnitKeyId, @PathParam("positionKey") final String positionKeyId) {
-		return impl.removePosition(orgUnitKeyId, positionKeyId);
+	public DataResponse<OrgUnit> removePosition(@PathParam("key") final String keyId, @PathParam("positionKey") final String positionKeyId) {
+		return impl.removePosition(keyId, positionKeyId);
 	}
 
 	@GET
 	@Path("/{key}/managers")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<Position> getManagerPosition(@PathParam("key") final String orgUnitKeyId) {
-		return impl.getManagerPosition(orgUnitKeyId);
+	public DataResponse<Position> getManagerPosition(@PathParam("key") final String keyId) {
+		return impl.getManagerPosition(keyId);
 	}
 
 }
