@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperKeyId;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
 import javax.persistence.EntityManager;
 
@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class PositionTypeMapper extends AbstractKeyIdApiEntityMapper<PositionType, PositionTypeEntity> {
+public class PositionTypeMapper extends AbstractMapperKeyId<PositionType, PositionTypeEntity> {
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final PositionType from, final PositionTypeEntity to) {

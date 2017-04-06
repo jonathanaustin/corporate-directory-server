@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperNested;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnitEntity> {
+public class OrgUnitMapper extends AbstractMapperNested<OrgUnit, OrgUnitEntity> {
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final OrgUnit from, final OrgUnitEntity to) {
@@ -58,48 +58,13 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 			}
 		}
 
-		// Parent Org Unit
-		origId = MapperUtil.convertEntityIdforApi(to.getParent());
-		newId = from.getParentId();
-		if (!MapperUtil.keyMatch(origId, newId)) {
-			// Remove from Orig Parent
-			if (origId != null) {
-				OrgUnitEntity ou = getOrgUnitEntity(em, origId);
-				ou.removeChild(to);
-			}
-			// Add to New Parent
-			if (newId != null) {
-				OrgUnitEntity ou = getOrgUnitEntity(em, newId);
-				ou.addChild(to);
-			}
-		}
-
-		// Sub Org Units
-		origIds = MapperUtil.convertEntitiesToApiKeys(to.getChildren());
-		newIds = from.getSubIds();
-		if (!MapperUtil.keysMatch(origIds, newIds)) {
-			// Removed
-			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
-				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				to.removeChild(ou);
-			}
-			// Added
-			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
-				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				to.addChild(ou);
-			}
-		}
 	}
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final OrgUnitEntity from, final OrgUnit to) {
-		// Key
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
 		to.setManagerPosId(MapperUtil.convertEntityIdforApi(from.getManagerPosition()));
-		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParent()));
-		// Keys
 		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
-		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getChildren()));
 	}
 
 	@Override
@@ -112,16 +77,17 @@ public class OrgUnitMapper extends AbstractKeyIdApiEntityMapper<OrgUnit, OrgUnit
 		return new OrgUnitEntity(id);
 	}
 
+	@Override
+	protected Class<OrgUnitEntity> getEntityClass() {
+		return OrgUnitEntity.class;
+	}
+
 	protected UnitTypeEntity getUnitTypeEntity(final EntityManager em, final String keyId) {
 		return MapperUtil.getEntity(em, keyId, UnitTypeEntity.class);
 	}
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
 		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
-	}
-
-	protected OrgUnitEntity getOrgUnitEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, OrgUnitEntity.class);
 	}
 
 }

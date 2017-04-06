@@ -1,7 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.api.common.ApiObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,29 +8,22 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link ApiKeyIdObject} and {@link PersistentKeyIdObject}.
+ * Map {@link ApiObject} and {@link PersistentObject}.
  *
- * @param <A> the API keyed object
- * @param <P> the keyed persistent object
+ * @param <A> the API object
+ * @param <P> the persistent object
  * @author jonathan
  */
-public abstract class AbstractKeyIdApiEntityMapper<A extends ApiKeyIdObject, P extends PersistentKeyIdObject> implements ApiEntityMapper<A, P> {
+public abstract class AbstractMapper<A extends ApiObject, P extends PersistentObject> implements MapperApiEntity<A, P> {
 
 	@Override
 	public P convertApiToEntity(final EntityManager em, final A from) {
 		if (from == null) {
 			return null;
 		}
-		Long id = MapperUtil.convertApiIdforEntity(from.getId());
-		P to = createEntityObject(id);
+		P to = createEntityObject();
 		copyApiToEntity(em, from, to);
 		return to;
-	}
-
-	@Override
-	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
-		MapperUtil.handleCommonKeyedApiToEntity(from, to);
-		copyApiToEntityFields(em, from, to);
 	}
 
 	@Override
@@ -42,12 +34,6 @@ public abstract class AbstractKeyIdApiEntityMapper<A extends ApiKeyIdObject, P e
 		A to = createApiObject();
 		copyEntityToApi(em, from, to);
 		return to;
-	}
-
-	@Override
-	public void copyEntityToApi(final EntityManager em, final P from, final A to) {
-		MapperUtil.handleCommonKeyedEntityToApi(from, to);
-		copyEntityToApiFields(em, from, to);
 	}
 
 	@Override
@@ -78,10 +64,6 @@ public abstract class AbstractKeyIdApiEntityMapper<A extends ApiKeyIdObject, P e
 
 	abstract protected A createApiObject();
 
-	abstract protected P createEntityObject(final Long id);
-
-	abstract protected void copyApiToEntityFields(final EntityManager em, final A from, final P to);
-
-	abstract protected void copyEntityToApiFields(final EntityManager em, final P from, final A to);
+	abstract protected P createEntityObject();
 
 }

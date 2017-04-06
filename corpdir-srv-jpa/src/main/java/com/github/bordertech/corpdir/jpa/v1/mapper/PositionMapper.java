@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperNested;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, PositionEntity> {
+public class PositionMapper extends AbstractMapperNested<Position, PositionEntity> {
 
 	@Override
 	protected void copyApiToEntityFields(final EntityManager em, final Position from, final PositionEntity to) {
@@ -25,22 +25,6 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 		String newId = from.getTypeId();
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			to.setType(getPositionTypeEntity(em, newId));
-		}
-
-		// Parent Position
-		origId = MapperUtil.convertEntityIdforApi(to.getParent());
-		newId = from.getParentId();
-		if (!MapperUtil.keyMatch(origId, newId)) {
-			// Remove from Orig Parent
-			if (origId != null) {
-				PositionEntity pos = getPositionEntity(em, origId);
-				pos.removeChild(to);
-			}
-			// Add to New Parent
-			if (newId != null) {
-				PositionEntity pos = getPositionEntity(em, newId);
-				pos.addChild(to);
-			}
 		}
 
 		// Belongs to OU
@@ -59,25 +43,9 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 			}
 		}
 
-		// Sub Positions
-		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getChildren());
-		List<String> newIds = from.getSubIds();
-		if (!MapperUtil.keysMatch(origIds, newIds)) {
-			// Removed
-			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
-				PositionEntity pos = getPositionEntity(em, id);
-				to.removeChild(pos);
-			}
-			// Added
-			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
-				PositionEntity pos = getPositionEntity(em, id);
-				to.addChild(pos);
-			}
-		}
-
 		// Contacts
-		origIds = MapperUtil.convertEntitiesToApiKeys(to.getContacts());
-		newIds = from.getContactIds();
+		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getContacts());
+		List<String> newIds = from.getContactIds();
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -111,12 +79,8 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 
 	@Override
 	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
-		// Key
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
-		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParent()));
 		to.setOuId(MapperUtil.convertEntityIdforApi(from.getOrgUnit()));
-		// Keys
-		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getChildren()));
 		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
 		to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(from.getManageOrgUnits()));
 	}
@@ -131,12 +95,13 @@ public class PositionMapper extends AbstractKeyIdApiEntityMapper<Position, Posit
 		return new PositionEntity(id);
 	}
 
-	protected PositionTypeEntity getPositionTypeEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionTypeEntity.class);
+	@Override
+	protected Class<PositionEntity> getEntityClass() {
+		return PositionEntity.class;
 	}
 
-	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
+	protected PositionTypeEntity getPositionTypeEntity(final EntityManager em, final String keyId) {
+		return MapperUtil.getEntity(em, keyId, PositionTypeEntity.class);
 	}
 
 	protected OrgUnitEntity getOrgUnitEntity(final EntityManager em, final String keyId) {

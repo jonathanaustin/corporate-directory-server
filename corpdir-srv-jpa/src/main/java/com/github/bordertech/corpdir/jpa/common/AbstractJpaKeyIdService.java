@@ -141,6 +141,6 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 
 	protected abstract Class<P> getEntityClass();
 
-	protected abstract ApiEntityMapper<A, P> getMapper();
+	protected abstract MapperApiEntity<A, P> getMapper();
 
 }

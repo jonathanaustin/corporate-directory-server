@@ -6,7 +6,6 @@ import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaNestedService;
-import com.github.bordertech.corpdir.jpa.common.ApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
@@ -15,6 +14,7 @@ import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
 
 /**
  * Organization unit JPA service implementation.
@@ -111,7 +111,7 @@ public class OrgUnitServiceImpl extends AbstractJpaNestedService<OrgUnit, OrgUni
 	}
 
 	@Override
-	protected ApiEntityMapper<OrgUnit, OrgUnitEntity> getMapper() {
+	protected MapperApiEntity<OrgUnit, OrgUnitEntity> getMapper() {
 		return ORGUNIT_MAPPER;
 	}
 

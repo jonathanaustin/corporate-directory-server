@@ -12,7 +12,7 @@ import javax.persistence.EntityManager;
  * @param <A> the API object
  * @param <P> the Entity object
  */
-public interface ApiEntityMapper<A extends ApiObject, P extends PersistentObject> {
+public interface MapperApiEntity<A extends ApiObject, P extends PersistentObject> {
 
 	/**
 	 *

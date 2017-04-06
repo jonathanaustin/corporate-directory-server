@@ -5,7 +5,6 @@ import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.AbstractJpaKeyIdService;
-import com.github.bordertech.corpdir.jpa.common.ApiEntityMapper;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -17,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
 
 /**
  * Organization unit type JPA service implementation.
@@ -59,7 +59,7 @@ public class UnitTypeServiceImpl extends AbstractJpaKeyIdService<UnitType, UnitT
 	}
 
 	@Override
-	protected ApiEntityMapper<UnitType, UnitTypeEntity> getMapper() {
+	protected MapperApiEntity<UnitType, UnitTypeEntity> getMapper() {
 		return UNITTYPE_MAPPER;
 	}
 

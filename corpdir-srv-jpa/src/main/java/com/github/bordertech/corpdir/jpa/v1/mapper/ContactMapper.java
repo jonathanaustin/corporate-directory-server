@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
-import com.github.bordertech.corpdir.jpa.common.AbstractKeyIdApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperKeyId;
 import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class ContactMapper extends AbstractKeyIdApiEntityMapper<Contact, ContactEntity> {
+public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();

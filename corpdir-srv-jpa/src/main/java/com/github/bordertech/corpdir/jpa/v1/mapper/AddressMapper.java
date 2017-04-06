@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Address;
-import com.github.bordertech.corpdir.jpa.common.AbstractApiEntityMapper;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapper;
 import com.github.bordertech.corpdir.jpa.entity.AddressEntity;
 import javax.persistence.EntityManager;
 
@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class AddressMapper extends AbstractApiEntityMapper<Address, AddressEntity> {
+public class AddressMapper extends AbstractMapper<Address, AddressEntity> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final Address from, final AddressEntity to) {
