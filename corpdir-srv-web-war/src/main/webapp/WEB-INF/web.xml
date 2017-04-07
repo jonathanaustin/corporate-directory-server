@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This web.xml file is not required when using Servlet 3.0 container,
+see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html#d4e194 -->
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<servlet>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.github.bordertech.corpdir.jersey.config.ApplicationConfig</param-value>
+		</init-param>
+		<init-param>
+			<!-- Disable Moxy -->
+			<param-name>jersey.config.disableMoxyJson.server</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<!-- Use Jackson instead. Handles empty list much nicer. -->
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>
+				com.ws.jaxrs.jersey;org.codehaus.jackson.jaxrs,
+				io.swagger.jaxrs.listing,
+				com.github.bordertech.corpdir.resource,
+				com.github.bordertech.corpdir.servlet
+			</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<!-- This does not need a servlet mapping, it configures swagger. -->
+		<servlet-name>Jersey2Config</servlet-name>
+		<servlet-class>io.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
+		<init-param>
+			<param-name>api.version</param-name>
+			<param-value>1.0.0</param-value><!-- Our API version. -->
+		</init-param>
+		<init-param>
+			<param-name>swagger.api.basepath</param-name>
+			<param-value>http://localhost:8080/api</param-value><!-- Our service root. -->
+		</init-param>
+		<init-param>
+			<param-name>scan.all.resources</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+</web-app>
