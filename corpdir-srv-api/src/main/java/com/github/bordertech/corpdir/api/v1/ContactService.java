@@ -3,7 +3,6 @@ package com.github.bordertech.corpdir.api.v1;
 import com.github.bordertech.corpdir.api.common.BasicService;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
-import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import java.util.List;
@@ -28,8 +27,10 @@ public interface ContactService extends BasicService<Contact> {
 
 	BasicResponse setThumbnail(final String keyId, final byte[] image);
 
-	DataResponse<List<Channel>> getChannels(final String keyId);
-
 	DataResponse<List<Position>> getPositions(final String keyId);
+
+	DataResponse<Contact> addPosition(final String keyId, final String positionKeyId);
+
+	DataResponse<Contact> removePosition(final String keyId, final String positionKeyId);
 
 }
