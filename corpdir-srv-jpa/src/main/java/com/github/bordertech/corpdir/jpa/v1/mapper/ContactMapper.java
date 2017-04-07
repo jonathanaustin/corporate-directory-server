@@ -22,7 +22,8 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
 
 	@Override
-	public void copyApiToEntityFields(final EntityManager em, final Contact from, final ContactEntity to) {
+	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to) {
+		super.copyApiToEntity(em, from, to);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
@@ -30,14 +31,14 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 
 		// Location
 		String origId = MapperUtil.convertEntityIdforApi(to.getLocation());
-		String newId = from.getLocationId();
+		String newId = MapperUtil.cleanApiKey(from.getLocationId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			to.setLocation(getLocationEntity(em, newId));
 		}
 
 		// Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getPositions());
-		List<String> newIds = from.getPositionIds();
+		List<String> newIds = MapperUtil.cleanApiKeys(from.getPositionIds());
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -58,11 +59,11 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 			ChannelEntity entity = CHANNEL_MAPPER.convertApiToEntity(em, channel);
 			to.addChannel(entity);
 		}
-
 	}
 
 	@Override
-	public void copyEntityToApiFields(final EntityManager em, final ContactEntity from, final Contact to) {
+	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to) {
+		super.copyEntityToApi(em, from, to);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());

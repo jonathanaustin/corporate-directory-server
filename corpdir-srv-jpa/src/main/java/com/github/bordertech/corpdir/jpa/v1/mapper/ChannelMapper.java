@@ -14,7 +14,8 @@ import javax.persistence.EntityManager;
 public class ChannelMapper extends AbstractMapperKeyId<Channel, ChannelEntity> {
 
 	@Override
-	public void copyApiToEntityFields(final EntityManager em, final Channel from, final ChannelEntity to) {
+	public void copyApiToEntity(final EntityManager em, final Channel from, final ChannelEntity to) {
+		super.copyApiToEntity(em, from, to);
 		to.setChannelValue(from.getValue());
 		// Type
 		if (from.getType() != null) {
@@ -36,7 +37,8 @@ public class ChannelMapper extends AbstractMapperKeyId<Channel, ChannelEntity> {
 	}
 
 	@Override
-	public void copyEntityToApiFields(final EntityManager em, final ChannelEntity from, final Channel to) {
+	public void copyEntityToApi(final EntityManager em, final ChannelEntity from, final Channel to) {
+		super.copyEntityToApi(em, from, to);
 		to.setValue(from.getChannelValue());
 		if (from.getType() != null) {
 			switch (from.getType()) {

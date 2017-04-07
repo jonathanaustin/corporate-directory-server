@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiNestedObject;
+import com.github.bordertech.corpdir.api.common.AbstractApiTreeObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class OrgUnit extends AbstractApiNestedObject {
+public class OrgUnit extends AbstractApiTreeObject {
 
 	private String typeId;
 	private String managerPosId;

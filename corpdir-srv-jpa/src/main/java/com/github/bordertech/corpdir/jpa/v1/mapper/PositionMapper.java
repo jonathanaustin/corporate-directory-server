@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperNested;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperTree;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
@@ -15,21 +15,21 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class PositionMapper extends AbstractMapperNested<Position, PositionEntity> {
+public class PositionMapper extends AbstractMapperTree<Position, PositionEntity> {
 
 	@Override
-	protected void copyApiToEntityFields(final EntityManager em, final Position from, final PositionEntity to) {
-
+	public void copyApiToEntity(final EntityManager em, final Position from, final PositionEntity to) {
+		super.copyApiToEntity(em, from, to);
 		// Type
 		String origId = MapperUtil.convertEntityIdforApi(to.getType());
-		String newId = from.getTypeId();
+		String newId = MapperUtil.cleanApiKey(from.getTypeId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			to.setType(getPositionTypeEntity(em, newId));
 		}
 
 		// Belongs to OU
 		origId = MapperUtil.convertEntityIdforApi(to.getOrgUnit());
-		newId = from.getOuId();
+		newId = MapperUtil.cleanApiKey(from.getOuId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig OU
 			if (origId != null) {
@@ -45,7 +45,7 @@ public class PositionMapper extends AbstractMapperNested<Position, PositionEntit
 
 		// Contacts
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getContacts());
-		List<String> newIds = from.getContactIds();
+		List<String> newIds = MapperUtil.cleanApiKeys(from.getContactIds());
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -61,7 +61,7 @@ public class PositionMapper extends AbstractMapperNested<Position, PositionEntit
 
 		// Manages
 		origIds = MapperUtil.convertEntitiesToApiKeys(to.getManageOrgUnits());
-		newIds = from.getManageOuIds();
+		newIds = MapperUtil.cleanApiKeys(from.getManageOuIds());
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -74,11 +74,11 @@ public class PositionMapper extends AbstractMapperNested<Position, PositionEntit
 				to.removeManageOrgUnit(ou);
 			}
 		}
-
 	}
 
 	@Override
-	protected void copyEntityToApiFields(final EntityManager em, final PositionEntity from, final Position to) {
+	public void copyEntityToApi(final EntityManager em, final PositionEntity from, final Position to) {
+		super.copyEntityToApi(em, from, to);
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
 		to.setOuId(MapperUtil.convertEntityIdforApi(from.getOrgUnit()));
 		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(from.getContacts()));
@@ -95,11 +95,6 @@ public class PositionMapper extends AbstractMapperNested<Position, PositionEntit
 		return new PositionEntity(id);
 	}
 
-	@Override
-	protected Class<PositionEntity> getEntityClass() {
-		return PositionEntity.class;
-	}
-
 	protected PositionTypeEntity getPositionTypeEntity(final EntityManager em, final String keyId) {
 		return MapperUtil.getEntity(em, keyId, PositionTypeEntity.class);
 	}
@@ -110,6 +105,11 @@ public class PositionMapper extends AbstractMapperNested<Position, PositionEntit
 
 	protected ContactEntity getContactEntity(final EntityManager em, final String keyId) {
 		return MapperUtil.getEntity(em, keyId, ContactEntity.class);
+	}
+
+	@Override
+	protected Class<PositionEntity> getEntityClass() {
+		return PositionEntity.class;
 	}
 
 }

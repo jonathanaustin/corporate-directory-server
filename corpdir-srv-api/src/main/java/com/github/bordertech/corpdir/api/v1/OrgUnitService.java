@@ -1,10 +1,10 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.common.BasicNestedService;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import java.util.List;
+import com.github.bordertech.corpdir.api.common.BasicTreeService;
 
 /**
  * Organisation Unit Service Interface.
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface OrgUnitService extends BasicNestedService<OrgUnit> {
+public interface OrgUnitService extends BasicTreeService<OrgUnit> {
 
 	DataResponse<List<Position>> getPositions(final String keyId);
 

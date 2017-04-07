@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.api.common.ApiNestedObject;
-import com.github.bordertech.corpdir.api.common.BasicNestedService;
+import com.github.bordertech.corpdir.api.common.ApiTreeObject;
+import com.github.bordertech.corpdir.api.common.BasicTreeService;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import java.util.List;
 import java.util.Objects;
@@ -9,7 +9,7 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 
 /**
- * Nested Entity service.
+ * Tree Entity service.
  *
  * @param <A> the API object type
  * @param <P> the entity type
@@ -17,7 +17,18 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public abstract class AbstractJpaNestedService<A extends ApiNestedObject, P extends PersistentNestedObject<P>> extends AbstractJpaKeyIdService<A, P> implements BasicNestedService<A> {
+public abstract class AbstractJpaTreeService<A extends ApiTreeObject, P extends PersistentTreeObject<P>> extends AbstractJpaKeyIdService<A, P> implements BasicTreeService<A> {
+
+	@Override
+	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
+		super.handleUpdateVerify(em, api, entity);
+		if (Objects.equals(api.getId(), api.getParentId())) {
+			throw new IllegalArgumentException("Cannot have itself as a parent OU.");
+		}
+		if (api.getSubIds().contains(api.getId())) {
+			throw new IllegalArgumentException("Cannot have itself as a child OU.");
+		}
+	}
 
 	@Override
 	public DataResponse<List<A>> getSubs(final String keyId) {

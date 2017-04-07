@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.api.common.ApiNestedObject;
+import com.github.bordertech.corpdir.api.common.ApiTreeObject;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
@@ -14,25 +14,25 @@ import javax.persistence.EntityManager;
  * @param <P> the nested entity
  * @author jonathan
  */
-public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends PersistentNestedObject<P>> extends AbstractMapperKeyId<A, P> {
+public abstract class AbstractMapperTree<A extends ApiTreeObject, P extends PersistentTreeObject<P>> extends AbstractMapperKeyId<A, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
 		super.copyApiToEntity(em, from, to);
-		handleCopyNestedApiToEntity(em, from, to);
+		handleCopyTreeApiToEntity(em, from, to);
 	}
 
 	@Override
 	public void copyEntityToApi(final EntityManager em, final P from, final A to) {
 		super.copyEntityToApi(em, from, to);
-		handleCopyNestedEntityToApi(em, from, to);
+		handleCopyTreeEntityToApi(em, from, to);
 	}
 
-	protected void handleCopyNestedApiToEntity(final EntityManager em, final A from, final P to) {
+	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to) {
 
 		// Parent Entity
 		String origId = MapperUtil.convertEntityIdforApi(to.getParent());
-		String newId = from.getParentId();
+		String newId = MapperUtil.cleanApiKey(from.getParentId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig Parent
 			if (origId != null) {
@@ -53,7 +53,7 @@ public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends 
 
 		// Sub Entity
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getChildren());
-		List<String> newIds = from.getSubIds();
+		List<String> newIds = MapperUtil.cleanApiKeys(from.getSubIds());
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
@@ -73,7 +73,7 @@ public abstract class AbstractMapperNested<A extends ApiNestedObject, P extends 
 		}
 	}
 
-	protected void handleCopyNestedEntityToApi(final EntityManager em, final P from, final A to) {
+	protected void handleCopyTreeEntityToApi(final EntityManager em, final P from, final A to) {
 		to.setParentId(MapperUtil.convertEntityIdforApi(from.getParent()));
 		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(from.getChildren()));
 	}

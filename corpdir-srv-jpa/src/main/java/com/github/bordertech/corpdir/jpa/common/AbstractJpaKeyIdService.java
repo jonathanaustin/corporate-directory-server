@@ -8,6 +8,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
+import java.util.Objects;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,7 +30,7 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 	public DataResponse<List<A>> search(final String search) {
 		EntityManager em = getEntityManager();
 		try {
-			CriteriaQuery<P> qry = handleSearch(em, search);
+			CriteriaQuery<P> qry = handleSearchCriteria(em, search);
 			List<P> rows = em.createQuery(qry).getResultList();
 			List<A> list = getMapper().convertEntitiesToApis(em, rows);
 			return new DataResponse<>(list);
@@ -53,7 +54,8 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 	public DataResponse<A> create(final A apiObject) {
 		EntityManager em = getEntityManager();
 		try {
-			P entity = handleCreate(em, apiObject);
+			handleCreateVerify(em, apiObject);
+			P entity = getMapper().convertApiToEntity(em, apiObject);
 			em.getTransaction().begin();
 			em.persist(entity);
 			em.getTransaction().commit();
@@ -68,7 +70,9 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
-			P entity = handleUpdate(em, apiObject, keyId);
+			P entity = getEntity(em, keyId);
+			handleUpdateVerify(em, apiObject, entity);
+			getMapper().copyApiToEntity(em, apiObject, entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {
@@ -82,6 +86,7 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 		try {
 			em.getTransaction().begin();
 			P entity = getEntity(em, keyId);
+			handleDeleteVerify(em, entity);
 			em.remove(entity);
 			em.getTransaction().commit();
 			return new BasicResponse();
@@ -101,7 +106,7 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 		return new DataResponse<>(data);
 	}
 
-	protected CriteriaQuery<P> handleSearch(final EntityManager em, final String search) {
+	protected CriteriaQuery<P> handleSearchCriteria(final EntityManager em, final String search) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
 		CriteriaQuery<P> qry = cb.createQuery(getEntityClass());
 
@@ -118,17 +123,27 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 		return qry;
 	}
 
-	protected P handleCreate(final EntityManager em, final A apiObject) {
-		MapperUtil.checkIdentifiersForCreate(em, apiObject, getEntityClass());
-		P entity = getMapper().convertApiToEntity(em, apiObject);
-		return entity;
+	protected void handleCreateVerify(final EntityManager em, final A api) {
+		MapperUtil.checkBusinessKey(em, api.getBusinessKey(), getEntityClass());
+		// Ignore ID and version
+		api.setId(null);
+		api.setVersion(null);
 	}
 
-	protected P handleUpdate(final EntityManager em, final A apiObject, final String keyId) {
-		P entity = getEntity(em, keyId);
-		MapperUtil.checkIdentifiersForUpdate(em, apiObject, entity);
-		getMapper().copyApiToEntity(em, apiObject, entity);
-		return entity;
+	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
+		// Check API/Entity ids match
+		Long apiId = MapperUtil.convertApiIdforEntity(api.getId());
+		if (!Objects.equals(apiId, entity.getId())) {
+			throw new IllegalStateException("IDs do not match [" + apiId + "] and [" + entity.getId() + "].");
+		}
+		// Check if business key changed
+		if (!Objects.equals(api.getBusinessKey(), entity.getBusinessKey())) {
+			MapperUtil.checkBusinessKey(em, api.getBusinessKey(), entity.getClass());
+		}
+	}
+
+	protected void handleDeleteVerify(final EntityManager em, final P entity) {
+		// Do nothing
 	}
 
 	protected P getEntity(final EntityManager em, final String keyId) {

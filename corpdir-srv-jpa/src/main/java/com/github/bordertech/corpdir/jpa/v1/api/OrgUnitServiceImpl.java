@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaNestedService;
+import com.github.bordertech.corpdir.jpa.common.AbstractJpaTreeService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
@@ -23,7 +23,7 @@ import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
  * @since 1.0.0
  */
 @Singleton
-public class OrgUnitServiceImpl extends AbstractJpaNestedService<OrgUnit, OrgUnitEntity> implements OrgUnitService {
+public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitEntity> implements OrgUnitService {
 
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();

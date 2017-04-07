@@ -9,7 +9,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractApiNestedObject extends AbstractApiKeyIdObject implements ApiNestedObject {
+public class AbstractApiTreeObject extends AbstractApiKeyIdObject implements ApiTreeObject {
 
 	private String parentId;
 	private List<String> subIds;

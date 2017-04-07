@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperNested;
+import com.github.bordertech.corpdir.jpa.common.AbstractMapperTree;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import javax.persistence.EntityManager;
 
@@ -10,17 +10,19 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class LocationMapper extends AbstractMapperNested<Location, LocationEntity> {
+public class LocationMapper extends AbstractMapperTree<Location, LocationEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 
 	@Override
-	public void copyApiToEntityFields(final EntityManager em, final Location from, final LocationEntity to) {
+	public void copyApiToEntity(final EntityManager em, final Location from, final LocationEntity to) {
+		super.copyApiToEntity(em, from, to);
 		to.setAddress(ADDRESS_MAPPER.convertApiToEntity(em, from.getAddress()));
 	}
 
 	@Override
-	public void copyEntityToApiFields(final EntityManager em, final LocationEntity from, final Location to) {
+	public void copyEntityToApi(final EntityManager em, final LocationEntity from, final Location to) {
+		super.copyEntityToApi(em, from, to);
 		to.setAddress(ADDRESS_MAPPER.convertEntityToApi(em, from.getAddress()));
 	}
 

@@ -13,12 +13,14 @@ import javax.persistence.EntityManager;
 public class PositionTypeMapper extends AbstractMapperKeyId<PositionType, PositionTypeEntity> {
 
 	@Override
-	protected void copyApiToEntityFields(final EntityManager em, final PositionType from, final PositionTypeEntity to) {
+	public void copyApiToEntity(final EntityManager em, final PositionType from, final PositionTypeEntity to) {
+		super.copyApiToEntity(em, from, to);
 		to.setTypeLevel(from.getLevel());
 	}
 
 	@Override
-	protected void copyEntityToApiFields(final EntityManager em, final PositionTypeEntity from, final PositionType to) {
+	public void copyEntityToApi(final EntityManager em, final PositionTypeEntity from, final PositionType to) {
+		super.copyEntityToApi(em, from, to);
 		to.setLevel(from.getTypeLevel());
 	}
 

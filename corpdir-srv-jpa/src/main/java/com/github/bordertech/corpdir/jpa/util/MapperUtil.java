@@ -1,7 +1,5 @@
 package com.github.bordertech.corpdir.jpa.util;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.api.common.ApiNestedObject;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import java.util.ArrayList;
@@ -92,35 +90,6 @@ public final class MapperUtil {
 	}
 
 	/**
-	 * Copy common fields from Entity to API.
-	 *
-	 * @param from the persistent entity
-	 * @param to the API object
-	 */
-	public static void handleCommonKeyedEntityToApi(final PersistentKeyIdObject from, final ApiKeyIdObject to) {
-		to.setId(convertEntityIdforApi(from));
-		to.setBusinessKey(from.getBusinessKey());
-		to.setDescription(from.getDescription());
-		to.setCustom(from.isCustom());
-		to.setActive(from.isActive());
-		to.setVersion(from.getVersion());
-	}
-
-	/**
-	 * Copy common fields from API to Entity.
-	 *
-	 * @param from the API object
-	 * @param to the persistent entity
-	 */
-	public static void handleCommonKeyedApiToEntity(final ApiKeyIdObject from, final PersistentKeyIdObject to) {
-		to.setBusinessKey(from.getBusinessKey());
-		to.setDescription(from.getDescription());
-		to.setCustom(from.isCustom());
-		to.setActive(from.isActive());
-		to.setVersion(from.getVersion());
-	}
-
-	/**
 	 * Convert {@link Collection} of {@link PersistentKeyIdObject} to {@link List} of {@link String}.
 	 *
 	 * @param rows the list of entity items
@@ -132,9 +101,43 @@ public final class MapperUtil {
 		}
 		List<String> items = new ArrayList<>();
 		for (PersistentKeyIdObject row : rows) {
-			items.add(convertEntityIdforApi(row));
+			if (row != null) {
+				items.add(convertEntityIdforApi(row));
+			}
 		}
 		return items;
+	}
+
+	/**
+	 * Clean out any null or empty API keys.
+	 *
+	 * @param keys the list of API keys
+	 * @return the list of clean API keys
+	 */
+	public static List<String> cleanApiKeys(final Collection<String> keys) {
+		if (keys == null || keys.isEmpty()) {
+			return Collections.EMPTY_LIST;
+		}
+		List<String> items = new ArrayList<>();
+		for (String key : keys) {
+			if (key != null && !key.isEmpty()) {
+				items.add(key);
+			}
+		}
+		return items;
+	}
+
+	/**
+	 * Clean API key.
+	 *
+	 * @param key the API key
+	 * @return the clean API key
+	 */
+	public static String cleanApiKey(final String key) {
+		if (key == null || key.isEmpty()) {
+			return null;
+		}
+		return key;
 	}
 
 	/**
@@ -145,7 +148,7 @@ public final class MapperUtil {
 	 * @return the entity
 	 */
 	public static <T extends PersistentKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
-		if (keyId == null) {
+		if (keyId == null || keyId.isEmpty()) {
 			return null;
 		}
 		if (isEntityId(keyId)) {
@@ -179,7 +182,7 @@ public final class MapperUtil {
 	 * @return the entity
 	 */
 	public static <T extends PersistentKeyIdObject> T getEntityByBusinessKey(final EntityManager em, final String businessKey, final Class<T> clazz) {
-		if (businessKey == null) {
+		if (businessKey == null || businessKey.isEmpty()) {
 			return null;
 		}
 		T entity;
@@ -194,50 +197,6 @@ public final class MapperUtil {
 			entity = null;
 		}
 		return entity;
-	}
-
-	/**
-	 * Check the API object IDs are valid for create.
-	 *
-	 * @param em the entity manager
-	 * @param api the API object
-	 * @param entityClass the entity class
-	 * @param <T> the entity type
-	 */
-	public static <T extends PersistentKeyIdObject> void checkIdentifiersForCreate(final EntityManager em, final ApiKeyIdObject api, final Class<T> entityClass) {
-		checkBusinessKey(em, api.getBusinessKey(), entityClass);
-		// Ignore ID and version
-		api.setId(null);
-		api.setVersion(null);
-	}
-
-	/**
-	 * Check the ID and businessKey match between the API and entity object.
-	 *
-	 * @param em the entity manager
-	 * @param api the API object
-	 * @param entity the entity object
-	 * @param <T> the entity type
-	 */
-	public static <T extends PersistentKeyIdObject> void checkIdentifiersForUpdate(final EntityManager em, final ApiKeyIdObject api, final T entity) {
-		// Check API/Entity ids match
-		Long apiId = convertApiIdforEntity(api.getId());
-		if (!Objects.equals(apiId, entity.getId())) {
-			throw new IllegalStateException("IDs do not match [" + apiId + "] and [" + entity.getId() + "].");
-		}
-		// Check if business key changed
-		if (!Objects.equals(api.getBusinessKey(), entity.getBusinessKey())) {
-			checkBusinessKey(em, api.getBusinessKey(), entity.getClass());
-		}
-		if (api instanceof ApiNestedObject) {
-			ApiNestedObject nested = (ApiNestedObject) api;
-			if (Objects.equals(nested.getId(), nested.getParentId())) {
-				throw new IllegalArgumentException("Cannot have itself as a parent OU.");
-			}
-			if (nested.getSubIds().contains(nested.getId())) {
-				throw new IllegalArgumentException("Cannot have itself as a child OU.");
-			}
-		}
 	}
 
 	/**

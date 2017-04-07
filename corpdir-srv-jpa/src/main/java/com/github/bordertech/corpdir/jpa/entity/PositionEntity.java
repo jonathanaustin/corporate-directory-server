@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentNestedObject;
+import com.github.bordertech.corpdir.jpa.common.AbstractPersistentTreeObject;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -18,7 +18,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends AbstractPersistentNestedObject<PositionEntity> {
+public class PositionEntity extends AbstractPersistentTreeObject<PositionEntity> {
 
 	@ManyToOne
 	private PositionTypeEntity type;

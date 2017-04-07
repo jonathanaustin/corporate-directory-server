@@ -2,6 +2,7 @@ package com.github.bordertech.corpdir.jpa.common;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import static com.github.bordertech.corpdir.jpa.util.MapperUtil.convertEntityIdforApi;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,8 +31,7 @@ public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends Pe
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
-		MapperUtil.handleCommonKeyedApiToEntity(from, to);
-		copyApiToEntityFields(em, from, to);
+		handleKeyIdApiToEntity(em, from, to);
 	}
 
 	@Override
@@ -46,8 +46,7 @@ public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends Pe
 
 	@Override
 	public void copyEntityToApi(final EntityManager em, final P from, final A to) {
-		MapperUtil.handleCommonKeyedEntityToApi(from, to);
-		copyEntityToApiFields(em, from, to);
+		handleKeyIdEntityToApi(em, from, to);
 	}
 
 	@Override
@@ -76,12 +75,27 @@ public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends Pe
 		return items;
 	}
 
+	public void handleKeyIdApiToEntity(final EntityManager em, final A from, final P to) {
+		// Common KeyId fields
+		to.setBusinessKey(from.getBusinessKey());
+		to.setDescription(from.getDescription());
+		to.setCustom(from.isCustom());
+		to.setActive(from.isActive());
+		to.setVersion(from.getVersion());
+	}
+
+	public void handleKeyIdEntityToApi(final EntityManager em, final P from, final A to) {
+		// Common KeyId Fields
+		to.setId(convertEntityIdforApi(from));
+		to.setBusinessKey(from.getBusinessKey());
+		to.setDescription(from.getDescription());
+		to.setCustom(from.isCustom());
+		to.setActive(from.isActive());
+		to.setVersion(from.getVersion());
+	}
+
 	abstract protected A createApiObject();
 
 	abstract protected P createEntityObject(final Long id);
-
-	abstract protected void copyApiToEntityFields(final EntityManager em, final A from, final P to);
-
-	abstract protected void copyEntityToApiFields(final EntityManager em, final P from, final A to);
 
 }
