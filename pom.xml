@@ -91,17 +91,38 @@
 				<version>1.7.24</version>
 			</dependency>
 
+			<!-- WComponents -->
+			<dependency>
+				<groupId>com.github.bordertech.wcomponents</groupId>
+				<artifactId>wcomponents-bundle</artifactId>
+				<version>1.4.0-beta-2</version>
+			</dependency>
+			<dependency>
+				<groupId>com.github.bordertech.wcomponents</groupId>
+				<artifactId>wcomponents-lde</artifactId>
+				<version>1.4.0-beta-2</version>
+			</dependency>
+
+			<!-- Servlet API -->
+			<dependency>
+				<groupId>javax.servlet</groupId>
+				<artifactId>servlet-api</artifactId>
+				<version>2.5</version>
+			</dependency>
+
+
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>
-		<module>corpdir-srv-web</module>
-		<module>corpdir-srv-web-bundle</module>
 		<module>corpdir-srv-lde</module>
 		<module>corpdir-srv-web-war</module>
 		<module>config-qa-plugins</module>
+		<module>corpdir-srv-web-api</module>
+		<module>corpdir-srv-web-api-bundle</module>
+		<module>corpdir-srv-web-ui</module>
 	</modules>
 
 </project>

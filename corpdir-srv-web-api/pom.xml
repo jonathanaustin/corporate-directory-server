@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>corpdir-srv-web-war</name>
-	<artifactId>corpdir-srv-web-war</artifactId>
+	<name>corpdir-srv-web-api</name>
+	<artifactId>corpdir-srv-web-api</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.corpdir</groupId>
@@ -11,34 +11,35 @@
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 
 	<properties>
 		<multiproject.basedir>${basedir}/..</multiproject.basedir>
 		<wc.qa.skip>true</wc.qa.skip>
 	</properties>
 
-	<build>
-		<!-- Allows project to be run via mvn jetty:run from the web-war directory. -->
-		<plugins>
-			<plugin>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-srv-web-api-bundle</artifactId>
+			<artifactId>corpdir-srv-api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- Injection Interface. -->
 		<dependency>
-			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-srv-web-ui</artifactId>
-			<version>${project.version}</version>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
 		</dependency>
+
+		<!-- REST Interface -->
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
+
 
 </project>
