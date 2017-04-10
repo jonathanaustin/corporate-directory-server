@@ -21,8 +21,8 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 			<param-value>
 				com.ws.jaxrs.jersey;org.codehaus.jackson.jaxrs,
 				io.swagger.jaxrs.listing,
-				com.github.bordertech.corpdir.resource,
-				com.github.bordertech.corpdir.servlet
+				com.github.bordertech.corpdir.web.api.resource,
+				com.github.bordertech.corpdir.web.api.servlet
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
