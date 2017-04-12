@@ -19,7 +19,7 @@ public class ApplicationBinder extends AbstractBinder {
 
 	@Override
 	protected void configure() {
-		// services
+		// Services
 		bind(LocationServiceImpl.class).to(LocationService.class).in(Singleton.class);
 		bind(UnitTypeServiceImpl.class).to(UnitTypeService.class).in(Singleton.class);
 		bind(OrgUnitServiceImpl.class).to(OrgUnitService.class).in(Singleton.class);

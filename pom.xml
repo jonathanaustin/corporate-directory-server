@@ -18,6 +18,13 @@
 	<dependencyManagement>
 		<dependencies>
 
+			<!-- Annotations -->
+			<dependency>
+				<groupId>javax.annotation</groupId>
+				<artifactId>jsr250-api</artifactId>
+				<version>1.0</version>
+			</dependency>
+
 			<!-- Injection Interface. -->
 			<dependency>
 				<groupId>javax.inject</groupId>
@@ -115,14 +122,15 @@
 	</dependencyManagement>
 
 	<modules>
+		<module>config-qa-plugins</module>
+		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>
-		<module>corpdir-srv-lde</module>
-		<module>corpdir-srv-web-war</module>
-		<module>config-qa-plugins</module>
 		<module>corpdir-srv-web-api</module>
 		<module>corpdir-srv-web-api-bundle</module>
 		<module>corpdir-srv-web-ui</module>
+		<module>corpdir-srv-lde</module>
+		<module>corpdir-srv-web-war</module>
 	</modules>
 
 </project>

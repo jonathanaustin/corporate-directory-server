@@ -25,6 +25,19 @@
 			<version>${project.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>com.github.bordertech.corpdir</groupId>
+			<artifactId>corpdir-srv-sec</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- Annotations -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- Injection Interface. -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -38,6 +51,14 @@
 			<artifactId>javax.ws.rs-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- Servlet Interface. -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 
 	</dependencies>
 
