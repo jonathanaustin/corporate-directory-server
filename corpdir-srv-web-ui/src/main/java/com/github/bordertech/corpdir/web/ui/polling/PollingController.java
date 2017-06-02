@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.polling;
 
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WPanel;
@@ -24,6 +25,11 @@ import com.github.bordertech.wcomponents.WPanel;
  * @since 1.0.0
  */
 public interface PollingController<T, R> extends WComponent {
+
+	/**
+	 * @param target extra AJAX target for polling
+	 */
+	void addPollingAjaxTarget(final AjaxTarget target);
 
 	/**
 	 * Reset to start load again.
@@ -121,5 +127,13 @@ public interface PollingController<T, R> extends WComponent {
 	 * @return the service response, or null if not called successfully
 	 */
 	T getServiceResponse();
+
+	/**
+	 * Pre load the record.
+	 *
+	 * @param bean the bean
+	 * @param recordId the record id
+	 */
+	void preloadRecord(final T bean, final R recordId);
 
 }

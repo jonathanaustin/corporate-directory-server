@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * Search criteria.
  *
  * @author jonathan
+ * @since 1.0.0
  */
 public class SearchCriteria implements Serializable {
 

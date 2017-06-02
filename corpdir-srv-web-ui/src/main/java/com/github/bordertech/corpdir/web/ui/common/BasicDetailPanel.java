@@ -1,7 +1,11 @@
 package com.github.bordertech.corpdir.web.ui.common;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Input;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
@@ -37,9 +41,6 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 
 		setupFormDefaults();
 		setupVersionDetails();
-
-		setSearchAncestors(false);
-		setBeanProperty(".");
 	}
 
 	/**
@@ -139,4 +140,81 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 		def.addTerm("ID", txtId);
 	}
 
+	/**
+	 * @return true if form read only
+	 */
+	public boolean isFormReadOnly() {
+		return getComponentModel().formReadOnly;
+	}
+
+	/**
+	 *
+	 * @param formReadOnly true if form read only
+	 */
+	public void setFormReadOnly(final boolean formReadOnly) {
+		BasicDetailModel model = getComponentModel();
+		boolean changed = model.formReadOnly == formReadOnly;
+		if (changed) {
+			getOrCreateComponentModel().formReadOnly = formReadOnly;
+			handleReadOnlyState();
+		}
+	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			initForm();
+			setInitialised(true);
+		}
+	}
+
+	protected void initForm() {
+		handleReadOnlyState();
+	}
+
+	protected void handleReadOnlyState() {
+		doMakeReadOnly(getFormPanel(), isFormReadOnly());
+	}
+
+	protected void doMakeReadOnly(final WComponent component, final boolean readOnly) {
+		if (component instanceof Input) {
+			((Input) component).setReadOnly(readOnly);
+		}
+
+		if (component instanceof Container) {
+			for (WComponent child : ((Container) component).getChildren()) {
+				doMakeReadOnly(child, readOnly);
+			}
+		}
+	}
+
+	@Override
+	protected BasicDetailModel newComponentModel() {
+		return new BasicDetailModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected BasicDetailModel getComponentModel() {
+		return (BasicDetailModel) super.getComponentModel();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	protected BasicDetailModel getOrCreateComponentModel() {
+		return (BasicDetailModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * Holds the extrinsic state information of the edit view.
+	 */
+	public static class BasicDetailModel extends PanelModel {
+
+		private boolean formReadOnly = true;
+	}
 }

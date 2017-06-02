@@ -6,6 +6,7 @@ import com.github.bordertech.corpdir.web.ui.tasks.TaskManagerFactory;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxHelper;
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -15,6 +16,8 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -421,6 +424,30 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		clearFuture();
 	}
 
+	@Override
+	public void preloadRecord(final T bean, final R recordId) {
+		if (bean == null || recordId == null) {
+			return;
+		}
+		root.reset();
+		startButton.setVisible(false);
+		setRecordId(recordId);
+		handleResult(bean);
+	}
+
+	@Override
+	public void addPollingAjaxTarget(final AjaxTarget target) {
+		PollingPanelModel model = getOrCreateComponentModel();
+		if (model.extraTargets == null) {
+			model.extraTargets = new ArrayList();
+		}
+		model.extraTargets.add(target);
+	}
+
+	protected List<AjaxTarget> getPollingAjaxTargets() {
+		return getComponentModel().extraTargets;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -482,6 +509,10 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	protected void handleStopPolling() {
 		ajaxPolling.setVisible(false);
 		ajaxReload.setVisible(true);
+		List<AjaxTarget> targets = getPollingAjaxTargets();
+		if (targets != null && !targets.isEmpty()) {
+			ajaxReload.addTargets(targets);
+		}
 	}
 
 	/**
@@ -717,6 +748,11 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		 * Flag if start polling manually with the start button.
 		 */
 		private boolean manualStart;
+
+		/**
+		 * Extra AJAX targets when polling stops.
+		 */
+		private List<AjaxTarget> extraTargets;
 	}
 
 }
