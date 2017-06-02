@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.view;
 
+import com.github.bordertech.corpdir.web.ui.view.DetailView;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
@@ -19,7 +20,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * @param <T>
  * @since 1.0.0
  */
-public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
+public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel implements DetailView<T> {
 
 	private final WPanel formPanel = new WPanel();
 
@@ -75,6 +76,7 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 	/**
 	 * @param apiBean the bean to be displayed
 	 */
+	@Override
 	public void setApiBean(final T apiBean) {
 		setBean(apiBean);
 	}
@@ -82,6 +84,7 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 	/**
 	 * @return the bean being displayed.
 	 */
+	@Override
 	public T getApiBean() {
 		return (T) getBean();
 	}
@@ -143,6 +146,7 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 	/**
 	 * @return true if form read only
 	 */
+	@Override
 	public boolean isFormReadOnly() {
 		return getComponentModel().formReadOnly;
 	}
@@ -151,6 +155,7 @@ public class BasicDetailPanel<T extends ApiKeyIdObject> extends WPanel {
 	 *
 	 * @param formReadOnly true if form read only
 	 */
+	@Override
 	public void setFormReadOnly(final boolean formReadOnly) {
 		BasicDetailModel model = getComponentModel();
 		boolean changed = model.formReadOnly == formReadOnly;

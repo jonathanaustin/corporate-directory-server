@@ -129,11 +129,11 @@ public interface PollingController<T, R> extends WComponent {
 	T getServiceResponse();
 
 	/**
-	 * Pre load the record.
+	 * Manually load the bean.
 	 *
 	 * @param bean the bean
 	 * @param recordId the record id
 	 */
-	void preloadRecord(final T bean, final R recordId);
+	void loadBean(final T bean, final R recordId);
 
 }

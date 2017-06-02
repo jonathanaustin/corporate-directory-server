@@ -3,9 +3,11 @@ package com.github.bordertech.corpdir.web.ui.view;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.web.ui.common.ActionMode;
+import com.github.bordertech.corpdir.web.ui.common.RecordAction;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.AjaxTarget;
-import java.util.List;
+import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.WComponent;
 
 /**
  * Action View interface.
@@ -13,34 +15,32 @@ import java.util.List;
  * @author jonathan
  * @param <T> the API object
  */
-public interface ActionView<T extends ApiKeyIdObject> {
+public interface ActionView<T extends ApiKeyIdObject> extends WComponent, MessageContainer {
 
 	void load(final String id);
 
-	void preLoad(final T bean);
+	void setApiBean(final T bean);
 
 	T getApiBean();
 
-	List<ActionMode> getAllowedModes();
-
 	void addActionAjaxTarget(final AjaxTarget target);
 
-	Action getOnBackAction();
+	void setEventAction(final Action action, final RecordAction event);
 
-	void setOnBackAction(final Action action);
-
-	Action getOnDeleteAction();
-
-	void setOnDeleteAction(final Action action);
-
-	Action getOnSaveAction();
-
-	void setOnSaveAction(final Action action);
+	Action getEventAction(final RecordAction event);
 
 	T doRetrieveServiceCall(final String id) throws ServiceException;
 
 	T doSaveServiceCall(final T bean) throws ServiceException;
 
 	void doDeleteServiceCall(final T bean) throws ServiceException;
+
+	void handleAction(final RecordAction action);
+
+	ActionMode getActionMode();
+
+	boolean isLoaded();
+
+	DetailView<T> getDetailView();
 
 }

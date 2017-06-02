@@ -154,8 +154,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 			super.preparePaintComponent(request);
 			// Reloading
 			if (AjaxHelper.isCurrentAjaxTrigger(this)) {
-				// Stop polling
-				pollingContainer.setVisible(false);
+				handleStoppedPolling();
 			}
 		}
 	};
@@ -425,7 +424,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	@Override
-	public void preloadRecord(final T bean, final R recordId) {
+	public void loadBean(final T bean, final R recordId) {
 		if (bean == null || recordId == null) {
 			return;
 		}
@@ -513,6 +512,14 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		if (targets != null && !targets.isEmpty()) {
 			ajaxReload.addTargets(targets);
 		}
+	}
+
+	/**
+	 * Stopped polling and panel has been reloaded.
+	 */
+	protected void handleStoppedPolling() {
+		// Stopped polling
+		pollingContainer.setVisible(false);
 	}
 
 	/**

@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.web.ui.common.ActionMode;
-import com.github.bordertech.corpdir.web.ui.common.BasicDetailPanel;
+import com.github.bordertech.corpdir.web.ui.common.RecordAction;
 import com.github.bordertech.corpdir.web.ui.polling.AbstractPollingPanel;
 import com.github.bordertech.corpdir.web.ui.polling.PollingController;
 import com.github.bordertech.corpdir.web.ui.polling.PollingServiceException;
@@ -10,130 +10,31 @@ import com.github.bordertech.corpdir.web.ui.polling.PollingStatus;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.AjaxTrigger;
-import com.github.bordertech.wcomponents.MessageContainer;
-import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WMenu;
-import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.validation.ValidatingAction;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Abstract edit view.
+ * Abstract action view.
  *
  * @author Jonathan Austin
  * @param <T>
  * @since 1.0.0
  */
-public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSection implements MessageContainer, ActionView<T> {
+public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSection implements ActionView<T> {
 
-	/**
-	 * The logger instance for this class.
-	 */
 	private static final Log LOG = LogFactory.getLog(AbstractActionView.class);
 
-	/**
-	 * Messages for this view.
-	 */
 	private final WMessages messages = new WMessages();
 
-	private final WMenu actionMenu = new WMenu();
+	private final ActionMenu actionMenu;
 
-	private final WMenuItem itemBack = new WMenuItem("Back") {
-		@Override
-		public boolean isVisible() {
-			return getOnBackAction() != null;
-		}
-	};
-
-	private final WMenuItem itemEdit = new WMenuItem("Edit") {
-		@Override
-		public boolean isVisible() {
-			return isLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return getActionMode() != ActionMode.View;
-		}
-	};
-
-	private final WMenuItem itemCancel = new WMenuItem("Cancel") {
-		@Override
-		public boolean isVisible() {
-			return isLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return getActionMode() != ActionMode.Edit;
-		}
-
-		@Override
-		public boolean isCancel() {
-			return true;
-		}
-	};
-
-	private final WMenuItem itemRefresh = new WMenuItem("Refresh") {
-		@Override
-		public boolean isVisible() {
-			return isLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return getActionMode() == ActionMode.Create;
-		}
-
-	};
-
-	private final WMenuItem itemSave = new WMenuItem("Save") {
-		@Override
-		public boolean isVisible() {
-			return isLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return getActionMode() == ActionMode.View;
-		}
-	};
-
-	private final WMenuItem itemDelete = new WMenuItem("Delete") {
-		@Override
-		public boolean isVisible() {
-			return isLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			return getActionMode() != ActionMode.View;
-		}
-	};
-
-	private final WPanel ajaxPanel = new WPanel() {
-		@Override
-		public boolean isHidden() {
-			return true;
-		}
-	};
-
-	private final WAjaxControl ajaxBack = new MyAjaxControl(itemBack);
-	private final WAjaxControl ajaxSave = new MyAjaxControl(itemSave);
-	private final WAjaxControl ajaxEdit = new MyAjaxControl(itemEdit);
-	private final WAjaxControl ajaxCancel = new MyAjaxControl(itemCancel);
-	private final WAjaxControl ajaxDelete = new MyAjaxControl(itemDelete);
-	private final WAjaxControl ajaxRefresh = new MyAjaxControl(itemRefresh);
-
-	private final PollingController<T, String> pollingDetailPanel = new AbstractPollingPanel<T, String>(173) {
+	private final PollingController<T, String> pollingServicePanel = new AbstractPollingPanel<T, String>(173) {
 		@Override
 		public T doServiceCall(final String recordId) throws PollingServiceException {
 			try {
@@ -143,130 +44,54 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 				throw new PollingServiceException("Error retrieving record. " + e.getMessage(), e);
 			}
 		}
+
+		@Override
+		protected void handleStoppedPolling() {
+			super.handleStoppedPolling();
+			if (getPollingStatus() == PollingStatus.COMPLETE) {
+				T bean = getServiceResponse();
+				setApiBean(bean);
+			}
+		}
 	};
 
-	private final BasicDetailPanel<T> detailPanel;
+	private final DetailView<T> detailView;
 
 	/**
 	 * @param title the view title
+	 * @param detailView the detail panel
 	 */
-	public AbstractActionView(final String title, final BasicDetailPanel<T> detailPanel) {
+	public AbstractActionView(final String title, final DetailView<T> detailView) {
 		super(title);
-		this.pollingDetailPanel.getContent().add(detailPanel);
-		this.detailPanel = detailPanel;
+		this.detailView = detailView;
+		this.actionMenu = new ActionMenu(this);
 
 		WPanel content = getContent();
 		content.add(actionMenu);
 		content.add(messages);
-		content.add(detailPanel);
-		content.add(ajaxPanel);
+		content.add(detailView);
+		content.add(pollingServicePanel);
 
-		setupMenu();
-		setupAjaxPanel();
-	}
+		// Default Visibility
+		pollingServicePanel.setVisible(false);
+		detailView.setVisible(false);
 
-	private void setupMenu() {
-
-		WMenu menu = getActionMenu();
-
-		// Items
-		menu.add(itemBack);
-		menu.add(itemEdit);
-		menu.add(itemSave);
-		menu.add(itemCancel);
-		menu.add(itemDelete);
-		menu.add(itemRefresh);
-
-		// Back
-		itemBack.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				handleBack();
-			}
-		});
-
-		// Cancel Action
-		itemCancel.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				handleCancel();
-			}
-		});
-
-		// Edit Action
-		itemEdit.setAction(new ValidatingAction(getMessages().getValidationErrors(), detailPanel) {
-			@Override
-			public void executeOnValid(final ActionEvent event) {
-				handleEdit();
-			}
-		});
-
-		// Save Action
-		itemSave.setAction(new ValidatingAction(getMessages().getValidationErrors(), detailPanel) {
-			@Override
-			public void executeOnValid(final ActionEvent event) {
-				handleSave();
-			}
-		});
-
-		// Delete
-		itemDelete.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				handleDelete();
-			}
-		});
-
-		// Refresh
-		itemRefresh.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				handleRefresh();
-			}
-		});
-
-	}
-
-	private void setupAjaxPanel() {
-
-		WPanel panel = getAjaxPanel();
-
-		panel.add(ajaxBack);
-		panel.add(ajaxEdit);
-		panel.add(ajaxCancel);
-		panel.add(ajaxSave);
-		panel.add(ajaxDelete);
-		panel.add(ajaxRefresh);
-
-		// Targets
-		ajaxBack.addTarget(getContent());
-		ajaxSave.addTarget(getContent());
-		ajaxDelete.addTarget(getContent());
-		// Internal Actions
-		ajaxEdit.addTarget(getContent());
-		ajaxCancel.addTarget(getContent());
-		ajaxRefresh.addTarget(getContent());
-	}
-
-	private WPanel getAjaxPanel() {
-		return ajaxPanel;
-	}
-
-	private WMenu getActionMenu() {
-		return actionMenu;
+		// AJAX Target for menu items
+		actionMenu.addAjaxTarget(content);
 	}
 
 	@Override
 	public void load(final String id) {
 		reset();
-		pollingDetailPanel.setRecordId(id);
-		setActionMode(ActionMode.View);
+		pollingServicePanel.setVisible(true);
+		pollingServicePanel.setRecordId(id);
 	}
 
 	@Override
-	public void preLoad(final T bean) {
+	public void setApiBean(final T bean) {
 		reset();
-		pollingDetailPanel.preloadRecord(bean, bean.getId());
+		detailView.setApiBean(bean);
+		detailView.setVisible(true);
 		if (bean.getId() == null) {
 			setActionMode(ActionMode.Create);
 		}
@@ -277,92 +102,107 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	 */
 	@Override
 	public T getApiBean() {
-		return pollingDetailPanel.getServiceResponse();
-	}
-
-	@Override
-	public List<ActionMode> getAllowedModes() {
-		return Arrays.asList(ActionMode.values());
+		return detailView.getApiBean();
 	}
 
 	@Override
 	public void addActionAjaxTarget(final AjaxTarget target) {
-		ajaxBack.addTarget(target);
-		ajaxSave.addTarget(target);
-		ajaxDelete.addTarget(target);
-	}
-
-	@Override
-	public void setOnBackAction(final Action action) {
-		getOrCreateComponentModel().backAction = action;
-	}
-
-	@Override
-	public Action getOnBackAction() {
-		return getComponentModel().backAction;
-	}
-
-	@Override
-	public void setOnSaveAction(final Action action) {
-		getOrCreateComponentModel().saveAction = action;
-	}
-
-	@Override
-	public Action getOnSaveAction() {
-		return getComponentModel().saveAction;
-	}
-
-	@Override
-	public void setOnDeleteAction(final Action action) {
-		getOrCreateComponentModel().deleteAction = action;
-	}
-
-	@Override
-	public Action getOnDeleteAction() {
-		return getComponentModel().deleteAction;
+		actionMenu.addAjaxTarget(target);
 	}
 
 	protected void setActionMode(final ActionMode actionMode) {
 		getOrCreateComponentModel().actionMode = actionMode;
 	}
 
-	protected ActionMode getActionMode() {
+	@Override
+	public ActionMode getActionMode() {
 		return getComponentModel().actionMode;
 	}
 
+	@Override
+	public void handleAction(final RecordAction action) {
+		switch (action) {
+			case Back:
+				handleBack();
+				break;
+			case Cancel:
+				handleCancel();
+				break;
+			case Delete:
+				handleDelete();
+				break;
+			case Edit:
+				handleEdit();
+				break;
+			case Refresh:
+				handleRefresh();
+				break;
+			case Save:
+				handleSave();
+				break;
+			default:
+			// Nothing
+		}
+	}
+
+	@Override
+	public void setEventAction(final Action action, final RecordAction event) {
+		ActionViewModel model = getOrCreateComponentModel();
+		if (model.eventActions == null) {
+			model.eventActions = new HashMap<>();
+		}
+		if (action == null) {
+			model.eventActions.remove(event);
+		} else {
+			model.eventActions.put(event, action);
+		}
+	}
+
+	@Override
+	public Action getEventAction(final RecordAction event) {
+		ActionViewModel model = getComponentModel();
+		if (model.eventActions != null) {
+			return model.eventActions.get(event);
+		}
+		return null;
+	}
+
 	protected void handleBack() {
-		runOnBackAction();
+		handleEventAction(RecordAction.Back, null);
 	}
 
 	protected void handleRefresh() {
-		pollingDetailPanel.doRefreshContent();
-		setActionMode(ActionMode.View);
+		String id = getApiBean().getId();
+		load(id);
+		handleEventAction(RecordAction.Refresh, id);
 	}
 
 	protected void handleEdit() {
-		detailPanel.setFormReadOnly(false);
+		detailView.setFormReadOnly(false);
 		setActionMode(ActionMode.Edit);
+		handleEventAction(RecordAction.Edit, getApiBean());
 	}
 
 	protected void handleCancel() {
-		pollingDetailPanel.doRefreshContent();
-		setActionMode(ActionMode.View);
+		String id = getApiBean().getId();
+		load(id);
+		handleEventAction(RecordAction.Cancel, id);
 	}
 
 	protected void handleSave() {
 		doUpdateDetailBean();
 		T bean = getApiBean();
+		T updated;
 		try {
-			doSaveServiceCall(bean);
+			updated = doSaveServiceCall(bean);
 		} catch (Exception e) {
 			String msg = "Error calling save service. " + e.getMessage();
 			LOG.error(msg, e);
 			getMessages().error(msg);
 			return;
 		}
-		pollingDetailPanel.doRefreshContent();
-		setActionMode(ActionMode.View);
-		runOnSaveAction();
+		setApiBean(updated);
+		handleEventAction(RecordAction.Save, updated);
 	}
 
 	protected void handleDelete() {
@@ -375,43 +215,28 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 			getMessages().error(msg);
 			return;
 		}
-		pollingDetailPanel.reset();
-		runOnDeleteAction();
+		detailView.reset();
+		handleEventAction(RecordAction.Delete, bean);
+	}
+
+	protected void handleEventAction(final RecordAction action, final Object data) {
+		Action eventAction = getEventAction(action);
+		if (eventAction != null) {
+			ActionEvent event = new ActionEvent(this, action.name(), data);
+			eventAction.execute(event);
+		}
 	}
 
 	protected void doUpdateDetailBean() {
-		WebUtilities.updateBeanValue(getContent());
-	}
-
-	protected void runOnBackAction() {
-		Action action = getOnBackAction();
-		if (action != null) {
-			ActionEvent event = new ActionEvent(this, "back");
-			action.execute(event);
-		}
-	}
-
-	protected void runOnSaveAction() {
-		Action action = getOnSaveAction();
-		if (action != null) {
-			ActionEvent event = new ActionEvent(this, "save", getApiBean());
-			action.execute(event);
-		}
-	}
-
-	protected void runOnDeleteAction() {
-		Action action = getOnDeleteAction();
-		if (action != null) {
-			ActionEvent event = new ActionEvent(this, "delete", getApiBean());
-			action.execute(event);
-		}
+		WebUtilities.updateBeanValue(detailView);
 	}
 
 	/**
 	 * @return true if the bean has been loaded successfully
 	 */
-	private boolean isLoaded() {
-		return pollingDetailPanel.getPollingStatus() == PollingStatus.COMPLETE;
+	@Override
+	public boolean isLoaded() {
+		return detailView.isVisible() && detailView.getApiBean() != null;
 	}
 
 	/**
@@ -423,47 +248,33 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	}
 
 	@Override
-	protected ViewModel newComponentModel() {
-		return new ViewModel();
+	protected ActionViewModel newComponentModel() {
+		return new ActionViewModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected ViewModel getComponentModel() {
-		return (ViewModel) super.getComponentModel();
+	protected ActionViewModel getComponentModel() {
+		return (ActionViewModel) super.getComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected ViewModel getOrCreateComponentModel() {
-		return (ViewModel) super.getOrCreateComponentModel();
+	protected ActionViewModel getOrCreateComponentModel() {
+		return (ActionViewModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ViewModel extends WSection.SectionModel {
+	public static class ActionViewModel extends WSection.SectionModel {
 
 		private ActionMode actionMode = ActionMode.View;
-		private Action backAction;
-		private Action saveAction;
-		private Action deleteAction;
-	}
-
-	private static class MyAjaxControl extends WAjaxControl {
-
-		public MyAjaxControl(final AjaxTrigger trigger) {
-			super(trigger);
-		}
-
-		@Override
-		public boolean isVisible() {
-			return getTrigger().isVisible();
-		}
+		private Map<RecordAction, Action> eventActions;
 	}
 
 }
