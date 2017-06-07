@@ -1,8 +1,5 @@
-package com.github.bordertech.corpdir.web.ui.view;
+package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.web.ui.common.ActionMode;
-import com.github.bordertech.corpdir.web.ui.common.RecordAction;
 import com.github.bordertech.corpdir.web.ui.polling.AbstractPollingPanel;
 import com.github.bordertech.corpdir.web.ui.polling.PollingController;
 import com.github.bordertech.corpdir.web.ui.polling.PollingServiceException;
@@ -22,11 +19,13 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Abstract action view.
  *
+ * @param <T> the entity type
+ * @param <R> the entity id
+ *
  * @author Jonathan Austin
- * @param <T>
  * @since 1.0.0
  */
-public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSection implements ActionView<T> {
+public abstract class AbstractActionView<T, R> extends WSection implements ActionView<T, R> {
 
 	private static final Log LOG = LogFactory.getLog(AbstractActionView.class);
 
@@ -34,9 +33,9 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 
 	private final ActionMenu actionMenu;
 
-	private final PollingController<T, String> pollingServicePanel = new AbstractPollingPanel<T, String>(173) {
+	private final PollingController<T, R> pollingServicePanel = new AbstractPollingPanel<T, R>(173) {
 		@Override
-		public T doServiceCall(final String recordId) throws PollingServiceException {
+		public T doServiceCall(final R recordId) throws PollingServiceException {
 			try {
 				T bean = doRetrieveServiceCall(recordId);
 				return bean;
@@ -50,18 +49,18 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 			super.handleStoppedPolling();
 			if (getPollingStatus() == PollingStatus.COMPLETE) {
 				T bean = getServiceResponse();
-				setApiBean(bean);
+				loadEntity(bean);
 			}
 		}
 	};
 
-	private final DetailView<T> detailView;
+	private final EntityView<T, R> detailView;
 
 	/**
 	 * @param title the view title
 	 * @param detailView the detail panel
 	 */
-	public AbstractActionView(final String title, final DetailView<T> detailView) {
+	public AbstractActionView(final String title, final EntityView<T, R> detailView) {
 		super(title);
 		this.detailView = detailView;
 		this.actionMenu = new ActionMenu(this);
@@ -75,38 +74,46 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 		// Default Visibility
 		pollingServicePanel.setVisible(false);
 		detailView.setVisible(false);
+		detailView.setSearchAncestors(false);
+		detailView.setBeanProperty(".");
 
 		// AJAX Target for menu items
 		actionMenu.addAjaxTarget(content);
 	}
 
 	@Override
-	public void load(final String id) {
+	public void loadEntityById(final R id) {
 		reset();
 		pollingServicePanel.setVisible(true);
 		pollingServicePanel.setRecordId(id);
 	}
 
 	@Override
-	public void setApiBean(final T bean) {
+	public void loadEntity(final T bean) {
 		reset();
-		detailView.setApiBean(bean);
+		detailView.setBean(bean);
 		detailView.setVisible(true);
-		if (bean.getId() == null) {
-			setActionMode(ActionMode.Create);
-		}
-	}
-
-	/**
-	 * @return the bean being processed
-	 */
-	@Override
-	public T getApiBean() {
-		return detailView.getApiBean();
 	}
 
 	@Override
-	public void addActionAjaxTarget(final AjaxTarget target) {
+	public void createRecord() {
+		T bean = newRecordInstance();
+		loadEntity(bean);
+		setActionMode(ActionMode.Create);
+	}
+
+	@Override
+	public T getEntity() {
+		return detailView.getEntity();
+	}
+
+	@Override
+	public R getEntityId() {
+		return detailView.getEntityId();
+	}
+
+	@Override
+	public void addEventAjaxTarget(final AjaxTarget target) {
 		actionMenu.addAjaxTarget(target);
 	}
 
@@ -120,8 +127,8 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	}
 
 	@Override
-	public void handleAction(final RecordAction action) {
-		switch (action) {
+	public void handleEvent(final RecordEvent event) {
+		switch (event) {
 			case Back:
 				handleBack();
 				break;
@@ -146,7 +153,7 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	}
 
 	@Override
-	public void setEventAction(final Action action, final RecordAction event) {
+	public void setEventAction(final RecordEvent event, final Action action) {
 		ActionViewModel model = getOrCreateComponentModel();
 		if (model.eventActions == null) {
 			model.eventActions = new HashMap<>();
@@ -159,7 +166,7 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	}
 
 	@Override
-	public Action getEventAction(final RecordAction event) {
+	public Action getEventAction(final RecordEvent event) {
 		ActionViewModel model = getComponentModel();
 		if (model.eventActions != null) {
 			return model.eventActions.get(event);
@@ -168,30 +175,30 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	}
 
 	protected void handleBack() {
-		handleEventAction(RecordAction.Back, null);
+		handleEventAction(RecordEvent.Back, null);
 	}
 
 	protected void handleRefresh() {
-		String id = getApiBean().getId();
-		load(id);
-		handleEventAction(RecordAction.Refresh, id);
+		R id = getEntityId();
+		loadEntityById(id);
+		handleEventAction(RecordEvent.Refresh, id);
 	}
 
 	protected void handleEdit() {
 		detailView.setFormReadOnly(false);
 		setActionMode(ActionMode.Edit);
-		handleEventAction(RecordAction.Edit, getApiBean());
+		handleEventAction(RecordEvent.Edit, getEntity());
 	}
 
 	protected void handleCancel() {
-		String id = getApiBean().getId();
-		load(id);
-		handleEventAction(RecordAction.Cancel, id);
+		R id = getEntityId();
+		loadEntityById(id);
+		handleEventAction(RecordEvent.Cancel, id);
 	}
 
 	protected void handleSave() {
 		doUpdateDetailBean();
-		T bean = getApiBean();
+		T bean = getEntity();
 		T updated;
 		try {
 			updated = doSaveServiceCall(bean);
@@ -201,12 +208,12 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 			getMessages().error(msg);
 			return;
 		}
-		setApiBean(updated);
-		handleEventAction(RecordAction.Save, updated);
+		loadEntity(updated);
+		handleEventAction(RecordEvent.Save, updated);
 	}
 
 	protected void handleDelete() {
-		T bean = getApiBean();
+		T bean = getEntity();
 		try {
 			doDeleteServiceCall(bean);
 		} catch (Exception e) {
@@ -216,10 +223,10 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 			return;
 		}
 		detailView.reset();
-		handleEventAction(RecordAction.Delete, bean);
+		handleEventAction(RecordEvent.Delete, bean);
 	}
 
-	protected void handleEventAction(final RecordAction action, final Object data) {
+	protected void handleEventAction(final RecordEvent action, final Object data) {
 		Action eventAction = getEventAction(action);
 		if (eventAction != null) {
 			ActionEvent event = new ActionEvent(this, action.name(), data);
@@ -236,7 +243,7 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	 */
 	@Override
 	public boolean isLoaded() {
-		return detailView.isVisible() && detailView.getApiBean() != null;
+		return detailView.isVisible() && detailView.getEntity() != null;
 	}
 
 	/**
@@ -246,6 +253,8 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	public WMessages getMessages() {
 		return messages;
 	}
+
+	abstract T newRecordInstance();
 
 	@Override
 	protected ActionViewModel newComponentModel() {
@@ -274,7 +283,7 @@ public abstract class AbstractActionView<T extends ApiKeyIdObject> extends WSect
 	public static class ActionViewModel extends WSection.SectionModel {
 
 		private ActionMode actionMode = ActionMode.View;
-		private Map<RecordAction, Action> eventActions;
+		private Map<RecordEvent, Action> eventActions;
 	}
 
 }

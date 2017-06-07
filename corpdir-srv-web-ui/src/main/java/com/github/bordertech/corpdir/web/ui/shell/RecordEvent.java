@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
  * View actions.
@@ -6,7 +6,7 @@ package com.github.bordertech.corpdir.web.ui.common;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum RecordAction {
+public enum RecordEvent {
 	Back,
 	Edit,
 	Cancel,

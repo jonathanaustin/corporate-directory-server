@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
  * Action modes.

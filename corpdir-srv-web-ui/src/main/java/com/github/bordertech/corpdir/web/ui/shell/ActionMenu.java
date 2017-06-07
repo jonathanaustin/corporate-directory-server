@@ -1,7 +1,5 @@
-package com.github.bordertech.corpdir.web.ui.view;
+package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.corpdir.web.ui.common.ActionMode;
-import com.github.bordertech.corpdir.web.ui.common.RecordAction;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -28,7 +26,7 @@ public class ActionMenu extends WContainer {
 	private final WMenuItem itemBack = new WMenuItem("Back") {
 		@Override
 		public boolean isVisible() {
-			return view.getEventAction(RecordAction.Back) != null;
+			return view.getEventAction(RecordEvent.Back) != null;
 		}
 	};
 
@@ -130,12 +128,12 @@ public class ActionMenu extends WContainer {
 		actionMenu.add(itemRefresh);
 
 		// Actions
-		itemBack.setAction(new MyAction(view, RecordAction.Back));
-		itemCancel.setAction(new MyAction(view, RecordAction.Cancel));
-		itemDelete.setAction(new MyAction(view, RecordAction.Delete));
-		itemRefresh.setAction(new MyAction(view, RecordAction.Refresh));
-		itemEdit.setAction(new MyValidatingAction(view, RecordAction.Edit));
-		itemSave.setAction(new MyValidatingAction(view, RecordAction.Save));
+		itemBack.setAction(new MyAction(view, RecordEvent.Back));
+		itemCancel.setAction(new MyAction(view, RecordEvent.Cancel));
+		itemDelete.setAction(new MyAction(view, RecordEvent.Delete));
+		itemRefresh.setAction(new MyAction(view, RecordEvent.Refresh));
+		itemEdit.setAction(new MyValidatingAction(view, RecordEvent.Edit));
+		itemSave.setAction(new MyValidatingAction(view, RecordEvent.Save));
 
 		// AJAX
 		ajaxPanel.add(ajaxBack);
@@ -170,33 +168,33 @@ public class ActionMenu extends WContainer {
 	private static class MyAction implements Action {
 
 		private final ActionView view;
-		private final RecordAction action;
+		private final RecordEvent action;
 
-		public MyAction(final ActionView view, final RecordAction action) {
+		public MyAction(final ActionView view, final RecordEvent action) {
 			this.view = view;
 			this.action = action;
 		}
 
 		@Override
 		public void execute(final ActionEvent event) {
-			view.handleAction(action);
+			view.handleEvent(action);
 		}
 	}
 
 	private static class MyValidatingAction extends ValidatingAction {
 
 		private final ActionView view;
-		private final RecordAction action;
+		private final RecordEvent action;
 
-		public MyValidatingAction(final ActionView view, final RecordAction action) {
-			super(view.getMessages().getValidationErrors(), view.getDetailView());
+		public MyValidatingAction(final ActionView view, final RecordEvent action) {
+			super(view.getMessages().getValidationErrors(), view.getEntityView());
 			this.view = view;
 			this.action = action;
 		}
 
 		@Override
 		public void executeOnValid(final ActionEvent event) {
-			view.handleAction(action);
+			view.handleEvent(action);
 		}
 	}
 
