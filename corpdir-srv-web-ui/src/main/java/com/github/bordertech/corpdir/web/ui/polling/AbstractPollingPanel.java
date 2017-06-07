@@ -214,6 +214,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 
 		// Manual Start load
 		startButton.setAjaxTarget(this);
+
 		startButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {

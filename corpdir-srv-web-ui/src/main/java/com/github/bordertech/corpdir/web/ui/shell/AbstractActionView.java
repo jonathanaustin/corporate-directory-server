@@ -9,10 +9,11 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.validation.ValidatingAction;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.commons.lang.mutable.MutableBoolean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,13 +26,33 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractActionView<T, R> extends WSection implements ActionView<T, R> {
+public abstract class AbstractActionView<T, R> extends WPanel implements ActionView<T, R> {
 
 	private static final Log LOG = LogFactory.getLog(AbstractActionView.class);
 
 	private final WMessages messages = new WMessages();
 
-	private final ActionMenu actionMenu;
+	private final ActionBar actionBar = new ActionMenuBar() {
+		@Override
+		boolean isUseBack() {
+			return getEventAction(RecordEvent.Back) != null;
+		}
+
+		@Override
+		boolean isLoaded() {
+			return AbstractActionView.this.isLoaded();
+		}
+
+		@Override
+		void handleEvent(final RecordEvent event) {
+			AbstractActionView.this.handleEvent(event);
+		}
+
+		@Override
+		ActionMode getActionMode() {
+			return AbstractActionView.this.getActionMode();
+		}
+	};
 
 	private final PollingController<T, R> pollingServicePanel = new AbstractPollingPanel<T, R>(173) {
 		@Override
@@ -54,31 +75,27 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 		}
 	};
 
-	private final EntityView<T, R> detailView;
+	private final EntityView<T, R> entityView;
 
 	/**
-	 * @param title the view title
-	 * @param detailView the detail panel
+	 * @param entityView the entity view panel
 	 */
-	public AbstractActionView(final String title, final EntityView<T, R> detailView) {
-		super(title);
-		this.detailView = detailView;
-		this.actionMenu = new ActionMenu(this);
+	public AbstractActionView(final EntityView<T, R> entityView) {
+		this.entityView = entityView;
 
-		WPanel content = getContent();
-		content.add(actionMenu);
-		content.add(messages);
-		content.add(detailView);
-		content.add(pollingServicePanel);
+		// Setup ActionBar
+		actionBar.addAjaxTarget(this);
+
+		add(actionBar);
+		add(messages);
+		add(entityView);
+		add(pollingServicePanel);
 
 		// Default Visibility
 		pollingServicePanel.setVisible(false);
-		detailView.setVisible(false);
-		detailView.setSearchAncestors(false);
-		detailView.setBeanProperty(".");
-
-		// AJAX Target for menu items
-		actionMenu.addAjaxTarget(content);
+		entityView.setVisible(false);
+		entityView.setSearchAncestors(false);
+		entityView.setBeanProperty(".");
 	}
 
 	@Override
@@ -91,8 +108,8 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	@Override
 	public void loadEntity(final T bean) {
 		reset();
-		detailView.setBean(bean);
-		detailView.setVisible(true);
+		entityView.setBean(bean);
+		entityView.setVisible(true);
 	}
 
 	@Override
@@ -104,17 +121,17 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 
 	@Override
 	public T getEntity() {
-		return detailView.getEntity();
+		return entityView.getEntity();
 	}
 
 	@Override
 	public R getEntityId() {
-		return detailView.getEntityId();
+		return entityView.getEntityId();
 	}
 
 	@Override
 	public void addEventAjaxTarget(final AjaxTarget target) {
-		actionMenu.addAjaxTarget(target);
+		actionBar.addAjaxTarget(target);
 	}
 
 	protected void setActionMode(final ActionMode actionMode) {
@@ -185,7 +202,7 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	}
 
 	protected void handleEdit() {
-		detailView.setFormReadOnly(false);
+		entityView.setFormReadOnly(false);
 		setActionMode(ActionMode.Edit);
 		handleEventAction(RecordEvent.Edit, getEntity());
 	}
@@ -197,6 +214,22 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	}
 
 	protected void handleSave() {
+		// Do validation
+		final MutableBoolean valid = new MutableBoolean(false);
+		ValidatingAction action = new ValidatingAction(getMessages().getValidationErrors(), getEntityView()) {
+			@Override
+			public void executeOnValid(final ActionEvent event) {
+				// Flag as valid
+				valid.setValue(true);
+			}
+		};
+
+		// Execute validation action
+		action.execute(new ActionEvent(this, "validate"));
+		// Check if valid
+		if (!valid.booleanValue()) {
+			return;
+		}
 		doUpdateDetailBean();
 		T bean = getEntity();
 		T updated;
@@ -222,7 +255,7 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 			getMessages().error(msg);
 			return;
 		}
-		detailView.reset();
+		entityView.reset();
 		handleEventAction(RecordEvent.Delete, bean);
 	}
 
@@ -235,7 +268,7 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	}
 
 	protected void doUpdateDetailBean() {
-		WebUtilities.updateBeanValue(detailView);
+		WebUtilities.updateBeanValue(entityView);
 	}
 
 	/**
@@ -243,7 +276,7 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	 */
 	@Override
 	public boolean isLoaded() {
-		return detailView.isVisible() && detailView.getEntity() != null;
+		return entityView.isVisible() && entityView.getEntity() != null;
 	}
 
 	/**
@@ -280,10 +313,9 @@ public abstract class AbstractActionView<T, R> extends WSection implements Actio
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ActionViewModel extends WSection.SectionModel {
+	public static class ActionViewModel extends PanelModel {
 
 		private ActionMode actionMode = ActionMode.View;
 		private Map<RecordEvent, Action> eventActions;
 	}
-
 }
