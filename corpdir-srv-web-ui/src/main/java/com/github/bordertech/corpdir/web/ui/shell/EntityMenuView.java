@@ -15,8 +15,6 @@ public interface EntityMenuView extends BasicView {
 
 	EntityMode getEntityMode();
 
-	void setMenuAction(final EntityEvent event, final Action action);
-
-	Action getMenuAction(final EntityEvent event);
+	void setMenuAction(final Action action);
 
 }

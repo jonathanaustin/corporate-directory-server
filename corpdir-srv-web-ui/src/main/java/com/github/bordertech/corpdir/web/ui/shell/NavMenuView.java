@@ -17,8 +17,6 @@ public interface NavMenuView extends BasicView {
 
 	int getSize();
 
-	void setNavAction(final NavEvent event, final Action action);
-
-	Action getNavAction(final NavEvent event);
+	void setNavAction(final Action action);
 
 }

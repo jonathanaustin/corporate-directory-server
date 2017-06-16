@@ -16,6 +16,4 @@ public interface CriteriaView<T> extends BasicView {
 
 	void setCriteriaAction(final Action action);
 
-	Action getCriteriaAction();
-
 }

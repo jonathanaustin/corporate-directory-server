@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import java.util.List;
 
 /**
- * Entity form view.
+ * Entity list view.
  *
  * @param <T> the entity type
  * @author Jonathan Austin
@@ -23,6 +23,12 @@ public interface ListView<T> extends BasicView {
 
 	void setSelectAction(final Action action);
 
-	Action getSelectAction();
+	void setSelectedIdx(final int idx);
+
+	int getSelectedIdx();
+
+	int getSize();
+
+	T getSelected();
 
 }

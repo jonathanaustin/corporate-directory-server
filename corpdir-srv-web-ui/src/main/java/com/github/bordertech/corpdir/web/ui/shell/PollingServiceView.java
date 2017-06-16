@@ -5,24 +5,22 @@ import com.github.bordertech.wcomponents.Action;
 /**
  * Entity Criteria View.
  *
- * @param <T> the criteria type
- * @param <R> the result type
+ * @param <V> the criteria type
+ * @param <T> the result type
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public interface PollingView<T, R> extends BasicView {
+public interface PollingServiceView<V, T> extends BasicView {
 
-	void setCriteria(final T criteria);
+	void setCriteria(final V criteria);
 
-	T getCriteria();
+	V getCriteria();
 
-	R getResult();
+	T getResult();
 
 	void refreshView();
 
 	void setLoadedAction(final Action action);
-
-	Action getLoadedAction();
 
 }
