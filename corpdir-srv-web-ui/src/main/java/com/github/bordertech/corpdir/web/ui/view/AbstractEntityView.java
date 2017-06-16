@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.web.ui.shell;
+package com.github.bordertech.corpdir.web.ui.view;
 
+import com.github.bordertech.corpdir.web.ui.shell.EntityView;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
@@ -10,12 +11,11 @@ import com.github.bordertech.wcomponents.WPanel;
  * Abstract entity form view.
  *
  * @param <T> the entity type
- * @param <R> the entity id
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractEntityView<T, R> extends WPanel implements EntityView<T, R> {
+public abstract class AbstractEntityView<T> extends WPanel implements EntityView<T> {
 
 	/**
 	 * @return the bean being displayed.
@@ -28,7 +28,6 @@ public abstract class AbstractEntityView<T, R> extends WPanel implements EntityV
 	/**
 	 * @return true if form read only
 	 */
-	@Override
 	public boolean isFormReadOnly() {
 		return getComponentModel().formReadOnly;
 	}
@@ -37,7 +36,6 @@ public abstract class AbstractEntityView<T, R> extends WPanel implements EntityV
 	 *
 	 * @param formReadOnly true if form read only
 	 */
-	@Override
 	public void setFormReadOnly(final boolean formReadOnly) {
 		EntityViewModel model = getComponentModel();
 		boolean changed = model.formReadOnly == formReadOnly;

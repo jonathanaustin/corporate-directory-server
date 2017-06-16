@@ -1,13 +1,12 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
- * Action modes.
+ * List modes.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ActionMode {
+public enum ListMode {
 	View,
-	Edit,
-	Create
+	Edit
 }

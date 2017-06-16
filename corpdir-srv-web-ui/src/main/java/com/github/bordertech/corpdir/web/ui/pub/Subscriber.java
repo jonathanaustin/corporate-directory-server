@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface Subscriber extends WComponent {
 
-	List<AjaxTarget> getSubscriberAjaxTargets(final Class<? extends Event> event);
+	List<AjaxTarget> getEventAjaxTargets(final Class<? extends Event> event);
 
 	void handleEvent(final Event event);
 

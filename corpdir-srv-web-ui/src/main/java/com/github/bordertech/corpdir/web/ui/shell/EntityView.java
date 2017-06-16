@@ -1,50 +1,34 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.wcomponents.BeanBound;
-import com.github.bordertech.wcomponents.WComponent;
-
 /**
  * Entity form view.
  *
  * @param <T> the entity type
- * @param <R> the entity id
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public interface EntityView<T, R> extends WComponent, BeanBound {
+public interface EntityView<T> extends BasicView {
 
 	/**
-	 * @return the bean being displayed.
+	 *
+	 * @param entity the entity to view
+	 */
+	void setEntity(final T entity);
+
+	/**
+	 * @return the entity being displayed.
 	 */
 	T getEntity();
 
 	/**
-	 * @return the entity id
+	 * @param mode the entity action mode
 	 */
-	R getEntityId();
+	void setEntityMode(final EntityMode mode);
 
 	/**
-	 * @return true if form read only
+	 * @return the entity action mode
 	 */
-	boolean isFormReadOnly();
-
-	/**
-	 *
-	 * @param formReadOnly true if form read only
-	 */
-	void setFormReadOnly(final boolean formReadOnly);
-
-	/**
-	 *
-	 * @return true if an existing entity
-	 */
-	boolean isExistingEntity();
-
-	/**
-	 *
-	 * @param searchAncestors true if search ancestors.
-	 */
-	void setSearchAncestors(boolean searchAncestors);
+	EntityMode getEntityMode();
 
 }

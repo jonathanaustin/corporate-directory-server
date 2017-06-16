@@ -15,12 +15,12 @@ import java.util.List;
 public class DefaultWidget extends WPanel implements Widget {
 
 	@Override
-	public List<Class<? extends Event>> getSupportedPublisherEvents() {
+	public List<Class<? extends Event>> getPublisherEvents() {
 		return Collections.EMPTY_LIST;
 	}
 
 	@Override
-	public List<AjaxTarget> getSubscriberAjaxTargets(final Class<? extends Event> event) {
+	public List<AjaxTarget> getEventAjaxTargets(final Class<? extends Event> event) {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -29,18 +29,12 @@ public class DefaultWidget extends WPanel implements Widget {
 		// Do nothing
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<Subscriber> getSubscribers() {
 		List<Subscriber> subscribers = getComponentModel().subscribers;
 		return subscribers == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(subscribers);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addSubscriber(final Subscriber subscriber) {
 		WidgetModel model = getOrCreateComponentModel();
@@ -48,6 +42,17 @@ public class DefaultWidget extends WPanel implements Widget {
 			model.subscribers = new ArrayList<>();
 		}
 		model.subscribers.add(subscriber);
+	}
+
+	@Override
+	public void removeSubscriber(final Subscriber subscriber) {
+		if (getSubscribers().contains(subscriber)) {
+			WidgetModel model = getOrCreateComponentModel();
+			model.subscribers.remove(subscriber);
+			if (model.subscribers.isEmpty()) {
+				model.subscribers = null;
+			}
+		}
 	}
 
 	@Override
@@ -65,8 +70,8 @@ public class DefaultWidget extends WPanel implements Widget {
 
 	protected void setupSubscriberAjaxTargets() {
 		for (Subscriber subscriber : getSubscribers()) {
-			for (Class<? extends Event> event : getSupportedPublisherEvents()) {
-				List<AjaxTarget> targets = subscriber.getSubscriberAjaxTargets(event);
+			for (Class<? extends Event> event : getPublisherEvents()) {
+				List<AjaxTarget> targets = subscriber.getEventAjaxTargets(event);
 				if (targets != null && !targets.isEmpty()) {
 					wireUpEventAjax(targets, event);
 				}

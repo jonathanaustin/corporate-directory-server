@@ -1,7 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
-import com.github.bordertech.corpdir.web.ui.shell.AbstractEntityView;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.web.ui.shell.EntityMode;
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -17,7 +18,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicDetailView<T extends ApiKeyIdObject> extends AbstractEntityView<T, String> {
+public class BasicEntityView<T extends ApiKeyIdObject> extends AbstractEntityView<T> {
 
 	private final WPanel formPanel = new WPanel();
 
@@ -33,7 +34,7 @@ public class BasicDetailView<T extends ApiKeyIdObject> extends AbstractEntityVie
 	/**
 	 * Construct basic detail panel.
 	 */
-	public BasicDetailView() {
+	public BasicEntityView() {
 		add(formPanel);
 		add(versionPanel);
 
@@ -116,16 +117,28 @@ public class BasicDetailView<T extends ApiKeyIdObject> extends AbstractEntityVie
 		def.addTerm("ID", txtId);
 	}
 
-	@Override
-	public boolean isExistingEntity() {
-		T bean = getEntity();
-		return bean != null && bean.getId() != null;
+	private boolean isExistingEntity() {
+		return true;
 	}
 
 	@Override
-	public String getEntityId() {
-		T bean = getEntity();
-		return bean == null ? null : bean.getId();
+	public void setEntity(T entity) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void setEntityMode(EntityMode mode) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public EntityMode getEntityMode() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void addAjaxTarget(AjaxTarget target) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

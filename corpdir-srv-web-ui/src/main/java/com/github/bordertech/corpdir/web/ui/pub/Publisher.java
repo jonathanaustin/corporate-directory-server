@@ -10,10 +10,12 @@ import java.util.List;
  */
 public interface Publisher extends WComponent {
 
-	List<Class<? extends Event>> getSupportedPublisherEvents();
+	List<Class<? extends Event>> getPublisherEvents();
 
 	List<Subscriber> getSubscribers();
 
 	void addSubscriber(final Subscriber subscriber);
+
+	void removeSubscriber(final Subscriber subscriber);
 
 }
