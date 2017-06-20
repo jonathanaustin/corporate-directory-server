@@ -1,7 +1,5 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.wcomponents.Action;
-
 /**
  * Entity action menu.
  *
@@ -9,14 +7,13 @@ import com.github.bordertech.wcomponents.Action;
  * @since 1.0.0
  *
  */
-public interface NavMenuView extends BasicView {
+public interface NavView extends BasicEventView {
+
+	void addNavAction(final NavEvent event, final NavAction action);
 
 	void setPosition(final int idx, final int size);
 
 	int getCurrentIdx();
 
 	int getSize();
-
-	void setNavAction(final Action action);
-
 }

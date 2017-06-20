@@ -1,15 +1,12 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
- * Navigation event.
+ * Polling Service View event.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum NavEvent implements ViewEvent {
-	First,
-	Prev,
-	Next,
-	Last;
+public enum PollingServiceEvent implements ViewEvent {
+	Loaded;
 
 }

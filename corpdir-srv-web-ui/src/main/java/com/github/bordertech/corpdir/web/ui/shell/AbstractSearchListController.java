@@ -1,7 +1,5 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.wcomponents.Action;
-import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
@@ -11,12 +9,12 @@ import java.util.List;
  *
  * @author jonathan
  */
-public abstract class AbstractSearchListController<T, V> extends WPanel implements MessageContainer {
+public abstract class AbstractSearchListController<T, S> extends WPanel implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 
-	private final CriteriaView<V> criteriaView;
-	private final PollingServiceView<V, List<T>> pollingView;
+	private final CriteriaView criteriaView;
+	private final PollingServiceView<S, List<T>> pollingView;
 	private final ListView<T> listView;
 
 	private final WPanel ajaxPanel = new WPanel() {
@@ -26,16 +24,31 @@ public abstract class AbstractSearchListController<T, V> extends WPanel implemen
 		}
 	};
 
-	public AbstractSearchListController(final CriteriaView<V> criteriaView, final PollingServiceView<V, List<T>> pollingView, final ListView<T> listView) {
+	public AbstractSearchListController(final CriteriaView<S> criteriaView, final PollingServiceView<S, List<T>> pollingView, final ListView<T> listView) {
 		this.criteriaView = criteriaView;
 		this.pollingView = pollingView;
 		this.listView = listView;
 
 		// Actions
-		criteriaView.setCriteriaAction(new Action() {
+		// Criteria action
+		criteriaView.addCriteriaAction(CriteriaEvent.Search, new CriteriaAction<S>() {
 			@Override
-			public void execute(final ActionEvent event) {
-				handleCriteria(criteriaView.getCriteria());
+			public void execute(final CriteriaView<S> view, final CriteriaEvent viewEvent) {
+				handleCriteria(view.getCriteria());
+			}
+		});
+		// Polling action
+		pollingView.addPollingAction(PollingServiceEvent.Loaded, new PollingServiceAction<S, List<T>>() {
+			@Override
+			public void execute(final PollingServiceView<S, List<T>> view, final PollingServiceEvent viewEvent) {
+				handleSearchResult(view.getResult());
+			}
+		});
+		// Selection action
+		listView.addListAction(ListEvent.Edit, new ListAction<T>() {
+			@Override
+			public void execute(final ListView<T> view, final ListEvent viewEvent) {
+				handleSelection(viewEvent);
 			}
 		});
 
@@ -58,11 +71,11 @@ public abstract class AbstractSearchListController<T, V> extends WPanel implemen
 
 	}
 
-	public CriteriaView<V> getCriteriaView() {
+	public CriteriaView<S> getCriteriaView() {
 		return criteriaView;
 	}
 
-	public PollingServiceView<V, List<T>> getPollingView() {
+	public PollingServiceView<S, List<T>> getPollingView() {
 		return pollingView;
 	}
 
@@ -70,7 +83,15 @@ public abstract class AbstractSearchListController<T, V> extends WPanel implemen
 		return listView;
 	}
 
-	protected void handleCriteria(final V criteria) {
+	protected void handleCriteria(final S criteria) {
+
+	}
+
+	protected void handleSearchResult(final List<T> result) {
+
+	}
+
+	protected void handleSelection(final ListEvent event) {
 
 	}
 

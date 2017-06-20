@@ -1,16 +1,16 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
- * View actions.
+ * Entity actions.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum EntityEvent {
+public enum EntityCtrlEvent implements ViewEvent {
 	Back,
 	Edit,
 	Cancel,
 	Refresh,
 	Delete,
-	Save
+	Save;
 }

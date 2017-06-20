@@ -1,20 +1,18 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.wcomponents.Action;
-
 /**
- * Entity action menu.
+ * Entity ctrl view.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public interface EntityMenuView extends BasicView {
+public interface EntityCtrlView extends BasicEventView {
 
 	void setEntityMode(final EntityMode mode);
 
 	EntityMode getEntityMode();
 
-	void setMenuAction(final Action action);
+	void addEntityCtrlAction(final EntityCtrlEvent event, final EntityCtrlAction action);
 
 }

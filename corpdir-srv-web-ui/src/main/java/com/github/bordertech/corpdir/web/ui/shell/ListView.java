@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.wcomponents.Action;
 import java.util.List;
 
 /**
@@ -11,7 +10,9 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends BasicView {
+public interface ListView<T> extends BasicEventView {
+
+	void addListAction(final ListEvent event, final ListAction<T> action);
 
 	void setEntities(final List<T> entities);
 
@@ -20,8 +21,6 @@ public interface ListView<T> extends BasicView {
 	void setListMode(final ListMode mode);
 
 	ListMode getListMode();
-
-	void setSelectAction(final Action action);
 
 	void setSelectedIdx(final int idx);
 
