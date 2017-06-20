@@ -31,21 +31,22 @@ public abstract class AbstractSearchListController<T, S> extends WPanel implemen
 
 		// Actions
 		// Criteria action
-		criteriaView.addCriteriaAction(CriteriaEvent.Search, new CriteriaAction<S>() {
+		criteriaView.addViewAction(CriteriaEvent.Search, new ViewAction<CriteriaView<S>, CriteriaEvent>() {
 			@Override
 			public void execute(final CriteriaView<S> view, final CriteriaEvent viewEvent) {
 				handleCriteria(view.getCriteria());
 			}
 		});
+
 		// Polling action
-		pollingView.addPollingAction(PollingServiceEvent.Loaded, new PollingServiceAction<S, List<T>>() {
+		pollingView.addViewAction(PollingServiceEvent.Loaded, new ViewAction<PollingServiceView<S, List<T>>, PollingServiceEvent>() {
 			@Override
 			public void execute(final PollingServiceView<S, List<T>> view, final PollingServiceEvent viewEvent) {
 				handleSearchResult(view.getResult());
 			}
 		});
 		// Selection action
-		listView.addListAction(ListEvent.Edit, new ListAction<T>() {
+		listView.addViewAction(ListEvent.Edit, new ViewAction<ListView<T>, ListEvent>() {
 			@Override
 			public void execute(final ListView<T> view, final ListEvent viewEvent) {
 				handleSelection(viewEvent);

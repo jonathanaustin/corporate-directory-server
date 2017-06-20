@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
- * Entity Criteria View.
+ * Polling View.
  *
  * @param <S> the criteria type
  * @param <T> the result type
@@ -9,9 +9,7 @@ package com.github.bordertech.corpdir.web.ui.shell;
  * @since 1.0.0
  *
  */
-public interface PollingServiceView<S, T> extends BasicEventView {
-
-	void addPollingAction(final PollingServiceEvent event, final PollingServiceAction<S, T> action);
+public interface PollingServiceView<S, T> extends BasicEventView<PollingServiceView<S, T>, PollingServiceEvent> {
 
 	void setCriteria(final S criteria);
 
