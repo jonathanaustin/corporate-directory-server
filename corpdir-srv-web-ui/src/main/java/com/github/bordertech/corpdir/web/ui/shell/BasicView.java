@@ -2,6 +2,7 @@ package com.github.bordertech.corpdir.web.ui.shell;
 
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 
 /**
  * Basic View.
@@ -10,6 +11,12 @@ import com.github.bordertech.wcomponents.WComponent;
  * @since 1.0.0
  */
 public interface BasicView extends WComponent, BeanBound {
+
+	/**
+	 *
+	 * @return the view content holder.
+	 */
+	WContainer getContent();
 
 	/**
 	 *

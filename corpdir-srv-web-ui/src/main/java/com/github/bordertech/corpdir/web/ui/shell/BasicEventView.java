@@ -11,8 +11,6 @@ import java.util.List;
  */
 public interface BasicEventView extends BasicView {
 
-	List<ViewAction> getViewActions();
-
 	List<ViewAction> getViewActions(final ViewEvent viewEvent);
 
 	/**

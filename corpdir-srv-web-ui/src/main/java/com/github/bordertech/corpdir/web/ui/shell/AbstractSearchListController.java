@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public abstract class AbstractSearchListController<T, S> extends WPanel implements MessageContainer {
+public abstract class AbstractSearchListController<T, S> extends AbstractBasicEventView implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 

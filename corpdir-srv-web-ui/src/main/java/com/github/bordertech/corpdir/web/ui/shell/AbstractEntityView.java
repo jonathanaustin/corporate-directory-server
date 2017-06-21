@@ -1,11 +1,9 @@
-package com.github.bordertech.corpdir.web.ui.view;
+package com.github.bordertech.corpdir.web.ui.shell;
 
-import com.github.bordertech.corpdir.web.ui.shell.EntityView;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WPanel;
 
 /**
  * Abstract entity form view.
@@ -15,51 +13,48 @@ import com.github.bordertech.wcomponents.WPanel;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractEntityView<T> extends WPanel implements EntityView<T> {
+public class AbstractEntityView<T> extends AbstractBasicView implements EntityView<T> {
 
 	/**
 	 * @return the bean being displayed.
 	 */
 	@Override
 	public T getEntity() {
-		return (T) getBean();
+		return (T) getBeanValue();
+	}
+
+	@Override
+	public void setEntity(final T entity) {
+		setBean(entity);
+	}
+
+	@Override
+	public void setEntityMode(final EntityMode mode) {
+		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.View : mode;
+		handleViewState();
+	}
+
+	@Override
+	public EntityMode getEntityMode() {
+		return getComponentModel().entityMode;
 	}
 
 	/**
 	 * @return true if form read only
 	 */
 	public boolean isFormReadOnly() {
-		return getComponentModel().formReadOnly;
-	}
-
-	/**
-	 *
-	 * @param formReadOnly true if form read only
-	 */
-	public void setFormReadOnly(final boolean formReadOnly) {
-		EntityViewModel model = getComponentModel();
-		boolean changed = model.formReadOnly == formReadOnly;
-		if (changed) {
-			getOrCreateComponentModel().formReadOnly = formReadOnly;
-			handleReadOnlyState();
-		}
+		EntityMode mode = getEntityMode();
+		return mode != EntityMode.Create && mode != EntityMode.Edit;
 	}
 
 	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		if (!isInitialised()) {
-			initForm();
-			setInitialised(true);
-		}
+	protected void initContent(Request request) {
+		super.initContent(request);
+		handleViewState();
 	}
 
-	protected void initForm() {
-		handleReadOnlyState();
-	}
-
-	protected void handleReadOnlyState() {
-		doMakeReadOnly(this, isFormReadOnly());
+	protected void handleViewState() {
+		doMakeReadOnly(getContent(), isFormReadOnly());
 	}
 
 	protected void doMakeReadOnly(final WComponent component, final boolean readOnly) {
@@ -100,6 +95,6 @@ public abstract class AbstractEntityView<T> extends WPanel implements EntityView
 	 */
 	public static class EntityViewModel extends PanelModel {
 
-		private boolean formReadOnly = true;
+		private EntityMode entityMode = EntityMode.View;
 	}
 }

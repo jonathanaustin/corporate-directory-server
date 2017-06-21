@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.web.ui.shell.EntityMode;
+import com.github.bordertech.corpdir.web.ui.shell.AbstractEntityView;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -44,21 +44,21 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends AbstractEntityVie
 	/**
 	 * @return the panel that hold the form details
 	 */
-	protected WPanel getFormPanel() {
+	protected final WPanel getFormPanel() {
 		return formPanel;
 	}
 
 	/**
 	 * @return the field layout holding the basic input fields
 	 */
-	protected WFieldLayout getFormLayout() {
+	protected final WFieldLayout getFormLayout() {
 		return formLayout;
 	}
 
 	/**
 	 * @return the panel that holds the record id and version details
 	 */
-	protected WPanel getVersionPanel() {
+	protected final WPanel getVersionPanel() {
 		return versionPanel;
 	}
 
@@ -117,22 +117,7 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends AbstractEntityVie
 	}
 
 	private boolean isExistingEntity() {
-		return true;
-	}
-
-	@Override
-	public void setEntity(T entity) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public void setEntityMode(EntityMode mode) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	public EntityMode getEntityMode() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return getEntity().getId() != null;
 	}
 
 }

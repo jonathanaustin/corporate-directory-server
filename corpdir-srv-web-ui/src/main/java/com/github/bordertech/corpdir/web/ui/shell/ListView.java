@@ -20,6 +20,8 @@ public interface ListView<T> extends BasicEventView {
 
 	ListMode getListMode();
 
+	void clearSelectedIdx();
+
 	void setSelectedIdx(final int idx);
 
 	int getSelectedIdx();
