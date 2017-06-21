@@ -1,7 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
-import com.github.bordertech.corpdir.web.ui.shell.EntityMode;
 import com.github.bordertech.corpdir.web.ui.shell.EntityCtrlEvent;
+import com.github.bordertech.corpdir.web.ui.shell.EntityCtrlView;
+import com.github.bordertech.corpdir.web.ui.shell.EntityMode;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -13,7 +14,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.corpdir.web.ui.shell.EntityCtrlView;
 
 /**
  * Action menu bar implementation.
@@ -25,14 +25,14 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 
 	private final WMenu actionMenu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.Back) {
+	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.Edit) {
+	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isLoaded();
@@ -44,7 +44,7 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityCtrlEvent.Cancel) {
+	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityCtrlEvent.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isLoaded();
@@ -61,7 +61,7 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityCtrlEvent.Refresh) {
+	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityCtrlEvent.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isLoaded();
@@ -74,7 +74,7 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", EntityCtrlEvent.Save) {
+	private final WMenuItem itemSave = new MyMenuItem("Save", EntityCtrlEvent.SAVE) {
 		@Override
 		public boolean isVisible() {
 			return isLoaded();
@@ -86,7 +86,7 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityCtrlEvent.Delete) {
+	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityCtrlEvent.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isLoaded();

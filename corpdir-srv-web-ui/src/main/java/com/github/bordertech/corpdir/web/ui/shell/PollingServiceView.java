@@ -9,7 +9,7 @@ package com.github.bordertech.corpdir.web.ui.shell;
  * @since 1.0.0
  *
  */
-public interface PollingServiceView<S, T> extends BasicEventView<PollingServiceView<S, T>, PollingServiceEvent> {
+public interface PollingServiceView<S, T> extends BasicEventView {
 
 	void setCriteria(final S criteria);
 
@@ -18,4 +18,7 @@ public interface PollingServiceView<S, T> extends BasicEventView<PollingServiceV
 	T getResult();
 
 	void refreshView();
+
+	void addViewAction(final PollingServiceEvent viewEvent, final ViewAction<PollingServiceView<S, T>, PollingServiceEvent> viewAction);
+
 }

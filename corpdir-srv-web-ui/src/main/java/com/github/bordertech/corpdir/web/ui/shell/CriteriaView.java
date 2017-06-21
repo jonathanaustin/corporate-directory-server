@@ -7,8 +7,10 @@ package com.github.bordertech.corpdir.web.ui.shell;
  * @since 1.0.0
  *
  */
-public interface CriteriaView<T> extends BasicEventView<CriteriaView<T>, CriteriaEvent> {
+public interface CriteriaView<T> extends BasicEventView {
 
 	T getCriteria();
+
+	void addViewAction(final CriteriaEvent viewEvent, final ViewAction<CriteriaView<T>, CriteriaEvent> viewAction);
 
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends BasicEventView<ListView<T>, ListEvent> {
+public interface ListView<T> extends BasicEventView {
 
 	void setEntities(final List<T> entities);
 
@@ -27,5 +27,7 @@ public interface ListView<T> extends BasicEventView<ListView<T>, ListEvent> {
 	int getSize();
 
 	T getSelected();
+
+	void addViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction);
 
 }

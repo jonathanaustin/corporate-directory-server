@@ -7,17 +7,13 @@ import java.util.List;
  * Basic View with Events.
  *
  * @author Jonathan Austin
- * @param <E> the event type
- * @param <V> the action type
  * @since 1.0.0
  */
-public interface BasicEventView<V extends BasicEventView, E extends ViewEvent> extends BasicView {
+public interface BasicEventView extends BasicView {
 
 	List<ViewAction> getViewActions();
 
-	List<ViewAction> getViewActions(final E viewEvent);
-
-	void addViewAction(final E viewEvent, final ViewAction<V, E> viewAction);
+	List<ViewAction> getViewActions(final ViewEvent viewEvent);
 
 	/**
 	 *

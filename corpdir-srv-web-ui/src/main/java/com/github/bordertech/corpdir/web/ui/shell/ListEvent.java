@@ -1,15 +1,19 @@
 package com.github.bordertech.corpdir.web.ui.shell;
 
 /**
- * List actions.
+ * List events.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ListEvent implements ViewEvent {
-	View,
-	Edit,
-	Delete,
-	Select;
+public interface ListEvent extends ViewEvent {
 
+	ListEvent VIEW = new ListEvent() {
+	};
+	ListEvent EDIT = new ListEvent() {
+	};
+	ListEvent DELETE = new ListEvent() {
+	};
+	ListEvent SELECT = new ListEvent() {
+	};
 }

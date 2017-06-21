@@ -7,11 +7,13 @@ package com.github.bordertech.corpdir.web.ui.shell;
  * @since 1.0.0
  *
  */
-public interface NavView extends BasicEventView<NavView, NavEvent> {
+public interface NavView extends BasicEventView {
 
 	void setPosition(final int idx, final int size);
 
 	int getCurrentIdx();
 
 	int getSize();
+
+	public void addViewAction(final NavEvent viewEvent, final ViewAction<NavView, NavEvent> viewAction);
 }
