@@ -1,23 +1,23 @@
 package com.github.bordertech.corpdir.web.ui.polling;
 
 /**
- * Status of the Polling Controller and if the service has been called successfully.
+ * Status of the Polling View and if the polling action has been processed successfully.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 public enum PollingStatus {
 	/**
-	 * Service not called yet.
+	 * Polling not started yet.
 	 */
 	NOT_STARTED, /**
-	 * Service being called.
+	 * Polling started.
 	 */
-	PROCESSING, /**
-	 * Service call had an error.
+	STARTED, /**
+	 * Error occurred.
 	 */
 	ERROR, /**
-	 * Service called successfully.
+	 * Polling action completed successfully.
 	 */
 	COMPLETE
 

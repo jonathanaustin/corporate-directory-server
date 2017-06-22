@@ -16,7 +16,8 @@ public interface BasicEventView extends BasicView {
 	/**
 	 *
 	 * @param target the AJAX target to add to any actions in the view
+	 * @param viewEvent the specific view events (or not specified)
 	 */
-	void addAjaxTarget(final AjaxTarget target);
+	void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent);
 
 }

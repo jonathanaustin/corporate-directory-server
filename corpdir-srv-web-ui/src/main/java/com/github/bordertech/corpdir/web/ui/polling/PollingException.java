@@ -1,17 +1,17 @@
 package com.github.bordertech.corpdir.web.ui.polling;
 
 /**
- * Exception processing polling service.
+ * Exception processing polling action.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingServiceException extends Exception {
+public class PollingException extends Exception {
 
 	/**
 	 * @param msg exception message
 	 */
-	public PollingServiceException(final String msg) {
+	public PollingException(final String msg) {
 		super(msg);
 	}
 
@@ -19,7 +19,7 @@ public class PollingServiceException extends Exception {
 	 * @param msg exception message
 	 * @param throwable original exception
 	 */
-	public PollingServiceException(final String msg, final Throwable throwable) {
+	public PollingException(final String msg, final Throwable throwable) {
 		super(msg, throwable);
 	}
 

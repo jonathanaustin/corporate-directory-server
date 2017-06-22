@@ -1,24 +1,27 @@
 package com.github.bordertech.corpdir.web.ui.polling;
 
 /**
- * Service result holder to use in the Future.
+ * Polling result holder to use in the Future.
+ * <p>
+ * The result can be an exception or the result.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ServiceResultHolder {
+public class PollingResultHolder {
 
 	private Object result;
 
 	/**
-	 * @return the service result
+	 * @return the polling result
 	 */
 	public Object getResult() {
 		return result;
 	}
 
 	/**
-	 * @param result the service result
+	 * @param result the polling result
 	 */
 	public void setResult(final Object result) {
 		this.result = result;

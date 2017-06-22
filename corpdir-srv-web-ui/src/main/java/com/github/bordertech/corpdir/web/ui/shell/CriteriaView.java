@@ -11,6 +11,6 @@ public interface CriteriaView<T> extends BasicEventView {
 
 	T getCriteria();
 
-	void addViewAction(final CriteriaEvent viewEvent, final ViewAction<CriteriaView<T>, CriteriaEvent> viewAction);
+	void registerViewAction(final CriteriaEvent viewEvent, final ViewAction<CriteriaView<T>, CriteriaEvent> viewAction);
 
 }

@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.web.ui.view;
 import com.github.bordertech.corpdir.web.ui.shell.EntityCtrlEvent;
 import com.github.bordertech.corpdir.web.ui.shell.EntityCtrlView;
 import com.github.bordertech.corpdir.web.ui.shell.EntityMode;
+import com.github.bordertech.corpdir.web.ui.shell.ViewEvent;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -139,7 +140,7 @@ public abstract class ActionMenuBar extends WContainer implements EntityCtrlView
 	}
 
 	@Override
-	public void addAjaxTarget(final AjaxTarget target) {
+	public void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
 		// Add a target to teach AJAX control
 		for (WComponent child : ajaxPanel.getChildren()) {
 			WAjaxControl ctrl = (WAjaxControl) child;

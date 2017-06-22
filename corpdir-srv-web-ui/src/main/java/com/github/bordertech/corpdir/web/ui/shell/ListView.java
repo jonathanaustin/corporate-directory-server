@@ -30,6 +30,6 @@ public interface ListView<T> extends BasicEventView {
 
 	T getSelected();
 
-	void addViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction);
+	void registerViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction);
 
 }

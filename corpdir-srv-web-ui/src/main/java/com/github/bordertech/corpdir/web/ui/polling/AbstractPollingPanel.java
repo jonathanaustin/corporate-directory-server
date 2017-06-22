@@ -1,5 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.polling;
 
+import com.github.bordertech.corpdir.web.ui.shell.AbstractBasicEventView;
+import com.github.bordertech.corpdir.web.ui.shell.ViewAction;
+import com.github.bordertech.corpdir.web.ui.shell.ViewEvent;
 import com.github.bordertech.corpdir.web.ui.tasks.TaskFuture;
 import com.github.bordertech.corpdir.web.ui.tasks.TaskManager;
 import com.github.bordertech.corpdir.web.ui.tasks.TaskManagerFactory;
@@ -22,25 +25,25 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * This panel is used to load data via a threaded service call and polling AJAX.
+ * This panel is used to load data via a threaded polling action and polling AJAX.
  * <p>
- * Expected {@link #setRecordId(Object)} to be set with the appropriate id to be loaded.
+ * Expected {@link #setPollingCriteria(Object)} to be set with the appropriate id to be loaded.
  * </p>
  * <p>
- * The successful service response will be set as the bean available to the panel. The content of the panel will only be
- * displayed if the service call was successful. If the service call fails, then the error message will be displayed
+ * The successful polling result will be set as the bean available to the panel. The content of the panel will only be
+ * displayed if the polling action was successful. If the polling action fails, then the error message will be displayed
  * along with a retry button.
  * </p>
  * <p>
- * Any caching of service calls is expected to be handled at the services layer.
+ * Any caching of polling actions is expected to be handled at the lower level (eg service layer caching).
  * </p>
  *
- * @param <T> the service response type
- * @param <R> the record id type
+ * @param <S> the polling criteria type
+ * @param <T> the polling result type
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingPanel<T, R> extends WPanel implements PollingController<T, R> {
+public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView implements PollingView<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -86,20 +89,6 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 * Retry load.
 	 */
 	private final WButton retryButton = new WButton("Retry");
-
-	/**
-	 * Container to hold the panel detail.
-	 */
-	private final WPanel content = new WPanel() {
-		@Override
-		protected void preparePaintComponent(final Request request) {
-			super.preparePaintComponent(request);
-			if (!isInitialised()) {
-				doInitContent(request);
-				setInitialised(true);
-			}
-		}
-	};
 
 	/**
 	 * The container that holds the AJAX poller.
@@ -210,7 +199,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		messages.setMargin(new Margin(0, 0, 3, 0));
 		root.add(messages);
 		root.add(retryButton);
-		root.add(content);
+		root.add(getContent());
 
 		// Manual Start load
 		startButton.setAjaxTarget(this);
@@ -235,7 +224,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		// Set default visibility
 		retryButton.setVisible(false);
 		pollingContainer.setVisible(false);
-		content.setVisible(false);
+		getContent().setVisible(false);
 		ajaxReload.setVisible(false);
 
 		// Context
@@ -251,6 +240,11 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 			startButton.setIdName("btnStart");
 		}
 
+	}
+
+	@Override
+	public void registerViewAction(final PollingEvent viewEvent, final ViewAction<PollingView<S, T>, PollingEvent> viewAction) {
+		addEventAction(viewEvent, viewAction);
 	}
 
 	/**
@@ -288,16 +282,6 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * The container used to hold the panel detail.
-	 *
-	 * @return the panel content holder
-	 */
-	@Override
-	public WPanel getContent() {
-		return content;
-	}
-
-	/**
 	 * @param text the text displayed while polling
 	 */
 	@Override
@@ -314,19 +298,19 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * @param recordId the id for the record
+	 * @param criteria the id for the record
 	 */
 	@Override
-	public void setRecordId(final R recordId) {
-		getOrCreateComponentModel().recordId = recordId;
+	public void setPollingCriteria(final S criteria) {
+		getOrCreateComponentModel().criteria = criteria;
 	}
 
 	/**
 	 * @return the id for the record
 	 */
 	@Override
-	public R getRecordId() {
-		return getComponentModel().recordId;
+	public S getPollingCriteria() {
+		return getComponentModel().criteria;
 	}
 
 	/**
@@ -370,10 +354,10 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * @return the service response, or null if not called successfully
+	 * @return the polling result, or null if not processed successfully yet
 	 */
 	@Override
-	public T getServiceResponse() {
+	public T getPollingResult() {
 		return (T) root.getBean();
 	}
 
@@ -388,18 +372,18 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 			return;
 		}
 
-		// Check we have a record id
-		final R recordId = getRecordId();
-		if (recordId == null) {
-			getMessages().error("No id set for service call.");
+		// Check we have a criteria
+		final S criteria = getPollingCriteria();
+		if (criteria == null) {
+			getMessages().error("No criteria set for polling action.");
 			return;
 		}
 
-		handleStartServiceCall(recordId);
+		handleStartPollingAction(criteria);
 	}
 
 	/**
-	 * Retry the service call.
+	 * Retry the polling action.
 	 */
 	@Override
 	public void doRetry() {
@@ -414,29 +398,30 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 */
 	@Override
 	public void doRefreshContent() {
-		R recordId = getRecordId();
-		if (recordId == null) {
+		S criteria = getPollingCriteria();
+		if (criteria == null) {
 			return;
 		}
-		handleClearServiceCache();
+		handleClearPollingCache();
 		root.reset();
 		setPanelStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
 
 	@Override
-	public void loadBean(final T bean, final R recordId) {
-		if (bean == null || recordId == null) {
+	public void doManuallyLoadResult(final S criteria, final T result) {
+		if (result == null || criteria == null) {
 			return;
 		}
 		root.reset();
 		startButton.setVisible(false);
-		setRecordId(recordId);
-		handleResult(bean);
+		setPollingCriteria(criteria);
+		handleResult(result);
 	}
 
 	@Override
-	public void addPollingAjaxTarget(final AjaxTarget target) {
+	public void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
+		super.addAjaxTarget(target);
 		PollingPanelModel model = getOrCreateComponentModel();
 		if (model.extraTargets == null) {
 			model.extraTargets = new ArrayList();
@@ -444,7 +429,11 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		model.extraTargets.add(target);
 	}
 
-	protected List<AjaxTarget> getPollingAjaxTargets() {
+	@Override
+	protected void initContent(final Request request) {
+	}
+
+	protected List<AjaxTarget> getAjaxTargets() {
 		return getComponentModel().extraTargets;
 	}
 
@@ -461,28 +450,19 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * Called when initializing the content of the panel after a response from the service has been received.
-	 *
-	 * @param request the request being processed
+	 * Clear the polling cache if necessary (eg Service Layer).
 	 */
-	protected void doInitContent(final Request request) {
+	protected void handleClearPollingCache() {
 		// Do nothing
 	}
 
 	/**
-	 * Clear the service level cache if necessary.
+	 * @param criteria the criteria for the polling action
 	 */
-	protected void handleClearServiceCache() {
-		// Do nothing
-	}
-
-	/**
-	 * @param recordId the id for the record
-	 */
-	protected void handleStartServiceCall(final R recordId) {
-		// Start service call
+	protected void handleStartPollingAction(final S criteria) {
+		// Start polling action
 		try {
-			handleAsyncServiceCall(recordId);
+			handleAsyncPollingAction(criteria);
 		} catch (Exception e) {
 			handleResult(e);
 			return;
@@ -497,10 +477,11 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 */
 	protected void handleStartPolling() {
 		// Start AJAX polling
-		setPanelStatus(PollingStatus.PROCESSING);
+		setPanelStatus(PollingStatus.STARTED);
 		pollingContainer.setVisible(true);
 		ajaxPolling.reset();
 		ajaxReload.reset();
+		executeEventActions(PollingEvent.STARTED);
 	}
 
 	/**
@@ -509,7 +490,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	protected void handleStopPolling() {
 		ajaxPolling.setVisible(false);
 		ajaxReload.setVisible(true);
-		List<AjaxTarget> targets = getPollingAjaxTargets();
+		List<AjaxTarget> targets = getAjaxTargets();
 		if (targets != null && !targets.isEmpty()) {
 			ajaxReload.addTargets(targets);
 		}
@@ -524,43 +505,44 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * Handle the result from the service call.
+	 * Handle the result from the polling action.
 	 *
-	 * @param result the service response
+	 * @param pollingResult the polling action result
 	 */
-	protected void handleResult(final Object result) {
+	protected void handleResult(final Object pollingResult) {
 		// Exception message
-		if (result instanceof Exception) {
-			Exception excp = (Exception) result;
+		if (pollingResult instanceof Exception) {
+			Exception excp = (Exception) pollingResult;
 			extractExceptionMessages("Error loading data. ", getMessages(), excp);
 			retryButton.setVisible(true);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPanelStatus(PollingStatus.ERROR);
+			executeEventActions(PollingEvent.ERROR);
 		} else {
-			// Result
-			T response = (T) result;
-			// Handle response
-			handleSuccessfulServiceResponse(response);
-			content.setVisible(true);
+			// Successful Result
+			T result = (T) pollingResult;
+			handleSuccessfulResult(result);
+			getContent().setVisible(true);
 			// Status
 			setPanelStatus(PollingStatus.COMPLETE);
+			executeEventActions(PollingEvent.COMPLETE);
 		}
 	}
 
 	/**
-	 * Handle the response. Default behaviour is to set the response as the bean for the content.
+	 * Handle the result. Default behaviour is to set the result as the bean for the content.
 	 *
-	 * @param response the service response
+	 * @param result the polling action result
 	 */
-	protected void handleSuccessfulServiceResponse(final T response) {
-		// Set the response as the bean
-		root.setBean(response);
+	protected void handleSuccessfulResult(final T result) {
+		// Set the result as the bean
+		root.setBean(result);
 	}
 
 	/**
-	 * Extract the exception messages from the service exception.
+	 * Extract the exception messages from the polling exception.
 	 *
 	 * @param prefix the message prefix
 	 * @param messages the message component
@@ -589,11 +571,11 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 */
 	protected void checkForResult() {
 
-		// Get the Future for the service call
-		TaskFuture<ServiceResultHolder> future = getFuture();
+		// Get the Future for the polling action
+		TaskFuture<PollingResultHolder> future = getFuture();
 		if (future == null) {
 			// Stop polling as future must have expired
-			handleResult(new PollingServiceException("Future has expired so service result not available"));
+			handleResult(new PollingException("Future has expired so polling result not available"));
 			handleStopPolling();
 			return;
 		}
@@ -606,7 +588,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		// Extract the result from the future
 		Object result;
 		try {
-			ServiceResultHolder holder = future.get();
+			PollingResultHolder holder = future.get();
 			result = holder.getResult();
 		} catch (Exception e) {
 			result = e;
@@ -619,24 +601,24 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	}
 
 	/**
-	 * Handle the service call.
+	 * Handle the polling action.
 	 *
-	 * @param recordId the record id
-	 * @throws PollingServiceException the service exception
+	 * @param criteria the criteria for the polling action
+	 * @throws PollingException the polling exception
 	 */
-	protected void handleAsyncServiceCall(final R recordId) throws PollingServiceException {
+	protected void handleAsyncPollingAction(final S criteria) throws PollingException {
 
 		clearFuture();
 
-		final ServiceResultHolder result = new ServiceResultHolder();
+		final PollingResultHolder result = new PollingResultHolder();
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
 				try {
-					T resp = doServiceCall(recordId);
+					T resp = doPollingAction(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
-					PollingServiceException excp = new PollingServiceException(e.getMessage(), e);
+					PollingException excp = new PollingException(e.getMessage(), e);
 					result.setResult(excp);
 				}
 			}
@@ -646,21 +628,21 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 			// Save the future
 			setFuture(future);
 		} catch (Exception e) {
-			throw new PollingServiceException("Could not start thread to call service. " + e.getMessage());
+			throw new PollingException("Could not start thread to process polling action. " + e.getMessage());
 		}
 	}
 
 	/**
-	 * @return the service call future object
+	 * @return the polling action future object
 	 */
-	protected TaskFuture<ServiceResultHolder> getFuture() {
+	protected TaskFuture<PollingResultHolder> getFuture() {
 		return getComponentModel().future;
 	}
 
 	/**
-	 * @param future the service future to save
+	 * @param future the polling action future to save
 	 */
-	protected void setFuture(final TaskFuture<ServiceResultHolder> future) {
+	protected void setFuture(final TaskFuture<PollingResultHolder> future) {
 		getOrCreateComponentModel().future = future;
 	}
 
@@ -700,7 +682,7 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingPanelModel<R> newComponentModel() {
+	protected PollingPanelModel<S> newComponentModel() {
 		return new PollingPanelModel<>();
 	}
 
@@ -708,29 +690,29 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingPanelModel<R> getOrCreateComponentModel() {
-		return (PollingPanelModel<R>) super.getOrCreateComponentModel();
+	protected PollingPanelModel<S> getOrCreateComponentModel() {
+		return (PollingPanelModel<S>) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingPanelModel<R> getComponentModel() {
-		return (PollingPanelModel<R>) super.getComponentModel();
+	protected PollingPanelModel<S> getComponentModel() {
+		return (PollingPanelModel<S>) super.getComponentModel();
 	}
 
 	/**
 	 * This model holds the state information.
 	 *
-	 * @param <R> the record id type
+	 * @param <S> the criteria type
 	 */
-	public static class PollingPanelModel<R> extends PanelModel {
+	public static class PollingPanelModel<S> extends EventViewModel {
 
 		/**
 		 * Record id.
 		 */
-		private R recordId;
+		private S criteria;
 
 		/**
 		 * Polling status.
@@ -743,9 +725,9 @@ public abstract class AbstractPollingPanel<T, R> extends WPanel implements Polli
 		private String pollingText = "Loading....";
 
 		/**
-		 * Holds the reference to the future for the service call.
+		 * Holds the reference to the future for the polling action.
 		 */
-		private TaskFuture<ServiceResultHolder> future;
+		private TaskFuture<PollingResultHolder> future;
 
 		/**
 		 * The polling interval in milli seconds.

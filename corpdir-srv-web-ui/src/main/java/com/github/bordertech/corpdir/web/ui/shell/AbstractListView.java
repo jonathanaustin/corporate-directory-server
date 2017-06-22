@@ -70,8 +70,8 @@ public class AbstractListView<T> extends AbstractBasicEventView implements ListV
 	}
 
 	@Override
-	public void addViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction) {
-		super.addViewAction(viewEvent, viewAction);
+	public void registerViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction) {
+		addEventAction(viewEvent, viewAction);
 	}
 
 	@Override

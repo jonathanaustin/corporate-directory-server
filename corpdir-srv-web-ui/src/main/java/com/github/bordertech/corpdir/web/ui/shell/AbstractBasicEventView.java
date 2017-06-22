@@ -16,13 +16,13 @@ import java.util.Map;
 public class AbstractBasicEventView extends AbstractBasicView implements BasicEventView {
 
 	@Override
-	public void addAjaxTarget(final AjaxTarget target) {
+	public void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
 		// Do nothing by default
 	}
 
 	@Override
 	public List<ViewAction> getViewActions(final ViewEvent viewEvent) {
-		List<ViewAction> actions = getViewActions().get(viewEvent);
+		List<ViewAction> actions = getEventActions().get(viewEvent);
 		return actions == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(actions);
 	}
 
@@ -33,7 +33,7 @@ public class AbstractBasicEventView extends AbstractBasicView implements BasicEv
 		}
 	}
 
-	protected void addViewAction(final ViewEvent viewEvent, final ViewAction viewAction) {
+	protected void addEventAction(final ViewEvent viewEvent, final ViewAction viewAction) {
 		EventViewModel model = getOrCreateComponentModel();
 		if (model.viewActions == null) {
 			model.viewActions = new HashMap<>();
@@ -46,7 +46,7 @@ public class AbstractBasicEventView extends AbstractBasicView implements BasicEv
 		actions.add(viewAction);
 	}
 
-	protected Map<ViewEvent, List<ViewAction>> getViewActions() {
+	protected Map<ViewEvent, List<ViewAction>> getEventActions() {
 		EventViewModel model = getComponentModel();
 		return model.viewActions == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.viewActions);
 	}
