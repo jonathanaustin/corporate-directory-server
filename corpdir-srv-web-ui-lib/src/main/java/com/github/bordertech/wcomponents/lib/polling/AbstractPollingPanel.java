@@ -325,7 +325,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	/**
 	 * @param panelStatus the panel status
 	 */
-	protected void setPanelStatus(final PollingStatus panelStatus) {
+	protected void setPollingStatus(final PollingStatus panelStatus) {
 		getOrCreateComponentModel().pollingStatus = panelStatus;
 	}
 
@@ -404,7 +404,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 		}
 		handleClearPollingCache();
 		root.reset();
-		setPanelStatus(PollingStatus.NOT_STARTED);
+		setPollingStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
 
@@ -477,7 +477,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	 */
 	protected void handleStartPolling() {
 		// Start AJAX polling
-		setPanelStatus(PollingStatus.STARTED);
+		setPollingStatus(PollingStatus.STARTED);
 		pollingContainer.setVisible(true);
 		ajaxPolling.reset();
 		ajaxReload.reset();
@@ -518,7 +518,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
-			setPanelStatus(PollingStatus.ERROR);
+			setPollingStatus(PollingStatus.ERROR);
 			executeRegisteredViewActions(PollingEvent.ERROR);
 		} else {
 			// Successful Result
@@ -526,7 +526,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 			handleSuccessfulResult(result);
 			getViewContent().setVisible(true);
 			// Status
-			setPanelStatus(PollingStatus.COMPLETE);
+			setPollingStatus(PollingStatus.COMPLETE);
 			executeRegisteredViewActions(PollingEvent.COMPLETE);
 		}
 	}
