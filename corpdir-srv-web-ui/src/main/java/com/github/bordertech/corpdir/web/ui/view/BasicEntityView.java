@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.web.ui.shell.AbstractEntityView;
+import com.github.bordertech.wcomponents.lib.app.view.AbstractEntityView;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
