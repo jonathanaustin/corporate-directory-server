@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.wcomponents.lib.app.view.AbstractEntityView;
+import com.github.bordertech.wcomponents.lib.app.view.DefaultEntityView;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.WTextField;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicEntityView<T extends ApiKeyIdObject> extends AbstractEntityView<T> {
+public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView<T> {
 
 	private final WPanel formPanel = new WPanel();
 

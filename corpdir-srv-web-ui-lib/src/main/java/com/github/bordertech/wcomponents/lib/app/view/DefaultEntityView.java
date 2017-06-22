@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.view.AbstractBasicView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 
 /**
  * Abstract entity form view.
@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.view.AbstractBasicView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractEntityView<T> extends AbstractBasicView implements EntityView<T> {
+public class DefaultEntityView<T> extends DefaultBasicView implements EntityView<T> {
 
 	/**
 	 * @return the bean being displayed.
@@ -31,8 +31,7 @@ public class AbstractEntityView<T> extends AbstractBasicView implements EntityVi
 
 	@Override
 	public void setEntityMode(final EntityMode mode) {
-		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.View : mode;
-		handleViewState();
+		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
 	}
 
 	@Override
@@ -40,22 +39,23 @@ public class AbstractEntityView<T> extends AbstractBasicView implements EntityVi
 		return getComponentModel().entityMode;
 	}
 
+	@Override
+	public void doRefreshViewState() {
+		doMakeReadOnly(getViewContent(), isFormReadOnly());
+	}
+
 	/**
 	 * @return true if form read only
 	 */
-	public boolean isFormReadOnly() {
+	protected boolean isFormReadOnly() {
 		EntityMode mode = getEntityMode();
-		return mode != EntityMode.Create && mode != EntityMode.Edit;
+		return !EntityMode.CREATE.equals(mode) && !EntityMode.EDIT.equals(mode);
 	}
 
 	@Override
-	protected void initContent(Request request) {
-		super.initContent(request);
-		handleViewState();
-	}
-
-	protected void handleViewState() {
-		doMakeReadOnly(getContent(), isFormReadOnly());
+	protected void initViewContent(Request request) {
+		super.initViewContent(request);
+		doRefreshViewState();
 	}
 
 	protected void doMakeReadOnly(final WComponent component, final boolean readOnly) {
@@ -96,6 +96,6 @@ public class AbstractEntityView<T> extends AbstractBasicView implements EntityVi
 	 */
 	public static class EntityViewModel extends PanelModel {
 
-		private EntityMode entityMode = EntityMode.View;
+		private EntityMode entityMode = EntityMode.VIEW;
 	}
 }

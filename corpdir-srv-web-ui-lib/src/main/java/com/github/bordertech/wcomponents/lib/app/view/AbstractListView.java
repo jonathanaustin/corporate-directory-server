@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.AbstractBasicEventView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractListView<T> extends AbstractBasicEventView implements ListView<T> {
+public class AbstractListView<T> extends DefaultBasicEventView implements ListView<T> {
 
 	@Override
 	public void setEntities(final List<T> entities) {
@@ -25,7 +25,7 @@ public class AbstractListView<T> extends AbstractBasicEventView implements ListV
 
 	@Override
 	public void setListMode(final ListMode mode) {
-		getOrCreateComponentModel().listMode = mode == null ? ListMode.View : mode;
+		getOrCreateComponentModel().listMode = mode == null ? ListMode.VIEW : mode;
 		handleViewState();
 	}
 
@@ -72,13 +72,13 @@ public class AbstractListView<T> extends AbstractBasicEventView implements ListV
 	}
 
 	@Override
-	public void registerViewAction(final ListEvent viewEvent, final ViewAction<ListView<T>, ListEvent> viewAction) {
-		addEventAction(viewEvent, viewAction);
+	public void registerViewAction(final ViewAction<ListView<T>, ListEvent> viewAction, final ListEvent... viewEvent) {
+		addViewAction(viewAction, viewEvent);
 	}
 
 	@Override
-	protected void initContent(final Request request) {
-		super.initContent(request);
+	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
 		handleViewState();
 	}
 
@@ -112,7 +112,7 @@ public class AbstractListView<T> extends AbstractBasicEventView implements ListV
 	 */
 	public static class ListViewModel extends EventViewModel {
 
-		private ListMode listMode = ListMode.View;
+		private ListMode listMode = ListMode.VIEW;
 
 		private int selectedIdx = -1;
 	}

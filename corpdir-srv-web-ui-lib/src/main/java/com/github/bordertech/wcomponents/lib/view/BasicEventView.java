@@ -11,13 +11,15 @@ import java.util.List;
  */
 public interface BasicEventView extends BasicView {
 
-	List<ViewAction> getViewActions(final ViewEvent viewEvent);
+	List<ViewAction> getRegisteredViewActions(final ViewEvent viewEvent);
+
+	boolean hasRegisteredViewAction(final ViewEvent viewEvent);
 
 	/**
 	 *
 	 * @param target the AJAX target to add to any actions in the view
-	 * @param viewEvent the specific view events (or not specified)
+	 * @param viewEvents the specific view events (or not specified)
 	 */
-	void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent);
+	void addEventAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvents);
 
 }

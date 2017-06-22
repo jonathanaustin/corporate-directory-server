@@ -1,8 +1,5 @@
 package com.github.bordertech.wcomponents.lib.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicEventView;
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,40 +13,55 @@ import java.util.Map;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractBasicEventView extends AbstractBasicView implements BasicEventView {
+public class DefaultBasicEventView extends DefaultBasicView implements BasicEventView {
 
 	@Override
-	public void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
+	public void addEventAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
 		// Do nothing by default
 	}
 
 	@Override
-	public List<ViewAction> getViewActions(final ViewEvent viewEvent) {
-		List<ViewAction> actions = getEventActions().get(viewEvent);
+	public List<ViewAction> getRegisteredViewActions(final ViewEvent viewEvent) {
+		List<ViewAction> actions = getViewActions().get(viewEvent);
 		return actions == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(actions);
 	}
 
-	protected void executeEventActions(final ViewEvent viewEvent) {
-		List<ViewAction> actions = getViewActions(viewEvent);
+	@Override
+	public boolean hasRegisteredViewAction(final ViewEvent viewEvent) {
+		EventViewModel model = getComponentModel();
+		if (model.viewActions != null) {
+			return model.viewActions.containsKey(viewEvent);
+		}
+		return false;
+	}
+
+	protected void executeRegisteredViewActions(final ViewEvent viewEvent) {
+		List<ViewAction> actions = getRegisteredViewActions(viewEvent);
 		for (ViewAction action : actions) {
 			action.execute(this, viewEvent);
 		}
 	}
 
-	protected void addEventAction(final ViewEvent viewEvent, final ViewAction viewAction) {
+	protected void addViewAction(final ViewAction viewAction, final ViewEvent... viewEvents) {
+		if (viewEvents.length == 0) {
+			return;
+		}
 		EventViewModel model = getOrCreateComponentModel();
 		if (model.viewActions == null) {
 			model.viewActions = new HashMap<>();
 		}
-		List<ViewAction> actions = model.viewActions.get(viewEvent);
-		if (actions == null) {
-			actions = new ArrayList<>();
-			model.viewActions.put(viewEvent, actions);
+		for (ViewEvent event : viewEvents) {
+			List<ViewAction> actions = model.viewActions.get(event);
+			if (actions == null) {
+				actions = new ArrayList<>();
+				model.viewActions.put(event, actions);
+			}
+			actions.add(viewAction);
 		}
-		actions.add(viewAction);
+
 	}
 
-	protected Map<ViewEvent, List<ViewAction>> getEventActions() {
+	protected Map<ViewEvent, List<ViewAction>> getViewActions() {
 		EventViewModel model = getComponentModel();
 		return model.viewActions == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.viewActions);
 	}

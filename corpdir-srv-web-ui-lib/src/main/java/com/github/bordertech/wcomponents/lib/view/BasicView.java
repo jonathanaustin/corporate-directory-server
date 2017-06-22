@@ -16,12 +16,12 @@ public interface BasicView extends WComponent, BeanBound {
 	 *
 	 * @return the view content holder.
 	 */
-	WContainer getContent();
+	WContainer getViewContent();
 
 	/**
 	 *
 	 * @param searchAncestors true if search ancestors.
 	 */
-	void setSearchAncestors(boolean searchAncestors);
+	void setSearchAncestors(final boolean searchAncestors);
 
 }

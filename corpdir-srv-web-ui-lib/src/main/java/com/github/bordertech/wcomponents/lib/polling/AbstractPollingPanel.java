@@ -1,11 +1,5 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.wcomponents.lib.view.AbstractBasicEventView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
-import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
-import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
-import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxHelper;
@@ -19,6 +13,12 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
+import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
+import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.ViewEvent;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -43,7 +43,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView implements PollingView<S, T> {
+public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView implements PollingView<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -199,7 +199,7 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 		messages.setMargin(new Margin(0, 0, 3, 0));
 		root.add(messages);
 		root.add(retryButton);
-		root.add(getContent());
+		root.add(getViewContent());
 
 		// Manual Start load
 		startButton.setAjaxTarget(this);
@@ -224,7 +224,7 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 		// Set default visibility
 		retryButton.setVisible(false);
 		pollingContainer.setVisible(false);
-		getContent().setVisible(false);
+		getViewContent().setVisible(false);
 		ajaxReload.setVisible(false);
 
 		// Context
@@ -243,8 +243,8 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 	}
 
 	@Override
-	public void registerViewAction(final PollingEvent viewEvent, final ViewAction<PollingView<S, T>, PollingEvent> viewAction) {
-		addEventAction(viewEvent, viewAction);
+	public void registerViewAction(final ViewAction<PollingView<S, T>, PollingEvent> viewAction, final PollingEvent... viewEvent) {
+		addViewAction(viewAction, viewEvent);
 	}
 
 	/**
@@ -420,8 +420,8 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 	}
 
 	@Override
-	public void addAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
-		super.addAjaxTarget(target);
+	public void addEventAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
+		super.addEventAjaxTarget(target);
 		PollingPanelModel model = getOrCreateComponentModel();
 		if (model.extraTargets == null) {
 			model.extraTargets = new ArrayList();
@@ -430,7 +430,7 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 	}
 
 	@Override
-	protected void initContent(final Request request) {
+	protected void initViewContent(final Request request) {
 	}
 
 	protected List<AjaxTarget> getAjaxTargets() {
@@ -481,7 +481,7 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 		pollingContainer.setVisible(true);
 		ajaxPolling.reset();
 		ajaxReload.reset();
-		executeEventActions(PollingEvent.STARTED);
+		executeRegisteredViewActions(PollingEvent.STARTED);
 	}
 
 	/**
@@ -519,15 +519,15 @@ public abstract class AbstractPollingPanel<S, T> extends AbstractBasicEventView 
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPanelStatus(PollingStatus.ERROR);
-			executeEventActions(PollingEvent.ERROR);
+			executeRegisteredViewActions(PollingEvent.ERROR);
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
-			getContent().setVisible(true);
+			getViewContent().setVisible(true);
 			// Status
 			setPanelStatus(PollingStatus.COMPLETE);
-			executeEventActions(PollingEvent.COMPLETE);
+			executeRegisteredViewActions(PollingEvent.COMPLETE);
 		}
 	}
 

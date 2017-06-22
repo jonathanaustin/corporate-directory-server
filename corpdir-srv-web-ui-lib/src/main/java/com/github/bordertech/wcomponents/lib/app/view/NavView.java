@@ -18,5 +18,5 @@ public interface NavView extends BasicEventView {
 
 	int getSize();
 
-	public void registerViewAction(final NavEvent viewEvent, final ViewAction<NavView, NavEvent> viewAction);
+	public void registerViewAction(final ViewAction<NavView, NavEvent> viewAction, final NavEvent... viewEvent);
 }

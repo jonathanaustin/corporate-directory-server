@@ -16,6 +16,12 @@ public interface EntityCtrlView extends BasicEventView {
 
 	EntityMode getEntityMode();
 
-	void registerViewAction(final EntityCtrlEvent viewEvent, final ViewAction<EntityCtrlView, EntityCtrlEvent> viewAction);
+	void setEntityReady(final boolean entityReady);
+
+	boolean isEntityReady();
+
+	void registerViewAction(final ViewAction<EntityCtrlView, EntityCtrlEvent> viewAction, final EntityCtrlEvent... viewEvent);
+
+	void doRefreshViewState();
 
 }

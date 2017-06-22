@@ -33,4 +33,9 @@ public interface EntityView<T> extends BasicView {
 	 */
 	EntityMode getEntityMode();
 
+	/**
+	 * Refresh the view state depending on the mode.
+	 */
+	void doRefreshViewState();
+
 }

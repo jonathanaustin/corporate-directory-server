@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.view.BasicEventView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.WButton;
 
 /**
  * Polling View.
@@ -18,10 +18,10 @@ public interface PollingView<S, T> extends BasicEventView {
 	/**
 	 * Register an event action.
 	 *
-	 * @param viewEvent the view event
 	 * @param viewAction the view action
+	 * @param viewEvents the view events
 	 */
-	void registerViewAction(final PollingEvent viewEvent, final ViewAction<PollingView<S, T>, PollingEvent> viewAction);
+	void registerViewAction(final ViewAction<PollingView<S, T>, PollingEvent> viewAction, final PollingEvent... viewEvents);
 
 	/**
 	 * @return the criteria for polling (eg Request or ID for a service call)
