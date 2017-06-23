@@ -71,17 +71,11 @@ public class DefaultBasicEventView extends DefaultBasicView implements BasicEven
 		return new EventViewModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected EventViewModel getComponentModel() {
 		return (EventViewModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected EventViewModel getOrCreateComponentModel() {
 		return (EventViewModel) super.getOrCreateComponentModel();
@@ -90,7 +84,7 @@ public class DefaultBasicEventView extends DefaultBasicView implements BasicEven
 	/**
 	 * Holds the extrinsic state information of the event view.
 	 */
-	public static class EventViewModel extends PanelModel {
+	public static class EventViewModel extends DivModel {
 
 		private Map<ViewEvent, List<ViewAction>> viewActions;
 	}

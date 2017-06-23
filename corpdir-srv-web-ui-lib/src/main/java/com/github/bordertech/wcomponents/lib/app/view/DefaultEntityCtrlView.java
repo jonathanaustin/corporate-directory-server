@@ -13,6 +13,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.view.WDiv;
 
 /**
  * Action menu bar implementation.
@@ -109,10 +110,10 @@ public class DefaultEntityCtrlView extends DefaultBasicEventView implements Enti
 	 */
 	public DefaultEntityCtrlView() {
 
-		add(getViewContent());
+		WDiv holder = getViewHolder();
 
-		getViewContent().add(actionMenu);
-		getViewContent().add(ajaxPanel);
+		holder.add(actionMenu);
+		holder.add(ajaxPanel);
 
 		// Menu Items
 		actionMenu.add(itemBack);

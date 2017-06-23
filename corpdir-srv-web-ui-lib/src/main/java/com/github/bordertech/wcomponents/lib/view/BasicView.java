@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.view;
 
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WContainer;
 
 /**
  * Basic View.
@@ -16,7 +15,7 @@ public interface BasicView extends WComponent, BeanBound {
 	 *
 	 * @return the view content holder.
 	 */
-	WContainer getViewContent();
+	WDiv getViewHolder();
 
 	/**
 	 *

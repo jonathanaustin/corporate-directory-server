@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents.lib.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WPanel;
 
 /**
  * Default basic view.
@@ -10,9 +8,9 @@ import com.github.bordertech.wcomponents.WPanel;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultBasicView extends WPanel implements BasicView {
+public class DefaultBasicView extends WDiv implements BasicView {
 
-	private final WContainer holder = new WContainer() {
+	private final WDiv holder = new WDiv() {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -24,7 +22,7 @@ public class DefaultBasicView extends WPanel implements BasicView {
 	};
 
 	@Override
-	public final WContainer getViewContent() {
+	public final WDiv getViewHolder() {
 		return holder;
 	}
 

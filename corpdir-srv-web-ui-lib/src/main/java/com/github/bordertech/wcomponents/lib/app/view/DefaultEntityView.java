@@ -41,7 +41,7 @@ public class DefaultEntityView<T> extends DefaultBasicView implements EntityView
 
 	@Override
 	public void doRefreshViewState() {
-		doMakeReadOnly(getViewContent(), isFormReadOnly());
+		doMakeReadOnly(getViewHolder(), isFormReadOnly());
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class DefaultEntityView<T> extends DefaultBasicView implements EntityView
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityViewModel extends PanelModel {
+	public static class EntityViewModel extends DivModel {
 
 		private EntityMode entityMode = EntityMode.VIEW;
 	}

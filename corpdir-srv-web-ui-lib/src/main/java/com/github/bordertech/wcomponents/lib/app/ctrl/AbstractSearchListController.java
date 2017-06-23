@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.lib.polling.PollingEvent;
 import com.github.bordertech.wcomponents.lib.polling.PollingView;
 import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.List;
 
 /**
@@ -33,6 +34,9 @@ public abstract class AbstractSearchListController<S, T> extends DefaultBasicEve
 	};
 
 	public AbstractSearchListController(final CriteriaView<S> criteriaView, final PollingView<S, List<T>> pollingView, final ListView<T> listView) {
+
+		WDiv holder = getViewHolder();
+
 		this.criteriaView = criteriaView;
 		this.pollingView = pollingView;
 		this.listView = listView;
@@ -61,8 +65,8 @@ public abstract class AbstractSearchListController<S, T> extends DefaultBasicEve
 			}
 		}, ListEvent.EDIT);
 
-		add(criteriaView);
-		add(ajaxPanel);
+		holder.add(criteriaView);
+		holder.add(ajaxPanel);
 		ajaxPanel.add(pollingView);
 		ajaxPanel.add(listView);
 
@@ -77,7 +81,6 @@ public abstract class AbstractSearchListController<S, T> extends DefaultBasicEve
 
 		criteriaView.addEventAjaxTarget(ajaxPanel);
 		pollingView.addEventAjaxTarget(ajaxPanel);
-
 	}
 
 	public CriteriaView<S> getCriteriaView() {

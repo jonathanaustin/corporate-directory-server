@@ -19,6 +19,7 @@ import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
 import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -75,6 +76,17 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 					startButton.setVisible(false);
 					doStartLoading();
 				}
+				setInitialised(true);
+			}
+		}
+	};
+
+	private final WDiv contentResultHolder = new WDiv() {
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			if (!isInitialised()) {
+				initResultContent(request);
 				setInitialised(true);
 			}
 		}
@@ -176,9 +188,9 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	 */
 	public AbstractPollingPanel(final String context, final int delay, final boolean manualStart) {
 
-		// Dont allow the search for the bean to go above this panel
+		WDiv holder = getViewHolder();
 		root.setSearchAncestors(false);
-		add(root);
+		holder.add(root);
 
 		// AJAX polling details
 		setPollingInterval(delay);
@@ -199,7 +211,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 		messages.setMargin(new Margin(0, 0, 3, 0));
 		root.add(messages);
 		root.add(retryButton);
-		root.add(getViewContent());
+		root.add(contentResultHolder);
 
 		// Manual Start load
 		startButton.setAjaxTarget(this);
@@ -224,7 +236,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 		// Set default visibility
 		retryButton.setVisible(false);
 		pollingContainer.setVisible(false);
-		getViewContent().setVisible(false);
+		contentResultHolder.setVisible(false);
 		ajaxReload.setVisible(false);
 
 		// Context
@@ -240,6 +252,11 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 			startButton.setIdName("btnStart");
 		}
 
+	}
+
+	@Override
+	public final WDiv getContentResultHolder() {
+		return contentResultHolder;
 	}
 
 	@Override
@@ -311,6 +328,15 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	@Override
 	public S getPollingCriteria() {
 		return getComponentModel().criteria;
+	}
+
+	/**
+	 * Initiliase the result content.
+	 *
+	 * @param request the request being processed
+	 */
+	protected void initResultContent(final Request request) {
+		// Do Nothing
 	}
 
 	/**
@@ -524,7 +550,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
-			getViewContent().setVisible(true);
+			contentResultHolder.setVisible(true);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
 			executeRegisteredViewActions(PollingEvent.COMPLETE);

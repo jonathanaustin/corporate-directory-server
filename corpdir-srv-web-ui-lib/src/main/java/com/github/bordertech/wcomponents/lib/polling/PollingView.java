@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.polling;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.view.BasicEventView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.WDiv;
 
 /**
  * Polling View.
@@ -14,6 +15,12 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  *
  */
 public interface PollingView<S, T> extends BasicEventView {
+
+	/**
+	 *
+	 * @return the content result holder.
+	 */
+	WDiv getContentResultHolder();
 
 	/**
 	 * Register an event action.
