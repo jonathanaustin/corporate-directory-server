@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractListView<T> extends DefaultBasicEventView implements ListView<T> {
+public class DefaultListView<T> extends DefaultBasicEventView implements ListView<T> {
 
 	@Override
 	public void setEntities(final List<T> entities) {
