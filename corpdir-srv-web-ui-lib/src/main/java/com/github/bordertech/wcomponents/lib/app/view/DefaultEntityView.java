@@ -75,25 +75,16 @@ public class DefaultEntityView<T> extends DefaultBasicView implements EntityView
 		return new EntityViewModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected EntityViewModel getComponentModel() {
 		return (EntityViewModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected EntityViewModel getOrCreateComponentModel() {
 		return (EntityViewModel) super.getOrCreateComponentModel();
 	}
 
-	/**
-	 * Holds the extrinsic state information of the edit view.
-	 */
 	public static class EntityViewModel extends DivModel {
 
 		private EntityMode entityMode = EntityMode.VIEW;

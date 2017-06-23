@@ -1,7 +1,8 @@
 package com.github.bordertech.wcomponents.lib.view;
 
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
-import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.SubordinateTarget;
 
 /**
  * Basic View.
@@ -9,7 +10,7 @@ import com.github.bordertech.wcomponents.WComponent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicView extends WComponent, BeanBound {
+public interface BasicView extends AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *

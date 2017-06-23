@@ -44,12 +44,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView implements PollingView<S, T> {
+public abstract class AbstractPollingView<S, T> extends DefaultBasicEventView implements PollingView<S, T> {
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(AbstractPollingPanel.class);
+	private static final Log LOG = LogFactory.getLog(AbstractPollingView.class);
 
 	/**
 	 * The TaskManager implementation.
@@ -161,11 +161,18 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	};
 
 	/**
+	 * Default constructor.
+	 */
+	public AbstractPollingView() {
+		this(174);
+	}
+
+	/**
 	 * Construct polling panel.
 	 *
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingPanel(final int delay) {
+	public AbstractPollingView(final int delay) {
 		this(null, delay, false);
 	}
 
@@ -175,7 +182,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingPanel(final String context, final int delay) {
+	public AbstractPollingView(final String context, final int delay) {
 		this(context, delay, false);
 	}
 
@@ -186,7 +193,7 @@ public abstract class AbstractPollingPanel<S, T> extends DefaultBasicEventView i
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public AbstractPollingPanel(final String context, final int delay, final boolean manualStart) {
+	public AbstractPollingView(final String context, final int delay, final boolean manualStart) {
 
 		WDiv holder = getViewHolder();
 		root.setSearchAncestors(false);

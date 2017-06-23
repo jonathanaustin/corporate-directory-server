@@ -1,45 +1,50 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaEvent;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListEvent;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.polling.AbstractPollingView;
 import com.github.bordertech.wcomponents.lib.polling.PollingEvent;
+import com.github.bordertech.wcomponents.lib.polling.PollingException;
 import com.github.bordertech.wcomponents.lib.polling.PollingView;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultTemplateView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public abstract class AbstractSearchListController<S, T> extends DefaultBasicEventView implements MessageContainer {
+public abstract class AbstractSearchListController<S, T> extends DefaultTemplateView implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 
 	private final CriteriaView<S> criteriaView;
-	private final PollingView<S, List<T>> pollingView;
-	private final ListView<T> listView;
-
-	private final WPanel ajaxPanel = new WPanel() {
+	private final PollingView<S, List<T>> pollingView = new AbstractPollingView<S, List<T>>() {
 		@Override
-		public boolean isHidden() {
-			return !pollingView.isVisible() && !listView.isVisible();
+		public List<T> doPollingAction(final S criteria) throws PollingException {
+			return doSearchServiceCall(criteria);
 		}
+
 	};
 
-	public AbstractSearchListController(final CriteriaView<S> criteriaView, final PollingView<S, List<T>> pollingView, final ListView<T> listView) {
+	private final ListView<T> listView;
 
-		WDiv holder = getViewHolder();
-
+	public AbstractSearchListController(final CriteriaView<S> criteriaView, final ListView<T> listView) {
 		this.criteriaView = criteriaView;
-		this.pollingView = pollingView;
 		this.listView = listView;
+
+		WTemplate holder = getViewTemplate();
+
+		holder.addTaggedComponent("msg", messages);
+		holder.addTaggedComponent("cv", criteriaView);
+		holder.addTaggedComponent("pv", pollingView);
+		holder.addTaggedComponent("lv", listView);
 
 		// Actions
 		// Criteria action
@@ -65,22 +70,21 @@ public abstract class AbstractSearchListController<S, T> extends DefaultBasicEve
 			}
 		}, ListEvent.EDIT);
 
-		holder.add(criteriaView);
-		holder.add(ajaxPanel);
-		ajaxPanel.add(pollingView);
-		ajaxPanel.add(listView);
-
 		// Default visibility
 		pollingView.setVisible(false);
 		listView.setVisible(false);
 
 		// AJAX Targets
-		criteriaView.addEventAjaxTarget(messages);
-		pollingView.addEventAjaxTarget(messages);
-		listView.addEventAjaxTarget(messages);
+		addDefaultTarget(messages);
+		addDefaultTarget(criteriaView);
+		addDefaultTarget(pollingView);
+		addDefaultTarget(listView);
+	}
 
-		criteriaView.addEventAjaxTarget(ajaxPanel);
-		pollingView.addEventAjaxTarget(ajaxPanel);
+	private void addDefaultTarget(final AjaxTarget target) {
+		criteriaView.addEventAjaxTarget(target);
+		pollingView.addEventAjaxTarget(target);
+		listView.addEventAjaxTarget(target);
 	}
 
 	public CriteriaView<S> getCriteriaView() {
@@ -106,6 +110,8 @@ public abstract class AbstractSearchListController<S, T> extends DefaultBasicEve
 	protected void handleSelection(final ListEvent event) {
 
 	}
+
+	abstract protected List<T> doSearchServiceCall(final S criteria);
 
 	@Override
 	public WMessages getMessages() {

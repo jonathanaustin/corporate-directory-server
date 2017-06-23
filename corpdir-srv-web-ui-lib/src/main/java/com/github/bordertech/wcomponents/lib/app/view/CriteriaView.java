@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * Entity Criteria View.
  *
  * @author Jonathan Austin
+ * @param <T> the criteria type
  * @since 1.0.0
  *
  */
