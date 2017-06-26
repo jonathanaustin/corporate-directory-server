@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.grid.GridPanel;
 import java.util.Date;
 
 /**
@@ -23,6 +24,7 @@ import java.util.Date;
  */
 public class CorpDirApp extends WApplication implements MessageContainer {
 
+	private final GridPanel grid = new GridPanel();
 	/**
 	 * Messages.
 	 */
@@ -39,8 +41,9 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	public CorpDirApp() {
 
 		// Custom css
-		addCssFile("/css/app.css");
-
+		addCssUrl("css/app.css");
+		addCssUrl("wc/css/grid.css");
+		addJsUrl("wc/js/tools/interact-1.2.6.js");
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
 		add(header);
@@ -72,6 +75,17 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// IDs
 		header.setIdName("hdr");
 		messages.setIdName("msgs");
+
+		WText txtToggle = new WText("<div class='fa fa-5 toggle-ctrl-button'></div>");
+		txtToggle.setEncodeText(false);
+		detail.add(txtToggle);
+		detail.add(grid);
+
+		WText packery = new WText();
+		packery.setText("<script type='text/javascript'>require(['js/tools/wc-grid-init.js'], function(init){});</script>");
+		packery.setEncodeText(false);
+		detail.add(packery);
+
 	}
 
 	/**
