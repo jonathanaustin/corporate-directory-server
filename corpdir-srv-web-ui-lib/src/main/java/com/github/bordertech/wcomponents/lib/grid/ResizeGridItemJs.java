@@ -21,9 +21,6 @@ public class ResizeGridItemJs extends WText {
 			// Find grid Item
 			GridItem item = WebUtilities.getAncestorOfClass(GridItem.class, this);
 			if (item != null) {
-//				setText("<script type='text/javascript'>require(['js/tools/packery-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
-//				setText("<script type='text/javascript'>require(['js/tools/masonry-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
-//				setText("<script type='text/javascript'>require(['js/tools/gridie-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
 				setText("<script type='text/javascript'>require(['wc/js/tools/wc-grid-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
 			}
 			setInitialised(true);

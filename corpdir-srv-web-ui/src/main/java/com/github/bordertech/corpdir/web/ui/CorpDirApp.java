@@ -82,7 +82,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		detail.add(grid);
 
 		WText packery = new WText();
-		packery.setText("<script type='text/javascript'>require(['js/tools/wc-grid-init.js'], function(init){});</script>");
+		packery.setText("<script type='text/javascript'>require(['js/tools/wc-grid-1.0.0.js'], function(init){});</script>");
 		packery.setEncodeText(false);
 		detail.add(packery);
 
