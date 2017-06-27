@@ -85,7 +85,7 @@ public class DefaultEntityView<T> extends DefaultBasicView implements EntityView
 		return (EntityViewModel) super.getOrCreateComponentModel();
 	}
 
-	public static class EntityViewModel extends DivModel {
+	public static class EntityViewModel extends ViewModel {
 
 		private EntityMode entityMode = EntityMode.VIEW;
 	}

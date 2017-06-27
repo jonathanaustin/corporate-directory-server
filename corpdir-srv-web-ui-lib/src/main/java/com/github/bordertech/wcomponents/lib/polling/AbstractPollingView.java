@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.ViewEvent;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
@@ -44,7 +44,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingView<S, T> extends DefaultBasicEventView implements PollingView<S, T> {
+public abstract class AbstractPollingView<S, T> extends DefaultBasicView implements PollingView<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -740,7 +740,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicEventView im
 	 *
 	 * @param <S> the criteria type
 	 */
-	public static class PollingPanelModel<S> extends EventViewModel {
+	public static class PollingPanelModel<S> extends ViewModel {
 
 		/**
 		 * Record id.

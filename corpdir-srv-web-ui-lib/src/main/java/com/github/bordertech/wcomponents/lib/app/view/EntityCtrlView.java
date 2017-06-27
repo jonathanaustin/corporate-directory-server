@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicEventView;
+import com.github.bordertech.wcomponents.lib.view.BasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 
 /**
@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * @since 1.0.0
  *
  */
-public interface EntityCtrlView extends BasicEventView {
+public interface EntityCtrlView extends BasicView {
 
 	void setEntityMode(final EntityMode mode);
 

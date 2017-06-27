@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.grid.GridPanel;
+import com.github.bordertech.wcomponents.lib.dashboard.Dashboard;
 import java.util.Date;
 
 /**
@@ -24,7 +24,7 @@ import java.util.Date;
  */
 public class CorpDirApp extends WApplication implements MessageContainer {
 
-	private final GridPanel grid = new GridPanel();
+	private final Dashboard grid = new Dashboard();
 	/**
 	 * Messages.
 	 */

@@ -1,11 +1,11 @@
-package com.github.bordertech.wcomponents.lib.grid;
+package com.github.bordertech.wcomponents.lib.dashboard;
 
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -14,10 +14,16 @@ import java.util.Map;
 
 /**
  * Holds grid panel.
+ * <pre>
+ *{@code
+ *addCssUrl("wc/css/grid.css");
+ *addJsUrl("wc/js/tools/interact-1.2.6.js");
+ *}
+ * </pre>
  *
  * @author exitxl
  */
-public class GridPanel extends WPanel {
+public class Dashboard extends WTemplate {
 
 	private final WContainer gridContainer = new WContainer() {
 		@Override
@@ -45,15 +51,9 @@ public class GridPanel extends WPanel {
 	/**
 	 * Construct panel.
 	 */
-	public GridPanel() {
-
-		setHtmlClass("grid");
-
-		WText gutterSizer = new WText("<div class=\"placeholder\"></div>");
-		gutterSizer.setEncodeText(false);
-		add(gutterSizer);
-
-		add(gridContainer);
+	public Dashboard() {
+		super("hbs/dashboard.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		addTaggedComponent("items", gridContainer);
 	}
 
 	@Override

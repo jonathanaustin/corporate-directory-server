@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.ViewEvent;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
@@ -21,7 +21,7 @@ import com.github.bordertech.wcomponents.lib.view.WDiv;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityCtrlView extends DefaultBasicEventView implements EntityCtrlView {
+public class DefaultEntityCtrlView extends DefaultBasicView implements EntityCtrlView {
 
 	private final WMenu actionMenu = new WMenu();
 
@@ -203,7 +203,7 @@ public class DefaultEntityCtrlView extends DefaultBasicEventView implements Enti
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityViewModel extends EventViewModel {
+	public static class EntityViewModel extends ViewModel {
 
 		private EntityMode entityMode = EntityMode.VIEW;
 

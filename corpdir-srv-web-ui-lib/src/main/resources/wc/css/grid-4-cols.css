@@ -1,0 +1,5 @@
+.grid-sizer,
+.grid-item .grid-4-cols { width: 25%; }
+.grid-item--width2 .grid-4-cols { width: 50%; }
+.grid-item--width3 .grid-4-cols { width: 75%; }
+.grid-item--width4 .grid-4-cols { width: 100%; }

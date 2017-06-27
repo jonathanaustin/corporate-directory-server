@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WTemplate;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultTemplateView extends DefaultBasicEventView implements TemplateView {
+public class DefaultTemplateView extends DefaultBasicView implements TemplateView {
 
 	private final WTemplate template = new WTemplate();
 

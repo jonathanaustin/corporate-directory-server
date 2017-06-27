@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.grid;
+package com.github.bordertech.wcomponents.lib.dashboard;
 
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
@@ -9,19 +9,19 @@ import com.github.bordertech.wcomponents.WebUtilities;
  *
  * @author exitxl
  */
-public class ResizeGridItemJs extends WText {
+public class ResizeItemJs extends WText {
 
-	public ResizeGridItemJs() {
+	public ResizeItemJs() {
 		setEncodeText(false);
 	}
 
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		if (!isInitialised()) {
-			// Find grid ID
-			Grid grid = WebUtilities.getAncestorOfClass(Grid.class, this);
-			if (grid != null) {
-				setText("<script type='text/javascript'>require(['wc/js/tools/wc-grid-resize.js'], function(fit){fit('" + grid.getId() + "');});</script>");
+			// Find grid Item
+			DashboardItem item = WebUtilities.getAncestorOfClass(DashboardItem.class, this);
+			if (item != null) {
+				setText("<script type='text/javascript'>require(['wc/js/tools/wc-dashboard-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
 			}
 			setInitialised(true);
 		}

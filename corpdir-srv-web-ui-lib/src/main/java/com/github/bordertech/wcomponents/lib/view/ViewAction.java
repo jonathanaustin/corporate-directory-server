@@ -9,7 +9,7 @@ import java.io.Serializable;
  * @param <V> the view
  * @param <E> the view event type
  */
-public interface ViewAction<V extends BasicEventView, E extends ViewEvent> extends Serializable {
+public interface ViewAction<V extends BasicView, E extends ViewEvent> extends Serializable {
 
 	/**
 	 *

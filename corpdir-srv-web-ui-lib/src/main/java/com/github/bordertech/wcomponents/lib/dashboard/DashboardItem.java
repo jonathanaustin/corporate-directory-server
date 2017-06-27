@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.grid;
+package com.github.bordertech.wcomponents.lib.dashboard;
 
 import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -19,13 +19,13 @@ import com.github.bordertech.wcomponents.util.Util;
  *
  * @author exitxl
  */
-public class MyGridItem extends WTemplate implements MessageContainer, GridItem {
+public class DashboardItem extends WTemplate implements MessageContainer {
 
 	private final WSection gridSection;
-	private final WText txtHandler = new MyGridCtrl("handle fa-arrows-alt", "move");
-	private final WText txtZoomDown = new MyGridCtrl("fa-hand-o-down", "zoom in");
-	private final WText txtZoomUp = new MyGridCtrl("fa-hand-o-up", "zoom out");
-	private final WText txtRemove = new MyGridCtrl("fa-trash", "remove");
+	private final WText txtHandler = new CtrlButton("handle fa-arrows-alt", "move");
+	private final WText txtZoomDown = new CtrlButton("fa-hand-o-down", "zoom in");
+	private final WText txtZoomUp = new CtrlButton("fa-hand-o-up", "zoom out");
+	private final WText txtRemove = new CtrlButton("fa-trash", "remove");
 	private final WMessages messages = new WMessages();
 	private final WPanel holder = new WPanel();
 	private final WContainer controls = new WContainer();
@@ -37,36 +37,27 @@ public class MyGridItem extends WTemplate implements MessageContainer, GridItem 
 	};
 	private final WContainer menuContainer = new WContainer();
 
-	private final ResizeGridItemJs jsResizeItem = new ResizeGridItemJs();
+	private final ResizeItemJs jsResizeItem = new ResizeItemJs();
 
-	public MyGridItem(final String contextId, final String title, final int cols) {
-		super("hbs/gridItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	public DashboardItem(final String contextId, final String title, final int cols) {
+		super("wc/hbs/dashboardItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		setNamingContext(true);
 		setIdName(contextId);
 		setSearchAncestors(false);
 
 		gridSection = new WSection(title);
 		addTaggedComponent("section", gridSection);
-//		txtHandler.setText("<div class='handle fa fa-arrows-alt grid-ctrl'></div>");
-//		txtHandler.setEncodeText(false);
 		gridSection.getDecoratedLabel().setHead(txtHandler);
 		gridSection.getDecoratedLabel().setTail(controls);
 		// Zoom down
-//		txtZoomDown.setText("<div class='fa fa-hand-o-down grid-ctrl'></div>");
-//		txtZoomDown.setEncodeText(false);
 		controls.add(txtZoomDown);
 		// Zoom up
-//		txtZoomUp.setText("<div class='fa fa-hand-o-up grid-ctrl'></div>");
-//		txtZoomUp.setEncodeText(false);
 		controls.add(txtZoomUp);
 		// Remove
-//		txtRemove.setText("<div class='fa fa-trash grid-ctrl'></div>");
-//		txtRemove.setEncodeText(false);
 		controls.add(txtRemove);
 
 		gridSection.setHtmlClass("no-border");
 
-//		gridSection.getContent().add(new MyGridResizableCtrl());
 		gridSection.getContent().add(menuContainer);
 		gridSection.getContent().add(messages);
 		gridSection.getContent().add(holder);

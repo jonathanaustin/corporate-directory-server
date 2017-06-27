@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicEventView;
+import com.github.bordertech.wcomponents.lib.view.BasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends BasicEventView {
+public interface ListView<T> extends BasicView {
 
 	void setEntities(final List<T> entities);
 

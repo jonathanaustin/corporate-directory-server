@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 
 /**
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCriteriaView<T> extends DefaultBasicEventView implements CriteriaView<T> {
+public class DefaultCriteriaView<T> extends DefaultBasicView implements CriteriaView<T> {
 
 	@Override
 	public T getCriteria() {
@@ -42,7 +42,7 @@ public class DefaultCriteriaView<T> extends DefaultBasicEventView implements Cri
 		return (EntityViewModel) super.getOrCreateComponentModel();
 	}
 
-	public static class EntityViewModel<T> extends EventViewModel {
+	public static class EntityViewModel<T> extends ViewModel {
 
 		private T criteria;
 	}

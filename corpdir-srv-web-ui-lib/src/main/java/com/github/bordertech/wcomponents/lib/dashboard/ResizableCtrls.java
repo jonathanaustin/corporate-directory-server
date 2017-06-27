@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.grid;
+package com.github.bordertech.wcomponents.lib.dashboard;
 
 import com.github.bordertech.wcomponents.WText;
 
@@ -6,9 +6,9 @@ import com.github.bordertech.wcomponents.WText;
  *
  * @author exitxl
  */
-public class MyGridResizableCtrl extends WText {
+public class ResizableCtrls extends WText {
 
-	public MyGridResizableCtrl() {
+	public ResizableCtrls() {
 		StringBuilder txt = new StringBuilder();
 		txt.append(buildCtrl("nw"));
 		txt.append(buildCtrl("n"));

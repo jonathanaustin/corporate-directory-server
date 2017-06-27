@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.view.BasicEventView;
+import com.github.bordertech.wcomponents.lib.view.BasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 
@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.view.WDiv;
  * @since 1.0.0
  *
  */
-public interface PollingView<S, T> extends BasicEventView {
+public interface PollingView<S, T> extends BasicView {
 
 	/**
 	 *

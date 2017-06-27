@@ -14,12 +14,12 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.ViewEvent;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 
-public class DefaultNavView extends DefaultBasicEventView implements NavView {
+public class DefaultNavView extends DefaultBasicView implements NavView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -456,7 +456,7 @@ public class DefaultNavView extends DefaultBasicEventView implements NavView {
 	/**
 	 * This model holds the state information.
 	 */
-	public static final class NavigationPanelModel extends EventViewModel {
+	public static final class NavigationPanelModel extends ViewModel {
 
 		/**
 		 * Current index (zero based).

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicEventView;
+import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
 import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultListView<T> extends DefaultBasicEventView implements ListView<T> {
+public class DefaultListView<T> extends DefaultBasicView implements ListView<T> {
 
 	@Override
 	public void setEntities(final List<T> entities) {
@@ -110,7 +110,7 @@ public class DefaultListView<T> extends DefaultBasicEventView implements ListVie
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ListViewModel extends EventViewModel {
+	public static class ListViewModel extends ViewModel {
 
 		private ListMode listMode = ListMode.VIEW;
 
