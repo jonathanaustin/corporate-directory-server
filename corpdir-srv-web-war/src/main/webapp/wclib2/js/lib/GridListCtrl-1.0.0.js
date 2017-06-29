@@ -1,4 +1,4 @@
-define(['wc/js/tools/gridlist-0.4.1-wc'], function (GridList) {
+define(['wclib/js/lib/gridlist-0.4.1-wc'], function (GridList) {
 
 	/**
 	 * Creates a new

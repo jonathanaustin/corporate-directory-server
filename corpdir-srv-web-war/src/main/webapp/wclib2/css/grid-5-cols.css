@@ -1,0 +1,13 @@
+.grid-item {display: inline-block;}
+.grid-5-cols { width: 100%; }
+.grid-5-cols .grid-sizer { width: 20%; }
+.grid-5-cols .grid-item  { width: 20%; }
+.grid-5-cols .grid-item--width2 { width: 40%; }
+.grid-5-cols .grid-item--width3 { width: 60%; }
+.grid-5-cols .grid-item--width4 { width: 80%; }
+.grid-5-cols .grid-item--width5 { width: 100%; }
+.grid-5-cols .grid-item-content {
+	width:  100%;
+	background: #09D;
+	transition: width 0.4s, height 0.4s;
+}

@@ -10,11 +10,14 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.dashboard.Dashboard;
+import com.github.bordertech.wcomponents.lib.grid.Grid;
+import com.github.bordertech.wcomponents.lib.grid.GridItem;
+import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
+import com.github.bordertech.wcomponents.lib.resource.RegisterWcLibJsResource;
+import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
 import java.util.Date;
 
 /**
@@ -24,7 +27,6 @@ import java.util.Date;
  */
 public class CorpDirApp extends WApplication implements MessageContainer {
 
-	private final Dashboard grid = new Dashboard();
 	/**
 	 * Messages.
 	 */
@@ -41,9 +43,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	public CorpDirApp() {
 
 		// Custom css
-		addCssUrl("css/app.css");
-		addCssUrl("wc/css/grid.css");
-		addJsUrl("wc/js/tools/interact-1.2.6.js");
+		addCssFile("/css/app.css");
+		addCssUrl("wclib2/css/grid-5-cols.css");
+
+		// Custom JS
+		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource("/wclib2"), "reg");
+		add(registerWclib);
+		addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
+
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
 		add(header);
@@ -62,7 +69,17 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Cards
 		// Dummy Card
-		mgr.add(new WSection("Hello World"));
+//		mgr.add(new WSection("Hello World"));
+		Grid grid = new Grid();
+		GridItem gridItem = new GridItem(2);
+		gridItem.getContentHolder().add(new WText("ITEM 1"));
+		grid.getItemsContainer().add(gridItem);
+
+		gridItem = new GridItem(3);
+		gridItem.getContentHolder().add(new WText("ITEM 2"));
+		grid.getItemsContainer().add(gridItem);
+
+		mgr.add(grid);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
@@ -75,16 +92,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// IDs
 		header.setIdName("hdr");
 		messages.setIdName("msgs");
-
-		WText txtToggle = new WText("<div class='fa fa-5 toggle-ctrl-button'></div>");
-		txtToggle.setEncodeText(false);
-		detail.add(txtToggle);
-		detail.add(grid);
-
-		WText packery = new WText();
-		packery.setText("<script type='text/javascript'>require(['js/tools/wc-grid-1.0.0.js'], function(init){});</script>");
-		packery.setEncodeText(false);
-		detail.add(packery);
 
 	}
 
@@ -118,7 +125,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	 * @return the title of the current card
 	 */
 	private String getCurrentTitle() {
-		return ((WSection) mgr.getVisible()).getDecoratedLabel().getText();
+		return "Title";
+//		return ((WSection) mgr.getVisible()).getDecoratedLabel().getText();
 	}
 
 	/**

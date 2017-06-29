@@ -1,4 +1,4 @@
-define(['wc/js/tools/GridListCtrl-1.0.0', 'interact'],
+define(['wclib/js/lib/GridListCtrl-1.0.0', 'interact'],
 		function (GridListCtrl, interact) {
 
 			function GridInteract(element, opts) {

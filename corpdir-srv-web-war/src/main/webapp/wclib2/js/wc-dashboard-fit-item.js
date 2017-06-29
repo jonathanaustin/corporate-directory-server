@@ -1,4 +1,4 @@
-define(['wc/js/tools/GridInteract-1.0.0'], function (GridInteract) {
+define(['wclib/js/lib/GridInteract-1.0.0'], function (GridInteract) {
 
 	function resizeGrid(gridItemId) {
 		return function () {

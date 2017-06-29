@@ -13,6 +13,7 @@ public class ResizeGridItemJs extends WText {
 
 	public ResizeGridItemJs() {
 		setEncodeText(false);
+		setVisible(false);
 	}
 
 	@Override
@@ -21,7 +22,7 @@ public class ResizeGridItemJs extends WText {
 			// Find grid ID
 			Grid grid = WebUtilities.getAncestorOfClass(Grid.class, this);
 			if (grid != null) {
-				setText("<script type='text/javascript'>require(['wc/js/tools/wc-grid-resize.js'], function(fit){fit('" + grid.getId() + "');});</script>");
+				setText("<script type='text/javascript'>require(['wclib/js/wc-grid-resize'], function(fit){fit('" + grid.getId() + "');});</script>");
 			}
 			setInitialised(true);
 		}

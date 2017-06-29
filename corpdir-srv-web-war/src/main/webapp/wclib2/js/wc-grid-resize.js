@@ -1,4 +1,4 @@
-define(['wc/js/tools/masonry.pkgd-4.2.0', 'wc/dom/initialise'], function (Masonry, initialise) {
+define(['wclib/js/lib/masonry.pkgd-4.2.0', 'wc/dom/initialise'], function (Masonry, initialise) {
 
 	function resizeGrid(gridItemId) {
 		return function () {
@@ -16,12 +16,8 @@ define(['wc/js/tools/masonry.pkgd-4.2.0', 'wc/dom/initialise'], function (Masonr
 	}
 
 	return function (gridItemId) {
-		if (initialise.domloaded) {
-			resizeGrid(gridItemId);
-		} else {
-			initialise.register({ postInit: function (elem) {
-					resizeGrid(gridItemId);
-				} });
-		}
+		initialise.register({ postInit: function () {
+				resizeGrid(gridItemId);
+			} });
 	};
 });

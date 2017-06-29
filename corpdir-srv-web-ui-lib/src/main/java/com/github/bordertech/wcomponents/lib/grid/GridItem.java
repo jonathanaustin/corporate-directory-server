@@ -25,7 +25,7 @@ public class GridItem extends WTemplate {
 	private final ResizeGridItemJs jsResizeItem = new ResizeGridItemJs();
 
 	public GridItem(final int cols) {
-		super("hbs/gridItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("/wclib/hbs/gridItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 
 		addTaggedComponent("content", contentHolder);
 		addTaggedComponent("resize", resizeHolder);
@@ -63,7 +63,7 @@ public class GridItem extends WTemplate {
 
 	public String getWidthClass() {
 		int cols = getColumns();
-		return cols > 1 ? "grid-item-col--width" + cols : "";
+		return cols > 1 ? "grid-item--width" + cols : "";
 	}
 
 	@Override

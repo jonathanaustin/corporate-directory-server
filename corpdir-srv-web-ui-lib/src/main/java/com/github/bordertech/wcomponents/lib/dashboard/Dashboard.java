@@ -16,8 +16,8 @@ import java.util.Map;
  * Holds grid panel.
  * <pre>
  *{@code
- *addCssUrl("wc/css/grid.css");
- *addJsUrl("wc/js/tools/interact-1.2.6.js");
+ *addCssUrl("wclib/css/grid.css");
+ *addJsUrl("wclib/js/lib/interact-1.2.6.js");
  *}
  * </pre>
  *

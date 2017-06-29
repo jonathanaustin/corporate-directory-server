@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.grid;
 
 import com.github.bordertech.wcomponents.RenderContext;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 public class Grid extends WDiv {
 
-	private final WTemplate gridTemplate = new WTemplate("hbs/grid.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	private final WTemplate gridTemplate = new WTemplate("/wclib/hbs/grid.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 
 	private final WContainer itemsContainer = new WContainer() {
 		@Override
@@ -82,6 +83,12 @@ public class Grid extends WDiv {
 
 	public WContainer getItemsContainer() {
 		return itemsContainer;
+	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		gridTemplate.addParameter("layoutClass", getLayoutClass());
 	}
 
 	@Override

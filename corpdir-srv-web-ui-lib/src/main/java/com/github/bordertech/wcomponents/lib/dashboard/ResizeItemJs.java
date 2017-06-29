@@ -21,7 +21,7 @@ public class ResizeItemJs extends WText {
 			// Find grid Item
 			DashboardItem item = WebUtilities.getAncestorOfClass(DashboardItem.class, this);
 			if (item != null) {
-				setText("<script type='text/javascript'>require(['wc/js/tools/wc-dashboard-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
+				setText("<script type='text/javascript'>require(['wclib/js/wc-dashboard-fit-item.js'], function(fit){fit('" + item.getId() + "');});</script>");
 			}
 			setInitialised(true);
 		}
