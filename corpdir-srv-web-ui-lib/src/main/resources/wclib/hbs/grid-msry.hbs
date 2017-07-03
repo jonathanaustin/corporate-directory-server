@@ -1,0 +1,7 @@
+<div class="{{gridClass}} grid grid-msry" id="{{gridId}}">
+	<div class="grid-sizer" id="{{gridId}}-sizer"></div>
+	<div class="grid-gutter" id="{{gridId}}-gutter"></div>
+    {{items}}
+     <script type='text/javascript'>require(['wclib/js/wc-grid-msry-init'],
+         function(grid){grid('{{gridId}}', {columnWidth: '#{{gridId}}-sizer', itemSelector: '.grid-item', gutter: '#{{gridId}}-gutter', percentPosition: true, horizontalOrder: true});});</script>
+</div>

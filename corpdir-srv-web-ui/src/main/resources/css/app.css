@@ -1,0 +1,15 @@
+.mygrid2 .grid-item-content {
+	width:  100%;
+	background: #09D;
+	transition: width 0.4s, height 0.4s;
+}
+
+.mygrid2 .grid-item {margin-bottom: 10px;}
+.mygrid2 .grid-gutter { width:2.5% !important;}
+.mygrid2 .grid-sizer { width: 18% !important; }
+.mygrid2 .grid-item--width1 { width: 18% !important; }
+.mygrid2 .grid-item--width2 { width: 36% !important; }
+.mygrid2 .grid-item--width3 { width: 54% !important; }
+.mygrid2 .grid-item--width4 { width: 72% !important; }
+.mygrid2 .grid-item--width5 { width: 100% !important; }
+

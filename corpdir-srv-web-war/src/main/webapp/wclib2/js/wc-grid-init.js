@@ -1,17 +1,13 @@
-define(['wclib/js/lib/masonry.pkgd-4.2.0', 'wc/dom/initialise'], function (Masonry, initialise) {
+define(['wc/dom/initialise', 'wclib/js/wc-grid-resize', 'wclib/js/wc-grid-drag'], function (initialise, resize, drag) {
 
-	function createGrid(gridItemId, options) {
-		console.log('Setting up Grid ' + gridItemId);
-		var grid = document.getElementById(gridItemId);
-		if (grid) {
-			console.log('Creating grid ' + grid.id);
-			new Masonry(grid, options);
-		}
+	function setupGrid(gridId, resizeOptions) {
+		resize(gridId, resizeOptions);
+		drag(gridId);
 	}
 
-	return function (gridItemId, options) {
+	return function (gridId, resizeOptions) {
 		initialise.register({ postInit: function () {
-				createGrid(gridItemId, options);
+				setupGrid(gridId, resizeOptions);
 			} });
 	};
 

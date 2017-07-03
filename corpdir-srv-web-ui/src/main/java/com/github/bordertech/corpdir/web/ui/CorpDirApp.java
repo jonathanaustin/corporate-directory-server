@@ -13,11 +13,12 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
-import com.github.bordertech.wcomponents.lib.grid.GridItem;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.RegisterWcLibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
+import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.Date;
 
 /**
@@ -44,12 +45,16 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Custom css
 		addCssFile("/css/app.css");
-		addCssUrl("wclib2/css/grid-5-cols.css");
+//		addCssUrl("wclib2/css/grid-msry-cols.css");
+		addCssUrl("wclib2/css/grid-css-cols.css");
 
 		// Custom JS
 		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource("/wclib2"), "reg");
 		add(registerWclib);
 		addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
+
+		addJsUrl("wclib2/js/lib/interact-1.2.6.js");
+//		addJsUrl("wclib2/js/wc-grid-drag-drop.js");
 
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
@@ -71,16 +76,74 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Dummy Card
 //		mgr.add(new WSection("Hello World"));
 		Grid grid = new Grid();
-		GridItem gridItem = new GridItem(2);
-		gridItem.getContentHolder().add(new WText("ITEM 1"));
-		grid.getItemsContainer().add(gridItem);
-
-		gridItem = new GridItem(3);
-		gridItem.getContentHolder().add(new WText("ITEM 2"));
-		grid.getItemsContainer().add(gridItem);
-
+//		WDiv grid = new WDiv();
+		grid.setIdName("mygrid");
+		grid.setHtmlClass("grid-css");
 		mgr.add(grid);
+		for (int i = 1; i < 25; i++) {
+			WDiv div = new WDiv();
+			div.setDragMode(WDiv.DragMode.TRUE);
+//			div.setDropMode(WDiv.DropMode.MOVE);
+			div.setHtmlClass("drag");
+			if (i % 2 == 0) {
+				div.addHtmlClass("grid-column-2");
+			}
 
+			grid.getItemsContainer().add(div);
+			WPanel panel = new WPanel(WPanel.Type.BOX);
+			panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL));
+			panel.add(new WText("ITEM " + i));
+			div.add(panel);
+			if (i % 5 == 0) {
+				div.addHtmlClass("grid-column-2");
+				panel.add(new WText("ITEM A" + i));
+				panel.add(new WText("ITEM B" + i));
+				panel.add(new WText("ITEM C" + i));
+				panel.add(new WText("ITEM D" + i));
+				panel.add(new WText("ITEM E" + i));
+			}
+		}
+
+//		GridItem gridItem = new GridItem(grid, 2);
+//		gridItem.getContentHolder().add(panel);
+//		grid.getItemsContainer().add(gridItem);
+//
+//		gridItem = new GridItem(grid, 3);
+//		panel = new WPanel(WPanel.Type.BOX);
+//		panel.setMargin(new Margin(Size.SMALL));
+//		panel.add(new WText("ITEM 2"));
+//		gridItem.getContentHolder().add(panel);
+//		grid.getItemsContainer().add(gridItem);
+//
+//		grid.addHtmlClass("mygrid");
+//		WDiv grid = new WDiv();
+//		grid.setHtmlClass("grid-border");
+//		mgr.add(grid);
+//		// North
+//		WPanel panel = new WPanel(WPanel.Type.BOX);
+//		panel.add(new WText("NORTH"));
+//		panel.setHtmlClass("north");
+//		grid.add(panel);
+//		// South
+//		panel = new WPanel(WPanel.Type.BOX);
+//		panel.add(new WText("SOUTH"));
+//		panel.setHtmlClass("south");
+//		grid.add(panel);
+//		// East
+//		panel = new WPanel(WPanel.Type.BOX);
+//		panel.add(new WText("EAST"));
+//		panel.setHtmlClass("east");
+//		grid.add(panel);
+//		// West
+//		panel = new WPanel(WPanel.Type.BOX);
+//		panel.add(new WText("WEST"));
+//		panel.setHtmlClass("west");
+//		grid.add(panel);
+//		// Center
+//		panel = new WPanel(WPanel.Type.BOX);
+//		panel.add(new WText("CENTER"));
+//		panel.setHtmlClass("center");
+//		grid.add(panel);
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);

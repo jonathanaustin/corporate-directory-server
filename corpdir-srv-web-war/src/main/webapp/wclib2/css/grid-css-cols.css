@@ -1,0 +1,51 @@
+.grid-css {
+	display:grid;
+	grid-template-columns: repeat(12, 1fr);
+	grid-gap: 6px;
+}
+
+
+.north {
+	grid-area: north;
+}
+.south {
+	grid-area: south;
+}
+.east {
+	grid-area: east;
+}
+.west {
+	grid-area: west;
+}
+.center {
+	grid-area: center;
+}
+
+.grid-border {
+	display:grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas:
+		"north north north"
+		"west center east"
+		"south south south";
+	grid-gap: 6px;
+}
+
+
+[draggable] {
+	-moz-user-select: none;
+	-khtml-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+	/* Required to make elements draggable in old WebKit */
+	-khtml-user-drag: element;
+	-webkit-user-drag: element;
+}
+
+.dragdrop.over {
+	border: 2px dashed #000;
+}
+
+.grid-column-2 {
+	grid-column: span 2;
+}

@@ -5,8 +5,9 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +18,7 @@ import java.util.Map;
  *
  * @author exitxl
  */
-public class Grid extends WDiv {
-
-	private final WTemplate gridTemplate = new WTemplate("/wclib/hbs/grid.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+public class Grid extends WTemplate {
 
 	private final WContainer itemsContainer = new WContainer() {
 		@Override
@@ -44,32 +43,18 @@ public class Grid extends WDiv {
 		}
 	};
 
-	/**
-	 * Construct panel.
-	 */
 	public Grid() {
-		add(gridTemplate);
-		gridTemplate.addTaggedComponent("items", itemsContainer);
+		super("/wclib/hbs/grid-css.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		setHtmlClass("grid-css-5-cols");
+		addTaggedComponent("items", itemsContainer);
 	}
 
-	public WTemplate getGridTemplate() {
-		return gridTemplate;
+	public int getMaxColumns() {
+		return getComponentModel().maxColumns;
 	}
 
-	public String getGridOptions() {
-		return getComponentModel().gridOptions;
-	}
-
-	public void setGridOptions(final String gridOptions) {
-		getOrCreateComponentModel().gridOptions = gridOptions;
-	}
-
-	public String getLayoutClass() {
-		return getComponentModel().layoutClass;
-	}
-
-	public void setLayoutClass(final String layoutClass) {
-		getOrCreateComponentModel().layoutClass = layoutClass;
+	public void setMaxColumns(final int maxColumns) {
+		getOrCreateComponentModel().maxColumns = maxColumns;
 	}
 
 	public List<String> getItemOrderIds() {
@@ -85,10 +70,48 @@ public class Grid extends WDiv {
 		return itemsContainer;
 	}
 
+	public void setDraggable(final boolean draggable) {
+		if (draggable != isDraggable()) {
+			getOrCreateComponentModel().draggable = draggable;
+		}
+	}
+
+	public boolean isDraggable() {
+		return getComponentModel().draggable;
+	}
+
+	public void setResizable(final boolean resizable) {
+		if (resizable != isResizable()) {
+			getOrCreateComponentModel().resizable = resizable;
+		}
+	}
+
+	public boolean isResizable() {
+		return getComponentModel().resizable;
+	}
+
+	@Override
+	public void handleRequest(final Request request) {
+		super.handleRequest(request);
+		String[] items = request.getParameterValues(getId() + ".items");
+		if (items != null && items.length > 0) {
+			// Save state
+			setItemOrderIds(new ArrayList(Arrays.asList(items)));
+		}
+	}
+
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
-		gridTemplate.addParameter("layoutClass", getLayoutClass());
+		setupParameters();
+	}
+
+	protected void setupParameters() {
+		addParameter("gridClass", getHtmlClass());
+		addParameter("gridId", getId());
+		addParameter("maxCols", getMaxColumns());
+		addParameter("draggable", isDraggable());
+		addParameter("resizable", isResizable());
 	}
 
 	@Override
@@ -109,13 +132,15 @@ public class Grid extends WDiv {
 	/**
 	 * Holds the extrinsic state information of the event view.
 	 */
-	public static class GridModel extends DivModel {
+	public static class GridModel extends TemplateModel {
 
 		private List<String> itemOrderIds;
 
-		private String layoutClass = "grid-5-cols";
+		private int maxColumns = 5;
 
-		private String gridOptions = "{columnWidth: '.grid-sizer', itemSelector: '.gridItem', percentPosition: true}";
+		private boolean draggable;
+
+		private boolean resizable;
 	}
 
 }

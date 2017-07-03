@@ -1,0 +1,8 @@
+<div class=" {{itemClass}} grid-item grid-item--width{{columns}}" id="{{itemId}}">
+    <div class="grid-item-content">
+    {{content}}
+    {{#if resize}}
+         <script type='text/javascript'>require(['wclib/js/wc-grid-msry-resize'], function(fit){fit('{{gridId}}');});</script>
+    {{/if}}
+    </div>
+</div>

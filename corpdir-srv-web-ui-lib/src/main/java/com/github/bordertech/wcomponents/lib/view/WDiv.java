@@ -15,6 +15,28 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  */
 public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 
+	public enum DropMode {
+		COPY,
+		MOVE,
+		LINK;
+
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
+	}
+
+	public enum DragMode {
+		TRUE,
+		FALSE,
+		AUTO;
+
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}
+	}
+
 	@Override
 	protected void beforePaint(final RenderContext renderContext) {
 		XmlStringBuilder xml = ((WebXmlRenderContext) renderContext).getWriter();
@@ -23,7 +45,25 @@ public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 		xml.appendAttribute("id", getId());
 		xml.appendOptionalAttribute("class", getHtmlClass());
 		xml.appendOptionalAttribute("hidden", isHidden(), "true");
+		xml.appendOptionalAttribute("dropzone", getDropMode());
+		xml.appendOptionalAttribute("draggable", getDragMode());
 		xml.appendClose();
+	}
+
+	public void setDragMode(final DragMode mode) {
+		setAttribute("dragmode", mode);
+	}
+
+	public DragMode getDragMode() {
+		return (DragMode) getAttribute("dragmode");
+	}
+
+	public void setDropMode(final DropMode mode) {
+		setAttribute("dropmode", mode);
+	}
+
+	public DropMode getDropMode() {
+		return (DropMode) getAttribute("dropmode");
 	}
 
 	@Override

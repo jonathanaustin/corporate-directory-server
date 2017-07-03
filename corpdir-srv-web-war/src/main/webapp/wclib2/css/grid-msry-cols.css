@@ -1,0 +1,29 @@
+.grid-msry .grid-item {display: inline-block;}
+.grid-msry .grid-gutter { width:0;}
+
+.grid-msry-2-cols { width: 100%; }
+.grid-msry-2-cols .grid-sizer { width: 50%; }
+.grid-msry-2-cols .grid-item--width1 { width: 50%; }
+.grid-msry-2-cols .grid-item--width2 { width: 100%; }
+
+.grid-msry-3-cols { width: 100%; }
+.grid-msry-3-cols .grid-sizer { width: 33.333%; }
+.grid-msry-3-cols .grid-item--width1 { width: 33.333%; }
+.grid-msry-3-cols .grid-item--width2 { width: 66.666%; }
+.grid-msry-3-cols .grid-item--width3 { width: 100%; }
+
+.grid-msry-4-cols { width: 100%; }
+.grid-msry-4-cols .grid-sizer { width: 25%; }
+.grid-msry-4-cols .grid-item--width1 { width: 25%; }
+.grid-msry-4-cols .grid-item--width2 { width: 50%; }
+.grid-msry-4-cols .grid-item--width3 { width: 75%; }
+.grid-msry-4-cols .grid-item--width4 { width: 100%; }
+
+.grid-msry-5-cols { width: 100%; }
+.grid-msry-5-cols .grid-sizer { width: 20%; }
+.grid-msry-5-cols .grid-item--width1 { width: 20%; }
+.grid-msry-5-cols .grid-item--width2 { width: 40%; }
+.grid-msry-5-cols .grid-item--width3 { width: 60%; }
+.grid-msry-5-cols .grid-item--width4 { width: 80%; }
+.grid-msry-5-cols .grid-item--width5 { width: 100%; }
+
