@@ -71,8 +71,20 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WebUI</servlet-name>
-		<url-pattern>/admin/*</url-pattern>
+		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
+
+	<!-- Theme Servlet -->
+	<servlet>
+		<servlet-name>Theme</servlet-name>
+		<servlet-class>com.github.bordertech.wcomponents.servlet.ThemeServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Theme</servlet-name>
+		<url-pattern>/theme/*</url-pattern>
+	</servlet-mapping>
+
 
 	<filter>
 		<filter-name>userSetup</filter-name>
@@ -80,7 +92,7 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 	</filter>
 	<filter-mapping>
 		<filter-name>userSetup</filter-name>
-		<url-pattern>/admin/*</url-pattern>
+		<url-pattern>/admin</url-pattern>
 	</filter-mapping>
 
 </web-app>

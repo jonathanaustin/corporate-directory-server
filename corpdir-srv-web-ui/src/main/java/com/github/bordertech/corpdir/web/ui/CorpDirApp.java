@@ -45,16 +45,16 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Custom css
 		addCssFile("/css/app.css");
-//		addCssUrl("wclib2/css/grid-msry-cols.css");
-		addCssUrl("wclib2/css/grid-css-cols.css");
+//		addCssUrl("wclib/css/grid-msry-cols.css");
+		addCssUrl("wclib/css/grid-css-cols.css");
 
 		// Custom JS
-		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource("/wclib2"), "reg");
+		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource(), "reg");
 		add(registerWclib);
 		addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
 
-		addJsUrl("wclib2/js/lib/interact-1.2.6.js");
-//		addJsUrl("wclib2/js/wc-grid-drag-drop.js");
+		addJsUrl("wclib/js/lib/interact-1.2.6.js");
+//		addJsUrl("wclib/js/wc-grid-drag-drop.js");
 
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
