@@ -46,7 +46,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Custom css
 		addCssFile("/css/app.css");
-		addCssUrl("wclib/css/grid-cols.css");
+		addCssUrl("wclib/css/grid-flex.css");
+//		addCssUrl("wclib/css/grid-cols.css");
 //		addCssUrl("wclib/css/grid-msry.css");
 //		addCssUrl("wclib/css/grid-css.css");
 
@@ -81,8 +82,9 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		mgr.add(dummy);
 
 		// CSS x5
-		dummy.add(buildColsGrid());
+		dummy.add(buildFlexGrid3());
 
+//		dummy.add(buildColsGrid());
 //		dummy.add(new WHeading(HeadingLevel.H1, "Default - CSS"));
 //		dummy.add(buildCssGridCols12());
 //		dummy.add(buildMasonryGrid());
@@ -99,6 +101,33 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// IDs
 		header.setIdName("hdr");
 		messages.setIdName("msgs");
+	}
+
+	private Grid buildFlexGrid() {
+		Grid grid = new Grid();
+		grid.setTemplateName("/wclib/hbs/grid-flex.hbs");
+		grid.setItemTemplateName("/wclib/hbs/grid-flex-item.hbs");
+		buildItems(grid);
+		return grid;
+	}
+
+	private Grid buildFlexGrid3() {
+		Grid grid = new Grid();
+		grid.setTemplateName("/wclib/hbs/grid-flex.hbs");
+		grid.setItemTemplateName("/wclib/hbs/grid-flex-item.hbs");
+		grid.setMaxColumns(3);
+
+		WContainer holder = grid.getItemsContainer();
+		for (int i = 1; i < 4; i++) {
+			WPanel panel = new WPanel(WPanel.Type.BOX);
+			panel.add(new WText("COL " + i));
+
+			GridItem item = new GridItem(grid);
+			item.getContentHolder().add(panel);
+			holder.add(item);
+		}
+
+		return grid;
 	}
 
 	private Grid buildColsGrid() {

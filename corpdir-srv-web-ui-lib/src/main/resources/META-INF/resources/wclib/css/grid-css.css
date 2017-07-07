@@ -4,7 +4,7 @@
 	grid-gap: 0;
 }
 
-.grid-css .grid-item-content { width:  100%; }
+.grid-css .grid-item-content { width: 100%; }
 
 .grid-css.gap-small { grid-gap: 6px; }
 .grid-css.gap-medium { grid-gap: 12px; }
