@@ -6,6 +6,8 @@ import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.XmlStringBuilder;
+import com.github.bordertech.wcomponents.lib.grid.DragMode;
+import com.github.bordertech.wcomponents.lib.grid.DropMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
 
 /**
@@ -14,28 +16,6 @@ import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;
  * @author jonathan
  */
 public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
-
-	public enum DropMode {
-		COPY,
-		MOVE,
-		LINK;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}
-	}
-
-	public enum DragMode {
-		TRUE,
-		FALSE,
-		AUTO;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}
-	}
 
 	@Override
 	protected void beforePaint(final RenderContext renderContext) {
@@ -51,19 +31,19 @@ public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 	}
 
 	public void setDragMode(final DragMode mode) {
-		setAttribute("dragmode", mode);
+		getOrCreateComponentModel().dragMode = mode;
 	}
 
 	public DragMode getDragMode() {
-		return (DragMode) getAttribute("dragmode");
+		return getComponentModel().dragMode;
 	}
 
 	public void setDropMode(final DropMode mode) {
-		setAttribute("dropmode", mode);
+		getOrCreateComponentModel().dropMode = mode;
 	}
 
 	public DropMode getDropMode() {
-		return (DropMode) getAttribute("dropmode");
+		return getComponentModel().dropMode;
 	}
 
 	@Override
@@ -88,5 +68,9 @@ public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 	}
 
 	public static class DivModel extends BeanAndProviderBoundComponentModel {
+
+		private DragMode dragMode;
+
+		private DropMode dropMode;
 	}
 }

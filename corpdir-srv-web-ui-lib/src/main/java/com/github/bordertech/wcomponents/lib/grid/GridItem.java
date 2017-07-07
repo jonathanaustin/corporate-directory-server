@@ -18,11 +18,15 @@ public class GridItem extends WTemplate {
 
 	private final Grid grid;
 
+	public GridItem(final Grid grid) {
+		this(grid, 1);
+	}
+
 	public GridItem(final Grid grid, final int cols) {
 		super("/wclib/hbs/grid-css-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		this.grid = grid;
 		addTaggedComponent("content", contentHolder);
-		setColumns(cols);
+		setSpans(cols);
 	}
 
 	public Grid getGrid() {
@@ -39,12 +43,12 @@ public class GridItem extends WTemplate {
 		return contentHolder;
 	}
 
-	public void setColumns(final int cols) {
-		getOrCreateComponentModel().cols = cols < 1 ? 1 : cols;
+	public void setSpans(final int spans) {
+		getOrCreateComponentModel().spans = spans < 1 ? 1 : spans;
 	}
 
-	public int getColumns() {
-		return getComponentModel().cols;
+	public int getSpans() {
+		return getComponentModel().spans;
 	}
 
 	public void resizeItem() {
@@ -70,14 +74,41 @@ public class GridItem extends WTemplate {
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		setupParameters();
+		if (grid.getItemTemplateName() != null) {
+			setTemplateName(grid.getItemTemplateName());
+		}
+		if (grid.getItemEngineName() != null) {
+			setEngineName(grid.getItemEngineName());
+		}
 	}
 
 	protected void setupParameters() {
+
+		int spans = getSpans() > grid.getMaxColumns() ? grid.getMaxColumns() : getSpans();
+
 		addParameter("gridId", getGrid().getId());
-		addParameter("columns", getColumns());
+		addParameter("spans", spans);
 		addParameter("itemId", getId());
 		addParameter("resize", isResize());
-		addParameter("itemClass", getHtmlClass());
+		addParameter("itemClasses", getHtmlClass());
+		addParameter("dropMode", getDropMode());
+		addParameter("dragMode", getDragMode());
+	}
+
+	public void setDragMode(final DragMode mode) {
+		getOrCreateComponentModel().dragMode = mode;
+	}
+
+	public DragMode getDragMode() {
+		return getComponentModel().dragMode;
+	}
+
+	public void setDropMode(final DropMode mode) {
+		getOrCreateComponentModel().dropMode = mode;
+	}
+
+	public DropMode getDropMode() {
+		return getComponentModel().dropMode;
 	}
 
 	@Override
@@ -106,9 +137,13 @@ public class GridItem extends WTemplate {
 	 */
 	public static class GridItemModel extends TemplateModel {
 
-		private int cols = 1;
+		private int spans = 1;
 
 		private boolean resize;
+
+		private DragMode dragMode;
+
+		private DropMode dropMode;
 	}
 
 }

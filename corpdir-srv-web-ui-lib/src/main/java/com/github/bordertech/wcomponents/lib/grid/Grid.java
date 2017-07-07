@@ -45,7 +45,6 @@ public class Grid extends WTemplate {
 
 	public Grid() {
 		super("/wclib/hbs/grid-css.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
-		setHtmlClass("grid-css-5-cols");
 		addTaggedComponent("items", itemsContainer);
 	}
 
@@ -54,7 +53,7 @@ public class Grid extends WTemplate {
 	}
 
 	public void setMaxColumns(final int maxColumns) {
-		getOrCreateComponentModel().maxColumns = maxColumns;
+		getOrCreateComponentModel().maxColumns = maxColumns < 1 ? 1 : maxColumns;
 	}
 
 	public List<String> getItemOrderIds() {
@@ -90,6 +89,26 @@ public class Grid extends WTemplate {
 		return getComponentModel().resizable;
 	}
 
+	public void setItemTemplateName(final String itemTemplateName) {
+		getOrCreateComponentModel().itemTemplateName = itemTemplateName;
+	}
+
+	public String getItemTemplateName() {
+		return getComponentModel().itemTemplateName;
+	}
+
+	public void setItemEngineName(final TemplateRendererFactory.TemplateEngine engine) {
+		setItemEngineName(engine == null ? null : engine.getEngineName());
+	}
+
+	public void setItemEngineName(final String itemEngineName) {
+		getOrCreateComponentModel().itemEngineName = itemEngineName;
+	}
+
+	public String getItemEngineName() {
+		return getComponentModel().itemEngineName;
+	}
+
 	@Override
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
@@ -107,9 +126,9 @@ public class Grid extends WTemplate {
 	}
 
 	protected void setupParameters() {
-		addParameter("gridClass", getHtmlClass());
+		addParameter("gridClasses", getHtmlClass());
 		addParameter("gridId", getId());
-		addParameter("maxCols", getMaxColumns());
+		addParameter("maxColumns", getMaxColumns());
 		addParameter("draggable", isDraggable());
 		addParameter("resizable", isResizable());
 	}
@@ -141,6 +160,10 @@ public class Grid extends WTemplate {
 		private boolean draggable;
 
 		private boolean resizable;
+
+		private String itemTemplateName;
+
+		private String itemEngineName;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
@@ -15,10 +16,10 @@ import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
+import com.github.bordertech.wcomponents.lib.grid.GridItem;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.RegisterWcLibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.Date;
 
 /**
@@ -45,8 +46,9 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Custom css
 		addCssFile("/css/app.css");
-//		addCssUrl("wclib/css/grid-msry-cols.css");
-		addCssUrl("wclib/css/grid-css-cols.css");
+		addCssUrl("wclib/css/grid-cols.css");
+//		addCssUrl("wclib/css/grid-msry.css");
+//		addCssUrl("wclib/css/grid-css.css");
 
 		// Custom JS
 		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource(), "reg");
@@ -72,78 +74,20 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Card manager
 		detail.add(mgr);
 
-		// Cards
 		// Dummy Card
 //		mgr.add(new WSection("Hello World"));
-		Grid grid = new Grid();
-//		WDiv grid = new WDiv();
-		grid.setIdName("mygrid");
-		grid.setHtmlClass("grid-css");
-		mgr.add(grid);
-		for (int i = 1; i < 25; i++) {
-			WDiv div = new WDiv();
-			div.setDragMode(WDiv.DragMode.TRUE);
-//			div.setDropMode(WDiv.DropMode.MOVE);
-			div.setHtmlClass("drag");
-			if (i % 2 == 0) {
-				div.addHtmlClass("grid-column-2");
-			}
+		// Cards
+		WPanel dummy = new WPanel();
+		mgr.add(dummy);
 
-			grid.getItemsContainer().add(div);
-			WPanel panel = new WPanel(WPanel.Type.BOX);
-			panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL));
-			panel.add(new WText("ITEM " + i));
-			div.add(panel);
-			if (i % 5 == 0) {
-				div.addHtmlClass("grid-column-2");
-				panel.add(new WText("ITEM A" + i));
-				panel.add(new WText("ITEM B" + i));
-				panel.add(new WText("ITEM C" + i));
-				panel.add(new WText("ITEM D" + i));
-				panel.add(new WText("ITEM E" + i));
-			}
-		}
+		// CSS x5
+		dummy.add(buildColsGrid());
 
-//		GridItem gridItem = new GridItem(grid, 2);
-//		gridItem.getContentHolder().add(panel);
-//		grid.getItemsContainer().add(gridItem);
-//
-//		gridItem = new GridItem(grid, 3);
-//		panel = new WPanel(WPanel.Type.BOX);
-//		panel.setMargin(new Margin(Size.SMALL));
-//		panel.add(new WText("ITEM 2"));
-//		gridItem.getContentHolder().add(panel);
-//		grid.getItemsContainer().add(gridItem);
-//
-//		grid.addHtmlClass("mygrid");
-//		WDiv grid = new WDiv();
-//		grid.setHtmlClass("grid-border");
-//		mgr.add(grid);
-//		// North
-//		WPanel panel = new WPanel(WPanel.Type.BOX);
-//		panel.add(new WText("NORTH"));
-//		panel.setHtmlClass("north");
-//		grid.add(panel);
-//		// South
-//		panel = new WPanel(WPanel.Type.BOX);
-//		panel.add(new WText("SOUTH"));
-//		panel.setHtmlClass("south");
-//		grid.add(panel);
-//		// East
-//		panel = new WPanel(WPanel.Type.BOX);
-//		panel.add(new WText("EAST"));
-//		panel.setHtmlClass("east");
-//		grid.add(panel);
-//		// West
-//		panel = new WPanel(WPanel.Type.BOX);
-//		panel.add(new WText("WEST"));
-//		panel.setHtmlClass("west");
-//		grid.add(panel);
-//		// Center
-//		panel = new WPanel(WPanel.Type.BOX);
-//		panel.add(new WText("CENTER"));
-//		panel.setHtmlClass("center");
-//		grid.add(panel);
+//		dummy.add(new WHeading(HeadingLevel.H1, "Default - CSS"));
+//		dummy.add(buildCssGridCols12());
+//		dummy.add(buildMasonryGrid());
+//		dummy.add(buildCssGrid());
+//		dummy.add(buildBorderGrid());
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);
@@ -155,7 +99,101 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// IDs
 		header.setIdName("hdr");
 		messages.setIdName("msgs");
+	}
 
+	private Grid buildColsGrid() {
+		Grid grid = new Grid();
+		grid.setTemplateName("/wclib/hbs/grid-cols.hbs");
+		grid.setItemTemplateName("/wclib/hbs/grid-cols-item.hbs");
+		buildItems(grid);
+		return grid;
+	}
+
+	private Grid buildCssGrid() {
+		Grid grid = new Grid();
+		buildItems(grid);
+		return grid;
+	}
+
+	private Grid buildCssGridCols12() {
+		Grid grid = new Grid();
+		grid.setHtmlClass("columns-12");
+		buildItems(grid);
+		return grid;
+	}
+
+	private Grid buildMasonryGrid() {
+		Grid grid = new Grid();
+		grid.setMaxColumns(12);
+		grid.setTemplateName("/wclib/hbs/grid-msry.hbs");
+		grid.setItemTemplateName("/wclib/hbs/grid-msry-item.hbs");
+		buildItems(grid);
+		return grid;
+	}
+
+	private Grid buildBorderGrid() {
+		Grid grid = new Grid();
+		grid.setHtmlClass("border");
+
+		WContainer holder = grid.getItemsContainer();
+
+		// North
+		WPanel panel = new WPanel(WPanel.Type.BOX);
+		panel.add(new WText("NORTH"));
+		panel.setHtmlClass("north");
+		holder.add(panel);
+		// South
+		panel = new WPanel(WPanel.Type.BOX);
+		panel.add(new WText("SOUTH"));
+		panel.setHtmlClass("south");
+		holder.add(panel);
+		// East
+		panel = new WPanel(WPanel.Type.BOX);
+		panel.add(new WText("EAST"));
+		panel.setHtmlClass("east");
+		holder.add(panel);
+		// West
+		panel = new WPanel(WPanel.Type.BOX);
+		panel.add(new WText("WEST"));
+		panel.setHtmlClass("west");
+		holder.add(panel);
+		// Center
+		panel = new WPanel(WPanel.Type.BOX);
+		panel.add(new WText("CENTER"));
+		panel.setHtmlClass("center");
+		holder.add(panel);
+
+		// Nested
+		panel.add(buildCssGrid());
+
+		return grid;
+	}
+
+	private void buildItems(final Grid grid) {
+
+		WContainer holder = grid.getItemsContainer();
+
+		for (int i = 1; i < 25; i++) {
+
+			GridItem item = new GridItem(grid);
+			holder.add(item);
+
+			WPanel panel = new WPanel(WPanel.Type.BOX);
+			panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL));
+			panel.add(new WText("ITEM " + i));
+			item.getContentHolder().add(panel);
+
+			if (i % 2 == 0) {
+				item.setSpans(2);
+			} else if (i % 5 == 0) {
+				item.setSpans(5);
+				panel.add(new WText("ITEM A" + i));
+				panel.add(new WText("ITEM B" + i));
+				panel.add(new WText("ITEM C" + i));
+				panel.add(new WText("ITEM D" + i));
+				panel.add(new WText("ITEM E" + i));
+			}
+		}
 	}
 
 	/**

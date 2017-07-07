@@ -1,0 +1,44 @@
+.grid-css {
+	width: 100%;
+	display: grid;
+	grid-gap: 0;
+}
+
+.grid-css .grid-item-content { width:  100%; }
+
+.grid-css.gap-small { grid-gap: 6px; }
+.grid-css.gap-medium { grid-gap: 12px; }
+.grid-css.gap-large { grid-gap: 18px; }
+
+.grid-css.columns-1 { grid-template-columns: 1fr; }
+.grid-css.columns-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-css.columns-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-css.columns-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-css.columns-5 { grid-template-columns: repeat(5, 1fr); }
+.grid-css.columns-12 { grid-template-columns: repeat(12, 1fr); }
+
+.grid-css.border {
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-areas:
+		"north north north"
+		"west center east"
+		"south south south";
+}
+.grid-css.border > .north { grid-area: north; }
+.grid-css.border > .south { grid-area: south; }
+.grid-css.border > .east { grid-area: east; }
+.grid-css.border > .west { grid-area: west; }
+.grid-css.border > .center { grid-area: center; }
+
+.grid-css > .grid-item--width1 { grid-column: span 1; }
+.grid-css > .grid-item--width2 { grid-column: span 2; }
+.grid-css > .grid-item--width3 { grid-column: span 3; }
+.grid-css > .grid-item--width4 { grid-column: span 4; }
+.grid-css > .grid-item--width5 { grid-column: span 5; }
+.grid-css > .grid-item--width6 { grid-column: span 6; }
+.grid-css > .grid-item--width7 { grid-column: span 7; }
+.grid-css > .grid-item--width8 { grid-column: span 8; }
+.grid-css > .grid-item--width9 { grid-column: span 9; }
+.grid-css > .grid-item--width10 { grid-column: span 10; }
+.grid-css > .grid-item--width11 { grid-column: span 11; }
+.grid-css > .grid-item--width12 { grid-column: span 12; }
