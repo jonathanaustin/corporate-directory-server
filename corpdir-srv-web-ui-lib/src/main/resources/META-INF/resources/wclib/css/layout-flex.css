@@ -1,0 +1,48 @@
+.wcl-flex {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.wcl-flex > item {
+	flex-grow: 0;
+	flex-shrink: 1;
+}
+.wcl-flex .item-content { width: 100%; }
+
+.wcl-flex.columns-2 > .item { flex-basis: 50%; }
+.wcl-flex.columns-2 > .item.span-1 { flex-basis: 50%; }
+.wcl-flex.columns-2 > .item.span-2 { flex-basis: 100%; }
+
+.wcl-flex.columns-3 > .item { flex-basis: 33.333%; }
+.wcl-flex.columns-3 > .item.span-1 { flex-basis: 33.333%; }
+.wcl-flex.columns-3 > .item.span-2 { flex-basis: 66.666%; }
+.wcl-flex.columns-3 > .item.span-3 { flex-basis: 100%; }
+
+.wcl-flex.columns-4 > .item { flex-basis: 25%; }
+.wcl-flex.columns-4 > .item.span-1 { flex-basis: 25%; }
+.wcl-flex.columns-4 > .item.span-2 { flex-basis: 50%; }
+.wcl-flex.columns-4 > .item.span-3 { flex-basis: 75%; }
+.wcl-flex.columns-4 > .item.span-4 { flex-basis: 100%; }
+
+.wcl-flex.columns-5 > .item { flex-basis: 20%; }
+.wcl-flex.columns-5 > .item.span-1 { flex-basis: 20%; }
+.wcl-flex.columns-5 > .item.span-2 { flex-basis: 40%; }
+.wcl-flex.columns-5 > .item.span-3 { flex-basis: 60%; }
+.wcl-flex.columns-5 > .item.span-4 { flex-basis: 80%; }
+.wcl-flex.columns-5 > .item.span-5 { flex-basis: 100%; }
+
+.wcl-flex.columns-12 > .item { flex-basis: 8.333%; }
+.wcl-flex.columns-12 > .item.span-1 { flex-basis: 8.333%; }
+.wcl-flex.columns-12 > .item.span-2 { flex-basis: 16.666%; }
+.wcl-flex.columns-12 > .item.span-3 { flex-basis: 25%; }
+.wcl-flex.columns-12 > .item.span-4 { flex-basis: 33.333%; }
+.wcl-flex.columns-12 > .item.span-5 { flex-basis: 41.666%; }
+.wcl-flex.columns-12 > .item.span-6 { flex-basis: 50%; }
+.wcl-flex.columns-12 > .item.span-7 { flex-basis: 58.333%; }
+.wcl-flex.columns-12 > .item.span-8 { flex-basis: 66.666%; }
+.wcl-flex.columns-12 > .item.span-9 { flex-basis: 75%; }
+.wcl-flex.columns-12 > .item.span-10 { flex-basis: 83.333%; }
+.wcl-flex.columns-12 > .item.span-11 { flex-basis: 91.666%; }
+.wcl-flex.columns-12 > .item.span-12 { flex-basis: 100%; }

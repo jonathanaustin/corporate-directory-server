@@ -46,10 +46,10 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Custom css
 		addCssFile("/css/app.css");
-		addCssUrl("wclib/css/grid-flex.css");
-//		addCssUrl("wclib/css/grid-cols.css");
-//		addCssUrl("wclib/css/grid-msry.css");
-//		addCssUrl("wclib/css/grid-css.css");
+		addCssUrl("wclib/css/layout-flex.css");
+		addCssUrl("wclib/css/layout-multi-col.css");
+		addCssUrl("wclib/css/layout-masonry.css");
+		addCssUrl("wclib/css/layout-grid.css");
 
 		// Custom JS
 		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource(), "reg");
@@ -82,14 +82,12 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		mgr.add(dummy);
 
 		// CSS x5
-		dummy.add(buildFlexGrid3());
-
-//		dummy.add(buildColsGrid());
+//		dummy.add(buildFlexGrid3());
 //		dummy.add(new WHeading(HeadingLevel.H1, "Default - CSS"));
 //		dummy.add(buildCssGridCols12());
 //		dummy.add(buildMasonryGrid());
 //		dummy.add(buildCssGrid());
-//		dummy.add(buildBorderGrid());
+		dummy.add(buildBorderGrid());
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);
@@ -127,14 +125,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			holder.add(item);
 		}
 
-		return grid;
-	}
-
-	private Grid buildColsGrid() {
-		Grid grid = new Grid();
-		grid.setTemplateName("/wclib/hbs/grid-cols.hbs");
-		grid.setItemTemplateName("/wclib/hbs/grid-cols-item.hbs");
-		buildItems(grid);
 		return grid;
 	}
 

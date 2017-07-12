@@ -1,0 +1,48 @@
+.wcl-msry { width: 100%; }
+
+.wcl-msry > .msry-gutter { width:0;}
+.wcl-msry > .msry-sizer { width:0;}
+.wcl-msry .item-content { width: 100%; }
+
+.wcl-msry.columns-1 > .msry-sizer { width: 100%; }
+
+.wcl-msry.columns-2 > .msry-sizer { width: 50%; }
+.wcl-msry.columns-2 > .item { width: 50%; }
+.wcl-msry.columns-2 > .item.span-1 { width: 50%; }
+.wcl-msry.columns-2 > .item.span-2 { width: 100%; }
+
+.wcl-msry.columns-3 > .msry-sizer { width: 33.333%; }
+.wcl-msry.columns-3 > .item { width: 33.333%; }
+.wcl-msry.columns-3 > .item.span-1 { width: 33.333%; }
+.wcl-msry.columns-3 > .item.span-2 { width: 66.666%; }
+.wcl-msry.columns-3 > .item.span-3 { width: 100%; }
+
+.wcl-msry.columns-4 > .msry-sizer { width: 25%; }
+.wcl-msry.columns-4 > .item { width: 25%; }
+.wcl-msry.columns-4 > .item.span-1 { width: 25%; }
+.wcl-msry.columns-4 > .item.span-2 { width: 50%; }
+.wcl-msry.columns-4 > .item.span-3 { width: 75%; }
+.wcl-msry.columns-4 > .item.span-4 { width: 100%; }
+
+.wcl-msry.columns-5 > .msry-sizer { width: 20%; }
+.wcl-msry.columns-5 > .item { width: 20%; }
+.wcl-msry.columns-5 > .item.span-1 { width: 20%; }
+.wcl-msry.columns-5 > .item.span-2 { width: 40%; }
+.wcl-msry.columns-5 > .item.span-3 { width: 60%; }
+.wcl-msry.columns-5 > .item.span-4 { width: 80%; }
+.wcl-msry.columns-5 > .item.span-5 { width: 100%; }
+
+.wcl-msry.columns-12 > .msry-sizer { width: 8.333%; }
+.wcl-msry.columns-12 > .item { width: 8.333%; }
+.wcl-msry.columns-12 > .item.span-1 { width: 8.333%; }
+.wcl-msry.columns-12 > .item.span-2 { width: 16.666%; }
+.wcl-msry.columns-12 > .item.span-3 { width: 25%; }
+.wcl-msry.columns-12 > .item.span-4 { width: 33.333%; }
+.wcl-msry.columns-12 > .item.span-5 { width: 41.666%; }
+.wcl-msry.columns-12 > .item.span-6 { width: 50%; }
+.wcl-msry.columns-12 > .item.span-7 { width: 58.333%; }
+.wcl-msry.columns-12 > .item.span-8 { width: 66.666%; }
+.wcl-msry.columns-12 > .item.span-9 { width: 75%; }
+.wcl-msry.columns-12 > .item.span-10 { width: 83.333%; }
+.wcl-msry.columns-12 > .item.span-11 { width: 91.666%; }
+.wcl-msry.columns-12 > .item.span-12 { width: 100%; }

@@ -1,0 +1,15 @@
+.wcl-mc {
+	width: 100%;
+	column-gap: 0;
+}
+
+.wcl-mc.gap-s { column-gap: 6px; }
+.wcl-mc.gap-m { column-gap: 12px; }
+.wcl-mc.gap-l { column-gap: 18px; }
+
+.wcl-mc.columns-1 { column-count: 1; }
+.wcl-mc.columns-2 { column-count: 2; }
+.wcl-mc.columns-3 { column-count: 3; }
+.wcl-mc.columns-4 { column-count: 4; }
+.wcl-mc.columns-5 { column-count: 5; }
+.wcl-mc.columns-12 { column-count: 12; }
