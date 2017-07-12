@@ -82,8 +82,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		mgr.add(dummy);
 
 		// CSS x5
+//		dummy.add(buildFlexGrid());
 //		dummy.add(buildFlexGrid3());
-//		dummy.add(new WHeading(HeadingLevel.H1, "Default - CSS"));
 //		dummy.add(buildCssGridCols12());
 //		dummy.add(buildMasonryGrid());
 //		dummy.add(buildCssGrid());
@@ -103,20 +103,18 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private Grid buildFlexGrid() {
 		Grid grid = new Grid();
-		grid.setTemplateName("/wclib/hbs/grid-flex.hbs");
-		grid.setItemTemplateName("/wclib/hbs/grid-flex-item.hbs");
+		grid.setGridType("wcl-flex");
 		buildItems(grid);
 		return grid;
 	}
 
 	private Grid buildFlexGrid3() {
 		Grid grid = new Grid();
-		grid.setTemplateName("/wclib/hbs/grid-flex.hbs");
-		grid.setItemTemplateName("/wclib/hbs/grid-flex-item.hbs");
+		grid.setGridType("wcl-flex");
 		grid.setMaxColumns(3);
 
 		WContainer holder = grid.getItemsContainer();
-		for (int i = 1; i < 4; i++) {
+		for (int i = 1; i < 10; i++) {
 			WPanel panel = new WPanel(WPanel.Type.BOX);
 			panel.add(new WText("COL " + i));
 
@@ -136,16 +134,17 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private Grid buildCssGridCols12() {
 		Grid grid = new Grid();
-		grid.setHtmlClass("columns-12");
+		grid.setMaxColumns(12);
 		buildItems(grid);
 		return grid;
 	}
 
 	private Grid buildMasonryGrid() {
 		Grid grid = new Grid();
+		grid.setGridType("wcl-msry");
 		grid.setMaxColumns(12);
-		grid.setTemplateName("/wclib/hbs/grid-msry.hbs");
-		grid.setItemTemplateName("/wclib/hbs/grid-msry-item.hbs");
+		grid.getConfig().setTemplateName("/wclib/hbs/grid-msry-config.hbs");
+		grid.getConfig().setVisible(true);
 		buildItems(grid);
 		return grid;
 	}
@@ -153,6 +152,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	private Grid buildBorderGrid() {
 		Grid grid = new Grid();
 		grid.setHtmlClass("border");
+		grid.setMaxColumns(0);
 
 		WContainer holder = grid.getItemsContainer();
 

@@ -4,7 +4,7 @@
 	grid-gap: 0;
 }
 
-.wcl-grid .item-content { width: 100%; }
+.wcl-grid .item-content2 { width: 100%; }
 
 .wcl-grid.gap-s { grid-gap: 6px; }
 .wcl-grid.gap-m { grid-gap: 12px; }

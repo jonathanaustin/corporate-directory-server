@@ -9,7 +9,6 @@
 	flex-grow: 0;
 	flex-shrink: 1;
 }
-.wcl-flex .item-content { width: 100%; }
 
 .wcl-flex.columns-2 > .item { flex-basis: 50%; }
 .wcl-flex.columns-2 > .item.span-1 { flex-basis: 50%; }

@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import java.util.Map;
 
 /**
  * Grid Item.
@@ -13,6 +14,8 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
  * @author exitxl
  */
 public class GridItem extends WTemplate {
+
+	private final WTemplate config = new WTemplate();
 
 	private final WDiv contentHolder = new WDiv();
 
@@ -22,15 +25,22 @@ public class GridItem extends WTemplate {
 		this(grid, 1);
 	}
 
-	public GridItem(final Grid grid, final int cols) {
-		super("/wclib/hbs/grid-css-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	public GridItem(final Grid grid, final int spans) {
+		super("/wclib/hbs/grid-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		this.grid = grid;
+		addTaggedComponent("config", config);
 		addTaggedComponent("content", contentHolder);
-		setSpans(cols);
+		setSpans(spans);
+		config.setVisible(false);
+		config.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 	}
 
 	public Grid getGrid() {
 		return grid;
+	}
+
+	public WTemplate getConfig() {
+		return config;
 	}
 
 	@Override
@@ -44,7 +54,7 @@ public class GridItem extends WTemplate {
 	}
 
 	public void setSpans(final int spans) {
-		getOrCreateComponentModel().spans = spans < 1 ? 1 : spans;
+		getOrCreateComponentModel().spans = spans < 0 ? 0 : spans;
 	}
 
 	public int getSpans() {
@@ -80,19 +90,31 @@ public class GridItem extends WTemplate {
 		if (grid.getItemEngineName() != null) {
 			setEngineName(grid.getItemEngineName());
 		}
+		if (grid.getItemConfigName() != null) {
+			config.setTemplateName(grid.getItemConfigName());
+			config.setVisible(true);
+		}
 	}
 
 	protected void setupParameters() {
 
 		int spans = getSpans() > grid.getMaxColumns() ? grid.getMaxColumns() : getSpans();
+		String spanClass = spans > 0 ? "span-" + spans : "";
 
 		addParameter("gridId", getGrid().getId());
+		addParameter("spanClass", spanClass);
 		addParameter("spans", spans);
 		addParameter("itemId", getId());
 		addParameter("resize", isResize());
-		addParameter("itemClasses", getHtmlClass());
+		addParameter("htmlClasses", getHtmlClass());
 		addParameter("dropMode", getDropMode());
 		addParameter("dragMode", getDragMode());
+
+		if (config.isVisible()) {
+			for (Map.Entry<String, Object> entry : getParameters().entrySet()) {
+				config.addParameter(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	public void setDragMode(final DragMode mode) {
@@ -137,7 +159,7 @@ public class GridItem extends WTemplate {
 	 */
 	public static class GridItemModel extends TemplateModel {
 
-		private int spans = 1;
+		private int spans;
 
 		private boolean resize;
 

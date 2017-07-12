@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class Grid extends WTemplate {
 
+	private final WTemplate config = new WTemplate();
+
 	private final WContainer itemsContainer = new WContainer() {
 		@Override
 		protected void paintComponent(final RenderContext renderContext) {
@@ -44,8 +46,23 @@ public class Grid extends WTemplate {
 	};
 
 	public Grid() {
-		super("/wclib/hbs/grid-css.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("/wclib/hbs/grid-container.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		addTaggedComponent("config", config);
 		addTaggedComponent("items", itemsContainer);
+		config.setVisible(false);
+		config.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	}
+
+	public WTemplate getConfig() {
+		return config;
+	}
+
+	public void setGridType(final String gridType) {
+		getOrCreateComponentModel().gridType = gridType;
+	}
+
+	public String getGridType() {
+		return getComponentModel().gridType;
 	}
 
 	public int getMaxColumns() {
@@ -53,7 +70,7 @@ public class Grid extends WTemplate {
 	}
 
 	public void setMaxColumns(final int maxColumns) {
-		getOrCreateComponentModel().maxColumns = maxColumns < 1 ? 1 : maxColumns;
+		getOrCreateComponentModel().maxColumns = maxColumns < 0 ? 0 : maxColumns;
 	}
 
 	public List<String> getItemOrderIds() {
@@ -87,6 +104,14 @@ public class Grid extends WTemplate {
 
 	public boolean isResizable() {
 		return getComponentModel().resizable;
+	}
+
+	public void setItemConfigName(final String itemConfigName) {
+		getOrCreateComponentModel().itemConfigName = itemConfigName;
+	}
+
+	public String getItemConfigName() {
+		return getComponentModel().itemConfigName;
 	}
 
 	public void setItemTemplateName(final String itemTemplateName) {
@@ -126,11 +151,22 @@ public class Grid extends WTemplate {
 	}
 
 	protected void setupParameters() {
-		addParameter("gridClasses", getHtmlClass());
+
+		String colsClass = getMaxColumns() > 0 ? "columns-" + getMaxColumns() : "";
+
+		addParameter("gridType", getGridType());
+		addParameter("columnsClass", colsClass);
+		addParameter("htmlClasses", getHtmlClass());
 		addParameter("gridId", getId());
 		addParameter("maxColumns", getMaxColumns());
 		addParameter("draggable", isDraggable());
 		addParameter("resizable", isResizable());
+
+		if (config.isVisible()) {
+			for (Map.Entry<String, Object> entry : getParameters().entrySet()) {
+				config.addParameter(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	@Override
@@ -164,6 +200,10 @@ public class Grid extends WTemplate {
 		private String itemTemplateName;
 
 		private String itemEngineName;
+
+		private String itemConfigName;
+
+		private String gridType = "wcl-grid";
 	}
 
 }
