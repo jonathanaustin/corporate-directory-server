@@ -191,7 +191,7 @@ public class Grid extends WTemplate {
 
 		private List<String> itemOrderIds;
 
-		private int maxColumns = 5;
+		private int maxColumns = 12;
 
 		private boolean draggable;
 

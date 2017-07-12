@@ -6,6 +6,8 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -22,15 +24,10 @@ public class GridItem extends WTemplate {
 	private final Grid grid;
 
 	public GridItem(final Grid grid) {
-		this(grid, 1);
-	}
-
-	public GridItem(final Grid grid, final int spans) {
 		super("/wclib/hbs/grid-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		this.grid = grid;
 		addTaggedComponent("config", config);
 		addTaggedComponent("content", contentHolder);
-		setSpans(spans);
 		config.setVisible(false);
 		config.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 	}
@@ -51,14 +48,6 @@ public class GridItem extends WTemplate {
 
 	public WDiv getContentHolder() {
 		return contentHolder;
-	}
-
-	public void setSpans(final int spans) {
-		getOrCreateComponentModel().spans = spans < 0 ? 0 : spans;
-	}
-
-	public int getSpans() {
-		return getComponentModel().spans;
 	}
 
 	public void resizeItem() {
@@ -98,12 +87,18 @@ public class GridItem extends WTemplate {
 
 	protected void setupParameters() {
 
-		int spans = getSpans() > grid.getMaxColumns() ? grid.getMaxColumns() : getSpans();
-		String spanClass = spans > 0 ? "span-" + spans : "";
+		// Build media size classes
+		int max = grid.getMaxColumns();
+		StringBuilder sizeClasses = new StringBuilder();
+		for (Map.Entry<MediaSize, Integer> entry : getMediaSizes().entrySet()) {
+			int size = entry.getValue() > max ? max : entry.getValue();
+			if (size > 0) {
+				sizeClasses.append(" cols-").append(entry.getKey().toString()).append("-").append(size);
+			}
+		}
 
 		addParameter("gridId", getGrid().getId());
-		addParameter("spanClass", spanClass);
-		addParameter("spans", spans);
+		addParameter("sizeClasses", sizeClasses.toString());
 		addParameter("itemId", getId());
 		addParameter("resize", isResize());
 		addParameter("htmlClasses", getHtmlClass());
@@ -133,6 +128,42 @@ public class GridItem extends WTemplate {
 		return getComponentModel().dropMode;
 	}
 
+	public void addMediaSizes(final int sm, final int lg) {
+		if (sm > 0) {
+			addMediaSize(MediaSize.SM, sm);
+		}
+		if (lg > 0) {
+			addMediaSize(MediaSize.LG, lg);
+		}
+	}
+
+	public void addMediaSize(final MediaSize media, final int size) {
+		GridItemModel model = getOrCreateComponentModel();
+		if (model.mediaSizes == null) {
+			model.mediaSizes = new HashMap<>();
+		}
+		model.mediaSizes.put(media, size);
+	}
+
+	public void removeMediaSize(final MediaSize media) {
+		GridItemModel model = getOrCreateComponentModel();
+		if (model.mediaSizes != null) {
+			model.mediaSizes.remove(media);
+			if (model.mediaSizes.isEmpty()) {
+				model.mediaSizes = null;
+			}
+		}
+	}
+
+	public void clearMediaSizes() {
+		getOrCreateComponentModel().mediaSizes = null;
+	}
+
+	public Map<MediaSize, Integer> getMediaSizes() {
+		Map<MediaSize, Integer> sizes = getComponentModel().mediaSizes;
+		return sizes == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(sizes);
+	}
+
 	@Override
 	protected void afterPaint(final RenderContext renderContext) {
 		super.afterPaint(renderContext);
@@ -159,13 +190,13 @@ public class GridItem extends WTemplate {
 	 */
 	public static class GridItemModel extends TemplateModel {
 
-		private int spans;
-
 		private boolean resize;
 
 		private DragMode dragMode;
 
 		private DropMode dropMode;
+
+		private Map<MediaSize, Integer> mediaSizes;
 	}
 
 }

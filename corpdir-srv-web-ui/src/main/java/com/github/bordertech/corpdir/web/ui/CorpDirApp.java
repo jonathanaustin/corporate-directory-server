@@ -17,6 +17,7 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
+import com.github.bordertech.wcomponents.lib.grid.MediaSize;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.RegisterWcLibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
@@ -85,9 +86,9 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 //		dummy.add(buildFlexGrid());
 //		dummy.add(buildFlexGrid3());
 //		dummy.add(buildCssGridCols12());
-//		dummy.add(buildMasonryGrid());
+		dummy.add(buildMasonryGrid());
 //		dummy.add(buildCssGrid());
-		dummy.add(buildBorderGrid());
+//		dummy.add(buildBorderGrid());
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);
@@ -142,7 +143,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	private Grid buildMasonryGrid() {
 		Grid grid = new Grid();
 		grid.setGridType("wcl-msry");
-		grid.setMaxColumns(12);
 		grid.getConfig().setTemplateName("/wclib/hbs/grid-msry-config.hbs");
 		grid.getConfig().setVisible(true);
 		buildItems(grid);
@@ -203,9 +203,17 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			item.getContentHolder().add(panel);
 
 			if (i % 2 == 0) {
-				item.setSpans(2);
+				item.addMediaSize(MediaSize.XS, 10);
+				item.addMediaSize(MediaSize.SM, 8);
+				item.addMediaSize(MediaSize.MD, 6);
+				item.addMediaSize(MediaSize.LG, 4);
+				item.addMediaSize(MediaSize.XL, 2);
 			} else if (i % 5 == 0) {
-				item.setSpans(5);
+				item.addMediaSize(MediaSize.XS, 9);
+				item.addMediaSize(MediaSize.SM, 7);
+				item.addMediaSize(MediaSize.MD, 5);
+				item.addMediaSize(MediaSize.LG, 3);
+				item.addMediaSize(MediaSize.XL, 1);
 				panel.add(new WText("ITEM A" + i));
 				panel.add(new WText("ITEM B" + i));
 				panel.add(new WText("ITEM C" + i));
