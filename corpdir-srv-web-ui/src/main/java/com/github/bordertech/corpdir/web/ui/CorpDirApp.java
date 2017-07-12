@@ -85,8 +85,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// CSS x5
 //		dummy.add(buildFlexGrid());
 //		dummy.add(buildFlexGrid3());
-//		dummy.add(buildCssGridCols12());
-		dummy.add(buildMasonryGrid());
+		dummy.add(buildCssGridCols12());
+//		dummy.add(buildMasonryGrid());
 //		dummy.add(buildCssGrid());
 //		dummy.add(buildBorderGrid());
 		// Footer
@@ -129,13 +129,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private Grid buildCssGrid() {
 		Grid grid = new Grid();
+		grid.addHtmlClass("gap-lg");
 		buildItems(grid);
 		return grid;
 	}
 
 	private Grid buildCssGridCols12() {
 		Grid grid = new Grid();
-		grid.setMaxColumns(12);
+		grid.addHtmlClass("gap-lg");
 		buildItems(grid);
 		return grid;
 	}
