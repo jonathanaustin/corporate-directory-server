@@ -93,7 +93,8 @@ public class GridItem extends WTemplate {
 		for (Map.Entry<MediaSize, Integer> entry : getMediaSizes().entrySet()) {
 			int size = entry.getValue() > max ? max : entry.getValue();
 			if (size > 0) {
-				sizeClasses.append(" cols-").append(entry.getKey().toString()).append("-").append(size);
+				String media = entry.getKey() == MediaSize.XS ? "" : "-" + entry.getKey().toString();
+				sizeClasses.append(" col").append(media).append("-").append(size);
 			}
 		}
 

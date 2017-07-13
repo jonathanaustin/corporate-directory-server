@@ -85,8 +85,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// CSS x5
 //		dummy.add(buildFlexGrid());
 //		dummy.add(buildFlexGrid3());
-		dummy.add(buildCssGridCols12());
-//		dummy.add(buildMasonryGrid());
+//		dummy.add(buildCssGridCols12());
+		dummy.add(buildMasonryGrid());
 //		dummy.add(buildCssGrid());
 //		dummy.add(buildBorderGrid());
 		// Footer

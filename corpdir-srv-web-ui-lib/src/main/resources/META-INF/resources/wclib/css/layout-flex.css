@@ -10,38 +10,132 @@
 	flex-shrink: 1;
 }
 
-.wcl-flex.columns-2 > .item { flex-basis: 50%; }
-.wcl-flex.columns-2 > .item.span-1 { flex-basis: 50%; }
-.wcl-flex.columns-2 > .item.span-2 { flex-basis: 100%; }
+.wcl-flex.vertical { flex-direction: column; }
+.wcl-flex.vertical.reverse { flex-direction: column-reverse; }
+.wcl-flex.reverse { flex-direction: row-reverse; }
+.wcl-flex.nowrap { flex-wrap: nowrap; }
 
-.wcl-flex.columns-3 > .item { flex-basis: 33.333%; }
-.wcl-flex.columns-3 > .item.span-1 { flex-basis: 33.333%; }
-.wcl-flex.columns-3 > .item.span-2 { flex-basis: 66.666%; }
-.wcl-flex.columns-3 > .item.span-3 { flex-basis: 100%; }
+/** Media queries. */
+/** These styles invoke from XS down to XL (Mobile First) */
 
-.wcl-flex.columns-4 > .item { flex-basis: 25%; }
-.wcl-flex.columns-4 > .item.span-1 { flex-basis: 25%; }
-.wcl-flex.columns-4 > .item.span-2 { flex-basis: 50%; }
-.wcl-flex.columns-4 > .item.span-3 { flex-basis: 75%; }
-.wcl-flex.columns-4 > .item.span-4 { flex-basis: 100%; }
+/** No media query since this is the default */
+/** Extra small devices (portrait phones, less than 576px) */
 
-.wcl-flex.columns-5 > .item { flex-basis: 20%; }
-.wcl-flex.columns-5 > .item.span-1 { flex-basis: 20%; }
-.wcl-flex.columns-5 > .item.span-2 { flex-basis: 40%; }
-.wcl-flex.columns-5 > .item.span-3 { flex-basis: 60%; }
-.wcl-flex.columns-5 > .item.span-4 { flex-basis: 80%; }
-.wcl-flex.columns-5 > .item.span-5 { flex-basis: 100%; }
+.wcl-flex.cols-1 > .item { flex-basis: 100%; }
+.wcl-flex.cols-1 > .item.col-1 { flex-basis: 100%; }
 
-.wcl-flex.columns-12 > .item { flex-basis: 8.333%; }
-.wcl-flex.columns-12 > .item.span-1 { flex-basis: 8.333%; }
-.wcl-flex.columns-12 > .item.span-2 { flex-basis: 16.666%; }
-.wcl-flex.columns-12 > .item.span-3 { flex-basis: 25%; }
-.wcl-flex.columns-12 > .item.span-4 { flex-basis: 33.333%; }
-.wcl-flex.columns-12 > .item.span-5 { flex-basis: 41.666%; }
-.wcl-flex.columns-12 > .item.span-6 { flex-basis: 50%; }
-.wcl-flex.columns-12 > .item.span-7 { flex-basis: 58.333%; }
-.wcl-flex.columns-12 > .item.span-8 { flex-basis: 66.666%; }
-.wcl-flex.columns-12 > .item.span-9 { flex-basis: 75%; }
-.wcl-flex.columns-12 > .item.span-10 { flex-basis: 83.333%; }
-.wcl-flex.columns-12 > .item.span-11 { flex-basis: 91.666%; }
-.wcl-flex.columns-12 > .item.span-12 { flex-basis: 100%; }
+.wcl-flex.cols-2 > .item { flex-basis: 50%; }
+.wcl-flex.cols-2 > .item.col-1 { flex-basis: 50%; }
+.wcl-flex.cols-2 > .item.col-2 { flex-basis: 100%; }
+
+.wcl-flex.cols-3 > .item { flex-basis: 33.333%; }
+.wcl-flex.cols-3 > .item.col-1 { flex-basis: 33.333%; }
+.wcl-flex.cols-3 > .item.col-2 { flex-basis: 66.666%; }
+.wcl-flex.cols-3 > .item.col-3 { flex-basis: 100%; }
+
+.wcl-flex.cols-12 > .item { flex-basis: 8.333%; }
+.wcl-flex.cols-12 > .item.col-1 { flex-basis: 8.333%; }
+.wcl-flex.cols-12 > .item.col-2 { flex-basis: 16.666%; }
+.wcl-flex.cols-12 > .item.col-3 { flex-basis: 25%; }
+.wcl-flex.cols-12 > .item.col-4 { flex-basis: 33.333%; }
+.wcl-flex.cols-12 > .item.col-5 { flex-basis: 41.666%; }
+.wcl-flex.cols-12 > .item.col-6 { flex-basis: 50%; }
+.wcl-flex.cols-12 > .item.col-7 { flex-basis: 58.333%; }
+.wcl-flex.cols-12 > .item.col-8 { flex-basis: 66.666%; }
+.wcl-flex.cols-12 > .item.col-9 { flex-basis: 75%; }
+.wcl-flex.cols-12 > .item.col-10 { flex-basis: 83.333%; }
+.wcl-flex.cols-12 > .item.col-11 { flex-basis: 91.666%; }
+.wcl-flex.cols-12 > .item.col-12 { flex-basis: 100%; }
+
+
+/** Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
+	.wcl-flex.cols-2 > .item.col-sm-1 { flex-basis: 50%; }
+	.wcl-flex.cols-2 > .item.col-sm-2 { flex-basis: 100%; }
+
+	.wcl-flex.cols-3 > .item.col-sm-1 { flex-basis: 33.333%; }
+	.wcl-flex.cols-3 > .item.col-sm-2 { flex-basis: 66.666%; }
+	.wcl-flex.cols-3 > .item.col-sm-3 { flex-basis: 100%; }
+
+	.wcl-flex.cols-12 > .item.col-sm-1 { flex-basis: 8.333%; }
+	.wcl-flex.cols-12 > .item.col-sm-2 { flex-basis: 16.666%; }
+	.wcl-flex.cols-12 > .item.col-sm-3 { flex-basis: 25%; }
+	.wcl-flex.cols-12 > .item.col-sm-4 { flex-basis: 33.333%; }
+	.wcl-flex.cols-12 > .item.col-sm-5 { flex-basis: 41.666%; }
+	.wcl-flex.cols-12 > .item.col-sm-6 { flex-basis: 50%; }
+	.wcl-flex.cols-12 > .item.col-sm-7 { flex-basis: 58.333%; }
+	.wcl-flex.cols-12 > .item.col-sm-8 { flex-basis: 66.666%; }
+	.wcl-flex.cols-12 > .item.col-sm-9 { flex-basis: 75%; }
+	.wcl-flex.cols-12 > .item.col-sm-10 { flex-basis: 83.333%; }
+	.wcl-flex.cols-12 > .item.col-sm-11 { flex-basis: 91.666%; }
+	.wcl-flex.cols-12 > .item.col-sm-12 { flex-basis: 100%; }
+}
+
+/** Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.wcl-flex.cols-2 > .item.col-md-1 { flex-basis: 50%; }
+	.wcl-flex.cols-2 > .item.col-md-2 { flex-basis: 100%; }
+
+	.wcl-flex.cols-3 > .item.col-md-1 { flex-basis: 33.333%; }
+	.wcl-flex.cols-3 > .item.col-md-2 { flex-basis: 66.666%; }
+	.wcl-flex.cols-3 > .item.col-md-3 { flex-basis: 100%; }
+
+	.wcl-flex.cols-12 > .item.col-md-1 { flex-basis: 8.333%; }
+	.wcl-flex.cols-12 > .item.col-md-2 { flex-basis: 16.666%; }
+	.wcl-flex.cols-12 > .item.col-md-3 { flex-basis: 25%; }
+	.wcl-flex.cols-12 > .item.col-md-4 { flex-basis: 33.333%; }
+	.wcl-flex.cols-12 > .item.col-md-5 { flex-basis: 41.666%; }
+	.wcl-flex.cols-12 > .item.col-md-6 { flex-basis: 50%; }
+	.wcl-flex.cols-12 > .item.col-md-7 { flex-basis: 58.333%; }
+	.wcl-flex.cols-12 > .item.col-md-8 { flex-basis: 66.666%; }
+	.wcl-flex.cols-12 > .item.col-md-9 { flex-basis: 75%; }
+	.wcl-flex.cols-12 > .item.col-md-10 { flex-basis: 83.333%; }
+	.wcl-flex.cols-12 > .item.col-md-11 { flex-basis: 91.666%; }
+	.wcl-flex.cols-12 > .item.col-md-12 { flex-basis: 100%; }
+}
+
+/** Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+	.wcl-flex.cols-2 > .item.col-lg-1 { flex-basis: 50%; }
+	.wcl-flex.cols-2 > .item.col-lg-2 { flex-basis: 100%; }
+
+	.wcl-flex.cols-3 > .item.col-lg-1 { flex-basis: 33.333%; }
+	.wcl-flex.cols-3 > .item.col-lg-2 { flex-basis: 66.666%; }
+	.wcl-flex.cols-3 > .item.col-lg-3 { flex-basis: 100%; }
+
+	.wcl-flex.cols-12 > .item.col-lg-1 { flex-basis: 8.333%; }
+	.wcl-flex.cols-12 > .item.col-lg-2 { flex-basis: 16.666%; }
+	.wcl-flex.cols-12 > .item.col-lg-3 { flex-basis: 25%; }
+	.wcl-flex.cols-12 > .item.col-lg-4 { flex-basis: 33.333%; }
+	.wcl-flex.cols-12 > .item.col-lg-5 { flex-basis: 41.666%; }
+	.wcl-flex.cols-12 > .item.col-lg-6 { flex-basis: 50%; }
+	.wcl-flex.cols-12 > .item.col-lg-7 { flex-basis: 58.333%; }
+	.wcl-flex.cols-12 > .item.col-lg-8 { flex-basis: 66.666%; }
+	.wcl-flex.cols-12 > .item.col-lg-9 { flex-basis: 75%; }
+	.wcl-flex.cols-12 > .item.col-lg-10 { flex-basis: 83.333%; }
+	.wcl-flex.cols-12 > .item.col-lg-11 { flex-basis: 91.666%; }
+	.wcl-flex.cols-12 > .item.col-lg-12 { flex-basis: 100%; }
+}
+
+/** Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.wcl-flex.cols-2 > .item.col-xl-1 { flex-basis: 50%; }
+	.wcl-flex.cols-2 > .item.col-xl-2 { flex-basis: 100%; }
+
+	.wcl-flex.cols-3 > .item.col-xl-1 { flex-basis: 33.333%; }
+	.wcl-flex.cols-3 > .item.col-xl-2 { flex-basis: 66.666%; }
+	.wcl-flex.cols-3 > .item.col-xl-3 { flex-basis: 100%; }
+
+	.wcl-flex.cols-12 > .item.col-xl-1 { flex-basis: 8.333%; }
+	.wcl-flex.cols-12 > .item.col-xl-2 { flex-basis: 16.666%; }
+	.wcl-flex.cols-12 > .item.col-xl-3 { flex-basis: 25%; }
+	.wcl-flex.cols-12 > .item.col-xl-4 { flex-basis: 33.333%; }
+	.wcl-flex.cols-12 > .item.col-xl-5 { flex-basis: 41.666%; }
+	.wcl-flex.cols-12 > .item.col-xl-6 { flex-basis: 50%; }
+	.wcl-flex.cols-12 > .item.col-xl-7 { flex-basis: 58.333%; }
+	.wcl-flex.cols-12 > .item.col-xl-8 { flex-basis: 66.666%; }
+	.wcl-flex.cols-12 > .item.col-xl-9 { flex-basis: 75%; }
+	.wcl-flex.cols-12 > .item.col-xl-10 { flex-basis: 83.333%; }
+	.wcl-flex.cols-12 > .item.col-xl-11 { flex-basis: 91.666%; }
+	.wcl-flex.cols-12 > .item.col-xl-12 { flex-basis: 100%; }
+}

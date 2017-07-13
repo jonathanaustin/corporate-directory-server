@@ -152,7 +152,7 @@ public class Grid extends WTemplate {
 
 	protected void setupParameters() {
 
-		String colsClass = getMaxColumns() > 0 ? "columns-" + getMaxColumns() : "";
+		String colsClass = getMaxColumns() > 0 ? "cols-" + getMaxColumns() : "";
 
 		addParameter("gridType", getGridType());
 		addParameter("columnsClass", colsClass);
