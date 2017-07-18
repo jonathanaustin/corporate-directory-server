@@ -94,7 +94,7 @@ public class GridItem extends WTemplate {
 			int size = entry.getValue() > max ? max : entry.getValue();
 			if (size > 0) {
 				String media = entry.getKey() == MediaSize.XS ? "" : "-" + entry.getKey().toString();
-				sizeClasses.append(" col").append(media).append("-").append(size);
+				sizeClasses.append(" wcl-col").append(media).append("-").append(size);
 			}
 		}
 

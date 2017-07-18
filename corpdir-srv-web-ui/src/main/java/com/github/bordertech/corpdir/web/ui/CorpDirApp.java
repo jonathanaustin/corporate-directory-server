@@ -48,7 +48,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Custom css
 		addCssFile("/css/app.css");
 		addCssUrl("wclib/css/layout-flex.css");
-		addCssUrl("wclib/css/layout-multi-col.css");
 		addCssUrl("wclib/css/layout-masonry.css");
 		addCssUrl("wclib/css/layout-grid.css");
 
@@ -83,11 +82,11 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		mgr.add(dummy);
 
 		// CSS x5
-//		dummy.add(buildFlexGrid());
+		dummy.add(buildFlexGrid());
 //		dummy.add(buildFlexGrid3());
 //		dummy.add(buildCssGridCols12());
 		dummy.add(buildMasonryGrid());
-//		dummy.add(buildCssGrid());
+		dummy.add(buildCssGrid());
 //		dummy.add(buildBorderGrid());
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
@@ -129,14 +128,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private Grid buildCssGrid() {
 		Grid grid = new Grid();
-		grid.addHtmlClass("gap-lg");
+		grid.addHtmlClass("wcl-gap-l");
 		buildItems(grid);
 		return grid;
 	}
 
 	private Grid buildCssGridCols12() {
 		Grid grid = new Grid();
-		grid.addHtmlClass("gap-lg");
+		grid.addHtmlClass("wcl-gap-l");
 		buildItems(grid);
 		return grid;
 	}
@@ -152,7 +151,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private Grid buildBorderGrid() {
 		Grid grid = new Grid();
-		grid.setHtmlClass("border");
+		grid.setHtmlClass("wcl-border");
 		grid.setMaxColumns(0);
 
 		WContainer holder = grid.getItemsContainer();
@@ -160,27 +159,27 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// North
 		WPanel panel = new WPanel(WPanel.Type.BOX);
 		panel.add(new WText("NORTH"));
-		panel.setHtmlClass("north");
+		panel.setHtmlClass("wcl-north");
 		holder.add(panel);
 		// South
 		panel = new WPanel(WPanel.Type.BOX);
 		panel.add(new WText("SOUTH"));
-		panel.setHtmlClass("south");
+		panel.setHtmlClass("wcl-south");
 		holder.add(panel);
 		// East
 		panel = new WPanel(WPanel.Type.BOX);
 		panel.add(new WText("EAST"));
-		panel.setHtmlClass("east");
+		panel.setHtmlClass("wcl-east");
 		holder.add(panel);
 		// West
 		panel = new WPanel(WPanel.Type.BOX);
 		panel.add(new WText("WEST"));
-		panel.setHtmlClass("west");
+		panel.setHtmlClass("wcl-west");
 		holder.add(panel);
 		// Center
 		panel = new WPanel(WPanel.Type.BOX);
 		panel.add(new WText("CENTER"));
-		panel.setHtmlClass("center");
+		panel.setHtmlClass("wcl-center");
 		holder.add(panel);
 
 		// Nested
