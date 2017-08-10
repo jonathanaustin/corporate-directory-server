@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.View;
+import com.github.bordertech.wcomponents.lib.flux.View;
 
 /**
  * Entity Criteria View.

@@ -1,13 +1,14 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.wcomponents.lib.app.view.DefaultEntityView;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.lib.app.view.DefaultEntityView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * Basic Detail Form View.
@@ -33,7 +34,8 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 	/**
 	 * Construct basic detail panel.
 	 */
-	public BasicEntityView() {
+	public BasicEntityView(final Dispatcher dispatcher) {
+		super(dispatcher);
 		add(formPanel);
 		add(versionPanel);
 

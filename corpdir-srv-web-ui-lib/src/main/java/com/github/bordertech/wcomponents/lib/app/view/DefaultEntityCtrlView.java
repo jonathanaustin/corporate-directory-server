@@ -10,9 +10,11 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.pub.Event;
-import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 
 /**
@@ -25,14 +27,14 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	private final WMenu actionMenu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", new EntityCtrlEvent.Back()) {
+	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", new EntityCtrlEvent.Edit()) {
+	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -44,7 +46,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", new EntityCtrlEvent.Cancel()) {
+	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityCtrlEvent.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -61,7 +63,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", new EntityCtrlEvent.Refresh()) {
+	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityCtrlEvent.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -74,7 +76,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", new EntityCtrlEvent.Save()) {
+	private final WMenuItem itemSave = new MyMenuItem("Save", EntityCtrlEvent.SAVE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -86,7 +88,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", new EntityCtrlEvent.Delete()) {
+	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityCtrlEvent.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -105,15 +107,11 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	@Override
-	public List<Class<? extends Event>> getPublisherEvents() {
-		return EntityCtrlEvent.EVENTS;
-	}
-
 	/**
 	 * Construct the Menu Bar.
 	 */
-	public DefaultEntityCtrlView() {
+	public DefaultEntityCtrlView(final Dispatcher dispatcher) {
+		super(dispatcher);
 
 		WDiv holder = getViewHolder();
 
@@ -133,7 +131,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			@Override
 			public void execute(final ActionEvent event) {
 				MyMenuItem item = (MyMenuItem) event.getSource();
-				notifySubscribers(item.getItemEvent());
+				dispatchEvent(item.getItemEvent());
 			}
 		};
 
@@ -143,6 +141,10 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			item.setAction(action);
 			ajaxPanel.add(new MyAjaxControl(item));
 		}
+	}
+
+	protected void dispatchEvent(final EventType eventType) {
+		getDispatcher().dispatch(new Event(this, eventType));
 	}
 
 	protected void addTargets(final List<AjaxTarget> targets) {
@@ -212,7 +214,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityViewModel extends ViewModel {
+	public static class EntityViewModel extends DefaultView.ViewModel {
 
 		private EntityMode entityMode = EntityMode.VIEW;
 

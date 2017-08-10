@@ -4,7 +4,8 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.view.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * Abstract entity form view.
@@ -15,6 +16,10 @@ import com.github.bordertech.wcomponents.lib.view.DefaultView;
  * @since 1.0.0
  */
 public class DefaultEntityView<T> extends DefaultView implements EntityView<T> {
+
+	public DefaultEntityView(final Dispatcher dispatcher) {
+		super(dispatcher);
+	}
 
 	/**
 	 * @return the bean being displayed.

@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.pub.Event;
-import com.github.bordertech.wcomponents.lib.view.DefaultView;
-import java.util.List;
+import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
 
 /**
  * Default criteria view.
@@ -14,9 +14,8 @@ import java.util.List;
  */
 public class DefaultCriteriaView<T> extends DefaultView implements CriteriaView<T> {
 
-	@Override
-	public List<Class<? extends Event>> getPublisherEvents() {
-		return CriteriaEvent.EVENTS;
+	public DefaultCriteriaView(final Dispatcher dispatcher) {
+		super(dispatcher);
 	}
 
 	@Override
@@ -29,8 +28,8 @@ public class DefaultCriteriaView<T> extends DefaultView implements CriteriaView<
 	}
 
 	protected void handleCriteriaEvent() {
-		CriteriaEvent event = new CriteriaEvent.Search(getCriteria());
-		notifySubscribers(event);
+		Event event = new Event(this, CriteriaEvent.SEARCH, getCriteria());
+		getDispatcher().dispatch(event);
 	}
 
 	@Override

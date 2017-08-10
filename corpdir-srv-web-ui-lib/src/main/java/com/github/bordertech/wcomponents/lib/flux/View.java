@@ -1,18 +1,16 @@
-package com.github.bordertech.wcomponents.lib.view;
+package com.github.bordertech.wcomponents.lib.flux;
 
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
-import com.github.bordertech.wcomponents.lib.pub.Publisher;
-import com.github.bordertech.wcomponents.lib.pub.Subscriber;
+import com.github.bordertech.wcomponents.lib.WDiv;
 
 /**
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface View extends Publisher, Subscriber, AjaxTarget, SubordinateTarget, BeanBound {
+public interface View extends AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
@@ -25,5 +23,9 @@ public interface View extends Publisher, Subscriber, AjaxTarget, SubordinateTarg
 	 * @param searchAncestors true if search ancestors.
 	 */
 	void setSearchAncestors(final boolean searchAncestors);
+
+	Dispatcher getDispatcher();
+
+	void addEventTarget(final String eventType, final AjaxTarget target);
 
 }

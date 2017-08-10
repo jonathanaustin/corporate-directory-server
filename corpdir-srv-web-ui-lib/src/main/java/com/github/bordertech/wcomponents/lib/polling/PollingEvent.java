@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.wcomponents.lib.pub.Event;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
  * Polling Service View event.
@@ -8,12 +8,8 @@ import com.github.bordertech.wcomponents.lib.pub.Event;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface PollingEvent extends Event {
-
-	PollingEvent STARTED = new PollingEvent() {
-	};
-	PollingEvent ERROR = new PollingEvent() {
-	};
-	PollingEvent COMPLETE = new PollingEvent() {
-	};
+public enum PollingEvent implements EventType {
+	STARTED,
+	ERROR,
+	COMPLETE
 }

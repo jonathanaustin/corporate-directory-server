@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.pub.Event;
-import com.github.bordertech.wcomponents.lib.view.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
 /**
@@ -13,9 +13,8 @@ import java.util.List;
  */
 public class DefaultListView<T> extends DefaultView implements ListView<T> {
 
-	@Override
-	public List<Class<? extends Event>> getPublisherEvents() {
-		return ListEvent.EVENTS;
+	public DefaultListView(final Dispatcher dispatcher) {
+		super(dispatcher);
 	}
 
 	@Override

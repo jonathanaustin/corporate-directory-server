@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.view.View;
+import com.github.bordertech.wcomponents.lib.flux.View;
 
 /**
  * Polling View.

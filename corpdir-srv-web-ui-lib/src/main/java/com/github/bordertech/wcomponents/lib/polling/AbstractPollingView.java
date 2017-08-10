@@ -13,11 +13,13 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.lib.view.DefaultView;
+import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -159,38 +161,44 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 
 	/**
 	 * Default constructor.
+	 *
+	 * @param dispatcher the dispatcher for this view
 	 */
-	public AbstractPollingView() {
-		this(174);
+	public AbstractPollingView(final Dispatcher dispatcher) {
+		this(dispatcher, 174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
+	 * @param dispatcher the dispatcher for this view
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final int delay) {
-		this(null, delay, false);
+	public AbstractPollingView(final Dispatcher dispatcher, final int delay) {
+		this(dispatcher, null, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
+	 * @param dispatcher the dispatcher for this view
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final String context, final int delay) {
-		this(context, delay, false);
+	public AbstractPollingView(final Dispatcher dispatcher, final String context, final int delay) {
+		this(dispatcher, context, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
+	 * @param dispatcher the dispatcher for this view
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public AbstractPollingView(final String context, final int delay, final boolean manualStart) {
+	public AbstractPollingView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
+		super(dispatcher);
 
 		WDiv holder = getViewHolder();
 		root.setSearchAncestors(false);
@@ -496,7 +504,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		pollingContainer.setVisible(true);
 		ajaxPolling.reset();
 		ajaxReload.reset();
-		notifySubscribers(PollingEvent.STARTED);
+		dispatchEvent(new Event(this, PollingEvent.STARTED));
 	}
 
 	/**
@@ -534,7 +542,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPollingStatus(PollingStatus.ERROR);
-			notifySubscribers(PollingEvent.ERROR);
+			dispatchEvent(new Event(this, PollingEvent.ERROR, excp));
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
@@ -542,7 +550,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 			contentResultHolder.setVisible(true);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
-			notifySubscribers(PollingEvent.COMPLETE);
+			dispatchEvent(new Event(this, PollingEvent.COMPLETE, result));
 		}
 	}
 
@@ -691,6 +699,13 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		script.append("window.setTimeout(startStepProgressBar, 1000);");
 		script.append("</script>");
 		return script.toString();
+	}
+
+	/**
+	 * Dispatch the evvent.
+	 */
+	protected void dispatchEvent(final Event event) {
+		getDispatcher().dispatch(event);
 	}
 
 	/**

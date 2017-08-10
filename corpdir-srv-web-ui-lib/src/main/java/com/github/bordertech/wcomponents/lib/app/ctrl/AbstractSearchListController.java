@@ -6,10 +6,7 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListEvent;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.polling.AbstractPollingView;
-import com.github.bordertech.wcomponents.lib.polling.PollingException;
-import com.github.bordertech.wcomponents.lib.polling.PollingView;
-import com.github.bordertech.wcomponents.lib.view.TemplateView;
+import com.github.bordertech.wcomponents.lib.flux.TemplateView;
 import java.util.List;
 
 /**
@@ -21,17 +18,18 @@ public abstract class AbstractSearchListController<S, T> extends TemplateView im
 	private final WMessages messages = new WMessages();
 
 	private final CriteriaView<S> criteriaView;
-	private final PollingView<S, List<T>> pollingView = new AbstractPollingView<S, List<T>>() {
-		@Override
-		public List<T> doPollingAction(final S criteria) throws PollingException {
-			return doSearchServiceCall(criteria);
-		}
-
-	};
+//	private final PollingView<S, List<T>> pollingView = new AbstractPollingView<S, List<T>>(null) {
+//		@Override
+//		public List<T> doPollingAction(final S criteria) throws PollingException {
+//			return doSearchServiceCall(criteria);
+//		}
+//	};
 
 	private final ListView<T> listView;
 
 	public AbstractSearchListController(final CriteriaView<S> criteriaView, final ListView<T> listView) {
+		super(null);
+
 		this.criteriaView = criteriaView;
 		this.listView = listView;
 
@@ -39,7 +37,7 @@ public abstract class AbstractSearchListController<S, T> extends TemplateView im
 
 		holder.addTaggedComponent("msg", messages);
 		holder.addTaggedComponent("cv", criteriaView);
-		holder.addTaggedComponent("pv", pollingView);
+//		holder.addTaggedComponent("pv", pollingView);
 		holder.addTaggedComponent("lv", listView);
 
 //		// Actions
@@ -81,10 +79,9 @@ public abstract class AbstractSearchListController<S, T> extends TemplateView im
 		return criteriaView;
 	}
 
-	public PollingView<S, List<T>> getPollingView() {
-		return pollingView;
-	}
-
+//	public PollingView<S, List<T>> getPollingView() {
+//		return pollingView;
+//	}
 	public ListView<T> getListView() {
 		return listView;
 	}
