@@ -6,7 +6,9 @@ import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.pub.Subscriber;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -37,6 +39,11 @@ public class DefaultView extends WDiv implements View {
 
 	@Override
 	public List<AjaxTarget> getEventTargets(final Class<? extends Event> event) {
+		return Collections.EMPTY_LIST;
+	}
+
+	@Override
+	public List<Class<? extends Event>> getPublisherEvents() {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -75,19 +82,40 @@ public class DefaultView extends WDiv implements View {
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
+			setupSubscriberAjax();
 			initWidget(request);
 			setInitialised(true);
 		}
 	}
 
 	protected void initWidget(final Request request) {
-		for (Subscriber subscriber : getSubscribers()) {
-			wireUpSubscriberAjax(subscriber);
+		// Do Nothing
+	}
+
+	protected void setupSubscriberAjax() {
+		// get subscribers
+		List<Subscriber> subscribers = getSubscribers();
+		if (subscribers == null || subscribers.isEmpty()) {
+			return;
+		}
+
+		// Get the AJAX Targets for each Event from each Subscriber
+		for (Class<? extends Event> event : getPublisherEvents()) {
+			Set<AjaxTarget> targets = new HashSet<>();
+			for (Subscriber subscriber : subscribers) {
+				List<AjaxTarget> subTargets = subscriber.getEventTargets(event);
+				if (subTargets != null && !subTargets.isEmpty()) {
+					targets.addAll(subTargets);
+				}
+			}
+			if (!targets.isEmpty()) {
+				wireUpEventTargets(event, new ArrayList<>(targets));
+			}
 		}
 	}
 
-	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
-		// Do nothing by default
+	protected void wireUpEventTargets(final Class<? extends Event> event, List<AjaxTarget> targets) {
+
 	}
 
 	@Override

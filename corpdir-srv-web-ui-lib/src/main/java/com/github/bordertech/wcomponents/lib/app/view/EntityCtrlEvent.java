@@ -1,6 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.lib.pub.Event;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Entity ctrl events.
@@ -8,18 +11,39 @@ import com.github.bordertech.wcomponents.lib.pub.Event;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface EntityCtrlEvent extends Event {
+public abstract class EntityCtrlEvent implements Event {
 
-	EntityCtrlEvent BACK = new EntityCtrlEvent() {
+	public static final List<Class<? extends Event>> EVENTS;
+
+	static {
+		List<Class<? extends Event>> items = new ArrayList<>();
+		items.add(EntityCtrlEvent.Back.class);
+		items.add(EntityCtrlEvent.Edit.class);
+		items.add(EntityCtrlEvent.Cancel.class);
+		items.add(EntityCtrlEvent.Refresh.class);
+		items.add(EntityCtrlEvent.Delete.class);
+		items.add(EntityCtrlEvent.Save.class);
+		EVENTS = Collections.unmodifiableList(items);
+	}
+
+	protected EntityCtrlEvent() {
+	}
+
+	public static class Back extends EntityCtrlEvent {
 	};
-	EntityCtrlEvent EDIT = new EntityCtrlEvent() {
+
+	public static class Edit extends EntityCtrlEvent {
 	};
-	EntityCtrlEvent CANCEL = new EntityCtrlEvent() {
+
+	public static class Cancel extends EntityCtrlEvent {
 	};
-	EntityCtrlEvent REFRESH = new EntityCtrlEvent() {
+
+	public static class Refresh extends EntityCtrlEvent {
 	};
-	EntityCtrlEvent DELETE = new EntityCtrlEvent() {
+
+	public static class Delete extends EntityCtrlEvent {
 	};
-	EntityCtrlEvent SAVE = new EntityCtrlEvent() {
+
+	public static class Save extends EntityCtrlEvent {
 	};
 }

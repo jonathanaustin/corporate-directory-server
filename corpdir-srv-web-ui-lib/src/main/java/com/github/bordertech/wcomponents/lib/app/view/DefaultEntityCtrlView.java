@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.pub.Subscriber;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.List;
@@ -25,14 +25,14 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	private final WMenu actionMenu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.BACK) {
-//		@Override
-//		public boolean isVisible() {
-//			return hasRegisteredViewAction(getItemEvent());
-//		}
+	private final WMenuItem itemBack = new MyMenuItem("Back", new EntityCtrlEvent.Back()) {
+		@Override
+		public boolean isVisible() {
+			return isUseBack();
+		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.EDIT) {
+	private final WMenuItem itemEdit = new MyMenuItem("Edit", new EntityCtrlEvent.Edit()) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -44,7 +44,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityCtrlEvent.CANCEL) {
+	private final WMenuItem itemCancel = new MyMenuItem("Cancel", new EntityCtrlEvent.Cancel()) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -61,7 +61,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityCtrlEvent.REFRESH) {
+	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", new EntityCtrlEvent.Refresh()) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -74,7 +74,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", EntityCtrlEvent.SAVE) {
+	private final WMenuItem itemSave = new MyMenuItem("Save", new EntityCtrlEvent.Save()) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -86,7 +86,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityCtrlEvent.DELETE) {
+	private final WMenuItem itemDelete = new MyMenuItem("Delete", new EntityCtrlEvent.Delete()) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -104,6 +104,11 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			return true;
 		}
 	};
+
+	@Override
+	public List<Class<? extends Event>> getPublisherEvents() {
+		return EntityCtrlEvent.EVENTS;
+	}
 
 	/**
 	 * Construct the Menu Bar.
@@ -140,21 +145,8 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	}
 
-	@Override
-	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
-//		Set<AjaxTarget> targets = new HashSet<>();
-//		List<AjaxTarget> eventTargets = subscriber.getEventTargets(event)
-//		targets.add(this)
-//		List<AjaxTarget> targets = subscriber.getEventTargets(event);
-//		super.wireUpEventAjax(subscriber); //To change body of generated methods, choose Tools | Templates.
-	}
-	
 	protected void addTargets(final List<AjaxTarget> targets) {
-		if (targets == null || targets.isEmpty()) {
-			return;
-		}
-
-		// Add a target to teach AJAX control
+		// Add a target to each AJAX control
 		for (WComponent child : ajaxPanel.getChildren()) {
 			WAjaxControl ctrl = (WAjaxControl) child;
 			ctrl.addTargets(targets);
@@ -179,6 +171,16 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 	@Override
 	public void setEntityReady(final boolean entityReady) {
 		getOrCreateComponentModel().entityReady = entityReady;
+	}
+
+	@Override
+	public boolean isUseBack() {
+		return getComponentModel().useBack;
+	}
+
+	@Override
+	public void setUseBack(final boolean useBack) {
+		getOrCreateComponentModel().useBack = useBack;
 	}
 
 	@Override
@@ -215,6 +217,8 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		private EntityMode entityMode = EntityMode.VIEW;
 
 		private boolean entityReady;
+
+		private boolean useBack;
 	}
 
 	private static class MyMenuItem extends WMenuItem {

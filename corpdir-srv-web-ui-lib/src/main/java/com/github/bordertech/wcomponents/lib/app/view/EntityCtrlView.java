@@ -19,6 +19,10 @@ public interface EntityCtrlView extends View {
 
 	boolean isEntityReady();
 
+	boolean isUseBack();
+
+	void setUseBack(final boolean useBack);
+
 	void doRefreshViewState();
 
 }

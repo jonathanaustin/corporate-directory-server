@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import java.util.List;
 
@@ -11,6 +12,11 @@ import java.util.List;
  * @since 1.0.0
  */
 public class DefaultListView<T> extends DefaultView implements ListView<T> {
+
+	@Override
+	public List<Class<? extends Event>> getPublisherEvents() {
+		return ListEvent.EVENTS;
+	}
 
 	@Override
 	public void setEntities(final List<T> entities) {

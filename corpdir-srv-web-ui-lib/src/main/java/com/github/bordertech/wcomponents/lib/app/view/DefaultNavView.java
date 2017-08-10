@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.lib.pub.Subscriber;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
 import java.util.List;
@@ -240,6 +240,11 @@ public class DefaultNavView extends DefaultView implements NavView {
 
 	}
 
+	@Override
+	public List<Class<? extends Event>> getPublisherEvents() {
+		return NavEvent.EVENTS;
+	}
+
 	/**
 	 * @return the number of rows
 	 */
@@ -292,14 +297,20 @@ public class DefaultNavView extends DefaultView implements NavView {
 	}
 
 	@Override
-	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
+	protected void wireUpEventTargets(final Class<? extends Event> event, final List<AjaxTarget> targets) {
+		for (AjaxTarget target : targets) {
+			// All the AJAX controls have the same targets, so just check the first ajax control if it has the target already
+			if (!firstAjax.getTargets().contains(target)) {
+				addTarget(target);
+			}
+		}
 	}
 
-	protected void addTargets(final List<AjaxTarget> targets) {
-		firstAjax.addTargets(targets);
-		prevAjax.addTargets(targets);
-		nextAjax.addTargets(targets);
-		lastAjax.addTargets(targets);
+	protected void addTarget(final AjaxTarget target) {
+		firstAjax.addTarget(target);
+		prevAjax.addTarget(target);
+		nextAjax.addTarget(target);
+		lastAjax.addTarget(target);
 	}
 
 	/**
@@ -366,7 +377,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 	protected void doHandleFirst() {
 		setCurrentIdx(0);
 		nextButton.setFocussed();
-		handleIndexChanged(NavEvent.FIRST);
+		handleIndexChanged(new NavEvent.First(0));
 	}
 
 	/**
@@ -379,7 +390,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		if (prevButton.isDisabled()) {
 			nextButton.setFocussed();
 		}
-		handleIndexChanged(NavEvent.PREV);
+		handleIndexChanged(new NavEvent.Prev(idx));
 	}
 
 	/**
@@ -392,7 +403,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		if (nextButton.isDisabled()) {
 			prevButton.setFocussed();
 		}
-		handleIndexChanged(NavEvent.NEXT);
+		handleIndexChanged(new NavEvent.Next(idx));
 	}
 
 	/**
@@ -402,7 +413,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		int idx = getSize() - 1;
 		setCurrentIdx(idx);
 		prevButton.setFocussed();
-		handleIndexChanged(NavEvent.LAST);
+		handleIndexChanged(new NavEvent.Last(idx));
 	}
 
 	/**

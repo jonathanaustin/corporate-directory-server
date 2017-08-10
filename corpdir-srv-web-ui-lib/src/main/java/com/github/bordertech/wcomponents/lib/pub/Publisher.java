@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface Publisher extends Serializable {
 
+	List<Class<? extends Event>> getPublisherEvents();
+
 	List<Subscriber> getSubscribers();
 
 	void addSubscriber(final Subscriber subscriber);

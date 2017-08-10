@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
+import java.util.List;
 
 /**
  * Default criteria view.
@@ -13,12 +15,22 @@ import com.github.bordertech.wcomponents.lib.view.DefaultView;
 public class DefaultCriteriaView<T> extends DefaultView implements CriteriaView<T> {
 
 	@Override
+	public List<Class<? extends Event>> getPublisherEvents() {
+		return CriteriaEvent.EVENTS;
+	}
+
+	@Override
 	public T getCriteria() {
 		return getComponentModel().criteria;
 	}
 
 	protected void setCriteria(final T criteria) {
 		getOrCreateComponentModel().criteria = criteria;
+	}
+
+	protected void handleCriteriaEvent() {
+		CriteriaEvent event = new CriteriaEvent.Search(getCriteria());
+		notifySubscribers(event);
 	}
 
 	@Override
