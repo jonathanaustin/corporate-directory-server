@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.view;
+package com.github.bordertech.wcomponents.lib;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanAndProviderBoundComponentModel;

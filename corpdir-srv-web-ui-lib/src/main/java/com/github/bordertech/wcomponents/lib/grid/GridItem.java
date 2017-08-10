@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.RenderContext;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import java.util.Collections;
 import java.util.HashMap;

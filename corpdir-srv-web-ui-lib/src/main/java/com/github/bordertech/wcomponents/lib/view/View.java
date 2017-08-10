@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.view;
 
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;

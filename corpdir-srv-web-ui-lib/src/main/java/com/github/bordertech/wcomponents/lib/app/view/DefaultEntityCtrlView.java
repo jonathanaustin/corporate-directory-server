@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import java.util.List;
 
 /**

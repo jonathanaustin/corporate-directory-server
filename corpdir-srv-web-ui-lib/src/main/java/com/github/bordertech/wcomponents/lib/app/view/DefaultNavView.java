@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.pub.Event;
 import com.github.bordertech.wcomponents.lib.view.DefaultView;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import java.util.List;
 
 public class DefaultNavView extends DefaultView implements NavView {

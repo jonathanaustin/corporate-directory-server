@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
-import com.github.bordertech.wcomponents.lib.view.WDiv;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
