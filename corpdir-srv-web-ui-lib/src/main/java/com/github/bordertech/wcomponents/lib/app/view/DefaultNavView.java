@@ -14,12 +14,12 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.pub.Subscriber;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
+import java.util.List;
 
-public class DefaultNavView extends DefaultBasicView implements NavView {
+public class DefaultNavView extends DefaultView implements NavView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -240,11 +240,6 @@ public class DefaultNavView extends DefaultBasicView implements NavView {
 
 	}
 
-	@Override
-	public void registerViewAction(final ViewAction<NavView, NavEvent> viewAction, final NavEvent... viewEvent) {
-		addViewAction(viewAction, viewEvent);
-	}
-
 	/**
 	 * @return the number of rows
 	 */
@@ -297,24 +292,14 @@ public class DefaultNavView extends DefaultBasicView implements NavView {
 	}
 
 	@Override
-	public void addEventAjaxTarget(AjaxTarget target, ViewEvent... viewEvent) {
-		// Set AJAX targets
-		firstAjax.addTarget(target);
-		prevAjax.addTarget(target);
-		nextAjax.addTarget(target);
-		lastAjax.addTarget(target);
+	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
 	}
 
-	/**
-	 * Add AJAX target to actions.
-	 *
-	 * @param target AJAX target for action buttons
-	 */
-	public void addAjaxTarget(final AjaxTarget target) {
-		firstAjax.addTarget(target);
-		prevAjax.addTarget(target);
-		nextAjax.addTarget(target);
-		lastAjax.addTarget(target);
+	protected void addTargets(final List<AjaxTarget> targets) {
+		firstAjax.addTargets(targets);
+		prevAjax.addTargets(targets);
+		nextAjax.addTargets(targets);
+		lastAjax.addTargets(targets);
 	}
 
 	/**
@@ -426,7 +411,7 @@ public class DefaultNavView extends DefaultBasicView implements NavView {
 	 * @param navEvent the navigation action that caused the change of index
 	 */
 	protected void handleIndexChanged(final NavEvent navEvent) {
-		executeRegisteredViewActions(navEvent);
+		notifySubscribers(navEvent);
 	}
 
 	/**

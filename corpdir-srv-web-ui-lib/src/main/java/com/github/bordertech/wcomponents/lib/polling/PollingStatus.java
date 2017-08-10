@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.wcomponents.lib.view.ViewMode;
+import java.io.Serializable;
 
 /**
  * Status of the Polling View and if the polling action has been processed successfully.
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewMode;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface PollingStatus extends ViewMode {
+public interface PollingStatus extends Serializable {
 
 	/**
 	 * Polling not started yet.

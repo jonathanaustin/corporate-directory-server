@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 
 /**
  * Default criteria view.
@@ -11,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCriteriaView<T> extends DefaultBasicView implements CriteriaView<T> {
+public class DefaultCriteriaView<T> extends DefaultView implements CriteriaView<T> {
 
 	@Override
 	public T getCriteria() {
@@ -20,11 +19,6 @@ public class DefaultCriteriaView<T> extends DefaultBasicView implements Criteria
 
 	protected void setCriteria(final T criteria) {
 		getOrCreateComponentModel().criteria = criteria;
-	}
-
-	@Override
-	public void registerViewAction(ViewAction<CriteriaView<T>, CriteriaEvent> viewAction, CriteriaEvent... viewEvent) {
-		addViewAction(viewAction, viewEvent);
 	}
 
 	@Override

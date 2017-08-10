@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicView;
+import com.github.bordertech.wcomponents.lib.view.View;
 
 /**
  * Entity form view.
@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.view.BasicView;
  * @since 1.0.0
  *
  */
-public interface EntityView<T> extends BasicView {
+public interface EntityView<T> extends View {
 
 	/**
 	 *

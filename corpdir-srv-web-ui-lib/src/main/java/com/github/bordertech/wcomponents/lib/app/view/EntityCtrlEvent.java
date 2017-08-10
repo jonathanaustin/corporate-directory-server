@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 
 /**
  * Entity ctrl events.
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface EntityCtrlEvent extends ViewEvent {
+public interface EntityCtrlEvent extends Event {
 
 	EntityCtrlEvent BACK = new EntityCtrlEvent() {
 	};

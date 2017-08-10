@@ -3,16 +3,21 @@ package com.github.bordertech.wcomponents.lib.view;
 import com.github.bordertech.wcomponents.WTemplate;
 
 /**
- * View will use a Template to do layout.
+ * AbstraDefault template view.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface TemplateView extends BasicView {
+public class TemplateView extends DefaultView {
 
-	/**
-	 *
-	 * @return the template for the view.
-	 */
-	WTemplate getViewTemplate();
+	private final WTemplate template = new WTemplate();
+
+	public TemplateView() {
+		getViewHolder().add(template);
+	}
+
+	public final WTemplate getViewTemplate() {
+		return template;
+	}
+
 }

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.View;
 
 /**
  * Navigation menu.
@@ -10,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * @since 1.0.0
  *
  */
-public interface NavView extends BasicView {
+public interface NavView extends View {
 
 	int getCurrentIdx();
 
@@ -23,6 +22,4 @@ public interface NavView extends BasicView {
 	boolean isUseSwipe();
 
 	void setUseSwipe(final boolean useSwipe);
-
-	public void registerViewAction(final ViewAction<NavView, NavEvent> viewAction, final NavEvent... viewEvent);
 }

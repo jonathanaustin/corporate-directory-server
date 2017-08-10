@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 
 /**
  * Criteria events.
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface CriteriaEvent extends ViewEvent {
+public interface CriteriaEvent extends Event {
 
 	CriteriaEvent SEARCH = new CriteriaEvent() {
 	};

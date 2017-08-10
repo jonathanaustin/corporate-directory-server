@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.pub.Event;
 
 /**
  * Polling Service View event.
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface PollingEvent extends ViewEvent {
+public interface PollingEvent extends Event {
 
 	PollingEvent STARTED = new PollingEvent() {
 	};

@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import java.util.List;
 
 /**
@@ -11,7 +10,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultListView<T> extends DefaultBasicView implements ListView<T> {
+public class DefaultListView<T> extends DefaultView implements ListView<T> {
 
 	@Override
 	public void setEntities(final List<T> entities) {
@@ -69,11 +68,6 @@ public class DefaultListView<T> extends DefaultBasicView implements ListView<T> 
 		}
 		List<T> items = getEntities();
 		return items.get(idx);
-	}
-
-	@Override
-	public void registerViewAction(final ViewAction<ListView<T>, ListEvent> viewAction, final ListEvent... viewEvent) {
-		addViewAction(viewAction, viewEvent);
 	}
 
 	@Override

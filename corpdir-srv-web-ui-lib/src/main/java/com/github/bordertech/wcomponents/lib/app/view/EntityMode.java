@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.ViewMode;
+import java.io.Serializable;
 
 /**
  * Entity modes.
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewMode;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface EntityMode extends ViewMode {
+public interface EntityMode extends Serializable {
 
 	EntityMode VIEW = new EntityMode() {
 	};

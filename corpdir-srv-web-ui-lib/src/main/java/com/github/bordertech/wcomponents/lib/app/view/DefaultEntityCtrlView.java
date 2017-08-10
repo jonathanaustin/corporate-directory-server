@@ -10,10 +10,10 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
+import com.github.bordertech.wcomponents.lib.pub.Subscriber;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
+import java.util.List;
 
 /**
  * Action menu bar implementation.
@@ -21,15 +21,15 @@ import com.github.bordertech.wcomponents.lib.view.WDiv;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityCtrlView extends DefaultBasicView implements EntityCtrlView {
+public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView {
 
 	private final WMenu actionMenu = new WMenu();
 
 	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.BACK) {
-		@Override
-		public boolean isVisible() {
-			return hasRegisteredViewAction(getItemEvent());
-		}
+//		@Override
+//		public boolean isVisible() {
+//			return hasRegisteredViewAction(getItemEvent());
+//		}
 	};
 
 	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.EDIT) {
@@ -128,7 +128,7 @@ public class DefaultEntityCtrlView extends DefaultBasicView implements EntityCtr
 			@Override
 			public void execute(final ActionEvent event) {
 				MyMenuItem item = (MyMenuItem) event.getSource();
-				executeRegisteredViewActions(item.getItemEvent());
+				notifySubscribers(item.getItemEvent());
 			}
 		};
 
@@ -141,11 +141,23 @@ public class DefaultEntityCtrlView extends DefaultBasicView implements EntityCtr
 	}
 
 	@Override
-	public void addEventAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
+	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
+//		Set<AjaxTarget> targets = new HashSet<>();
+//		List<AjaxTarget> eventTargets = subscriber.getEventTargets(event)
+//		targets.add(this)
+//		List<AjaxTarget> targets = subscriber.getEventTargets(event);
+//		super.wireUpEventAjax(subscriber); //To change body of generated methods, choose Tools | Templates.
+	}
+	
+	protected void addTargets(final List<AjaxTarget> targets) {
+		if (targets == null || targets.isEmpty()) {
+			return;
+		}
+
 		// Add a target to teach AJAX control
 		for (WComponent child : ajaxPanel.getChildren()) {
 			WAjaxControl ctrl = (WAjaxControl) child;
-			ctrl.addTarget(target);
+			ctrl.addTargets(targets);
 		}
 	}
 
@@ -157,11 +169,6 @@ public class DefaultEntityCtrlView extends DefaultBasicView implements EntityCtr
 	@Override
 	public EntityMode getEntityMode() {
 		return getComponentModel().entityMode;
-	}
-
-	@Override
-	public void registerViewAction(final ViewAction<EntityCtrlView, EntityCtrlEvent> viewAction, final EntityCtrlEvent... viewEvent) {
-		addViewAction(viewAction, viewEvent);
 	}
 
 	@Override

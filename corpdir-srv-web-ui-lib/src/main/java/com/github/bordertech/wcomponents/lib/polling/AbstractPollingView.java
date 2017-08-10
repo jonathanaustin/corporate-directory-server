@@ -13,14 +13,11 @@ import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
-import com.github.bordertech.wcomponents.lib.view.ViewEvent;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
-import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,7 +41,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingView<S, T> extends DefaultBasicView implements PollingView<S, T> {
+public abstract class AbstractPollingView<S, T> extends DefaultView implements PollingView<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -266,11 +263,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicView impleme
 		return contentResultHolder;
 	}
 
-	@Override
-	public void registerViewAction(final ViewAction<PollingView<S, T>, PollingEvent> viewAction, final PollingEvent... viewEvent) {
-		addViewAction(viewAction, viewEvent);
-	}
-
 	/**
 	 * @return true if start polling manually with the start button.
 	 */
@@ -453,16 +445,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicView impleme
 	}
 
 	@Override
-	public void addEventAjaxTarget(final AjaxTarget target, final ViewEvent... viewEvent) {
-		super.addEventAjaxTarget(target);
-		PollingPanelModel model = getOrCreateComponentModel();
-		if (model.extraTargets == null) {
-			model.extraTargets = new ArrayList();
-		}
-		model.extraTargets.add(target);
-	}
-
-	@Override
 	protected void initViewContent(final Request request) {
 	}
 
@@ -514,7 +496,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicView impleme
 		pollingContainer.setVisible(true);
 		ajaxPolling.reset();
 		ajaxReload.reset();
-		executeRegisteredViewActions(PollingEvent.STARTED);
+		notifySubscribers(PollingEvent.STARTED);
 	}
 
 	/**
@@ -552,7 +534,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicView impleme
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPollingStatus(PollingStatus.ERROR);
-			executeRegisteredViewActions(PollingEvent.ERROR);
+			notifySubscribers(PollingEvent.ERROR);
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
@@ -560,7 +542,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultBasicView impleme
 			contentResultHolder.setVisible(true);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
-			executeRegisteredViewActions(PollingEvent.COMPLETE);
+			notifySubscribers(PollingEvent.COMPLETE);
 		}
 	}
 

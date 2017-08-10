@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.View;
 
 /**
  * Entity ctrl view.
@@ -10,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.view.ViewAction;
  * @since 1.0.0
  *
  */
-public interface EntityCtrlView extends BasicView {
+public interface EntityCtrlView extends View {
 
 	void setEntityMode(final EntityMode mode);
 
@@ -19,8 +18,6 @@ public interface EntityCtrlView extends BasicView {
 	void setEntityReady(final boolean entityReady);
 
 	boolean isEntityReady();
-
-	void registerViewAction(final ViewAction<EntityCtrlView, EntityCtrlEvent> viewAction, final EntityCtrlEvent... viewEvent);
 
 	void doRefreshViewState();
 

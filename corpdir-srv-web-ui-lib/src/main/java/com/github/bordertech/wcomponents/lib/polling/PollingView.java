@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.view.BasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
 import com.github.bordertech.wcomponents.lib.view.WDiv;
+import com.github.bordertech.wcomponents.lib.view.View;
 
 /**
  * Polling View.
@@ -14,21 +13,13 @@ import com.github.bordertech.wcomponents.lib.view.WDiv;
  * @since 1.0.0
  *
  */
-public interface PollingView<S, T> extends BasicView {
+public interface PollingView<S, T> extends View {
 
 	/**
 	 *
 	 * @return the content result holder.
 	 */
 	WDiv getContentResultHolder();
-
-	/**
-	 * Register an event action.
-	 *
-	 * @param viewAction the view action
-	 * @param viewEvents the view events
-	 */
-	void registerViewAction(final ViewAction<PollingView<S, T>, PollingEvent> viewAction, final PollingEvent... viewEvents);
 
 	/**
 	 * @return the criteria for polling (eg Request or ID for a service call)

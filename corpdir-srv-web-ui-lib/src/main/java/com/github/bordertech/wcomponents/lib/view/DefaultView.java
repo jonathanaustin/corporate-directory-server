@@ -1,8 +1,9 @@
-package com.github.bordertech.wcomponents.lib.pub;
+package com.github.bordertech.wcomponents.lib.view;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.lib.pub.Event;
+import com.github.bordertech.wcomponents.lib.pub.Subscriber;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,15 +13,30 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultWidget extends WPanel implements Widget {
+public class DefaultView extends WDiv implements View {
+
+	private final WDiv holder = new WDiv() {
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			if (!isInitialised()) {
+				initViewContent(request);
+				setInitialised(true);
+			}
+		}
+	};
 
 	@Override
-	public List<Class<? extends Event>> getPublisherEvents() {
-		return Collections.EMPTY_LIST;
+	public final WDiv getViewHolder() {
+		return holder;
+	}
+
+	protected void initViewContent(final Request request) {
+		// Do nothing
 	}
 
 	@Override
-	public List<AjaxTarget> getEventAjaxTargets(final Class<? extends Event> event) {
+	public List<AjaxTarget> getEventTargets(final Class<? extends Event> event) {
 		return Collections.EMPTY_LIST;
 	}
 
@@ -37,7 +53,7 @@ public class DefaultWidget extends WPanel implements Widget {
 
 	@Override
 	public void addSubscriber(final Subscriber subscriber) {
-		WidgetModel model = getOrCreateComponentModel();
+		ViewModel model = getOrCreateComponentModel();
 		if (model.subscribers == null) {
 			model.subscribers = new ArrayList<>();
 		}
@@ -47,7 +63,7 @@ public class DefaultWidget extends WPanel implements Widget {
 	@Override
 	public void removeSubscriber(final Subscriber subscriber) {
 		if (getSubscribers().contains(subscriber)) {
-			WidgetModel model = getOrCreateComponentModel();
+			ViewModel model = getOrCreateComponentModel();
 			model.subscribers.remove(subscriber);
 			if (model.subscribers.isEmpty()) {
 				model.subscribers = null;
@@ -65,57 +81,48 @@ public class DefaultWidget extends WPanel implements Widget {
 	}
 
 	protected void initWidget(final Request request) {
-		setupSubscriberAjaxTargets();
-	}
-
-	protected void setupSubscriberAjaxTargets() {
 		for (Subscriber subscriber : getSubscribers()) {
-			for (Class<? extends Event> event : getPublisherEvents()) {
-				List<AjaxTarget> targets = subscriber.getEventAjaxTargets(event);
-				if (targets != null && !targets.isEmpty()) {
-					wireUpEventAjax(targets, event);
-				}
-			}
-
+			wireUpSubscriberAjax(subscriber);
 		}
 	}
 
-	protected void wireUpEventAjax(final List<AjaxTarget> targets, final Class<? extends Event> eventClass) {
+	protected void wireUpSubscriberAjax(final Subscriber subscriber) {
 		// Do nothing by default
 	}
 
-	protected void notifySubscribers(final Event event) {
+	@Override
+	public void notifySubscribers(final Event event) {
 		for (Subscriber subscriber : getSubscribers()) {
 			subscriber.handleEvent(event);
 		}
 	}
 
 	@Override
-	protected WidgetModel newComponentModel() {
-		return new WidgetModel();
+	protected ViewModel newComponentModel() {
+		return new ViewModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected WidgetModel getComponentModel() {
-		return (WidgetModel) super.getComponentModel();
+	protected ViewModel getComponentModel() {
+		return (ViewModel) super.getComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected WidgetModel getOrCreateComponentModel() {
-		return (WidgetModel) super.getOrCreateComponentModel();
+	protected ViewModel getOrCreateComponentModel() {
+		return (ViewModel) super.getOrCreateComponentModel();
 
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class WidgetModel extends PanelModel {
+	public static class ViewModel extends DivModel {
 
 		private List<Subscriber> subscribers;
 	}

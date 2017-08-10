@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.view.BasicView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.View;
 import java.util.List;
 
 /**
@@ -12,7 +11,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends BasicView {
+public interface ListView<T> extends View {
 
 	void setEntities(final List<T> entities);
 
@@ -31,7 +30,5 @@ public interface ListView<T> extends BasicView {
 	int getSize();
 
 	T getSelected();
-
-	void registerViewAction(final ViewAction<ListView<T>, ListEvent> viewAction, final ListEvent... viewEvent);
 
 }

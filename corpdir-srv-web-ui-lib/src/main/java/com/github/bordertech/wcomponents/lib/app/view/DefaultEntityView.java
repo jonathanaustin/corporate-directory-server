@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
+import com.github.bordertech.wcomponents.lib.view.DefaultView;
 
 /**
  * Abstract entity form view.
@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.view.DefaultBasicView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityView<T> extends DefaultBasicView implements EntityView<T> {
+public class DefaultEntityView<T> extends DefaultView implements EntityView<T> {
 
 	/**
 	 * @return the bean being displayed.

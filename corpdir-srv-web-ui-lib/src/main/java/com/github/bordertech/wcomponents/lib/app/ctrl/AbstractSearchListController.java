@@ -1,26 +1,22 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.view.CriteriaEvent;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListEvent;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.polling.AbstractPollingView;
-import com.github.bordertech.wcomponents.lib.polling.PollingEvent;
 import com.github.bordertech.wcomponents.lib.polling.PollingException;
 import com.github.bordertech.wcomponents.lib.polling.PollingView;
-import com.github.bordertech.wcomponents.lib.view.DefaultTemplateView;
-import com.github.bordertech.wcomponents.lib.view.ViewAction;
+import com.github.bordertech.wcomponents.lib.view.TemplateView;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public abstract class AbstractSearchListController<S, T> extends DefaultTemplateView implements MessageContainer {
+public abstract class AbstractSearchListController<S, T> extends TemplateView implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 
@@ -46,45 +42,39 @@ public abstract class AbstractSearchListController<S, T> extends DefaultTemplate
 		holder.addTaggedComponent("pv", pollingView);
 		holder.addTaggedComponent("lv", listView);
 
-		// Actions
-		// Criteria action
-		criteriaView.registerViewAction(new ViewAction<CriteriaView<S>, CriteriaEvent>() {
-			@Override
-			public void execute(final CriteriaView<S> view, final CriteriaEvent viewEvent) {
-				handleCriteria(view.getCriteria());
-			}
-		}, CriteriaEvent.SEARCH);
-
-		// Polling action
-		pollingView.registerViewAction(new ViewAction<PollingView<S, List<T>>, PollingEvent>() {
-			@Override
-			public void execute(final PollingView<S, List<T>> view, final PollingEvent viewEvent) {
-				handleSearchResult(view.getPollingResult());
-			}
-		}, PollingEvent.COMPLETE);
-		// Selection action
-		listView.registerViewAction(new ViewAction<ListView<T>, ListEvent>() {
-			@Override
-			public void execute(final ListView<T> view, final ListEvent viewEvent) {
-				handleSelection(viewEvent);
-			}
-		}, ListEvent.EDIT);
-
-		// Default visibility
-		pollingView.setVisible(false);
-		listView.setVisible(false);
-
-		// AJAX Targets
-		addDefaultTarget(messages);
-		addDefaultTarget(criteriaView);
-		addDefaultTarget(pollingView);
-		addDefaultTarget(listView);
-	}
-
-	private void addDefaultTarget(final AjaxTarget target) {
-		criteriaView.addEventAjaxTarget(target);
-		pollingView.addEventAjaxTarget(target);
-		listView.addEventAjaxTarget(target);
+//		// Actions
+//		// Criteria action
+//		criteriaView.registerViewAction(new ViewAction<CriteriaView<S>, CriteriaEvent>() {
+//			@Override
+//			public void execute(final CriteriaView<S> view, final CriteriaEvent viewEvent) {
+//				handleCriteria(view.getCriteria());
+//			}
+//		}, CriteriaEvent.SEARCH);
+//
+//		// Polling action
+//		pollingView.registerViewAction(new ViewAction<PollingView<S, List<T>>, PollingEvent>() {
+//			@Override
+//			public void execute(final PollingView<S, List<T>> view, final PollingEvent viewEvent) {
+//				handleSearchResult(view.getPollingResult());
+//			}
+//		}, PollingEvent.COMPLETE);
+//		// Selection action
+//		listView.registerViewAction(new ViewAction<ListView<T>, ListEvent>() {
+//			@Override
+//			public void execute(final ListView<T> view, final ListEvent viewEvent) {
+//				handleSelection(viewEvent);
+//			}
+//		}, ListEvent.EDIT);
+//
+//		// Default visibility
+//		pollingView.setVisible(false);
+//		listView.setVisible(false);
+//
+//		// AJAX Targets
+//		addDefaultTarget(messages);
+//		addDefaultTarget(criteriaView);
+//		addDefaultTarget(pollingView);
+//		addDefaultTarget(listView);
 	}
 
 	public CriteriaView<S> getCriteriaView() {
