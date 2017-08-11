@@ -1,6 +1,8 @@
-package com.github.bordertech.wcomponents.lib.flux;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * AbstraDefault template view.

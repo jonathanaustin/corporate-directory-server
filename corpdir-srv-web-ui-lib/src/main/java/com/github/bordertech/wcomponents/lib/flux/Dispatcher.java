@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.flux;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *
@@ -12,12 +11,14 @@ public interface Dispatcher extends Serializable {
 
 	void dispatch(final Event event);
 
-	List<Listener> getListeners();
+	String register(final Listener listener, final String qualifier);
 
-	List<Listener> getListeners(final EventType eventType);
+	String register(final Listener listener, final EventType eventType);
 
-	void addListener(final Listener listener);
+	String register(final Listener listener, final EventMatcher matcher);
 
-	void removeListener(final Listener listener);
+	void unregister(final String registerId);
+
+	boolean isDispatching();
 
 }

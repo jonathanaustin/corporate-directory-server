@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.flux.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 

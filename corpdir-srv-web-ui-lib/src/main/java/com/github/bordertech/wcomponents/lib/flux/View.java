@@ -20,12 +20,26 @@ public interface View extends AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
+	 * @return the dispatcher for this view.
+	 */
+	Dispatcher getDispatcher();
+
+	/**
+	 * @return the view qualifier (if needed)
+	 */
+	String getQualifier();
+
+	/**
+	 * @param target the AJAX target for an event type
+	 * @param eventType the eventType to add AJAX target to, can be null to add to ALL.
+	 */
+	void addEventTarget(final AjaxTarget target, final EventType... eventType);
+
+	/**
+	 * This method is here until it is added to BeanBound.
+	 *
 	 * @param searchAncestors true if search ancestors.
 	 */
 	void setSearchAncestors(final boolean searchAncestors);
-
-	Dispatcher getDispatcher();
-
-	void addEventTarget(final String eventType, final AjaxTarget target);
 
 }

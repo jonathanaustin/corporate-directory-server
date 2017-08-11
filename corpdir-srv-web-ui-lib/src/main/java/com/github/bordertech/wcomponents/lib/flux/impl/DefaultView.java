@@ -1,8 +1,11 @@
-package com.github.bordertech.wcomponents.lib.flux;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.View;
 
 /**
  *
@@ -12,6 +15,8 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 public class DefaultView extends WDiv implements View {
 
 	private final Dispatcher dispatcher;
+
+	private final String qualifier;
 
 	private final WDiv holder = new WDiv() {
 		@Override
@@ -25,7 +30,12 @@ public class DefaultView extends WDiv implements View {
 	};
 
 	public DefaultView(final Dispatcher dispatcher) {
+		this(dispatcher, null);
+	}
+
+	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
 		this.dispatcher = dispatcher;
+		this.qualifier = qualifier;
 	}
 
 	@Override
@@ -34,7 +44,12 @@ public class DefaultView extends WDiv implements View {
 	}
 
 	@Override
-	public void addEventTarget(final String eventType, final AjaxTarget target) {
+	public String getQualifier() {
+		return qualifier;
+	}
+
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		// Do Nothing
 	}
 
@@ -62,6 +77,9 @@ public class DefaultView extends WDiv implements View {
 		return (ViewModel) super.getOrCreateComponentModel();
 	}
 
+	/**
+	 * Just here as a place holder and easier for other Views to extend.
+	 */
 	public static class ViewModel extends DivModel {
 	}
 

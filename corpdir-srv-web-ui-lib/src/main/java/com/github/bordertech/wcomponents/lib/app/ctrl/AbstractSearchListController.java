@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListEvent;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.TemplateView;
+import com.github.bordertech.wcomponents.lib.flux.impl.TemplateView;
 import java.util.List;
 
 /**
