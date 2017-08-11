@@ -48,7 +48,7 @@ public class DefaultEntityView<T> extends DefaultView implements EntityView<T> {
 
 	@Override
 	public void doRefreshViewState() {
-		doMakeReadOnly(getViewHolder(), isFormReadOnly());
+		doMakeReadOnly(getHolder(), isFormReadOnly());
 	}
 
 	/**

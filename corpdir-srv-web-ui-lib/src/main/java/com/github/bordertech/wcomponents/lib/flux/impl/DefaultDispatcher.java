@@ -30,20 +30,22 @@ public class DefaultDispatcher extends AbstractWComponent implements Dispatcher 
 	public DefaultDispatcher() {
 
 		// Listen for Register Event
-		register(new Listener<RegisterEvent>() {
+		Listener listener = new Listener<RegisterEvent>() {
 			@Override
 			public void handleEvent(final RegisterEvent event) {
 				handleRegister(event.getData());
 			}
-		}, DispatcherEvent.REGISTER);
+		};
+		handleRegister(new ListenerWrapper(new EventMatcher(DispatcherEvent.REGISTER), listener));
 
 		// Listen for Unregister Event
-		register(new Listener<UnRegisterEvent>() {
+		listener = new Listener<UnRegisterEvent>() {
 			@Override
 			public void handleEvent(final UnRegisterEvent event) {
 				handleUnregister(event.getData());
 			}
-		}, DispatcherEvent.UNREGISTER);
+		};
+		handleRegister(new ListenerWrapper(new EventMatcher(DispatcherEvent.UNREGISTER), listener));
 
 	}
 

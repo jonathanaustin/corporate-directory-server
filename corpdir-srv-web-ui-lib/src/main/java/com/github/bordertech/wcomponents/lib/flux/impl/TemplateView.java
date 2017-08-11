@@ -16,7 +16,7 @@ public class TemplateView extends DefaultView {
 
 	public TemplateView(final Dispatcher dispatcher) {
 		super(dispatcher);
-		getViewHolder().add(template);
+		getHolder().add(template);
 	}
 
 	public final WTemplate getViewTemplate() {

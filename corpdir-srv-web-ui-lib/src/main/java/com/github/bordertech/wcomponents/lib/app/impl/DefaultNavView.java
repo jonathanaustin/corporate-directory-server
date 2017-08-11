@@ -148,7 +148,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 	public DefaultNavView(final Dispatcher dispatcher) {
 		super(dispatcher);
 
-		WDiv viewHolder = getViewHolder();
+		WDiv viewHolder = getHolder();
 
 		// Layout
 		WPanel layout = new WPanel();

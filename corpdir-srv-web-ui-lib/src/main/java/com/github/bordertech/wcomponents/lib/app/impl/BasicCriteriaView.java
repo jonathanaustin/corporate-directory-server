@@ -25,7 +25,7 @@ public class BasicCriteriaView extends AbstractCriteriaView<String> {
 	public BasicCriteriaView(final Dispatcher dispatcher) {
 		super(dispatcher);
 
-		WDiv content = getViewHolder();
+		WDiv content = getHolder();
 
 		WFieldLayout layout = new WFieldLayout();
 		content.add(layout);

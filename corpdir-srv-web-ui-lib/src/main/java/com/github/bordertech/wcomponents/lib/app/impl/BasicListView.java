@@ -19,7 +19,7 @@ public class BasicListView<T> extends AbstractListView<T> {
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
 		list.setBeanProperty(".");
-		getViewHolder().add(list);
+		getHolder().add(list);
 	}
 
 	public final WList getList() {

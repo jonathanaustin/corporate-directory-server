@@ -14,12 +14,14 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -200,7 +202,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	public AbstractPollingView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
 		super(dispatcher);
 
-		WDiv holder = getViewHolder();
+		WDiv holder = getHolder();
 		root.setSearchAncestors(false);
 		holder.add(root);
 
@@ -460,6 +462,19 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		return getComponentModel().extraTargets;
 	}
 
+	protected void addAjaxTarget(final AjaxTarget target) {
+		PollingPanelModel model = getOrCreateComponentModel();
+		if (model.extraTargets == null) {
+			model.extraTargets = new ArrayList();
+		}
+		model.extraTargets.add(target);
+	}
+
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		addAjaxTarget(target);
+	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -536,8 +551,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		// Exception message
 		if (pollingResult instanceof Exception) {
 			Exception excp = (Exception) pollingResult;
-			extractExceptionMessages("Error loading data. ", getMessages(), excp);
-			retryButton.setVisible(true);
+			handleExceptionResult(excp);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
@@ -547,11 +561,20 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
-			contentResultHolder.setVisible(true);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
 			dispatchEvent(new Event(this, PollingEvent.COMPLETE, result));
 		}
+	}
+
+	/**
+	 * Handle an exception occurred.
+	 *
+	 * @param excp the exception that occurred
+	 */
+	protected void handleExceptionResult(final Exception excp) {
+		extractExceptionMessages("Error loading data. ", getMessages(), excp);
+		retryButton.setVisible(true);
 	}
 
 	/**
@@ -562,6 +585,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	protected void handleSuccessfulResult(final T result) {
 		// Set the result as the bean
 		root.setBean(result);
+		contentResultHolder.setVisible(true);
 	}
 
 	/**

@@ -18,7 +18,11 @@ public interface BasicView extends View, AjaxTarget, SubordinateTarget, BeanBoun
 	 *
 	 * @return the view content holder.
 	 */
-	WDiv getViewHolder();
+	WDiv getHolder();
+
+	void showHolder();
+
+	void hideHolder();
 
 	/**
 	 * @param target the AJAX target for an event type

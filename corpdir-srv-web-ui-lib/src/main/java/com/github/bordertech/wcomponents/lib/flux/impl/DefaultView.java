@@ -43,12 +43,12 @@ public class DefaultView extends WDiv implements BasicView {
 	}
 
 	@Override
-	public Dispatcher getDispatcher() {
+	public final Dispatcher getDispatcher() {
 		return dispatcher;
 	}
 
 	@Override
-	public String getQualifier() {
+	public final String getQualifier() {
 		return qualifier;
 	}
 
@@ -58,12 +58,27 @@ public class DefaultView extends WDiv implements BasicView {
 	}
 
 	@Override
-	public final WDiv getViewHolder() {
+	public final WDiv getHolder() {
 		return holder;
+	}
+
+	@Override
+	public void showHolder() {
+		holder.setVisible(true);
+	}
+
+	@Override
+	public void hideHolder() {
+		holder.setVisible(false);
 	}
 
 	protected void initViewContent(final Request request) {
 		// Do nothing
+	}
+
+	@Override
+	public boolean isHidden() {
+		return super.isHidden() || !holder.isVisible();
 	}
 
 	@Override

@@ -116,7 +116,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 	public DefaultEntityCtrlView(final Dispatcher dispatcher) {
 		super(dispatcher);
 
-		WDiv holder = getViewHolder();
+		WDiv holder = getHolder();
 
 		holder.add(actionMenu);
 		holder.add(ajaxPanel);
