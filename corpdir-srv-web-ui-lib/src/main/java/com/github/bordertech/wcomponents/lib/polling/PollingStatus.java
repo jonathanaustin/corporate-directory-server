@@ -1,34 +1,27 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import java.io.Serializable;
-
 /**
  * Status of the Polling View and if the polling action has been processed successfully.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface PollingStatus extends Serializable {
-
+public enum PollingStatus {
 	/**
 	 * Polling not started yet.
 	 */
-	PollingStatus NOT_STARTED = new PollingStatus() {
-	};
+	NOT_STARTED,
 	/**
 	 * Polling started.
 	 */
-	PollingStatus STARTED = new PollingStatus() {
-	};
+	STARTED,
 	/**
 	 * Error occurred.
 	 */
-	PollingStatus ERROR = new PollingStatus() {
-	};
+	ERROR,
 	/**
 	 * Polling action completed successfully.
 	 */
-	PollingStatus COMPLETE = new PollingStatus() {
-	};
+	COMPLETE
 
 }

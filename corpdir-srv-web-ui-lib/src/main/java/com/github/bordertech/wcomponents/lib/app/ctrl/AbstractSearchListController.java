@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.app.view.ListEvent;
+import com.github.bordertech.wcomponents.lib.app.event.ListEvent;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.TemplateView;
 import java.util.List;

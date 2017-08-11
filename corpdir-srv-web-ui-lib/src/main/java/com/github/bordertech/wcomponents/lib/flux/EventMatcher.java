@@ -82,15 +82,16 @@ public class EventMatcher implements Serializable {
 	 */
 	public static boolean matches(final EventMatcher matcher, final EventQualifier qualifier) {
 		// Check for straight match
-		if (Objects.equals(matcher.getQualifier(), qualifier.getQualifier()) && Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
+		if (Objects.equals(matcher.getQualifier(), qualifier.getQualifier())
+				&& Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
 			return true;
 		}
-		// If either qualifier is null, check the types are the same
-		if ((matcher.getQualifier() == null || qualifier.getQualifier() == null) && Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
+		// If matcher qualifier is null, check the types are the same
+		if (matcher.getQualifier() == null && Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
 			return true;
 		}
-		// If either eventType is null, check the qualfiers are the same
-		if ((matcher.getEventType() == null || qualifier.getEventType() == null) && Objects.equals(matcher.getQualifier(), qualifier.getQualifier())) {
+		// If matcher eventType is null, check the qualfiers are the same
+		if (matcher.getEventType() == null && Objects.equals(matcher.getQualifier(), qualifier.getQualifier())) {
 			return true;
 		}
 		return false;

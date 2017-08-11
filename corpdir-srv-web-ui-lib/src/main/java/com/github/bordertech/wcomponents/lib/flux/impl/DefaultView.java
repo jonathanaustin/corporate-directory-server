@@ -5,14 +5,13 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.View;
 
 /**
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultView extends WDiv implements View {
+public class DefaultView extends WDiv implements BasicView {
 
 	private final Dispatcher dispatcher;
 

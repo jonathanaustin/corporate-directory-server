@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.flux.impl;
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.DispatcherEvent;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
@@ -25,11 +26,6 @@ import java.util.UUID;
  * @since 1.0.0
  */
 public class DefaultDispatcher extends AbstractWComponent implements Dispatcher {
-
-	enum DispatcherEvent implements EventType {
-		REGISTER,
-		UNREGISTER
-	}
 
 	public DefaultDispatcher() {
 

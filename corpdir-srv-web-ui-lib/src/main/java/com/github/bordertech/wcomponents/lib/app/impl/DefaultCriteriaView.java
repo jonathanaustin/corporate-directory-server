@@ -1,5 +1,7 @@
-package com.github.bordertech.wcomponents.lib.app.view;
+package com.github.bordertech.wcomponents.lib.app.impl;
 
+import com.github.bordertech.wcomponents.lib.app.event.CriteriaEvent;
+import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;

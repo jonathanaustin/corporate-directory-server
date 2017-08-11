@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 
 /**
  * Entity ctrl view.
@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.View;
  * @since 1.0.0
  *
  */
-public interface EntityCtrlView extends View {
+public interface EntityCtrlView extends BasicView {
 
 	void setEntityMode(final EntityMode mode);
 

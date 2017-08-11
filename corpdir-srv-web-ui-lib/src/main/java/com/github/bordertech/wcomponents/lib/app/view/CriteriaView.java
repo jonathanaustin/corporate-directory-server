@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 
 /**
  * Entity Criteria View.
@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.flux.View;
  * @since 1.0.0
  *
  */
-public interface CriteriaView<T> extends View {
+public interface CriteriaView<T> extends BasicView {
 
 	T getCriteria();
 

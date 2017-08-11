@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 
 /**
  * Polling View.
@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.lib.flux.View;
  * @since 1.0.0
  *
  */
-public interface PollingView<S, T> extends View {
+public interface PollingView<S, T> extends BasicView {
 
 	/**
 	 *

@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.app.view.DefaultEntityView;
+import com.github.bordertech.wcomponents.lib.app.impl.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
