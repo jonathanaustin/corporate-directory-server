@@ -17,18 +17,4 @@ public interface ListView<T> extends BasicView {
 
 	List<T> getEntities();
 
-	void setListMode(final ListMode mode);
-
-	ListMode getListMode();
-
-	void clearSelectedIdx();
-
-	void setSelectedIdx(final int idx);
-
-	int getSelectedIdx();
-
-	int getSize();
-
-	T getSelected();
-
 }

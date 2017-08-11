@@ -35,6 +35,11 @@ public class DefaultView extends WDiv implements BasicView {
 	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
 		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
+
+		add(holder);
+
+		setSearchAncestors(false);
+		setBeanProperty(".");
 	}
 
 	@Override

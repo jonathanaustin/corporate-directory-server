@@ -14,7 +14,6 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.EntityCtrlEvent;
 import com.github.bordertech.wcomponents.lib.app.view.EntityCtrlView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
-import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;

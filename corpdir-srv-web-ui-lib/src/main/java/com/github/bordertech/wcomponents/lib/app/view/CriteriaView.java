@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 
 /**
@@ -12,6 +13,6 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  */
 public interface CriteriaView<T> extends BasicView {
 
-	T getCriteria();
+	WButton getSearchButton();
 
 }

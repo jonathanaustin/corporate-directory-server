@@ -2,8 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.view.ListMode;
-import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -13,20 +12,10 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultListView<T> extends DefaultView implements ListView<T> {
+public abstract class AbstractSelectListView<T> extends AbstractListView<T> implements SelectListView<T> {
 
-	public DefaultListView(final Dispatcher dispatcher) {
+	public AbstractSelectListView(final Dispatcher dispatcher) {
 		super(dispatcher);
-	}
-
-	@Override
-	public void setEntities(final List<T> entities) {
-		setBean(entities);
-	}
-
-	@Override
-	public List<T> getEntities() {
-		return (List<T>) getBeanValue();
 	}
 
 	@Override
