@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 
 /**
  * Default list view.
@@ -14,12 +14,12 @@ public class BasicListView<T> extends AbstractListView<T> {
 
 	private final WList list = new WList(WList.Type.STACKED);
 
-	public BasicListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+	public BasicListView(final Controller ctrl) {
+		super(ctrl);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
 		list.setBeanProperty(".");
-		getHolder().add(list);
+		getViewHolder().add(list);
 	}
 
 	public final WList getList() {

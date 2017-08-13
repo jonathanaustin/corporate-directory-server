@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.view.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectListView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import java.util.List;
 
 /**
@@ -14,8 +14,8 @@ import java.util.List;
  */
 public abstract class AbstractSelectListView<T> extends AbstractListView<T> implements SelectListView<T> {
 
-	public AbstractSelectListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+	public AbstractSelectListView(final Controller ctrl) {
+		super(ctrl);
 	}
 
 	@Override

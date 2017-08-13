@@ -15,8 +15,9 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.lib.app.ctrl.BasicCriteriaListCtrl;
+import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
@@ -67,8 +68,10 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Card manager
 		detail.add(mgr);
 
+		DefaultController ctrl = new DefaultController(dispatcher);
+
 		// Cards
-		BasicView view = new BasicCriteriaListCtrl<String>(dispatcher) {
+		BasicView view = new BasicCriteriaListView<String>(ctrl) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
 				List<String> items = new ArrayList<>();

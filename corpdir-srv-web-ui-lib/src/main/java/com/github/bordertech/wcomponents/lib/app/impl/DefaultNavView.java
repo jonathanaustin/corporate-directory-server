@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app.impl;
 
-import com.github.bordertech.wcomponents.lib.app.event.NavEvent;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -16,10 +15,11 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.event.NavEvent;
 import com.github.bordertech.wcomponents.lib.app.view.NavView;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
 public class DefaultNavView extends DefaultView implements NavView {
 
@@ -145,10 +145,10 @@ public class DefaultNavView extends DefaultView implements NavView {
 		}
 	};
 
-	public DefaultNavView(final Dispatcher dispatcher) {
-		super(dispatcher);
+	public DefaultNavView(final Controller ctrl) {
+		super(ctrl);
 
-		WDiv viewHolder = getHolder();
+		WDiv viewHolder = getViewHolder();
 
 		// Layout
 		WPanel layout = new WPanel();

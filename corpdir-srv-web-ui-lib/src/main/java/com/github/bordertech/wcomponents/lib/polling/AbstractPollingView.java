@@ -14,9 +14,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
@@ -164,45 +163,45 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * Default constructor.
 	 *
-	 * @param dispatcher the dispatcher for this view
+	 * @param ctrl the view controller
 	 */
-	public AbstractPollingView(final Dispatcher dispatcher) {
-		this(dispatcher, 174);
+	public AbstractPollingView(final Controller ctrl) {
+		this(ctrl, 174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the dispatcher for this view
+	 * @param ctrl the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final Dispatcher dispatcher, final int delay) {
-		this(dispatcher, null, delay, false);
+	public AbstractPollingView(final Controller ctrl, final int delay) {
+		this(ctrl, null, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the dispatcher for this view
+	 * @param ctrl the view controller
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final Dispatcher dispatcher, final String context, final int delay) {
-		this(dispatcher, context, delay, false);
+	public AbstractPollingView(final Controller ctrl, final String context, final int delay) {
+		this(ctrl, context, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the dispatcher for this view
+	 * @param ctrl the view controller
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public AbstractPollingView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
-		super(dispatcher);
+	public AbstractPollingView(final Controller ctrl, final String context, final int delay, final boolean manualStart) {
+		super(ctrl);
 
-		WDiv holder = getHolder();
+		WDiv holder = getViewHolder();
 		root.setSearchAncestors(false);
 		holder.add(root);
 
@@ -456,6 +455,13 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 
 	@Override
 	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
+		// AJAX Targets
+		for (PollingEvent event : PollingEvent.values()) {
+			for (AjaxTarget eventTarget : getController().getEventTargets(this, event)) {
+				addAjaxTarget(eventTarget);
+			}
+		}
 	}
 
 	protected List<AjaxTarget> getAjaxTargets() {
@@ -467,12 +473,9 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		if (model.extraTargets == null) {
 			model.extraTargets = new ArrayList();
 		}
-		model.extraTargets.add(target);
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		addAjaxTarget(target);
+		if (!model.extraTargets.contains(target)) {
+			model.extraTargets.add(target);
+		}
 	}
 
 	/**

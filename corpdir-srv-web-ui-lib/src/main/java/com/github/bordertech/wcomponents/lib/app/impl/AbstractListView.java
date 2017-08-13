@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.List;
 
@@ -13,8 +13,8 @@ import java.util.List;
  */
 public abstract class AbstractListView<T> extends DefaultView implements ListView<T> {
 
-	public AbstractListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+	public AbstractListView(final Controller ctrl) {
+		super(ctrl);
 	}
 
 	@Override

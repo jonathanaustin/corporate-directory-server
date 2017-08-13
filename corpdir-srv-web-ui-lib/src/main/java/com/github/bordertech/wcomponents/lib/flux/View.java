@@ -20,4 +20,10 @@ public interface View extends Serializable {
 	 */
 	String getQualifier();
 
+	/**
+	 *
+	 * @return the view controller
+	 */
+	Controller getController();
+
 }

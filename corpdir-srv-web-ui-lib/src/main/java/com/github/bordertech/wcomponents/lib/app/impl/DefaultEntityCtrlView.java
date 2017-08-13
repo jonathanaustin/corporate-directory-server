@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.EntityCtrlEvent;
 import com.github.bordertech.wcomponents.lib.app.view.EntityCtrlView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -113,10 +113,10 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 	/**
 	 * Construct the Menu Bar.
 	 */
-	public DefaultEntityCtrlView(final Dispatcher dispatcher) {
-		super(dispatcher);
+	public DefaultEntityCtrlView(final Controller ctrl) {
+		super(ctrl);
 
-		WDiv holder = getHolder();
+		WDiv holder = getViewHolder();
 
 		holder.add(actionMenu);
 		holder.add(ajaxPanel);

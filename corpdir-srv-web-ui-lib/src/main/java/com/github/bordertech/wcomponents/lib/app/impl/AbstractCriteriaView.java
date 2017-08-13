@@ -1,15 +1,13 @@
 package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.app.event.CriteriaEvent;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
@@ -27,18 +25,16 @@ public abstract class AbstractCriteriaView<T> extends DefaultView implements Cri
 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
-	public AbstractCriteriaView(final Dispatcher dispatcher) {
-		super(dispatcher);
-		searchButton.setAction(new ValidatingAction(WMessages.getInstance(this).getValidationErrors(), getHolder()) {
+	public AbstractCriteriaView(final Controller ctrl) {
+		super(ctrl);
+		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getViewHolder()) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				doDispatchSearchEvent();
 			}
 		});
 
-		getHolder().add(ajax);
-		ajax.addTarget(getHolder());
-
+		getViewHolder().add(ajax);
 	}
 
 	@Override
@@ -53,8 +49,11 @@ public abstract class AbstractCriteriaView<T> extends DefaultView implements Cri
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		ajax.addTarget(target);
+	protected void initViewContent(Request request) {
+		super.initViewContent(request);
+		for (CriteriaEvent event : CriteriaEvent.values()) {
+			addEventTargetsToAjaxCtrl(ajax, getController().getEventTargets(this, event));
+		}
 	}
 
 	protected abstract T setupCriteria();

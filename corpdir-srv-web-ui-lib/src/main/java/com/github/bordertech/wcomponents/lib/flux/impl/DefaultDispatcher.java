@@ -230,21 +230,36 @@ public class DefaultDispatcher extends AbstractWComponent implements Dispatcher 
 		return new DispatcherModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DispatcherModel getComponentModel() {
 		return (DispatcherModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected DispatcherModel getOrCreateComponentModel() {
 		return (DispatcherModel) super.getOrCreateComponentModel();
+	}
 
+	/**
+	 * Holds the extrinsic state information of the edit view.
+	 */
+	public static class DispatcherModel extends ComponentModel {
+
+		// Listeners that have EventType and Qualifier
+		private Map<EventMatcher, List<ListenerWrapper>> listenersByMatcher;
+
+		// Listeners that only have a match to EventType
+		private Map<EventType, List<ListenerWrapper>> listenersByType;
+
+		// Listeners that only match to the qualifier
+		private Map<String, List<ListenerWrapper>> listenersByQualifiers;
+
+		// Listeners by ID
+		private Map<String, ListenerWrapper> listenersById;
+
+		private Queue<Event> queuedEvents;
+
+		private boolean dispatching;
 	}
 
 	public static class ListenerWrapper implements Serializable {
@@ -279,28 +294,6 @@ public class DefaultDispatcher extends AbstractWComponent implements Dispatcher 
 		public boolean equals(final Object obj) {
 			return obj instanceof ListenerWrapper && Objects.equals(((ListenerWrapper) obj).registerId, registerId);
 		}
-	}
-
-	/**
-	 * Holds the extrinsic state information of the edit view.
-	 */
-	public static class DispatcherModel extends ComponentModel {
-
-		// Listeners that have EventType and Qualifier
-		private Map<EventMatcher, List<ListenerWrapper>> listenersByMatcher;
-
-		// Listeners that only have a match to EventType
-		private Map<EventType, List<ListenerWrapper>> listenersByType;
-
-		// Listeners that only match to the qualifier
-		private Map<String, List<ListenerWrapper>> listenersByQualifiers;
-
-		// Listeners by ID
-		private Map<String, ListenerWrapper> listenersById;
-
-		private Queue<Event> queuedEvents;
-
-		private boolean dispatching;
 	}
 
 	public static class RegisterEvent extends Event<ListenerWrapper> {
