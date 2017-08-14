@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.View;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.polling.PollingEvent;
-import com.github.bordertech.wcomponents.lib.polling.PollingView;
+import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +68,7 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 
 	protected void configViews() {
 
-		PollingView pollingView = getPollingView();
+		PollingServiceView pollingView = getPollingView();
 		ListView listView = getListView();
 
 		// Hide view contents
@@ -93,11 +93,11 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 		getOrCreateComponentModel().criteriaView = criteriaView;
 	}
 
-	public final PollingView<S, List<T>> getPollingView() {
+	public final PollingServiceView<S, List<T>> getPollingView() {
 		return getComponentModel().pollingView;
 	}
 
-	public final void setPollingView(final PollingView<S, List<T>> pollingView) {
+	public final void setPollingView(final PollingServiceView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 	}
 
@@ -110,26 +110,26 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 	}
 
 	protected void handleSearchEvent(final S criteria) {
-		PollingView pollingView = getPollingView();
-		ListView listView = getListView();
+		PollingServiceView pollingView = getPollingView();
 		pollingView.reset();
-		listView.reset();
 		pollingView.setPollingCriteria(criteria);
 		pollingView.makeHolderVisible();
+		ListView listView = getListView();
+		listView.reset();
+		listView.makeHolderInvisible();
 	}
 
 	protected void handleSearchFailedEvent(final Exception excp) {
-		ListView listView = getListView();
-		listView.reset();
+		getPollingView().makeHolderInvisible();
 		getViewMessages().error(excp.getMessage());
 	}
 
 	protected void handleSearchCompleteEvent(final List<T> result) {
-		ListView listView = getListView();
-		listView.reset();
+		getPollingView().makeHolderInvisible();
 		if (result == null || result.isEmpty()) {
 			getViewMessages().info("No records found");
 		} else {
+			ListView listView = getListView();
 			listView.setEntities(result);
 			listView.makeHolderVisible();
 		}
@@ -157,7 +157,7 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 
 		private CriteriaView<S> criteriaView;
 
-		private PollingView<S, List<T>> pollingView;
+		private PollingServiceView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
 	}

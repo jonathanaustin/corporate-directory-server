@@ -22,6 +22,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
 import com.github.bordertech.wcomponents.lib.grid.MediaSize;
+import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,17 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		BasicView view = new BasicCriteriaListView<String>(ctrl) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
+				if ("error".equals(criteria)) {
+					throw new SystemException("Big error");
+				}
+				try {
+					Thread.sleep(3000);
+				} catch (Exception e) {
+
+				}
+				if ("error2".equals(criteria)) {
+					throw new SystemException("Big error2");
+				}
 				List<String> items = new ArrayList<>();
 				items.add("A1");
 				items.add("A2");

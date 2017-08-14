@@ -8,9 +8,8 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.polling.AbstractPollingView;
+import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import com.github.bordertech.wcomponents.lib.polling.PollingException;
-import com.github.bordertech.wcomponents.lib.polling.PollingView;
 import java.util.List;
 
 /**
@@ -29,20 +28,10 @@ public abstract class BasicCriteriaListView<T> extends DefaultView implements Me
 		CriteriaView criteriaView = new BasicCriteriaView(viewCtrl);
 		ListView listView = new BasicListView(viewCtrl);
 
-		PollingView pollingView = new AbstractPollingView<String, List<T>>(viewCtrl) {
+		PollingServiceView pollingView = new PollingServiceView<String, List<T>>(viewCtrl) {
 			@Override
-			public List<T> doPollingAction(final String criteria) throws PollingException {
+			public List<T> doPollingServiceAction(final String criteria) throws PollingException {
 				return doSearchServiceCall(criteria);
-			}
-
-			@Override
-			protected void handleExceptionResult(final Exception excp) {
-				// Do Nothing
-			}
-
-			@Override
-			protected void handleSuccessfulResult(final List<T> result) {
-				// Do Nothing
 			}
 		};
 

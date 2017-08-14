@@ -2,26 +2,17 @@ package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxHelper;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WProgressBar;
-import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -44,12 +35,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractPollingView<S, T> extends DefaultView implements PollingView<S, T> {
+public abstract class PollingServiceView<S, T> extends PollingView {
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(AbstractPollingView.class);
+	private static final Log LOG = LogFactory.getLog(PollingServiceView.class);
 
 	/**
 	 * The TaskManager implementation.
@@ -60,26 +51,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * Start polling manually button.
 	 */
 	private final WButton startButton = new WButton("Start");
-
-	/**
-	 * Root container that can be reset to refresh the panel.
-	 */
-	private final WContainer root = new WContainer() {
-		/**
-		 * {@inheritDoc}
-		 */
-		@Override
-		protected void preparePaintComponent(final Request request) {
-			super.preparePaintComponent(request);
-			if (!isInitialised()) {
-				if (!isManualStart()) {
-					startButton.setVisible(false);
-					doStartLoading();
-				}
-				setInitialised(true);
-			}
-		}
-	};
 
 	private final WDiv contentResultHolder = new WDiv() {
 		@Override
@@ -103,69 +74,11 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	private final WButton retryButton = new WButton("Retry");
 
 	/**
-	 * The container that holds the AJAX poller.
-	 */
-	private final WContainer pollingContainer = new WContainer();
-
-	private final WText pollingText = new WText() {
-		@Override
-		public String getText() {
-			return getPollingText();
-		}
-	};
-
-	private final WProgressBar pollingProgressBar = new WProgressBar(100);
-
-	private final WText progressBarScript = new WText() {
-		@Override
-		protected void preparePaintComponent(final Request request) {
-			if (!isInitialised()) {
-				setText(buildProgressBarScript());
-				setInitialised(true);
-			}
-		}
-	};
-
-	/**
-	 * The container that holds the AJAX poller.
-	 */
-	private final WPanel ajaxPollingPanel = new WPanel() {
-		@Override
-		public boolean isHidden() {
-			return true;
-		}
-	};
-
-	/**
-	 * AJAX poller.
-	 */
-	private final WAjaxControl ajaxPolling = new WAjaxControl(null, ajaxPollingPanel) {
-		@Override
-		public int getDelay() {
-			return getPollingInterval();
-		}
-	};
-
-	/**
-	 * AJAX control to reload whole panel.
-	 */
-	private final WAjaxControl ajaxReload = new WAjaxControl(null, this) {
-		@Override
-		protected void preparePaintComponent(final Request request) {
-			super.preparePaintComponent(request);
-			// Reloading
-			if (AjaxHelper.isCurrentAjaxTrigger(this)) {
-				handleStoppedPolling();
-			}
-		}
-	};
-
-	/**
 	 * Default constructor.
 	 *
 	 * @param ctrl the view controller
 	 */
-	public AbstractPollingView(final BasicController ctrl) {
+	public PollingServiceView(final BasicController ctrl) {
 		this(ctrl, 174);
 	}
 
@@ -175,7 +88,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param ctrl the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final BasicController ctrl, final int delay) {
+	public PollingServiceView(final BasicController ctrl, final int delay) {
 		this(ctrl, null, delay, false);
 	}
 
@@ -186,7 +99,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final BasicController ctrl, final String context, final int delay) {
+	public PollingServiceView(final BasicController ctrl, final String context, final int delay) {
 		this(ctrl, context, delay, false);
 	}
 
@@ -198,37 +111,18 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public AbstractPollingView(final BasicController ctrl, final String context, final int delay, final boolean manualStart) {
-		super(ctrl);
+	public PollingServiceView(final BasicController ctrl, final String context, final int delay, final boolean manualStart) {
+		super(ctrl, delay);
 
 		WDiv holder = getViewHolder();
-		root.setSearchAncestors(false);
-		holder.add(root);
-
-		// AJAX polling details
-		setPollingInterval(delay);
-		ajaxPolling.setLoadOnce(true);
-		ajaxReload.setLoadOnce(true);
-		ajaxReload.setDelay(10);
-		progressBarScript.setEncodeText(false);
-
-		// AJAX Container
-		root.add(pollingContainer);
-		pollingContainer.add(pollingText);
-		pollingContainer.add(pollingProgressBar);
-		pollingContainer.add(progressBarScript);
-		pollingContainer.add(ajaxPollingPanel);
-		ajaxPollingPanel.add(ajaxPolling);
-		ajaxPollingPanel.add(ajaxReload);
 
 		messages.setMargin(new Margin(0, 0, 3, 0));
-		root.add(messages);
-		root.add(retryButton);
-		root.add(contentResultHolder);
+		holder.add(messages);
+		holder.add(retryButton);
+		holder.add(contentResultHolder);
 
 		// Manual Start load
 		startButton.setAjaxTarget(this);
-
 		startButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -248,26 +142,16 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 
 		// Set default visibility
 		retryButton.setVisible(false);
-		pollingContainer.setVisible(false);
 		contentResultHolder.setVisible(false);
-		ajaxReload.setVisible(false);
 
 		// Context
 		if (context != null) {
 			setIdName(context);
 			setNamingContext(true);
-			// IDs
-			messages.setIdName("msgs");
-			retryButton.setIdName("btnRetry");
-			ajaxPollingPanel.setIdName("pollingPanel");
-			ajaxPolling.setIdName("ajaxPoll");
-			ajaxReload.setIdName("ajaxReload");
-			startButton.setIdName("btnStart");
 		}
 
 	}
 
-	@Override
 	public final WDiv getContentResultHolder() {
 		return contentResultHolder;
 	}
@@ -275,7 +159,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * @return true if start polling manually with the start button.
 	 */
-	@Override
 	public boolean isManualStart() {
 		return getComponentModel().manualStart;
 	}
@@ -284,48 +167,13 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 *
 	 * @param manualStart true if start polling manually with the start button
 	 */
-	@Override
 	public void setManualStart(final boolean manualStart) {
 		getOrCreateComponentModel().manualStart = manualStart;
 	}
 
 	/**
-	 * @return the AJAX polling interval in milli seconds
-	 */
-	@Override
-	public int getPollingInterval() {
-		return getComponentModel().pollingInterval;
-	}
-
-	/**
-	 *
-	 * @param interval the AJAX polling interval in milli seconds
-	 */
-	@Override
-	public final void setPollingInterval(final int interval) {
-		getOrCreateComponentModel().pollingInterval = interval;
-	}
-
-	/**
-	 * @param text the text displayed while polling
-	 */
-	@Override
-	public void setPollingText(final String text) {
-		getOrCreateComponentModel().pollingText = text;
-	}
-
-	/**
-	 * @return the text displayed while polling
-	 */
-	@Override
-	public String getPollingText() {
-		return getComponentModel().pollingText;
-	}
-
-	/**
 	 * @param criteria the id for the record
 	 */
-	@Override
 	public void setPollingCriteria(final S criteria) {
 		getOrCreateComponentModel().criteria = criteria;
 	}
@@ -333,7 +181,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * @return the id for the record
 	 */
-	@Override
 	public S getPollingCriteria() {
 		return getComponentModel().criteria;
 	}
@@ -357,24 +204,8 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	}
 
 	/**
-	 * @param panelStatus the panel status
-	 */
-	protected void setPollingStatus(final PollingStatus panelStatus) {
-		getOrCreateComponentModel().pollingStatus = panelStatus;
-	}
-
-	/**
-	 * @return the panel status
-	 */
-	@Override
-	public PollingStatus getPollingStatus() {
-		return getComponentModel().pollingStatus;
-	}
-
-	/**
 	 * @return the retry button.
 	 */
-	@Override
 	public WButton getRetryButton() {
 		return retryButton;
 	}
@@ -382,7 +213,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * @return the start button
 	 */
-	@Override
 	public WButton getStartButton() {
 		return startButton;
 	}
@@ -390,15 +220,13 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * @return the polling result, or null if not processed successfully yet
 	 */
-	@Override
 	public T getPollingResult() {
-		return (T) root.getBean();
+		return (T) getViewHolder().getBean();
 	}
 
 	/**
 	 * Start loading data.
 	 */
-	@Override
 	public void doStartLoading() {
 
 		// Check not started
@@ -419,7 +247,6 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * Retry the polling action.
 	 */
-	@Override
 	public void doRetry() {
 		doRefreshContent();
 		if (isManualStart()) {
@@ -430,24 +257,22 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	/**
 	 * Reset to start load again.
 	 */
-	@Override
 	public void doRefreshContent() {
 		S criteria = getPollingCriteria();
 		if (criteria == null) {
 			return;
 		}
 		handleClearPollingCache();
-		root.reset();
+		getViewHolder().reset();
 		setPollingStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
 
-	@Override
 	public void doManuallyLoadResult(final S criteria, final T result) {
 		if (result == null || criteria == null) {
 			return;
 		}
-		root.reset();
+		getViewHolder().reset();
 		startButton.setVisible(false);
 		setPollingCriteria(criteria);
 		handleResult(result);
@@ -462,31 +287,9 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 				addAjaxTarget(eventTarget);
 			}
 		}
-	}
-
-	protected List<AjaxTarget> getAjaxTargets() {
-		return getComponentModel().extraTargets;
-	}
-
-	protected void addAjaxTarget(final AjaxTarget target) {
-		PollingPanelModel model = getOrCreateComponentModel();
-		if (model.extraTargets == null) {
-			model.extraTargets = new ArrayList();
-		}
-		if (!model.extraTargets.contains(target)) {
-			model.extraTargets.add(target);
-		}
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		// Check if Polling
-		if (isPollingTarget()) {
-			checkForResult();
+		if (!isManualStart()) {
+			startButton.setVisible(false);
+			doStartLoading();
 		}
 	}
 
@@ -510,39 +313,33 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		}
 
 		// Start polling
-		handleStartPolling();
+		doStartPolling();
 	}
 
 	/**
-	 * Start polling.
+	 * Stopped polling and view has been reloaded.
 	 */
-	protected void handleStartPolling() {
-		// Start AJAX polling
-		setPollingStatus(PollingStatus.STARTED);
-		pollingContainer.setVisible(true);
-		ajaxPolling.reset();
-		ajaxReload.reset();
-		dispatchEvent(new Event(this, PollingEvent.STARTED));
-	}
-
-	/**
-	 * Stop polling.
-	 */
-	protected void handleStopPolling() {
-		ajaxPolling.setVisible(false);
-		ajaxReload.setVisible(true);
-		List<AjaxTarget> targets = getAjaxTargets();
-		if (targets != null && !targets.isEmpty()) {
-			ajaxReload.addTargets(targets);
-		}
-	}
-
-	/**
-	 * Stopped polling and panel has been reloaded.
-	 */
+	@Override
 	protected void handleStoppedPolling() {
-		// Stopped polling
-		pollingContainer.setVisible(false);
+		// Get the Future for the polling action
+		TaskFuture<PollingResultHolder> future = getFuture();
+		if (future == null) {
+			// Stop polling as future must have expired
+			handleResult(new PollingException("Future has expired so polling result not available"));
+			return;
+		}
+
+		// Extract the result from the future
+		Object result;
+		try {
+			PollingResultHolder holder = future.get();
+			result = holder.getResult();
+		} catch (Exception e) {
+			result = e;
+		}
+		// Clear future
+		clearFuture();
+		handleResult(result);
 	}
 
 	/**
@@ -587,7 +384,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 */
 	protected void handleSuccessfulResult(final T result) {
 		// Set the result as the bean
-		root.setBean(result);
+		getViewHolder().setBean(result);
 		contentResultHolder.setVisible(true);
 	}
 
@@ -603,51 +400,15 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	}
 
 	/**
-	 * @return true if polling and is the current AJAX trigger.
-	 */
-	protected boolean isPollingTarget() {
-		return isPolling() && AjaxHelper.isCurrentAjaxTrigger(ajaxPolling);
-	}
-
-	/**
-	 * @return true if currently polling
-	 */
-	protected boolean isPolling() {
-		return pollingContainer.isVisible();
-	}
-
-	/**
 	 * Check the future holds the result.
+	 *
+	 * @return true if have result and need to stop polling
 	 */
-	protected void checkForResult() {
-
-		// Get the Future for the polling action
+	@Override
+	protected boolean checkForStopPolling() {
+		// Stop polling if future null (must have expired) or is done
 		TaskFuture<PollingResultHolder> future = getFuture();
-		if (future == null) {
-			// Stop polling as future must have expired
-			handleResult(new PollingException("Future has expired so polling result not available"));
-			handleStopPolling();
-			return;
-		}
-
-		// Check if finished processing
-		if (!future.isDone()) {
-			return;
-		}
-
-		// Extract the result from the future
-		Object result;
-		try {
-			PollingResultHolder holder = future.get();
-			result = holder.getResult();
-		} catch (Exception e) {
-			result = e;
-		}
-		// Clear future
-		clearFuture();
-		handleResult(result);
-		// Stop polling
-		handleStopPolling();
+		return future == null || future.isDone();
 	}
 
 	/**
@@ -665,7 +426,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 			@Override
 			public void run() {
 				try {
-					T resp = doPollingAction(criteria);
+					T resp = doPollingServiceAction(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
 					PollingException excp = new PollingException(e.getMessage(), e);
@@ -710,53 +471,40 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	}
 
 	/**
-	 * @return the script to step the progress bar
+	 * Do the actual polling action (eg Service call).
+	 * <p>
+	 * As this method is called by a different thread, do not put any logic or functionality that needs the user
+	 * context.
+	 * </p>
+	 *
+	 * @param criteria the criteria for the polling action
+	 * @return the polling result
+	 * @throws PollingException a service exception occurred
 	 */
-	protected String buildProgressBarScript() {
-		StringBuilder script = new StringBuilder();
-		script.append("<script type='text/javascript'>");
-		script.append("function startStepProgressBar() {");
-		script.append("  var elem = document.getElementById('").append(pollingProgressBar.getId()).append("');");
-		script.append("  window.setInterval(stepProgressBar, 250, elem);");
-		script.append("}");
-		script.append("function stepProgressBar(bar) {");
-		script.append("   if (bar.value > 99) { bar.value = 0; }");
-		script.append("   bar.value++;");
-		script.append("}");
-		script.append("window.setTimeout(startStepProgressBar, 1000);");
-		script.append("</script>");
-		return script.toString();
-	}
+	public abstract T doPollingServiceAction(final S criteria) throws PollingException;
 
 	/**
-	 * Dispatch the evvent.
+	 * {@inheritDoc}
 	 */
-	protected void dispatchEvent(final Event event) {
-		getDispatcher().dispatch(event);
+	@Override
+	protected PollingServiceModel<S> newComponentModel() {
+		return new PollingServiceModel<>();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingPanelModel<S> newComponentModel() {
-		return new PollingPanelModel<>();
+	protected PollingServiceModel<S> getOrCreateComponentModel() {
+		return (PollingServiceModel<S>) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingPanelModel<S> getOrCreateComponentModel() {
-		return (PollingPanelModel<S>) super.getOrCreateComponentModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected PollingPanelModel<S> getComponentModel() {
-		return (PollingPanelModel<S>) super.getComponentModel();
+	protected PollingServiceModel<S> getComponentModel() {
+		return (PollingServiceModel<S>) super.getComponentModel();
 	}
 
 	/**
@@ -764,7 +512,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 *
 	 * @param <S> the criteria type
 	 */
-	public static class PollingPanelModel<S> extends ViewModel {
+	public static class PollingServiceModel<S> extends PollingModel {
 
 		/**
 		 * Record id.
@@ -772,34 +520,14 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 		private S criteria;
 
 		/**
-		 * Polling status.
-		 */
-		private PollingStatus pollingStatus = PollingStatus.NOT_STARTED;
-
-		/**
-		 * Polling text.
-		 */
-		private String pollingText = "Loading....";
-
-		/**
 		 * Holds the reference to the future for the polling action.
 		 */
 		private TaskFuture<PollingResultHolder> future;
 
 		/**
-		 * The polling interval in milli seconds.
-		 */
-		private int pollingInterval;
-
-		/**
 		 * Flag if start polling manually with the start button.
 		 */
 		private boolean manualStart;
-
-		/**
-		 * Extra AJAX targets when polling stops.
-		 */
-		private List<AjaxTarget> extraTargets;
 	}
 
 }
