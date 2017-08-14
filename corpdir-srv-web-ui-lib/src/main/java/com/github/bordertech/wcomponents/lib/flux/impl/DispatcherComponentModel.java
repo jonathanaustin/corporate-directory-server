@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.DispatcherModel;
+import com.github.bordertech.wcomponents.lib.flux.util.DispatcherModel;
 import com.github.bordertech.wcomponents.lib.flux.util.ListenerWrapper;
 import java.util.ArrayDeque;
 import java.util.HashMap;

@@ -1,6 +1,8 @@
-package com.github.bordertech.wcomponents.lib.flux;
+package com.github.bordertech.wcomponents.lib.flux.util;
 
-import com.github.bordertech.wcomponents.lib.flux.util.ListenerWrapper;
+import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;

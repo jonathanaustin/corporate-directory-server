@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.flux.util;
 
-import com.github.bordertech.wcomponents.lib.flux.DispatcherModel;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
