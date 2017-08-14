@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 
 /**
  * Default list view.
@@ -14,7 +14,7 @@ public class BasicListView<T> extends AbstractListView<T> {
 
 	private final WList list = new WList(WList.Type.STACKED);
 
-	public BasicListView(final Controller ctrl) {
+	public BasicListView(final BasicController ctrl) {
 		super(ctrl);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);

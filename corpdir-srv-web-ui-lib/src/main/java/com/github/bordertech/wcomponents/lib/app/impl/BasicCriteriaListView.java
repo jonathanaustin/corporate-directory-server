@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.ctrl.CriteriaListCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.polling.AbstractPollingView;
 import com.github.bordertech.wcomponents.lib.polling.PollingException;
@@ -21,7 +21,7 @@ public abstract class BasicCriteriaListView<T> extends DefaultView implements Me
 
 	private final WMessages messages = new WMessages();
 
-	public BasicCriteriaListView(final Controller ctrl) {
+	public BasicCriteriaListView(final BasicController ctrl) {
 		super(ctrl);
 
 		CriteriaListCtrl viewCtrl = new CriteriaListCtrl(getDispatcher());

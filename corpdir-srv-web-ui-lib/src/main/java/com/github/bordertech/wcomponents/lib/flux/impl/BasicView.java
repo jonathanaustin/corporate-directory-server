@@ -33,4 +33,7 @@ public interface BasicView extends View, AjaxTarget, SubordinateTarget, BeanBoun
 
 	WMessages getViewMessages();
 
+	@Override
+	BasicController getController();
+
 }

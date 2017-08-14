@@ -14,8 +14,8 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
@@ -165,7 +165,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 *
 	 * @param ctrl the view controller
 	 */
-	public AbstractPollingView(final Controller ctrl) {
+	public AbstractPollingView(final BasicController ctrl) {
 		this(ctrl, 174);
 	}
 
@@ -175,7 +175,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param ctrl the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final Controller ctrl, final int delay) {
+	public AbstractPollingView(final BasicController ctrl, final int delay) {
 		this(ctrl, null, delay, false);
 	}
 
@@ -186,7 +186,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public AbstractPollingView(final Controller ctrl, final String context, final int delay) {
+	public AbstractPollingView(final BasicController ctrl, final String context, final int delay) {
 		this(ctrl, context, delay, false);
 	}
 
@@ -198,7 +198,7 @@ public abstract class AbstractPollingView<S, T> extends DefaultView implements P
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public AbstractPollingView(final Controller ctrl, final String context, final int delay, final boolean manualStart) {
+	public AbstractPollingView(final BasicController ctrl, final String context, final int delay, final boolean manualStart) {
 		super(ctrl);
 
 		WDiv holder = getViewHolder();

@@ -21,4 +21,6 @@ public interface Dispatcher extends Serializable {
 
 	boolean isDispatching();
 
+	Listener getListener(final String registerId);
+
 }

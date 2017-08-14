@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -16,7 +15,7 @@ import java.util.List;
  */
 public class DefaultView extends WDiv implements BasicView {
 
-	private final Controller ctrl;
+	private final BasicController ctrl;
 
 	private final String qualifier;
 
@@ -31,11 +30,11 @@ public class DefaultView extends WDiv implements BasicView {
 		}
 	};
 
-	public DefaultView(final Controller ctrl) {
+	public DefaultView(final BasicController ctrl) {
 		this(ctrl, null);
 	}
 
-	public DefaultView(final Controller ctrl, final String qualifier) {
+	public DefaultView(final BasicController ctrl, final String qualifier) {
 		this.ctrl = ctrl;
 		this.qualifier = qualifier;
 
@@ -51,7 +50,7 @@ public class DefaultView extends WDiv implements BasicView {
 	}
 
 	@Override
-	public Controller getController() {
+	public BasicController getController() {
 		return ctrl;
 	}
 

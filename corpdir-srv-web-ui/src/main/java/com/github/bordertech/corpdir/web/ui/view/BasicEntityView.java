@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.lib.app.impl.DefaultEntityView;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 
 /**
  * Basic Detail Form View.
@@ -34,7 +34,7 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 	/**
 	 * Construct basic detail panel.
 	 */
-	public BasicEntityView(final Controller ctrl) {
+	public BasicEntityView(final BasicController ctrl) {
 		super(ctrl);
 		add(formPanel);
 		add(versionPanel);

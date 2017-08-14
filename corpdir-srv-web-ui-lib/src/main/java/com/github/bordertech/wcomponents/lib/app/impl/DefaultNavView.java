@@ -17,8 +17,8 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.NavEvent;
 import com.github.bordertech.wcomponents.lib.app.view.NavView;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
 public class DefaultNavView extends DefaultView implements NavView {
@@ -145,7 +145,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		}
 	};
 
-	public DefaultNavView(final Controller ctrl) {
+	public DefaultNavView(final BasicController ctrl) {
 		super(ctrl);
 
 		WDiv viewHolder = getViewHolder();
