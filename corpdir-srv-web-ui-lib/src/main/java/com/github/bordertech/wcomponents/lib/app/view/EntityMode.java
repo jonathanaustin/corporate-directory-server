@@ -5,6 +5,6 @@ package com.github.bordertech.wcomponents.lib.app.view;
  * @author jonathan
  */
 public enum EntityMode {
-	VIEW, EDIT, ADD
+	VIEW, EDIT, DELETE, ADD
 
 }

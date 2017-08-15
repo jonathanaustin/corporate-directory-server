@@ -75,21 +75,15 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	}
 
 	@Override
-	protected void configViews() {
+	public void configViews() {
 		super.configViews();
-		// Polling View
-		PollingServiceView pollingView = getPollingView();
-		pollingView.reset();
-		pollingView.makeHolderInvisible();
-
-		// List view
-		ListView listView = getListView();
-		listView.reset();
-		listView.makeHolderInvisible();
+		getPollingView().makeHolderInvisible();
+		getListView().makeHolderInvisible();
 	}
 
 	@Override
 	public void configAjax(final BasicView view) {
+		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
 		view.addEventTarget(getPollingView());
 		view.addEventTarget(getListView());

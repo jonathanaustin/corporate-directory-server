@@ -1,5 +1,7 @@
 package com.github.bordertech.corpdir.web.ui;
 
+import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.web.ui.view.BasicEntityPanel;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.MessageContainer;
@@ -16,6 +18,8 @@ import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
+import com.github.bordertech.wcomponents.lib.app.impl.BasicEntityWithActionView;
+import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
@@ -95,8 +99,22 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 				return items;
 			}
 		};
-		mgr.add(view);
-		view.setController(ctrl);
+//		mgr.add(view);
+
+		BasicEntityWithActionView<OrgUnit> view2 = new BasicEntityWithActionView<OrgUnit>(dispatcher) {
+			@Override
+			public OrgUnit doService(final ActionEventType type, final OrgUnit bean) {
+				switch (type) {
+					case ADD:
+						return new OrgUnit();
+					default:
+						bean.setDescription("Been in update:" + new Date().toString());
+						return bean;
+				}
+			}
+		};
+		view2.getEntityView().getViewHolder().add(new BasicEntityPanel());
+		mgr.add(view2);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);

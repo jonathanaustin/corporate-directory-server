@@ -7,8 +7,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.app.impl.DefaultEntityView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.WDiv;
 
 /**
  * Basic Detail Form View.
@@ -18,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView<T> {
+public class BasicEntityPanel<T extends ApiKeyIdObject> extends WDiv {
 
 	private final WPanel formPanel = new WPanel();
 
@@ -32,12 +31,9 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 	};
 
 	/**
-	 * Construct basic detail panel.
-	 *
-	 * @param ctrl the controller attached to this view
+	 * Construct basic detail panel. \
 	 */
-	public BasicEntityView(final Dispatcher ctrl) {
-		super(ctrl);
+	public BasicEntityPanel() {
 		add(formPanel);
 		add(versionPanel);
 
@@ -120,8 +116,13 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 		def.addTerm("ID", txtId);
 	}
 
+	@Override
+	public T getBeanValue() {
+		return (T) super.getBeanValue();
+	}
+
 	private boolean isExistingEntity() {
-		return getViewBean().getId() != null;
+		return getBeanValue() == null ? false : getBeanValue().getId() != null;
 	}
 
 }

@@ -29,14 +29,14 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		super(dispatcher, qualifier);
 
 		// Entity Action Event Listeners
-		for (ActionEventType event : ActionEventType.values()) {
+		for (ActionEventType eventType : ActionEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
 					handleEntityActionEvent(event);
 				}
 			};
-			registerCtrlListener(listener, event);
+			registerCtrlListener(listener, eventType);
 		}
 
 		// TODO Add Action Error Listeners
@@ -83,7 +83,14 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	}
 
 	@Override
+	public void configViews() {
+		super.configViews();
+		getEntityView().makeHolderInvisible();
+	}
+
+	@Override
 	public void configAjax(final BasicView view) {
+		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
 		view.addEventTarget(getEntityActionView());
 		view.addEventTarget(getEntityView());
@@ -128,10 +135,13 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		if (!view.isLoaded()) {
 			return;
 		}
-		// TODO Maybe Refresh
-		T bean = view.getViewBean();
+		if (view.getEntityMode() == EntityMode.EDIT) {
+			T bean = view.getViewBean();
+			resetViews();
+			handleLoadAction(bean);
+			return;
+		}
 		resetViews();
-		handleLoadAction(bean);
 	}
 
 	protected void handleEditAction() {
@@ -147,7 +157,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		if (!view.isLoaded()) {
 			return;
 		}
-		changeViewMode(EntityMode.VIEW);
+		changeViewMode(EntityMode.DELETE);
 		T bean = view.getViewBean();
 		try {
 			doServiceAction(new Event(ActionEventType.DELETE, bean));
@@ -185,6 +195,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			bean = doServiceAction(new Event(ActionEventType.SAVE, bean));
 			dispatchCtrlEvent(ActionStatusEventType.SAVE_OK, bean);
 			getViewMessages().success("Saved OK.");
+			handleLoadAction(bean);
 		} catch (Exception e) {
 			getViewMessages().error("Save failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionStatusEventType.SAVE_ERROR, e);

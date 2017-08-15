@@ -101,7 +101,8 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	protected void checkConfig() {
 	}
 
-	protected void configViews() {
+	@Override
+	public void configViews() {
 	}
 
 	@Override

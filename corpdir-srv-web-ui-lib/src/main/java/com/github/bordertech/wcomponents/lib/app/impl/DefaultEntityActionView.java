@@ -15,7 +15,9 @@ import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -43,7 +45,8 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		@Override
 		public boolean isDisabled() {
-			return EntityMode.VIEW.equals(getEntityMode());
+			EntityMode mode = getEntityMode();
+			return EntityMode.ADD == mode || EntityMode.DELETE == mode || EntityMode.EDIT == mode;
 		}
 	};
 
@@ -55,7 +58,8 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		@Override
 		public boolean isDisabled() {
-			return !EntityMode.EDIT.equals(getEntityMode());
+			EntityMode mode = getEntityMode();
+			return EntityMode.DELETE == mode && EntityMode.VIEW == mode;
 		}
 
 		@Override
@@ -72,7 +76,8 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		@Override
 		public boolean isDisabled() {
-			return EntityMode.ADD.equals(getEntityMode());
+			EntityMode mode = getEntityMode();
+			return EntityMode.ADD == mode;
 		}
 
 	};
@@ -85,7 +90,8 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		@Override
 		public boolean isDisabled() {
-			return EntityMode.VIEW.equals(getEntityMode());
+			EntityMode mode = getEntityMode();
+			return EntityMode.DELETE == mode && EntityMode.VIEW == mode;
 		}
 	};
 
@@ -97,7 +103,8 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		@Override
 		public boolean isDisabled() {
-			return !EntityMode.VIEW.equals(getEntityMode());
+			EntityMode mode = getEntityMode();
+			return EntityMode.ADD == mode;
 		}
 	};
 
@@ -185,6 +192,11 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	@Override
 	public void setUseBack(final boolean useBack) {
 		getOrCreateComponentModel().useBack = useBack;
+	}
+
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		addTargets(Arrays.asList(target));
 	}
 
 	@Override
