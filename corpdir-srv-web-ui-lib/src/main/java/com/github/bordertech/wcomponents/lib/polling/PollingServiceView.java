@@ -2,13 +2,13 @@ package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
@@ -34,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class PollingServiceView<S, T> extends PollingView {
+public class PollingServiceView<S, T> extends PollingView {
 
 	/**
 	 * The logger instance for this class.
@@ -280,12 +280,6 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-		// AJAX Targets
-		for (PollingEvent event : PollingEvent.values()) {
-			for (AjaxTarget eventTarget : getController().getEventTargets(this, event)) {
-				addAjaxTarget(eventTarget);
-			}
-		}
 		if (!isManualStart()) {
 			startButton.setVisible(false);
 			doStartLoading();
@@ -355,14 +349,14 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPollingStatus(PollingStatus.ERROR);
-			dispatchViewEvent(PollingEvent.ERROR, excp);
+			dispatchViewEvent(PollingEventType.ERROR, excp);
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
-			dispatchViewEvent(PollingEvent.COMPLETE, result);
+			dispatchViewEvent(PollingEventType.COMPLETE, result);
 		}
 	}
 
@@ -420,12 +414,17 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 
 		clearFuture();
 
+		final ExecuteService<S, T> action = getPollingServiceAction();
+		if (action == null) {
+			throw new PollingException("No polling service action has been defined. ");
+		}
+
 		final PollingResultHolder result = new PollingResultHolder();
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {
 				try {
-					T resp = doPollingServiceAction(criteria);
+					T resp = action.executeService(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
 					PollingException excp = new PollingException(e.getMessage(), e);
@@ -470,23 +469,31 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 	}
 
 	/**
+	 *
+	 * @return the service call action
+	 */
+	public ExecuteService<S, T> getPollingServiceAction() {
+		return getComponentModel().pollingServiceAction;
+	}
+
+	/**
 	 * Do the actual polling action (eg Service call).
 	 * <p>
 	 * As this method is called by a different thread, do not put any logic or functionality that needs the user
 	 * context.
 	 * </p>
 	 *
-	 * @param criteria the criteria for the polling action
-	 * @return the polling result
-	 * @throws PollingException a service exception occurred
+	 * @param serviceAction the service call action
 	 */
-	public abstract T doPollingServiceAction(final S criteria) throws PollingException;
+	public void setPollingServiceAction(final ExecuteService<S, T> serviceAction) {
+		getOrCreateComponentModel().pollingServiceAction = serviceAction;
+	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingServiceModel<S> newComponentModel() {
+	protected PollingServiceModel<S, T> newComponentModel() {
 		return new PollingServiceModel<>();
 	}
 
@@ -494,24 +501,25 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingServiceModel<S> getOrCreateComponentModel() {
-		return (PollingServiceModel<S>) super.getOrCreateComponentModel();
+	protected PollingServiceModel<S, T> getOrCreateComponentModel() {
+		return (PollingServiceModel<S, T>) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected PollingServiceModel<S> getComponentModel() {
-		return (PollingServiceModel<S>) super.getComponentModel();
+	protected PollingServiceModel<S, T> getComponentModel() {
+		return (PollingServiceModel<S, T>) super.getComponentModel();
 	}
 
 	/**
 	 * This model holds the state information.
 	 *
 	 * @param <S> the criteria type
+	 * @param <T> the service action
 	 */
-	public static class PollingServiceModel<S> extends PollingModel {
+	public static class PollingServiceModel<S, T> extends PollingModel {
 
 		/**
 		 * Record id.
@@ -527,6 +535,8 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 		 * Flag if start polling manually with the start button.
 		 */
 		private boolean manualStart;
+
+		private ExecuteService<S, T> pollingServiceAction;
 	}
 
 }

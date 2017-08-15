@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.app.event.CriteriaEvent;
+import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -11,12 +10,14 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.View;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.polling.PollingEvent;
+import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
+import com.github.bordertech.wcomponents.lib.polling.PollingEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Controller for a Criteria View and List View.
  *
  * @author jonathan
  * @param <S> the criteria type
@@ -36,7 +37,7 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 				handleSearchEvent(criteria);
 			}
 		};
-		getDispatcher().register(listener, CriteriaEvent.SEARCH);
+		registerCtrlListener(listener, CriteriaEventType.SEARCH);
 
 		// Polling - FAIL
 		listener = new Listener() {
@@ -46,7 +47,7 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 				handleSearchFailedEvent(excp);
 			}
 		};
-		getDispatcher().register(listener, PollingEvent.ERROR);
+		registerCtrlListener(listener, PollingEventType.ERROR);
 
 		// Polling - COMPLETE
 		listener = new Listener() {
@@ -56,28 +57,47 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 				handleSearchCompleteEvent(entities);
 			}
 		};
-		getDispatcher().register(listener, PollingEvent.COMPLETE);
+		registerCtrlListener(listener, PollingEventType.COMPLETE);
 	}
 
 	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		if (!isInitialised()) {
-			configViews();
-			setInitialised(true);
+	protected void checkConfig() {
+		super.checkConfig();
+		if (getPollingView() == null) {
+			throw new IllegalStateException("A polling view has not been set.");
+		}
+		if (getCriteriaView() == null) {
+			throw new IllegalStateException("A criteria view has not been set.");
+		}
+		if (getListView() == null) {
+			throw new IllegalStateException("A list view has not been set.");
+		}
+		if (getSearchService() == null) {
+			throw new IllegalStateException("A search service has not been set.");
 		}
 	}
 
+	@Override
 	protected void configViews() {
-
+		super.configViews();
+		// Polling View
 		PollingServiceView pollingView = getPollingView();
-		ListView listView = getListView();
-
-		// Hide view contents
+		pollingView.reset();
 		pollingView.makeHolderInvisible();
+
+		// List view
+		ListView listView = getListView();
+		listView.reset();
 		listView.makeHolderInvisible();
 	}
 
+	/**
+	 * Provide the views the AJAX targets for their actions.
+	 *
+	 * @param view the view requesting
+	 * @param eventType the event type
+	 * @return the list of AJAX targets for that view and event type
+	 */
 	@Override
 	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
 		List<AjaxTarget> targets = new ArrayList<>();
@@ -111,11 +131,36 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 		getOrCreateComponentModel().listView = listView;
 	}
 
+	/**
+	 *
+	 * @return the search service call action
+	 */
+	public ExecuteService<S, List<T>> getSearchService() {
+		return getComponentModel().searchService;
+	}
+
+	/**
+	 * Do the actual polling action (eg Service call).
+	 * <p>
+	 * As this method is called by a different thread, do not put any logic or functionality that needs the user
+	 * context.
+	 * </p>
+	 *
+	 * @param searchService the search service call action
+	 */
+	public void setSearchService(final ExecuteService<S, List<T>> searchService) {
+		getOrCreateComponentModel().searchService = searchService;
+	}
+
 	protected void handleSearchEvent(final S criteria) {
+		// Setup polling view
 		PollingServiceView pollingView = getPollingView();
 		pollingView.reset();
 		pollingView.setPollingCriteria(criteria);
+		pollingView.setPollingServiceAction(getSearchService());
 		pollingView.makeHolderVisible();
+
+		// Reset Listview
 		ListView listView = getListView();
 		listView.reset();
 		listView.makeHolderInvisible();
@@ -162,6 +207,8 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 		private PollingServiceView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
+
+		private ExecuteService<S, List<T>> searchService;
 	}
 
 }

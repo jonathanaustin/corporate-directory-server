@@ -15,12 +15,12 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.event.NavEvent;
-import com.github.bordertech.wcomponents.lib.app.view.NavView;
+import com.github.bordertech.wcomponents.lib.app.type.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 
-public class DefaultNavView extends DefaultView implements NavView {
+public class DefaultNavigationView extends DefaultView implements NavigationView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -144,7 +144,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		}
 	};
 
-	public DefaultNavView(final BasicController ctrl) {
+	public DefaultNavigationView(final BasicController ctrl) {
 		super(ctrl);
 
 		WDiv viewHolder = getViewHolder();
@@ -364,7 +364,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 	protected void doHandleFirst() {
 		setCurrentIdx(0);
 		nextButton.setFocussed();
-		handleIndexChanged(NavEvent.FIRST);
+		handleIndexChanged(NavigationEventType.FIRST);
 	}
 
 	/**
@@ -377,7 +377,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		if (prevButton.isDisabled()) {
 			nextButton.setFocussed();
 		}
-		handleIndexChanged(NavEvent.PREV);
+		handleIndexChanged(NavigationEventType.PREV);
 	}
 
 	/**
@@ -390,7 +390,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		if (nextButton.isDisabled()) {
 			prevButton.setFocussed();
 		}
-		handleIndexChanged(NavEvent.NEXT);
+		handleIndexChanged(NavigationEventType.NEXT);
 	}
 
 	/**
@@ -400,7 +400,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 		int idx = getSize() - 1;
 		setCurrentIdx(idx);
 		prevButton.setFocussed();
-		handleIndexChanged(NavEvent.LAST);
+		handleIndexChanged(NavigationEventType.LAST);
 	}
 
 	/**
@@ -408,7 +408,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 	 *
 	 * @param navEvent the navigation action that caused the change of index
 	 */
-	protected void handleIndexChanged(final NavEvent navEvent) {
+	protected void handleIndexChanged(final NavigationEventType navEvent) {
 		dispatchViewEvent(navEvent, getCurrentIdx());
 	}
 

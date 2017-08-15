@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.event.EntityCtrlEvent;
-import com.github.bordertech.wcomponents.lib.app.view.EntityCtrlView;
+import com.github.bordertech.wcomponents.lib.app.type.EntityActionType;
+import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -24,18 +24,18 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView {
+public class DefaultEntityActionView extends DefaultView implements EntityActionView {
 
 	private final WMenu actionMenu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", EntityCtrlEvent.BACK) {
+	private final WMenuItem itemBack = new MyMenuItem("Back", EntityActionType.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityCtrlEvent.EDIT) {
+	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityActionType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -47,7 +47,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityCtrlEvent.CANCEL) {
+	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityActionType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -64,7 +64,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityCtrlEvent.REFRESH) {
+	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityActionType.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -72,12 +72,12 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 		@Override
 		public boolean isDisabled() {
-			return EntityMode.CREATE.equals(getEntityMode());
+			return EntityMode.ADD.equals(getEntityMode());
 		}
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", EntityCtrlEvent.SAVE) {
+	private final WMenuItem itemSave = new MyMenuItem("Save", EntityActionType.SAVE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -89,7 +89,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityCtrlEvent.DELETE) {
+	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityActionType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -100,6 +100,8 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			return !EntityMode.VIEW.equals(getEntityMode());
 		}
 	};
+
+	private final WMenuItem itemAdd = new MyMenuItem("Add", EntityActionType.ADD);
 
 	private final WPanel ajaxPanel = new WPanel() {
 		@Override
@@ -113,7 +115,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 	 *
 	 * @param ctrl the controller for this view
 	 */
-	public DefaultEntityCtrlView(final BasicController ctrl) {
+	public DefaultEntityActionView(final BasicController ctrl) {
 		super(ctrl);
 
 		WDiv holder = getViewHolder();
@@ -128,6 +130,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 		actionMenu.add(itemCancel);
 		actionMenu.add(itemDelete);
 		actionMenu.add(itemRefresh);
+		actionMenu.add(itemAdd);
 
 		// Action
 		Action action = new Action() {
@@ -224,14 +227,14 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	private static class MyMenuItem extends WMenuItem {
 
-		private final EntityCtrlEvent event;
+		private final EntityActionType event;
 
-		public MyMenuItem(final String text, final EntityCtrlEvent event) {
+		public MyMenuItem(final String text, final EntityActionType event) {
 			super(text);
 			this.event = event;
 		}
 
-		public EntityCtrlEvent getItemEvent() {
+		public EntityActionType getItemEvent() {
 			return event;
 		}
 	}

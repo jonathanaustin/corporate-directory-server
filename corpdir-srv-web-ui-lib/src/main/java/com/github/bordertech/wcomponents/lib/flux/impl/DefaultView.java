@@ -58,7 +58,7 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
-	public BasicController getController() {
+	public final BasicController getController() {
 		return ctrl;
 	}
 
@@ -73,17 +73,13 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
-	public void makeHolderVisible() {
+	public final void makeHolderVisible() {
 		viewHolder.setVisible(true);
 	}
 
 	@Override
-	public void makeHolderInvisible() {
+	public final void makeHolderInvisible() {
 		viewHolder.setVisible(false);
-	}
-
-	protected void initViewContent(final Request request) {
-		// Do nothing
 	}
 
 	@Override
@@ -97,28 +93,33 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
-	public T getViewBean() {
+	public final T getViewBean() {
 		return (T) getBean();
 	}
 
 	@Override
-	public void setViewBean(final T viewBean) {
+	public final void setViewBean(final T viewBean) {
 		setBean(viewBean);
 	}
 
 	@Override
-	public void dispatchViewEvent(final EventType eventType) {
-		dispatchViewEvent(eventType, null);
+	public final void dispatchViewEvent(final EventType eventType) {
+		dispatchViewEvent(eventType, null, null);
 	}
 
 	@Override
 	public void dispatchViewEvent(final EventType eventType, final Object data) {
-		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data);
+		dispatchViewEvent(eventType, data, null);
+	}
+
+	@Override
+	public void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
+		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
 	@Override
-	public String registerViewListener(final Listener listener, final EventType eventType) {
+	public final String registerViewListener(final Listener listener, final EventType eventType) {
 		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
 	}
 
@@ -146,6 +147,10 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 				ajax.addTarget(target);
 			}
 		}
+	}
+
+	protected void initViewContent(final Request request) {
+		// Do nothing
 	}
 
 	@Override

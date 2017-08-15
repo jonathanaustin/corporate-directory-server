@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  * @since 1.0.0
  *
  */
-public interface NavView<T> extends BasicView<T> {
+public interface NavigationView<T> extends BasicView<T> {
 
 	int getCurrentIdx();
 

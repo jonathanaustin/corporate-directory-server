@@ -170,7 +170,7 @@ public class PollingView extends DefaultView {
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
-		dispatchViewEvent(PollingEvent.STARTED);
+		dispatchViewEvent(PollingEventType.STARTED);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class PollingView extends DefaultView {
 			ajaxReload.addTargets(targets);
 		}
 		if (!alreadyPolling) {
-			dispatchViewEvent(PollingEvent.STARTED);
+			dispatchViewEvent(PollingEventType.STARTED);
 		}
 		pollingContainer.setVisible(true);
 		ajaxReload.setVisible(true);
@@ -206,7 +206,7 @@ public class PollingView extends DefaultView {
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		// AJAX Targets
-		for (PollingEvent event : PollingEvent.values()) {
+		for (PollingEventType event : PollingEventType.values()) {
 			for (AjaxTarget eventTarget : getController().getEventTargets(this, event)) {
 				addAjaxTarget(eventTarget);
 			}
@@ -240,7 +240,7 @@ public class PollingView extends DefaultView {
 	 * Stopped polling and panel has been reloaded.
 	 */
 	protected void handleStoppedPolling() {
-		dispatchViewEvent(PollingEvent.COMPLETE);
+		dispatchViewEvent(PollingEventType.COMPLETE);
 	}
 
 	/**

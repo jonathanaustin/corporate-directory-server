@@ -3,14 +3,13 @@ package com.github.bordertech.wcomponents.lib.app.view;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 
 /**
- * Entity ctrl view.
+ * Entity action view.
  *
  * @author Jonathan Austin
- * @param <T> the view bean
  * @since 1.0.0
  *
  */
-public interface EntityCtrlView<T> extends BasicView<T> {
+public interface EntityActionView extends BasicView {
 
 	EntityMode getEntityMode();
 

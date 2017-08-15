@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum PollingEvent implements EventType {
+public enum PollingEventType implements EventType {
 	STARTED,
 	ERROR,
 	COMPLETE

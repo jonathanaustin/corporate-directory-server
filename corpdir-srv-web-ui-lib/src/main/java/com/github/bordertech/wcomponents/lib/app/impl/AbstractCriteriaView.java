@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.event.CriteriaEvent;
+import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -54,13 +54,13 @@ public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements 
 	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchViewEvent(CriteriaEvent.SEARCH, criteria);
+		dispatchViewEvent(CriteriaEventType.SEARCH, criteria);
 	}
 
 	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-		for (CriteriaEvent event : CriteriaEvent.values()) {
+		for (CriteriaEventType event : CriteriaEventType.values()) {
 			addEventTargetsToAjaxCtrl(ajax, getController().getEventTargets(this, event));
 		}
 	}

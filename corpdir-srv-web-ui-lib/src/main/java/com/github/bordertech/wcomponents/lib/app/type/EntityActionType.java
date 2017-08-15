@@ -1,17 +1,18 @@
-package com.github.bordertech.wcomponents.lib.app.event;
+package com.github.bordertech.wcomponents.lib.app.type;
 
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
- * Entity ctrl events.
+ * Entity action events.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum EntityCtrlEvent implements EventType {
+public enum EntityActionType implements EventType {
 	BACK,
-	EDIT,
 	CANCEL,
+	EDIT,
+	ADD,
 	REFRESH,
 	DELETE,
 	SAVE

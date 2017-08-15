@@ -6,14 +6,17 @@ import com.github.bordertech.wcomponents.lib.flux.Event;
  *
  * @author jonathan
  */
-public class RegisterEvent extends Event<ListenerWrapper> {
+public class RegisterEvent extends Event {
+
+	private final ListenerWrapper wrapper;
 
 	public RegisterEvent(final ListenerWrapper wrapper) {
-		super(null, DispatcherEventType.REGISTER, wrapper);
+		super(DispatcherEventType.REGISTER);
+		this.wrapper = wrapper;
 	}
 
 	public ListenerWrapper getWrapper() {
-		return getData();
+		return wrapper;
 	}
 
 }

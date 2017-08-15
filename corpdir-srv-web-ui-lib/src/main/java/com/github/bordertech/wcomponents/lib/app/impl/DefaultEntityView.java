@@ -41,9 +41,10 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	/**
 	 * @return true if form read only
 	 */
-	protected boolean isFormReadOnly() {
+	@Override
+	public boolean isFormReadOnly() {
 		EntityMode mode = getEntityMode();
-		return !EntityMode.CREATE.equals(mode) && !EntityMode.EDIT.equals(mode);
+		return !EntityMode.ADD.equals(mode) && !EntityMode.EDIT.equals(mode);
 	}
 
 	@Override

@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.event;
+package com.github.bordertech.wcomponents.lib.app.type;
 
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ListEvent implements EventType {
+public enum SelectEventType implements EventType {
 	VIEW,
 	EDIT,
 	DELETE,

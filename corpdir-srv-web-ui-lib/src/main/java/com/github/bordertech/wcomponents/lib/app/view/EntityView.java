@@ -27,4 +27,5 @@ public interface EntityView<T> extends BasicView<T> {
 	 */
 	void doRefreshViewState();
 
+	boolean isFormReadOnly();
 }
