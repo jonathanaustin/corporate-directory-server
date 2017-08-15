@@ -23,9 +23,9 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class CriteriaListCtrl<S, T> extends DefaultController {
+public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
-	public CriteriaListCtrl(final Dispatcher dispatcher) {
+	public CriteriaWithListCtrl(final Dispatcher dispatcher) {
 		super(dispatcher);
 
 		// Listeners

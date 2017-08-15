@@ -349,7 +349,7 @@ public class PollingServiceView<S, T> extends PollingView {
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPollingStatus(PollingStatus.ERROR);
-			dispatchViewEvent(PollingEventType.ERROR, excp);
+			dispatchViewEvent(PollingEventType.ERROR, getPollingCriteria(), excp);
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;

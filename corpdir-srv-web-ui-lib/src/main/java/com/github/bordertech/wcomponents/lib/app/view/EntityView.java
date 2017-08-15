@@ -27,5 +27,14 @@ public interface EntityView<T> extends BasicView<T> {
 	 */
 	void doRefreshViewState();
 
+	/**
+	 * @return true if form is in read only
+	 */
 	boolean isFormReadOnly();
+
+	/**
+	 *
+	 * @return true if entity has been loaded
+	 */
+	boolean isLoaded();
 }

@@ -22,6 +22,18 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	WDiv getViewHolder();
 
 	/**
+	 * Reset the view holder.
+	 */
+	void resetHolder();
+
+	/**
+	 * Validate the view.Will report errors in the View Messages.
+	 *
+	 * @return true if valid
+	 */
+	boolean validateView();
+
+	/**
 	 * Make the view holder visible.
 	 */
 	void makeHolderVisible();

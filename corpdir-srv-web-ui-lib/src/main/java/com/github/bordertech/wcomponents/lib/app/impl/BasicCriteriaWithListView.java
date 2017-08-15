@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.ctrl.CriteriaListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.CriteriaWithListCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
@@ -16,15 +16,15 @@ import java.util.List;
  *
  * @author jonathan
  */
-public abstract class BasicCriteriaListView<T> extends DefaultView<T> implements MessageContainer {
+public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 
-	public BasicCriteriaListView(final BasicController ctrl) {
+	public BasicCriteriaWithListView(final BasicController ctrl) {
 		super(ctrl);
 
 		// Create controller
-		CriteriaListCtrl<String, T> viewCtrl = new CriteriaListCtrl<>(getDispatcher());
+		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(getDispatcher());
 
 		// Set views on Controller
 		CriteriaView criteriaView = new BasicCriteriaView(viewCtrl);

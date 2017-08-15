@@ -23,6 +23,4 @@ public interface EntityActionView extends BasicView {
 
 	void setUseBack(final boolean useBack);
 
-	void doRefreshViewState();
-
 }

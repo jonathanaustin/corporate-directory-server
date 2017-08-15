@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
-import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaListView;
+import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
@@ -72,7 +72,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		DefaultController ctrl = new DefaultController(dispatcher);
 
 		// Cards
-		BasicView view = new BasicCriteriaListView<String>(ctrl) {
+		BasicView view = new BasicCriteriaWithListView<String>(ctrl) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
 				if ("error".equals(criteria)) {
@@ -96,6 +96,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			}
 		};
 		mgr.add(view);
+
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);

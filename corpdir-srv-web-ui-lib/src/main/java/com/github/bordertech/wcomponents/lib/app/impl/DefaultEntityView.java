@@ -25,7 +25,13 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 
 	@Override
 	public void setEntityMode(final EntityMode mode) {
-		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
+		if (getEntityMode() != mode) {
+			boolean current = isFormReadOnly();
+			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
+			if (current != isFormReadOnly()) {
+				doRefreshViewState();
+			}
+		}
 	}
 
 	@Override
@@ -48,7 +54,18 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	}
 
 	@Override
-	protected void initViewContent(Request request) {
+	public boolean isLoaded() {
+		return getViewBean() != null;
+	}
+
+	@Override
+	protected void initViewContent(final Request request) {
+		// Check entity is loaded
+		if (!isLoaded()) {
+			getViewMessages().error("No entity has been loaded.");
+			makeHolderInvisible();
+			return;
+		}
 		super.initViewContent(request);
 		doRefreshViewState();
 	}

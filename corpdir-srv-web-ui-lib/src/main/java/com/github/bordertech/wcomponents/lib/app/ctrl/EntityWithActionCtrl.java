@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.lib.app.type.EntityActionStatus;
-import com.github.bordertech.wcomponents.lib.app.type.EntityActionType;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.type.ActionStatusEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
@@ -22,17 +23,17 @@ import java.util.List;
  * @param <T> the entity type
  * @author jonathan
  */
-public class EntityActionCtrl<T> extends DefaultController {
+public class EntityWithActionCtrl<T> extends DefaultController {
 
-	public EntityActionCtrl(final Dispatcher dispatcher) {
+	public EntityWithActionCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public EntityActionCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public EntityWithActionCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Entity Action Event Listeners
-		for (EntityActionType event : EntityActionType.values()) {
+		for (ActionEventType event : ActionEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -41,6 +42,8 @@ public class EntityActionCtrl<T> extends DefaultController {
 			};
 			registerCtrlListener(listener, event);
 		}
+
+		// TODO Add Action Error Listeners
 	}
 
 	@Override
@@ -91,7 +94,7 @@ public class EntityActionCtrl<T> extends DefaultController {
 	}
 
 	protected void handleEntityActionEvent(final Event event) {
-		EntityActionType type = (EntityActionType) event.getEventType();
+		ActionEventType type = (ActionEventType) event.getEventType();
 		switch (type) {
 			case BACK:
 				handleBackAction();
@@ -112,7 +115,10 @@ public class EntityActionCtrl<T> extends DefaultController {
 				handleSaveAction();
 				break;
 			case ADD:
-				handleNewAction();
+				handleAddAction();
+				break;
+			case LOAD:
+				handleLoadAction((T) event.getData());
 				break;
 		}
 	}
@@ -123,39 +129,56 @@ public class EntityActionCtrl<T> extends DefaultController {
 
 	protected void handleCancelAction() {
 		EntityView<T> view = getEntityView();
-		// TODO might need to reload BEAN
+		if (!view.isLoaded()) {
+			return;
+		}
+		// TODO Maybe Refresh
 		T bean = view.getViewBean();
 		resetViews();
-		view.setViewBean(bean);
+		handleLoadAction(bean);
 	}
 
 	protected void handleEditAction() {
+		EntityView<T> view = getEntityView();
+		if (!view.isLoaded()) {
+			return;
+		}
 		changeViewMode(EntityMode.EDIT);
 	}
 
 	protected void handleDeleteAction() {
-		changeViewMode(EntityMode.DELETE);
-		T bean = getEntityView().getViewBean();
+		EntityView<T> view = getEntityView();
+		if (!view.isLoaded()) {
+			return;
+		}
+		changeViewMode(EntityMode.VIEW);
+		T bean = view.getViewBean();
 		try {
-			doServiceAction(new Event(EntityActionType.DELETE, bean));
-			dispatchCtrlEvent(EntityActionStatus.DELETE_OK, bean);
+			doServiceAction(new Event(ActionEventType.DELETE, bean));
+			dispatchCtrlEvent(ActionStatusEventType.DELETE_OK, bean);
+			getViewMessages().success("Delete OK.");
+			resetViews();
 		} catch (Exception e) {
 			getViewMessages().error("Delete failed. " + e.getMessage());
-			dispatchCtrlEvent(EntityActionStatus.DELETE_ERROR, e);
+			dispatchCtrlEvent(ActionStatusEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
 	protected void handleRefreshAction() {
-		T bean = getEntityView().getViewBean();
+		EntityView<T> view = getEntityView();
+		if (!view.isLoaded()) {
+			return;
+		}
+		T bean = view.getViewBean();
 		resetViews();
-		changeViewMode(EntityMode.VIEW);
 		try {
-			bean = doServiceAction(new Event(EntityActionType.REFRESH, bean));
-			dispatchCtrlEvent(EntityActionStatus.REFRESH_OK, bean);
+			bean = doServiceAction(new Event(ActionEventType.REFRESH, bean));
+			handleLoadAction(bean);
+			getViewMessages().success("Refreshed OK.");
+			dispatchCtrlEvent(ActionStatusEventType.REFRESH_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
-			getEntityView().setViewBean(bean);
-			dispatchCtrlEvent(EntityActionStatus.REFRESH_ERROR, e);
+			dispatchCtrlEvent(ActionStatusEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -163,35 +186,38 @@ public class EntityActionCtrl<T> extends DefaultController {
 		// Do Validation
 		T bean = getEntityView().getViewBean();
 		try {
-			bean = doServiceAction(new Event(EntityActionType.SAVE, bean));
-			dispatchCtrlEvent(EntityActionStatus.SAVE_OK, bean);
+			bean = doServiceAction(new Event(ActionEventType.SAVE, bean));
+			dispatchCtrlEvent(ActionStatusEventType.SAVE_OK, bean);
+			getViewMessages().success("Saved OK.");
 		} catch (Exception e) {
 			getViewMessages().error("Save failed. " + e.getMessage());
-			dispatchCtrlEvent(EntityActionStatus.SAVE_ERROR, e);
+			dispatchCtrlEvent(ActionStatusEventType.SAVE_ERROR, e);
 		}
 	}
 
-	protected void handleNewAction() {
+	protected void handleAddAction() {
 		resetViews();
 		try {
-			T bean = doServiceAction(new Event(EntityActionType.ADD));
+			T bean = doServiceAction(new Event(ActionEventType.ADD));
 			changeViewMode(EntityMode.ADD);
 			getEntityView().setViewBean(bean);
-			dispatchCtrlEvent(EntityActionStatus.ADD_OK, bean);
+			dispatchCtrlEvent(ActionStatusEventType.ADD_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
-			dispatchCtrlEvent(EntityActionStatus.ADD_ERROR, e);
+			dispatchCtrlEvent(ActionStatusEventType.ADD_ERROR, e);
 		}
+	}
 
+	protected void handleLoadAction(final T entity) {
+		resetViews();
+		getEntityView().setViewBean(entity);
+		dispatchCtrlEvent(ActionStatusEventType.LOADED_OK, entity);
 	}
 
 	protected void changeViewMode(final EntityMode mode) {
 		EntityView entityView = getEntityView();
 		entityView.setEntityMode(mode);
-		entityView.doRefreshViewState();
-
-		EntityActionView actionView = getEntityActionView();
-		actionView.setEntityMode(mode);
+//		entityView.doRefreshViewState();
 	}
 
 	protected void resetViews() {
@@ -201,6 +227,15 @@ public class EntityActionCtrl<T> extends DefaultController {
 
 	protected T doServiceAction(final Event event) {
 		return getEntityServiceActions().executeService(event);
+	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		// Keep Action View in SYNC
+		EntityActionView actionView = getEntityActionView();
+		actionView.setEntityMode(getEntityView().getEntityMode());
+		actionView.setEntityReady(getEntityView().isLoaded());
 	}
 
 	@Override

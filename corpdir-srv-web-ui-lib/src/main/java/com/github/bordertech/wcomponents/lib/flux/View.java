@@ -38,4 +38,9 @@ public interface View<T> extends Serializable {
 	 */
 	void setViewBean(final T viewBean);
 
+	/**
+	 * Update the View State onto the Bean.
+	 */
+	void updateViewBean();
+
 }

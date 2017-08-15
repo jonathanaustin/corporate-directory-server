@@ -12,6 +12,9 @@ import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import com.github.bordertech.wcomponents.validation.WValidationErrors;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,6 +76,11 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
+	public void resetHolder() {
+		viewHolder.reset();
+	}
+
+	@Override
 	public final void makeHolderVisible() {
 		viewHolder.setVisible(true);
 	}
@@ -80,6 +88,30 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	@Override
 	public final void makeHolderInvisible() {
 		viewHolder.setVisible(false);
+	}
+
+	@Override
+	public void updateViewBean() {
+		WebUtilities.updateBeanValue(this);
+	}
+
+	@Override
+	public boolean validateView() {
+		WValidationErrors errorsBox = getViewMessages().getValidationErrors();
+		errorsBox.clearErrors();
+
+		List<Diagnostic> diags = new ArrayList<>();
+		viewHolder.validate(diags);
+		viewHolder.showWarningIndicators(diags);
+		viewHolder.showErrorIndicators(diags);
+
+		if (containsError(diags)) {
+			errorsBox.setErrors(diags);
+			errorsBox.setFocussed();
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	@Override
@@ -193,6 +225,27 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
 	public static class ViewModel extends DivModel {
+	}
+
+	/**
+	 * Borrowed from ValidatinAction (Should be public). Indicates whether the given list of diagnostics contains any
+	 * errors.
+	 *
+	 * @param diags the list into which any validation diagnostics were added.
+	 * @return true if any of the diagnostics in the list are errors, false otherwise.
+	 */
+	private static boolean containsError(final List<Diagnostic> diags) {
+		if (diags == null || diags.isEmpty()) {
+			return false;
+		}
+
+		for (Diagnostic diag : diags) {
+			if (diag.getSeverity() == Diagnostic.ERROR) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

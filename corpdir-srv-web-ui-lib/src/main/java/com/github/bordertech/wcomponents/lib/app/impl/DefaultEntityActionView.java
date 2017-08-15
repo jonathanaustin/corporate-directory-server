@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.type.EntityActionType;
+import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
@@ -28,14 +28,14 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 	private final WMenu actionMenu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", EntityActionType.BACK) {
+	private final WMenuItem itemBack = new MyMenuItem("Back", ActionEventType.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", EntityActionType.EDIT) {
+	private final WMenuItem itemEdit = new MyMenuItem("Edit", ActionEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -47,7 +47,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", EntityActionType.CANCEL) {
+	private final WMenuItem itemCancel = new MyMenuItem("Cancel", ActionEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -64,7 +64,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 		}
 	};
 
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", EntityActionType.REFRESH) {
+	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", ActionEventType.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -77,7 +77,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", EntityActionType.SAVE) {
+	private final WMenuItem itemSave = new MyMenuItem("Save", ActionEventType.SAVE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -89,7 +89,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", EntityActionType.DELETE) {
+	private final WMenuItem itemDelete = new MyMenuItem("Delete", ActionEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isEntityReady();
@@ -101,7 +101,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 		}
 	};
 
-	private final WMenuItem itemAdd = new MyMenuItem("Add", EntityActionType.ADD);
+	private final WMenuItem itemAdd = new MyMenuItem("Add", ActionEventType.ADD);
 
 	private final WPanel ajaxPanel = new WPanel() {
 		@Override
@@ -188,11 +188,6 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	}
 
 	@Override
-	public void doRefreshViewState() {
-		// Do nothing
-	}
-
-	@Override
 	protected EntityViewModel newComponentModel() {
 		return new EntityViewModel();
 	}
@@ -227,14 +222,14 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 	private static class MyMenuItem extends WMenuItem {
 
-		private final EntityActionType event;
+		private final ActionEventType event;
 
-		public MyMenuItem(final String text, final EntityActionType event) {
+		public MyMenuItem(final String text, final ActionEventType event) {
 			super(text);
 			this.event = event;
 		}
 
-		public EntityActionType getItemEvent() {
+		public ActionEventType getItemEvent() {
 			return event;
 		}
 	}

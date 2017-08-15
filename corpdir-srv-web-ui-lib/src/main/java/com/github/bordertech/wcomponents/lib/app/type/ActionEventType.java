@@ -8,13 +8,13 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum EntityActionStatus implements EventType {
-	REFRESH_OK,
-	DELETE_OK,
-	SAVE_OK,
-	ADD_OK,
-	REFRESH_ERROR,
-	DELETE_ERROR,
-	SAVE_ERROR,
-	ADD_ERROR
+public enum ActionEventType implements EventType {
+	BACK,
+	CANCEL,
+	EDIT,
+	ADD,
+	REFRESH,
+	DELETE,
+	SAVE,
+	LOAD
 }
