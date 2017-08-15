@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
 /**
@@ -17,8 +17,8 @@ public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implem
 
 	private final EntityView<T> entityView;
 
-	public BasicEntityWithActionView(final BasicController ctrl, final EntityView<T> entityView, final EntityActionView actionView) {
-		super(ctrl);
+	public BasicEntityWithActionView(final Dispatcher dispatcher, final EntityView<T> entityView, final EntityActionView actionView) {
+		super(dispatcher);
 		this.entityView = entityView;
 	}
 

@@ -101,6 +101,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
 	public final void setCriteriaView(final CriteriaView<S> criteriaView) {
 		getOrCreateComponentModel().criteriaView = criteriaView;
+		criteriaView.setController(this);
 	}
 
 	public final PollingServiceView<S, List<T>> getPollingView() {
@@ -109,6 +110,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
 	public final void setPollingView(final PollingServiceView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
+		pollingView.setController(this);
 	}
 
 	public final ListView<T> getListView() {
@@ -117,6 +119,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
 	public final void setListView(final ListView<T> listView) {
 		getOrCreateComponentModel().listView = listView;
+		listView.setController(this);
 	}
 
 	/**

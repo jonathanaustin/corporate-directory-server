@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class BasicCriteriaView extends AbstractCriteriaView<String> {
 
 	private final WSuggestions suggestions = new WSuggestions();
 
-	public BasicCriteriaView(final BasicController ctrl) {
-		super(ctrl);
+	public BasicCriteriaView(final Dispatcher dispatcher) {
+		super(dispatcher);
 
 		WDiv content = getViewHolder();
 

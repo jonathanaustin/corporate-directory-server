@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
 /**
@@ -19,8 +19,8 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
  */
 public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
 
-	public DefaultEntityView(final BasicController ctrl) {
-		super(ctrl);
+	public DefaultEntityView(final Dispatcher dispatcher) {
+		super(dispatcher);
 	}
 
 	@Override

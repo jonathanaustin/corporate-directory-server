@@ -29,6 +29,11 @@ public interface View<T> extends Serializable {
 	Controller getController();
 
 	/**
+	 * @param controller the view controller
+	 */
+	void setController(final Controller controller);
+
+	/**
 	 * @return the view bean
 	 */
 	T getViewBean();

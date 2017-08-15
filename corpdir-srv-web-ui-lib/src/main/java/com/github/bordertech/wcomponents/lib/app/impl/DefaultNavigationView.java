@@ -16,9 +16,9 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.type.NavigationEventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
 public class DefaultNavigationView extends DefaultView implements NavigationView {
 
@@ -144,8 +144,8 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 		}
 	};
 
-	public DefaultNavigationView(final BasicController ctrl) {
-		super(ctrl);
+	public DefaultNavigationView(final Dispatcher dispatcher) {
+		super(dispatcher);
 
 		WDiv viewHolder = getViewHolder();
 

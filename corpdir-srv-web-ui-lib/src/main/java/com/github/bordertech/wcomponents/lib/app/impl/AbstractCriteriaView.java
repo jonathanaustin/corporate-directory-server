@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
@@ -25,8 +25,8 @@ public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements 
 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
-	public AbstractCriteriaView(final BasicController ctrl) {
-		super(ctrl);
+	public AbstractCriteriaView(final Dispatcher dispatcher) {
+		super(dispatcher);
 		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getViewHolder()) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {

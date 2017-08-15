@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class DefaultView<T> extends WDiv implements BasicView<T> {
 
-	private final BasicController ctrl;
+	private final Dispatcher dispatcher;
 
 	private final String qualifier;
 
@@ -41,12 +42,12 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 		}
 	};
 
-	public DefaultView(final BasicController ctrl) {
-		this(ctrl, null);
+	public DefaultView(final Dispatcher dispatcher) {
+		this(dispatcher, null);
 	}
 
-	public DefaultView(final BasicController ctrl, final String qualifier) {
-		this.ctrl = ctrl;
+	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
+		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
 
 		add(viewHolder);
@@ -57,12 +58,17 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return ctrl.getDispatcher();
+		return dispatcher;
 	}
 
 	@Override
 	public final BasicController getController() {
-		return ctrl;
+		return getComponentModel().controller;
+	}
+
+	@Override
+	public void setController(final Controller controller) {
+		getOrCreateComponentModel().controller = (BasicController) controller;
 	}
 
 	@Override
@@ -206,7 +212,10 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	protected void initViewContent(final Request request) {
-		getController().configAjax(this);
+		BasicController ctrl = getController();
+		if (ctrl != null) {
+			getController().configAjax(this);
+		}
 	}
 
 	@Override
@@ -228,6 +237,8 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
 	public static class ViewModel extends DivModel {
+
+		private BasicController controller;
 	}
 
 	/**

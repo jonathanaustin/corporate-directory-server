@@ -46,10 +46,6 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		return WMessages.getInstance(this);
 	}
 
-//	@Override
-//	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
-//		return Collections.EMPTY_LIST;
-//	}
 	/**
 	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
 	 *

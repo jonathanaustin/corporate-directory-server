@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,18 +81,18 @@ public class PollingView extends DefaultView {
 		}
 	};
 
-	public PollingView(final BasicController ctrl) {
-		this(ctrl, 174);
+	public PollingView(final Dispatcher disptacher) {
+		this(disptacher, 174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param ctrl the view controller
+	 * @param dispatcher the view controller
 	 * @param delay the delay for polling
 	 */
-	public PollingView(final BasicController ctrl, final int delay) {
-		super(ctrl);
+	public PollingView(final Dispatcher dispatcher, final int delay) {
+		super(dispatcher);
 
 		WDiv holder = getViewHolder();
 		holder.setSearchAncestors(false);

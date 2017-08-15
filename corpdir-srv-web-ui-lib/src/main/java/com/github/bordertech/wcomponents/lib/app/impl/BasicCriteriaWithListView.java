@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.ctrl.CriteriaWithListCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
@@ -20,16 +20,16 @@ public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implem
 
 	private final WMessages messages = new WMessages();
 
-	public BasicCriteriaWithListView(final BasicController ctrl) {
-		super(ctrl);
+	public BasicCriteriaWithListView(final Dispatcher dispatcher) {
+		super(dispatcher);
 
 		// Create controller
-		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(getDispatcher());
+		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(dispatcher);
 
 		// Set views on Controller
-		CriteriaView criteriaView = new BasicCriteriaView(viewCtrl);
-		ListView listView = new BasicListView(viewCtrl);
-		PollingServiceView pollingView = new PollingServiceView(viewCtrl);
+		CriteriaView criteriaView = new BasicCriteriaView(dispatcher);
+		ListView listView = new BasicListView(dispatcher);
+		PollingServiceView pollingView = new PollingServiceView(dispatcher);
 		viewCtrl.setCriteriaView(criteriaView);
 		viewCtrl.setPollingView(pollingView);
 		viewCtrl.setListView(listView);

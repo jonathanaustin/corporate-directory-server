@@ -48,6 +48,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	public final void setEntityActionView(final EntityActionView actionView) {
 		getOrCreateComponentModel().entityActionView = actionView;
+		actionView.setController(this);
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -56,6 +57,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	public final void setEntityView(final EntityView<T> entityView) {
 		getOrCreateComponentModel().entityView = entityView;
+		entityView.setController(this);
 	}
 
 	public final ExecuteService<Event, T> getEntityServiceActions() {

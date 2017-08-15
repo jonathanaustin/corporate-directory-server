@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
@@ -75,43 +75,43 @@ public class PollingServiceView<S, T> extends PollingView {
 	/**
 	 * Default constructor.
 	 *
-	 * @param ctrl the view controller
+	 * @param dispatcher the view controller
 	 */
-	public PollingServiceView(final BasicController ctrl) {
-		this(ctrl, 174);
+	public PollingServiceView(final Dispatcher dispatcher) {
+		this(dispatcher, 174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param ctrl the view controller
+	 * @param dispatcher the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public PollingServiceView(final BasicController ctrl, final int delay) {
-		this(ctrl, null, delay, false);
+	public PollingServiceView(final Dispatcher dispatcher, final int delay) {
+		this(dispatcher, null, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param ctrl the view controller
+	 * @param dispatcher the view controller
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public PollingServiceView(final BasicController ctrl, final String context, final int delay) {
-		this(ctrl, context, delay, false);
+	public PollingServiceView(final Dispatcher dispatcher, final String context, final int delay) {
+		this(dispatcher, context, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param ctrl the view controller
+	 * @param dispatcher the view controller
 	 * @param context the naming context
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public PollingServiceView(final BasicController ctrl, final String context, final int delay, final boolean manualStart) {
-		super(ctrl, delay);
+	public PollingServiceView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
+		super(dispatcher, delay);
 
 		WDiv holder = getViewHolder();
 

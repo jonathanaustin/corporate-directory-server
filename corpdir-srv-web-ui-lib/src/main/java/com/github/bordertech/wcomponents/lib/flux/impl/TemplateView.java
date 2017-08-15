@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.flux.impl;
 
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * AbstraDefault template view.
@@ -14,12 +15,12 @@ public class TemplateView<T> extends DefaultView<T> {
 
 	private final WTemplate template = new WTemplate();
 
-	public TemplateView(final BasicController ctrl) {
-		this(ctrl, null);
+	public TemplateView(final Dispatcher dispatcher) {
+		this(dispatcher, null);
 	}
 
-	public TemplateView(final BasicController ctrl, final String qualifier) {
-		super(ctrl, qualifier);
+	public TemplateView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 		getViewHolder().add(template);
 	}
 

@@ -72,7 +72,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		DefaultController ctrl = new DefaultController(dispatcher);
 
 		// Cards
-		BasicView view = new BasicCriteriaWithListView<String>(ctrl) {
+		BasicView view = new BasicCriteriaWithListView<String>(dispatcher) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
 				if ("error".equals(criteria)) {
@@ -96,6 +96,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			}
 		};
 		mgr.add(view);
+		view.setController(ctrl);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);

@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.List;
 
@@ -113,10 +113,10 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	/**
 	 * Construct the Menu Bar.
 	 *
-	 * @param ctrl the controller for this view
+	 * @param dispatcher the controller for this view
 	 */
-	public DefaultEntityActionView(final BasicController ctrl) {
-		super(ctrl);
+	public DefaultEntityActionView(final Dispatcher dispatcher) {
+		super(dispatcher);
 
 		WDiv holder = getViewHolder();
 
