@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
@@ -58,11 +59,8 @@ public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements 
 	}
 
 	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-		for (CriteriaEventType event : CriteriaEventType.values()) {
-			addEventTargetsToAjaxCtrl(ajax, getController().getEventTargets(this, event));
-		}
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		addEventTargetsToAjaxCtrl(ajax, target);
 	}
 
 }

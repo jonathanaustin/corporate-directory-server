@@ -1,19 +1,16 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.polling.PollingEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +40,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 		listener = new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
-				Exception excp = (Exception) event.getData();
+				Exception excp = event.getException();
 				handleSearchFailedEvent(excp);
 			}
 		};
@@ -91,20 +88,11 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 		listView.makeHolderInvisible();
 	}
 
-	/**
-	 * Provide the views the AJAX targets for their actions.
-	 *
-	 * @param view the view requesting
-	 * @param eventType the event type
-	 * @return the list of AJAX targets for that view and event type
-	 */
 	@Override
-	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
-		List<AjaxTarget> targets = new ArrayList<>();
-		targets.add(getPollingView());
-		targets.add(getListView());
-		targets.add(getViewMessages());
-		return targets;
+	public void configAjax(final BasicView view) {
+		view.addEventTarget(getViewMessages());
+		view.addEventTarget(getPollingView());
+		view.addEventTarget(getListView());
 	}
 
 	public final CriteriaView<S> getCriteriaView() {

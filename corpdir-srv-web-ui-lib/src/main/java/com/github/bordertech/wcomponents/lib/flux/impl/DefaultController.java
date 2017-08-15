@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.flux.impl;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMessages;
@@ -11,9 +10,6 @@ import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.View;
-import java.util.Collections;
-import java.util.List;
 
 /**
  *
@@ -50,11 +46,10 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		return WMessages.getInstance(this);
 	}
 
-	@Override
-	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
-		return Collections.EMPTY_LIST;
-	}
-
+//	@Override
+//	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
+//		return Collections.EMPTY_LIST;
+//	}
 	/**
 	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
 	 *
@@ -111,6 +106,10 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	}
 
 	protected void configViews() {
+	}
+
+	@Override
+	public void configAjax(final BasicView view) {
 	}
 
 	@Override

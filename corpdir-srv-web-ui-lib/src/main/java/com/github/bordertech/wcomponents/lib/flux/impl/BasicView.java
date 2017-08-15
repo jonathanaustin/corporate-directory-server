@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.View;
 
 /**
@@ -62,5 +63,7 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	 */
 	@Override
 	BasicController getController();
+
+	void addEventTarget(final AjaxTarget target, final EventType... eventType);
 
 }

@@ -60,13 +60,13 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 
 	@Override
 	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
 		// Check entity is loaded
 		if (!isLoaded()) {
 			getViewMessages().error("No entity has been loaded.");
 			makeHolderInvisible();
 			return;
 		}
-		super.initViewContent(request);
 		doRefreshViewState();
 	}
 

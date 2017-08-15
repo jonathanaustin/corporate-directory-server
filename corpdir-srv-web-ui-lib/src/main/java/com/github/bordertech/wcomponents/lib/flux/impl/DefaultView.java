@@ -183,27 +183,30 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 		WebUtilities.updateBeanValue(getViewHolder());
 	}
 
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		// Do Nothing
+	}
+
 	/**
-	 * Helper method to add targets to an Ajax Control.
+	 * Helper method to add target to an Ajax Control.
 	 *
 	 * @param ajax the AJAX control
-	 * @param targets the AJAX targets
+	 * @param target the AJAX target
 	 */
-	public void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final List<AjaxTarget> targets) {
-		if (targets == null || targets.isEmpty()) {
+	public void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final AjaxTarget target) {
+		if (target == null) {
 			return;
 		}
 		// Make Sure the Targets have not already been added
 		List<AjaxTarget> current = ajax.getTargets();
-		for (AjaxTarget target : targets) {
-			if (!current.contains(target)) {
-				ajax.addTarget(target);
-			}
+		if (!current.contains(target)) {
+			ajax.addTarget(target);
 		}
 	}
 
 	protected void initViewContent(final Request request) {
-		// Do nothing
+		getController().configAjax(this);
 	}
 
 	@Override

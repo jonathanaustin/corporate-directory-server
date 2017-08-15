@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.type.ActionStatusEventType;
@@ -9,13 +8,10 @@ import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -44,15 +40,6 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		}
 
 		// TODO Add Action Error Listeners
-	}
-
-	@Override
-	public List<AjaxTarget> getEventTargets(final View view, final EventType eventType) {
-		List<AjaxTarget> targets = new ArrayList<>();
-		targets.add(getEntityActionView());
-		targets.add(getEntityView());
-		targets.add(getViewMessages());
-		return targets;
 	}
 
 	public final EntityActionView getEntityActionView() {
@@ -91,6 +78,13 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		if (getEntityServiceActions() == null) {
 			throw new IllegalStateException("Entity service actions have not been set.");
 		}
+	}
+
+	@Override
+	public void configAjax(final BasicView view) {
+		view.addEventTarget(getViewMessages());
+		view.addEventTarget(getEntityActionView());
+		view.addEventTarget(getEntityView());
 	}
 
 	protected void handleEntityActionEvent(final Event event) {

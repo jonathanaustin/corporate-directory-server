@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.ArrayList;
@@ -205,12 +206,11 @@ public class PollingView extends DefaultView {
 	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-		// AJAX Targets
-		for (PollingEventType event : PollingEventType.values()) {
-			for (AjaxTarget eventTarget : getController().getEventTargets(this, event)) {
-				addAjaxTarget(eventTarget);
-			}
-		}
+	}
+
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		addAjaxTarget(target);
 	}
 
 	protected List<AjaxTarget> getAjaxTargets() {
