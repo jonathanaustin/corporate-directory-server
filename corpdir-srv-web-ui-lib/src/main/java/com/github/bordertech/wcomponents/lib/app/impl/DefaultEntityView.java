@@ -17,24 +17,10 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityView<T> extends DefaultView implements EntityView<T> {
+public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
 
 	public DefaultEntityView(final BasicController ctrl) {
 		super(ctrl);
-	}
-
-	/**
-	 *
-	 * @return the bean being displayed.
-	 */
-	@Override
-	public T getEntity() {
-		return (T) getBeanValue();
-	}
-
-	@Override
-	public void setEntity(final T entity) {
-		setBean(entity);
 	}
 
 	@Override

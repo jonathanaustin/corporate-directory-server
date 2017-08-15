@@ -11,10 +11,6 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends BasicView {
-
-	void setEntities(final List<T> entities);
-
-	List<T> getEntities();
+public interface ListView<T> extends BasicView<List<T>> {
 
 }

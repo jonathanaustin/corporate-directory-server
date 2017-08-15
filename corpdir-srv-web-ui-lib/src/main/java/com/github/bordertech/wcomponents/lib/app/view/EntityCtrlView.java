@@ -6,18 +6,19 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  * Entity ctrl view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean
  * @since 1.0.0
  *
  */
-public interface EntityCtrlView extends BasicView {
-
-	void setEntityMode(final EntityMode mode);
+public interface EntityCtrlView<T> extends BasicView<T> {
 
 	EntityMode getEntityMode();
 
-	void setEntityReady(final boolean entityReady);
+	void setEntityMode(final EntityMode mode);
 
 	boolean isEntityReady();
+
+	void setEntityReady(final boolean entityReady);
 
 	boolean isUseBack();
 

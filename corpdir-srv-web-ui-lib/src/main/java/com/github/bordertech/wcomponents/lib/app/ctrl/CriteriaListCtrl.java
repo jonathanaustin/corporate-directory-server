@@ -19,6 +19,8 @@ import java.util.List;
 /**
  *
  * @author jonathan
+ * @param <S> the criteria type
+ * @param <T> the result type
  */
 public class CriteriaListCtrl<S, T> extends DefaultController {
 
@@ -130,7 +132,7 @@ public class CriteriaListCtrl<S, T> extends DefaultController {
 			getViewMessages().info("No records found");
 		} else {
 			ListView listView = getListView();
-			listView.setEntities(result);
+			listView.setViewBean(result);
 			listView.makeHolderVisible();
 		}
 	}

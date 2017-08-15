@@ -55,8 +55,8 @@ public class BasicCriteriaView extends AbstractCriteriaView<String> {
 	}
 
 	@Override
-	protected String setupCriteria() {
-		return txtField.getValue();
+	public void doUpdateViewBean() {
+		setViewBean(txtField.getValue());
 	}
 
 	protected void doHandleSuggestions() {

@@ -33,6 +33,8 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 
 	/**
 	 * Construct basic detail panel.
+	 *
+	 * @param ctrl the controller attached to this view
 	 */
 	public BasicEntityView(final BasicController ctrl) {
 		super(ctrl);
@@ -119,7 +121,7 @@ public class BasicEntityView<T extends ApiKeyIdObject> extends DefaultEntityView
 	}
 
 	private boolean isExistingEntity() {
-		return getEntity().getId() != null;
+		return getViewBean().getId() != null;
 	}
 
 }

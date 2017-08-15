@@ -11,8 +11,9 @@ import com.github.bordertech.wcomponents.lib.flux.View;
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ * @param <T> the view bean
  */
-public interface BasicView extends View, AjaxTarget, SubordinateTarget, BeanBound {
+public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
@@ -20,8 +21,14 @@ public interface BasicView extends View, AjaxTarget, SubordinateTarget, BeanBoun
 	 */
 	WDiv getViewHolder();
 
+	/**
+	 * Make the view holder visible.
+	 */
 	void makeHolderVisible();
 
+	/**
+	 * Make the view holder invisible.
+	 */
 	void makeHolderInvisible();
 
 	/**
@@ -31,8 +38,16 @@ public interface BasicView extends View, AjaxTarget, SubordinateTarget, BeanBoun
 	 */
 	void setSearchAncestors(final boolean searchAncestors);
 
+	/**
+	 *
+	 * @return the messages component for this view
+	 */
 	WMessages getViewMessages();
 
+	/**
+	 *
+	 * @return the controller attached to this view
+	 */
 	@Override
 	BasicController getController();
 

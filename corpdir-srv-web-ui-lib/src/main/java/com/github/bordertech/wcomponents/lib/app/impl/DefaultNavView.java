@@ -17,7 +17,6 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.NavEvent;
 import com.github.bordertech.wcomponents.lib.app.view.NavView;
-import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
@@ -410,8 +409,7 @@ public class DefaultNavView extends DefaultView implements NavView {
 	 * @param navEvent the navigation action that caused the change of index
 	 */
 	protected void handleIndexChanged(final NavEvent navEvent) {
-		Event event = new Event(this, navEvent, getCurrentIdx());
-		getDispatcher().dispatch(event);
+		dispatchViewEvent(navEvent, getCurrentIdx());
 	}
 
 	/**

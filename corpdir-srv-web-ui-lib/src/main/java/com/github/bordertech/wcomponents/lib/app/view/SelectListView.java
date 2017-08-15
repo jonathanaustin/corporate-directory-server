@@ -10,9 +10,9 @@ package com.github.bordertech.wcomponents.lib.app.view;
  */
 public interface SelectListView<T> extends ListView<T> {
 
-	void setListMode(final ListMode mode);
-
 	ListMode getListMode();
+
+	void setListMode(final ListMode mode);
 
 	void clearSelectedIdx();
 

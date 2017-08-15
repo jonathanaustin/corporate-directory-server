@@ -10,6 +10,7 @@ import java.util.List;
  * Abstract list view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean
  * @since 1.0.0
  */
 public abstract class AbstractSelectListView<T> extends AbstractListView<T> implements SelectListView<T> {
@@ -52,7 +53,7 @@ public abstract class AbstractSelectListView<T> extends AbstractListView<T> impl
 
 	@Override
 	public int getSize() {
-		List<T> items = getEntities();
+		List<T> items = getViewBean();
 		return items == null ? 0 : items.size();
 	}
 
@@ -62,7 +63,7 @@ public abstract class AbstractSelectListView<T> extends AbstractListView<T> impl
 		if (idx < 0) {
 			return null;
 		}
-		List<T> items = getEntities();
+		List<T> items = getViewBean();
 		return items.get(idx);
 	}
 

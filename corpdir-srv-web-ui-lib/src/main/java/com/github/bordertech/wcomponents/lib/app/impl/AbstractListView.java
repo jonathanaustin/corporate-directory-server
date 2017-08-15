@@ -9,22 +9,13 @@ import java.util.List;
  * Abstract list view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean
  * @since 1.0.0
  */
-public abstract class AbstractListView<T> extends DefaultView implements ListView<T> {
+public abstract class AbstractListView<T> extends DefaultView<List<T>> implements ListView<T> {
 
 	public AbstractListView(final BasicController ctrl) {
 		super(ctrl);
-	}
-
-	@Override
-	public void setEntities(final List<T> entities) {
-		setBean(entities);
-	}
-
-	@Override
-	public List<T> getEntities() {
-		return (List<T>) getBeanValue();
 	}
 
 }

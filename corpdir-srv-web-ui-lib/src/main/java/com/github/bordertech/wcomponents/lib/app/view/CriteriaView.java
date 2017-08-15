@@ -7,11 +7,11 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  * Entity Criteria View.
  *
  * @author Jonathan Austin
- * @param <T> the criteria type
+ * @param <T> the view bean
  * @since 1.0.0
  *
  */
-public interface CriteriaView<T> extends BasicView {
+public interface CriteriaView<T> extends BasicView<T> {
 
 	WButton getSearchButton();
 

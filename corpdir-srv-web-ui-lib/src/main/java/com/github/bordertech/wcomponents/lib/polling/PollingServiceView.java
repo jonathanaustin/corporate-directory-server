@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
@@ -356,14 +355,14 @@ public abstract class PollingServiceView<S, T> extends PollingView {
 			LOG.error("Error loading data. " + excp.getMessage());
 			// Status
 			setPollingStatus(PollingStatus.ERROR);
-			dispatchEvent(new Event(this, PollingEvent.ERROR, excp));
+			dispatchViewEvent(PollingEvent.ERROR, excp);
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
 			// Status
 			setPollingStatus(PollingStatus.COMPLETE);
-			dispatchEvent(new Event(this, PollingEvent.COMPLETE, result));
+			dispatchViewEvent(PollingEvent.COMPLETE, result);
 		}
 	}
 

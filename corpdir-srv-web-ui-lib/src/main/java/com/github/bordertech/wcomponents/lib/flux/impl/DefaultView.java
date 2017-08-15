@@ -4,16 +4,24 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.Listener;
 import java.util.List;
 
 /**
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ *
+ * @param <T> the view bean
  */
-public class DefaultView extends WDiv implements BasicView {
+public class DefaultView<T> extends WDiv implements BasicView<T> {
 
 	private final BasicController ctrl;
 
@@ -88,7 +96,46 @@ public class DefaultView extends WDiv implements BasicView {
 		return WMessages.getInstance(this);
 	}
 
-	public static final void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final List<AjaxTarget> targets) {
+	@Override
+	public T getViewBean() {
+		return (T) getBean();
+	}
+
+	@Override
+	public void setViewBean(final T viewBean) {
+		setBean(viewBean);
+	}
+
+	@Override
+	public void dispatchViewEvent(final EventType eventType) {
+		dispatchViewEvent(eventType, null);
+	}
+
+	@Override
+	public void dispatchViewEvent(final EventType eventType, final Object data) {
+		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data);
+		getDispatcher().dispatch(event);
+	}
+
+	@Override
+	public String registerViewListener(final Listener listener, final EventType eventType) {
+		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
+	}
+
+	/**
+	 * Update the view bean.
+	 */
+	public void doUpdateViewBean() {
+		WebUtilities.updateBeanValue(getViewHolder());
+	}
+
+	/**
+	 * Helper method to add targets to an Ajax Control.
+	 *
+	 * @param ajax the AJAX control
+	 * @param targets the AJAX targets
+	 */
+	public void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final List<AjaxTarget> targets) {
 		if (targets == null || targets.isEmpty()) {
 			return;
 		}

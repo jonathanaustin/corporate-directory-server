@@ -7,8 +7,10 @@ import com.github.bordertech.wcomponents.WTemplate;
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ *
+ * @param <T> the view bean
  */
-public class TemplateView extends DefaultView {
+public class TemplateView<T> extends DefaultView<T> {
 
 	private final WTemplate template = new WTemplate();
 

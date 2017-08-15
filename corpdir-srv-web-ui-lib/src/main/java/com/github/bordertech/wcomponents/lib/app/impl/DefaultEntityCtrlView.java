@@ -14,8 +14,6 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.EntityCtrlEvent;
 import com.github.bordertech.wcomponents.lib.app.view.EntityCtrlView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.List;
@@ -112,6 +110,8 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 
 	/**
 	 * Construct the Menu Bar.
+	 *
+	 * @param ctrl the controller for this view
 	 */
 	public DefaultEntityCtrlView(final BasicController ctrl) {
 		super(ctrl);
@@ -134,7 +134,7 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			@Override
 			public void execute(final ActionEvent event) {
 				MyMenuItem item = (MyMenuItem) event.getSource();
-				dispatchEvent(item.getItemEvent());
+				dispatchViewEvent(item.getItemEvent());
 			}
 		};
 
@@ -144,10 +144,6 @@ public class DefaultEntityCtrlView extends DefaultView implements EntityCtrlView
 			item.setAction(action);
 			ajaxPanel.add(new MyAjaxControl(item));
 		}
-	}
-
-	protected void dispatchEvent(final EventType eventType) {
-		getDispatcher().dispatch(new Event(this, eventType));
 	}
 
 	protected void addTargets(final List<AjaxTarget> targets) {

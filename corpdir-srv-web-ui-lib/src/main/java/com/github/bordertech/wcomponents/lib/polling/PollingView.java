@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.ArrayList;
@@ -171,7 +170,7 @@ public class PollingView extends DefaultView {
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
-		dispatchEvent(new Event(this, PollingEvent.STARTED));
+		dispatchViewEvent(PollingEvent.STARTED);
 	}
 
 	/**
@@ -185,7 +184,7 @@ public class PollingView extends DefaultView {
 			ajaxReload.addTargets(targets);
 		}
 		if (!alreadyPolling) {
-			dispatchEvent(new Event(this, PollingEvent.STARTED));
+			dispatchViewEvent(PollingEvent.STARTED);
 		}
 		pollingContainer.setVisible(true);
 		ajaxReload.setVisible(true);
@@ -241,7 +240,7 @@ public class PollingView extends DefaultView {
 	 * Stopped polling and panel has been reloaded.
 	 */
 	protected void handleStoppedPolling() {
-		dispatchEvent(new Event(this, PollingEvent.COMPLETE));
+		dispatchViewEvent(PollingEvent.COMPLETE);
 	}
 
 	/**
@@ -275,15 +274,6 @@ public class PollingView extends DefaultView {
 		script.append("window.setTimeout(startStepProgressBar, 1000);");
 		script.append("</script>");
 		return script.toString();
-	}
-
-	/**
-	 * Dispatch the event.
-	 *
-	 * @param event the polling Event to dispatch
-	 */
-	protected void dispatchEvent(final Event event) {
-		getDispatcher().dispatch(event);
 	}
 
 	/**
