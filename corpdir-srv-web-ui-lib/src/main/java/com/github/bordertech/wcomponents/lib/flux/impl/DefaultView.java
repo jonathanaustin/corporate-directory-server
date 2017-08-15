@@ -102,23 +102,44 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 		setBean(viewBean);
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 */
 	public final void dispatchViewEvent(final EventType eventType) {
 		dispatchViewEvent(eventType, null, null);
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 */
 	public void dispatchViewEvent(final EventType eventType, final Object data) {
 		dispatchViewEvent(eventType, data, null);
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 * @param exception an exception
+	 */
 	public void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
 		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
-	@Override
+	/**
+	 * A helper method to register a listener with an Event Type and the View qualifier automatically added.
+	 *
+	 * @param listener
+	 * @param eventType
+	 * @return the listener register id
+	 */
 	public final String registerViewListener(final Listener listener, final EventType eventType) {
 		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
 	}

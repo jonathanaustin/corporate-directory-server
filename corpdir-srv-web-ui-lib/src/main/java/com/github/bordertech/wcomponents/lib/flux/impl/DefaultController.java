@@ -55,23 +55,44 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		return Collections.EMPTY_LIST;
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 */
 	public final void dispatchCtrlEvent(final EventType eventType) {
 		dispatchCtrlEvent(eventType, null, null);
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 */
 	public void dispatchCtrlEvent(final EventType eventType, final Object data) {
 		dispatchCtrlEvent(eventType, data, null);
 	}
 
-	@Override
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 * @param exception an exception
+	 */
 	public void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
 		Event event = new Event(null, new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
-	@Override
+	/**
+	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener
+	 * @param eventType
+	 * @return the listener register id
+	 */
 	public final String registerCtrlListener(final Listener listener, final EventType eventType) {
 		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
 	}

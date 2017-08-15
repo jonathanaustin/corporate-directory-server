@@ -29,39 +29,6 @@ public interface View<T> extends Serializable {
 	Controller getController();
 
 	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 */
-	void dispatchViewEvent(final EventType eventType);
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 */
-	void dispatchViewEvent(final EventType eventType, final Object data);
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 * @param exception an exception
-	 */
-	void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception);
-
-	/**
-	 * A helper method to register a listener with an Event Type and the View qualifier automatically added.
-	 *
-	 * @param listener
-	 * @param eventType
-	 * @return the listener register id
-	 */
-	String registerViewListener(final Listener listener, final EventType eventType);
-
-	/**
 	 * @return the view bean
 	 */
 	T getViewBean();
