@@ -23,7 +23,7 @@ import java.util.List;
 public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
 	public CriteriaWithListCtrl(final Dispatcher dispatcher) {
-		super(dispatcher, null);
+		this(dispatcher, null);
 	}
 
 	public CriteriaWithListCtrl(final Dispatcher dispatcher, final String qualifier) {

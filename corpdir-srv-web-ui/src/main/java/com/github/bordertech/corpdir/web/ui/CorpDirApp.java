@@ -17,6 +17,7 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicEntityWithActionView;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
@@ -114,7 +115,11 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			}
 		};
 		view2.getEntityView().getContent().add(new BasicEntityPanel());
-		mgr.add(view2);
+
+		WDiv div = new WDiv();
+		div.add(view);
+		div.add(view2);
+		mgr.add(div);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
