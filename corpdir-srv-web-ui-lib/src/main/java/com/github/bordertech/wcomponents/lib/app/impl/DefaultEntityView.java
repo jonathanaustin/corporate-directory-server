@@ -41,7 +41,7 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 
 	@Override
 	public void doRefreshViewState() {
-		doMakeReadOnly(getViewHolder(), isFormReadOnly());
+		doMakeReadOnly(getContent(), isFormReadOnly());
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 		// Check entity is loaded
 		if (!isLoaded()) {
 			getViewMessages().error("No entity has been loaded.");
-			makeHolderInvisible();
+			makeContentInvisible();
 			return;
 		}
 		doRefreshViewState();

@@ -10,6 +10,10 @@ import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.View;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -92,21 +96,58 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
-			checkConfig();
+			resetViews();
 			configViews();
 			setInitialised(true);
 		}
+	}
+
+	@Override
+	public void configViews() {
+		checkConfig();
 	}
 
 	protected void checkConfig() {
 	}
 
 	@Override
-	public void configViews() {
+	public void configAjax(final BasicView view) {
 	}
 
 	@Override
-	public void configAjax(final BasicView view) {
+	public void reset() {
+		resetViews();
+		super.reset();
+	}
+
+	@Override
+	public List<View> getViews() {
+		CtrlModel model = getComponentModel();
+		return model.views == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.views);
+	}
+
+	protected void addView(final View view) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.views == null) {
+			model.views = new ArrayList<>();
+		}
+		model.views.add(view);
+	}
+
+	protected void removeView(final View view) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.views != null) {
+			model.views.remove(view);
+			if (model.views.isEmpty()) {
+				model.views = null;
+			}
+		}
+	}
+
+	protected void resetViews() {
+		for (View view : getViews()) {
+			view.resetView();
+		}
 	}
 
 	@Override
@@ -128,6 +169,8 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
 	public static class CtrlModel extends ComponentModel {
+
+		private List<View> views;
 	}
 
 }

@@ -21,7 +21,7 @@ public class TemplateView<T> extends DefaultView<T> {
 
 	public TemplateView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
-		getViewHolder().add(template);
+		getContent().add(template);
 	}
 
 	public final WTemplate getViewTemplate() {

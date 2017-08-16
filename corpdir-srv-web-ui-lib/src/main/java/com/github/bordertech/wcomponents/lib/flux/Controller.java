@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.flux;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  *
@@ -19,5 +20,11 @@ public interface Controller extends Serializable {
 	 * @return the qualifier to be used on listeners or events (if needed)
 	 */
 	String getQualifier();
+
+	/**
+	 *
+	 * @return the views added to this controller
+	 */
+	List<View> getViews();
 
 }

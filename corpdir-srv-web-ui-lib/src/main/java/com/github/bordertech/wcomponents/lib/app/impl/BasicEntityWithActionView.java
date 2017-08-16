@@ -44,7 +44,9 @@ public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implem
 		};
 		ctrl.setEntityServiceActions(service);
 
-		WDiv holder = getViewHolder();
+		ctrl.configViews();
+
+		WDiv holder = getContent();
 		holder.add(messages);
 		holder.add(ctrl);
 		holder.add(actionView);

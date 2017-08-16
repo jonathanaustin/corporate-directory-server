@@ -27,14 +27,14 @@ public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements 
 
 	public AbstractCriteriaView(final Dispatcher dispatcher) {
 		super(dispatcher);
-		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getViewHolder()) {
+		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getContent()) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
 				doSearchButtonAction();
 			}
 		});
 
-		getViewHolder().add(ajax);
+		getContent().add(ajax);
 	}
 
 	@Override

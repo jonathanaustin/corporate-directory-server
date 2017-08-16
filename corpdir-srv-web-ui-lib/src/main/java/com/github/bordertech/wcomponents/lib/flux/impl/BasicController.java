@@ -17,5 +17,4 @@ public interface BasicController extends Controller, WComponent {
 
 	void configAjax(final BasicView view);
 
-//	List<AjaxTarget> getEventTargets(final View view, final EventType eventType);
 }

@@ -43,8 +43,10 @@ public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implem
 		};
 		viewCtrl.setSearchService(searchService);
 
+		viewCtrl.configViews();
+
 		// Add views to holder
-		WDiv holder = getViewHolder();
+		WDiv holder = getContent();
 		holder.add(viewCtrl);
 		holder.add(messages);
 		holder.add(criteriaView);

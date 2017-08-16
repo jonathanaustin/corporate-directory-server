@@ -48,4 +48,9 @@ public interface View<T> extends Serializable {
 	 */
 	void updateViewBean();
 
+	/**
+	 * Reset the view to the default state
+	 */
+	void resetView();
+
 }

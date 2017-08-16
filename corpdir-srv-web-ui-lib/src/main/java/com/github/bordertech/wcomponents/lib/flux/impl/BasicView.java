@@ -20,15 +20,15 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	 *
 	 * @return the view content holder.
 	 */
-	WDiv getViewHolder();
+	WDiv getContent();
 
 	/**
-	 * Reset the view holder.
+	 * Reset the view content.
 	 */
-	void resetHolder();
+	void resetContent();
 
 	/**
-	 * Validate the view.Will report errors in the View Messages.
+	 * Validate the view. Will report errors in the View Messages.
 	 *
 	 * @return true if valid
 	 */
@@ -37,12 +37,12 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	/**
 	 * Make the view holder visible.
 	 */
-	void makeHolderVisible();
+	void makeContentVisible();
 
 	/**
 	 * Make the view holder invisible.
 	 */
-	void makeHolderInvisible();
+	void makeContentInvisible();
 
 	/**
 	 * This method is here until it is added to BeanBound.
@@ -64,6 +64,11 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	@Override
 	BasicController getController();
 
+	/**
+	 *
+	 * @param target the AJAX target to add
+	 * @param eventType the event the target is for
+	 */
 	void addEventTarget(final AjaxTarget target, final EventType... eventType);
 
 }

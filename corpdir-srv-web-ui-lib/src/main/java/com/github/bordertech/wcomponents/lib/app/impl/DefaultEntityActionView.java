@@ -125,7 +125,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	public DefaultEntityActionView(final Dispatcher dispatcher) {
 		super(dispatcher);
 
-		WDiv holder = getViewHolder();
+		WDiv holder = getContent();
 
 		holder.add(actionMenu);
 		holder.add(ajaxPanel);

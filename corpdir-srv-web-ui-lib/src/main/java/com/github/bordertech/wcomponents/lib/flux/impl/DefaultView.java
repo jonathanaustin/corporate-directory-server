@@ -77,28 +77,33 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
-	public final WDiv getViewHolder() {
+	public final WDiv getContent() {
 		return viewHolder;
 	}
 
 	@Override
-	public void resetHolder() {
+	public void resetContent() {
 		viewHolder.reset();
 	}
 
 	@Override
-	public final void makeHolderVisible() {
+	public final void makeContentVisible() {
 		viewHolder.setVisible(true);
 	}
 
 	@Override
-	public final void makeHolderInvisible() {
+	public final void makeContentInvisible() {
 		viewHolder.setVisible(false);
 	}
 
 	@Override
 	public void updateViewBean() {
 		WebUtilities.updateBeanValue(this);
+	}
+
+	@Override
+	public void resetView() {
+		reset();
 	}
 
 	@Override
@@ -186,7 +191,7 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	 * Update the view bean.
 	 */
 	public void doUpdateViewBean() {
-		WebUtilities.updateBeanValue(getViewHolder());
+		WebUtilities.updateBeanValue(getContent());
 	}
 
 	@Override

@@ -49,6 +49,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	public final void setEntityActionView(final EntityActionView actionView) {
 		getOrCreateComponentModel().entityActionView = actionView;
 		actionView.setController(this);
+		addView(actionView);
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -58,6 +59,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	public final void setEntityView(final EntityView<T> entityView) {
 		getOrCreateComponentModel().entityView = entityView;
 		entityView.setController(this);
+		addView(entityView);
 	}
 
 	public final ExecuteService<Event, T> getEntityServiceActions() {
@@ -85,7 +87,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	@Override
 	public void configViews() {
 		super.configViews();
-		getEntityView().makeHolderInvisible();
+		getEntityView().makeContentInvisible();
 	}
 
 	@Override
@@ -127,7 +129,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	}
 
 	protected void handleBackAction() {
-		resetViews();
+		reset();
 	}
 
 	protected void handleCancelAction() {
@@ -208,6 +210,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			T bean = doServiceAction(new Event(ActionEventType.ADD));
 			changeViewMode(EntityMode.ADD);
 			getEntityView().setViewBean(bean);
+			getEntityView().makeContentVisible();
 			dispatchCtrlEvent(ActionStatusEventType.ADD_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
@@ -218,6 +221,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	protected void handleLoadAction(final T entity) {
 		resetViews();
 		getEntityView().setViewBean(entity);
+		getEntityView().makeContentVisible();
 		dispatchCtrlEvent(ActionStatusEventType.LOADED_OK, entity);
 	}
 
@@ -225,11 +229,6 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		EntityView entityView = getEntityView();
 		entityView.setEntityMode(mode);
 //		entityView.doRefreshViewState();
-	}
-
-	protected void resetViews() {
-		getEntityActionView().reset();
-		getEntityView().reset();
 	}
 
 	protected T doServiceAction(final Event event) {

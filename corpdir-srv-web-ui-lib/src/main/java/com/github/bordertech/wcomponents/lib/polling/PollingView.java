@@ -94,7 +94,7 @@ public class PollingView extends DefaultView {
 	public PollingView(final Dispatcher dispatcher, final int delay) {
 		super(dispatcher);
 
-		WDiv holder = getViewHolder();
+		WDiv holder = getContent();
 		holder.setSearchAncestors(false);
 
 		// AJAX polling details

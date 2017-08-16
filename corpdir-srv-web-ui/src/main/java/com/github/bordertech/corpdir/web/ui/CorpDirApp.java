@@ -113,7 +113,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 				}
 			}
 		};
-		view2.getEntityView().getViewHolder().add(new BasicEntityPanel());
+		view2.getEntityView().getContent().add(new BasicEntityPanel());
 		mgr.add(view2);
 
 		// Footer

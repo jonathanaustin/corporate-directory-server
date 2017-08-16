@@ -23,6 +23,10 @@ import java.util.List;
 public class CriteriaWithListCtrl<S, T> extends DefaultController {
 
 	public CriteriaWithListCtrl(final Dispatcher dispatcher) {
+		super(dispatcher, null);
+	}
+
+	public CriteriaWithListCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher);
 
 		// Listeners
@@ -77,8 +81,8 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	@Override
 	public void configViews() {
 		super.configViews();
-		getPollingView().makeHolderInvisible();
-		getListView().makeHolderInvisible();
+		getPollingView().makeContentInvisible();
+		getListView().makeContentInvisible();
 	}
 
 	@Override
@@ -96,6 +100,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	public final void setCriteriaView(final CriteriaView<S> criteriaView) {
 		getOrCreateComponentModel().criteriaView = criteriaView;
 		criteriaView.setController(this);
+		addView(criteriaView);
 	}
 
 	public final PollingServiceView<S, List<T>> getPollingView() {
@@ -105,6 +110,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	public final void setPollingView(final PollingServiceView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		pollingView.setController(this);
+		addView(pollingView);
 	}
 
 	public final ListView<T> getListView() {
@@ -114,6 +120,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	public final void setListView(final ListView<T> listView) {
 		getOrCreateComponentModel().listView = listView;
 		listView.setController(this);
+		addView(listView);
 	}
 
 	/**
@@ -143,27 +150,27 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 		pollingView.reset();
 		pollingView.setPollingCriteria(criteria);
 		pollingView.setPollingServiceAction(getSearchService());
-		pollingView.makeHolderVisible();
+		pollingView.makeContentVisible();
 
 		// Reset Listview
 		ListView listView = getListView();
 		listView.reset();
-		listView.makeHolderInvisible();
+		listView.makeContentInvisible();
 	}
 
 	protected void handleSearchFailedEvent(final Exception excp) {
-		getPollingView().makeHolderInvisible();
+		getPollingView().makeContentInvisible();
 		getViewMessages().error(excp.getMessage());
 	}
 
 	protected void handleSearchCompleteEvent(final List<T> result) {
-		getPollingView().makeHolderInvisible();
+		getPollingView().makeContentInvisible();
 		if (result == null || result.isEmpty()) {
 			getViewMessages().info("No records found");
 		} else {
 			ListView listView = getListView();
 			listView.setViewBean(result);
-			listView.makeHolderVisible();
+			listView.makeContentVisible();
 		}
 	}
 

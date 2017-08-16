@@ -113,7 +113,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	public PollingServiceView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
 		super(dispatcher, delay);
 
-		WDiv holder = getViewHolder();
+		WDiv holder = getContent();
 
 		messages.setMargin(new Margin(0, 0, 3, 0));
 		holder.add(messages);
@@ -220,7 +220,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 * @return the polling result, or null if not processed successfully yet
 	 */
 	public T getPollingResult() {
-		return (T) getViewHolder().getBean();
+		return (T) getContent().getBean();
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class PollingServiceView<S, T> extends PollingView {
 			return;
 		}
 		handleClearPollingCache();
-		getViewHolder().reset();
+		getContent().reset();
 		setPollingStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
@@ -271,7 +271,7 @@ public class PollingServiceView<S, T> extends PollingView {
 		if (result == null || criteria == null) {
 			return;
 		}
-		getViewHolder().reset();
+		getContent().reset();
 		startButton.setVisible(false);
 		setPollingCriteria(criteria);
 		handleResult(result);
@@ -377,7 +377,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 */
 	protected void handleSuccessfulResult(final T result) {
 		// Set the result as the bean
-		getViewHolder().setBean(result);
+		getContent().setBean(result);
 		contentResultHolder.setVisible(true);
 	}
 
