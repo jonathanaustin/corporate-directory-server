@@ -26,11 +26,8 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	@Override
 	public void setEntityMode(final EntityMode mode) {
 		if (getEntityMode() != mode) {
-			boolean current = isFormReadOnly();
-			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
-			if (current != isFormReadOnly()) {
-				doRefreshViewState();
-			}
+			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.NONE : mode;
+			doRefreshViewState();
 		}
 	}
 
@@ -39,7 +36,6 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 		return getComponentModel().entityMode;
 	}
 
-	@Override
 	public void doRefreshViewState() {
 		doMakeReadOnly(getContent(), isFormReadOnly());
 	}
@@ -50,12 +46,13 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	@Override
 	public boolean isFormReadOnly() {
 		EntityMode mode = getEntityMode();
-		return !EntityMode.ADD.equals(mode) && !EntityMode.EDIT.equals(mode);
+		return !(EntityMode.ADD.equals(mode) || EntityMode.EDIT.equals(mode));
 	}
 
 	@Override
 	public boolean isLoaded() {
-		return getViewBean() != null;
+		EntityMode mode = getEntityMode();
+		return !EntityMode.NONE.equals(mode);
 	}
 
 	@Override
@@ -99,6 +96,6 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 
 	public static class EntityViewModel extends ViewModel {
 
-		private EntityMode entityMode = EntityMode.VIEW;
+		private EntityMode entityMode = EntityMode.NONE;
 	}
 }

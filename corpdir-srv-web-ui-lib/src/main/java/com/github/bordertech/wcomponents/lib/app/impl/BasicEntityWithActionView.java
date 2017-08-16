@@ -36,6 +36,7 @@ public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implem
 		EntityWithActionCtrl ctrl = new EntityWithActionCtrl(dispatcher);
 		ctrl.setEntityActionView(actionView);
 		ctrl.setEntityView(entityView);
+
 		ExecuteService<Event, T> service = new ExecuteService<Event, T>() {
 			@Override
 			public T executeService(final Event criteria) {

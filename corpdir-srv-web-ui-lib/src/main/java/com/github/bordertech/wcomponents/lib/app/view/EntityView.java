@@ -23,11 +23,6 @@ public interface EntityView<T> extends BasicView<T> {
 	void setEntityMode(final EntityMode mode);
 
 	/**
-	 * Refresh the view state depending on the mode.
-	 */
-	void doRefreshViewState();
-
-	/**
 	 * @return true if form is in read only
 	 */
 	boolean isFormReadOnly();

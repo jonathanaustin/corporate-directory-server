@@ -40,26 +40,26 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	private final WMenuItem itemEdit = new MyMenuItem("Edit", ActionEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
-			return isEntityReady();
+			return isEntityLoaded();
 		}
 
 		@Override
 		public boolean isDisabled() {
 			EntityMode mode = getEntityMode();
-			return EntityMode.ADD == mode || EntityMode.DELETE == mode || EntityMode.EDIT == mode;
+			return !EntityMode.VIEW.equals(mode);
 		}
 	};
 
 	private final WMenuItem itemCancel = new MyMenuItem("Cancel", ActionEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
-			return isEntityReady();
+			return isEntityLoaded();
 		}
 
 		@Override
 		public boolean isDisabled() {
 			EntityMode mode = getEntityMode();
-			return EntityMode.DELETE == mode && EntityMode.VIEW == mode;
+			return EntityMode.VIEW.equals(mode);
 		}
 
 		@Override
@@ -71,7 +71,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", ActionEventType.REFRESH) {
 		@Override
 		public boolean isVisible() {
-			return isEntityReady();
+			return isEntityLoaded();
 		}
 
 		@Override
@@ -85,20 +85,20 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	private final WMenuItem itemSave = new MyMenuItem("Save", ActionEventType.SAVE) {
 		@Override
 		public boolean isVisible() {
-			return isEntityReady();
+			return isEntityLoaded();
 		}
 
 		@Override
 		public boolean isDisabled() {
 			EntityMode mode = getEntityMode();
-			return EntityMode.DELETE == mode && EntityMode.VIEW == mode;
+			return EntityMode.VIEW.equals(mode);
 		}
 	};
 
 	private final WMenuItem itemDelete = new MyMenuItem("Delete", ActionEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
-			return isEntityReady();
+			return isEntityLoaded();
 		}
 
 		@Override
@@ -175,13 +175,13 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	}
 
 	@Override
-	public boolean isEntityReady() {
-		return getComponentModel().entityReady;
+	public boolean isEntityLoaded() {
+		return getComponentModel().entityLoaded;
 	}
 
 	@Override
-	public void setEntityReady(final boolean entityReady) {
-		getOrCreateComponentModel().entityReady = entityReady;
+	public void setEntityLoaded(final boolean entityLoaded) {
+		getOrCreateComponentModel().entityLoaded = entityLoaded;
 	}
 
 	@Override
@@ -227,7 +227,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 
 		private EntityMode entityMode = EntityMode.VIEW;
 
-		private boolean entityReady;
+		private boolean entityLoaded;
 
 		private boolean useBack;
 	}

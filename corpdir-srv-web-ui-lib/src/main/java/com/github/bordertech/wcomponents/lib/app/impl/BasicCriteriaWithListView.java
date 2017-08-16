@@ -30,6 +30,7 @@ public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implem
 		CriteriaView criteriaView = new BasicCriteriaView(dispatcher);
 		ListView listView = new BasicListView(dispatcher);
 		PollingServiceView pollingView = new PollingServiceView(dispatcher);
+
 		viewCtrl.setCriteriaView(criteriaView);
 		viewCtrl.setPollingView(pollingView);
 		viewCtrl.setListView(listView);

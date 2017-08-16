@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.type.ActionStatusEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
@@ -134,9 +133,6 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	protected void handleCancelAction() {
 		EntityView<T> view = getEntityView();
-		if (!view.isLoaded()) {
-			return;
-		}
 		if (view.getEntityMode() == EntityMode.EDIT) {
 			T bean = view.getViewBean();
 			resetViews();
@@ -148,10 +144,9 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	protected void handleEditAction() {
 		EntityView<T> view = getEntityView();
-		if (!view.isLoaded()) {
-			return;
+		if (view.isLoaded()) {
+			changeViewMode(EntityMode.EDIT);
 		}
-		changeViewMode(EntityMode.EDIT);
 	}
 
 	protected void handleDeleteAction() {
@@ -159,7 +154,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		if (!view.isLoaded()) {
 			return;
 		}
-		changeViewMode(EntityMode.DELETE);
+		changeViewMode(EntityMode.VIEW);
 		T bean = view.getViewBean();
 		try {
 			doServiceAction(new Event(ActionEventType.DELETE, bean));
@@ -191,9 +186,18 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	}
 
 	protected void handleSaveAction() {
+		EntityView<T> view = getEntityView();
+		if (!view.isLoaded()) {
+			return;
+		}
 		// Do Validation
-		T bean = getEntityView().getViewBean();
+		if (!view.validateView()) {
+			return;
+		}
+		// Do Save
 		try {
+			view.updateViewBean();
+			T bean = view.getViewBean();
 			bean = doServiceAction(new Event(ActionEventType.SAVE, bean));
 			dispatchCtrlEvent(ActionStatusEventType.SAVE_OK, bean);
 			getViewMessages().success("Saved OK.");
@@ -208,9 +212,8 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			T bean = doServiceAction(new Event(ActionEventType.ADD));
+			handleLoadAction(bean);
 			changeViewMode(EntityMode.ADD);
-			getEntityView().setViewBean(bean);
-			getEntityView().makeContentVisible();
 			dispatchCtrlEvent(ActionStatusEventType.ADD_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
@@ -222,26 +225,21 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		resetViews();
 		getEntityView().setViewBean(entity);
 		getEntityView().makeContentVisible();
+		changeViewMode(EntityMode.VIEW);
 		dispatchCtrlEvent(ActionStatusEventType.LOADED_OK, entity);
 	}
 
 	protected void changeViewMode(final EntityMode mode) {
 		EntityView entityView = getEntityView();
 		entityView.setEntityMode(mode);
-//		entityView.doRefreshViewState();
+		// Keep Action View in SYNC
+		EntityActionView actionView = getEntityActionView();
+		actionView.setEntityMode(entityView.getEntityMode());
+		actionView.setEntityLoaded(entityView.isLoaded());
 	}
 
 	protected T doServiceAction(final Event event) {
 		return getEntityServiceActions().executeService(event);
-	}
-
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		// Keep Action View in SYNC
-		EntityActionView actionView = getEntityActionView();
-		actionView.setEntityMode(getEntityView().getEntityMode());
-		actionView.setEntityReady(getEntityView().isLoaded());
 	}
 
 	@Override

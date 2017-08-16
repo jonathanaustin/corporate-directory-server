@@ -15,9 +15,9 @@ public interface EntityActionView extends BasicView {
 
 	void setEntityMode(final EntityMode mode);
 
-	boolean isEntityReady();
+	boolean isEntityLoaded();
 
-	void setEntityReady(final boolean entityReady);
+	void setEntityLoaded(final boolean entityReady);
 
 	boolean isUseBack();
 
