@@ -15,12 +15,12 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.type.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
-public class DefaultNavigationView extends DefaultView implements NavigationView {
+public class NavigationMenuView extends DefaultView implements NavigationView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -144,11 +144,11 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 		}
 	};
 
-	public DefaultNavigationView(final Dispatcher dispatcher) {
+	public NavigationMenuView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
+	public NavigationMenuView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WDiv viewHolder = getContent();

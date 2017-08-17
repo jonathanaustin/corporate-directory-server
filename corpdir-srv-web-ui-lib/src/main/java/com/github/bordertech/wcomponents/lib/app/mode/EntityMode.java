@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view;
+package com.github.bordertech.wcomponents.lib.app.mode;
 
 /**
  *

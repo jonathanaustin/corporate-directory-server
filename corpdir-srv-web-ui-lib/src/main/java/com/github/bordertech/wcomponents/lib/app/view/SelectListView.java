@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
+
 /**
  * Entity select list view.
  *

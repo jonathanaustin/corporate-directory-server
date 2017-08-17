@@ -11,9 +11,9 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
-import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityActionView extends DefaultView implements EntityActionView {
+public class EntityActionMenuView extends DefaultView implements EntityActionView {
 
 	private final WMenu actionMenu = new WMenu();
 
@@ -122,7 +122,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	 *
 	 * @param dispatcher the controller for this view
 	 */
-	public DefaultEntityActionView(final Dispatcher dispatcher) {
+	public EntityActionMenuView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
@@ -132,7 +132,7 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	 * @param dispatcher the controller for this view
 	 * @param qualifier the qualifier
 	 */
-	public DefaultEntityActionView(final Dispatcher dispatcher, final String qualifier) {
+	public EntityActionMenuView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WDiv holder = getContent();

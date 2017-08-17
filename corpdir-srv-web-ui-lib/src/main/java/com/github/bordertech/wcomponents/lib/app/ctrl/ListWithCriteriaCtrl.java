@@ -1,17 +1,17 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.polling.PollingEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Controller for a Criteria View and List View.
@@ -20,13 +20,13 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class CriteriaWithListCtrl<S, T> extends DefaultController {
+public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
-	public CriteriaWithListCtrl(final Dispatcher dispatcher) {
+	public ListWithCriteriaCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public CriteriaWithListCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public ListWithCriteriaCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Listeners
@@ -86,7 +86,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	}
 
 	@Override
-	public void configAjax(final BasicView view) {
+	public void configAjax(final WView view) {
 		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
 		view.addEventTarget(getPollingView());

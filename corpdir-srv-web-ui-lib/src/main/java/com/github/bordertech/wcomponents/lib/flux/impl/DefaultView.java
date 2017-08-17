@@ -9,10 +9,8 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
@@ -25,7 +23,7 @@ import java.util.List;
  *
  * @param <T> the view bean
  */
-public class DefaultView<T> extends WDiv implements BasicView<T> {
+public class DefaultView<T> extends WDiv implements WView<T> {
 
 	private final Dispatcher dispatcher;
 
@@ -62,13 +60,13 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	@Override
-	public final BasicController getController() {
+	public final WController getController() {
 		return getComponentModel().controller;
 	}
 
 	@Override
 	public void setController(final Controller controller) {
-		getOrCreateComponentModel().controller = (BasicController) controller;
+		getOrCreateComponentModel().controller = (WController) controller;
 	}
 
 	@Override
@@ -177,17 +175,6 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	/**
-	 * A helper method to register a listener with an Event Type and the View qualifier automatically added.
-	 *
-	 * @param listener
-	 * @param eventType
-	 * @return the listener register id
-	 */
-	public final String registerViewListener(final Listener listener, final EventType eventType) {
-		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
-	}
-
-	/**
 	 * Update the view bean.
 	 */
 	public void doUpdateViewBean() {
@@ -217,7 +204,7 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	}
 
 	protected void initViewContent(final Request request) {
-		BasicController ctrl = getController();
+		WController ctrl = getController();
 		if (ctrl != null) {
 			getController().configAjax(this);
 		}
@@ -243,7 +230,7 @@ public class DefaultView<T> extends WDiv implements BasicView<T> {
 	 */
 	public static class ViewModel extends DivModel {
 
-		private BasicController controller;
+		private WController controller;
 	}
 
 	/**

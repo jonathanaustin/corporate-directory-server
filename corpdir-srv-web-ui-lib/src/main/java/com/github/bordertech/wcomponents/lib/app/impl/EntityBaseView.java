@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -17,13 +17,13 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
+public class EntityBaseView<T> extends DefaultView<T> implements EntityView<T> {
 
-	public DefaultEntityView(final Dispatcher dispatcher) {
+	public EntityBaseView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public DefaultEntityView(final Dispatcher dispatcher, final String qualifier) {
+	public EntityBaseView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 

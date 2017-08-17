@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Entity Criteria View.
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  * @since 1.0.0
  *
  */
-public interface CriteriaView<T> extends BasicView<T> {
+public interface CriteriaView<T> extends WView<T> {
 
 	WButton getSearchButton();
 

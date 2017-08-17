@@ -20,15 +20,17 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
-import com.github.bordertech.wcomponents.lib.app.impl.BasicEntityWithActionView;
-import com.github.bordertech.wcomponents.lib.app.impl.BasicSelectListView;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.impl.ListWithCriteriaView;
+import com.github.bordertech.wcomponents.lib.app.impl.EntityWithActionView;
+import com.github.bordertech.wcomponents.lib.app.impl.SelectListMenuView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.WController;
+import com.github.bordertech.wcomponents.lib.flux.impl.WDispatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +53,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	 */
 	private final WCardManager mgr = new WCardManager();
 
-	private final DefaultDispatcher dispatcher = new DefaultDispatcher();
+	private final WDispatcher dispatcher = new DefaultDispatcher();
 
 	/**
 	 * Construct Application.
@@ -85,7 +87,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		});
 
 		// View 1
-		BasicView view = new BasicCriteriaWithListView<String>(dispatcher) {
+		WView view = new ListWithCriteriaView<String>(dispatcher) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
 				return myStringServiceCall(criteria);
@@ -93,7 +95,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		};
 
 		// View 2
-		BasicEntityWithActionView<OrgUnit> view2 = new BasicEntityWithActionView<OrgUnit>(dispatcher) {
+		EntityWithActionView<OrgUnit> view2 = new EntityWithActionView<OrgUnit>(dispatcher) {
 			@Override
 			public OrgUnit doService(final ActionEventType type, final OrgUnit bean) {
 				return myEntityService(type, bean);
@@ -102,15 +104,15 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		view2.getEntityView().getContent().add(new BasicEntityPanel());
 
 		// View 3
-		ListView listView = new BasicSelectListView(dispatcher, "X");
-		BasicView view3 = new BasicCriteriaWithListView<OrgUnit>(dispatcher, "X", listView) {
+		ListView listView = new SelectListMenuView(dispatcher, "X");
+		WView view3 = new ListWithCriteriaView<OrgUnit>(dispatcher, "X", listView) {
 			@Override
 			protected List<OrgUnit> doSearchServiceCall(final String criteria) {
 				return mySearchServiceCall(criteria);
 			}
 		};
 
-		DefaultController ctrl = new DefaultController(dispatcher);
+		WController ctrl = new DefaultController(dispatcher);
 		ctrl.addView(view);
 		ctrl.addView(view2);
 		ctrl.addView(view3);

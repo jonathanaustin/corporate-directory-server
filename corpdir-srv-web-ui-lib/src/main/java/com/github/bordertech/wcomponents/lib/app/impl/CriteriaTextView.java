@@ -16,17 +16,17 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicCriteriaView extends AbstractCriteriaView<String> {
+public class CriteriaTextView extends CriteriaBaseView<String> {
 
 	private final WTextField txtField = new WTextField();
 
 	private final WSuggestions suggestions = new WSuggestions();
 
-	public BasicCriteriaView(final Dispatcher dispatcher) {
+	public CriteriaTextView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public BasicCriteriaView(final Dispatcher dispatcher, final String qualifier) {
+	public CriteriaTextView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WDiv content = getContent();

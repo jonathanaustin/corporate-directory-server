@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
@@ -21,7 +21,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultController extends AbstractWComponent implements BasicController {
+public class DefaultController extends AbstractWComponent implements WController {
 
 	private final Dispatcher dispatcher;
 
@@ -119,7 +119,7 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	}
 
 	@Override
-	public void configAjax(final BasicView view) {
+	public void configAjax(final WView view) {
 	}
 
 	@Override
@@ -134,7 +134,8 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		return model.views == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.views);
 	}
 
-	public void addView(final View view) {
+	@Override
+	public void addView(final WView view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
 			model.views = new ArrayList<>();
@@ -142,7 +143,8 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		model.views.add(view);
 	}
 
-	public void removeView(final View view) {
+	@Override
+	public void removeView(final WView view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views != null) {
 			model.views.remove(view);
@@ -152,6 +154,7 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		}
 	}
 
+	@Override
 	public void resetViews() {
 		for (View view : getViews()) {
 			view.resetView();

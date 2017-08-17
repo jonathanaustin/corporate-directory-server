@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.flux.impl;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -14,7 +15,7 @@ import com.github.bordertech.wcomponents.lib.flux.View;
  * @since 1.0.0
  * @param <T> the view bean
  */
-public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, BeanBound {
+public interface WView<T> extends View<T>, AjaxTarget, SubordinateTarget, BeanBound, WComponent {
 
 	/**
 	 *
@@ -62,7 +63,7 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	 * @return the controller attached to this view
 	 */
 	@Override
-	BasicController getController();
+	WController getController();
 
 	/**
 	 *

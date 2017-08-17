@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Controller for a Criteria View and List View.
@@ -15,13 +15,13 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
  * @author jonathan
  * @param <T> the selected entity
  */
-public class SelectListEntityCtrl<T> extends DefaultController {
+public class SelectListWithEntityCtrl<T> extends DefaultController {
 
-	public SelectListEntityCtrl(final Dispatcher dispatcher) {
+	public SelectListWithEntityCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public SelectListEntityCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public SelectListWithEntityCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Listeners
@@ -54,7 +54,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	public void configAjax(final BasicView view) {
+	public void configAjax(final WView view) {
 		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
 		view.addEventTarget(getListView());

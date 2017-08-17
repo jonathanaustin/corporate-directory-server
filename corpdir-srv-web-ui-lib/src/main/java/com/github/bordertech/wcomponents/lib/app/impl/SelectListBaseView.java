@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.impl;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.app.view.ListMode;
+import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
@@ -13,13 +13,13 @@ import java.util.List;
  * @param <T> the view bean
  * @since 1.0.0
  */
-public abstract class AbstractSelectListView<T> extends AbstractListView<T> implements SelectListView<T> {
+public class SelectListBaseView<T> extends ListBaseView<T> implements SelectListView<T> {
 
-	public AbstractSelectListView(final Dispatcher dispatcher) {
+	public SelectListBaseView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public AbstractSelectListView(final Dispatcher dispatcher, final String qualifier) {
+	public SelectListBaseView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 

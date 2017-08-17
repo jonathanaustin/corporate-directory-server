@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
+import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Entity action view.
@@ -9,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
  * @since 1.0.0
  *
  */
-public interface EntityActionView extends BasicView {
+public interface EntityActionView extends WView {
 
 	EntityMode getEntityMode();
 

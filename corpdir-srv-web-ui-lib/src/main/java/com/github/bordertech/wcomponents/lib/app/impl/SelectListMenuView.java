@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -16,15 +16,15 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicSelectListView<T> extends AbstractSelectListView<T> {
+public class SelectListMenuView<T> extends SelectListBaseView<T> {
 
 	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
-	public BasicSelectListView(final Dispatcher dispatcher) {
+	public SelectListMenuView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public BasicSelectListView(final Dispatcher dispatcher, final String qualifier) {
+	public SelectListMenuView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);

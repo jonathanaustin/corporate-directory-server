@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -19,17 +19,17 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements CriteriaView<T> {
+public class CriteriaBaseView<T> extends DefaultView<T> implements CriteriaView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
-	public AbstractCriteriaView(final Dispatcher dispatcher) {
+	public CriteriaBaseView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public AbstractCriteriaView(final Dispatcher dispatcher, final String qualifier) {
+	public CriteriaBaseView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getContent()) {
 			@Override

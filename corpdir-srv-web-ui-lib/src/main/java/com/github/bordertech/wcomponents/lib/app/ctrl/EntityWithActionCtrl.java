@@ -1,15 +1,15 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
-import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -89,7 +89,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	public void configAjax(final BasicView view) {
+	public void configAjax(final WView view) {
 		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
 		view.addEventTarget(getEntityActionView());

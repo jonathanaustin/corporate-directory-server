@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.type;
+package com.github.bordertech.wcomponents.lib.app.event;
 
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 

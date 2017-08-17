@@ -12,13 +12,13 @@ import java.util.List;
  * @param <T> the view bean
  * @since 1.0.0
  */
-public abstract class AbstractListView<T> extends DefaultView<List<T>> implements ListView<T> {
+public class ListBaseView<T> extends DefaultView<List<T>> implements ListView<T> {
 
-	public AbstractListView(final Dispatcher dispatcher) {
+	public ListBaseView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public AbstractListView(final Dispatcher dispatcher, final String qualifier) {
+	public ListBaseView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 

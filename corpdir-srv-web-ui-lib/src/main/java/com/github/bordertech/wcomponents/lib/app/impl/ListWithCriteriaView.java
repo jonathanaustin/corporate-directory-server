@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.impl;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.ctrl.CriteriaWithListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -16,26 +16,26 @@ import java.util.List;
  *
  * @author jonathan
  */
-public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implements MessageContainer {
+public abstract class ListWithCriteriaView<T> extends DefaultView<List<T>> implements MessageContainer, ListView<T> {
 
 	private final WMessages messages = new WMessages();
 
-	public BasicCriteriaWithListView(final Dispatcher dispatcher) {
+	public ListWithCriteriaView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public BasicCriteriaWithListView(final Dispatcher dispatcher, final String qualifier) {
-		this(dispatcher, qualifier, new BasicListView(dispatcher, qualifier));
+	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier) {
+		this(dispatcher, qualifier, new ListBasicView(dispatcher, qualifier));
 	}
 
-	public BasicCriteriaWithListView(final Dispatcher dispatcher, final String qualifier, final ListView<T> listView) {
+	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final ListView<T> listView) {
 		super(dispatcher, qualifier);
 
 		// Create controller
-		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(dispatcher, qualifier);
+		ListWithCriteriaCtrl<String, T> viewCtrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
 
 		// Set views on Controller
-		CriteriaView criteriaView = new BasicCriteriaView(dispatcher, qualifier);
+		CriteriaView criteriaView = new CriteriaTextView(dispatcher, qualifier);
 		PollingServiceView pollingView = new PollingServiceView(dispatcher, qualifier);
 		viewCtrl.setCriteriaView(criteriaView);
 		viewCtrl.setPollingView(pollingView);

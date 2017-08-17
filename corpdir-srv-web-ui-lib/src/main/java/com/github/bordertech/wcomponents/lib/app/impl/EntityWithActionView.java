@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithActionCtrl;
-import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -16,23 +16,23 @@ import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
  *
  * @author jonathan
  */
-public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implements MessageContainer {
-
+public abstract class EntityWithActionView<T> extends DefaultView<T> implements MessageContainer, EntityView<T> {
+	
 	private final WMessages messages = new WMessages();
 
 	private final EntityView<T> entityView;
 
 	private final EntityActionView actionView;
 
-	public BasicEntityWithActionView(final Dispatcher dispatcher) {
+	public EntityWithActionView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public BasicEntityWithActionView(final Dispatcher dispatcher, final String qualifier) {
-		this(dispatcher, qualifier, new DefaultEntityView<T>(dispatcher, qualifier), new DefaultEntityActionView(dispatcher, qualifier));
+	public EntityWithActionView(final Dispatcher dispatcher, final String qualifier) {
+		this(dispatcher, qualifier, new EntityBaseView<T>(dispatcher, qualifier), new EntityActionMenuView(dispatcher, qualifier));
 	}
 
-	public BasicEntityWithActionView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final EntityActionView actionView) {
+	public EntityWithActionView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final EntityActionView actionView) {
 		super(dispatcher, qualifier);
 		this.entityView = entityView;
 		this.actionView = actionView;

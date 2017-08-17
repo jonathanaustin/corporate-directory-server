@@ -10,15 +10,15 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicListView<T> extends AbstractListView<T> {
+public class ListBasicView<T> extends ListBaseView<T> {
 
 	private final WList list = new WList(WList.Type.STACKED);
 
-	public BasicListView(final Dispatcher dispatcher) {
+	public ListBasicView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public BasicListView(final Dispatcher dispatcher, final String qualifier) {
+	public ListBasicView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
