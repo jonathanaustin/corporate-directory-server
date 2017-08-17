@@ -8,5 +8,5 @@ package com.github.bordertech.wcomponents.lib.app.view;
  */
 public enum ListMode {
 	VIEW,
-	EDIT
+	SELECT
 }

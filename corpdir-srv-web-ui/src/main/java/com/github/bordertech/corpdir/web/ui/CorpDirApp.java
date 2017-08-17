@@ -20,9 +20,10 @@ import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicEntityWithActionView;
+import com.github.bordertech.wcomponents.lib.app.impl.BasicSelectListView;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
@@ -74,9 +75,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Card manager
 		detail.add(mgr);
 
-		DefaultController ctrl = new DefaultController(dispatcher);
-
-		// Cards
 		BasicView view = new BasicCriteriaWithListView<String>(dispatcher) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
@@ -116,9 +114,37 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		};
 		view2.getEntityView().getContent().add(new BasicEntityPanel());
 
+		ListView listView = new BasicSelectListView(dispatcher);
+		BasicView view3 = new BasicCriteriaWithListView<OrgUnit>(dispatcher, listView) {
+			@Override
+			protected List<OrgUnit> doSearchServiceCall(final String criteria) {
+				if ("error".equals(criteria)) {
+					throw new SystemException("Big error");
+				}
+				try {
+					Thread.sleep(3000);
+				} catch (Exception e) {
+
+				}
+				if ("error2".equals(criteria)) {
+					throw new SystemException("Big error2");
+				}
+				List<OrgUnit> items = new ArrayList<>();
+				for (int i = 1; i < 5; i++) {
+					OrgUnit item = new OrgUnit();
+					item.setBusinessKey("A" + i);
+					item.setDescription("DESC" + i);
+					item.setId("A" + i);
+					items.add(item);
+				}
+				return items;
+			}
+		};
+
 		WDiv div = new WDiv();
 		div.add(view);
 		div.add(view2);
+		div.add(view3);
 		mgr.add(div);
 
 		// Footer

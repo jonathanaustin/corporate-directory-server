@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.type.ActionStatusEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
@@ -158,12 +157,12 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		T bean = view.getViewBean();
 		try {
 			doServiceAction(new Event(ActionEventType.DELETE, bean));
-			dispatchCtrlEvent(ActionStatusEventType.DELETE_OK, bean);
+			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			getViewMessages().success("Delete OK.");
 			resetViews();
 		} catch (Exception e) {
 			getViewMessages().error("Delete failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionStatusEventType.DELETE_ERROR, bean, e);
+			dispatchCtrlEvent(ActionEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
@@ -178,10 +177,10 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			bean = doServiceAction(new Event(ActionEventType.REFRESH, bean));
 			handleLoadAction(bean);
 			getViewMessages().success("Refreshed OK.");
-			dispatchCtrlEvent(ActionStatusEventType.REFRESH_OK, bean);
+			dispatchCtrlEvent(ActionEventType.REFRESH_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionStatusEventType.REFRESH_ERROR, bean, e);
+			dispatchCtrlEvent(ActionEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -199,12 +198,12 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			view.updateViewBean();
 			T bean = view.getViewBean();
 			bean = doServiceAction(new Event(ActionEventType.SAVE, bean));
-			dispatchCtrlEvent(ActionStatusEventType.SAVE_OK, bean);
+			dispatchCtrlEvent(ActionEventType.SAVE_OK, bean);
 			getViewMessages().success("Saved OK.");
 			handleLoadAction(bean);
 		} catch (Exception e) {
 			getViewMessages().error("Save failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionStatusEventType.SAVE_ERROR, e);
+			dispatchCtrlEvent(ActionEventType.SAVE_ERROR, e);
 		}
 	}
 
@@ -214,10 +213,9 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			T bean = doServiceAction(new Event(ActionEventType.ADD));
 			handleLoadAction(bean);
 			changeViewMode(EntityMode.ADD);
-			dispatchCtrlEvent(ActionStatusEventType.ADD_OK, bean);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionStatusEventType.ADD_ERROR, e);
+			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
 		}
 	}
 
@@ -226,7 +224,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		getEntityView().setViewBean(entity);
 		getEntityView().makeContentVisible();
 		changeViewMode(EntityMode.VIEW);
-		dispatchCtrlEvent(ActionStatusEventType.LOADED_OK, entity);
+		dispatchCtrlEvent(ActionEventType.LOAD_OK, entity);
 	}
 
 	protected void changeViewMode(final EntityMode mode) {

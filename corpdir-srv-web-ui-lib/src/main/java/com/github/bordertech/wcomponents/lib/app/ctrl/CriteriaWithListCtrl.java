@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.type.CriteriaEventType;
+import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -38,7 +38,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 				handleSearchEvent(criteria);
 			}
 		};
-		registerCtrlListener(listener, CriteriaEventType.SEARCH);
+		registerCtrlListener(listener, ActionEventType.SEARCH);
 
 		// Polling - FAIL
 		listener = new Listener() {
