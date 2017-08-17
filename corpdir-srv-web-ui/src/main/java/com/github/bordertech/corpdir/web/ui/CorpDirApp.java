@@ -20,17 +20,28 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.impl.ListWithCriteriaView;
+import com.github.bordertech.wcomponents.lib.app.impl.CriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.impl.EntityActionMenuView;
+import com.github.bordertech.wcomponents.lib.app.impl.EntityBaseView;
 import com.github.bordertech.wcomponents.lib.app.impl.EntityWithActionView;
+import com.github.bordertech.wcomponents.lib.app.impl.ListBasicView;
+import com.github.bordertech.wcomponents.lib.app.impl.ListWithCriteriaView;
 import com.github.bordertech.wcomponents.lib.app.impl.SelectListMenuView;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
+import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
+import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.impl.WController;
 import com.github.bordertech.wcomponents.lib.flux.impl.WDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -86,36 +97,61 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 			}
 		});
 
+		//-----------
 		// View 1
-		WView view = new ListWithCriteriaView<String>(dispatcher) {
-			@Override
-			protected List<String> doSearchServiceCall(final String criteria) {
-				return myStringServiceCall(criteria);
-			}
-		};
+		CriteriaView<String> critView = new CriteriaTextView(dispatcher, "A");
+		ListView<String> listView = new ListBasicView(dispatcher, "A");
+		ListWithCriteriaView<String, String> view = new ListWithCriteriaView<>(dispatcher, "A", critView, listView);
+		// Set Model
+		view.setServiceModel(new MyStringSearchModel());
 
+		//-----------
 		// View 2
-		EntityWithActionView<OrgUnit> view2 = new EntityWithActionView<OrgUnit>(dispatcher) {
-			@Override
-			public OrgUnit doService(final ActionEventType type, final OrgUnit bean) {
-				return myEntityService(type, bean);
-			}
-		};
-		view2.getEntityView().getContent().add(new BasicEntityPanel());
+		EntityView<OrgUnit> entView = new EntityBaseView<>(dispatcher, "B");
+		EntityActionView menuView = new EntityActionMenuView(dispatcher, "B");
+		EntityWithActionView<OrgUnit> view2 = new EntityWithActionView<>(dispatcher, "B", entView, menuView);
+		entView.getContent().add(new BasicEntityPanel());
+		// Set Model
+		view2.setActionModel(new MyOrgUnitServiceModel());
 
+		//-----------
 		// View 3
-		ListView listView = new SelectListMenuView(dispatcher, "X");
-		WView view3 = new ListWithCriteriaView<OrgUnit>(dispatcher, "X", listView) {
-			@Override
-			protected List<OrgUnit> doSearchServiceCall(final String criteria) {
-				return mySearchServiceCall(criteria);
-			}
-		};
+		CriteriaView<String> critView2 = new CriteriaTextView(dispatcher, "X");
+		ListView<OrgUnit> listView2 = new SelectListMenuView(dispatcher, "X");
+		ListWithCriteriaView<String, OrgUnit> view3 = new ListWithCriteriaView<>(dispatcher, "X", critView2, listView2);
+		// Set Model
+		view3.setServiceModel(new MyOrgUnitSearchModel());
 
+		//-----------
+		// View4 Just do it ALL Yourself
+		DefaultView view4 = new DefaultView(dispatcher, "Y");
+		// Views
+		CriteriaView<String> critView4 = new CriteriaTextView(dispatcher, "Y");
+		ListView<OrgUnit> listView4 = new SelectListMenuView(dispatcher, "Y");
+		PollingServiceView<String, List<OrgUnit>> pollingView4 = new PollingServiceView<>(dispatcher, "Y");
+
+		// Set views on Controller
+		ListWithCriteriaCtrl<String, OrgUnit> ctrl4 = new ListWithCriteriaCtrl<>(dispatcher, "Y");
+		ctrl4.setCriteriaView(critView4);
+		ctrl4.setPollingView(pollingView4);
+		ctrl4.setListView(listView4);
+		// Set Model
+		ctrl4.setServiceModel(new MyOrgUnitSearchModel());
+
+		// Add views to holder
+		WDiv holder = view4.getContent();
+		holder.add(ctrl4);
+		holder.add(critView4);
+		holder.add(pollingView4);
+		holder.add(listView4);
+
+		//-----------
+		// MAIN Controller
 		WController ctrl = new DefaultController(dispatcher);
 		ctrl.addView(view);
 		ctrl.addView(view2);
 		ctrl.addView(view3);
+		ctrl.addView(view4);
 
 		WDiv div = new WDiv();
 		div.add(ctrl);
@@ -123,6 +159,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		div.add(wrapInSection((WDiv) view, "View 1"));
 		div.add(wrapInSection((WDiv) view2, "View 2"));
 		div.add(wrapInSection((WDiv) view3, "View 3"));
+		div.add(wrapInSection((WDiv) view4, "View 4"));
 		mgr.add(div);
 
 		// Footer
@@ -138,65 +175,95 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		messages.setIdName("msgs");
 	}
 
+	public static class MyStringSearchModel implements ServiceModel<String, List<String>> {
+
+		@Override
+		public List<String> service(String criteria) {
+			if ("error".equals(criteria)) {
+				throw new SystemException("Big error");
+			}
+			try {
+				Thread.sleep(3000);
+			} catch (Exception e) {
+
+			}
+			if ("error2".equals(criteria)) {
+				throw new SystemException("Big error2");
+			}
+			List<String> items = new ArrayList<>();
+			items.add("A1");
+			items.add("A2");
+			items.add("A3");
+			items.add("A4");
+			items.add("A5");
+			return items;
+		}
+	}
+
+	public static class MyOrgUnitSearchModel implements ServiceModel<String, List<OrgUnit>> {
+
+		@Override
+		public List<OrgUnit> service(final String criteria) {
+			if ("error".equals(criteria)) {
+				throw new SystemException("Big error");
+			}
+			try {
+				Thread.sleep(3000);
+			} catch (Exception e) {
+
+			}
+			if ("error2".equals(criteria)) {
+				throw new SystemException("Big error2");
+			}
+			List<OrgUnit> items = new ArrayList<>();
+			for (int i = 1; i < 5; i++) {
+				OrgUnit item = new OrgUnit();
+				item.setBusinessKey("A" + i);
+				item.setDescription("DESC" + i);
+				item.setId("A" + i);
+				items.add(item);
+			}
+			return items;
+		}
+	}
+
+	public static class MyOrgUnitServiceModel implements ActionModel<OrgUnit> {
+
+		@Override
+		public OrgUnit save(final OrgUnit entity) {
+			entity.setDescription("Been in save:" + new Date().toString());
+			return entity;
+		}
+
+		@Override
+		public OrgUnit update(final OrgUnit entity) {
+			entity.setDescription("Been in update:" + new Date().toString());
+			return entity;
+		}
+
+		@Override
+		public void delete(final OrgUnit entity) {
+			// Do nothing
+		}
+
+		@Override
+		public OrgUnit refresh(final OrgUnit entity) {
+			entity.setDescription("Been in refresh:" + new Date().toString());
+			return entity;
+		}
+
+		@Override
+		public OrgUnit createInstance() {
+			return new OrgUnit();
+		}
+
+	}
+
 	protected final WSection wrapInSection(final WDiv div, final String title) {
 		WSection section = new WSection(title);
 		section.getContent().add(div);
 		section.setMargin(new Margin(Size.XL));
 		return section;
-	}
-
-	protected List<OrgUnit> mySearchServiceCall(final String criteria) {
-		if ("error".equals(criteria)) {
-			throw new SystemException("Big error");
-		}
-		try {
-			Thread.sleep(3000);
-		} catch (Exception e) {
-
-		}
-		if ("error2".equals(criteria)) {
-			throw new SystemException("Big error2");
-		}
-		List<OrgUnit> items = new ArrayList<>();
-		for (int i = 1; i < 5; i++) {
-			OrgUnit item = new OrgUnit();
-			item.setBusinessKey("A" + i);
-			item.setDescription("DESC" + i);
-			item.setId("A" + i);
-			items.add(item);
-		}
-		return items;
-	}
-
-	protected List<String> myStringServiceCall(final String criteria) {
-		if ("error".equals(criteria)) {
-			throw new SystemException("Big error");
-		}
-		try {
-			Thread.sleep(3000);
-		} catch (Exception e) {
-
-		}
-		if ("error2".equals(criteria)) {
-			throw new SystemException("Big error2");
-		}
-		List<String> items = new ArrayList<>();
-		items.add("A1");
-		items.add("A2");
-		items.add("A3");
-		items.add("A4");
-		items.add("A5");
-		return items;
-	}
-
-	public OrgUnit myEntityService(final ActionEventType type, final OrgUnit bean) {
-		switch (type) {
-			case ADD:
-				return new OrgUnit();
-			default:
-				bean.setDescription("Been in update:" + new Date().toString());
-				return bean;
-		}
 	}
 
 	/**

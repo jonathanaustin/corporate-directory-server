@@ -33,4 +33,5 @@ public interface EntityView<T> extends WView<T> {
 	 * @return true if entity has been loaded
 	 */
 	boolean isLoaded();
+
 }

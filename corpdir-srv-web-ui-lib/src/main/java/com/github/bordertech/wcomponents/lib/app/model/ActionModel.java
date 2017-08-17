@@ -6,12 +6,16 @@ import java.io.Serializable;
  *
  * @author jonathan
  */
-public interface UpdateModel<T> extends Serializable {
+public interface ActionModel<T> extends Serializable {
 
 	T save(final T entity);
 
 	T update(final T entity);
 
 	void delete(final T entity);
+
+	T refresh(final T entity);
+
+	T createInstance();
 
 }

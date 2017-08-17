@@ -1,14 +1,15 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.app.model.RequiresActionModel;
+import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
@@ -17,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @param <T> the entity type
  * @author jonathan
  */
-public class EntityWithActionCtrl<T> extends DefaultController {
+public class EntityWithActionCtrl<T> extends DefaultController implements RequiresActionModel<T> {
 
 	public EntityWithActionCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -36,8 +37,6 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 			};
 			registerCtrlListener(listener, eventType);
 		}
-
-		// TODO Add Action Error Listeners
 	}
 
 	public final EntityActionView getEntityActionView() {
@@ -46,7 +45,6 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	public final void setEntityActionView(final EntityActionView actionView) {
 		getOrCreateComponentModel().entityActionView = actionView;
-		actionView.setController(this);
 		addView(actionView);
 	}
 
@@ -56,16 +54,17 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 	public final void setEntityView(final EntityView<T> entityView) {
 		getOrCreateComponentModel().entityView = entityView;
-		entityView.setController(this);
 		addView(entityView);
 	}
 
-	public final ExecuteService<Event, T> getEntityServiceActions() {
-		return getComponentModel().entityServiceActions;
+	@Override
+	public ActionModel<T> getActionModel() {
+		return getComponentModel().actionModel;
 	}
 
-	public final void setEntityServiceActions(final ExecuteService<Event, T> entityServiceActions) {
-		getOrCreateComponentModel().entityServiceActions = entityServiceActions;
+	@Override
+	public void setActionModel(final ActionModel<T> actionModel) {
+		getOrCreateComponentModel().actionModel = actionModel;
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		if (getEntityView() == null) {
 			throw new IllegalStateException("A entity view has not been set.");
 		}
-		if (getEntityServiceActions() == null) {
+		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity service actions have not been set.");
 		}
 	}
@@ -156,7 +155,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		changeViewMode(EntityMode.VIEW);
 		T bean = view.getViewBean();
 		try {
-			doServiceAction(new Event(ActionEventType.DELETE, bean));
+			doDelete(bean);
 			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			getViewMessages().success("Delete OK.");
 			resetViews();
@@ -174,8 +173,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		T bean = view.getViewBean();
 		resetViews();
 		try {
-			bean = doServiceAction(new Event(ActionEventType.REFRESH, bean));
-			handleLoadAction(bean);
+			bean = doRefresh(bean);
 			getViewMessages().success("Refreshed OK.");
 			dispatchCtrlEvent(ActionEventType.REFRESH_OK, bean);
 		} catch (Exception e) {
@@ -197,7 +195,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		try {
 			view.updateViewBean();
 			T bean = view.getViewBean();
-			bean = doServiceAction(new Event(ActionEventType.SAVE, bean));
+			bean = doSave(bean);
 			dispatchCtrlEvent(ActionEventType.SAVE_OK, bean);
 			getViewMessages().success("Saved OK.");
 			handleLoadAction(bean);
@@ -210,7 +208,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 	protected void handleAddAction() {
 		resetViews();
 		try {
-			T bean = doServiceAction(new Event(ActionEventType.ADD));
+			T bean = doCreateInstance();
 			handleLoadAction(bean);
 			changeViewMode(EntityMode.ADD);
 		} catch (Exception e) {
@@ -236,8 +234,24 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 		actionView.setEntityLoaded(entityView.isLoaded());
 	}
 
-	protected T doServiceAction(final Event event) {
-		return getEntityServiceActions().executeService(event);
+	protected T doSave(final T entity) {
+		return getActionModel().save(entity);
+	}
+
+	protected T doUpdate(final T entity) {
+		return getActionModel().update(entity);
+	}
+
+	protected T doRefresh(final T entity) {
+		return getActionModel().refresh(entity);
+	}
+
+	protected void doDelete(final T entity) {
+		getActionModel().delete(entity);
+	}
+
+	protected T doCreateInstance() {
+		return getActionModel().createInstance();
 	}
 
 	@Override
@@ -264,7 +278,7 @@ public class EntityWithActionCtrl<T> extends DefaultController {
 
 		private EntityView<T> entityView;
 
-		private ExecuteService<Event, T> entityServiceActions;
+		private ActionModel<T> actionModel;
 
 	}
 

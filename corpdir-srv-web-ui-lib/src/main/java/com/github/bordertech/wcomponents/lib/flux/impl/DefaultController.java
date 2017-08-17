@@ -136,6 +136,7 @@ public class DefaultController extends AbstractWComponent implements WController
 
 	@Override
 	public void addView(final WView view) {
+		view.setController(this);
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
 			model.views = new ArrayList<>();

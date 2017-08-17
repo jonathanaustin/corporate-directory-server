@@ -66,7 +66,6 @@ public class SelectListWithEntityCtrl<T> extends DefaultController {
 
 	public final void setEntityView(final EntityView<T> entityView) {
 		getOrCreateComponentModel().entityView = entityView;
-		entityView.setController(this);
 		addView(entityView);
 	}
 
@@ -76,7 +75,6 @@ public class SelectListWithEntityCtrl<T> extends DefaultController {
 
 	public final void setListView(final ListView<T> listView) {
 		getOrCreateComponentModel().listView = listView;
-		listView.setController(this);
 		addView(listView);
 	}
 

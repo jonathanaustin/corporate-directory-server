@@ -4,11 +4,12 @@ import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
+import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import java.util.List;
 
@@ -16,66 +17,53 @@ import java.util.List;
  *
  * @author jonathan
  */
-public abstract class ListWithCriteriaView<T> extends DefaultView<List<T>> implements MessageContainer, ListView<T> {
+public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements MessageContainer, ListView<T>,
+		RequiresServiceModel<S, List<T>> {
 
 	private final WMessages messages = new WMessages();
 
-	public ListWithCriteriaView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
+	private final PollingServiceView<S, List<T>> pollingView;
 
-	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier) {
-		this(dispatcher, qualifier, new ListBasicView(dispatcher, qualifier));
-	}
+	private final ListWithCriteriaCtrl<S, T> ctrl;
 
-	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final ListView<T> listView) {
+	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
 		super(dispatcher, qualifier);
 
 		// Create controller
-		ListWithCriteriaCtrl<String, T> viewCtrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
+		this.ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
 
 		// Set views on Controller
-		CriteriaView criteriaView = new CriteriaTextView(dispatcher, qualifier);
-		PollingServiceView pollingView = new PollingServiceView(dispatcher, qualifier);
-		viewCtrl.setCriteriaView(criteriaView);
-		viewCtrl.setPollingView(pollingView);
-		viewCtrl.setListView(listView);
-
-		// Search Service Action
-		ExecuteService<String, List<T>> searchService = new ExecuteService<String, List<T>>() {
-			@Override
-			public List<T> executeService(final String criteria) {
-				return doSearchServiceCall(criteria);
-			}
-		};
-		viewCtrl.setSearchService(searchService);
-
-		viewCtrl.configViews();
+		pollingView = new PollingServiceView(dispatcher, qualifier);
+		ctrl.setCriteriaView(criteriaView);
+		ctrl.setPollingView(pollingView);
+		ctrl.setListView(listView);
 
 		// Add views to holder
 		WDiv holder = getContent();
-		holder.add(viewCtrl);
+		holder.add(ctrl);
 		holder.add(messages);
 		holder.add(criteriaView);
 		holder.add(pollingView);
 		holder.add(listView);
 	}
 
-	/**
-	 * Do the Search Service Call.
-	 * <p>
-	 * As this method is called by a different thread, do not put any logic or functionality that needs the user
-	 * context.
-	 * </p>
-	 *
-	 * @param criteria the search criteria
-	 * @return the search results
-	 */
-	abstract protected List<T> doSearchServiceCall(final String criteria);
-
 	@Override
 	public WMessages getMessages() {
 		return messages;
+	}
+
+	@Override
+	public ServiceModel<S, List<T>> getServiceModel() {
+		return ctrl.getServiceModel();
+	}
+
+	@Override
+	public void setServiceModel(final ServiceModel<S, List<T>> serviceModel) {
+		ctrl.setServiceModel(serviceModel);
+	}
+
+	public void configViews() {
+		ctrl.configViews();
 	}
 
 }

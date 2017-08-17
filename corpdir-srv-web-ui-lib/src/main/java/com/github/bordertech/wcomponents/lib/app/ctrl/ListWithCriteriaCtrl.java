@@ -1,17 +1,18 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
+import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 import com.github.bordertech.wcomponents.lib.polling.PollingEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Controller for a Criteria View and List View.
@@ -20,7 +21,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class ListWithCriteriaCtrl<S, T> extends DefaultController {
+public class ListWithCriteriaCtrl<S, T> extends DefaultController implements RequiresServiceModel<S, List<T>> {
 
 	public ListWithCriteriaCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -73,7 +74,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		if (getListView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
-		if (getSearchService() == null) {
+		if (getServiceModel() == null) {
 			throw new IllegalStateException("A search service has not been set.");
 		}
 	}
@@ -99,7 +100,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	public final void setCriteriaView(final CriteriaView<S> criteriaView) {
 		getOrCreateComponentModel().criteriaView = criteriaView;
-		criteriaView.setController(this);
 		addView(criteriaView);
 	}
 
@@ -109,7 +109,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	public final void setPollingView(final PollingServiceView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
-		pollingView.setController(this);
 		addView(pollingView);
 	}
 
@@ -119,29 +118,17 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	public final void setListView(final ListView<T> listView) {
 		getOrCreateComponentModel().listView = listView;
-		listView.setController(this);
 		addView(listView);
 	}
 
-	/**
-	 *
-	 * @return the search service call action
-	 */
-	public ExecuteService<S, List<T>> getSearchService() {
-		return getComponentModel().searchService;
+	@Override
+	public ServiceModel<S, List<T>> getServiceModel() {
+		return getComponentModel().serviceModel;
 	}
 
-	/**
-	 * Do the actual polling action (eg Service call).
-	 * <p>
-	 * As this method is called by a different thread, do not put any logic or functionality that needs the user
-	 * context.
-	 * </p>
-	 *
-	 * @param searchService the search service call action
-	 */
-	public void setSearchService(final ExecuteService<S, List<T>> searchService) {
-		getOrCreateComponentModel().searchService = searchService;
+	@Override
+	public void setServiceModel(final ServiceModel<S, List<T>> serviceModel) {
+		getOrCreateComponentModel().serviceModel = serviceModel;
 	}
 
 	protected void handleSearchEvent(final S criteria) {
@@ -149,7 +136,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		PollingServiceView pollingView = getPollingView();
 		pollingView.reset();
 		pollingView.setPollingCriteria(criteria);
-		pollingView.setPollingServiceAction(getSearchService());
+		pollingView.setServiceModel(getServiceModel());
 		pollingView.makeContentVisible();
 
 		// Reset Listview
@@ -200,7 +187,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 		private ListView<T> listView;
 
-		private ExecuteService<S, List<T>> searchService;
+		private ServiceModel<S, List<T>> serviceModel;
 	}
 
 }

@@ -7,8 +7,9 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.ExecuteService;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
@@ -34,7 +35,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingServiceView<S, T> extends PollingView {
+public class PollingServiceView<S, T> extends PollingView implements RequiresServiceModel<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -407,7 +408,7 @@ public class PollingServiceView<S, T> extends PollingView {
 
 		clearFuture();
 
-		final ExecuteService<S, T> action = getPollingServiceAction();
+		final ServiceModel<S, T> action = getServiceModel();
 		if (action == null) {
 			throw new PollingException("No polling service action has been defined. ");
 		}
@@ -417,7 +418,7 @@ public class PollingServiceView<S, T> extends PollingView {
 			@Override
 			public void run() {
 				try {
-					T resp = action.executeService(criteria);
+					T resp = action.service(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
 					PollingException excp = new PollingException(e.getMessage(), e);
@@ -465,8 +466,9 @@ public class PollingServiceView<S, T> extends PollingView {
 	 *
 	 * @return the service call action
 	 */
-	public ExecuteService<S, T> getPollingServiceAction() {
-		return getComponentModel().pollingServiceAction;
+	@Override
+	public ServiceModel<S, T> getServiceModel() {
+		return getComponentModel().pollingServiceModel;
 	}
 
 	/**
@@ -476,10 +478,11 @@ public class PollingServiceView<S, T> extends PollingView {
 	 * context.
 	 * </p>
 	 *
-	 * @param serviceAction the service call action
+	 * @param serviceModel the service call action
 	 */
-	public void setPollingServiceAction(final ExecuteService<S, T> serviceAction) {
-		getOrCreateComponentModel().pollingServiceAction = serviceAction;
+	@Override
+	public void setServiceModel(final ServiceModel<S, T> serviceModel) {
+		getOrCreateComponentModel().pollingServiceModel = serviceModel;
 	}
 
 	/**
@@ -487,7 +490,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 */
 	@Override
 	protected PollingServiceModel<S, T> newComponentModel() {
-		return new PollingServiceModel<>();
+		return new PollingServiceModel();
 	}
 
 	/**
@@ -495,7 +498,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 */
 	@Override
 	protected PollingServiceModel<S, T> getOrCreateComponentModel() {
-		return (PollingServiceModel<S, T>) super.getOrCreateComponentModel();
+		return (PollingServiceModel) super.getOrCreateComponentModel();
 	}
 
 	/**
@@ -503,7 +506,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 */
 	@Override
 	protected PollingServiceModel<S, T> getComponentModel() {
-		return (PollingServiceModel<S, T>) super.getComponentModel();
+		return (PollingServiceModel) super.getComponentModel();
 	}
 
 	/**
@@ -529,7 +532,10 @@ public class PollingServiceView<S, T> extends PollingView {
 		 */
 		private boolean manualStart;
 
-		private ExecuteService<S, T> pollingServiceAction;
+		/**
+		 * Service Model.
+		 */
+		private ServiceModel<S, T> pollingServiceModel;
 	}
 
 }
