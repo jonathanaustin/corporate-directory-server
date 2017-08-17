@@ -35,12 +35,12 @@ public interface BasicView<T> extends View<T>, AjaxTarget, SubordinateTarget, Be
 	boolean validateView();
 
 	/**
-	 * Make the view holder visible.
+	 * Make the view content visible.
 	 */
 	void makeContentVisible();
 
 	/**
-	 * Make the view holder invisible.
+	 * Make the view content invisible.
 	 */
 	void makeContentInvisible();
 

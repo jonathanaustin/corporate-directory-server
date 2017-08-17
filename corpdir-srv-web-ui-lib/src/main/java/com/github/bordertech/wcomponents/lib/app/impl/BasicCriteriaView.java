@@ -23,7 +23,11 @@ public class BasicCriteriaView extends AbstractCriteriaView<String> {
 	private final WSuggestions suggestions = new WSuggestions();
 
 	public BasicCriteriaView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public BasicCriteriaView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 
 		WDiv content = getContent();
 
@@ -42,6 +46,7 @@ public class BasicCriteriaView extends AbstractCriteriaView<String> {
 				doHandleSuggestions();
 			}
 		});
+		suggestions.setVisible(false);
 
 	}
 

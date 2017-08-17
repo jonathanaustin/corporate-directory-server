@@ -2,32 +2,33 @@ package com.github.bordertech.corpdir.web.ui;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.web.ui.view.BasicEntityPanel;
+import com.github.bordertech.wcomponents.Action;
+import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicCriteriaWithListView;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicEntityWithActionView;
 import com.github.bordertech.wcomponents.lib.app.impl.BasicSelectListView;
 import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.impl.BasicView;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
-import com.github.bordertech.wcomponents.lib.grid.Grid;
-import com.github.bordertech.wcomponents.lib.grid.GridItem;
-import com.github.bordertech.wcomponents.lib.grid.MediaSize;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -75,76 +76,51 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		// Card manager
 		detail.add(mgr);
 
+		WButton button = new WButton("Reset");
+		button.setAction(new Action() {
+			@Override
+			public void execute(ActionEvent event) {
+				dispatcher.dispatch(new Event(ActionEventType.RESET));
+			}
+		});
+
+		// View 1
 		BasicView view = new BasicCriteriaWithListView<String>(dispatcher) {
 			@Override
 			protected List<String> doSearchServiceCall(final String criteria) {
-				if ("error".equals(criteria)) {
-					throw new SystemException("Big error");
-				}
-				try {
-					Thread.sleep(3000);
-				} catch (Exception e) {
-
-				}
-				if ("error2".equals(criteria)) {
-					throw new SystemException("Big error2");
-				}
-				List<String> items = new ArrayList<>();
-				items.add("A1");
-				items.add("A2");
-				items.add("A3");
-				items.add("A4");
-				items.add("A5");
-				return items;
+				return myStringServiceCall(criteria);
 			}
 		};
-//		mgr.add(view);
 
+		// View 2
 		BasicEntityWithActionView<OrgUnit> view2 = new BasicEntityWithActionView<OrgUnit>(dispatcher) {
 			@Override
 			public OrgUnit doService(final ActionEventType type, final OrgUnit bean) {
-				switch (type) {
-					case ADD:
-						return new OrgUnit();
-					default:
-						bean.setDescription("Been in update:" + new Date().toString());
-						return bean;
-				}
+				return myEntityService(type, bean);
 			}
 		};
 		view2.getEntityView().getContent().add(new BasicEntityPanel());
 
-		ListView listView = new BasicSelectListView(dispatcher);
-		BasicView view3 = new BasicCriteriaWithListView<OrgUnit>(dispatcher, listView) {
+		// View 3
+		ListView listView = new BasicSelectListView(dispatcher, "X");
+		BasicView view3 = new BasicCriteriaWithListView<OrgUnit>(dispatcher, "X", listView) {
 			@Override
 			protected List<OrgUnit> doSearchServiceCall(final String criteria) {
-				if ("error".equals(criteria)) {
-					throw new SystemException("Big error");
-				}
-				try {
-					Thread.sleep(3000);
-				} catch (Exception e) {
-
-				}
-				if ("error2".equals(criteria)) {
-					throw new SystemException("Big error2");
-				}
-				List<OrgUnit> items = new ArrayList<>();
-				for (int i = 1; i < 5; i++) {
-					OrgUnit item = new OrgUnit();
-					item.setBusinessKey("A" + i);
-					item.setDescription("DESC" + i);
-					item.setId("A" + i);
-					items.add(item);
-				}
-				return items;
+				return mySearchServiceCall(criteria);
 			}
 		};
 
+		DefaultController ctrl = new DefaultController(dispatcher);
+		ctrl.addView(view);
+		ctrl.addView(view2);
+		ctrl.addView(view3);
+
 		WDiv div = new WDiv();
-		div.add(view);
-		div.add(view2);
-		div.add(view3);
+		div.add(ctrl);
+		div.add(button);
+		div.add(wrapInSection((WDiv) view, "View 1"));
+		div.add(wrapInSection((WDiv) view2, "View 2"));
+		div.add(wrapInSection((WDiv) view3, "View 3"));
 		mgr.add(div);
 
 		// Footer
@@ -160,125 +136,64 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		messages.setIdName("msgs");
 	}
 
-	private Grid buildFlexGrid() {
-		Grid grid = new Grid();
-		grid.setGridType("wcl-flex");
-		buildItems(grid);
-		return grid;
+	protected final WSection wrapInSection(final WDiv div, final String title) {
+		WSection section = new WSection(title);
+		section.getContent().add(div);
+		section.setMargin(new Margin(Size.XL));
+		return section;
 	}
 
-	private Grid buildFlexGrid3() {
-		Grid grid = new Grid();
-		grid.setGridType("wcl-flex");
-		grid.setMaxColumns(3);
-
-		WContainer holder = grid.getItemsContainer();
-		for (int i = 1; i < 10; i++) {
-			WPanel panel = new WPanel(WPanel.Type.BOX);
-			panel.add(new WText("COL " + i));
-
-			GridItem item = new GridItem(grid);
-			item.getContentHolder().add(panel);
-			holder.add(item);
+	protected List<OrgUnit> mySearchServiceCall(final String criteria) {
+		if ("error".equals(criteria)) {
+			throw new SystemException("Big error");
 		}
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
 
-		return grid;
+		}
+		if ("error2".equals(criteria)) {
+			throw new SystemException("Big error2");
+		}
+		List<OrgUnit> items = new ArrayList<>();
+		for (int i = 1; i < 5; i++) {
+			OrgUnit item = new OrgUnit();
+			item.setBusinessKey("A" + i);
+			item.setDescription("DESC" + i);
+			item.setId("A" + i);
+			items.add(item);
+		}
+		return items;
 	}
 
-	private Grid buildCssGrid() {
-		Grid grid = new Grid();
-		grid.addHtmlClass("wcl-gap-l");
-		buildItems(grid);
-		return grid;
+	protected List<String> myStringServiceCall(final String criteria) {
+		if ("error".equals(criteria)) {
+			throw new SystemException("Big error");
+		}
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+
+		}
+		if ("error2".equals(criteria)) {
+			throw new SystemException("Big error2");
+		}
+		List<String> items = new ArrayList<>();
+		items.add("A1");
+		items.add("A2");
+		items.add("A3");
+		items.add("A4");
+		items.add("A5");
+		return items;
 	}
 
-	private Grid buildCssGridCols12() {
-		Grid grid = new Grid();
-		grid.addHtmlClass("wcl-gap-l");
-		buildItems(grid);
-		return grid;
-	}
-
-	private Grid buildMasonryGrid() {
-		Grid grid = new Grid();
-		grid.setGridType("wcl-msry");
-		grid.getConfig().setTemplateName("/wclib/hbs/grid-msry-config.hbs");
-		grid.getConfig().setVisible(true);
-		buildItems(grid);
-		return grid;
-	}
-
-	private Grid buildBorderGrid() {
-		Grid grid = new Grid();
-		grid.setHtmlClass("wcl-border");
-		grid.setMaxColumns(0);
-
-		WContainer holder = grid.getItemsContainer();
-
-		// North
-		WPanel panel = new WPanel(WPanel.Type.BOX);
-		panel.add(new WText("NORTH"));
-		panel.setHtmlClass("wcl-north");
-		holder.add(panel);
-		// South
-		panel = new WPanel(WPanel.Type.BOX);
-		panel.add(new WText("SOUTH"));
-		panel.setHtmlClass("wcl-south");
-		holder.add(panel);
-		// East
-		panel = new WPanel(WPanel.Type.BOX);
-		panel.add(new WText("EAST"));
-		panel.setHtmlClass("wcl-east");
-		holder.add(panel);
-		// West
-		panel = new WPanel(WPanel.Type.BOX);
-		panel.add(new WText("WEST"));
-		panel.setHtmlClass("wcl-west");
-		holder.add(panel);
-		// Center
-		panel = new WPanel(WPanel.Type.BOX);
-		panel.add(new WText("CENTER"));
-		panel.setHtmlClass("wcl-center");
-		holder.add(panel);
-
-		// Nested
-		panel.add(buildCssGrid());
-
-		return grid;
-	}
-
-	private void buildItems(final Grid grid) {
-
-		WContainer holder = grid.getItemsContainer();
-
-		for (int i = 1; i < 25; i++) {
-
-			GridItem item = new GridItem(grid);
-			holder.add(item);
-
-			WPanel panel = new WPanel(WPanel.Type.BOX);
-			panel.setLayout(new FlowLayout(FlowLayout.Alignment.VERTICAL));
-			panel.add(new WText("ITEM " + i));
-			item.getContentHolder().add(panel);
-
-			if (i % 2 == 0) {
-				item.addMediaSize(MediaSize.XS, 10);
-				item.addMediaSize(MediaSize.SM, 8);
-				item.addMediaSize(MediaSize.MD, 6);
-				item.addMediaSize(MediaSize.LG, 4);
-				item.addMediaSize(MediaSize.XL, 2);
-			} else if (i % 5 == 0) {
-				item.addMediaSize(MediaSize.XS, 9);
-				item.addMediaSize(MediaSize.SM, 7);
-				item.addMediaSize(MediaSize.MD, 5);
-				item.addMediaSize(MediaSize.LG, 3);
-				item.addMediaSize(MediaSize.XL, 1);
-				panel.add(new WText("ITEM A" + i));
-				panel.add(new WText("ITEM B" + i));
-				panel.add(new WText("ITEM C" + i));
-				panel.add(new WText("ITEM D" + i));
-				panel.add(new WText("ITEM E" + i));
-			}
+	public OrgUnit myEntityService(final ActionEventType type, final OrgUnit bean) {
+		switch (type) {
+			case ADD:
+				return new OrgUnit();
+			default:
+				bean.setDescription("Been in update:" + new Date().toString());
+				return bean;
 		}
 	}
 

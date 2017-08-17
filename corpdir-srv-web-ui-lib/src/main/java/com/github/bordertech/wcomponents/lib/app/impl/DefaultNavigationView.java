@@ -145,7 +145,11 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	};
 
 	public DefaultNavigationView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 
 		WDiv viewHolder = getContent();
 

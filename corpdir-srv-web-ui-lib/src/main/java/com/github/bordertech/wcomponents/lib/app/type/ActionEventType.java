@@ -29,5 +29,6 @@ public enum ActionEventType implements EventType {
 	DELETE_ERROR,
 	SAVE,
 	SAVE_OK,
-	SAVE_ERROR
+	SAVE_ERROR,
+	RESET
 }

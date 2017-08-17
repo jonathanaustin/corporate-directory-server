@@ -27,7 +27,7 @@ public class CriteriaWithListCtrl<S, T> extends DefaultController {
 	}
 
 	public CriteriaWithListCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher);
+		super(dispatcher, qualifier);
 
 		// Listeners
 		// Search EVENT

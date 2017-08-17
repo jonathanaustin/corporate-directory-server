@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.lib.app.type.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
@@ -33,6 +34,16 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 	public DefaultController(final Dispatcher dispatcher, final String qualifier) {
 		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
+
+		// Default Listeners
+		// Reset EVENT
+		Listener listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleResetEvent();
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.RESET);
 	}
 
 	@Override
@@ -107,9 +118,6 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		checkConfig();
 	}
 
-	protected void checkConfig() {
-	}
-
 	@Override
 	public void configAjax(final BasicView view) {
 	}
@@ -126,7 +134,7 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		return model.views == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.views);
 	}
 
-	protected void addView(final View view) {
+	public void addView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
 			model.views = new ArrayList<>();
@@ -134,7 +142,7 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		model.views.add(view);
 	}
 
-	protected void removeView(final View view) {
+	public void removeView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views != null) {
 			model.views.remove(view);
@@ -144,10 +152,17 @@ public class DefaultController extends AbstractWComponent implements BasicContro
 		}
 	}
 
-	protected void resetViews() {
+	public void resetViews() {
 		for (View view : getViews()) {
 			view.resetView();
 		}
+	}
+
+	protected void checkConfig() {
+	}
+
+	protected void handleResetEvent() {
+		reset();
 	}
 
 	@Override

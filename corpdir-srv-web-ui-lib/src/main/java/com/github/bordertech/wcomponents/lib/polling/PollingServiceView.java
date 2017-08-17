@@ -78,7 +78,7 @@ public class PollingServiceView<S, T> extends PollingView {
 	 * @param dispatcher the view controller
 	 */
 	public PollingServiceView(final Dispatcher dispatcher) {
-		this(dispatcher, 174);
+		this(dispatcher, null);
 	}
 
 	/**
@@ -87,31 +87,31 @@ public class PollingServiceView<S, T> extends PollingView {
 	 * @param dispatcher the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public PollingServiceView(final Dispatcher dispatcher, final int delay) {
-		this(dispatcher, null, delay, false);
+	public PollingServiceView(final Dispatcher dispatcher, final String qualifier) {
+		this(dispatcher, qualifier, 174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
 	 * @param dispatcher the view controller
-	 * @param context the naming context
+	 * @param qualifier the naming context
 	 * @param delay the AJAX polling delay
 	 */
-	public PollingServiceView(final Dispatcher dispatcher, final String context, final int delay) {
-		this(dispatcher, context, delay, false);
+	public PollingServiceView(final Dispatcher dispatcher, final String qualifier, final int delay) {
+		this(dispatcher, qualifier, delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
 	 * @param dispatcher the view controller
-	 * @param context the naming context
+	 * @param qualifier the naming context
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public PollingServiceView(final Dispatcher dispatcher, final String context, final int delay, final boolean manualStart) {
-		super(dispatcher, delay);
+	public PollingServiceView(final Dispatcher dispatcher, final String qualifier, final int delay, final boolean manualStart) {
+		super(dispatcher, qualifier, delay);
 
 		WDiv holder = getContent();
 
@@ -142,13 +142,6 @@ public class PollingServiceView<S, T> extends PollingView {
 		// Set default visibility
 		retryButton.setVisible(false);
 		contentResultHolder.setVisible(false);
-
-		// Context
-		if (context != null) {
-			setIdName(context);
-			setNamingContext(true);
-		}
-
 	}
 
 	public final WDiv getContentResultHolder() {

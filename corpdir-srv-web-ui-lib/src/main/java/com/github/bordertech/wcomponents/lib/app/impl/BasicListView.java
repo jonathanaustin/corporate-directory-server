@@ -15,7 +15,11 @@ public class BasicListView<T> extends AbstractListView<T> {
 	private final WList list = new WList(WList.Type.STACKED);
 
 	public BasicListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public BasicListView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
 		list.setBeanProperty(".");

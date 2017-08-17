@@ -16,7 +16,11 @@ import java.util.List;
 public abstract class AbstractSelectListView<T> extends AbstractListView<T> implements SelectListView<T> {
 
 	public AbstractSelectListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public AbstractSelectListView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 	}
 
 	@Override

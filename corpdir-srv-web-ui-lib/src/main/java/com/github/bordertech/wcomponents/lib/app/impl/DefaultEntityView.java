@@ -20,7 +20,11 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
 
 	public DefaultEntityView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public DefaultEntityView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 	}
 
 	@Override

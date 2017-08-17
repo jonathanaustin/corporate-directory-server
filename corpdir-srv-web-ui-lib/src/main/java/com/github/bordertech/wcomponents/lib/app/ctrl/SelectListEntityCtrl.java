@@ -22,7 +22,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 	}
 
 	public SelectListEntityCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher);
+		super(dispatcher, qualifier);
 
 		// Listeners
 		// Select EVENT
@@ -30,7 +30,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 			@Override
 			public void handleEvent(final Event event) {
 				T selected = (T) event.getData();
-				handleSearchEvent(selected);
+				handleSelectEvent(selected);
 			}
 		};
 		registerCtrlListener(listener, ActionEventType.SELECT);
@@ -40,7 +40,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 	protected void checkConfig() {
 		super.checkConfig();
 		if (getEntityView() == null) {
-			throw new IllegalStateException("A polling view has not been set.");
+			throw new IllegalStateException("A entity view has not been set.");
 		}
 		if (getListView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
@@ -80,7 +80,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 		addView(listView);
 	}
 
-	protected void handleSearchEvent(final T criteria) {
+	protected void handleSelectEvent(final T criteria) {
 		// Reset Listview
 		ListView listView = getListView();
 		listView.reset();
@@ -105,7 +105,7 @@ public class SelectListEntityCtrl<T> extends DefaultController {
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class CriteriaListModel<S, T> extends CtrlModel {
+	public static class CriteriaListModel<T> extends CtrlModel {
 
 		private EntityView<T> entityView;
 

@@ -67,4 +67,9 @@ public class OrgUnit extends AbstractApiTreeObject {
 		this.positionIds = positionIds;
 	}
 
+	@Override
+	public String toString() {
+		return getDescription();
+	}
+
 }

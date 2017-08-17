@@ -82,7 +82,11 @@ public class PollingView extends DefaultView {
 	};
 
 	public PollingView(final Dispatcher disptacher) {
-		this(disptacher, 174);
+		this(disptacher, null);
+	}
+
+	public PollingView(final Dispatcher disptacher, final String qualifier) {
+		this(disptacher, qualifier, 174);
 	}
 
 	/**
@@ -91,8 +95,8 @@ public class PollingView extends DefaultView {
 	 * @param dispatcher the view controller
 	 * @param delay the delay for polling
 	 */
-	public PollingView(final Dispatcher dispatcher, final int delay) {
-		super(dispatcher);
+	public PollingView(final Dispatcher dispatcher, final String qualifier, final int delay) {
+		super(dispatcher, qualifier);
 
 		WDiv holder = getContent();
 		holder.setSearchAncestors(false);

@@ -25,15 +25,19 @@ public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implem
 	private final EntityActionView actionView;
 
 	public BasicEntityWithActionView(final Dispatcher dispatcher) {
-		this(dispatcher, new DefaultEntityView<T>(dispatcher), new DefaultEntityActionView(dispatcher));
+		this(dispatcher, null);
 	}
 
-	public BasicEntityWithActionView(final Dispatcher dispatcher, final EntityView<T> entityView, final EntityActionView actionView) {
-		super(dispatcher);
+	public BasicEntityWithActionView(final Dispatcher dispatcher, final String qualifier) {
+		this(dispatcher, qualifier, new DefaultEntityView<T>(dispatcher, qualifier), new DefaultEntityActionView(dispatcher, qualifier));
+	}
+
+	public BasicEntityWithActionView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final EntityActionView actionView) {
+		super(dispatcher, qualifier);
 		this.entityView = entityView;
 		this.actionView = actionView;
 
-		EntityWithActionCtrl ctrl = new EntityWithActionCtrl(dispatcher);
+		EntityWithActionCtrl ctrl = new EntityWithActionCtrl(dispatcher, qualifier);
 		ctrl.setEntityActionView(actionView);
 		ctrl.setEntityView(entityView);
 
@@ -52,7 +56,6 @@ public abstract class BasicEntityWithActionView<T> extends DefaultView<T> implem
 		holder.add(ctrl);
 		holder.add(actionView);
 		holder.add(entityView);
-
 	}
 
 	public final EntityView<T> getEntityView() {

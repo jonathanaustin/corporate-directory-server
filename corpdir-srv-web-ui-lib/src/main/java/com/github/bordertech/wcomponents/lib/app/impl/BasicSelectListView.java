@@ -21,7 +21,11 @@ public class BasicSelectListView<T> extends AbstractSelectListView<T> {
 	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
 	public BasicSelectListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public BasicSelectListView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 	}

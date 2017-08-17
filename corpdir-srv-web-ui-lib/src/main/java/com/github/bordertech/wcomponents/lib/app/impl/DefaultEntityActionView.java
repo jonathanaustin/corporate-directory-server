@@ -123,7 +123,17 @@ public class DefaultEntityActionView extends DefaultView implements EntityAction
 	 * @param dispatcher the controller for this view
 	 */
 	public DefaultEntityActionView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	/**
+	 * Construct the Menu Bar.
+	 *
+	 * @param dispatcher the controller for this view
+	 * @param qualifier the qualifier
+	 */
+	public DefaultEntityActionView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 
 		WDiv holder = getContent();
 

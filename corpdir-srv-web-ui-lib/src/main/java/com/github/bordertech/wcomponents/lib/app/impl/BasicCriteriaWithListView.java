@@ -21,18 +21,22 @@ public abstract class BasicCriteriaWithListView<T> extends DefaultView<T> implem
 	private final WMessages messages = new WMessages();
 
 	public BasicCriteriaWithListView(final Dispatcher dispatcher) {
-		this(dispatcher, new BasicListView(dispatcher));
+		this(dispatcher, null);
 	}
 
-	public BasicCriteriaWithListView(final Dispatcher dispatcher, final ListView<T> listView) {
-		super(dispatcher);
+	public BasicCriteriaWithListView(final Dispatcher dispatcher, final String qualifier) {
+		this(dispatcher, qualifier, new BasicListView(dispatcher, qualifier));
+	}
+
+	public BasicCriteriaWithListView(final Dispatcher dispatcher, final String qualifier, final ListView<T> listView) {
+		super(dispatcher, qualifier);
 
 		// Create controller
-		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(dispatcher);
+		CriteriaWithListCtrl<String, T> viewCtrl = new CriteriaWithListCtrl<>(dispatcher, qualifier);
 
 		// Set views on Controller
-		CriteriaView criteriaView = new BasicCriteriaView(dispatcher);
-		PollingServiceView pollingView = new PollingServiceView(dispatcher);
+		CriteriaView criteriaView = new BasicCriteriaView(dispatcher, qualifier);
+		PollingServiceView pollingView = new PollingServiceView(dispatcher, qualifier);
 		viewCtrl.setCriteriaView(criteriaView);
 		viewCtrl.setPollingView(pollingView);
 		viewCtrl.setListView(listView);

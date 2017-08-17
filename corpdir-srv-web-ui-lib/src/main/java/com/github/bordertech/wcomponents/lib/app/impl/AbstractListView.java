@@ -15,7 +15,11 @@ import java.util.List;
 public abstract class AbstractListView<T> extends DefaultView<List<T>> implements ListView<T> {
 
 	public AbstractListView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public AbstractListView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 	}
 
 }

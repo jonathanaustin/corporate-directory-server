@@ -26,7 +26,11 @@ public abstract class AbstractCriteriaView<T> extends DefaultView<T> implements 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
 	public AbstractCriteriaView(final Dispatcher dispatcher) {
-		super(dispatcher);
+		this(dispatcher, null);
+	}
+
+	public AbstractCriteriaView(final Dispatcher dispatcher, final String qualifier) {
+		super(dispatcher, qualifier);
 		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getContent()) {
 			@Override
 			public void executeOnValid(final ActionEvent event) {
