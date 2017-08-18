@@ -30,5 +30,6 @@ public enum ActionEventType implements EventType {
 	SAVE,
 	SAVE_OK,
 	SAVE_ERROR,
-	RESET
+	RESET,
+	ENTITY_MODE_CHANGED
 }

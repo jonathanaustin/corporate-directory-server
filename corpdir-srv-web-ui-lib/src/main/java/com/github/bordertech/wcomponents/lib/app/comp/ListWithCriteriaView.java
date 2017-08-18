@@ -22,6 +22,10 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 
 	private final WMessages messages = new WMessages();
 
+	private final CriteriaView<S> criteriaView;
+
+	private final ListView<T> listView;
+
 	private final DefaultPollingView<S, List<T>> pollingView;
 
 	private final ListWithCriteriaCtrl<S, T> ctrl;
@@ -29,11 +33,14 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
 		super(dispatcher, qualifier);
 
+		this.criteriaView = criteriaView;
+		this.listView = listView;
+		this.pollingView = new DefaultPollingView<>(dispatcher, qualifier);
+
 		// Create controller
 		this.ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
 
 		// Set views on Controller
-		pollingView = new DefaultPollingView<>(dispatcher, qualifier);
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
@@ -45,6 +52,18 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 		holder.add(criteriaView);
 		holder.add(pollingView);
 		holder.add(listView);
+	}
+
+	public CriteriaView<S> getCriteriaView() {
+		return criteriaView;
+	}
+
+	public DefaultPollingView<S, List<T>> getPollingView() {
+		return pollingView;
+	}
+
+	public ListView<T> getListView() {
+		return listView;
 	}
 
 	@Override

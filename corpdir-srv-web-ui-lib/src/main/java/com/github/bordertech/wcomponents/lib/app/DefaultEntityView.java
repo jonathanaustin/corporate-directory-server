@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -32,6 +33,7 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 		if (getEntityMode() != mode) {
 			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.NONE : mode;
 			doRefreshViewState();
+			handleModeChangedEvent();
 		}
 	}
 
@@ -60,6 +62,16 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	}
 
 	@Override
+	public void loadEntity(final T entity) {
+		reset();
+		setViewBean(entity);
+		handleLoadedEvent();
+		dispatchViewEvent(ActionEventType.LOAD_OK, entity);
+		setEntityMode(EntityMode.VIEW);
+		makeContentVisible();
+	}
+
+	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		// Check entity is loaded
@@ -81,6 +93,14 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 				doMakeReadOnly(child, readOnly);
 			}
 		}
+	}
+
+	protected void handleLoadedEvent() {
+		dispatchViewEvent(ActionEventType.LOAD_OK, getViewBean());
+	}
+
+	protected void handleModeChangedEvent() {
+		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getEntityMode());
 	}
 
 	@Override

@@ -34,4 +34,10 @@ public interface EntityView<T> extends WView<T> {
 	 */
 	boolean isLoaded();
 
+	/**
+	 *
+	 * @param entity the entity to load into this view
+	 */
+	void loadEntity(final T entity);
+
 }

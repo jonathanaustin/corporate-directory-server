@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
-import com.github.bordertech.wcomponents.lib.app.view.SelectListView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
  * @param <T> the view bean
  * @since 1.0.0
  */
-public class DefaultSelectView<T> extends DefaultListView<T> implements SelectListView<T> {
+public class DefaultSelectView<T> extends DefaultListView<T> implements SelectView<T> {
 
 	public DefaultSelectView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -72,6 +72,13 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectLi
 	}
 
 	@Override
+	public void setSelected(final T entity) {
+		// Find Bean
+		int idx = entity == null ? -1 : getViewBean().indexOf(entity);
+		setSelectedIdx(idx);
+	}
+
+	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		handleViewState();
@@ -82,30 +89,30 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectLi
 	}
 
 	@Override
-	protected ListViewModel newComponentModel() {
-		return new ListViewModel();
+	protected SelectModel newComponentModel() {
+		return new SelectModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected ListViewModel getComponentModel() {
-		return (ListViewModel) super.getComponentModel();
+	protected SelectModel getComponentModel() {
+		return (SelectModel) super.getComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected ListViewModel getOrCreateComponentModel() {
-		return (ListViewModel) super.getOrCreateComponentModel();
+	protected SelectModel getOrCreateComponentModel() {
+		return (SelectModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ListViewModel extends ViewModel {
+	public static class SelectModel extends ViewModel {
 
 		private ListMode listMode = ListMode.VIEW;
 

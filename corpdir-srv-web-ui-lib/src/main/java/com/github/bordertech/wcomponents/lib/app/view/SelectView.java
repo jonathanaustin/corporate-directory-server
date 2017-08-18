@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
  * @since 1.0.0
  *
  */
-public interface SelectListView<T> extends ListView<T> {
+public interface SelectView<T> extends ListView<T> {
 
 	ListMode getListMode();
 
@@ -25,5 +25,7 @@ public interface SelectListView<T> extends ListView<T> {
 	int getSize();
 
 	T getSelected();
+
+	void setSelected(final T entity);
 
 }
