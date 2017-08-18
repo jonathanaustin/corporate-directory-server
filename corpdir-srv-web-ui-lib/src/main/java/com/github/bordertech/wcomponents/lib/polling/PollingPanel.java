@@ -8,9 +8,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +17,18 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingView extends DefaultView {
+public class PollingPanel extends WDiv implements Polling {
+
+	private final WDiv holder = new WDiv() {
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			if (!isInitialised()) {
+				handleInitContent(request);
+				setInitialised(true);
+			}
+		}
+	};
 
 	/**
 	 * The container that holds the AJAX poller.
@@ -81,24 +89,18 @@ public class PollingView extends DefaultView {
 		}
 	};
 
-	public PollingView(final Dispatcher disptacher) {
-		this(disptacher, null);
-	}
-
-	public PollingView(final Dispatcher disptacher, final String qualifier) {
-		this(disptacher, qualifier, 174);
+	public PollingPanel() {
+		this(174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the view controller
 	 * @param delay the delay for polling
 	 */
-	public PollingView(final Dispatcher dispatcher, final String qualifier, final int delay) {
-		super(dispatcher, qualifier);
+	public PollingPanel(final int delay) {
 
-		WDiv holder = getContent();
+		add(holder);
 		holder.setSearchAncestors(false);
 
 		// AJAX polling details
@@ -123,9 +125,14 @@ public class PollingView extends DefaultView {
 		ajaxReload.setVisible(false);
 	}
 
+	public final WDiv getHolder() {
+		return holder;
+	}
+
 	/**
 	 * @return the AJAX polling interval in milli seconds
 	 */
+	@Override
 	public int getPollingInterval() {
 		return getComponentModel().pollingInterval;
 	}
@@ -134,6 +141,7 @@ public class PollingView extends DefaultView {
 	 *
 	 * @param interval the AJAX polling interval in milli seconds
 	 */
+	@Override
 	public final void setPollingInterval(final int interval) {
 		getOrCreateComponentModel().pollingInterval = interval;
 	}
@@ -141,6 +149,7 @@ public class PollingView extends DefaultView {
 	/**
 	 * @param text the text displayed while polling
 	 */
+	@Override
 	public void setPollingText(final String text) {
 		getOrCreateComponentModel().pollingText = text;
 	}
@@ -148,6 +157,7 @@ public class PollingView extends DefaultView {
 	/**
 	 * @return the text displayed while polling
 	 */
+	@Override
 	public String getPollingText() {
 		return getComponentModel().pollingText;
 	}
@@ -155,6 +165,7 @@ public class PollingView extends DefaultView {
 	/**
 	 * @param panelStatus the panel status
 	 */
+	@Override
 	public void setPollingStatus(final PollingStatus panelStatus) {
 		getOrCreateComponentModel().pollingStatus = panelStatus;
 	}
@@ -162,6 +173,7 @@ public class PollingView extends DefaultView {
 	/**
 	 * @return the panel status
 	 */
+	@Override
 	public PollingStatus getPollingStatus() {
 		return getComponentModel().pollingStatus;
 	}
@@ -169,18 +181,20 @@ public class PollingView extends DefaultView {
 	/**
 	 * Start AJAX polling.
 	 */
+	@Override
 	public void doStartPolling() {
 		// Start AJAX polling
 		setPollingStatus(PollingStatus.STARTED);
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
-		dispatchViewEvent(PollingEventType.STARTED);
+		handleStartedPolling();
 	}
 
 	/**
 	 * Do AJAX Reload.
 	 */
+	@Override
 	public void doReload() {
 		boolean alreadyPolling = isPolling();
 		pollingContainer.reset();
@@ -188,11 +202,11 @@ public class PollingView extends DefaultView {
 		if (targets != null && !targets.isEmpty()) {
 			ajaxReload.addTargets(targets);
 		}
-		if (!alreadyPolling) {
-			dispatchViewEvent(PollingEventType.STARTED);
-		}
 		pollingContainer.setVisible(true);
 		ajaxReload.setVisible(true);
+		if (!alreadyPolling) {
+			handleStartedPolling();
+		}
 	}
 
 	/**
@@ -208,20 +222,12 @@ public class PollingView extends DefaultView {
 	}
 
 	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		addAjaxTarget(target);
-	}
-
-	protected List<AjaxTarget> getAjaxTargets() {
+	public List<AjaxTarget> getAjaxTargets() {
 		return getComponentModel().extraTargets;
 	}
 
-	protected void addAjaxTarget(final AjaxTarget target) {
+	@Override
+	public void addAjaxTarget(final AjaxTarget target) {
 		PollingModel model = getOrCreateComponentModel();
 		if (model.extraTargets == null) {
 			model.extraTargets = new ArrayList();
@@ -241,10 +247,26 @@ public class PollingView extends DefaultView {
 	}
 
 	/**
+	 * Init the panel.
+	 *
+	 * @param request the requesst being processed
+	 */
+	protected void handleInitContent(final Request request) {
+
+	}
+
+	/**
+	 * Stopped polling and panel has been reloaded.
+	 */
+	protected void handleStartedPolling() {
+		// Do Nothing
+	}
+
+	/**
 	 * Stopped polling and panel has been reloaded.
 	 */
 	protected void handleStoppedPolling() {
-		dispatchViewEvent(PollingEventType.COMPLETE);
+		// Do Nothing
 	}
 
 	/**
@@ -307,7 +329,7 @@ public class PollingView extends DefaultView {
 	/**
 	 * This model holds the state information.
 	 */
-	public static class PollingModel extends ViewModel {
+	public static class PollingModel extends DivModel {
 
 		/**
 		 * Polling status.

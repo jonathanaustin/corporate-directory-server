@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
@@ -13,13 +13,13 @@ import java.util.List;
  * @param <T> the view bean
  * @since 1.0.0
  */
-public class SelectListBaseView<T> extends ListBaseView<T> implements SelectListView<T> {
+public class DefaultSelectView<T> extends DefaultListView<T> implements SelectListView<T> {
 
-	public SelectListBaseView(final Dispatcher dispatcher) {
+	public DefaultSelectView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public SelectListBaseView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultSelectView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 

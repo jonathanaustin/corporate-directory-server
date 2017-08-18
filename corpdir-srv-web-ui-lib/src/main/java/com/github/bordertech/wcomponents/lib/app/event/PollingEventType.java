@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.polling;
+package com.github.bordertech.wcomponents.lib.app.event;
 
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 

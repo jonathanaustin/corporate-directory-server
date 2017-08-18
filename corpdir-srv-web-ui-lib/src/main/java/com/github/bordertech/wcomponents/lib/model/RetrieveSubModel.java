@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.model;
+package com.github.bordertech.wcomponents.lib.model;
 
 import java.util.List;
 

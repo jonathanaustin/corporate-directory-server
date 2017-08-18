@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @since 1.0.0
  *
  */
-public interface NavigationView<T> extends WView<T> {
+public interface NavigationView extends WView {
 
 	int getCurrentIdx();
 

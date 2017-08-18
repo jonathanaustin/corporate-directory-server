@@ -1,16 +1,16 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app.comp;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
-import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
+import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
 
 /**
@@ -22,7 +22,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 
 	private final WMessages messages = new WMessages();
 
-	private final PollingServiceView<S, List<T>> pollingView;
+	private final DefaultPollingView<S, List<T>> pollingView;
 
 	private final ListWithCriteriaCtrl<S, T> ctrl;
 
@@ -33,7 +33,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 		this.ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
 
 		// Set views on Controller
-		pollingView = new PollingServiceView(dispatcher, qualifier);
+		pollingView = new DefaultPollingView<>(dispatcher, qualifier);
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);

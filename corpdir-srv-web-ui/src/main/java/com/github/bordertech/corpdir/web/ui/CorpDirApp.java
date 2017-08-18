@@ -20,19 +20,16 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
+import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.ListBasicView;
+import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.comp.EntityWithToolbarView;
+import com.github.bordertech.wcomponents.lib.app.comp.ListWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.impl.CriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.impl.EntityActionMenuView;
-import com.github.bordertech.wcomponents.lib.app.impl.EntityBaseView;
-import com.github.bordertech.wcomponents.lib.app.impl.EntityWithActionView;
-import com.github.bordertech.wcomponents.lib.app.impl.ListBasicView;
-import com.github.bordertech.wcomponents.lib.app.impl.ListWithCriteriaView;
-import com.github.bordertech.wcomponents.lib.app.impl.SelectListMenuView;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -41,7 +38,8 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.impl.WController;
 import com.github.bordertech.wcomponents.lib.flux.impl.WDispatcher;
-import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
+import com.github.bordertech.wcomponents.lib.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -99,26 +97,21 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		//-----------
 		// View 1
-		CriteriaView<String> critView = new CriteriaTextView(dispatcher, "A");
-		ListView<String> listView = new ListBasicView(dispatcher, "A");
-		ListWithCriteriaView<String, String> view = new ListWithCriteriaView<>(dispatcher, "A", critView, listView);
+		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(dispatcher, "A", new ListBasicView(dispatcher, "A"));
 		// Set Model
 		view.setServiceModel(new MyStringSearchModel());
 
 		//-----------
 		// View 2
-		EntityView<OrgUnit> entView = new EntityBaseView<>(dispatcher, "B");
-		EntityActionView menuView = new EntityActionMenuView(dispatcher, "B");
-		EntityWithActionView<OrgUnit> view2 = new EntityWithActionView<>(dispatcher, "B", entView, menuView);
+		EntityView<OrgUnit> entView = new DefaultEntityView<>(dispatcher, "B");
+		EntityWithToolbarView<OrgUnit> view2 = new EntityWithToolbarView<>(dispatcher, "B", entView);
 		entView.getContent().add(new BasicEntityPanel());
 		// Set Model
 		view2.setActionModel(new MyOrgUnitServiceModel());
 
 		//-----------
 		// View 3
-		CriteriaView<String> critView2 = new CriteriaTextView(dispatcher, "X");
-		ListView<OrgUnit> listView2 = new SelectListMenuView(dispatcher, "X");
-		ListWithCriteriaView<String, OrgUnit> view3 = new ListWithCriteriaView<>(dispatcher, "X", critView2, listView2);
+		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(dispatcher, "X", new SelectMenuView(dispatcher, "X"));
 		// Set Model
 		view3.setServiceModel(new MyOrgUnitSearchModel());
 
@@ -127,8 +120,8 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		DefaultView view4 = new DefaultView(dispatcher, "Y");
 		// Views
 		CriteriaView<String> critView4 = new CriteriaTextView(dispatcher, "Y");
-		ListView<OrgUnit> listView4 = new SelectListMenuView(dispatcher, "Y");
-		PollingServiceView<String, List<OrgUnit>> pollingView4 = new PollingServiceView<>(dispatcher, "Y");
+		ListView<OrgUnit> listView4 = new SelectMenuView(dispatcher, "Y");
+		DefaultPollingView<String, List<OrgUnit>> pollingView4 = new DefaultPollingView<>(dispatcher, "Y");
 
 		// Set views on Controller
 		ListWithCriteriaCtrl<String, OrgUnit> ctrl4 = new ListWithCriteriaCtrl<>(dispatcher, "Y");

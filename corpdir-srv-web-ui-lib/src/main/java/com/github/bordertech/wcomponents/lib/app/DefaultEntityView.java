@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
@@ -17,13 +17,13 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class EntityBaseView<T> extends DefaultView<T> implements EntityView<T> {
+public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
 
-	public EntityBaseView(final Dispatcher dispatcher) {
+	public DefaultEntityView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public EntityBaseView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultEntityView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 

@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @since 1.0.0
  *
  */
-public interface EntityActionView extends WView {
+public interface ToolbarView extends WView {
 
 	EntityMode getEntityMode();
 

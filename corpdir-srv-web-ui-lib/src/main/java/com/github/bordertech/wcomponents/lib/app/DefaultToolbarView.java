@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -12,8 +12,8 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
@@ -26,7 +26,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class EntityActionMenuView extends DefaultView implements EntityActionView {
+public class DefaultToolbarView extends DefaultView implements ToolbarView {
 
 	private final WMenu actionMenu = new WMenu();
 
@@ -108,13 +108,20 @@ public class EntityActionMenuView extends DefaultView implements EntityActionVie
 		}
 	};
 
-	private final WMenuItem itemAdd = new MyMenuItem("Add", ActionEventType.ADD);
+	private final WMenuItem itemAdd = new MyMenuItem("Add", ActionEventType.ADD) {
+		@Override
+		public boolean isDisabled() {
+			EntityMode mode = getEntityMode();
+			return EntityMode.ADD == mode || EntityMode.EDIT == mode;
+		}
+	};
 
 	private final WPanel ajaxPanel = new WPanel() {
 		@Override
 		public boolean isHidden() {
 			return true;
 		}
+
 	};
 
 	/**
@@ -122,7 +129,7 @@ public class EntityActionMenuView extends DefaultView implements EntityActionVie
 	 *
 	 * @param dispatcher the controller for this view
 	 */
-	public EntityActionMenuView(final Dispatcher dispatcher) {
+	public DefaultToolbarView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
@@ -132,7 +139,7 @@ public class EntityActionMenuView extends DefaultView implements EntityActionVie
 	 * @param dispatcher the controller for this view
 	 * @param qualifier the qualifier
 	 */
-	public EntityActionMenuView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultToolbarView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WDiv holder = getContent();

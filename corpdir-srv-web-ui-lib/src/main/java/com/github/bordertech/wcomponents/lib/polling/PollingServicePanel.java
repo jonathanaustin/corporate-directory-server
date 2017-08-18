@@ -7,9 +7,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
@@ -35,12 +33,12 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingServiceView<S, T> extends PollingView implements RequiresServiceModel<S, T> {
+public class PollingServicePanel<S, T> extends PollingPanel implements PollingService<S, T> {
 
 	/**
 	 * The logger instance for this class.
 	 */
-	private static final Log LOG = LogFactory.getLog(PollingServiceView.class);
+	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
 
 	/**
 	 * The TaskManager implementation.
@@ -75,46 +73,30 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 
 	/**
 	 * Default constructor.
-	 *
-	 * @param dispatcher the view controller
 	 */
-	public PollingServiceView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public PollingServicePanel() {
+		this(174);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the view controller
 	 * @param delay the AJAX polling delay
 	 */
-	public PollingServiceView(final Dispatcher dispatcher, final String qualifier) {
-		this(dispatcher, qualifier, 174);
+	public PollingServicePanel(final int delay) {
+		this(delay, false);
 	}
 
 	/**
 	 * Construct polling panel.
 	 *
-	 * @param dispatcher the view controller
-	 * @param qualifier the naming context
-	 * @param delay the AJAX polling delay
-	 */
-	public PollingServiceView(final Dispatcher dispatcher, final String qualifier, final int delay) {
-		this(dispatcher, qualifier, delay, false);
-	}
-
-	/**
-	 * Construct polling panel.
-	 *
-	 * @param dispatcher the view controller
-	 * @param qualifier the naming context
 	 * @param delay the AJAX polling delay
 	 * @param manualStart true if start polling with manual start button action
 	 */
-	public PollingServiceView(final Dispatcher dispatcher, final String qualifier, final int delay, final boolean manualStart) {
-		super(dispatcher, qualifier, delay);
+	public PollingServicePanel(final int delay, final boolean manualStart) {
+		super(delay);
 
-		WDiv holder = getContent();
+		WDiv holder = getHolder();
 
 		messages.setMargin(new Margin(0, 0, 3, 0));
 		holder.add(messages);
@@ -152,6 +134,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @return true if start polling manually with the start button.
 	 */
+	@Override
 	public boolean isManualStart() {
 		return getComponentModel().manualStart;
 	}
@@ -160,6 +143,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	 *
 	 * @param manualStart true if start polling manually with the start button
 	 */
+	@Override
 	public void setManualStart(final boolean manualStart) {
 		getOrCreateComponentModel().manualStart = manualStart;
 	}
@@ -167,6 +151,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @param criteria the id for the record
 	 */
+	@Override
 	public void setPollingCriteria(final S criteria) {
 		getOrCreateComponentModel().criteria = criteria;
 	}
@@ -174,6 +159,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @return the id for the record
 	 */
+	@Override
 	public S getPollingCriteria() {
 		return getComponentModel().criteria;
 	}
@@ -199,6 +185,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @return the retry button.
 	 */
+	@Override
 	public WButton getRetryButton() {
 		return retryButton;
 	}
@@ -206,6 +193,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @return the start button
 	 */
+	@Override
 	public WButton getStartButton() {
 		return startButton;
 	}
@@ -213,13 +201,15 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * @return the polling result, or null if not processed successfully yet
 	 */
+	@Override
 	public T getPollingResult() {
-		return (T) getContent().getBean();
+		return (T) getHolder().getBean();
 	}
 
 	/**
 	 * Start loading data.
 	 */
+	@Override
 	public void doStartLoading() {
 
 		// Check not started
@@ -240,6 +230,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * Retry the polling action.
 	 */
+	@Override
 	public void doRetry() {
 		doRefreshContent();
 		if (isManualStart()) {
@@ -250,30 +241,32 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	/**
 	 * Reset to start load again.
 	 */
+	@Override
 	public void doRefreshContent() {
 		S criteria = getPollingCriteria();
 		if (criteria == null) {
 			return;
 		}
 		handleClearPollingCache();
-		getContent().reset();
+		getHolder().reset();
 		setPollingStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
 
+	@Override
 	public void doManuallyLoadResult(final S criteria, final T result) {
 		if (result == null || criteria == null) {
 			return;
 		}
-		getContent().reset();
+		getHolder().reset();
 		startButton.setVisible(false);
 		setPollingCriteria(criteria);
 		handleResult(result);
 	}
 
 	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
+	protected void handleInitContent(final Request request) {
+		super.handleInitContent(request);
 		if (!isManualStart()) {
 			startButton.setVisible(false);
 			doStartLoading();
@@ -333,25 +326,25 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	 * Handle the result from the polling action.
 	 *
 	 * @param pollingResult the polling action result
+	 * @return the polling status
 	 */
-	protected void handleResult(final Object pollingResult) {
+	protected PollingStatus handleResult(final Object pollingResult) {
 		// Exception message
+		final PollingStatus status;
 		if (pollingResult instanceof Exception) {
 			Exception excp = (Exception) pollingResult;
 			handleExceptionResult(excp);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
-			// Status
-			setPollingStatus(PollingStatus.ERROR);
-			dispatchViewEvent(PollingEventType.ERROR, getPollingCriteria(), excp);
+			status = PollingStatus.ERROR;
 		} else {
 			// Successful Result
 			T result = (T) pollingResult;
 			handleSuccessfulResult(result);
-			// Status
-			setPollingStatus(PollingStatus.COMPLETE);
-			dispatchViewEvent(PollingEventType.COMPLETE, result);
+			status = PollingStatus.COMPLETE;
 		}
+		setPollingStatus(PollingStatus.ERROR);
+		return status;
 	}
 
 	/**
@@ -371,7 +364,7 @@ public class PollingServiceView<S, T> extends PollingView implements RequiresSer
 	 */
 	protected void handleSuccessfulResult(final T result) {
 		// Set the result as the bean
-		getContent().setBean(result);
+		getHolder().setBean(result);
 		contentResultHolder.setVisible(true);
 	}
 

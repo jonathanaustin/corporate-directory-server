@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -20,7 +20,7 @@ import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
 
-public class NavigationMenuView extends DefaultView implements NavigationView {
+public class DefaultNavigationView extends DefaultView implements NavigationView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -144,11 +144,11 @@ public class NavigationMenuView extends DefaultView implements NavigationView {
 		}
 	};
 
-	public NavigationMenuView(final Dispatcher dispatcher) {
+	public DefaultNavigationView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public NavigationMenuView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WDiv viewHolder = getContent();

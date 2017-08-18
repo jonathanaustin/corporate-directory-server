@@ -2,15 +2,15 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.app.model.RequiresActionModel;
-import com.github.bordertech.wcomponents.lib.app.view.EntityActionView;
+import com.github.bordertech.wcomponents.lib.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -18,13 +18,13 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @param <T> the entity type
  * @author jonathan
  */
-public class EntityWithActionCtrl<T> extends DefaultController implements RequiresActionModel<T> {
+public class EntityWithToolbarCtrl<T> extends DefaultController implements RequiresActionModel<T> {
 
-	public EntityWithActionCtrl(final Dispatcher dispatcher) {
+	public EntityWithToolbarCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public EntityWithActionCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public EntityWithToolbarCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Entity Action Event Listeners
@@ -39,11 +39,11 @@ public class EntityWithActionCtrl<T> extends DefaultController implements Requir
 		}
 	}
 
-	public final EntityActionView getEntityActionView() {
+	public final ToolbarView getEntityActionView() {
 		return getComponentModel().entityActionView;
 	}
 
-	public final void setEntityActionView(final EntityActionView actionView) {
+	public final void setEntityActionView(final ToolbarView actionView) {
 		getOrCreateComponentModel().entityActionView = actionView;
 		addView(actionView);
 	}
@@ -229,7 +229,7 @@ public class EntityWithActionCtrl<T> extends DefaultController implements Requir
 		EntityView entityView = getEntityView();
 		entityView.setEntityMode(mode);
 		// Keep Action View in SYNC
-		EntityActionView actionView = getEntityActionView();
+		ToolbarView actionView = getEntityActionView();
 		actionView.setEntityMode(entityView.getEntityMode());
 		actionView.setEntityLoaded(entityView.isLoaded());
 	}
@@ -274,7 +274,7 @@ public class EntityWithActionCtrl<T> extends DefaultController implements Requir
 	 */
 	public static class EntityCtrlModel<T> extends CtrlModel {
 
-		private EntityActionView entityActionView;
+		private ToolbarView entityActionView;
 
 		private EntityView<T> entityView;
 

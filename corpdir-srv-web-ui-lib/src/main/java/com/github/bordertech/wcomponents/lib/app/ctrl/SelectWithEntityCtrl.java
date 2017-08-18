@@ -15,13 +15,13 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @author jonathan
  * @param <T> the selected entity
  */
-public class SelectListWithEntityCtrl<T> extends DefaultController {
+public class SelectWithEntityCtrl<T> extends DefaultController {
 
-	public SelectListWithEntityCtrl(final Dispatcher dispatcher) {
+	public SelectWithEntityCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public SelectListWithEntityCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public SelectWithEntityCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Listeners

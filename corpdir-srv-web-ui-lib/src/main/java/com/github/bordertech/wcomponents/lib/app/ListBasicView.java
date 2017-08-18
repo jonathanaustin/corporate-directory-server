@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;
@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ListBasicView<T> extends ListBaseView<T> {
+public class ListBasicView<T> extends DefaultListView<T> {
 
 	private final WList list = new WList(WList.Type.STACKED);
 

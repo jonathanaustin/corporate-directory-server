@@ -1,6 +1,5 @@
-package com.github.bordertech.wcomponents.lib.app.model;
+package com.github.bordertech.wcomponents.lib.model;
 
-import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 import java.io.Serializable;
 
 /**

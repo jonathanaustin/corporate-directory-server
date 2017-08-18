@@ -1,8 +1,9 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
 import com.github.bordertech.wcomponents.lib.WDiv;
@@ -16,7 +17,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class CriteriaTextView extends CriteriaBaseView<String> {
+public class CriteriaTextView extends DefaultCriteriaView<String> {
 
 	private final WTextField txtField = new WTextField();
 
@@ -31,15 +32,18 @@ public class CriteriaTextView extends CriteriaBaseView<String> {
 
 		WDiv content = getContent();
 
+		WPanel panel = new WPanel();
+		content.add(panel);
+
 		WFieldLayout layout = new WFieldLayout();
-		content.add(layout);
+		panel.add(layout);
 
 		txtField.setMandatory(true);
 		layout.addField("Search", txtField);
 
 		layout.addField(getSearchButton());
 
-		content.add(suggestions);
+		panel.add(suggestions);
 		suggestions.setRefreshAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -47,6 +51,8 @@ public class CriteriaTextView extends CriteriaBaseView<String> {
 			}
 		});
 		suggestions.setVisible(false);
+
+		panel.setDefaultSubmitButton(getSearchButton());
 
 	}
 

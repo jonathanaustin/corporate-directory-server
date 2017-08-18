@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.impl;
+package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -16,15 +16,15 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SelectListMenuView<T> extends SelectListBaseView<T> {
+public class SelectMenuView<T> extends DefaultSelectView<T> {
 
 	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
 
-	public SelectListMenuView(final Dispatcher dispatcher) {
+	public SelectMenuView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public SelectListMenuView(final Dispatcher dispatcher, final String qualifier) {
+	public SelectMenuView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);

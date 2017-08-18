@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
+import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.model.RequiresServiceModel;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -10,8 +10,8 @@ import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.impl.WView;
-import com.github.bordertech.wcomponents.lib.polling.PollingEventType;
-import com.github.bordertech.wcomponents.lib.polling.PollingServiceView;
+import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
 
 /**
@@ -103,11 +103,11 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 		addView(criteriaView);
 	}
 
-	public final PollingServiceView<S, List<T>> getPollingView() {
+	public final DefaultPollingView<S, List<T>> getPollingView() {
 		return getComponentModel().pollingView;
 	}
 
-	public final void setPollingView(final PollingServiceView<S, List<T>> pollingView) {
+	public final void setPollingView(final DefaultPollingView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		addView(pollingView);
 	}
@@ -133,7 +133,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 
 	protected void handleSearchEvent(final S criteria) {
 		// Setup polling view
-		PollingServiceView pollingView = getPollingView();
+		DefaultPollingView pollingView = getPollingView();
 		pollingView.reset();
 		pollingView.setPollingCriteria(criteria);
 		pollingView.setServiceModel(getServiceModel());
@@ -183,7 +183,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 
 		private CriteriaView<S> criteriaView;
 
-		private PollingServiceView<S, List<T>> pollingView;
+		private DefaultPollingView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
 
