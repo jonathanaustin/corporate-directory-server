@@ -2,15 +2,15 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultController;
+import com.github.bordertech.wcomponents.lib.flux.wc.WView;
+import com.github.bordertech.wcomponents.lib.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -39,13 +39,13 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		}
 	}
 
-	public final ToolbarView getEntityActionView() {
-		return getComponentModel().entityActionView;
+	public final ToolbarView getToolbarView() {
+		return getComponentModel().toolbarView;
 	}
 
-	public final void setEntityActionView(final ToolbarView actionView) {
-		getOrCreateComponentModel().entityActionView = actionView;
-		addView(actionView);
+	public final void setToolbarView(final ToolbarView toolbarView) {
+		getOrCreateComponentModel().toolbarView = toolbarView;
+		addView(toolbarView);
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -70,7 +70,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	@Override
 	protected void checkConfig() {
 		super.checkConfig();
-		if (getEntityActionView() == null) {
+		if (getToolbarView() == null) {
 			throw new IllegalStateException("An entity control view has not been set.");
 		}
 		if (getEntityView() == null) {
@@ -84,14 +84,17 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	@Override
 	public void configViews() {
 		super.configViews();
-		getEntityView().makeContentInvisible();
+		getToolbarView().makeContentVisible();
+		if (!getEntityView().isLoaded()) {
+			getEntityView().makeContentInvisible();
+		}
 	}
 
 	@Override
 	public void configAjax(final WView view) {
 		super.configAjax(view);
 		view.addEventTarget(getViewMessages());
-		view.addEventTarget(getEntityActionView());
+		view.addEventTarget(getToolbarView());
 		view.addEventTarget(getEntityView());
 	}
 
@@ -119,8 +122,12 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 			case ADD:
 				handleAddAction();
 				break;
-			case LOAD:
-				handleLoadAction((T) event.getData());
+			case LOAD_OK:
+				handleLoadedOKAction();
+				break;
+
+			case ENTITY_MODE_CHANGED:
+				handleEntityModeChanged();
 				break;
 		}
 	}
@@ -134,7 +141,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		if (view.getEntityMode() == EntityMode.EDIT) {
 			T bean = view.getViewBean();
 			resetViews();
-			handleLoadAction(bean);
+			doLoad(bean);
 			return;
 		}
 		resetViews();
@@ -143,7 +150,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	protected void handleEditAction() {
 		EntityView<T> view = getEntityView();
 		if (view.isLoaded()) {
-			changeViewMode(EntityMode.EDIT);
+			doEntityModeChange(EntityMode.EDIT);
 		}
 	}
 
@@ -152,7 +159,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		if (!view.isLoaded()) {
 			return;
 		}
-		changeViewMode(EntityMode.VIEW);
+		doEntityModeChange(EntityMode.VIEW);
 		T bean = view.getViewBean();
 		try {
 			doDelete(bean);
@@ -198,7 +205,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 			bean = doSave(bean);
 			dispatchCtrlEvent(ActionEventType.SAVE_OK, bean);
 			getViewMessages().success("Saved OK.");
-			handleLoadAction(bean);
+			doLoad(bean);
 		} catch (Exception e) {
 			getViewMessages().error("Save failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.SAVE_ERROR, e);
@@ -209,29 +216,34 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		resetViews();
 		try {
 			T bean = doCreateInstance();
-			handleLoadAction(bean);
-			changeViewMode(EntityMode.ADD);
+			doLoad(bean);
+			doEntityModeChange(EntityMode.ADD);
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
 		}
 	}
 
-	protected void handleLoadAction(final T entity) {
-		resetViews();
-		getEntityView().setViewBean(entity);
+	protected void handleLoadedOKAction() {
+		getToolbarView().makeContentVisible();
 		getEntityView().makeContentVisible();
-		changeViewMode(EntityMode.VIEW);
-		dispatchCtrlEvent(ActionEventType.LOAD_OK, entity);
 	}
 
-	protected void changeViewMode(final EntityMode mode) {
-		EntityView entityView = getEntityView();
-		entityView.setEntityMode(mode);
+	protected void handleEntityModeChanged() {
 		// Keep Action View in SYNC
-		ToolbarView actionView = getEntityActionView();
+		EntityView entityView = getEntityView();
+		ToolbarView actionView = getToolbarView();
 		actionView.setEntityMode(entityView.getEntityMode());
 		actionView.setEntityLoaded(entityView.isLoaded());
+	}
+
+	protected void doEntityModeChange(final EntityMode mode) {
+		getEntityView().setEntityMode(mode);
+	}
+
+	protected void doLoad(final T entity) {
+		resetViews();
+		getEntityView().loadEntity(entity);
 	}
 
 	protected T doSave(final T entity) {
@@ -274,7 +286,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	 */
 	public static class EntityCtrlModel<T> extends CtrlModel {
 
-		private ToolbarView entityActionView;
+		private ToolbarView toolbarView;
 
 		private EntityView<T> entityView;
 

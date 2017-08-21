@@ -1,8 +1,7 @@
-package com.github.bordertech.wcomponents.lib.app.comp;
+package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithToolbarCtrl;
@@ -10,7 +9,9 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 
@@ -18,13 +19,13 @@ import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
  *
  * @author jonathan
  */
-public class EntityWithToolbarView<T> extends DefaultView<T> implements MessageContainer, EntityView<T>, RequiresActionModel<T> {
+public class EntityWithToolbarView<T> extends DefaultView implements MessageContainer, ViewCombo, EntityView<T>, RequiresActionModel<T> {
 
 	private final WMessages messages = new WMessages();
 
 	private final EntityView<T> entityView;
 
-	private final ToolbarView actionView;
+	private final ToolbarView toolbarView;
 
 	private final EntityWithToolbarCtrl<T> ctrl;
 
@@ -40,30 +41,35 @@ public class EntityWithToolbarView<T> extends DefaultView<T> implements MessageC
 		super(dispatcher, qualifier);
 
 		this.entityView = entityView;
-		this.actionView = actionView;
+		this.toolbarView = actionView;
 		this.ctrl = new EntityWithToolbarCtrl(dispatcher, qualifier);
 
-		ctrl.setEntityActionView(actionView);
+		ctrl.setToolbarView(actionView);
 		ctrl.setEntityView(entityView);
 
-		WDiv holder = getContent();
+		WViewContent holder = getContent();
 		holder.add(messages);
 		holder.add(ctrl);
 		holder.add(actionView);
 		holder.add(entityView);
 	}
 
+	@Override
+	public void makeContentVisible() {
+		super.makeContentVisible();
+		if (entityView.isLoaded()) {
+			entityView.makeContentVisible();
+		} else {
+			entityView.makeContentInvisible();
+		}
+	}
+
 	public final EntityView<T> getEntityView() {
 		return entityView;
 	}
 
-	public final ToolbarView getActionView() {
-		return actionView;
-	}
-
-	@Override
-	public WMessages getMessages() {
-		return messages;
+	public final ToolbarView getToolbarView() {
+		return toolbarView;
 	}
 
 	@Override
@@ -92,17 +98,43 @@ public class EntityWithToolbarView<T> extends DefaultView<T> implements MessageC
 	}
 
 	@Override
+	public T getViewBean() {
+		return entityView.getViewBean();
+	}
+
+	@Override
+	public void setViewBean(final T viewBean) {
+		entityView.setViewBean(viewBean);
+	}
+
+	@Override
+	public void updateViewBean() {
+		entityView.updateViewBean();
+	}
+
+	@Override
+	public boolean validateView() {
+		return entityView.validateView();
+	}
+
+	@Override
 	public ActionModel<T> getActionModel() {
 		return ctrl.getActionModel();
 	}
 
 	@Override
-	public void setActionModel(ActionModel<T> actionModel) {
+	public void setActionModel(final ActionModel<T> actionModel) {
 		ctrl.setActionModel(actionModel);
 	}
 
+	@Override
 	public void configViews() {
 		ctrl.configViews();
+	}
+
+	@Override
+	public WMessages getMessages() {
+		return messages;
 	}
 
 }

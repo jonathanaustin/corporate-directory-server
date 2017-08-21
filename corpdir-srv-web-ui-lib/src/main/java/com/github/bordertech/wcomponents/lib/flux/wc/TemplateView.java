@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.impl;
+package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -8,10 +8,8 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  *
  * @author Jonathan Austin
  * @since 1.0.0
- *
- * @param <T> the view bean
  */
-public class TemplateView<T> extends DefaultView<T> {
+public class TemplateView extends DefaultView {
 
 	private final WTemplate template = new WTemplate();
 

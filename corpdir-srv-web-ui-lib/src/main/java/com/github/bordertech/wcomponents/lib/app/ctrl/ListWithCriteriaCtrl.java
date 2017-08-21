@@ -8,8 +8,8 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultController;
+import com.github.bordertech.wcomponents.lib.flux.wc.WView;
 import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
@@ -155,7 +155,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 		if (result == null || result.isEmpty()) {
 			getViewMessages().info("No records found");
 		} else {
-			ListView listView = getListView();
+			ListView<T> listView = getListView();
 			listView.setViewBean(result);
 			listView.makeContentVisible();
 		}

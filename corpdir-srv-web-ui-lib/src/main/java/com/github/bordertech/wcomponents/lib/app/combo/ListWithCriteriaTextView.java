@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.comp;
+package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;

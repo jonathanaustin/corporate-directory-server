@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
 
 /**
  * Entity list view.
@@ -11,6 +11,6 @@ import com.github.bordertech.wcomponents.lib.flux.impl.WView;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends WView<List<T>> {
+public interface ListView<T> extends WViewBound<List<T>> {
 
 }

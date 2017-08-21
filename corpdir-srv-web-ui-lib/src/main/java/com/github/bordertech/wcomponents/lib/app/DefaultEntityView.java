@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
 
 /**
  * Abstract entity form view.
@@ -18,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T> {
+public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityView<T> {
 
 	public DefaultEntityView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -33,7 +33,7 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 		if (getEntityMode() != mode) {
 			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.NONE : mode;
 			doRefreshViewState();
-			handleModeChangedEvent();
+			doDispatchChangeModeEvent();
 		}
 	}
 
@@ -65,10 +65,8 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 	public void loadEntity(final T entity) {
 		reset();
 		setViewBean(entity);
-		handleLoadedEvent();
-		dispatchViewEvent(ActionEventType.LOAD_OK, entity);
 		setEntityMode(EntityMode.VIEW);
-		makeContentVisible();
+		doDispatchLoadOKEvent();
 	}
 
 	@Override
@@ -95,11 +93,11 @@ public class DefaultEntityView<T> extends DefaultView<T> implements EntityView<T
 		}
 	}
 
-	protected void handleLoadedEvent() {
+	protected void doDispatchLoadOKEvent() {
 		dispatchViewEvent(ActionEventType.LOAD_OK, getViewBean());
 	}
 
-	protected void handleModeChangedEvent() {
+	protected void doDispatchChangeModeEvent() {
 		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getEntityMode());
 	}
 

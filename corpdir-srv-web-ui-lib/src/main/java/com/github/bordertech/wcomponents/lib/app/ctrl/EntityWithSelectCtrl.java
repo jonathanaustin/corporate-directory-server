@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultController;
+import com.github.bordertech.wcomponents.lib.flux.wc.WView;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 
@@ -36,6 +36,15 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 			}
 		};
 		registerCtrlListener(listener, ActionEventType.SELECT);
+
+		// Loaded
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleLoadedOKEvent();
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.LOAD_OK);
 	}
 
 	@Override
@@ -98,20 +107,15 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		getOrCreateComponentModel().actionModel = actionModel;
 	}
 
-//	@Override
-//	public ServiceModel<S, List<T>> getServiceModel() {
-//		return getComponentModel().serviceModel;
-//	}
-//
-//	@Override
-//	public void setServiceModel(final ServiceModel<S, List<T>> serviceModel) {
-//		getOrCreateComponentModel().serviceModel = serviceModel;
-//	}
 	protected void handleSelectEvent(final T selected) {
 		// Reset Entity View
-		EntityView view = getEntityView();
+		EntityView<T> view = getEntityView();
 		view.reset();
-		view.loadEntity(view);
+		view.loadEntity(selected);
+	}
+
+	protected void handleLoadedOKEvent() {
+		getEntityView().makeContentVisible();
 	}
 
 	@Override

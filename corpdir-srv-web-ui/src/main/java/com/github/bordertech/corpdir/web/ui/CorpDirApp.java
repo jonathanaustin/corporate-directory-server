@@ -28,22 +28,23 @@ import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ListBasicView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
-import com.github.bordertech.wcomponents.lib.app.comp.EntityWithSelectView;
-import com.github.bordertech.wcomponents.lib.app.comp.EntityWithToolbarView;
-import com.github.bordertech.wcomponents.lib.app.comp.ListWithCriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.comp.SelectWithCriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.combo.EntityWithSelectView;
+import com.github.bordertech.wcomponents.lib.app.combo.EntityWithToolbarView;
+import com.github.bordertech.wcomponents.lib.app.combo.ListWithCriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.impl.WController;
-import com.github.bordertech.wcomponents.lib.flux.impl.WDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultController;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultDispatcher;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.WController;
+import com.github.bordertech.wcomponents.lib.flux.wc.WDispatcher;
+import com.github.bordertech.wcomponents.lib.flux.wc.WView;
+import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import java.util.Date;
 import java.util.List;
 
@@ -176,7 +177,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		ctrl4.setServiceModel(new MyOrgUnitSearchModel());
 
 		// Add views to holder
-		WDiv holder = view4.getContent();
+		WViewContent holder = view4.getContent();
 		holder.add(ctrl4);
 		holder.add(critView4);
 		holder.add(pollingView4);
@@ -186,14 +187,15 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 	private WView buildView5() {
 		// Entity View
-		EntityView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W");
-		entView.getContent().add(new BasicEntityPanel());
+		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W");
+		entView.getEntityView().getContent().add(new BasicEntityPanel());
 		// Select View
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W");
 		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W", entView, select);
 
 		// Set Model
 		view.setActionModel(new MyOrgUnitActionModel());
+		entView.setActionModel(view.getActionModel());
 		select.setServiceModel(new MyOrgUnitSearchModel());
 		view.configViews();
 		return view;

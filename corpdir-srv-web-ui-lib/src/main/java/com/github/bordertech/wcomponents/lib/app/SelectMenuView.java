@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -47,18 +46,17 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 				@Override
 				public void execute(final ActionEvent event) {
 					Integer idx = (Integer) event.getActionObject();
-					handleSelected((WMenuItem) event.getSource(), idx);
+					handleMenuItemSelected((WMenuItem) event.getSource(), idx);
 				}
 			});
 			menu.add(item);
 		}
 	}
 
-	protected void handleSelected(final WMenuItem item, final int idx) {
+	protected void handleMenuItemSelected(final WMenuItem item, final int idx) {
 		menu.setSelectedMenuItem(item);
 		setSelectedIdx(idx);
-		T bean = getViewBean().get(idx);
-		dispatchViewEvent(ActionEventType.LOAD, bean);
+		doDispatchSelectEvent();
 	}
 
 }

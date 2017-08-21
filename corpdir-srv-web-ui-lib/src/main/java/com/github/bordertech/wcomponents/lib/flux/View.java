@@ -6,10 +6,8 @@ import java.io.Serializable;
  *
  * @author Jonathan Austin
  * @since 1.0.0
- *
- * @param <T> the View bean type
  */
-public interface View<T> extends Serializable {
+public interface View extends Serializable {
 
 	/**
 	 *
@@ -34,23 +32,29 @@ public interface View<T> extends Serializable {
 	void setController(final Controller controller);
 
 	/**
-	 * @return the view bean
-	 */
-	T getViewBean();
-
-	/**
-	 * @param viewBean the view bean
-	 */
-	void setViewBean(final T viewBean);
-
-	/**
-	 * Update the View State onto the Bean.
-	 */
-	void updateViewBean();
-
-	/**
 	 * Reset the view to the default state
 	 */
 	void resetView();
+
+	/**
+	 *
+	 * @return the view content holder.
+	 */
+	ViewContent getContent();
+
+	/**
+	 * Reset the view content.
+	 */
+	void resetContent();
+
+	/**
+	 * Make the view content visible.
+	 */
+	void makeContentVisible();
+
+	/**
+	 * Make the view content invisible.
+	 */
+	void makeContentInvisible();
 
 }

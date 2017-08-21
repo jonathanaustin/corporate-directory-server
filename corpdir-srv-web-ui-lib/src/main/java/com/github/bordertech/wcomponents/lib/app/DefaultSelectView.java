@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -26,7 +27,6 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	@Override
 	public void setListMode(final ListMode mode) {
 		getOrCreateComponentModel().listMode = mode == null ? ListMode.VIEW : mode;
-		handleViewState();
 	}
 
 	@Override
@@ -81,11 +81,11 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-		handleViewState();
 	}
 
-	protected void handleViewState() {
-		// Do nothing
+	protected void doDispatchSelectEvent() {
+		T bean = getSelected();
+		dispatchViewEvent(ActionEventType.SELECT, bean);
 	}
 
 	@Override

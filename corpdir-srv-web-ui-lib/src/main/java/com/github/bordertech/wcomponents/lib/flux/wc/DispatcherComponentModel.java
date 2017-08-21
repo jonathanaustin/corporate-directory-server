@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.impl;
+package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.lib.flux.Event;

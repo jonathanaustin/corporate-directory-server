@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.validation.ValidatingAction;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaView<T> {
+public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements CriteriaView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 
@@ -50,7 +50,7 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	 * The search button action.
 	 */
 	protected void doSearchButtonAction() {
-		doUpdateViewBean();
+		updateViewBean();
 		doDispatchSearchEvent();
 	}
 

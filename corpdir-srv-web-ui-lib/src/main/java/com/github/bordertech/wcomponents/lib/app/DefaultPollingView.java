@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -18,25 +18,25 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
-			dispatchViewEvent(PollingEventType.STARTED);
+			doDispatchPollingEvent(PollingEventType.STARTED);
 		}
 
 		@Override
 		protected void handleExceptionResult(final Exception excp) {
 			super.handleExceptionResult(excp);
-			dispatchViewEvent(PollingEventType.ERROR, getPollingCriteria(), excp);
+			doDispatchPollingEvent(PollingEventType.ERROR, getPollingCriteria(), excp);
 		}
 
 		@Override
 		protected void handleSuccessfulResult(final T result) {
 			super.handleSuccessfulResult(result);
-			dispatchViewEvent(PollingEventType.COMPLETE, result);
+			doDispatchPollingEvent(PollingEventType.COMPLETE, result, null);
 		}
 	};
 
@@ -171,6 +171,15 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	@Override
 	public void setServiceModel(final ServiceModel<S, T> serviceModel) {
 		pollingPanel.setServiceModel(serviceModel);
+	}
+
+	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
+		doDispatchPollingEvent(pollingEvent, null, null);
+
+	}
+
+	protected void doDispatchPollingEvent(final PollingEventType pollingEvent, final Object data, final Exception excp) {
+		dispatchViewEvent(pollingEvent, data, excp);
 	}
 
 }

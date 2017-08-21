@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.flux.impl.WView;
+import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
 import com.github.bordertech.wcomponents.lib.polling.PollingService;
 
 /**
@@ -10,5 +10,5 @@ import com.github.bordertech.wcomponents.lib.polling.PollingService;
  * @since 1.0.0
  *
  */
-public interface PollingView<S, T> extends WView<T>, PollingService<S, T> {
+public interface PollingView<S, T> extends WViewBound<T>, PollingService<S, T> {
 }

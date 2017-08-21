@@ -1,35 +1,29 @@
-package com.github.bordertech.wcomponents.lib.flux.impl;
+package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.validation.Diagnostic;
-import com.github.bordertech.wcomponents.validation.WValidationErrors;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Jonathan Austin
  * @since 1.0.0
- *
- * @param <T> the view bean
  */
-public class DefaultView<T> extends WDiv implements WView<T> {
+public class DefaultView extends WDiv implements WView {
 
 	private final Dispatcher dispatcher;
 
 	private final String qualifier;
 
-	private final WDiv viewHolder = new WDiv() {
+	private final DefaultViewContent content = new DefaultViewContent() {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -47,11 +41,9 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
 		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
-
-		add(viewHolder);
-
 		setSearchAncestors(false);
 		setBeanProperty(".");
+		add(content);
 	}
 
 	@Override
@@ -60,7 +52,17 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	}
 
 	@Override
-	public final WController getController() {
+	public final String getQualifier() {
+		return qualifier;
+	}
+
+	@Override
+	public final WViewContent getContent() {
+		return content;
+	}
+
+	@Override
+	public WController getController() {
 		return getComponentModel().controller;
 	}
 
@@ -70,33 +72,18 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	}
 
 	@Override
-	public final String getQualifier() {
-		return qualifier;
-	}
-
-	@Override
-	public final WDiv getContent() {
-		return viewHolder;
-	}
-
-	@Override
 	public void resetContent() {
-		viewHolder.reset();
+		content.reset();
 	}
 
 	@Override
-	public final void makeContentVisible() {
-		viewHolder.setVisible(true);
+	public void makeContentVisible() {
+		content.setVisible(true);
 	}
 
 	@Override
-	public final void makeContentInvisible() {
-		viewHolder.setVisible(false);
-	}
-
-	@Override
-	public void updateViewBean() {
-		WebUtilities.updateBeanValue(this);
+	public void makeContentInvisible() {
+		content.setVisible(false);
 	}
 
 	@Override
@@ -105,42 +92,18 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	}
 
 	@Override
-	public boolean validateView() {
-		WValidationErrors errorsBox = getViewMessages().getValidationErrors();
-		errorsBox.clearErrors();
-
-		List<Diagnostic> diags = new ArrayList<>();
-		viewHolder.validate(diags);
-		viewHolder.showWarningIndicators(diags);
-		viewHolder.showErrorIndicators(diags);
-
-		if (containsError(diags)) {
-			errorsBox.setErrors(diags);
-			errorsBox.setFocussed();
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	@Override
 	public boolean isHidden() {
-		return super.isHidden() || !viewHolder.isVisible();
+		return super.isHidden() || !content.isVisible();
 	}
 
 	@Override
-	public final WMessages getViewMessages() {
+	public WMessages getViewMessages() {
 		return WMessages.getInstance(this);
 	}
 
 	@Override
-	public final T getViewBean() {
-		return (T) getBean();
-	}
-
-	@Override
-	public final void setViewBean(final T viewBean) {
-		setBean(viewBean);
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		// Do Nothing
 	}
 
 	/**
@@ -148,7 +111,7 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	 *
 	 * @param eventType the event type
 	 */
-	public final void dispatchViewEvent(final EventType eventType) {
+	protected void dispatchViewEvent(final EventType eventType) {
 		dispatchViewEvent(eventType, null, null);
 	}
 
@@ -158,7 +121,7 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	 * @param eventType the event type
 	 * @param data the event data
 	 */
-	public void dispatchViewEvent(final EventType eventType, final Object data) {
+	protected void dispatchViewEvent(final EventType eventType, final Object data) {
 		dispatchViewEvent(eventType, data, null);
 	}
 
@@ -169,21 +132,9 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	 * @param data the event data
 	 * @param exception an exception
 	 */
-	public void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
+	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
 		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
-	}
-
-	/**
-	 * Update the view bean.
-	 */
-	public void doUpdateViewBean() {
-		WebUtilities.updateBeanValue(getContent());
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		// Do Nothing
 	}
 
 	/**
@@ -192,7 +143,7 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	 * @param ajax the AJAX control
 	 * @param target the AJAX target
 	 */
-	public void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final AjaxTarget target) {
+	protected void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final AjaxTarget target) {
 		if (target == null) {
 			return;
 		}
@@ -231,27 +182,6 @@ public class DefaultView<T> extends WDiv implements WView<T> {
 	public static class ViewModel extends DivModel {
 
 		private WController controller;
-	}
-
-	/**
-	 * Borrowed from ValidatinAction (Should be public). Indicates whether the given list of diagnostics contains any
-	 * errors.
-	 *
-	 * @param diags the list into which any validation diagnostics were added.
-	 * @return true if any of the diagnostics in the list are errors, false otherwise.
-	 */
-	private static boolean containsError(final List<Diagnostic> diags) {
-		if (diags == null || diags.isEmpty()) {
-			return false;
-		}
-
-		for (Diagnostic diag : diags) {
-			if (diag.getSeverity() == Diagnostic.ERROR) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 }

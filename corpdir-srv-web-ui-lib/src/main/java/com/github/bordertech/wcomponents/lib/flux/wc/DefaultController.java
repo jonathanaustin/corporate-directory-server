@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.impl;
+package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
@@ -15,6 +15,7 @@ import com.github.bordertech.wcomponents.lib.flux.View;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 
 /**
  *
@@ -107,7 +108,6 @@ public class DefaultController extends AbstractWComponent implements WController
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
-			resetViews();
 			configViews();
 			setInitialised(true);
 		}
@@ -116,6 +116,15 @@ public class DefaultController extends AbstractWComponent implements WController
 	@Override
 	public void configViews() {
 		checkConfig();
+		// Call Config on any COMBO Views
+		for (View view : getViews()) {
+			if (view instanceof ViewCombo) {
+				((ViewCombo) view).configViews();
+			}
+		}
+	}
+
+	protected void checkConfig() {
 	}
 
 	@Override
@@ -160,9 +169,6 @@ public class DefaultController extends AbstractWComponent implements WController
 		for (View view : getViews()) {
 			view.resetView();
 		}
-	}
-
-	protected void checkConfig() {
 	}
 
 	protected void handleResetEvent() {

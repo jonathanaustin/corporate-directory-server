@@ -1,23 +1,24 @@
-package com.github.bordertech.wcomponents.lib.app.comp;
+package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
+import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 
 /**
  *
  * @author jonathan
  */
-public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements MessageContainer, ListView<T>,
+public class ListWithCriteriaView<S, T> extends DefaultView implements MessageContainer, ViewCombo, ListView<T>,
 		RequiresServiceModel<S, List<T>> {
 
 	private final WMessages messages = new WMessages();
@@ -46,7 +47,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 		ctrl.setListView(listView);
 
 		// Add views to holder
-		WDiv holder = getContent();
+		WViewContent holder = getContent();
 		holder.add(ctrl);
 		holder.add(messages);
 		holder.add(criteriaView);
@@ -67,8 +68,23 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 	}
 
 	@Override
-	public WMessages getMessages() {
-		return messages;
+	public List<T> getViewBean() {
+		return listView.getViewBean();
+	}
+
+	@Override
+	public void setViewBean(final List<T> viewBean) {
+		listView.setViewBean(viewBean);
+	}
+
+	@Override
+	public void updateViewBean() {
+		listView.updateViewBean();
+	}
+
+	@Override
+	public boolean validateView() {
+		return listView.validateView();
 	}
 
 	@Override
@@ -81,8 +97,14 @@ public class ListWithCriteriaView<S, T> extends DefaultView<List<T>> implements 
 		ctrl.setServiceModel(serviceModel);
 	}
 
+	@Override
 	public void configViews() {
 		ctrl.configViews();
+	}
+
+	@Override
+	public WMessages getMessages() {
+		return messages;
 	}
 
 }

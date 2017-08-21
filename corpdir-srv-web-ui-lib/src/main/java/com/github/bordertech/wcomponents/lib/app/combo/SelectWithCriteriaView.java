@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.comp;
+package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
@@ -59,4 +59,5 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 	public void setSelected(final T entity) {
 		getListView().setSelected(entity);
 	}
+
 }
