@@ -62,10 +62,10 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 	}
 
 	@Override
-	public void loadEntity(final T entity) {
+	public void loadEntity(final T entity, final EntityMode mode) {
 		resetView();
 		setViewBean(entity);
-		setEntityMode(EntityMode.VIEW);
+		setEntityMode(mode);
 		doDispatchLoadOKEvent();
 	}
 

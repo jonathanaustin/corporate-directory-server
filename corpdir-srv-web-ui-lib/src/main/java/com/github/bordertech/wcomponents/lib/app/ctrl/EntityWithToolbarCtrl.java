@@ -114,8 +114,11 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 			case REFRESH:
 				handleRefreshAction();
 				break;
-			case SAVE:
-				handleSaveAction();
+			case CREATE:
+				handleSaveAction(true);
+				break;
+			case UPDATE:
+				handleSaveAction(false);
 				break;
 			case ADD:
 				handleAddAction();
@@ -139,7 +142,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		if (view.getEntityMode() == EntityMode.EDIT) {
 			T bean = view.getViewBean();
 			resetViews();
-			doLoad(bean);
+			doLoad(bean, EntityMode.VIEW);
 			return;
 		}
 		resetViews();
@@ -187,7 +190,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		}
 	}
 
-	protected void handleSaveAction() {
+	protected void handleSaveAction(final boolean create) {
 		EntityView<T> view = getEntityView();
 		if (!view.isLoaded()) {
 			return;
@@ -200,13 +203,22 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		try {
 			view.updateViewBean();
 			T bean = view.getViewBean();
-			bean = doSave(bean);
-			dispatchCtrlEvent(ActionEventType.SAVE_OK, bean);
+			if (create) {
+				bean = doCreate(bean);
+				dispatchCtrlEvent(ActionEventType.CREATE_OK, bean);
+			} else {
+				bean = doUpdate(bean);
+				dispatchCtrlEvent(ActionEventType.UPDATE_OK, bean);
+			}
 			getViewMessages().success("Saved OK.");
-			doLoad(bean);
+			doLoad(bean, EntityMode.VIEW);
 		} catch (Exception e) {
 			getViewMessages().error("Save failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionEventType.SAVE_ERROR, e);
+			if (create) {
+				dispatchCtrlEvent(ActionEventType.CREATE_ERROR, e);
+			} else {
+				dispatchCtrlEvent(ActionEventType.UPDATE_ERROR, e);
+			}
 		}
 	}
 
@@ -214,10 +226,10 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		resetViews();
 		try {
 			T bean = doCreateInstance();
-			doLoad(bean);
+			doLoad(bean, EntityMode.ADD);
 			doEntityModeChange(EntityMode.ADD);
 		} catch (Exception e) {
-			getViewMessages().error("Refresh failed. " + e.getMessage());
+			getViewMessages().error("ADD failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
 		}
 	}
@@ -239,13 +251,13 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		getEntityView().setEntityMode(mode);
 	}
 
-	protected void doLoad(final T entity) {
+	protected void doLoad(final T entity, final EntityMode mode) {
 		resetViews();
-		getEntityView().loadEntity(entity);
+		getEntityView().loadEntity(entity, mode);
 	}
 
-	protected T doSave(final T entity) {
-		return getActionModel().save(entity);
+	protected T doCreate(final T entity) {
+		return getActionModel().create(entity);
 	}
 
 	protected T doUpdate(final T entity) {

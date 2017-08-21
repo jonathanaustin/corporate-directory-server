@@ -7,11 +7,11 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 
 /**
  *
@@ -73,8 +73,8 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	}
 
 	@Override
-	public void loadEntity(final T entity) {
-		entityView.loadEntity(entity);
+	public void loadEntity(final T entity, final EntityMode mode) {
+		entityView.loadEntity(entity, mode);
 	}
 
 	@Override

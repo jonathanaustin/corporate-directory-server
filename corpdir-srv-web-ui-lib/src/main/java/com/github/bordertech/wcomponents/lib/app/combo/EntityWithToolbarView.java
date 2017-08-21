@@ -91,8 +91,8 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	}
 
 	@Override
-	public void loadEntity(final T entity) {
-		entityView.loadEntity(entity);
+	public void loadEntity(final T entity, final EntityMode mode) {
+		entityView.loadEntity(entity, mode);
 	}
 
 	@Override

@@ -38,6 +38,6 @@ public interface EntityView<T> extends WViewBound<T> {
 	 *
 	 * @param entity the entity to load into this view
 	 */
-	void loadEntity(final T entity);
+	void loadEntity(final T entity, final EntityMode mode);
 
 }

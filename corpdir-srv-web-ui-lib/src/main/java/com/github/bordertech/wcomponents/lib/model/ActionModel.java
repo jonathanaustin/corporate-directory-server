@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 public interface ActionModel<T> extends Serializable {
 
-	T save(final T entity);
+	T create(final T entity);
 
 	T update(final T entity);
 

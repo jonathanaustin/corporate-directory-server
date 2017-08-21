@@ -82,16 +82,17 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 
 	};
 
-	private final WMenuItem itemSave = new MyMenuItem("Save", ActionEventType.SAVE) {
+	private final WMenuItem itemUpdate = new MyMenuItem("Save", ActionEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
-			return isEntityLoaded();
+			return getEntityMode() == EntityMode.EDIT;
 		}
+	};
 
+	private final WMenuItem itemCreate = new MyMenuItem("Save", ActionEventType.CREATE) {
 		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.VIEW.equals(mode);
+		public boolean isVisible() {
+			return getEntityMode() == EntityMode.ADD;
 		}
 	};
 
@@ -150,7 +151,8 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		// Menu Items
 		actionMenu.add(itemBack);
 		actionMenu.add(itemEdit);
-		actionMenu.add(itemSave);
+		actionMenu.add(itemUpdate);
+		actionMenu.add(itemCreate);
 		actionMenu.add(itemCancel);
 		actionMenu.add(itemDelete);
 		actionMenu.add(itemRefresh);

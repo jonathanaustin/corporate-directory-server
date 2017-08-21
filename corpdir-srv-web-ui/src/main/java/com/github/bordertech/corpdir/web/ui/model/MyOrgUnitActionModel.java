@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.model;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import java.util.Date;
+import java.util.UUID;
 
 /**
  *
@@ -11,14 +11,13 @@ import java.util.Date;
 public class MyOrgUnitActionModel implements ActionModel<OrgUnit> {
 
 	@Override
-	public OrgUnit save(final OrgUnit entity) {
-		entity.setDescription("Been in save:" + new Date().toString());
+	public OrgUnit create(final OrgUnit entity) {
+		entity.setId(UUID.randomUUID().toString());
 		return entity;
 	}
 
 	@Override
 	public OrgUnit update(final OrgUnit entity) {
-		entity.setDescription("Been in update:" + new Date().toString());
 		return entity;
 	}
 
@@ -29,7 +28,6 @@ public class MyOrgUnitActionModel implements ActionModel<OrgUnit> {
 
 	@Override
 	public OrgUnit refresh(final OrgUnit entity) {
-		entity.setDescription("Been in refresh:" + new Date().toString());
 		return entity;
 	}
 

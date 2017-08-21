@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -46,14 +47,22 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		};
 		registerCtrlListener(listener, ActionEventType.LOAD_OK);
 
-		// Saved
+		// Created
 		listener = new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
-				handleSaveOkEvent((T) event.getData());
+				handleCreateOkEvent((T) event.getData());
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.SAVE_OK);
+		registerCtrlListener(listener, ActionEventType.CREATE_OK);
+		// Updated
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleUpdateOkEvent((T) event.getData());
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.UPDATE_OK);
 		// Deleted
 		listener = new Listener() {
 			@Override
@@ -129,20 +138,19 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		// Reset Entity View
 		EntityView<T> view = getEntityView();
 		view.resetView();
-		view.loadEntity(selected);
+		view.loadEntity(selected, EntityMode.VIEW);
 	}
 
 	protected void handleLoadedOKEvent() {
 		getEntityView().setContentVisible(true);
 	}
 
-	protected void handleSaveOkEvent(final T entity) {
-		// TODO Better ADD/UPDATE mode
-		if (getSelectView().getViewBean().contains(entity)) {
-			getSelectView().updateItem(entity);
-		} else {
-			getSelectView().addItem(entity);
-		}
+	protected void handleUpdateOkEvent(final T entity) {
+		getSelectView().updateItem(entity);
+	}
+
+	protected void handleCreateOkEvent(final T entity) {
+		getSelectView().addItem(entity);
 	}
 
 	protected void handleDeleteOkEvent(final T entity) {
