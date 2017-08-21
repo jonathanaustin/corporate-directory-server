@@ -12,10 +12,10 @@ import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.View;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 
 /**
  *
@@ -108,7 +108,9 @@ public class DefaultController extends AbstractWComponent implements WController
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
-			configViews();
+			if (!isConfigured()) {
+				throw new IllegalStateException("configViews has not been called");
+			}
 			setInitialised(true);
 		}
 	}
@@ -122,6 +124,15 @@ public class DefaultController extends AbstractWComponent implements WController
 				((ViewCombo) view).configViews();
 			}
 		}
+		makeConfigured();
+	}
+
+	protected boolean isConfigured() {
+		return getComponentModel().configured;
+	}
+
+	protected void makeConfigured() {
+		getOrCreateComponentModel().configured = true;
 	}
 
 	protected void checkConfig() {
@@ -196,6 +207,8 @@ public class DefaultController extends AbstractWComponent implements WController
 	public static class CtrlModel extends ComponentModel {
 
 		private List<View> views;
+
+		private boolean configured;
 	}
 
 }

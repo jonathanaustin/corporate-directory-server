@@ -114,6 +114,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 //		ctrl.addView(view3);
 //		ctrl.addView(view4);
 		ctrl.addView(view5);
+		ctrl.configViews();
 
 		WDiv div = new WDiv();
 		div.add(ctrl);
@@ -197,7 +198,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		view.setActionModel(new MyOrgUnitActionModel());
 		entView.setActionModel(view.getActionModel());
 		select.setServiceModel(new MyOrgUnitSearchModel());
-		view.configViews();
 		return view;
 	}
 

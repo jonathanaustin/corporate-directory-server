@@ -45,6 +45,24 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 			}
 		};
 		registerCtrlListener(listener, ActionEventType.LOAD_OK);
+
+		// Saved
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleSaveOkEvent((T) event.getData());
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.SAVE_OK);
+		// Deleted
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleDeleteOkEvent((T) event.getData());
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.DELETE_OK);
+
 	}
 
 	@Override
@@ -68,7 +86,7 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 	@Override
 	public void configViews() {
 		super.configViews();
-		getEntityView().makeContentInvisible();
+		getEntityView().setContentVisible(false);
 
 	}
 
@@ -110,12 +128,25 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 	protected void handleSelectEvent(final T selected) {
 		// Reset Entity View
 		EntityView<T> view = getEntityView();
-		view.reset();
+		view.resetView();
 		view.loadEntity(selected);
 	}
 
 	protected void handleLoadedOKEvent() {
-		getEntityView().makeContentVisible();
+		getEntityView().setContentVisible(true);
+	}
+
+	protected void handleSaveOkEvent(final T entity) {
+		// TODO Better ADD/UPDATE mode
+		if (getSelectView().getViewBean().contains(entity)) {
+			getSelectView().updateItem(entity);
+		} else {
+			getSelectView().addItem(entity);
+		}
+	}
+
+	protected void handleDeleteOkEvent(final T entity) {
+		getSelectView().removeItem(entity);
 	}
 
 	@Override

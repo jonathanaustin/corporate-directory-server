@@ -13,4 +13,10 @@ import java.util.List;
  */
 public interface ListView<T> extends WViewBound<List<T>> {
 
+	void addItem(final T entity);
+
+	void removeItem(final T entity);
+
+	void updateItem(final T entity);
+
 }

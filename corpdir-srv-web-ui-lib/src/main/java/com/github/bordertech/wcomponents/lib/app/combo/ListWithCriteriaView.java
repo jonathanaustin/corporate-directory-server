@@ -7,12 +7,12 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
 import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
 
 /**
  *
@@ -105,6 +105,21 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 	@Override
 	public WMessages getMessages() {
 		return messages;
+	}
+
+	@Override
+	public void addItem(final T entity) {
+		listView.addItem(entity);
+	}
+
+	@Override
+	public void removeItem(final T entity) {
+		listView.removeItem(entity);
+	}
+
+	@Override
+	public void updateItem(final T entity) {
+		listView.updateItem(entity);
 	}
 
 }

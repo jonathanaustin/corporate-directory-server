@@ -31,6 +31,7 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 
 	@Override
 	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
 		List<T> beans = getViewBean();
 		if (beans != null && !beans.isEmpty()) {
 			setupMenu(beans);

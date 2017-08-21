@@ -55,12 +55,10 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	}
 
 	@Override
-	public void makeContentVisible() {
-		super.makeContentVisible();
-		if (entityView.isLoaded()) {
-			entityView.makeContentVisible();
-		} else {
-			entityView.makeContentInvisible();
+	public void setContentVisible(final boolean visible) {
+		super.setContentVisible(visible);
+		if (visible) {
+			entityView.setContentVisible(entityView.isLoaded());
 		}
 	}
 

@@ -32,6 +32,11 @@ public class DefaultView extends WDiv implements WView {
 				setInitialised(true);
 			}
 		}
+
+		@Override
+		public boolean isVisible() {
+			return isContentVisible();
+		}
 	};
 
 	public DefaultView(final Dispatcher dispatcher) {
@@ -77,13 +82,15 @@ public class DefaultView extends WDiv implements WView {
 	}
 
 	@Override
-	public void makeContentVisible() {
-		content.setVisible(true);
+	public boolean isContentVisible() {
+		return getComponentModel().contentVisible;
 	}
 
 	@Override
-	public void makeContentInvisible() {
-		content.setVisible(false);
+	public void setContentVisible(final boolean visible) {
+		if (isContentVisible() != visible) {
+			getOrCreateComponentModel().contentVisible = visible;
+		}
 	}
 
 	@Override
@@ -93,7 +100,7 @@ public class DefaultView extends WDiv implements WView {
 
 	@Override
 	public boolean isHidden() {
-		return super.isHidden() || !content.isVisible();
+		return super.isHidden() || !isContentVisible();
 	}
 
 	@Override
@@ -182,6 +189,8 @@ public class DefaultView extends WDiv implements WView {
 	public static class ViewModel extends DivModel {
 
 		private WController controller;
+
+		private boolean contentVisible = true;
 	}
 
 }

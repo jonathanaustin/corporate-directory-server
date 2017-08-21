@@ -82,8 +82,8 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 	@Override
 	public void configViews() {
 		super.configViews();
-		getPollingView().makeContentInvisible();
-		getListView().makeContentInvisible();
+		getPollingView().setContentVisible(false);
+		getListView().setContentVisible(false);
 	}
 
 	@Override
@@ -134,30 +134,30 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 	protected void handleSearchEvent(final S criteria) {
 		// Setup polling view
 		DefaultPollingView pollingView = getPollingView();
-		pollingView.reset();
+		pollingView.resetView();
 		pollingView.setPollingCriteria(criteria);
 		pollingView.setServiceModel(getServiceModel());
-		pollingView.makeContentVisible();
+		pollingView.setContentVisible(true);
 
 		// Reset Listview
 		ListView listView = getListView();
-		listView.reset();
-		listView.makeContentInvisible();
+		listView.resetView();
+		listView.setContentVisible(false);
 	}
 
 	protected void handleSearchFailedEvent(final Exception excp) {
-		getPollingView().makeContentInvisible();
+		getPollingView().setContentVisible(false);
 		getViewMessages().error(excp.getMessage());
 	}
 
 	protected void handleSearchCompleteEvent(final List<T> result) {
-		getPollingView().makeContentInvisible();
+		getPollingView().setContentVisible(false);
 		if (result == null || result.isEmpty()) {
 			getViewMessages().info("No records found");
 		} else {
 			ListView<T> listView = getListView();
 			listView.setViewBean(result);
-			listView.makeContentVisible();
+			listView.setContentVisible(true);
 		}
 	}
 

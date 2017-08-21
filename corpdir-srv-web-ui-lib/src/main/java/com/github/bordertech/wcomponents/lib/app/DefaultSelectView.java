@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app;
 
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
@@ -79,8 +78,21 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	}
 
 	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
+	public void addItem(final T entity) {
+		super.addItem(entity);
+		setSelected(entity);
+	}
+
+	@Override
+	public void removeItem(final T entity) {
+		super.removeItem(entity);
+		clearSelectedIdx();
+	}
+
+	@Override
+	public void updateItem(final T entity) {
+		super.updateItem(entity);
+		setSelected(entity);
 	}
 
 	protected void doDispatchSelectEvent() {

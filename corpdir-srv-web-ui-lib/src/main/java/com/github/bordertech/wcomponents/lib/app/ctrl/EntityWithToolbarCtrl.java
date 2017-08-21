@@ -84,10 +84,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	@Override
 	public void configViews() {
 		super.configViews();
-		getToolbarView().makeContentVisible();
-		if (!getEntityView().isLoaded()) {
-			getEntityView().makeContentInvisible();
-		}
+		getToolbarView().setContentVisible(true);
+		getEntityView().setContentVisible(false);
 	}
 
 	@Override
@@ -225,8 +223,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 	}
 
 	protected void handleLoadedOKAction() {
-		getToolbarView().makeContentVisible();
-		getEntityView().makeContentVisible();
+		getToolbarView().setContentVisible(true);
+		getEntityView().setContentVisible(true);
 	}
 
 	protected void handleEntityModeChanged() {

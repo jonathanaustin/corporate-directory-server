@@ -63,7 +63,7 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 
 	@Override
 	public void loadEntity(final T entity) {
-		reset();
+		resetView();
 		setViewBean(entity);
 		setEntityMode(EntityMode.VIEW);
 		doDispatchLoadOKEvent();
@@ -75,7 +75,7 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 		// Check entity is loaded
 		if (!isLoaded()) {
 			getViewMessages().error("No entity has been loaded.");
-			makeContentInvisible();
+			setContentVisible(false);
 			return;
 		}
 		doRefreshViewState();

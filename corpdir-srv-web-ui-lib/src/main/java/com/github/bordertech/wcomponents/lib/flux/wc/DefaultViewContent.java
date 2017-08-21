@@ -8,9 +8,4 @@ import com.github.bordertech.wcomponents.lib.WDiv;
  */
 public class DefaultViewContent extends WDiv implements WViewContent {
 
-	@Override
-	public boolean isContentVisible() {
-		return isVisible();
-	}
-
 }

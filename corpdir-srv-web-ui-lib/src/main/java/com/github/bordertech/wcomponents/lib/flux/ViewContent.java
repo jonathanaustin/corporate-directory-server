@@ -10,6 +10,4 @@ import java.io.Serializable;
  */
 public interface ViewContent extends Serializable {
 
-	boolean isContentVisible();
-
 }

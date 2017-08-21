@@ -48,13 +48,13 @@ public interface View extends Serializable {
 	void resetContent();
 
 	/**
-	 * Make the view content visible.
+	 * @return true if view content is visible
 	 */
-	void makeContentVisible();
+	boolean isContentVisible();
 
 	/**
-	 * Make the view content invisible.
+	 * @param visible true if make view content visible
 	 */
-	void makeContentInvisible();
+	void setContentVisible(final boolean visible);
 
 }
