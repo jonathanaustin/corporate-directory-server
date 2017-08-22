@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import java.util.ArrayList;
 import java.util.List;
 

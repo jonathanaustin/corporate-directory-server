@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
@@ -11,8 +11,9 @@ import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.View;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.Controller;
+import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultController extends AbstractWComponent implements WController {
+public class DefaultController extends AbstractWComponent implements Controller {
 
 	private final Dispatcher dispatcher;
 
@@ -89,7 +90,7 @@ public class DefaultController extends AbstractWComponent implements WController
 	 * @param exception an exception
 	 */
 	public void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
-		Event event = new Event(null, new EventQualifier(eventType, getQualifier()), data, exception);
+		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
@@ -107,11 +108,8 @@ public class DefaultController extends AbstractWComponent implements WController
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
-		if (!isInitialised()) {
-			if (!isConfigured()) {
-				throw new IllegalStateException("configViews has not been called");
-			}
-			setInitialised(true);
+		if (!isConfigured()) {
+			throw new IllegalStateException("configViews has not been called on the controller");
 		}
 	}
 
@@ -121,17 +119,17 @@ public class DefaultController extends AbstractWComponent implements WController
 		// Call Config on any COMBO Views
 		for (View view : getViews()) {
 			if (view instanceof ViewCombo) {
-				((ViewCombo) view).configViews();
+				((ViewCombo) view).configViewDefaults();
 			}
 		}
-		makeConfigured();
+		setConfigured();
 	}
 
 	protected boolean isConfigured() {
 		return getComponentModel().configured;
 	}
 
-	protected void makeConfigured() {
+	protected void setConfigured() {
 		getOrCreateComponentModel().configured = true;
 	}
 
@@ -139,7 +137,7 @@ public class DefaultController extends AbstractWComponent implements WController
 	}
 
 	@Override
-	public void configAjax(final WView view) {
+	public void configAjax(final View view) {
 	}
 
 	@Override
@@ -155,7 +153,7 @@ public class DefaultController extends AbstractWComponent implements WController
 	}
 
 	@Override
-	public void addView(final WView view) {
+	public void addView(final View view) {
 		view.setController(this);
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
@@ -165,7 +163,7 @@ public class DefaultController extends AbstractWComponent implements WController
 	}
 
 	@Override
-	public void removeView(final WView view) {
+	public void removeView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views != null) {
 			model.views.remove(view);

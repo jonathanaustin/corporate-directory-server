@@ -1,14 +1,20 @@
-package com.github.bordertech.wcomponents.lib.flux;
+package com.github.bordertech.wcomponents.lib.mvc;
+
+import com.github.bordertech.wcomponents.BeanBound;
 
 /**
- * A view bound to a bean.
  *
  * @author Jonathan Austin
  * @since 1.0.0
- *
- * @param <T> the View bean type
  */
-public interface ViewBound<T> extends View {
+public interface ViewBound<T> extends View, BeanBound {
+
+	/**
+	 * This method is here until it is added to BeanBound.
+	 *
+	 * @param searchAncestors true if search ancestors.
+	 */
+	void setSearchAncestors(final boolean searchAncestors);
 
 	/**
 	 * @return the view bean

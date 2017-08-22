@@ -2,14 +2,14 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 
@@ -37,11 +37,11 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 		ctrl.setEntityView(entityView);
 		ctrl.setSelectView(selectView);
 
-		WViewContent holder = getContent();
-		holder.add(messages);
-		holder.add(ctrl);
-		holder.add(selectView);
-		holder.add(entityView);
+		WDiv content = getContent();
+		content.add(messages);
+		content.add(ctrl);
+		content.add(selectView);
+		content.add(entityView);
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -98,7 +98,7 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	}
 
 	@Override
-	public void configViews() {
+	public void configViewDefaults() {
 		ctrl.configViews();
 	}
 

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithToolbarCtrl;
@@ -9,9 +10,8 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
 
@@ -47,7 +47,7 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 		ctrl.setToolbarView(actionView);
 		ctrl.setEntityView(entityView);
 
-		WViewContent holder = getContent();
+		WDiv holder = getContent();
 		holder.add(messages);
 		holder.add(ctrl);
 		holder.add(actionView);
@@ -126,7 +126,7 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	}
 
 	@Override
-	public void configViews() {
+	public void configViewDefaults() {
 		ctrl.configViews();
 	}
 

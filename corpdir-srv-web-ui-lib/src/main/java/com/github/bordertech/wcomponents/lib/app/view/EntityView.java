@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 
 /**
  * Entity form view.
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
  * @since 1.0.0
  *
  */
-public interface EntityView<T> extends WViewBound<T> {
+public interface EntityView<T> extends ViewBound<T> {
 
 	/**
 	 * @return the entity action mode
@@ -37,6 +37,7 @@ public interface EntityView<T> extends WViewBound<T> {
 	/**
 	 *
 	 * @param entity the entity to load into this view
+	 * @param mode the entity mode
 	 */
 	void loadEntity(final T entity, final EntityMode mode);
 

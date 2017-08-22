@@ -1,10 +1,12 @@
 package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
+import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import com.github.bordertech.wcomponents.lib.flux.util.DispatcherEventType;
 import com.github.bordertech.wcomponents.lib.flux.util.DispatcherUtil;
 import com.github.bordertech.wcomponents.lib.flux.util.ListenerWrapper;
@@ -16,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.flux.util.UnregisterEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultDispatcher extends AbstractWComponent implements WDispatcher {
+public class DefaultDispatcher extends AbstractWComponent implements Dispatcher {
 
 	public DefaultDispatcher() {
 
@@ -62,7 +64,7 @@ public class DefaultDispatcher extends AbstractWComponent implements WDispatcher
 	}
 
 	@Override
-	public final String register(final Listener listener, final EventMatcher matcher) {
+	public final String register(final Listener listener, final Matcher matcher) {
 		ListenerWrapper wrapper = new ListenerWrapper(matcher, listener);
 		dispatch(new RegisterEvent(wrapper));
 		return wrapper.getRegisterId();

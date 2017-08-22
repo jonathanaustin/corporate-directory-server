@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.flux.wc.WView;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Entity action view.
@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.flux.wc.WView;
  * @since 1.0.0
  *
  */
-public interface ToolbarView extends WView {
+public interface ToolbarView extends View {
 
 	EntityMode getEntityMode();
 

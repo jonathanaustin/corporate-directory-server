@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import com.github.bordertech.wcomponents.lib.flux.util.DispatcherModel;
 import com.github.bordertech.wcomponents.lib.flux.util.ListenerWrapper;
 import java.util.ArrayDeque;
@@ -18,7 +18,7 @@ import java.util.Queue;
 public class DispatcherComponentModel extends ComponentModel implements DispatcherModel {
 
 	// Listeners that have EventType and Qualifier
-	private Map<EventMatcher, List<ListenerWrapper>> listenersByMatcher;
+	private Map<Matcher, List<ListenerWrapper>> listenersByMatcher;
 	// Listeners that only have a match to EventType
 	private Map<EventType, List<ListenerWrapper>> listenersByType;
 	// Listeners that only match to the qualifier
@@ -29,7 +29,7 @@ public class DispatcherComponentModel extends ComponentModel implements Dispatch
 	private boolean dispatching;
 
 	@Override
-	public Map<EventMatcher, List<ListenerWrapper>> getListenersByMatcher() {
+	public Map<Matcher, List<ListenerWrapper>> getListenersByMatcher() {
 		if (listenersByMatcher == null) {
 			listenersByMatcher = new HashMap<>();
 		}

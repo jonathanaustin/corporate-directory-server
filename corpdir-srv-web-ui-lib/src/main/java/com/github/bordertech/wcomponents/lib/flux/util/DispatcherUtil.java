@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ public class DispatcherUtil {
 	public static void handleRegisterListener(final ListenerWrapper wrapper, final DispatcherModel model) {
 		// Register via the wrapper ID
 		model.getListenersById().put(wrapper.getRegisterId(), wrapper);
-		EventMatcher matcher = wrapper.getMatcher();
+		Matcher matcher = wrapper.getMatcher();
 		// Register by the matcher details
 		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
 			registerListenerInMap(model.getListenersByMatcher(), matcher, wrapper);
@@ -56,7 +57,7 @@ public class DispatcherUtil {
 			model.clearListenersById();
 		}
 		// Unregister by the matcher details
-		EventMatcher matcher = wrapper.getMatcher();
+		Matcher matcher = wrapper.getMatcher();
 		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
 			if (unregisterListenerFromMap(model.getListenersByMatcher(), matcher, wrapper)) {
 				model.clearListenersByMatcher();

@@ -10,13 +10,13 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.Arrays;
 import java.util.List;
 
@@ -143,10 +143,10 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	public DefaultToolbarView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
-		WViewContent holder = getContent();
+		WDiv content = getContent();
 
-		holder.add(actionMenu);
-		holder.add(ajaxPanel);
+		content.add(actionMenu);
+		content.add(ajaxPanel);
 
 		// Menu Items
 		actionMenu.add(itemBack);
@@ -214,8 +214,8 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		addTargets(Arrays.asList(target));
+	public void addEventTarget(final AjaxTarget view, final EventType... eventType) {
+		addTargets(Arrays.asList((AjaxTarget) view));
 	}
 
 	protected void doDispatchToolbarEvent(final ActionEventType eventType) {

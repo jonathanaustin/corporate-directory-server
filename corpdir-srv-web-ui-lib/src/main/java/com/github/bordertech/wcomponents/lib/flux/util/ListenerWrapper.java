@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.flux.util;
 
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -13,10 +13,10 @@ import java.util.UUID;
 public class ListenerWrapper implements Serializable {
 
 	private final String registerId = UUID.randomUUID().toString();
-	private final EventMatcher matcher;
+	private final Matcher matcher;
 	private final Listener listener;
 
-	public ListenerWrapper(final EventMatcher matcher, final Listener listener) {
+	public ListenerWrapper(final Matcher matcher, final Listener listener) {
 		this.matcher = matcher;
 		this.listener = listener;
 	}
@@ -25,7 +25,7 @@ public class ListenerWrapper implements Serializable {
 		return registerId;
 	}
 
-	public EventMatcher getMatcher() {
+	public Matcher getMatcher() {
 		return matcher;
 	}
 

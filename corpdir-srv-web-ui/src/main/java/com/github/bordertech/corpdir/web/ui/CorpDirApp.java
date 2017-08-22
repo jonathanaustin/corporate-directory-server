@@ -38,13 +38,11 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultController;
 import com.github.bordertech.wcomponents.lib.flux.wc.DefaultDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WController;
-import com.github.bordertech.wcomponents.lib.flux.wc.WDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.WView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.Controller;
+import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.Date;
 import java.util.List;
 
@@ -65,7 +63,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	 */
 	private final WCardManager mgr = new WCardManager();
 
-	private final WDispatcher dispatcher = new DefaultDispatcher();
+	private final DefaultDispatcher dispatcher = new DefaultDispatcher();
 
 	/**
 	 * Construct Application.
@@ -104,11 +102,11 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 //		WView view2 = buildView2();
 //		WView view3 = buildView3();
 //		WView view4 = buildView4();
-		WView view5 = buildView5();
+		View view5 = buildView5();
 
 		//-----------
 		// MAIN Controller
-		WController ctrl = new DefaultController(dispatcher);
+		Controller ctrl = new DefaultController(dispatcher);
 //		ctrl.addView(view1);
 //		ctrl.addView(view2);
 //		ctrl.addView(view3);
@@ -139,14 +137,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		messages.setIdName("msgs");
 	}
 
-	private WView buildView1() {
+	private View buildView1() {
 		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(dispatcher, "A", new ListBasicView(dispatcher, "A"));
 		// Set Model
 		view.setServiceModel(new MyStringSearchModel());
 		return view;
 	}
 
-	private WView buildView2() {
+	private View buildView2() {
 		EntityView<OrgUnit> entView = new DefaultEntityView<>(dispatcher, "B");
 		EntityWithToolbarView<OrgUnit> view2 = new EntityWithToolbarView<>(dispatcher, "B", entView);
 		entView.getContent().add(new BasicEntityPanel());
@@ -155,14 +153,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		return view2;
 	}
 
-	private WView buildView3() {
+	private View buildView3() {
 		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(dispatcher, "X", new SelectMenuView(dispatcher, "X"));
 		// Set Model
 		view3.setServiceModel(new MyOrgUnitSearchModel());
 		return view3;
 	}
 
-	private WView buildView4() {
+	private View buildView4() {
 		DefaultView view4 = new DefaultView(dispatcher, "Y");
 		// Views
 		CriteriaView<String> critView4 = new CriteriaTextView(dispatcher, "Y");
@@ -178,7 +176,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		ctrl4.setServiceModel(new MyOrgUnitSearchModel());
 
 		// Add views to holder
-		WViewContent holder = view4.getContent();
+		WDiv holder = view4.getContent();
 		holder.add(ctrl4);
 		holder.add(critView4);
 		holder.add(pollingView4);
@@ -186,7 +184,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		return view4;
 	}
 
-	private WView buildView5() {
+	private View buildView5() {
 		// Entity View
 		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W");
 		entView.getEntityView().getContent().add(new BasicEntityPanel());

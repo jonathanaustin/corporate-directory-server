@@ -9,42 +9,36 @@ import java.io.Serializable;
  */
 public class Event implements Serializable {
 
-	private final View trigger;
 	private final EventQualifier eventQualifier;
 	private final Object data;
 	private final Exception exception;
 
 	public Event(final EventType eventType) {
-		this(null, eventType, null, null);
+		this(eventType, null);
 	}
 
 	public Event(final EventType eventType, final Object data) {
-		this(null, eventType, data, null);
+		this(eventType, data, null);
 	}
 
 	public Event(final EventType eventType, final Object data, final Exception exception) {
-		this(null, eventType, data, exception);
+		this(eventType, null, data, exception);
 	}
 
-	public Event(final View trigger, final EventType eventType, final Object data, final Exception exception) {
-		this(trigger, new EventQualifier(eventType, trigger == null ? null : trigger.getQualifier()), data, exception);
+	public Event(final EventType eventType, final String qualifier, final Object data, final Exception exception) {
+		this(new EventQualifier(eventType, qualifier), data, exception);
 	}
 
-	public Event(final View trigger, final EventQualifier eventQualifier, final Object data, final Exception exception) {
+	public Event(final EventQualifier eventQualifier, final Object data, final Exception exception) {
 		if (eventQualifier == null) {
 			throw new IllegalArgumentException("An event qualifier must be provided.");
 		}
 		if (eventQualifier.getEventType() == null) {
 			throw new IllegalArgumentException("An event type must be provided.");
 		}
-		this.trigger = trigger;
 		this.eventQualifier = eventQualifier;
 		this.data = data;
 		this.exception = exception;
-	}
-
-	public View getTrigger() {
-		return trigger;
 	}
 
 	public EventType getEventType() {

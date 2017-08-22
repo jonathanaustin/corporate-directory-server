@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.flux;
 
-import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -8,7 +7,7 @@ import java.util.Objects;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class EventMatcher implements Serializable {
+public class EventMatcher implements Matcher {
 
 	private final EventType eventType;
 	private final String qualifier;
@@ -29,10 +28,12 @@ public class EventMatcher implements Serializable {
 		this.qualifier = qualifier;
 	}
 
+	@Override
 	public EventType getEventType() {
 		return eventType;
 	}
 
+	@Override
 	public String getQualifier() {
 		return qualifier;
 	}
@@ -43,8 +44,22 @@ public class EventMatcher implements Serializable {
 	 * @param qualifier the event qualifier to test if it matches
 	 * @return true if a match
 	 */
+	@Override
 	public boolean matches(final EventQualifier qualifier) {
-		return matches(this, qualifier);
+		// Check for straight match
+		if (Objects.equals(getQualifier(), qualifier.getQualifier())
+				&& Objects.equals(getEventType(), qualifier.getEventType())) {
+			return true;
+		}
+		// If matcher qualifier is null, check the types are the same
+		if (getQualifier() == null && Objects.equals(getEventType(), qualifier.getEventType())) {
+			return true;
+		}
+		// If matcher eventType is null, check the qualfiers are the same
+		if (getEventType() == null && Objects.equals(getQualifier(), qualifier.getQualifier())) {
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -71,30 +86,6 @@ public class EventMatcher implements Serializable {
 			return false;
 		}
 		return true;
-	}
-
-	/**
-	 * Check if the qualifier and matcher are a match.
-	 *
-	 * @param matcher the event matcher to test if it matches
-	 * @param qualifier the event qualifier to test if it matches
-	 * @return true if a match
-	 */
-	public static boolean matches(final EventMatcher matcher, final EventQualifier qualifier) {
-		// Check for straight match
-		if (Objects.equals(matcher.getQualifier(), qualifier.getQualifier())
-				&& Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
-			return true;
-		}
-		// If matcher qualifier is null, check the types are the same
-		if (matcher.getQualifier() == null && Objects.equals(matcher.getEventType(), qualifier.getEventType())) {
-			return true;
-		}
-		// If matcher eventType is null, check the qualfiers are the same
-		if (matcher.getEventType() == null && Objects.equals(matcher.getQualifier(), qualifier.getQualifier())) {
-			return true;
-		}
-		return false;
 	}
 
 }

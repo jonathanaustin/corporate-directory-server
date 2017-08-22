@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 
 /**
  * Abstract entity form view.

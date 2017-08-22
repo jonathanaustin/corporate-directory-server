@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.flux.util;
 
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -12,9 +12,9 @@ import java.util.Queue;
  * @author jonathan
  */
 public interface DispatcherModel {
-	// Listeners that have EventType and Qualifier
 
-	Map<EventMatcher, List<ListenerWrapper>> getListenersByMatcher();
+	// Listeners that have EventType and Qualifier
+	Map<Matcher, List<ListenerWrapper>> getListenersByMatcher();
 
 	// Listeners that only have a match to EventType
 	Map<EventType, List<ListenerWrapper>> getListenersByType();

@@ -1,7 +1,9 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ import java.util.List;
  *
  * @param <T> the view bean
  */
-public class DefaultViewBound<T> extends DefaultView implements WViewBound<T> {
+public class DefaultViewBound<T> extends DefaultView implements ViewBound<T> {
 
 	public DefaultViewBound(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -37,7 +39,7 @@ public class DefaultViewBound<T> extends DefaultView implements WViewBound<T> {
 		errorsBox.clearErrors();
 
 		List<Diagnostic> diags = new ArrayList<>();
-		WViewContent content = getContent();
+		WDiv content = getContent();
 		content.validate(diags);
 		content.showWarningIndicators(diags);
 		content.showErrorIndicators(diags);

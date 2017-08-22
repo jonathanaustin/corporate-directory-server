@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;

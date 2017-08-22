@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class CriteriaTextView extends DefaultCriteriaView<String> {
 	public CriteriaTextView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
-		WViewContent content = getContent();
+		WDiv content = getContent();
 
 		WPanel panel = new WPanel();
 		content.add(panel);

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 
 /**
  * Entity Criteria View.
@@ -11,8 +10,6 @@ import com.github.bordertech.wcomponents.lib.flux.wc.WViewBound;
  * @since 1.0.0
  *
  */
-public interface CriteriaView<S> extends WViewBound<S> {
-
-	WButton getSearchButton();
+public interface CriteriaView<S> extends ViewBound<S> {
 
 }

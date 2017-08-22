@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.flux.wc.WView;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Navigation menu.
@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.wc.WView;
  * @since 1.0.0
  *
  */
-public interface NavigationView extends WView {
+public interface NavigationView extends View {
 
 	int getCurrentIdx();
 

@@ -14,11 +14,11 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 public class DefaultNavigationView extends DefaultView implements NavigationView {
 
@@ -151,12 +151,12 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
-		WViewContent viewHolder = getContent();
+		WDiv content = getContent();
 
 		// Layout
 		WPanel layout = new WPanel();
 		layout.setLayout(new ColumnLayout(new int[]{33, 34, 33}, new ColumnLayout.Alignment[]{ColumnLayout.Alignment.LEFT, ColumnLayout.Alignment.CENTER, ColumnLayout.Alignment.RIGHT}));
-		viewHolder.add(layout);
+		content.add(layout);
 
 		// Add buttons
 		WContainer col = new WContainer();

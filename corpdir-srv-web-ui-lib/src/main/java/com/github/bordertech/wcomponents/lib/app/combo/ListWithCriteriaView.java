@@ -2,14 +2,14 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.ViewCombo;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultView;
-import com.github.bordertech.wcomponents.lib.flux.wc.WViewContent;
+import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import java.util.List;
@@ -47,7 +47,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 		ctrl.setListView(listView);
 
 		// Add views to holder
-		WViewContent holder = getContent();
+		WDiv holder = getContent();
 		holder.add(ctrl);
 		holder.add(messages);
 		holder.add(criteriaView);
@@ -98,7 +98,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 	}
 
 	@Override
-	public void configViews() {
+	public void configViewDefaults() {
 		ctrl.configViews();
 	}
 

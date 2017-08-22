@@ -1,15 +1,16 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Controller;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.mvc.Controller;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.List;
 
 /**
@@ -17,13 +18,13 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultView extends WDiv implements WView {
+public class DefaultView extends WDiv implements View {
 
 	private final Dispatcher dispatcher;
 
 	private final String qualifier;
 
-	private final DefaultViewContent content = new DefaultViewContent() {
+	private final WDiv content = new WDiv() {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -62,18 +63,18 @@ public class DefaultView extends WDiv implements WView {
 	}
 
 	@Override
-	public final WViewContent getContent() {
+	public final WDiv getContent() {
 		return content;
 	}
 
 	@Override
-	public WController getController() {
+	public Controller getController() {
 		return getComponentModel().controller;
 	}
 
 	@Override
 	public void setController(final Controller controller) {
-		getOrCreateComponentModel().controller = (WController) controller;
+		getOrCreateComponentModel().controller = (Controller) controller;
 	}
 
 	@Override
@@ -104,7 +105,7 @@ public class DefaultView extends WDiv implements WView {
 	}
 
 	@Override
-	public WMessages getViewMessages() {
+	public final WMessages getViewMessages() {
 		return WMessages.getInstance(this);
 	}
 
@@ -140,7 +141,7 @@ public class DefaultView extends WDiv implements WView {
 	 * @param exception an exception
 	 */
 	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
-		Event event = new Event(this, new EventQualifier(eventType, getQualifier()), data, exception);
+		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
@@ -151,9 +152,6 @@ public class DefaultView extends WDiv implements WView {
 	 * @param target the AJAX target
 	 */
 	protected void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final AjaxTarget target) {
-		if (target == null) {
-			return;
-		}
 		// Make Sure the Targets have not already been added
 		List<AjaxTarget> current = ajax.getTargets();
 		if (!current.contains(target)) {
@@ -162,7 +160,7 @@ public class DefaultView extends WDiv implements WView {
 	}
 
 	protected void initViewContent(final Request request) {
-		WController ctrl = getController();
+		Controller ctrl = getController();
 		if (ctrl != null) {
 			getController().configAjax(this);
 		}
@@ -188,7 +186,7 @@ public class DefaultView extends WDiv implements WView {
 	 */
 	public static class ViewModel extends DivModel {
 
-		private WController controller;
+		private Controller controller;
 
 		private boolean contentVisible = true;
 	}

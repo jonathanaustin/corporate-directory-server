@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
@@ -41,7 +41,6 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 		getContent().add(ajax);
 	}
 
-	@Override
 	public final WButton getSearchButton() {
 		return searchButton;
 	}
