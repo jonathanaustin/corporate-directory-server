@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
@@ -86,13 +85,6 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		super.configViews();
 		getToolbarView().setContentVisible(true);
 		getEntityView().setContentVisible(false);
-	}
-
-	@Override
-	public void configAjax(final View view) {
-		super.configAjax(view);
-		view.addEventTarget(getToolbarView());
-		view.addEventTarget(getEntityView());
 	}
 
 	protected void handleEntityActionEvent(final Event event) {

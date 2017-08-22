@@ -3,8 +3,9 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
@@ -45,7 +46,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 				handleResetEvent();
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.RESET);
+		registerCtrlListener(listener, ControllerEventType.RESET);
 	}
 
 	@Override
@@ -119,7 +120,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		// Call Config on any COMBO Views
 		for (View view : getViews()) {
 			if (view instanceof ViewCombo) {
-				((ViewCombo) view).configViewDefaults();
+				((ViewCombo) view).configComboViews();
 			}
 		}
 		setConfigured();
@@ -138,6 +139,15 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 	@Override
 	public void configAjax(final View view) {
+		// By default ADD all the views as AJAX
+		for (View vw : getViews()) {
+			view.addEventTarget(vw);
+		}
+		// TODO Maybe COMBOs should store any "extra" targets they are given
+		ViewCombo combo = WebUtilities.getAncestorOfClass(ViewCombo.class, this);
+		if (combo != null) {
+			combo.getController().configAjax(view);
+		}
 	}
 
 	@Override
@@ -207,6 +217,11 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		private List<View> views;
 
 		private boolean configured;
+	}
+
+	@Override
+	protected void assertAddSupported(final WComponent componentToAdd) {
+		throw new IllegalStateException("Controllers cannot have any child components");
 	}
 
 }

@@ -10,8 +10,8 @@ package com.github.bordertech.wcomponents.lib.mvc;
 public interface ViewCombo extends View {
 
 	/**
-	 * Must be called after all the VIEWS have been added to the combo view
+	 * Called by the controller for this combo view.
 	 */
-	void configViewDefaults();
+	void configComboViews();
 
 }

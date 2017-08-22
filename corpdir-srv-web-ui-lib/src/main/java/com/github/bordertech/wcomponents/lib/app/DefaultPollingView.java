@@ -6,8 +6,8 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -50,8 +50,9 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget view, final EventType... eventType) {
-		addAjaxTarget((AjaxTarget) view);
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		super.addEventTarget(target, eventType);
+		addAjaxTarget((AjaxTarget) target);
 	}
 
 	public final PollingServicePanel getPollingPanel() {

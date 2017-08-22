@@ -8,10 +8,10 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
+import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  *
@@ -98,11 +98,6 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	}
 
 	@Override
-	public void configViewDefaults() {
-		ctrl.configViews();
-	}
-
-	@Override
 	public ActionModel<T> getActionModel() {
 		return ctrl.getActionModel();
 	}
@@ -115,6 +110,11 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	@Override
 	public WMessages getMessages() {
 		return messages;
+	}
+
+	@Override
+	public void configComboViews() {
+		ctrl.configViews();
 	}
 
 }

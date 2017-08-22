@@ -214,8 +214,9 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget view, final EventType... eventType) {
-		addTargets(Arrays.asList((AjaxTarget) view));
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		super.addEventTarget(target, eventType);
+		addTargets(Arrays.asList((AjaxTarget) target));
 	}
 
 	protected void doDispatchToolbarEvent(final ActionEventType eventType) {

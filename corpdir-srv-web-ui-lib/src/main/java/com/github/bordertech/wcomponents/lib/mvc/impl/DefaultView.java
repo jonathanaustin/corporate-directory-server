@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -160,10 +161,8 @@ public class DefaultView extends WDiv implements View {
 	}
 
 	protected void initViewContent(final Request request) {
-		Controller ctrl = getController();
-		if (ctrl != null) {
-			getController().configAjax(this);
-		}
+		getController().configAjax(this);
+		addEventTarget(getViewMessages());
 	}
 
 	@Override
@@ -189,6 +188,13 @@ public class DefaultView extends WDiv implements View {
 		private Controller controller;
 
 		private boolean contentVisible = true;
+	}
+
+	@Override
+	protected void assertAddSupported(final WComponent componentToAdd) {
+		if (componentToAdd != content) {
+			throw new IllegalStateException("Views can only have a single content child");
+		}
 	}
 
 }

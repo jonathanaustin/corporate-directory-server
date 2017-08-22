@@ -18,6 +18,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 public class DefaultNavigationView extends DefaultView implements NavigationView {
@@ -295,6 +296,12 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	public boolean isVisible() {
 		// Only visible if it has more than one row to navigate.
 		return getSize() > 1;
+	}
+
+	@Override
+	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		super.addEventTarget(target, eventType);
+		addTarget(target);
 	}
 
 	protected void addTarget(final AjaxTarget target) {

@@ -63,6 +63,7 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 
 	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
+		super.addEventTarget(target, eventType);
 		addEventTargetsToAjaxCtrl(ajax, target);
 	}
 

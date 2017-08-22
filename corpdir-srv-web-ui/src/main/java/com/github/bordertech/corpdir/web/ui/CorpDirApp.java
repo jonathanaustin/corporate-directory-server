@@ -33,7 +33,6 @@ import com.github.bordertech.wcomponents.lib.app.combo.EntityWithToolbarView;
 import com.github.bordertech.wcomponents.lib.app.combo.ListWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
@@ -41,6 +40,7 @@ import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.wc.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.impl.ControllerEventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.Date;
@@ -92,7 +92,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		button.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatcher.dispatch(new Event(ActionEventType.RESET));
+				dispatcher.dispatch(new Event(ControllerEventType.RESET));
 			}
 		});
 

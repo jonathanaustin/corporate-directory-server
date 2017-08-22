@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
@@ -84,13 +83,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 		super.configViews();
 		getPollingView().setContentVisible(false);
 		getListView().setContentVisible(false);
-	}
-
-	@Override
-	public void configAjax(final View view) {
-		super.configAjax(view);
-		view.addEventTarget(getPollingView());
-		view.addEventTarget(getListView());
 	}
 
 	public final CriteriaView<S> getCriteriaView() {

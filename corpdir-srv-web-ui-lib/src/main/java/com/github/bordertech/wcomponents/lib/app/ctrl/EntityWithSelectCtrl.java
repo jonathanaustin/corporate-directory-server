@@ -7,10 +7,9 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 
 /**
  * Controller for a CriterSelect and Entity View.
@@ -86,10 +85,6 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity action model has not been set.");
 		}
-//		if (getServiceModel() == null) {
-//			throw new IllegalStateException("Entity search model has not been set.");
-//		}
-
 	}
 
 	@Override
@@ -97,12 +92,6 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		super.configViews();
 		getEntityView().setContentVisible(false);
 
-	}
-
-	@Override
-	public void configAjax(final View view) {
-		super.configAjax(view);
-		view.addEventTarget(getSelectView());
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -181,8 +170,6 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController implements Req
 		private SelectView<T> selectView;
 
 		private ActionModel<T> actionModel;
-
-//		private ServiceModel<S, List<T>> serviceModel;
 	}
 
 }
