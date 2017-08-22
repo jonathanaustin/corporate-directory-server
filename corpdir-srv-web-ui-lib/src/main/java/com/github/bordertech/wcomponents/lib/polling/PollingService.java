@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
+import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 
 /**
  *
  * @author jonathan
  */
-public interface PollingService<S, T> extends Polling, RequiresServiceModel<S, T> {
+public interface PollingService<S, T> extends Polling {
 
 	/**
 	 * Manually set the criteria and the result.
@@ -72,5 +67,9 @@ public interface PollingService<S, T> extends Polling, RequiresServiceModel<S, T
 	 * @param criteria the id for the record
 	 */
 	void setPollingCriteria(final S criteria);
+
+	ServiceModel<S, T> getServiceModel();
+
+	void setServiceModel(final ServiceModel<S, T> serviceModel);
 
 }

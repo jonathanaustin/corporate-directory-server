@@ -8,8 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.List;
@@ -18,8 +17,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class ListWithCriteriaView<S, T> extends DefaultView implements MessageContainer, ViewCombo, ListView<T>,
-		RequiresServiceModel<S, List<T>> {
+public class ListWithCriteriaView<S, T> extends DefaultView implements MessageContainer, ViewCombo, ListView<T> {
 
 	private final WMessages messages = new WMessages();
 
@@ -88,21 +86,6 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 	}
 
 	@Override
-	public ServiceModel<S, List<T>> getServiceModel() {
-		return ctrl.getServiceModel();
-	}
-
-	@Override
-	public void setServiceModel(final ServiceModel<S, List<T>> serviceModel) {
-		ctrl.setServiceModel(serviceModel);
-	}
-
-	@Override
-	public void configComboViews() {
-		ctrl.configViews();
-	}
-
-	@Override
 	public WMessages getMessages() {
 		return messages;
 	}
@@ -120,6 +103,21 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 	@Override
 	public void updateItem(final T entity) {
 		listView.updateItem(entity);
+	}
+
+	@Override
+	public void configComboViews() {
+		ctrl.configViews();
+	}
+
+	@Override
+	public void addModel(final Model model) {
+		ctrl.addModel(model);
+	}
+
+	@Override
+	public void makeBlocking() {
+		ctrl.setBlocking(true);
 	}
 
 }

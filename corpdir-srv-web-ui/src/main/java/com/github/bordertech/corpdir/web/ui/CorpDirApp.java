@@ -140,7 +140,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	private View buildView1() {
 		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(dispatcher, "A", new ListBasicView(dispatcher, "A"));
 		// Set Model
-		view.setServiceModel(new MyStringSearchModel());
+		view.addModel(new MyStringSearchModel());
 		return view;
 	}
 
@@ -149,14 +149,14 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		EntityWithToolbarView<OrgUnit> view2 = new EntityWithToolbarView<>(dispatcher, "B", entView);
 		entView.getContent().add(new BasicEntityPanel());
 		// Set Model
-		view2.setActionModel(new MyOrgUnitActionModel());
+		view2.addModel(new MyOrgUnitActionModel());
 		return view2;
 	}
 
 	private View buildView3() {
 		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(dispatcher, "X", new SelectMenuView(dispatcher, "X"));
 		// Set Model
-		view3.setServiceModel(new MyOrgUnitSearchModel());
+		view3.addModel(new MyOrgUnitSearchModel());
 		return view3;
 	}
 
@@ -173,7 +173,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		ctrl4.setPollingView(pollingView4);
 		ctrl4.setListView(listView4);
 		// Set Model
-		ctrl4.setServiceModel(new MyOrgUnitSearchModel());
+		ctrl4.addModel(new MyOrgUnitSearchModel());
 
 		// Add views to holder
 		WDiv holder = view4.getContent();
@@ -192,10 +192,10 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W");
 		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W", entView, select);
 
-		// Set Model
-		view.setActionModel(new MyOrgUnitActionModel());
-		entView.setActionModel(view.getActionModel());
-		select.setServiceModel(new MyOrgUnitSearchModel());
+		// Set Models
+		view.addModel(new MyOrgUnitActionModel());
+		view.addModel(new MyOrgUnitSearchModel());
+		view.makeBlocking();
 		return view;
 	}
 

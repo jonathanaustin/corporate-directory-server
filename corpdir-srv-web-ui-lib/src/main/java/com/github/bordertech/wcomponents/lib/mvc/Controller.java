@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.mvc;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.model.Model;
 import java.util.List;
 
 /**
@@ -62,5 +63,30 @@ public interface Controller extends WComponent {
 	 * @return the messages for this controller
 	 */
 	WMessages getViewMessages();
+
+	/**
+	 *
+	 * @param model the model for this controller
+	 */
+	void addModel(final Model model);
+
+	/**
+	 *
+	 * @param clazz the model class to return
+	 * @return the model instance
+	 */
+	Model getModel(final Class clazz);
+
+	/**
+	 *
+	 * @return true if block searching upwards for AJAX and Models
+	 */
+	boolean isBlocking();
+
+	/**
+	 *
+	 * @param blocking true if block searching upwards for AJAX or Models
+	 */
+	void setBlocking(final boolean blocking);
 
 }

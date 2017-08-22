@@ -7,9 +7,8 @@ import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -17,7 +16,7 @@ import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
  * @param <T> the entity type
  * @author jonathan
  */
-public class EntityWithToolbarCtrl<T> extends DefaultController implements RequiresActionModel<T> {
+public class EntityWithToolbarCtrl<T> extends DefaultController {
 
 	public EntityWithToolbarCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -56,14 +55,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		addView(entityView);
 	}
 
-	@Override
 	public ActionModel<T> getActionModel() {
-		return getComponentModel().actionModel;
-	}
-
-	@Override
-	public void setActionModel(final ActionModel<T> actionModel) {
-		getOrCreateComponentModel().actionModel = actionModel;
+		return (ActionModel<T>) getModel(ActionModel.class);
 	}
 
 	@Override
@@ -290,9 +283,6 @@ public class EntityWithToolbarCtrl<T> extends DefaultController implements Requi
 		private ToolbarView toolbarView;
 
 		private EntityView<T> entityView;
-
-		private ActionModel<T> actionModel;
-
 	}
 
 }

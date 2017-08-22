@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
@@ -143,10 +144,10 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		for (View vw : getViews()) {
 			view.addEventTarget(vw);
 		}
-		// TODO Maybe COMBOs should store any "extra" targets they are given
-		ViewCombo combo = WebUtilities.getAncestorOfClass(ViewCombo.class, this);
-		if (combo != null) {
-			combo.getController().configAjax(view);
+		// Get the parent controller AJAX Targets
+		Controller parent = findParentCtrl();
+		if (parent != null) {
+			parent.configAjax(view);
 		}
 	}
 
@@ -195,6 +196,51 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	}
 
 	@Override
+	public void addModel(final Model model) {
+		CtrlModel ctrl = getOrCreateComponentModel();
+		if (ctrl.models == null) {
+			ctrl.models = new ArrayList<>();
+		}
+		ctrl.models.add(model);
+	}
+
+	@Override
+	public Model getModel(final Class clazz) {
+		for (Model model : getModels()) {
+			if (clazz.isAssignableFrom(model.getClass())) {
+				return model;
+			}
+		}
+		// Not found, so try the parent controller Models
+		Controller parent = findParentCtrl();
+		return parent == null ? null : parent.getModel(clazz);
+	}
+
+	protected List<Model> getModels() {
+		CtrlModel ctrl = getComponentModel();
+		return ctrl.models == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(ctrl.models);
+	}
+
+	protected Controller findParentCtrl() {
+		if (isBlocking()) {
+			return null;
+		}
+		ViewCombo combo = WebUtilities.getAncestorOfClass(ViewCombo.class, this);
+		return combo == null ? null : combo.getController();
+
+	}
+
+	@Override
+	public boolean isBlocking() {
+		return getComponentModel().block;
+	}
+
+	@Override
+	public void setBlocking(final boolean block) {
+		getOrCreateComponentModel().block = block;
+	}
+
+	@Override
 	protected CtrlModel newComponentModel() {
 		return new CtrlModel();
 	}
@@ -217,6 +263,10 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		private List<View> views;
 
 		private boolean configured;
+
+		private List<Model> models;
+
+		private boolean block;
 	}
 
 	@Override

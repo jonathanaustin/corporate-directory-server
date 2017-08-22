@@ -8,9 +8,8 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.model.RequiresServiceModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import java.util.List;
 
 /**
@@ -20,7 +19,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class ListWithCriteriaCtrl<S, T> extends DefaultController implements RequiresServiceModel<S, List<T>> {
+public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	public ListWithCriteriaCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
@@ -112,14 +111,8 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 		addView(listView);
 	}
 
-	@Override
 	public ServiceModel<S, List<T>> getServiceModel() {
-		return getComponentModel().serviceModel;
-	}
-
-	@Override
-	public void setServiceModel(final ServiceModel<S, List<T>> serviceModel) {
-		getOrCreateComponentModel().serviceModel = serviceModel;
+		return (ServiceModel<S, List<T>>) getModel(ServiceModel.class);
 	}
 
 	protected void handleSearchEvent(final S criteria) {
@@ -177,8 +170,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController implements Req
 		private DefaultPollingView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
-
-		private ServiceModel<S, List<T>> serviceModel;
 	}
 
 }

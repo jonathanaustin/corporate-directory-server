@@ -10,8 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.model.RequiresActionModel;
+import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -19,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  *
  * @author jonathan
  */
-public class EntityWithToolbarView<T> extends DefaultView implements MessageContainer, ViewCombo, EntityView<T>, RequiresActionModel<T> {
+public class EntityWithToolbarView<T> extends DefaultView implements MessageContainer, ViewCombo, EntityView<T> {
 
 	private final WMessages messages = new WMessages();
 
@@ -116,18 +115,18 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	}
 
 	@Override
-	public ActionModel<T> getActionModel() {
-		return ctrl.getActionModel();
-	}
-
-	@Override
-	public void setActionModel(final ActionModel<T> actionModel) {
-		ctrl.setActionModel(actionModel);
-	}
-
-	@Override
 	public void configComboViews() {
 		ctrl.configViews();
+	}
+
+	@Override
+	public void addModel(final Model model) {
+		ctrl.addModel(model);
+	}
+
+	@Override
+	public void makeBlocking() {
+		ctrl.setBlocking(true);
 	}
 
 	@Override
