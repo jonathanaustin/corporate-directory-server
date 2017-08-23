@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
@@ -10,13 +11,13 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
 
 /**
  *
  * @author jonathan
  */
-public class EntityWithSelectView<S, T> extends DefaultView implements MessageContainer, ViewCombo, EntityView<T> {
+public class EntityWithSelectView<S, T> extends TemplateView implements MessageContainer, ViewCombo, EntityView<T> {
 
 	private final WMessages messages = new WMessages();
 
@@ -27,7 +28,7 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	private final EntityWithSelectCtrl<S, T> ctrl;
 
 	public EntityWithSelectView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final SelectView<T> selectView) {
-		super(dispatcher, qualifier);
+		super("wclib/hbs/layout/layout-1.hbs", dispatcher, qualifier);
 
 		this.entityView = entityView;
 		this.selectView = selectView;
@@ -36,11 +37,11 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 		ctrl.setEntityView(entityView);
 		ctrl.setSelectView(selectView);
 
-		WDiv content = getContent();
-		content.add(messages);
-		content.add(ctrl);
-		content.add(selectView);
-		content.add(entityView);
+		WTemplate content = getContent();
+		content.addTaggedComponent("vw-messages", messages);
+		content.addTaggedComponent("vw-ctrl", ctrl);
+		content.addTaggedComponent("vw-1", selectView);
+		content.addTaggedComponent("vw-2", entityView);
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -94,6 +95,11 @@ public class EntityWithSelectView<S, T> extends DefaultView implements MessageCo
 	@Override
 	public boolean validateView() {
 		return entityView.validateView();
+	}
+
+	@Override
+	public WContainer getEntityDetailsHolder() {
+		return entityView.getEntityDetailsHolder();
 	}
 
 	@Override

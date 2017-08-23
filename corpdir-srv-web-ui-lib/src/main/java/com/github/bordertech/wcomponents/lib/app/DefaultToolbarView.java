@@ -7,10 +7,10 @@ import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
@@ -143,7 +143,7 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	public DefaultToolbarView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
-		WDiv content = getContent();
+		WContainer content = getContent();
 
 		content.add(actionMenu);
 		content.add(ajaxPanel);

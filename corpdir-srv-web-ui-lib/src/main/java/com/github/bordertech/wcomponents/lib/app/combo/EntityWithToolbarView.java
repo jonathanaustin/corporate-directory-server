@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithToolbarCtrl;
@@ -46,7 +46,7 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 		ctrl.setToolbarView(actionView);
 		ctrl.setEntityView(entityView);
 
-		WDiv holder = getContent();
+		WContainer holder = getContent();
 		holder.add(messages);
 		holder.add(ctrl);
 		holder.add(actionView);
@@ -55,10 +55,10 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 
 	@Override
 	public void setContentVisible(final boolean visible) {
-		super.setContentVisible(visible);
-		if (visible) {
-			entityView.setContentVisible(entityView.isLoaded());
-		}
+		super.setContentVisible(true);
+		// Keep toolbar visible for the "ADD" button
+		toolbarView.setContentVisible(true);
+		entityView.setContentVisible(visible && entityView.isLoaded());
 	}
 
 	public final EntityView<T> getEntityView() {
@@ -112,6 +112,11 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	@Override
 	public boolean validateView() {
 		return entityView.validateView();
+	}
+
+	@Override
+	public WContainer getEntityDetailsHolder() {
+		return entityView.getEntityDetailsHolder();
 	}
 
 	@Override

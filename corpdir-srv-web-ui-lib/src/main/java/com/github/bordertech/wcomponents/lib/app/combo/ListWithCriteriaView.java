@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
@@ -45,7 +45,7 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 		ctrl.setListView(listView);
 
 		// Add views to holder
-		WDiv holder = getContent();
+		WContainer holder = getContent();
 		holder.add(ctrl);
 		holder.add(messages);
 		holder.add(criteriaView);

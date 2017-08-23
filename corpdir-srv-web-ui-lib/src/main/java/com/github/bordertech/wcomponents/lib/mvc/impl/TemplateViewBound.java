@@ -11,14 +11,14 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
  *
  * @param <T> the view bean
  */
-public class DefaultViewBound<T> extends DefaultView implements ViewBound<T> {
+public class TemplateViewBound<T> extends TemplateView implements ViewBound<T> {
 
-	public DefaultViewBound(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public TemplateViewBound(final String templateName, final Dispatcher dispatcher) {
+		this(templateName, dispatcher, null);
 	}
 
-	public DefaultViewBound(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public TemplateViewBound(final String templateName, final Dispatcher dispatcher, final String qualifier) {
+		super(templateName, dispatcher, qualifier);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

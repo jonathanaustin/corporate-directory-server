@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.SubordinateTarget;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
@@ -45,7 +45,7 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 *
 	 * @return the view content holder.
 	 */
-	WDiv getContent();
+	WComponent getContent();
 
 	/**
 	 * Reset the view content.
@@ -74,4 +74,12 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 * @param eventType the event the target is for
 	 */
 	void addEventTarget(final AjaxTarget target, final EventType... eventType);
+
+	/**
+	 * Validate the view. Will report errors in the View Messages.
+	 *
+	 * @return true if valid
+	 */
+	boolean validateView();
+
 }

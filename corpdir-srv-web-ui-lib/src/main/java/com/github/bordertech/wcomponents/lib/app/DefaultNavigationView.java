@@ -14,7 +14,6 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -152,7 +151,7 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
-		WDiv content = getContent();
+		WContainer content = getContent();
 
 		// Layout
 		WPanel layout = new WPanel();

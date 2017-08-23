@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 
@@ -40,5 +41,10 @@ public interface EntityView<T> extends ViewBound<T> {
 	 * @param mode the entity mode
 	 */
 	void loadEntity(final T entity, final EntityMode mode);
+
+	/**
+	 * @return the entity details holder
+	 */
+	WContainer getEntityDetailsHolder();
 
 }

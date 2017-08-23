@@ -90,7 +90,6 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 	public void configViews() {
 		super.configViews();
 		getEntityView().setContentVisible(false);
-
 	}
 
 	public final EntityView<T> getEntityView() {

@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
@@ -67,6 +68,11 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 		setViewBean(entity);
 		setEntityMode(mode);
 		doDispatchLoadOKEvent();
+	}
+
+	@Override
+	public WContainer getEntityDetailsHolder() {
+		return getContent();
 	}
 
 	@Override

@@ -31,11 +31,4 @@ public interface ViewBound<T> extends View, BeanBound {
 	 */
 	void updateViewBean();
 
-	/**
-	 * Validate the view. Will report errors in the View Messages.
-	 *
-	 * @return true if valid
-	 */
-	boolean validateView();
-
 }

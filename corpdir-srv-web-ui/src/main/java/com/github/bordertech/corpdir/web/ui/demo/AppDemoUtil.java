@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
@@ -75,11 +76,11 @@ public class AppDemoUtil {
 		WDiv div = new WDiv();
 		div.add(ctrl);
 		div.add(button);
-//		div.add(wrapInSection((WDiv) view1, "View 1"));
-//		div.add(wrapInSection((WDiv) view2, "View 2"));
-//		div.add(wrapInSection((WDiv) view3, "View 3"));
-//		div.add(wrapInSection((WDiv) view4, "View 4"));
-		div.add(wrapInSection((WDiv) view5, "View 5"));
+//		div.add(wrapInSection(view1, "View 1"));
+//		div.add(wrapInSection(view2, "View 2"));
+//		div.add(wrapInSection(view3, "View 3"));
+//		div.add(wrapInSection(view4, "View 4"));
+		div.add(wrapInSection(view5, "View 5"));
 
 		return div;
 	}
@@ -94,7 +95,7 @@ public class AppDemoUtil {
 	public static View buildView2(final Dispatcher dispatcher) {
 		EntityView<OrgUnit> entView = new DefaultEntityView<>(dispatcher, "B");
 		EntityWithToolbarView<OrgUnit> view2 = new EntityWithToolbarView<>(dispatcher, "B", entView);
-		entView.getContent().add(new BasicEntityPanel());
+		entView.getEntityDetailsHolder().add(new BasicEntityPanel());
 		// Set Model
 		view2.addModel(new MyOrgUnitActionModel());
 		return view2;
@@ -123,7 +124,7 @@ public class AppDemoUtil {
 		ctrl4.addModel(new MyOrgUnitSearchModel());
 
 		// Add views to holder
-		WDiv holder = view4.getContent();
+		WContainer holder = view4.getContent();
 		holder.add(ctrl4);
 		holder.add(critView4);
 		holder.add(pollingView4);
@@ -134,7 +135,7 @@ public class AppDemoUtil {
 	public static View buildView5(final Dispatcher dispatcher) {
 		// Entity View
 		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W");
-		entView.getEntityView().getContent().add(new BasicEntityPanel());
+		entView.getEntityView().getEntityDetailsHolder().add(new BasicEntityPanel());
 		// Select View
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W");
 		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W", entView, select);
@@ -146,9 +147,9 @@ public class AppDemoUtil {
 		return view;
 	}
 
-	public static final WSection wrapInSection(final WDiv div, final String title) {
+	public static final WSection wrapInSection(final View view, final String title) {
 		WSection section = new WSection(title);
-		section.getContent().add(div);
+		section.getContent().add(view);
 		section.setMargin(new Margin(Size.XL));
 		return section;
 	}
