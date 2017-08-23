@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.model;
+package com.github.bordertech.wcomponents.lib.demo.model;
 
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.util.SystemException;

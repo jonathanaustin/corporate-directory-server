@@ -46,7 +46,7 @@ public class Grid extends WTemplate {
 	};
 
 	public Grid() {
-		super("/wclib/hbs/grid-container.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("wclib/hbs/grid/grid-container.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("config", config);
 		addTaggedComponent("items", itemsContainer);
 		config.setVisible(false);
@@ -152,7 +152,7 @@ public class Grid extends WTemplate {
 
 	protected void setupParameters() {
 
-		String colsClass = getMaxColumns() > 0 ? "wcl-cols-" + getMaxColumns() : "";
+		String colsClass = getMaxColumns() > 0 ? "cg-cols-" + getMaxColumns() : "";
 
 		addParameter("gridType", getGridType());
 		addParameter("columnsClass", colsClass);
@@ -203,7 +203,7 @@ public class Grid extends WTemplate {
 
 		private String itemConfigName;
 
-		private String gridType = "wcl-grid";
+		private String gridType = "cg-grid";
 	}
 
 }

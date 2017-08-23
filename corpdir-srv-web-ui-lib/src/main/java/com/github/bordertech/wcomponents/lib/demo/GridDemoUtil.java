@@ -1,19 +1,9 @@
-package com.github.bordertech.corpdir.web.ui;
+package com.github.bordertech.wcomponents.lib.demo;
 
-import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.MessageContainer;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WCardManager;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.WTimeoutWarning;
-import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.FlowLayout;
 import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
@@ -21,94 +11,41 @@ import com.github.bordertech.wcomponents.lib.grid.MediaSize;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.RegisterWcLibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
-import java.util.Date;
 
 /**
- * Corporate Directory Admin UI.
  *
  * @author jonathan
  */
-public class CorpDirApp_Grid extends WApplication implements MessageContainer {
+public class GridDemoUtil {
 
-	/**
-	 * Messages.
-	 */
-	private final WMessages messages = new WMessages();
+	private GridDemoUtil() {
+	}
 
-	/**
-	 * Card manager.
-	 */
-	private final WCardManager mgr = new WCardManager();
-
-	/**
-	 * Construct Application.
-	 */
-	public CorpDirApp_Grid() {
-
+	public static void configApplication(final WApplication app) {
 		// Custom css
-		addCssFile("/css/app.css");
-		addCssUrl("wclib/css/layout-flex.css");
-		addCssUrl("wclib/css/layout-masonry.css");
-		addCssUrl("wclib/css/layout-grid.css");
+		app.addCssFile("/css/app.css");
+		app.addCssUrl("wclib/css/layout-flex.css");
+		app.addCssUrl("wclib/css/layout-masonry.css");
+		app.addCssUrl("wclib/css/layout-grid.css");
 
 		// Custom JS
 		TemplateWContent registerWclib = new TemplateWContent(new RegisterWcLibJsResource(), "reg");
-		add(registerWclib);
-		addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
+		app.add(registerWclib);
+		app.addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
 
-		addJsUrl("wclib/js/lib/interact-1.2.6.js");
-//		addJsUrl("wclib/js/wc-grid-drag-drop.js");
+		app.addJsUrl("wclib/js/lib/interact-1.2.6.js");
+//		app.addJsUrl("wclib/js/wc-grid-drag-drop.js");
 
-		// Header
-		final WPanel header = new WPanel(WPanel.Type.HEADER);
-		add(header);
-		header.add(new WHeading(HeadingLevel.H1, "Corporate Directory"));
-
-		// Detail
-		WPanel detail = new WPanel();
-		detail.setMargin(new Margin(Size.LARGE));
-		add(detail);
-
-		// Messages
-		detail.add(messages);
-
-		// Card manager
-		detail.add(mgr);
-
-		// Dummy Card
-//		mgr.add(new WSection("Hello World"));
-		// Cards
-		WPanel dummy = new WPanel();
-		mgr.add(dummy);
-
-		// CSS x5
-		dummy.add(buildFlexGrid());
-//		dummy.add(buildFlexGrid3());
-//		dummy.add(buildCssGridCols12());
-		dummy.add(buildMasonryGrid());
-		dummy.add(buildCssGrid());
-//		dummy.add(buildBorderGrid());
-		// Footer
-		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
-		add(footer);
-
-		footer.add(new WText(new Date().toString()));
-
-		add(new WTimeoutWarning());
-
-		// IDs
-		header.setIdName("hdr");
-		messages.setIdName("msgs");
 	}
 
-	private Grid buildFlexGrid() {
+	public static Grid buildFlexGrid() {
 		Grid grid = new Grid();
 		grid.setGridType("wcl-flex");
 		buildItems(grid);
 		return grid;
 	}
 
-	private Grid buildFlexGrid3() {
+	public static Grid buildFlexGrid3() {
 		Grid grid = new Grid();
 		grid.setGridType("wcl-flex");
 		grid.setMaxColumns(3);
@@ -126,30 +63,30 @@ public class CorpDirApp_Grid extends WApplication implements MessageContainer {
 		return grid;
 	}
 
-	private Grid buildCssGrid() {
+	public static Grid buildCssGrid() {
 		Grid grid = new Grid();
 		grid.addHtmlClass("wcl-gap-l");
 		buildItems(grid);
 		return grid;
 	}
 
-	private Grid buildCssGridCols12() {
+	public static Grid buildCssGridCols12() {
 		Grid grid = new Grid();
 		grid.addHtmlClass("wcl-gap-l");
 		buildItems(grid);
 		return grid;
 	}
 
-	private Grid buildMasonryGrid() {
+	public static Grid buildMasonryGrid() {
 		Grid grid = new Grid();
 		grid.setGridType("wcl-msry");
-		grid.getConfig().setTemplateName("/wclib/hbs/grid-msry-config.hbs");
+		grid.getConfig().setTemplateName("wclib/hbs/grid/grid-msry-config.hbs");
 		grid.getConfig().setVisible(true);
 		buildItems(grid);
 		return grid;
 	}
 
-	private Grid buildBorderGrid() {
+	public static Grid buildBorderGrid() {
 		Grid grid = new Grid();
 		grid.setHtmlClass("wcl-border");
 		grid.setMaxColumns(0);
@@ -188,7 +125,7 @@ public class CorpDirApp_Grid extends WApplication implements MessageContainer {
 		return grid;
 	}
 
-	private void buildItems(final Grid grid) {
+	public static void buildItems(final Grid grid) {
 
 		WContainer holder = grid.getItemsContainer();
 
@@ -223,47 +160,4 @@ public class CorpDirApp_Grid extends WApplication implements MessageContainer {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public String getTitle() {
-		return "Corp Dir - " + getCurrentTitle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WMessages getMessages() {
-		return messages;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void handleStepError() {
-		super.handleStepError();
-		getMessages()
-				.warn("A request was made that is not in the expected sequence and the application has been refreshed to its current state.");
-	}
-
-	/**
-	 * @return the title of the current card
-	 */
-	private String getCurrentTitle() {
-		return "Title";
-//		return ((WSection) mgr.getVisible()).getDecoratedLabel().getText();
-	}
-
-	/**
-	 * Retrieves the BrisApp ancestor of the given component.
-	 *
-	 * @param descendant the component to find the BrisApp ancestor of.
-	 * @return the BrisApp ancestor for the given component, or null if not found.
-	 */
-	public static CorpDirApp_Grid getInstance(final WComponent descendant) {
-		return WebUtilities.getAncestorOfClass(CorpDirApp_Grid.class, descendant);
-	}
 }

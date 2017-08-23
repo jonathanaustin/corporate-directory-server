@@ -30,7 +30,7 @@ public class RegisterWcLibJsResource extends TemplateResource {
 	 * @return the template builder for the require js config template
 	 */
 	public static Builder getBuilder(final String pathFrom, final String pathTo) {
-		TemplateResource.Builder builder = new TemplateResource.Builder("/wclib/hbs/requireConfigPath.hbs").setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		TemplateResource.Builder builder = new TemplateResource.Builder("/wclib/hbs/util/requireConfigPath.hbs").setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		builder.addParameter("path-from", pathFrom);
 		builder.addParameter("path-to", pathTo);
 		builder.setDescription("Register wclib path");

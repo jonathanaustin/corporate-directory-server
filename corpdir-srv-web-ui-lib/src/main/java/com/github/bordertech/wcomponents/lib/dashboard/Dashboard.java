@@ -52,7 +52,7 @@ public class Dashboard extends WTemplate {
 	 * Construct panel.
 	 */
 	public Dashboard() {
-		super("hbs/dashboard.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("wclib/hbs/dashboard/dashboard.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("items", gridContainer);
 	}
 

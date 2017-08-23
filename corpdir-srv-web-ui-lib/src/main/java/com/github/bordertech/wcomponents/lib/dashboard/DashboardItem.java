@@ -40,7 +40,7 @@ public class DashboardItem extends WTemplate implements MessageContainer {
 	private final ResizeItemJs jsResizeItem = new ResizeItemJs();
 
 	public DashboardItem(final String contextId, final String title, final int cols) {
-		super("wc/hbs/dashboardItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("wclib/hbs/dashboard/dashboardItem.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		setNamingContext(true);
 		setIdName(contextId);
 		setSearchAncestors(false);

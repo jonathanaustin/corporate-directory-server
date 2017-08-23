@@ -24,7 +24,7 @@ public class GridItem extends WTemplate {
 	private final Grid grid;
 
 	public GridItem(final Grid grid) {
-		super("/wclib/hbs/grid-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("wclib/hbs/grid/grid-item.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		this.grid = grid;
 		addTaggedComponent("config", config);
 		addTaggedComponent("content", contentHolder);
@@ -94,7 +94,7 @@ public class GridItem extends WTemplate {
 			int size = entry.getValue() > max ? max : entry.getValue();
 			if (size > 0) {
 				String media = entry.getKey() == MediaSize.XS ? "" : "-" + entry.getKey().toString();
-				sizeClasses.append(" wcl-col").append(media).append("-").append(size);
+				sizeClasses.append(" cg-col").append(media).append("-").append(size);
 			}
 		}
 
