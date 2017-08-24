@@ -34,7 +34,6 @@ public class LdeLauncher {
 		context.setConfigurations(new Configuration[]{new WebInfConfiguration(), new WebXmlConfiguration(), new MyMetaInfConfig()});
 
 		server.setHandler(context);
-
 		server.start();
 		server.join();
 	}

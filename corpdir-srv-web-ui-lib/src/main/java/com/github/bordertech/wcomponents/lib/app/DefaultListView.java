@@ -43,8 +43,10 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 		int idx = items.indexOf(entity);
 		if (idx > -1) {
 			items.remove(idx);
+			items.add(idx, entity);
+		} else {
+			items.add(entity);
 		}
-		items.add(idx, entity);
 		refreshItemList(items);
 	}
 

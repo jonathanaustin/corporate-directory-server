@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.web.ui.model.MockOrgUnitActionModel;
 import com.github.bordertech.corpdir.web.ui.model.MyOrgUnitActionModel;
 import com.github.bordertech.corpdir.web.ui.model.MyOrgUnitSearchModel;
 import com.github.bordertech.corpdir.web.ui.view.BasicEntityPanel;
@@ -27,9 +28,9 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.demo.model.MyStringSearchModel;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.ControllerEventType;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -135,7 +136,7 @@ public class AppDemoUtil {
 		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W1", entView, select);
 
 		// Set Models
-		view.addModel(new MyOrgUnitActionModel());
+		view.addModel(new MockOrgUnitActionModel());
 		view.addModel(new MyOrgUnitSearchModel());
 		view.setBlocking(true);
 		return view;
@@ -153,7 +154,7 @@ public class AppDemoUtil {
 		EntityCrudView view = new EntityCrudView(dispatcher, "W", crit, select, entity);
 
 		// Set Models
-		view.addModel(new MyOrgUnitActionModel());
+		view.addModel(new MockOrgUnitActionModel());
 		view.addModel(new MyOrgUnitSearchModel());
 		view.setBlocking(true);
 		return view;

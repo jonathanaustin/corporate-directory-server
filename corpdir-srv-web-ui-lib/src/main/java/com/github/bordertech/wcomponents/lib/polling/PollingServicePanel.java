@@ -414,7 +414,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 					T resp = action.service(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
-					PollingException excp = new PollingException(e.getMessage(), e);
+					PollingException excp = new PollingException("Error calling service." + e.getMessage(), e);
 					result.setResult(excp);
 				}
 			}

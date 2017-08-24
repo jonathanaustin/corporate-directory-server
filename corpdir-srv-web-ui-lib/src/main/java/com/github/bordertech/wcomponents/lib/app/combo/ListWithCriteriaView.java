@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class ListWithCriteriaView<S, T> extends DefaultComboView implements MessageContainer, ListView<T> {
 
-	private final WMessages messages = new WMessages();
+	private final WMessages messages = new WMessages(true);
 
 	private final ToolbarView toolbarView;
 

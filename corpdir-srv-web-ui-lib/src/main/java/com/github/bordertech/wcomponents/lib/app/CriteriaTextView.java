@@ -38,7 +38,7 @@ public class CriteriaTextView extends DefaultCriteriaView<String> {
 		WFieldLayout layout = new WFieldLayout();
 		panel.add(layout);
 
-		txtField.setMandatory(true);
+//		txtField.setMandatory(true);
 		layout.addField("Search", txtField);
 
 		layout.addField(getSearchButton());

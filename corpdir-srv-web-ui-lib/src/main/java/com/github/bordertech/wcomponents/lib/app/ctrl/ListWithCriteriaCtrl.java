@@ -150,7 +150,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		// Setup polling view
 		DefaultPollingView pollingView = getPollingView();
 		pollingView.resetView();
-		pollingView.setPollingCriteria(criteria);
+		pollingView.setPollingCriteria(criteria == null ? "" : criteria);
 		pollingView.setServiceModel(getServiceModel());
 		pollingView.setContentVisible(true);
 
