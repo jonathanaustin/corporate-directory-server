@@ -73,7 +73,7 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 	}
 
 	@Override
-	protected void checkConfig() {
+	public void checkConfig() {
 		super.checkConfig();
 		if (getEntityView() == null) {
 			throw new IllegalStateException("A entity view has not been set.");

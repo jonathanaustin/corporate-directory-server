@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
@@ -12,16 +11,16 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  */
 public interface ToolbarView extends View {
 
-	EntityMode getEntityMode();
-
-	void setEntityMode(final EntityMode mode);
-
-	boolean isEntityLoaded();
-
-	void setEntityLoaded(final boolean entityReady);
-
 	boolean isUseBack();
 
 	void setUseBack(final boolean useBack);
+
+	boolean isUseAdd();
+
+	void setUseAdd(final boolean useAdd);
+
+	boolean isUseReset();
+
+	void setUseReset(final boolean useReset);
 
 }

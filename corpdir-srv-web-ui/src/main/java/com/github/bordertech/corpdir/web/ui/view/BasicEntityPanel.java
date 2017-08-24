@@ -4,6 +4,7 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WFieldLayout;
+import com.github.bordertech.wcomponents.WHorizontalRule;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTextField;
@@ -67,6 +68,7 @@ public class BasicEntityPanel<T extends ApiKeyIdObject> extends WDiv {
 	 */
 	private void setupFormDefaults() {
 		WFieldLayout layout = getFormLayout();
+		layout.setLabelWidth(30);
 
 		WPanel panel = getFormPanel();
 		panel.add(layout);
@@ -96,7 +98,9 @@ public class BasicEntityPanel<T extends ApiKeyIdObject> extends WDiv {
 
 		WPanel panel = getVersionPanel();
 
-		WDefinitionList def = new WDefinitionList();
+		panel.add(new WHorizontalRule());
+
+		WDefinitionList def = new WDefinitionList(WDefinitionList.Type.COLUMN);
 		panel.add(def);
 
 		// Record Details

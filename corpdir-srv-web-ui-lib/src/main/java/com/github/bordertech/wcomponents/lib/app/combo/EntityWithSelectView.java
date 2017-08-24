@@ -28,7 +28,7 @@ public class EntityWithSelectView<S, T> extends TemplateView implements MessageC
 	private final EntityWithSelectCtrl<S, T> ctrl;
 
 	public EntityWithSelectView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final SelectView<T> selectView) {
-		super("wclib/hbs/layout/layout-1.hbs", dispatcher, qualifier);
+		super("wclib/hbs/layout/combo-ent-select.hbs", dispatcher, qualifier);
 
 		this.entityView = entityView;
 		this.selectView = selectView;
@@ -40,8 +40,13 @@ public class EntityWithSelectView<S, T> extends TemplateView implements MessageC
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-messages", messages);
 		content.addTaggedComponent("vw-ctrl", ctrl);
-		content.addTaggedComponent("vw-1", selectView);
-		content.addTaggedComponent("vw-2", entityView);
+		content.addTaggedComponent("vw-select", selectView);
+		content.addTaggedComponent("vw-entity", entityView);
+
+		messages.addHtmlClass("wc-margin-s-lg");
+		selectView.addHtmlClass("wc-panel-type-box");
+		entityView.addHtmlClass("wc-panel-type-box");
+
 	}
 
 	public final EntityView<T> getEntityView() {

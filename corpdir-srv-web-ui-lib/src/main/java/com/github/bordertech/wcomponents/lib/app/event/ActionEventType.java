@@ -33,5 +33,6 @@ public enum ActionEventType implements EventType {
 	UPDATE,
 	UPDATE_OK,
 	UPDATE_ERROR,
-	ENTITY_MODE_CHANGED
+	ENTITY_MODE_CHANGED,
+	RESET_VIEW
 }

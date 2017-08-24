@@ -3,12 +3,12 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -37,11 +37,11 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		}
 	}
 
-	public final ToolbarView getToolbarView() {
+	public final EntityToolbarView getToolbarView() {
 		return getComponentModel().toolbarView;
 	}
 
-	public final void setToolbarView(final ToolbarView toolbarView) {
+	public final void setToolbarView(final EntityToolbarView toolbarView) {
 		getOrCreateComponentModel().toolbarView = toolbarView;
 		addView(toolbarView);
 	}
@@ -60,7 +60,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	protected void checkConfig() {
+	public void checkConfig() {
 		super.checkConfig();
 		if (getToolbarView() == null) {
 			throw new IllegalStateException("An entity control view has not been set.");
@@ -149,8 +149,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		try {
 			doDelete(bean);
 			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
-			getViewMessages().success("Delete OK.");
 			resetViews();
+			getViewMessages().success("Delete OK.");
 		} catch (Exception e) {
 			getViewMessages().error("Delete failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.DELETE_ERROR, bean, e);
@@ -166,8 +166,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			bean = doRefresh(bean);
-			getViewMessages().success("Refreshed OK.");
 			dispatchCtrlEvent(ActionEventType.REFRESH_OK, bean);
+			getViewMessages().success("Refreshed OK.");
 		} catch (Exception e) {
 			getViewMessages().error("Refresh failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.REFRESH_ERROR, bean, e);
@@ -226,7 +226,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	protected void handleEntityModeChanged() {
 		// Keep Action View in SYNC
 		EntityView entityView = getEntityView();
-		ToolbarView actionView = getToolbarView();
+		EntityToolbarView actionView = getToolbarView();
 		actionView.setEntityMode(entityView.getEntityMode());
 		actionView.setEntityLoaded(entityView.isLoaded());
 	}
@@ -280,7 +280,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	 */
 	public static class EntityCtrlModel<T> extends CtrlModel {
 
-		private ToolbarView toolbarView;
+		private EntityToolbarView toolbarView;
 
 		private EntityView<T> entityView;
 	}

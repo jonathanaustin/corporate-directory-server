@@ -58,10 +58,36 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 			}
 		};
 		registerCtrlListener(listener, PollingEventType.COMPLETE);
+
+		// Toolbar
+		// Back
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleBackEvent();
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.BACK);
+		// Add
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleAddEvent();
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.ADD);
+		// Reset
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleResetViewEvent();
+			}
+		};
+		registerCtrlListener(listener, ActionEventType.RESET_VIEW);
 	}
 
 	@Override
-	protected void checkConfig() {
+	public void checkConfig() {
 		super.checkConfig();
 		if (getPollingView() == null) {
 			throw new IllegalStateException("A polling view has not been set.");
@@ -113,6 +139,18 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	public ServiceModel<S, List<T>> getServiceModel() {
 		return (ServiceModel<S, List<T>>) getModel(ServiceModel.class);
+	}
+
+	protected void handleBackEvent() {
+		reset();
+	}
+
+	protected void handleAddEvent() {
+		// Do Nothing
+	}
+
+	protected void handleResetViewEvent() {
+		reset();
 	}
 
 	protected void handleSearchEvent(final S criteria) {

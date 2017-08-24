@@ -1,25 +1,29 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.MessageContainer;
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public class ListWithCriteriaView<S, T> extends DefaultView implements MessageContainer, ViewCombo, ListView<T> {
+public class ListWithCriteriaView<S, T> extends TemplateView implements MessageContainer, ViewCombo, ListView<T> {
 
 	private final WMessages messages = new WMessages();
+
+	private final ToolbarView toolbarView;
 
 	private final CriteriaView<S> criteriaView;
 
@@ -30,8 +34,9 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 	private final ListWithCriteriaCtrl<S, T> ctrl;
 
 	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
-		super(dispatcher, qualifier);
+		super("wclib/hbs/layout/combo-list-crit.hbs", dispatcher, qualifier);
 
+		this.toolbarView = new DefaultToolbarView(dispatcher, qualifier);
 		this.criteriaView = criteriaView;
 		this.listView = listView;
 		this.pollingView = new DefaultPollingView<>(dispatcher, qualifier);
@@ -43,14 +48,16 @@ public class ListWithCriteriaView<S, T> extends DefaultView implements MessageCo
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
+		ctrl.addView(toolbarView);
 
 		// Add views to holder
-		WContainer holder = getContent();
-		holder.add(ctrl);
-		holder.add(messages);
-		holder.add(criteriaView);
-		holder.add(pollingView);
-		holder.add(listView);
+		WTemplate content = getContent();
+		content.addTaggedComponent("vw-messages", messages);
+		content.addTaggedComponent("vw-ctrl", ctrl);
+		content.addTaggedComponent("vw-toolbar", toolbarView);
+		content.addTaggedComponent("vw-crit", criteriaView);
+		content.addTaggedComponent("vw-poll", pollingView);
+		content.addTaggedComponent("vw-list", listView);
 	}
 
 	public CriteriaView<S> getCriteriaView() {

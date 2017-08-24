@@ -18,6 +18,7 @@ import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ListBasicView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.combo.EntityCrudView;
 import com.github.bordertech.wcomponents.lib.app.combo.EntityWithSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.EntityWithToolbarView;
 import com.github.bordertech.wcomponents.lib.app.combo.ListWithCriteriaTextView;
@@ -26,6 +27,7 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.demo.model.MyStringSearchModel;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -54,6 +56,7 @@ public class AppDemoUtil {
 //		WView view3 = buildView3(dispatcher);
 //		WView view4 = buildView4(dispatcher);
 		View view5 = buildView5(dispatcher);
+		View crud = buildCrudView(dispatcher);
 
 		//-----------
 		// MAIN Controller
@@ -63,6 +66,7 @@ public class AppDemoUtil {
 //		ctrl.addView(view3);
 //		ctrl.addView(view4);
 		ctrl.addView(view5);
+		ctrl.addView(crud);
 		ctrl.configViews();
 
 		WButton button = new WButton("Reset");
@@ -81,6 +85,7 @@ public class AppDemoUtil {
 //		div.add(wrapInSection(view3, "View 3"));
 //		div.add(wrapInSection(view4, "View 4"));
 		div.add(wrapInSection(view5, "View 5"));
+		div.add(crud);
 
 		return div;
 	}
@@ -134,11 +139,29 @@ public class AppDemoUtil {
 
 	public static View buildView5(final Dispatcher dispatcher) {
 		// Entity View
-		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W");
+		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W1");
 		entView.getEntityView().getEntityDetailsHolder().add(new BasicEntityPanel());
 		// Select View
-		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W");
-		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W", entView, select);
+		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W1");
+		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W1", entView, select);
+
+		// Set Models
+		view.addModel(new MyOrgUnitActionModel());
+		view.addModel(new MyOrgUnitSearchModel());
+		view.makeBlocking();
+		return view;
+	}
+
+	public static View buildCrudView(final Dispatcher dispatcher) {
+		// Entity View
+		EntityView<OrgUnit> entity = new DefaultEntityView<>(dispatcher, "W");
+		entity.getEntityDetailsHolder().add(new BasicEntityPanel());
+		// Select View
+		SelectView<OrgUnit> select = new SelectMenuView<>(dispatcher, "W");
+		// Criteria View
+		CriteriaView crit = new CriteriaTextView(dispatcher, "W");
+
+		EntityCrudView view = new EntityCrudView(dispatcher, "W", crit, select, entity);
 
 		// Set Models
 		view.addModel(new MyOrgUnitActionModel());

@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.MenuItem;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
@@ -12,7 +13,6 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -21,14 +21,14 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Action menu bar implementation.
+ * Toolbar default implementation.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 public class DefaultToolbarView extends DefaultView implements ToolbarView {
 
-	private final WMenu actionMenu = new WMenu();
+	private final WMenu menu = new WMenu();
 
 	private final WMenuItem itemBack = new MyMenuItem("Back", ActionEventType.BACK) {
 		@Override
@@ -37,83 +37,17 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		}
 	};
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", ActionEventType.EDIT) {
-		@Override
-		public boolean isVisible() {
-			return isEntityLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return !EntityMode.VIEW.equals(mode);
-		}
-	};
-
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", ActionEventType.CANCEL) {
-		@Override
-		public boolean isVisible() {
-			return isEntityLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.VIEW.equals(mode);
-		}
-
-		@Override
-		public boolean isCancel() {
-			return true;
-		}
-	};
-
-	private final WMenuItem itemRefresh = new MyMenuItem("Refresh", ActionEventType.REFRESH) {
-		@Override
-		public boolean isVisible() {
-			return isEntityLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.ADD == mode;
-		}
-
-	};
-
-	private final WMenuItem itemUpdate = new MyMenuItem("Save", ActionEventType.UPDATE) {
-		@Override
-		public boolean isVisible() {
-			return getEntityMode() == EntityMode.EDIT;
-		}
-	};
-
-	private final WMenuItem itemCreate = new MyMenuItem("Save", ActionEventType.CREATE) {
-		@Override
-		public boolean isVisible() {
-			return getEntityMode() == EntityMode.ADD;
-		}
-	};
-
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", ActionEventType.DELETE) {
-		@Override
-		public boolean isVisible() {
-			return isEntityLoaded();
-		}
-
-		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.ADD == mode;
-		}
-	};
-
 	private final WMenuItem itemAdd = new MyMenuItem("Add", ActionEventType.ADD) {
 		@Override
-		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.ADD == mode || EntityMode.EDIT == mode;
+		public boolean isVisible() {
+			return isUseAdd();
+		}
+	};
+
+	private final WMenuItem itemReset = new MyMenuItem("Reset", ActionEventType.RESET_VIEW) {
+		@Override
+		public boolean isVisible() {
+			return isUseReset();
 		}
 	};
 
@@ -144,20 +78,39 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		super(dispatcher, qualifier);
 
 		WContainer content = getContent();
-
-		content.add(actionMenu);
+		content.add(menu);
 		content.add(ajaxPanel);
 
-		// Menu Items
-		actionMenu.add(itemBack);
-		actionMenu.add(itemEdit);
-		actionMenu.add(itemUpdate);
-		actionMenu.add(itemCreate);
-		actionMenu.add(itemCancel);
-		actionMenu.add(itemDelete);
-		actionMenu.add(itemRefresh);
-		actionMenu.add(itemAdd);
+		menu.add(itemBack);
+		menu.add(itemAdd);
+		menu.add(itemReset);
+		menu.addHtmlClass("wc-neg-margin");
 
+	}
+
+	public final WMenu getMenu() {
+		return menu;
+	}
+
+	public final WMenuItem getItemBack() {
+		return itemBack;
+	}
+
+	public final WMenuItem getItemAdd() {
+		return itemAdd;
+	}
+
+	public final WMenuItem getItemReset() {
+		return itemReset;
+	}
+
+	@Override
+	protected void initViewContent(final Request request) {
+		setupMenuAjax();
+		super.initViewContent(request);
+	}
+
+	protected void setupMenuAjax() {
 		// Action
 		Action action = new Action() {
 			@Override
@@ -168,11 +121,17 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		};
 
 		// Add Action and AJAX control for each menu item
-		for (MenuItem menuItem : actionMenu.getMenuItems()) {
-			WMenuItem item = (WMenuItem) menuItem;
-			item.setAction(action);
-			ajaxPanel.add(new MyAjaxControl(item));
+		for (MenuItem menuItem : menu.getMenuItems()) {
+			if (menuItem instanceof WMenuItem) {
+				WMenuItem item = (WMenuItem) menuItem;
+				item.setAction(action);
+				ajaxPanel.add(new MyAjaxControl(item));
+			}
 		}
+	}
+
+	protected void addTarget(final AjaxTarget target) {
+		addTargets(Arrays.asList(target));
 	}
 
 	protected void addTargets(final List<AjaxTarget> targets) {
@@ -184,39 +143,39 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	}
 
 	@Override
-	public void setEntityMode(final EntityMode mode) {
-		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
-	}
-
-	@Override
-	public EntityMode getEntityMode() {
-		return getComponentModel().entityMode;
-	}
-
-	@Override
-	public boolean isEntityLoaded() {
-		return getComponentModel().entityLoaded;
-	}
-
-	@Override
-	public void setEntityLoaded(final boolean entityLoaded) {
-		getOrCreateComponentModel().entityLoaded = entityLoaded;
-	}
-
-	@Override
-	public boolean isUseBack() {
+	public final boolean isUseBack() {
 		return getComponentModel().useBack;
 	}
 
 	@Override
-	public void setUseBack(final boolean useBack) {
+	public final void setUseBack(final boolean useBack) {
 		getOrCreateComponentModel().useBack = useBack;
+	}
+
+	@Override
+	public final boolean isUseAdd() {
+		return getComponentModel().useAdd;
+	}
+
+	@Override
+	public final void setUseAdd(final boolean useAdd) {
+		getOrCreateComponentModel().useAdd = useAdd;
+	}
+
+	@Override
+	public final boolean isUseReset() {
+		return getComponentModel().useReset;
+	}
+
+	@Override
+	public final void setUseReset(final boolean useReset) {
+		getOrCreateComponentModel().useReset = useReset;
 	}
 
 	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		super.addEventTarget(target, eventType);
-		addTargets(Arrays.asList((AjaxTarget) target));
+		addTarget(target);
 	}
 
 	protected void doDispatchToolbarEvent(final ActionEventType eventType) {
@@ -224,39 +183,37 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 	}
 
 	@Override
-	protected EntityViewModel newComponentModel() {
-		return new EntityViewModel();
+	protected ToolbarModel newComponentModel() {
+		return new ToolbarModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EntityViewModel getComponentModel() {
-		return (EntityViewModel) super.getComponentModel();
+	protected ToolbarModel getComponentModel() {
+		return (ToolbarModel) super.getComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EntityViewModel getOrCreateComponentModel() {
-		return (EntityViewModel) super.getOrCreateComponentModel();
+	protected ToolbarModel getOrCreateComponentModel() {
+		return (ToolbarModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityViewModel extends DefaultView.ViewModel {
+	public static class ToolbarModel extends DefaultView.ViewModel {
 
-		private EntityMode entityMode = EntityMode.VIEW;
-
-		private boolean entityLoaded;
-
-		private boolean useBack;
+		private boolean useBack = false;
+		private boolean useAdd = true;
+		private boolean useReset = true;
 	}
 
-	private static class MyMenuItem extends WMenuItem {
+	public static class MyMenuItem extends WMenuItem {
 
 		private final ActionEventType event;
 
@@ -270,7 +227,7 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		}
 	}
 
-	private static class MyAjaxControl extends WAjaxControl {
+	public static class MyAjaxControl extends WAjaxControl {
 
 		public MyAjaxControl(final AjaxTrigger trigger) {
 			super(trigger);

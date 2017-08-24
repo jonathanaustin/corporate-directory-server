@@ -3,28 +3,29 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.app.DefaultEntityToolbarView;
 import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
-import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.EntityWithToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
 
 /**
  *
  * @author jonathan
  */
-public class EntityWithToolbarView<T> extends DefaultView implements MessageContainer, ViewCombo, EntityView<T> {
+public class EntityWithToolbarView<T> extends TemplateView implements MessageContainer, ViewCombo, EntityView<T> {
 
 	private final WMessages messages = new WMessages();
 
 	private final EntityView<T> entityView;
 
-	private final ToolbarView toolbarView;
+	private final EntityToolbarView toolbarView;
 
 	private final EntityWithToolbarCtrl<T> ctrl;
 
@@ -33,24 +34,25 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 	}
 
 	public EntityWithToolbarView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView) {
-		this(dispatcher, qualifier, entityView, new DefaultToolbarView(dispatcher, qualifier));
+		this(dispatcher, qualifier, entityView, new DefaultEntityToolbarView(dispatcher, qualifier));
 	}
 
-	public EntityWithToolbarView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final ToolbarView actionView) {
-		super(dispatcher, qualifier);
+	public EntityWithToolbarView(final Dispatcher dispatcher, final String qualifier, final EntityView<T> entityView, final EntityToolbarView toolbarView) {
+		super("wclib/hbs/layout/combo-ent-toolbar.hbs", dispatcher, qualifier);
 
 		this.entityView = entityView;
-		this.toolbarView = actionView;
+		this.toolbarView = toolbarView;
 		this.ctrl = new EntityWithToolbarCtrl(dispatcher, qualifier);
 
-		ctrl.setToolbarView(actionView);
+		ctrl.setToolbarView(toolbarView);
 		ctrl.setEntityView(entityView);
 
-		WContainer holder = getContent();
-		holder.add(messages);
-		holder.add(ctrl);
-		holder.add(actionView);
-		holder.add(entityView);
+		WTemplate content = getContent();
+		content.addTaggedComponent("vw-messages", messages);
+		content.addTaggedComponent("vw-ctrl", ctrl);
+		content.addTaggedComponent("vw-toolbar", toolbarView);
+		content.addTaggedComponent("vw-entity", entityView);
+
 	}
 
 	@Override
@@ -65,7 +67,7 @@ public class EntityWithToolbarView<T> extends DefaultView implements MessageCont
 		return entityView;
 	}
 
-	public final ToolbarView getToolbarView() {
+	public final EntityToolbarView getToolbarView() {
 		return toolbarView;
 	}
 

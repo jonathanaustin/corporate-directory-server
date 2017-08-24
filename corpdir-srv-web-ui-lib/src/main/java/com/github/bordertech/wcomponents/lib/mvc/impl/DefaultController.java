@@ -135,7 +135,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		getOrCreateComponentModel().configured = true;
 	}
 
-	protected void checkConfig() {
+	public void checkConfig() {
 	}
 
 	@Override
@@ -186,9 +186,14 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 	@Override
 	public void resetViews() {
+		resetViewMessages();
 		for (View view : getViews()) {
 			view.resetView();
 		}
+	}
+
+	protected void resetViewMessages() {
+		getViewMessages().reset();
 	}
 
 	protected void handleResetEvent() {
