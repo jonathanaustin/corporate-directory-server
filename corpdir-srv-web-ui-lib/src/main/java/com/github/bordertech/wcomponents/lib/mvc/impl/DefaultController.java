@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -15,10 +14,10 @@ import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -65,48 +64,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		return WMessages.getInstance(this);
 	}
 
-	/**
-	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 */
-	public final void dispatchCtrlEvent(final EventType eventType) {
-		dispatchCtrlEvent(eventType, null, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 */
-	public void dispatchCtrlEvent(final EventType eventType, final Object data) {
-		dispatchCtrlEvent(eventType, data, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 * @param exception an exception
-	 */
-	public void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
-		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
-		getDispatcher().dispatch(event);
-	}
-
-	/**
-	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
-	 *
-	 * @param listener
-	 * @param eventType
-	 * @return the listener register id
-	 */
-	public final String registerCtrlListener(final Listener listener, final EventType eventType) {
-		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
-	}
-
 	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
@@ -116,39 +73,8 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	}
 
 	@Override
-	public void configViews() {
-		checkConfig();
-		// Call Config on any COMBO Views
-		for (View view : getViews()) {
-			if (view instanceof ViewCombo) {
-				((ViewCombo) view).configComboViews();
-			}
-		}
-		setConfigured();
-	}
-
-	protected boolean isConfigured() {
-		return getComponentModel().configured;
-	}
-
-	protected void setConfigured() {
-		getOrCreateComponentModel().configured = true;
-	}
-
 	public void checkConfig() {
-	}
-
-	@Override
-	public void configAjax(final View view) {
-		// By default ADD all the views as AJAX
-		for (View vw : getViews()) {
-			view.addEventTarget(vw);
-		}
-		// Get the parent controller AJAX Targets
-		Controller parent = findParentCtrl();
-		if (parent != null) {
-			parent.configAjax(view);
-		}
+		setConfigured();
 	}
 
 	@Override
@@ -163,9 +89,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		return model.views == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.views);
 	}
 
-	@Override
-	public void addView(final View view) {
-		view.setController(this);
+	protected void addView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
 			model.views = new ArrayList<>();
@@ -173,8 +97,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		model.views.add(view);
 	}
 
-	@Override
-	public void removeView(final View view) {
+	protected void removeView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views != null) {
 			model.views.remove(view);
@@ -200,49 +123,64 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		reset();
 	}
 
-	@Override
-	public void addModel(final Model model) {
-		CtrlModel ctrl = getOrCreateComponentModel();
-		if (ctrl.models == null) {
-			ctrl.models = new ArrayList<>();
-		}
-		ctrl.models.add(model);
+	protected boolean isConfigured() {
+		return getComponentModel().configured;
 	}
 
-	@Override
-	public Model getModel(final Class clazz) {
-		for (Model model : getModels()) {
-			if (clazz.isAssignableFrom(model.getClass())) {
-				return model;
-			}
-		}
-		// Not found, so try the parent controller Models
-		Controller parent = findParentCtrl();
-		return parent == null ? null : parent.getModel(clazz);
+	protected void setConfigured() {
+		getOrCreateComponentModel().configured = true;
 	}
 
-	protected List<Model> getModels() {
-		CtrlModel ctrl = getComponentModel();
-		return ctrl.models == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(ctrl.models);
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 */
+	protected final void dispatchCtrlEvent(final EventType eventType) {
+		dispatchCtrlEvent(eventType, null, null);
 	}
 
-	protected Controller findParentCtrl() {
-		if (isBlocking()) {
-			return null;
-		}
-		ViewCombo combo = WebUtilities.getAncestorOfClass(ViewCombo.class, this);
-		return combo == null ? null : combo.getController();
-
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 */
+	protected void dispatchCtrlEvent(final EventType eventType, final Object data) {
+		dispatchCtrlEvent(eventType, data, null);
 	}
 
-	@Override
-	public boolean isBlocking() {
-		return getComponentModel().block;
+	/**
+	 * Helper method to dispatch an event for this Controller with the Controller qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 * @param exception an exception
+	 */
+	protected void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
+		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
+		getDispatcher().dispatch(event);
 	}
 
-	@Override
-	public void setBlocking(final boolean block) {
-		getOrCreateComponentModel().block = block;
+	/**
+	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener
+	 * @param eventType
+	 * @return the listener register id
+	 */
+	protected final String registerCtrlListener(final Listener listener, final EventType eventType) {
+		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
+	}
+
+	protected Model getModel(final Class clazz) {
+		// Get Parent Combo
+		ComboView combo = findParentCombo();
+		return combo == null ? null : combo.getModel(clazz);
+	}
+
+	protected ComboView findParentCombo() {
+		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
 	@Override
@@ -269,14 +207,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 		private boolean configured;
 
-		private List<Model> models;
-
-		private boolean block;
-	}
-
-	@Override
-	protected void assertAddSupported(final WComponent componentToAdd) {
-		throw new IllegalStateException("Controllers cannot have any child components");
 	}
 
 }

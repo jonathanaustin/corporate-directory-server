@@ -41,10 +41,9 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 	public void updateItem(final T entity) {
 		List<T> items = getItemList();
 		int idx = items.indexOf(entity);
-		if (idx == -1) {
-			throw new IllegalStateException("Could not update entity [" + entity.toString() + "].");
+		if (idx > -1) {
+			items.remove(idx);
 		}
-		items.remove(idx);
 		items.add(idx, entity);
 		refreshItemList(items);
 	}

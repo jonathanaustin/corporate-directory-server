@@ -86,12 +86,6 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 		}
 	}
 
-	@Override
-	public void configViews() {
-		super.configViews();
-		getEntityView().setContentVisible(false);
-	}
-
 	public final EntityView<T> getEntityView() {
 		return getComponentModel().entityView;
 	}

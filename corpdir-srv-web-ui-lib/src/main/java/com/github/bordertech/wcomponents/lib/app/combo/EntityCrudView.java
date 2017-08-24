@@ -1,8 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
-import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.MessageContainer;
-import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultEntityToolbarView;
@@ -17,17 +15,15 @@ import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.Model;
-import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public class EntityCrudView<S, T> extends TemplateView implements MessageContainer, ViewCombo {
+public class EntityCrudView<S, T> extends DefaultComboView implements MessageContainer {
 
 	private final WMessages messages = new WMessages();
 
@@ -68,15 +64,6 @@ public class EntityCrudView<S, T> extends TemplateView implements MessageContain
 		criteriaCtrl.setCriteriaView(criteriaView);
 		criteriaCtrl.setPollingView(pollingView);
 		criteriaCtrl.setListView(selectView);
-		criteriaCtrl.addView(toolbarView);
-
-		// Add all the views to the default controller (All the AJAX config to the VIEW comes from the Default Controller)
-		ctrl.addView(criteriaView);
-		ctrl.addView(selectView);
-		ctrl.addView(entityView);
-		ctrl.addView(pollingView);
-		ctrl.addView(entityToolbarView);
-		ctrl.addView(toolbarView);
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-messages", messages);
@@ -91,36 +78,15 @@ public class EntityCrudView<S, T> extends TemplateView implements MessageContain
 		content.addTaggedComponent("vw-list", selectView);
 		content.addTaggedComponent("vw-entity", entityView);
 
-		messages.setMargin(new Margin(null, null, Size.LARGE, null));
+		// Default visibility
+		selectView.setContentVisible(false);
+		entityView.setContentVisible(false);
+
 	}
 
 	@Override
 	public WMessages getMessages() {
 		return messages;
-	}
-
-	@Override
-	public void configComboViews() {
-		ctrl.configViews();
-		selectCtrl.configViews();
-		criteriaCtrl.configViews();
-		entityToolbarCtrl.configViews();
-	}
-
-	@Override
-	public void addModel(final Model model) {
-		ctrl.addModel(model);
-		selectCtrl.addModel(model);
-		criteriaCtrl.addModel(model);
-		entityToolbarCtrl.addModel(model);
-	}
-
-	@Override
-	public void makeBlocking() {
-		ctrl.setBlocking(true);
-		selectCtrl.setBlocking(true);
-		criteriaCtrl.setBlocking(true);
-		entityToolbarCtrl.setBlocking(true);
 	}
 
 }

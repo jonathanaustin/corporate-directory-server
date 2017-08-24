@@ -26,17 +26,6 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	String getQualifier();
 
 	/**
-	 *
-	 * @return the view controller
-	 */
-	Controller getController();
-
-	/**
-	 * @param controller the view controller
-	 */
-	void setController(final Controller controller);
-
-	/**
 	 * Reset the view to the default state
 	 */
 	void resetView();

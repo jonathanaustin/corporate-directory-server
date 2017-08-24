@@ -47,6 +47,8 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 	public DefaultPollingView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 		getContent().add(pollingPanel);
+		// Default visibility
+		setContentVisible(false);
 	}
 
 	@Override

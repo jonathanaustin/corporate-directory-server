@@ -6,17 +6,18 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -49,16 +50,6 @@ public abstract class AbstractView extends WTemplate implements View {
 	@Override
 	public final String getQualifier() {
 		return qualifier;
-	}
-
-	@Override
-	public Controller getController() {
-		return getComponentModel().controller;
-	}
-
-	@Override
-	public void setController(final Controller controller) {
-		getOrCreateComponentModel().controller = (Controller) controller;
 	}
 
 	@Override
@@ -176,8 +167,15 @@ public abstract class AbstractView extends WTemplate implements View {
 	}
 
 	protected void initViewContent(final Request request) {
-		getController().configAjax(this);
+		ComboView combo = findParentCombo();
+		if (combo != null) {
+			combo.configAjax(this);
+		}
 		addEventTarget(getViewMessages());
+	}
+
+	protected ComboView findParentCombo() {
+		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
 	@Override
@@ -199,8 +197,6 @@ public abstract class AbstractView extends WTemplate implements View {
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
 	public static class ViewModel extends TemplateModel {
-
-		private Controller controller;
 
 		private boolean contentVisible = true;
 	}

@@ -2,13 +2,13 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
 
 /**
  * Controller for an Entity View and Entity Action view.
@@ -71,13 +71,6 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity service actions have not been set.");
 		}
-	}
-
-	@Override
-	public void configViews() {
-		super.configViews();
-		getToolbarView().setContentVisible(true);
-		getEntityView().setContentVisible(false);
 	}
 
 	protected void handleEntityActionEvent(final Event event) {

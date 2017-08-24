@@ -103,13 +103,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		}
 	}
 
-	@Override
-	public void configViews() {
-		super.configViews();
-		getPollingView().setContentVisible(false);
-		getListView().setContentVisible(false);
-	}
-
 	public final CriteriaView<S> getCriteriaView() {
 		return getComponentModel().criteriaView;
 	}

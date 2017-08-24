@@ -9,15 +9,13 @@ import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.Model;
-import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 
 /**
  *
  * @author jonathan
  */
-public class EntityWithSelectView<S, T> extends TemplateView implements MessageContainer, ViewCombo, EntityView<T> {
+public class EntityWithSelectView<S, T> extends DefaultComboView implements MessageContainer, EntityView<T> {
 
 	private final WMessages messages = new WMessages();
 
@@ -46,6 +44,9 @@ public class EntityWithSelectView<S, T> extends TemplateView implements MessageC
 		messages.addHtmlClass("wc-margin-s-lg");
 		selectView.addHtmlClass("wc-panel-type-box");
 		entityView.addHtmlClass("wc-panel-type-box");
+
+		// Default visibility
+		entityView.setContentVisible(false);
 
 	}
 
@@ -110,21 +111,6 @@ public class EntityWithSelectView<S, T> extends TemplateView implements MessageC
 	@Override
 	public WMessages getMessages() {
 		return messages;
-	}
-
-	@Override
-	public void configComboViews() {
-		ctrl.configViews();
-	}
-
-	@Override
-	public void addModel(final Model model) {
-		ctrl.addModel(model);
-	}
-
-	@Override
-	public void makeBlocking() {
-		ctrl.setBlocking(true);
 	}
 
 }

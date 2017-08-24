@@ -10,16 +10,14 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.Model;
-import com.github.bordertech.wcomponents.lib.mvc.ViewCombo;
-import com.github.bordertech.wcomponents.lib.mvc.impl.TemplateView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public class ListWithCriteriaView<S, T> extends TemplateView implements MessageContainer, ViewCombo, ListView<T> {
+public class ListWithCriteriaView<S, T> extends DefaultComboView implements MessageContainer, ListView<T> {
 
 	private final WMessages messages = new WMessages();
 
@@ -48,7 +46,6 @@ public class ListWithCriteriaView<S, T> extends TemplateView implements MessageC
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
-		ctrl.addView(toolbarView);
 
 		// Add views to holder
 		WTemplate content = getContent();
@@ -58,6 +55,9 @@ public class ListWithCriteriaView<S, T> extends TemplateView implements MessageC
 		content.addTaggedComponent("vw-crit", criteriaView);
 		content.addTaggedComponent("vw-poll", pollingView);
 		content.addTaggedComponent("vw-list", listView);
+
+		// Default visibility
+		listView.setContentVisible(false);
 	}
 
 	public CriteriaView<S> getCriteriaView() {
@@ -110,21 +110,6 @@ public class ListWithCriteriaView<S, T> extends TemplateView implements MessageC
 	@Override
 	public void updateItem(final T entity) {
 		listView.updateItem(entity);
-	}
-
-	@Override
-	public void configComboViews() {
-		ctrl.configViews();
-	}
-
-	@Override
-	public void addModel(final Model model) {
-		ctrl.addModel(model);
-	}
-
-	@Override
-	public void makeBlocking() {
-		ctrl.setBlocking(true);
 	}
 
 }
