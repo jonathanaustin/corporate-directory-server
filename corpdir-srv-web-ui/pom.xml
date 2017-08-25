@@ -30,6 +30,11 @@
 			<artifactId>corpdir-srv-web-ui-lib</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.github.bordertech.corpdir</groupId>
+			<artifactId>corpdir-srv-web-api-bundle</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- Injection Interface. -->
 		<dependency>

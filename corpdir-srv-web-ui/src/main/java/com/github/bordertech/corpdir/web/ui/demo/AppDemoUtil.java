@@ -136,7 +136,7 @@ public class AppDemoUtil {
 		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W1", entView, select);
 
 		// Set Models
-		view.addModel(new MockOrgUnitActionModel());
+		view.addModel(new MyOrgUnitActionModel());
 		view.addModel(new MyOrgUnitSearchModel());
 		view.setBlocking(true);
 		return view;
