@@ -12,12 +12,12 @@ import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.Model;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -115,7 +115,8 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		}
 	}
 
-	protected void resetViewMessages() {
+	@Override
+	public void resetViewMessages() {
 		getViewMessages().reset();
 	}
 

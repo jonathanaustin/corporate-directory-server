@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.ViewMessages;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ import java.util.List;
  */
 public class ListWithCriteriaView<S, T> extends DefaultComboView implements MessageContainer, ListView<T> {
 
-	private final WMessages messages = new WMessages(true);
+	private final WMessages messages = new ViewMessages();
 
 	private final ToolbarView toolbarView;
 

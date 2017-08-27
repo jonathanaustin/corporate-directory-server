@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.ViewMessages;
 
 /**
  *
@@ -17,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
  */
 public class EntityWithSelectView<S, T> extends DefaultComboView implements MessageContainer, EntityView<T> {
 
-	private final WMessages messages = new WMessages();
+	private final WMessages messages = new ViewMessages();
 
 	private final EntityView<T> entityView;
 

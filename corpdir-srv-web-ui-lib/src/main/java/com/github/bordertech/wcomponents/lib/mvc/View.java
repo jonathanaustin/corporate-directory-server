@@ -58,6 +58,11 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	WMessages getViewMessages();
 
 	/**
+	 * Reset the view messages.
+	 */
+	void resetViewMessages();
+
+	/**
 	 *
 	 * @param target the AJAX target to add
 	 * @param eventType the event the target is for

@@ -45,4 +45,9 @@ public interface Controller extends WComponent {
 	 */
 	WMessages getViewMessages();
 
+	/**
+	 * Reset the view messages.
+	 */
+	void resetViewMessages();
+
 }

@@ -11,13 +11,13 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -82,6 +82,11 @@ public abstract class AbstractView extends WTemplate implements View {
 	@Override
 	public final WMessages getViewMessages() {
 		return WMessages.getInstance(this);
+	}
+
+	@Override
+	public void resetViewMessages() {
+		getViewMessages().reset();
 	}
 
 	@Override

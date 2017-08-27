@@ -72,6 +72,16 @@ public class PollingPanel extends WDiv implements Polling {
 		public int getDelay() {
 			return getPollingInterval();
 		}
+
+		@Override
+		public void handleRequest(final Request request) {
+			super.handleRequest(request);
+			// Check if Polling
+			if (isPollingTrigger() && checkForStopPolling()) {
+				doReload();
+			}
+		}
+
 	};
 
 	/**
@@ -79,8 +89,8 @@ public class PollingPanel extends WDiv implements Polling {
 	 */
 	private final WAjaxControl ajaxReload = new WAjaxControl(null, this) {
 		@Override
-		protected void preparePaintComponent(final Request request) {
-			super.preparePaintComponent(request);
+		public void handleRequest(Request request) {
+			super.handleRequest(request);
 			// Reloading
 			if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 				pollingContainer.reset();
@@ -209,18 +219,6 @@ public class PollingPanel extends WDiv implements Polling {
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		// Check if Polling
-		if (isPollingTarget() && checkForStopPolling()) {
-			doReload();
-		}
-	}
-
 	@Override
 	public List<AjaxTarget> getAjaxTargets() {
 		return getComponentModel().extraTargets;
@@ -247,16 +245,14 @@ public class PollingPanel extends WDiv implements Polling {
 	}
 
 	/**
-	 * Init the panel.
-	 *
-	 * @param request the requesst being processed
+	 * @param request the request being processed
 	 */
 	protected void handleInitContent(final Request request) {
-
+		// Do Nothing
 	}
 
 	/**
-	 * Stopped polling and panel has been reloaded.
+	 * Start polling.
 	 */
 	protected void handleStartedPolling() {
 		// Do Nothing
@@ -272,7 +268,7 @@ public class PollingPanel extends WDiv implements Polling {
 	/**
 	 * @return true if polling and is the current AJAX trigger.
 	 */
-	protected boolean isPollingTarget() {
+	protected boolean isPollingTrigger() {
 		return isPolling() && AjaxHelper.isCurrentAjaxTrigger(ajaxPolling);
 	}
 

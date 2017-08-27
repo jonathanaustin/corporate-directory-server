@@ -49,6 +49,7 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);
+		addAjaxTarget(this);
 	}
 
 	@Override
