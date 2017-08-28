@@ -1,31 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- This web.xml file is not required when using Servlet 3.0 container,
 see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html#d4e194 -->
-<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+<web-app version="3.1" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_1.xsd">
+	<!-- Jersey Servlet -->
 	<servlet>
-		<servlet-name>Jersey Web Application</servlet-name>
+		<servlet-name>WebAPI</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+		<!-- Application -->
 		<init-param>
 			<param-name>javax.ws.rs.Application</param-name>
 			<param-value>com.github.bordertech.corpdir.jersey.config.ApplicationConfig</param-value>
 		</init-param>
+		<!-- Disable Moxy -->
 		<init-param>
-			<!-- Disable Moxy -->
 			<param-name>jersey.config.disableMoxyJson.server</param-name>
 			<param-value>true</param-value>
 		</init-param>
+		<!-- The packages needed for startup. -->
 		<init-param>
 			<!-- Use Jackson instead. Handles empty list much nicer. -->
 			<param-name>jersey.config.server.provider.packages</param-name>
 			<param-value>
-				com.ws.jaxrs.jersey;org.codehaus.jackson.jaxrs,
-				io.swagger.jaxrs.listing,
-				com.github.bordertech.corpdir.resource,
-				com.github.bordertech.corpdir.servlet
+				com.ws.jaxrs.jersey;
+				org.codehaus.jackson.jaxrs;
+				io.swagger.jaxrs.listing;
+				com.github.bordertech.corpdir.web.api.resource;
+				com.github.bordertech.corpdir.web.api.servlet;
+				org.glassfish.jersey.filter
 			</param-value>
 		</init-param>
+		<!-- Filters -->
+		<!--		<init-param>
+			<param-name>javax.ws.rs.container.ContainerRequestFilter</param-name>
+			<param-value>
+				com.github.bordertech.corpdir.web.api.security.AuthFilter
+			</param-value>
+		</init-param>-->
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>WebAPI</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- Swagger Servlet -->
 	<servlet>
 		<!-- This does not need a servlet mapping, it configures swagger. -->
 		<servlet-name>Jersey2Config</servlet-name>
@@ -44,8 +62,37 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 		</init-param>
 		<load-on-startup>2</load-on-startup>
 	</servlet>
+
+	<!-- Web UI -->
+	<servlet>
+		<servlet-name>WebUI</servlet-name>
+		<servlet-class>com.github.bordertech.corpdir.web.ui.servlet.AdminServlet</servlet-class>
+		<load-on-startup>3</load-on-startup>
+	</servlet>
 	<servlet-mapping>
-		<servlet-name>Jersey Web Application</servlet-name>
-		<url-pattern>/api/*</url-pattern>
+		<servlet-name>WebUI</servlet-name>
+		<url-pattern>/admin</url-pattern>
 	</servlet-mapping>
+
+	<!-- Theme Servlet -->
+	<servlet>
+		<servlet-name>Theme</servlet-name>
+		<servlet-class>com.github.bordertech.wcomponents.servlet.ThemeServlet</servlet-class>
+		<load-on-startup>4</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Theme</servlet-name>
+		<url-pattern>/theme/*</url-pattern>
+	</servlet-mapping>
+
+
+	<filter>
+		<filter-name>userSetup</filter-name>
+		<filter-class>com.github.bordertech.corpdir.web.api.servlet.AuthDefaultServletFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>userSetup</filter-name>
+		<url-pattern>/admin</url-pattern>
+	</filter-mapping>
+
 </web-app>
