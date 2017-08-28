@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.common;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * Abstract API Keyed Object for common fields.
@@ -74,6 +75,36 @@ public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 	@Override
 	public void setCustom(final boolean custom) {
 		this.custom = custom;
+	}
+
+	@Override
+	public String toString() {
+		return description + " [" + businessKey + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 3;
+		hash = 47 * hash + Objects.hashCode(this.id);
+		return hash;
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final AbstractApiKeyIdObject other = (AbstractApiKeyIdObject) obj;
+		if (!Objects.equals(this.id, other.id)) {
+			return false;
+		}
+		return true;
 	}
 
 }
