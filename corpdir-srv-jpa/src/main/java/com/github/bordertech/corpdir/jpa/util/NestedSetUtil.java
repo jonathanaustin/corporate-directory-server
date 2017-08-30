@@ -1,13 +1,15 @@
 package com.github.bordertech.corpdir.jpa.util;
 
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.PersistentNestedObject;
 
 /**
  * NestedSet processing helper.
@@ -83,4 +85,48 @@ public final class NestedSetUtil {
 		return null;
 	}
 
+	/**
+	 *
+	 * @param <T> the entity type
+	 * @param cb the criteria builder
+	 * @param root the root entity
+	 * @param assigned flag if assigned
+	 * @return the predicate for assigned
+	 */
+	public static <T extends PersistentNestedObject> Predicate createAssignedCriteria(final CriteriaBuilder cb, final Root<T> root, final boolean assigned) {
+		Path path = root.<String>get("parent");
+		Predicate pred = assigned ? cb.isNotNull(path) : cb.isNull(path);
+		return pred;
+	}
+
+	public static interface PersistentNestedTreeObject<T extends PersistentNestedTreeObject> extends PersistentKeyIdObject {
+
+		void setParent(final T parent);
+
+		T getParent();
+
+		Set<T> getChildren();
+
+		void addChild(final T child);
+
+		void removeChild(final T child);
+	}
+
+	public static interface PersistentNestedObject<T extends PersistentNestedObject> extends PersistentNestedTreeObject<T> {
+
+		Long getParentId();
+
+		Long getThreadId();
+
+		void setThreadId(final Long threadId);
+
+		Long getLeftIdx();
+
+		void setLeftIdx(final Long left);
+
+		Long getRightIdx();
+
+		void setRightIdx(final Long right);
+
+	}
 }

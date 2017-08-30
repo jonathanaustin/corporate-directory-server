@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiTreeObject;
+import com.github.bordertech.corpdir.api.common.DefaultTreeVersionObject;
+import com.github.bordertech.corpdir.api.v1.model.links.PositionLinks;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Position extends AbstractApiTreeObject {
+public class Position extends DefaultTreeVersionObject implements PositionLinks {
 
 	private String typeId;
 	private String ouId;
@@ -37,6 +38,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @return the org unit key the position belongs to
 	 */
+	@Override
 	public String getOuId() {
 		return ouId;
 	}
@@ -45,6 +47,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @param ouId the org unit key the position belongs to
 	 */
+	@Override
 	public void setOuId(final String ouId) {
 		this.ouId = ouId;
 	}
@@ -53,6 +56,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @return the org unit keys this position manages
 	 */
+	@Override
 	public List<String> getManageOuIds() {
 		if (manageOuIds == null) {
 			manageOuIds = new ArrayList<>();
@@ -64,6 +68,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @param manageOuIds the org unit keys this position manages
 	 */
+	@Override
 	public void setManageOuIds(final List<String> manageOuIds) {
 		this.manageOuIds = manageOuIds;
 	}
@@ -72,6 +77,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @return the contact keys for this position
 	 */
+	@Override
 	public List<String> getContactIds() {
 		if (contactIds == null) {
 			contactIds = new ArrayList<>();
@@ -83,6 +89,7 @@ public class Position extends AbstractApiTreeObject {
 	 *
 	 * @param contactIds the contact keys for this position
 	 */
+	@Override
 	public void setContactIds(final List<String> contactIds) {
 		this.contactIds = contactIds;
 	}

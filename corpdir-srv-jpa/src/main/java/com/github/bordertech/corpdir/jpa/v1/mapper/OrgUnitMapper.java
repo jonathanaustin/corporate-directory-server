@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperTree;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyIdTreeVersion;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class OrgUnitMapper extends AbstractMapperTree<OrgUnit, OrgUnitEntity> {
+public class OrgUnitMapper extends AbstractMapperKeyIdTreeVersion<OrgUnit, OrgUnitEntity> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final OrgUnit from, final OrgUnitEntity to) {

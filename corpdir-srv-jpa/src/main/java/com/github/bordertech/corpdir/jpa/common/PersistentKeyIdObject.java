@@ -1,34 +1,28 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import java.sql.Timestamp;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistentIdentifiable;
 
 /**
  * Persistent Keyed object required fields.
  *
  * @author jonathan
  */
-public interface PersistentKeyIdObject extends PersistentObject {
+public interface PersistentKeyIdObject extends PersistentIdentifiable {
 
-	public Long getId();
+	String getBusinessKey();
 
-	public String getBusinessKey();
+	void setBusinessKey(final String businessKey);
 
-	public void setBusinessKey(final String businessKey);
+	String getDescription();
 
-	public String getDescription();
+	void setDescription(final String description);
 
-	public void setDescription(final String description);
+	boolean isActive();
 
-	public Timestamp getVersion();
+	void setActive(final boolean active);
 
-	public void setVersion(final Timestamp version);
+	boolean isCustom();
 
-	public boolean isCustom();
-
-	public void setCustom(final boolean custom);
-
-	public boolean isActive();
-
-	public void setActive(final boolean active);
+	void setCustom(final boolean custom);
 
 }

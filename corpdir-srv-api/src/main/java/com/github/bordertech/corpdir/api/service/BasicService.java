@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.api.common;
+package com.github.bordertech.corpdir.api.service;
 
+import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperTree;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyIdTree;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import javax.persistence.EntityManager;
 
@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class LocationMapper extends AbstractMapperTree<Location, LocationEntity> {
+public class LocationMapper extends AbstractMapperKeyIdTree<Location, LocationEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 

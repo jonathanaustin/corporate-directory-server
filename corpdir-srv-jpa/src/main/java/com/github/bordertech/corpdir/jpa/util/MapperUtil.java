@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdTreeObject;
 
 /**
  * Mapping utility between API objects and Entity types.
@@ -138,6 +139,40 @@ public final class MapperUtil {
 			return null;
 		}
 		return key;
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param keyId the key or API id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistentKeyIdTreeObject> T getTreeEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+		if (keyId == null || keyId.isEmpty()) {
+			return null;
+		}
+		if (isEntityId(keyId)) {
+			Long id = convertApiIdforEntity(keyId);
+			return getEntityById(em, id, clazz);
+		} else {
+			return getEntityByBusinessKey(em, keyId, clazz);
+		}
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param id the record id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistentKeyIdTreeObject> T getTreeEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
+		if (id == null) {
+			return null;
+		}
+		T entity = em.find(clazz, id);
+		return entity;
 	}
 
 	/**

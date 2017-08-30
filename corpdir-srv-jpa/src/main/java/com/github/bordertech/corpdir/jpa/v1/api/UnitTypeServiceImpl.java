@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaKeyIdService;
+import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
 
 /**
  * Organization unit type JPA service implementation.

@@ -1,6 +1,7 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
+import com.github.bordertech.corpdir.jpa.common.PersistentObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

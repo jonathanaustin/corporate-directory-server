@@ -14,7 +14,7 @@ import javax.persistence.Version;
  * @author jonathan
  */
 @MappedSuperclass
-public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
+public class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,12 +69,12 @@ public abstract class AbstractPersistentKeyIdObject implements PersistentKeyIdOb
 	}
 
 	@Override
-	public Timestamp getVersion() {
+	public Timestamp getTimestamp() {
 		return version;
 	}
 
 	@Override
-	public void setVersion(final Timestamp version) {
+	public void setTimestamp(final Timestamp version) {
 		this.version = version;
 	}
 

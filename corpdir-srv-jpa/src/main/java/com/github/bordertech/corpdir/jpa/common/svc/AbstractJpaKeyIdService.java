@@ -1,10 +1,12 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.common.svc;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.api.common.BasicService;
+import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
@@ -127,7 +129,7 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 		MapperUtil.checkBusinessKey(em, api.getBusinessKey(), getEntityClass());
 		// Ignore ID and version
 		api.setId(null);
-		api.setVersion(null);
+		api.setTimestamp(null);
 	}
 
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Organization unit.
+ * Abstract Keyed API Object with a Tree Structure.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractApiTreeObject extends AbstractApiKeyIdObject implements ApiTreeObject {
+public class DefaultTreeObject extends DefaultKeyIdObject implements ApiTreeable {
 
 	private String parentId;
 	private List<String> subIds;

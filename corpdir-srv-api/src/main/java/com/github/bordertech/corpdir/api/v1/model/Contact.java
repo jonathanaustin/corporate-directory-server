@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
+import com.github.bordertech.corpdir.api.common.DefaultKeyIdObject;
+import com.github.bordertech.corpdir.api.v1.model.links.ContactLinks;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Contact extends AbstractApiKeyIdObject {
+public class Contact extends DefaultKeyIdObject implements ContactLinks {
 
 	private String firstName;
 	private String lastName;
@@ -20,6 +21,7 @@ public class Contact extends AbstractApiKeyIdObject {
 	private boolean hasImage;
 	private List<Channel> channels;
 	private List<String> positionIds;
+	private Integer versionId;
 
 	/**
 	 * @return the first name
@@ -131,6 +133,7 @@ public class Contact extends AbstractApiKeyIdObject {
 	 *
 	 * @return the assigned position keys
 	 */
+	@Override
 	public List<String> getPositionIds() {
 		if (positionIds == null) {
 			positionIds = new ArrayList<>();
@@ -142,8 +145,19 @@ public class Contact extends AbstractApiKeyIdObject {
 	 *
 	 * @param positionIds the assigned position keys
 	 */
+	@Override
 	public void setPositionIds(final List<String> positionIds) {
 		this.positionIds = positionIds;
+	}
+
+	@Override
+	public Integer getVersionId() {
+		return versionId;
+	}
+
+	@Override
+	public void setVersionId(final Integer versionId) {
+		this.versionId = versionId;
 	}
 
 }

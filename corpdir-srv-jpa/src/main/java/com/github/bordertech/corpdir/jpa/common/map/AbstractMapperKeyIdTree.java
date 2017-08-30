@@ -1,20 +1,19 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.common.map;
 
-import com.github.bordertech.corpdir.api.common.ApiTreeObject;
-import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdTreeObject;
+import com.github.bordertech.corpdir.api.common.ApiKeyIdTreeObject;
 
 /**
- * Map {@link OrgUnit} and {@link OrgUnitEntity}.
+ * Map ApiTreeObject to a PersistentTreeObject.
  *
- * @param <A> the nested API
- * @param <P> the nested entity
+ * @param <A> the API tree
+ * @param <P> the Persistent tree
  * @author jonathan
  */
-public abstract class AbstractMapperTree<A extends ApiTreeObject, P extends PersistentTreeObject<P>> extends AbstractMapperKeyId<A, P> {
+public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdTreeObject, P extends PersistentKeyIdTreeObject<P>> extends AbstractMapperKeyId<A, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {

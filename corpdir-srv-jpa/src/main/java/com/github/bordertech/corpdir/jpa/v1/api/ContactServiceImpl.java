@@ -6,10 +6,11 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.ContactService;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaKeyIdService;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
@@ -28,54 +29,6 @@ public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, Contact
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
-
-	@Override
-	public DataResponse<List<Position>> getPositions(final String keyId) {
-		EntityManager em = getEntityManager();
-		try {
-			ContactEntity entity = getEntity(em, keyId);
-			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, entity.getPositions());
-			return new DataResponse<>(list);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public DataResponse<Contact> addPosition(final String keyId, final String positionKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			em.getTransaction().begin();
-			// Get the contact
-			ContactEntity contact = getEntity(em, keyId);
-			// Get the position
-			PositionEntity position = getPositionEntity(em, positionKeyId);
-			// Add the position
-			contact.addPosition(position);
-			em.getTransaction().commit();
-			return buildResponse(em, contact);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public DataResponse<Contact> removePosition(final String keyId, final String positionKeyId) {
-		EntityManager em = getEntityManager();
-		try {
-			em.getTransaction().begin();
-			// Get the contact
-			ContactEntity contact = getEntity(em, keyId);
-			// Get the position
-			PositionEntity position = getPositionEntity(em, positionKeyId);
-			// Remove the position
-			contact.removePosition(position);
-			em.getTransaction().commit();
-			return buildResponse(em, contact);
-		} finally {
-			em.close();
-		}
-	}
 
 	@Override
 	protected Class<ContactEntity> getEntityClass() {
@@ -123,6 +76,72 @@ public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, Contact
 			throw new NotFoundException("Position [" + keyId + "] not found.");
 		}
 		return entity;
+	}
+
+	@Override
+	public DataResponse<List<Position>> getPositions(final String keyId) {
+		return getPositions(getCurrentVersionId(), keyId);
+	}
+
+	@Override
+	public DataResponse<Contact> addPosition(final String keyId, final String positionKeyId) {
+		return addPosition(getCurrentVersionId(), keyId, positionKeyId);
+	}
+
+	@Override
+	public DataResponse<Contact> removePosition(final String keyId, final String positionKeyId) {
+		return removePosition(getCurrentVersionId(), keyId, positionKeyId);
+	}
+
+	@Override
+	public DataResponse<List<Position>> getPositions(final Integer versionId, final String keyId) {
+		EntityManager em = getEntityManager();
+		try {
+			ContactEntity entity = getEntity(em, keyId);
+			ContactLinks data = entity.getDataVersion(versionId);
+			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, data.getPositions());
+			return new DataResponse<>(list);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public DataResponse<Contact> addPosition(final Integer versionId, final String keyId, final String positionKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			// Get the contact
+			ContactEntity contact = getEntity(em, keyId);
+			// Get the position
+			PositionEntity position = getPositionEntity(em, positionKeyId);
+			// Add the position
+			ContactLinks data = contact.getDataVersion(versionId);
+			data.addPosition(position);
+			em.getTransaction().commit();
+			return buildResponse(em, contact);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public DataResponse<Contact> removePosition(final Integer versionId, final String keyId, final String positionKeyId) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			// Get the contact
+			ContactEntity contact = getEntity(em, keyId);
+			// Get the position
+			PositionEntity position = getPositionEntity(em, positionKeyId);
+			// Remove the position
+			ContactLinks data = contact.getDataVersion(versionId);
+			data.removePosition(position);
+			em.getTransaction().commit();
+			return buildResponse(em, contact);
+		} finally {
+			em.close();
+		}
 	}
 
 }

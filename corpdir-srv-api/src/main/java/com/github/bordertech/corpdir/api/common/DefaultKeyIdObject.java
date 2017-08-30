@@ -8,14 +8,14 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
+public class DefaultKeyIdObject implements ApiKeyIdObject {
 
 	private String id;
 	private String businessKey;
 	private String description;
 	private boolean active = true;
 	private boolean custom = true;
-	private Timestamp version;
+	private Timestamp timestamp;
 
 	@Override
 	public String getId() {
@@ -48,13 +48,13 @@ public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 	}
 
 	@Override
-	public Timestamp getVersion() {
-		return version;
+	public Timestamp getTimestamp() {
+		return timestamp;
 	}
 
 	@Override
-	public void setVersion(final Timestamp version) {
-		this.version = version;
+	public void setTimestamp(final Timestamp timestamp) {
+		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public abstract class AbstractApiKeyIdObject implements ApiKeyIdObject {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final AbstractApiKeyIdObject other = (AbstractApiKeyIdObject) obj;
+		final DefaultKeyIdObject other = (DefaultKeyIdObject) obj;
 		if (!Objects.equals(this.id, other.id)) {
 			return false;
 		}

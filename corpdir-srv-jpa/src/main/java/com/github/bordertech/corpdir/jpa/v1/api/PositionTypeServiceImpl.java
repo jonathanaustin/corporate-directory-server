@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaKeyIdService;
+import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -16,7 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
 
 /**
  * Position type JPA service implementation.

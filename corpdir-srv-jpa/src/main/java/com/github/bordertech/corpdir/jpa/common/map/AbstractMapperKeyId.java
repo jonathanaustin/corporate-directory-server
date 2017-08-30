@@ -1,6 +1,7 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import static com.github.bordertech.corpdir.jpa.util.MapperUtil.convertEntityIdforApi;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends Pe
 		to.setDescription(from.getDescription());
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
-		to.setVersion(from.getVersion());
+		to.setTimestamp(from.getTimestamp());
 	}
 
 	public void handleKeyIdEntityToApi(final EntityManager em, final P from, final A to) {
@@ -91,7 +92,7 @@ public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends Pe
 		to.setDescription(from.getDescription());
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
-		to.setVersion(from.getVersion());
+		to.setTimestamp(from.getTimestamp());
 	}
 
 	abstract protected A createApiObject();

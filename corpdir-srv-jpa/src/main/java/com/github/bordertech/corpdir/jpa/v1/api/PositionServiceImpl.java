@@ -6,7 +6,7 @@ import com.github.bordertech.corpdir.api.v1.PositionService;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaTreeService;
+import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaKeyIdTreeService;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
@@ -14,7 +14,7 @@ import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 
@@ -25,7 +25,7 @@ import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
  * @since 1.0.0
  */
 @Singleton
-public class PositionServiceImpl extends AbstractJpaTreeService<Position, PositionEntity> implements PositionService {
+public class PositionServiceImpl extends AbstractJpaKeyIdTreeService<Position, PositionEntity> implements PositionService {
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();

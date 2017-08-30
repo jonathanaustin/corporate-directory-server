@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiTreeObject;
+import com.github.bordertech.corpdir.api.common.DefaultTreeObject;
 
 /**
  * Location of contact.
@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.api.common.AbstractApiTreeObject;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Location extends AbstractApiTreeObject {
+public class Location extends DefaultTreeObject {
 
 	private Address address;
 

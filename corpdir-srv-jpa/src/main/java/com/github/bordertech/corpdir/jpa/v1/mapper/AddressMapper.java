@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Address;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapper;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapper;
 import com.github.bordertech.corpdir.jpa.entity.AddressEntity;
 import javax.persistence.EntityManager;
 
