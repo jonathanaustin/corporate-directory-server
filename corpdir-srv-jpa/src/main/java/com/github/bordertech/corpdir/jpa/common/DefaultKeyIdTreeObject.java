@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentTreeable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.FetchType;
@@ -10,13 +10,13 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 /**
- * Abstract nested set (ie tree) keyed object.
+ * Default keyed object with a tree structure.
  *
  * @param <T> the tree entity
  * @author jonathan
  */
 @MappedSuperclass
-public class AbstractPersistentKeyIdTreeObject<T extends PersistentTreeable> extends AbstractPersistentKeyIdObject implements PersistentTreeable<T> {
+public class DefaultKeyIdTreeObject<T extends PersistTreeable> extends DefaultKeyIdObject implements PersistTreeable<T> {
 
 	@ManyToOne
 	@JoinColumn(name = "parentId")
@@ -27,14 +27,14 @@ public class AbstractPersistentKeyIdTreeObject<T extends PersistentTreeable> ext
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractPersistentKeyIdTreeObject() {
+	protected DefaultKeyIdTreeObject() {
 		// Default constructor
 	}
 
 	/**
 	 * @param id the entity id
 	 */
-	public AbstractPersistentKeyIdTreeObject(final Long id) {
+	public DefaultKeyIdTreeObject(final Long id) {
 		super(id);
 	}
 

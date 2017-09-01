@@ -6,8 +6,8 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.ContactService;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
-import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaKeyIdService;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionService;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
@@ -25,20 +25,10 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, ContactEntity> implements ContactService {
+public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactLinks, ContactEntity> implements ContactService {
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
-
-	@Override
-	protected Class<ContactEntity> getEntityClass() {
-		return ContactEntity.class;
-	}
-
-	@Override
-	protected MapperApiEntity<Contact, ContactEntity> getMapper() {
-		return CONTACT_MAPPER;
-	}
 
 	@Override
 	public DataResponse<byte[]> getImage(final String keyId) {
@@ -99,7 +89,7 @@ public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, Contact
 		try {
 			ContactEntity entity = getEntity(em, keyId);
 			ContactLinks data = entity.getDataVersion(versionId);
-			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, data.getPositions());
+			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, data.getPositions(), versionId);
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -119,7 +109,7 @@ public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, Contact
 			ContactLinks data = contact.getDataVersion(versionId);
 			data.addPosition(position);
 			em.getTransaction().commit();
-			return buildResponse(em, contact);
+			return buildResponse(em, contact, versionId);
 		} finally {
 			em.close();
 		}
@@ -138,10 +128,20 @@ public class ContactServiceImpl extends AbstractJpaKeyIdService<Contact, Contact
 			ContactLinks data = contact.getDataVersion(versionId);
 			data.removePosition(position);
 			em.getTransaction().commit();
-			return buildResponse(em, contact);
+			return buildResponse(em, contact, versionId);
 		} finally {
 			em.close();
 		}
+	}
+
+	@Override
+	protected Class<ContactEntity> getEntityClass() {
+		return ContactEntity.class;
+	}
+
+	@Override
+	protected MapperApiVersion<Contact, ContactLinks, ContactEntity> getMapper() {
+		return CONTACT_MAPPER;
 	}
 
 }

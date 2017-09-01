@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Default Keyed API Object with a Tree Structure.
+ * Default Keyed API Object with a versioned Tree Structure.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultTreeObject extends DefaultObject implements ApiTreeable {
+public class DefaultVersionTreeObject extends DefaultVersionObject implements ApiTreeable {
 
 	private String parentId;
 	private List<String> subIds;

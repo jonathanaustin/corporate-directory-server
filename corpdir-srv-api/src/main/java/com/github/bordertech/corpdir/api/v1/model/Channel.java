@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.DefaultKeyIdObject;
+import com.github.bordertech.corpdir.api.common.DefaultObject;
 
 /**
  * Channel of communication.
@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.api.common.DefaultKeyIdObject;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class Channel extends DefaultKeyIdObject {
+public class Channel extends DefaultObject {
 
 	private String contactId;
 	private ChannelTypeEnum type;

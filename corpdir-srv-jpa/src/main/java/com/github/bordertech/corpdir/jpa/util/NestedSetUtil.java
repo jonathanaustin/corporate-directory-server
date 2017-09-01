@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.jpa.util;
 
-import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +9,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 
 /**
  * NestedSet processing helper.
@@ -99,7 +99,7 @@ public final class NestedSetUtil {
 		return pred;
 	}
 
-	public static interface PersistentNestedTreeObject<T extends PersistentNestedTreeObject> extends PersistentKeyIdObject {
+	public static interface PersistentNestedTreeObject<T extends PersistentNestedTreeObject> extends PersistKeyIdObject {
 
 		void setParent(final T parent);
 

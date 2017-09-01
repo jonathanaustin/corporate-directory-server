@@ -1,10 +1,10 @@
 package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.DataResponse;
-import com.github.bordertech.corpdir.api.service.BasicTreeVersionService;
 import com.github.bordertech.corpdir.api.v1.func.PositionFunctions;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
 
 /**
  * Organisation Unit Service Interface.
@@ -12,7 +12,7 @@ import com.github.bordertech.corpdir.api.v1.model.Position;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface OrgUnitService extends BasicTreeVersionService<OrgUnit>, PositionFunctions<OrgUnit> {
+public interface OrgUnitService extends BasicVersionTreeService<OrgUnit>, PositionFunctions<OrgUnit> {
 
 	DataResponse<Position> getManagerPosition(final String keyId);
 

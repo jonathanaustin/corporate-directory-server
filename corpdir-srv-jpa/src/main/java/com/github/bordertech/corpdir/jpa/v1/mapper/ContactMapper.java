@@ -2,11 +2,12 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
-import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyId;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperVersion;
 import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -16,14 +17,14 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
+public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, ContactEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
 
 	@Override
-	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to) {
-		super.copyApiToEntity(em, from, to);
+	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Integer versionId) {
+		super.copyApiToEntity(em, from, to, versionId);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
@@ -36,22 +37,6 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 			to.setLocation(getLocationEntity(em, newId));
 		}
 
-		// Positions
-		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(to.getPositions());
-		List<String> newIds = MapperUtil.cleanApiKeys(from.getPositionIds());
-		if (!MapperUtil.keysMatch(origIds, newIds)) {
-			// Removed
-			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
-				PositionEntity pos = getPositionEntity(em, id);
-				to.removePosition(pos);
-			}
-			// Added
-			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
-				PositionEntity pos = getPositionEntity(em, id);
-				to.addPosition(pos);
-			}
-		}
-
 		// Channels
 		// Clear all channels and re-add (Use cascade delete, update, insert)
 		to.getChannels().clear();
@@ -62,8 +47,8 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 	}
 
 	@Override
-	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to) {
-		super.copyEntityToApi(em, from, to);
+	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Integer versionId) {
+		super.copyEntityToApi(em, from, to, versionId);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
@@ -71,8 +56,6 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 		to.setAddress(ADDRESS_MAPPER.convertEntityToApi(em, from.getAddress()));
 		// Location
 		to.setLocationId(MapperUtil.convertEntityIdforApi(from.getLocation()));
-		// Positions
-		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(from.getPositions()));
 		// Channels
 		to.setChannels(CHANNEL_MAPPER.convertEntitiesToApis(em, from.getChannels()));
 	}
@@ -93,6 +76,42 @@ public class ContactMapper extends AbstractMapperKeyId<Contact, ContactEntity> {
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
 		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
+	}
+
+	@Override
+	protected Class<ContactEntity> getEntityClass() {
+		return ContactEntity.class;
+	}
+
+	@Override
+	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Integer versionId) {
+
+		// Get the tree version for this entity
+		ContactLinks links = to.getDataVersion(versionId);
+
+		// Positions
+		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(links.getPositions());
+		List<String> newIds = MapperUtil.cleanApiKeys(from.getPositionIds());
+		if (!MapperUtil.keysMatch(origIds, newIds)) {
+			// Removed
+			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
+				PositionEntity pos = getPositionEntity(em, id);
+				links.removePosition(pos);
+			}
+			// Added
+			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
+				PositionEntity pos = getPositionEntity(em, id);
+				links.addPosition(pos);
+			}
+		}
+	}
+
+	@Override
+	protected void handleVersionDataEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Integer versionId) {
+		// Get the tree version for this entity
+		ContactLinks links = from.getDataVersion(versionId);
+		// Positions
+		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
 	}
 
 }

@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
-import com.github.bordertech.corpdir.jpa.common.PersistentObject;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -13,7 +13,7 @@ import javax.persistence.EntityManager;
  * @param <A> the API object
  * @param <P> the Entity object
  */
-public interface MapperApiEntity<A extends ApiObject, P extends PersistentObject> {
+public interface MapperApi<A extends ApiObject, P extends PersistObject> {
 
 	/**
 	 *

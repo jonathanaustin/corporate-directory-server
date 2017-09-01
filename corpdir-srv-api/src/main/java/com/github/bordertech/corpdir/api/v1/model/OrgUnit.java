@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.DefaultTreeVersionObject;
+import com.github.bordertech.corpdir.api.common.DefaultVersionTreeObject;
 import com.github.bordertech.corpdir.api.v1.model.links.OrgUnitLinks;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class OrgUnit extends DefaultTreeVersionObject implements OrgUnitLinks {
+public class OrgUnit extends DefaultVersionTreeObject implements OrgUnitLinks {
 
 	private String typeId;
 	private String managerPosId;

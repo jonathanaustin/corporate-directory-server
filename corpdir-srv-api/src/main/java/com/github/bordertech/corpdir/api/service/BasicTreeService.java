@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.api.service;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicTreeService<T extends ApiTreeable & ApiKeyIdObject> extends BasicService<T> {
+public interface BasicTreeService<T extends ApiTreeable> extends BasicService<T> {
 
 	DataResponse<List<T>> getSubs(final String keyId);
 

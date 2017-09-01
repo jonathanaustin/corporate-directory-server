@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.sql.Timestamp;
 import java.util.Objects;
 import javax.persistence.GeneratedValue;
@@ -9,12 +10,12 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 /**
- * Abstract persistent keyed object.
+ * Default persistent keyed object.
  *
  * @author jonathan
  */
 @MappedSuperclass
-public class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
+public class DefaultKeyIdObject implements PersistKeyIdObject {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,14 +33,14 @@ public class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractPersistentKeyIdObject() {
+	protected DefaultKeyIdObject() {
 		// Default constructor
 	}
 
 	/**
 	 * @param id the entity id
 	 */
-	public AbstractPersistentKeyIdObject(final Long id) {
+	public DefaultKeyIdObject(final Long id) {
 		this.id = id;
 	}
 
@@ -121,7 +122,7 @@ public class AbstractPersistentKeyIdObject implements PersistentKeyIdObject {
 
 	@Override
 	public boolean equals(final Object obj) {
-		return obj instanceof AbstractPersistentKeyIdObject && Objects.equals(id, ((AbstractPersistentKeyIdObject) obj).id);
+		return obj instanceof DefaultKeyIdObject && Objects.equals(id, ((DefaultKeyIdObject) obj).id);
 	}
 
 }

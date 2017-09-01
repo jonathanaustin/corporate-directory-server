@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdDataVersionObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
 import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Contact")
-public class ContactEntity extends AbstractPersistentKeyIdDataVersionObject<ContactLinks> {
+public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinks> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ChannelEntity> channels;

@@ -1,15 +1,17 @@
 package com.github.bordertech.corpdir.jpa.entity.links;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractVersionableTree;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableTreeObject;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
  * Position links that can be versioned.
@@ -17,7 +19,9 @@ import javax.persistence.OneToMany;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PositionLinks extends AbstractVersionableTree<PositionLinks, PositionEntity> {
+@Entity
+@Table(name = "PositionLinks")
+public class PositionLinks extends DefaultVersionableTreeObject<PositionLinks, PositionEntity> {
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrgUnitEntity> manageOrgUnits;

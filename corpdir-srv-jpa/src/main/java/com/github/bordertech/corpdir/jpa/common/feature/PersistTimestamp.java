@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.jpa.common.feature;
 
-import com.github.bordertech.corpdir.jpa.common.*;
 import java.sql.Timestamp;
 
 /**
@@ -8,9 +7,7 @@ import java.sql.Timestamp;
  *
  * @author jonathan
  */
-public interface PersistentIdentifiable extends PersistentObject {
-
-	Long getId();
+public interface PersistTimestamp extends PersistObject {
 
 	Timestamp getTimestamp();
 

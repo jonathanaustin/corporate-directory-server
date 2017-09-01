@@ -1,10 +1,12 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
+import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
+import com.github.bordertech.corpdir.api.common.ApiTreeable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
-import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdTreeObject;
-import com.github.bordertech.corpdir.api.common.ApiKeyIdTreeObject;
 
 /**
  * Map ApiTreeObject to a PersistentTreeObject.
@@ -13,7 +15,7 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdTreeObject;
  * @param <P> the Persistent tree
  * @author jonathan
  */
-public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdTreeObject, P extends PersistentKeyIdTreeObject<P>> extends AbstractMapperKeyId<A, P> {
+public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdObject & ApiTreeable, P extends PersistTreeable<P> & PersistKeyIdObject> extends AbstractMapperKeyId<A, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
@@ -35,18 +37,18 @@ public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdTreeObject, P ex
 		if (!MapperUtil.keyMatch(origId, newId)) {
 			// Remove from Orig Parent
 			if (origId != null) {
-				P ou = getEntity(em, origId);
-				if (ou != null) {
-					ou.removeChild(to);
+				P ent = getEntity(em, origId);
+				if (ent != null) {
+					ent.removeChild(to);
 				}
 			}
 			// Add to New Parent
 			if (newId != null) {
-				P ou = getEntity(em, newId);
-				if (ou == null) {
+				P ent = getEntity(em, newId);
+				if (ent == null) {
 					throw new IllegalStateException("New Parent [" + newId + "] could not be found.");
 				}
-				ou.addChild(to);
+				ent.addChild(to);
 			}
 		}
 
@@ -56,18 +58,18 @@ public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdTreeObject, P ex
 		if (!MapperUtil.keysMatch(origIds, newIds)) {
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
-				P ou = getEntity(em, id);
-				if (ou != null) {
-					to.removeChild(ou);
+				P ent = getEntity(em, id);
+				if (ent != null) {
+					to.removeChild(ent);
 				}
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
-				P ou = getEntity(em, id);
-				if (ou == null) {
+				P ent = getEntity(em, id);
+				if (ent == null) {
 					throw new IllegalStateException("New child [" + newId + "] could not be found.");
 				}
-				to.addChild(ou);
+				to.addChild(ent);
 			}
 		}
 	}

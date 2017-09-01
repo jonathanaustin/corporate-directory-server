@@ -8,7 +8,7 @@ import java.util.Set;
  * @author jonathan
  * @param <T> the item id types
  */
-public interface PersistentVersionableTree<U extends PersistentVersionableTree, T extends PersistentVersionData<U>> extends PersistentVersionable<T> {
+public interface PersistTreeable<T extends PersistTreeable> extends PersistKeyIdObject {
 
 	void setParent(final T parent);
 

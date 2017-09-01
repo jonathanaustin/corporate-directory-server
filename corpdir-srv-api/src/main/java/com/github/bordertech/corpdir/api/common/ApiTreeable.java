@@ -7,7 +7,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public interface ApiTreeable extends ApiIdentifiable {
+public interface ApiTreeable extends ApiKeyIdObject {
 
 	String getParentId();
 

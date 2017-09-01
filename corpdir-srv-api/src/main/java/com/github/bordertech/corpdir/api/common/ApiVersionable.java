@@ -1,11 +1,11 @@
 package com.github.bordertech.corpdir.api.common;
 
 /**
- * API Object uses a version id.
+ * API Object with versioned data.
  *
  * @author jonathan
  */
-public interface ApiVersionable extends ApiIdentifiable {
+public interface ApiVersionable extends ApiKeyIdObject {
 
 	Integer getVersionId();
 

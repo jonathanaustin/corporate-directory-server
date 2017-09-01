@@ -1,10 +1,9 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentVersionable;
-import com.sun.org.apache.xalan.internal.utils.Objects;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
@@ -13,13 +12,14 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 
 /**
- * Organization unit.
+ * Default keyed object with version data.
  *
  * @author Jonathan Austin
+ * @param <T> the versionable data type
  * @since 1.0.0
  */
 @MappedSuperclass
-public abstract class AbstractPersistentKeyIdDataVersionObject<T extends PersistentVersionable> extends AbstractPersistentKeyIdObject implements PersistentVersionData<T> {
+public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> extends DefaultKeyIdObject implements PersistVersionData<T> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@MapsId(value = "id")
@@ -28,14 +28,14 @@ public abstract class AbstractPersistentKeyIdDataVersionObject<T extends Persist
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractPersistentKeyIdDataVersionObject() {
+	protected DefaultKeyIdVersionObject() {
 	}
 
 	/**
 	 *
 	 * @param id the entity id
 	 */
-	public AbstractPersistentKeyIdDataVersionObject(final Long id) {
+	public DefaultKeyIdVersionObject(final Long id) {
 		super(id);
 	}
 

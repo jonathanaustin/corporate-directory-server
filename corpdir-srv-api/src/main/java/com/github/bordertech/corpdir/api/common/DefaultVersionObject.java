@@ -1,12 +1,12 @@
 package com.github.bordertech.corpdir.api.common;
 
 /**
- * Abstract Keyed API Object with a Tree Structure.
+ * Default Keyed API Object with version data.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultTreeVersionObject extends DefaultTreeObject implements ApiVersionable {
+public class DefaultVersionObject extends DefaultObject implements ApiVersionable {
 
 	private Integer versionId;
 

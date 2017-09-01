@@ -1,13 +1,13 @@
-package com.github.bordertech.corpdir.jpa.common;
-
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentIdentifiable;
+package com.github.bordertech.corpdir.jpa.common.feature;
 
 /**
  * Persistent Keyed object required fields.
  *
  * @author jonathan
  */
-public interface PersistentKeyIdObject extends PersistentIdentifiable {
+public interface PersistKeyIdObject extends PersistObject, PersistTimestamp {
+
+	Long getId();
 
 	String getBusinessKey();
 

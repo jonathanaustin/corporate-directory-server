@@ -1,12 +1,9 @@
 package com.github.bordertech.corpdir.jpa.common.svc;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
-import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentTreeable;
-import com.github.bordertech.corpdir.jpa.common.map.MapperApiEntity;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
@@ -21,7 +18,7 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class AbstractJpaKeyIdTreeService<A extends ApiKeyIdObject & ApiTreeable, P extends PersistentTreeable<P> & PersistentKeyIdObject> extends AbstractJpaKeyIdService<A, P> implements BasicTreeService<A> {
+public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicService<A, P> implements BasicTreeService<A> {
 
 	@Override
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
@@ -92,16 +89,6 @@ public class AbstractJpaKeyIdTreeService<A extends ApiKeyIdObject & ApiTreeable,
 		} finally {
 			em.close();
 		}
-	}
-
-	@Override
-	protected Class<P> getEntityClass() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
-	protected MapperApiEntity<A, P> getMapper() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

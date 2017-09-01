@@ -1,25 +1,26 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistentVersionable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import com.github.bordertech.corpdir.jpa.common.feature.VersionIdKey;
 import java.sql.Timestamp;
 import javax.persistence.EmbeddedId;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 /**
- * Abstract version holder.
+ * Default versionable data holder.
  *
  * @author jonathan
- * @param <T> the owner type
  */
 @MappedSuperclass
-public class AbstractVersionable<T extends PersistentVersionData> implements PersistentVersionable<T> {
+public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T extends PersistVersionData<U>> implements PersistVersionable<U, T> {
 
 	@EmbeddedId
 	private VersionIdKey versionIdKey;
 
+	@ManyToOne
 	private T item;
 
 	@Version
@@ -28,16 +29,17 @@ public class AbstractVersionable<T extends PersistentVersionData> implements Per
 	/**
 	 * Default constructor.
 	 */
-	protected AbstractVersionable() {
+	protected DefaultVersionableObject() {
 		// Default constructor
 	}
 
 	/**
 	 * @param versionId the tree version id
-	 * @param item the owner item
+	 * @param item the owner item id
 	 */
-	public AbstractVersionable(final Integer versionId, final T item) {
+	public DefaultVersionableObject(final Integer versionId, final T item) {
 		this.versionIdKey = new VersionIdKey(versionId, item.getId());
+		this.item = item;
 	}
 
 	@Override

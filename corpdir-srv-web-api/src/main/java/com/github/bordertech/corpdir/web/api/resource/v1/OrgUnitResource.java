@@ -130,4 +130,49 @@ public class OrgUnitResource implements OrgUnitService {
 		return impl.getManagerPosition(keyId);
 	}
 
+	@Override
+	public DataResponse<Position> getManagerPosition(Integer versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<OrgUnit>> getSubs(Integer versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<OrgUnit> addSub(Integer versionId, String keyId, String subKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<OrgUnit> removeSub(Integer versionId, String keyId, String subKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<OrgUnit>> search(Integer versionId, String search) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<OrgUnit> retrieve(Integer versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<Position>> getPositions(Integer versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<OrgUnit> addPosition(Integer versionId, String keyId, String positionKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<OrgUnit> removePosition(Integer versionId, String keyId, String positionKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }

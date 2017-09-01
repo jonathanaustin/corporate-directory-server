@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdDataVersionObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
 import com.github.bordertech.corpdir.jpa.entity.links.PositionLinks;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends AbstractPersistentKeyIdDataVersionObject<PositionLinks> {
+public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinks> {
 
 	@ManyToOne
 	private PositionTypeEntity type;

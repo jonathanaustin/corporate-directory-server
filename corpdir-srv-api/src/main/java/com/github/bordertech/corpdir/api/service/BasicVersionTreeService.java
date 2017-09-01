@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.api.service;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
@@ -13,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicTreeVersionService<T extends ApiTreeable & ApiVersionable & ApiKeyIdObject> extends BasicTreeService<T> {
+public interface BasicVersionTreeService<T extends ApiTreeable & ApiVersionable> extends BasicVersionService<T>, BasicTreeService<T> {
 
 	DataResponse<List<T>> getSubs(final Integer versionId, final String keyId);
 

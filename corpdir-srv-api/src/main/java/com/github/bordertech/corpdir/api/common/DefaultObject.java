@@ -4,11 +4,11 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * Abstract API Keyed Object for common fields.
+ * Default API Keyed Object for common fields.
  *
  * @author jonathan
  */
-public class DefaultKeyIdObject implements ApiKeyIdObject {
+public class DefaultObject implements ApiKeyIdObject {
 
 	private String id;
 	private String businessKey;
@@ -100,7 +100,7 @@ public class DefaultKeyIdObject implements ApiKeyIdObject {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DefaultKeyIdObject other = (DefaultKeyIdObject) obj;
+		final DefaultObject other = (DefaultObject) obj;
 		if (!Objects.equals(this.id, other.id)) {
 			return false;
 		}

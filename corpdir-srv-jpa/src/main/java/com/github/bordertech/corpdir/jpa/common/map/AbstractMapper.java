@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
-import com.github.bordertech.corpdir.jpa.common.PersistentObject;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -9,13 +9,13 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link ApiObject} and {@link PersistentObject}.
+ * Map {@link ApiObject} and {@link PersistObject}.
  *
  * @param <A> the API object
  * @param <P> the persistent object
  * @author jonathan
  */
-public abstract class AbstractMapper<A extends ApiObject, P extends PersistentObject> implements MapperApiEntity<A, P> {
+public abstract class AbstractMapper<A extends ApiObject, P extends PersistObject> implements MapperApi<A, P> {
 
 	@Override
 	public P convertApiToEntity(final EntityManager em, final A from) {
@@ -63,8 +63,8 @@ public abstract class AbstractMapper<A extends ApiObject, P extends PersistentOb
 		return items;
 	}
 
-	abstract protected A createApiObject();
+	protected abstract A createApiObject();
 
-	abstract protected P createEntityObject();
+	protected abstract P createEntityObject();
 
 }

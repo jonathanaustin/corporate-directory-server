@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdDataVersionObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
 import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinks;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends AbstractPersistentKeyIdDataVersionObject<OrgUnitLinks> {
+public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinks> {
 
 	@ManyToOne
 	private UnitTypeEntity type;

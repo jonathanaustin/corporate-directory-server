@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.PersistentObject;
 import javax.persistence.Embeddable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
 
 /**
  * Address details.
@@ -10,7 +10,7 @@ import javax.persistence.Embeddable;
  * @since 1.0.0
  */
 @Embeddable
-public class AddressEntity implements PersistentObject {
+public class AddressEntity implements PersistObject {
 
 	private String workStation;
 	private String line1;

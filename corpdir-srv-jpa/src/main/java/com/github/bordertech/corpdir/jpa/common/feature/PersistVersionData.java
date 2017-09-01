@@ -8,7 +8,7 @@ import java.util.Set;
  * @author jonathan
  * @param <T>
  */
-public interface PersistentVersionData<T extends PersistentVersionable> extends PersistentIdentifiable {
+public interface PersistVersionData<T extends PersistVersionable> extends PersistKeyIdObject {
 
 	Set<T> getDataVersions();
 
