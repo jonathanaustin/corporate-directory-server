@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.MapsId;
 import javax.persistence.Version;
 
 /**
@@ -21,6 +22,7 @@ public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T exte
 	private VersionIdKey versionIdKey;
 
 	@ManyToOne
+	@MapsId(value = "id")
 	private T item;
 
 	@Version

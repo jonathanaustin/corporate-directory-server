@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 
 /**
@@ -22,7 +21,6 @@ import javax.persistence.OneToMany;
 public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> extends DefaultKeyIdObject implements PersistVersionData<T> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@MapsId(value = "id")
 	private Set<T> dataVersions;
 
 	/**
