@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends JpaService<A, P> implements BasicService<A> {
+public abstract class JpaBasicService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends JpaKeyIdService<A, P> implements BasicService<A> {
 
 	@Override
 	public DataResponse<List<A>> search(final String search) {

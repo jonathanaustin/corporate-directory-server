@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.DefaultObject;
+import com.github.bordertech.corpdir.api.common.DefaultKeyIdObject;
 
 /**
  * Organization unit type.
@@ -8,6 +8,13 @@ import com.github.bordertech.corpdir.api.common.DefaultObject;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class UnitType extends DefaultObject {
+public class UnitType extends DefaultKeyIdObject {
+
+	protected UnitType() {
+	}
+
+	public UnitType(final String id) {
+		super(id);
+	}
 
 }

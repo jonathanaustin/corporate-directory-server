@@ -27,8 +27,8 @@ public class LocationMapper extends AbstractMapperKeyIdTree<Location, LocationEn
 	}
 
 	@Override
-	protected Location createApiObject() {
-		return new Location();
+	protected Location createApiObject(final String id) {
+		return new Location(id);
 	}
 
 	@Override

@@ -18,15 +18,15 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "ContactLinks")
-public class ContactLinks extends DefaultVersionableObject<ContactLinks, ContactEntity> {
+public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEntity, ContactEntity> {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<PositionEntity> positions;
 
-	public ContactLinks() {
+	public ContactLinksEntity() {
 	}
 
-	public ContactLinks(final Integer versionId, final ContactEntity contact) {
+	public ContactLinksEntity(final Long versionId, final ContactEntity contact) {
 		super(versionId, contact);
 	}
 

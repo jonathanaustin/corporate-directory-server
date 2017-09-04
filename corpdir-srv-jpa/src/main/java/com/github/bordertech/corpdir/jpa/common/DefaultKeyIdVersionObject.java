@@ -51,7 +51,7 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 	}
 
 	@Override
-	public void removeDataVersion(final Integer versionId) {
+	public void removeDataVersion(final Long versionId) {
 		if (this.dataVersions != null) {
 			for (T link : this.dataVersions) {
 				if (Objects.equals(link.getVersionId(), versionId)) {
@@ -66,7 +66,7 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 	}
 
 	@Override
-	public T getDataVersion(final Integer versionId) {
+	public T getDataVersion(final Long versionId) {
 		if (this.dataVersions == null) {
 			this.dataVersions = new HashSet<>();
 		}
@@ -80,6 +80,6 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 		return data;
 	}
 
-	protected abstract T createDataVersion(final Integer versionId);
+	protected abstract T createDataVersion(final Long versionId);
 
 }

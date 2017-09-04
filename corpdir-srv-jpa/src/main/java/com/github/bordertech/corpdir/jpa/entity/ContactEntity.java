@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Contact")
-public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinks> {
+public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ChannelEntity> channels;
@@ -168,8 +168,8 @@ public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinks> {
 	}
 
 	@Override
-	protected ContactLinks createDataVersion(final Integer versionId) {
-		return new ContactLinks(versionId, this);
+	protected ContactLinksEntity createDataVersion(final Long versionId) {
+		return new ContactLinksEntity(versionId, this);
 	}
 
 }

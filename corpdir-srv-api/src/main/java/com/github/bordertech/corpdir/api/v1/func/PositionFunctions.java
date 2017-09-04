@@ -21,10 +21,10 @@ public interface PositionFunctions<T extends ApiVersionable> extends Serializabl
 
 	DataResponse<T> removePosition(final String keyId, final String positionKeyId);
 
-	DataResponse<List<Position>> getPositions(final Integer versionId, final String keyId);
+	DataResponse<List<Position>> getPositions(final Long versionId, final String keyId);
 
-	DataResponse<T> addPosition(final Integer versionId, final String keyId, final String positionKeyId);
+	DataResponse<T> addPosition(final Long versionId, final String keyId, final String positionKeyId);
 
-	DataResponse<T> removePosition(final Integer versionId, final String keyId, final String positionKeyId);
+	DataResponse<T> removePosition(final Long versionId, final String keyId, final String positionKeyId);
 
 }

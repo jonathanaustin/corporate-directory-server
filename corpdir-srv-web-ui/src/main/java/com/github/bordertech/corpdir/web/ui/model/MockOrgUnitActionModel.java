@@ -12,10 +12,20 @@ public class MockOrgUnitActionModel implements ActionModel<OrgUnit> {
 
 	@Override
 	public OrgUnit create(final OrgUnit entity) {
-		entity.setId(UUID.randomUUID().toString());
-		return entity;
+		OrgUnit create = new OrgUnit(UUID.randomUUID().toString());
+		create.setActive(entity.isActive());
+		create.setCustom(entity.isCustom());
+		create.setTimestamp(entity.getTimestamp());
+		create.setBusinessKey(entity.getBusinessKey());
+		create.setDescription(entity.getDescription());
+		create.setManagerPosId(entity.getManagerPosId());
+		create.setParentId(entity.getParentId());
+		create.setPositionIds(entity.getPositionIds());
+		create.setTypeId(entity.getTypeId());
+		create.setVersionId(entity.getVersionId());
+		return create;
 	}
-
+	
 	@Override
 	public OrgUnit update(final OrgUnit entity) {
 		return entity;
@@ -33,7 +43,7 @@ public class MockOrgUnitActionModel implements ActionModel<OrgUnit> {
 
 	@Override
 	public OrgUnit createInstance() {
-		return new OrgUnit();
+		return new OrgUnit(null);
 	}
 
 }

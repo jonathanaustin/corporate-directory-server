@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.api.common;
 
-import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
@@ -8,23 +7,17 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class DefaultObject implements ApiKeyIdObject {
+public class DefaultKeyIdObject extends DefaultIdObject implements ApiKeyIdObject {
 
-	private String id;
 	private String businessKey;
-	private String description;
 	private boolean active = true;
 	private boolean custom = true;
-	private Timestamp timestamp;
 
-	@Override
-	public String getId() {
-		return id;
+	protected DefaultKeyIdObject() {
 	}
 
-	@Override
-	public void setId(final String id) {
-		this.id = id;
+	public DefaultKeyIdObject(final String id) {
+		super(id);
 	}
 
 	@Override
@@ -35,26 +28,6 @@ public class DefaultObject implements ApiKeyIdObject {
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
-	}
-
-	@Override
-	public String getDescription() {
-		return description;
-	}
-
-	@Override
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	@Override
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-
-	@Override
-	public void setTimestamp(final Timestamp timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	@Override
@@ -79,13 +52,13 @@ public class DefaultObject implements ApiKeyIdObject {
 
 	@Override
 	public String toString() {
-		return description + " [" + businessKey + "]";
+		return getDescription() + " [" + getBusinessKey() + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 3;
-		hash = 47 * hash + Objects.hashCode(this.id);
+		hash = 47 * hash + Objects.hashCode(getId());
 		return hash;
 	}
 
@@ -100,8 +73,8 @@ public class DefaultObject implements ApiKeyIdObject {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DefaultObject other = (DefaultObject) obj;
-		if (!Objects.equals(this.id, other.id)) {
+		final DefaultKeyIdObject other = (DefaultKeyIdObject) obj;
+		if (!Objects.equals(getId(), other.getId())) {
 			return false;
 		}
 		return true;

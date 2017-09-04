@@ -6,17 +6,24 @@ package com.github.bordertech.corpdir.api.common;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultVersionObject extends DefaultObject implements ApiVersionable {
+public class DefaultVersionObject extends DefaultKeyIdObject implements ApiVersionable {
 
-	private Integer versionId;
+	private Long versionId;
+
+	protected DefaultVersionObject() {
+	}
+
+	public DefaultVersionObject(final String id) {
+		super(id);
+	}
 
 	@Override
-	public Integer getVersionId() {
+	public Long getVersionId() {
 		return versionId;
 	}
 
 	@Override
-	public void setVersionId(final Integer versionId) {
+	public void setVersionId(final Long versionId) {
 		this.versionId = versionId;
 	}
 

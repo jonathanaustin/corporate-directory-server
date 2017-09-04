@@ -1,21 +1,15 @@
 package com.github.bordertech.corpdir.jpa.common.feature;
 
 /**
- * Persistent Keyed object required fields.
+ * Persistent object with Business Key and required fields.
  *
  * @author jonathan
  */
-public interface PersistKeyIdObject extends PersistObject, PersistTimestamp {
-
-	Long getId();
+public interface PersistKeyIdObject extends PersistIdObject {
 
 	String getBusinessKey();
 
 	void setBusinessKey(final String businessKey);
-
-	String getDescription();
-
-	void setDescription(final String description);
 
 	boolean isActive();
 

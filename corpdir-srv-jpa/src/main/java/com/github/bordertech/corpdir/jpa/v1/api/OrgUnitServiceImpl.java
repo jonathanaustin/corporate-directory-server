@@ -9,8 +9,8 @@ import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
 import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinks;
-import com.github.bordertech.corpdir.jpa.entity.links.PositionLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
@@ -25,7 +25,7 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgUnitLinks, OrgUnitEntity> implements OrgUnitService {
+public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgUnitLinksEntity, OrgUnitEntity> implements OrgUnitService {
 
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
@@ -51,11 +51,11 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
-	public DataResponse<Position> getManagerPosition(final Integer versionId, final String keyId) {
+	public DataResponse<Position> getManagerPosition(final Long versionId, final String keyId) {
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getEntity(em, keyId);
-			OrgUnitLinks links = entity.getDataVersion(versionId);
+			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
 			Position data = POSITION_MAPPER.convertEntityToApi(em, links.getManagerPosition(), versionId);
 			return new DataResponse<>(data);
 		} finally {
@@ -64,11 +64,11 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
-	public DataResponse<List<Position>> getPositions(final Integer versionId, final String keyId) {
+	public DataResponse<List<Position>> getPositions(final Long versionId, final String keyId) {
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getEntity(em, keyId);
-			OrgUnitLinks links = entity.getDataVersion(versionId);
+			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
 			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
 			return new DataResponse<>(list);
 		} finally {
@@ -77,7 +77,7 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
-	public DataResponse<OrgUnit> addPosition(final Integer versionId, final String keyId, final String positionKeyId) {
+	public DataResponse<OrgUnit> addPosition(final Long versionId, final String keyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -85,14 +85,14 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 			OrgUnitEntity orgUnit = getEntity(em, keyId);
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
-			PositionLinks posLinks = position.getDataVersion(versionId);
+			PositionLinksEntity posLinks = position.getDataVersion(versionId);
 			// Remove it from the old org unit (if had one)
 			if (posLinks.getOrgUnit() != null) {
-				OrgUnitLinks posOuLinks = posLinks.getOrgUnit().getDataVersion(versionId);
+				OrgUnitLinksEntity posOuLinks = posLinks.getOrgUnit().getDataVersion(versionId);
 				posOuLinks.removePosition(position);
 			}
 			// Add the position to the org unit
-			OrgUnitLinks links = orgUnit.getDataVersion(versionId);
+			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
 			links.addPosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, orgUnit, versionId);
@@ -102,7 +102,7 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
-	public DataResponse<OrgUnit> removePosition(Integer versionId, String keyId, String positionKeyId) {
+	public DataResponse<OrgUnit> removePosition(final Long versionId, final String keyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -111,7 +111,7 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
 			// Remove the position from the org unit
-			OrgUnitLinks links = orgUnit.getDataVersion(versionId);
+			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
 			links.removePosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, orgUnit, versionId);
@@ -139,7 +139,7 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
-	protected MapperApiVersion<OrgUnit, OrgUnitLinks, OrgUnitEntity> getMapper() {
+	protected MapperApiVersion<OrgUnit, OrgUnitLinksEntity, OrgUnitEntity> getMapper() {
 		return ORGUNIT_MAPPER;
 	}
 

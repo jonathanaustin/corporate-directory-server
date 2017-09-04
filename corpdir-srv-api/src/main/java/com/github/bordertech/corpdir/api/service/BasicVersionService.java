@@ -13,8 +13,8 @@ import java.util.List;
  */
 public interface BasicVersionService<T extends ApiVersionable> extends BasicService<T> {
 
-	DataResponse<List<T>> search(final Integer versionId, final String search);
+	DataResponse<List<T>> search(final Long versionId, final String search);
 
-	DataResponse<T> retrieve(final Integer versionId, final String keyId);
+	DataResponse<T> retrieve(final Long versionId, final String keyId);
 
 }

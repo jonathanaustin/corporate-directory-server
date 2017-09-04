@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinks> {
+public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinksEntity> {
 
 	@ManyToOne
 	private UnitTypeEntity type;
@@ -50,8 +50,8 @@ public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinks> {
 	}
 
 	@Override
-	protected OrgUnitLinks createDataVersion(final Integer versionId) {
-		return new OrgUnitLinks(versionId, this);
+	protected OrgUnitLinksEntity createDataVersion(final Long versionId) {
+		return new OrgUnitLinksEntity(versionId, this);
 	}
 
 }

@@ -12,7 +12,8 @@ import javax.persistence.MappedSuperclass;
 /**
  * Default versionable data holder with tree structure.
  *
- * @param <T> the versionable tree data type
+ * @param <U> the versionable tree data type
+ * @param <T> the version data owner type
  * @author jonathan
  */
 @MappedSuperclass
@@ -31,7 +32,7 @@ public class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>
 	 * @param versionId the tree version id
 	 * @param item the owner item id
 	 */
-	protected DefaultVersionableTreeObject(final Integer versionId, final T item) {
+	public DefaultVersionableTreeObject(final Long versionId, final T item) {
 		super(versionId, item);
 	}
 

@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.jpa.common.feature;
 import java.util.Set;
 
 /**
- * Persistent Object with a Tree Structure.
+ * Persistent Keyed Object with a Tree Structure.
  *
  * @author jonathan
  * @param <T> the item id types

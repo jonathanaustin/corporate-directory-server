@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.ContactLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -17,13 +17,13 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, ContactEntity> {
+public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEntity, ContactEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
 
 	@Override
-	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Integer versionId) {
+	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Long versionId) {
 		super.copyApiToEntity(em, from, to, versionId);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
@@ -47,7 +47,7 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, 
 	}
 
 	@Override
-	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Integer versionId) {
+	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Long versionId) {
 		super.copyEntityToApi(em, from, to, versionId);
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
@@ -61,8 +61,8 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, 
 	}
 
 	@Override
-	protected Contact createApiObject() {
-		return new Contact();
+	protected Contact createApiObject(final String id) {
+		return new Contact(id);
 	}
 
 	@Override
@@ -84,10 +84,10 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, 
 	}
 
 	@Override
-	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Integer versionId) {
+	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Long versionId) {
 
-		// Get the tree version for this entity
-		ContactLinks links = to.getDataVersion(versionId);
+		// Get the links version for this entity
+		ContactLinksEntity links = to.getDataVersion(versionId);
 
 		// Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(links.getPositions());
@@ -107,9 +107,9 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinks, 
 	}
 
 	@Override
-	protected void handleVersionDataEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Integer versionId) {
+	protected void handleVersionDataEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Long versionId) {
 		// Get the tree version for this entity
-		ContactLinks links = from.getDataVersion(versionId);
+		ContactLinksEntity links = from.getDataVersion(versionId);
 		// Positions
 		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
 	}

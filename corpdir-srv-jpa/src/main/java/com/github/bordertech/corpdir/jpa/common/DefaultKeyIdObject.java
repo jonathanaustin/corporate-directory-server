@@ -1,13 +1,7 @@
 package com.github.bordertech.corpdir.jpa.common;
 
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
-import java.sql.Timestamp;
-import java.util.Objects;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Version;
 
 /**
  * Default persistent keyed object.
@@ -15,20 +9,11 @@ import javax.persistence.Version;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultKeyIdObject implements PersistKeyIdObject {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+public class DefaultKeyIdObject extends DefaultIdObject implements PersistKeyIdObject {
 
 	private String businessKey;
-	private String description;
-
 	private boolean active = true;
 	private boolean custom = true;
-
-	@Version
-	private Timestamp version;
 
 	/**
 	 * Default constructor.
@@ -41,12 +26,7 @@ public class DefaultKeyIdObject implements PersistKeyIdObject {
 	 * @param id the entity id
 	 */
 	public DefaultKeyIdObject(final Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public Long getId() {
-		return id;
+		super(id);
 	}
 
 	@Override
@@ -57,26 +37,6 @@ public class DefaultKeyIdObject implements PersistKeyIdObject {
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
-	}
-
-	@Override
-	public String getDescription() {
-		return description;
-	}
-
-	@Override
-	public void setDescription(final String description) {
-		this.description = description;
-	}
-
-	@Override
-	public Timestamp getTimestamp() {
-		return version;
-	}
-
-	@Override
-	public void setTimestamp(final Timestamp version) {
-		this.version = version;
 	}
 
 	/**
@@ -113,16 +73,6 @@ public class DefaultKeyIdObject implements PersistKeyIdObject {
 	@Override
 	public void setCustom(final boolean custom) {
 		this.custom = custom;
-	}
-
-	@Override
-	public int hashCode() {
-		return id == null ? 31 : id.hashCode();
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		return obj instanceof DefaultKeyIdObject && Objects.equals(id, ((DefaultKeyIdObject) obj).id);
 	}
 
 }

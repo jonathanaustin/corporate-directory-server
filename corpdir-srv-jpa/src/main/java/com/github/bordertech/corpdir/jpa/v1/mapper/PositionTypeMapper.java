@@ -25,8 +25,8 @@ public class PositionTypeMapper extends AbstractMapperKeyId<PositionType, Positi
 	}
 
 	@Override
-	protected PositionType createApiObject() {
-		return new PositionType();
+	protected PositionType createApiObject(final String id) {
+		return new PositionType(id);
 	}
 
 	@Override

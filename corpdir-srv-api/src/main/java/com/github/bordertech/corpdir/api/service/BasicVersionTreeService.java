@@ -14,10 +14,10 @@ import java.util.List;
  */
 public interface BasicVersionTreeService<T extends ApiTreeable & ApiVersionable> extends BasicVersionService<T>, BasicTreeService<T> {
 
-	DataResponse<List<T>> getSubs(final Integer versionId, final String keyId);
+	DataResponse<List<T>> getSubs(final Long versionId, final String keyId);
 
-	DataResponse<T> addSub(final Integer versionId, final String keyId, final String subKeyId);
+	DataResponse<T> addSub(final Long versionId, final String keyId, final String subKeyId);
 
-	DataResponse<T> removeSub(final Integer versionId, final String keyId, final String subKeyId);
+	DataResponse<T> removeSub(final Long versionId, final String keyId, final String subKeyId);
 
 }

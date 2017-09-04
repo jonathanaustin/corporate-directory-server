@@ -22,6 +22,13 @@ public class Contact extends DefaultVersionObject implements ContactLinks {
 	private List<Channel> channels;
 	private List<String> positionIds;
 
+	protected Contact() {
+	}
+
+	public Contact(final String id) {
+		super(id);
+	}
+
 	/**
 	 * @return the first name
 	 */

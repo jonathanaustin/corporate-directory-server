@@ -38,7 +38,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	}
 
 	@Override
-	public DataResponse<List<A>> getSubs(final Integer versionId, final String keyId) {
+	public DataResponse<List<A>> getSubs(final Long versionId, final String keyId) {
 		EntityManager em = getEntityManager();
 		try {
 			P entity = getEntity(em, keyId);
@@ -51,7 +51,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	}
 
 	@Override
-	public DataResponse<A> addSub(final Integer versionId, final String keyId, final String subKeyId) {
+	public DataResponse<A> addSub(final Long versionId, final String keyId, final String subKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -81,7 +81,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	}
 
 	@Override
-	public DataResponse<A> removeSub(final Integer versionId, final String keyId, final String subKeyId) {
+	public DataResponse<A> removeSub(final Long versionId, final String keyId, final String subKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			if (Objects.equals(keyId, subKeyId)) {

@@ -59,8 +59,8 @@ public class ChannelMapper extends AbstractMapperKeyId<Channel, ChannelEntity> {
 	}
 
 	@Override
-	protected Channel createApiObject() {
-		return new Channel();
+	protected Channel createApiObject(final String id) {
+		return new Channel(id);
 	}
 
 	@Override

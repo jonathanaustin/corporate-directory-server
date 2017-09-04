@@ -6,7 +6,7 @@ import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.PositionLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -16,10 +16,10 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class PositionMapper extends AbstractMapperVersionTree<Position, PositionLinks, PositionEntity> {
+public class PositionMapper extends AbstractMapperVersionTree<Position, PositionLinksEntity, PositionEntity> {
 
 	@Override
-	public void copyApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final Integer versionId) {
+	public void copyApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final Long versionId) {
 		super.copyApiToEntity(em, from, to, versionId);
 		// Type
 		String origId = MapperUtil.convertEntityIdforApi(to.getType());
@@ -30,14 +30,14 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	}
 
 	@Override
-	public void copyEntityToApi(final EntityManager em, final PositionEntity from, final Position to, final Integer versionId) {
+	public void copyEntityToApi(final EntityManager em, final PositionEntity from, final Position to, final Long versionId) {
 		super.copyEntityToApi(em, from, to, versionId);
 		to.setTypeId(MapperUtil.convertEntityIdforApi(from.getType()));
 	}
 
 	@Override
-	protected Position createApiObject() {
-		return new Position();
+	protected Position createApiObject(final String id) {
+		return new Position(id);
 	}
 
 	@Override
@@ -63,9 +63,9 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	}
 
 	@Override
-	protected void handleVersionDataApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final Integer versionId) {
-		// Get the tree version for this entity
-		PositionLinks links = to.getDataVersion(versionId);
+	protected void handleVersionDataApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final Long versionId) {
+		// Get the links version for this entity
+		PositionLinksEntity links = to.getDataVersion(versionId);
 
 		// Belongs to OU
 		String origId = MapperUtil.convertEntityIdforApi(links.getOrgUnit());
@@ -117,8 +117,8 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	}
 
 	@Override
-	protected void handleVersionDataEntityToApi(final EntityManager em, final PositionEntity from, final Position to, final Integer versionId) {
-		PositionLinks links = from.getDataVersion(versionId);
+	protected void handleVersionDataEntityToApi(final EntityManager em, final PositionEntity from, final Position to, final Long versionId) {
+		PositionLinksEntity links = from.getDataVersion(versionId);
 		to.setOuId(MapperUtil.convertEntityIdforApi(links.getOrgUnit()));
 		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(links.getContacts()));
 		to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(links.getManageOrgUnits()));

@@ -21,7 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PositionLinks")
-public class PositionLinks extends DefaultVersionableTreeObject<PositionLinks, PositionEntity> {
+public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLinksEntity, PositionEntity> {
 
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<OrgUnitEntity> manageOrgUnits;
@@ -32,10 +32,10 @@ public class PositionLinks extends DefaultVersionableTreeObject<PositionLinks, P
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<ContactEntity> contacts;
 
-	public PositionLinks() {
+	public PositionLinksEntity() {
 	}
 
-	public PositionLinks(final Integer versionId, final PositionEntity position) {
+	public PositionLinksEntity(final Long versionId, final PositionEntity position) {
 		super(versionId, position);
 	}
 

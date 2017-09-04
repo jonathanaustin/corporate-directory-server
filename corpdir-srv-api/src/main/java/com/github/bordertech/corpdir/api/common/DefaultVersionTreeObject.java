@@ -14,6 +14,13 @@ public class DefaultVersionTreeObject extends DefaultVersionObject implements Ap
 	private String parentId;
 	private List<String> subIds;
 
+	protected DefaultVersionTreeObject() {
+	}
+
+	public DefaultVersionTreeObject(final String id) {
+		super(id);
+	}
+
 	@Override
 	public String getParentId() {
 		return parentId;

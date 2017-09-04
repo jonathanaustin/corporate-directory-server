@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.PositionLinks;
+import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinks> {
+public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinksEntity> {
 
 	@ManyToOne
 	private PositionTypeEntity type;
@@ -50,8 +50,8 @@ public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinks> {
 	}
 
 	@Override
-	protected PositionLinks createDataVersion(final Integer versionId) {
-		return new PositionLinks(versionId, this);
+	protected PositionLinksEntity createDataVersion(final Long versionId) {
+		return new PositionLinksEntity(versionId, this);
 	}
 
 }

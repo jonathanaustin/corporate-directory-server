@@ -12,6 +12,13 @@ public class Location extends DefaultTreeObject {
 
 	private Address address;
 
+	protected Location() {
+	}
+
+	public Location(final String id) {
+		super(id);
+	}
+
 	/**
 	 *
 	 * @return the address

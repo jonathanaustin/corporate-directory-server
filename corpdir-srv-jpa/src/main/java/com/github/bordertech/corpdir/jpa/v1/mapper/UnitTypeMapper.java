@@ -12,8 +12,8 @@ import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 public class UnitTypeMapper extends AbstractMapperKeyId<UnitType, UnitTypeEntity> {
 
 	@Override
-	protected UnitType createApiObject() {
-		return new UnitType();
+	protected UnitType createApiObject(final String id) {
+		return new UnitType(id);
 	}
 
 	@Override

@@ -129,27 +129,27 @@ public class ContactResource implements ContactService {
 	}
 
 	@Override
-	public DataResponse<List<Contact>> search(Integer versionId, String search) {
+	public DataResponse<List<Contact>> search(Long versionId, String search) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<Contact> retrieve(Integer versionId, String keyId) {
+	public DataResponse<Contact> retrieve(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<List<Position>> getPositions(Integer versionId, String keyId) {
+	public DataResponse<List<Position>> getPositions(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<Contact> addPosition(Integer versionId, String keyId, String positionKeyId) {
+	public DataResponse<Contact> addPosition(Long versionId, String keyId, String positionKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<Contact> removePosition(Integer versionId, String keyId, String positionKeyId) {
+	public DataResponse<Contact> removePosition(Long versionId, String keyId, String positionKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 

@@ -18,6 +18,13 @@ public class Position extends DefaultVersionTreeObject implements PositionLinks 
 	private List<String> manageOuIds;
 	private List<String> contactIds;
 
+	protected Position() {
+	}
+
+	public Position(final String id) {
+		super(id);
+	}
+
 	/**
 	 *
 	 * @return the position type key

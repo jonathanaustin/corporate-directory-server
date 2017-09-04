@@ -21,7 +21,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> extends JpaService<A, P> implements BasicVersionService<A> {
+public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> extends JpaKeyIdService<A, P> implements BasicVersionService<A> {
 
 	@Override
 	public DataResponse<List<A>> search(final String search) {
@@ -34,7 +34,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	}
 
 	@Override
-	public DataResponse<List<A>> search(final Integer versionId, final String search) {
+	public DataResponse<List<A>> search(final Long versionId, final String search) {
 		EntityManager em = getEntityManager();
 		try {
 			CriteriaQuery<P> qry = handleSearchCriteria(em, search);
@@ -47,7 +47,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	}
 
 	@Override
-	public DataResponse<A> retrieve(final Integer versionId, final String keyId) {
+	public DataResponse<A> retrieve(final Long versionId, final String keyId) {
 		EntityManager em = getEntityManager();
 		try {
 			P entity = getEntity(em, keyId);
@@ -62,7 +62,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 		EntityManager em = getEntityManager();
 		try {
 			handleCreateVerify(em, apiObject);
-			Integer versionId = apiObject.getVersionId();
+			Long versionId = apiObject.getVersionId();
 			P entity = getMapper().convertApiToEntity(em, apiObject, versionId);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -80,7 +80,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 			em.getTransaction().begin();
 			P entity = getEntity(em, keyId);
 			handleUpdateVerify(em, apiObject, entity);
-			Integer versionId = apiObject.getVersionId();
+			Long versionId = apiObject.getVersionId();
 			getMapper().copyApiToEntity(em, apiObject, entity, versionId);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
@@ -127,7 +127,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	 * @param versionId the version id
 	 * @return the service response with API object
 	 */
-	protected DataResponse<A> buildResponse(final EntityManager em, final P entity, final Integer versionId) {
+	protected DataResponse<A> buildResponse(final EntityManager em, final P entity, final Long versionId) {
 		A data = getMapper().convertEntityToApi(em, entity, versionId);
 		return new DataResponse<>(data);
 	}

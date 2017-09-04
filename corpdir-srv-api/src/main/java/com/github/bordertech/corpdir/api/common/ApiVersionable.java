@@ -7,8 +7,8 @@ package com.github.bordertech.corpdir.api.common;
  */
 public interface ApiVersionable extends ApiKeyIdObject {
 
-	Integer getVersionId();
+	Long getVersionId();
 
-	void setVersionId(final Integer versionId);
+	void setVersionId(final Long versionId);
 
 }

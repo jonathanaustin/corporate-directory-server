@@ -2,16 +2,14 @@ package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
-import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
-import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link OrgUnit} and {@link OrgUnitEntity}.
+ * Map {@link ApiVersionable} and {@link PersistVersionableTree}.
  *
  * @param <A> the nested API
  * @param <U> the version data type
@@ -21,18 +19,18 @@ import javax.persistence.EntityManager;
 public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTreeable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends AbstractMapperVersion<A, U, P> {
 
 	@Override
-	public void copyApiToEntity(final EntityManager em, final A from, final P to, final Integer versionId) {
+	public void copyApiToEntity(final EntityManager em, final A from, final P to, final Long versionId) {
 		super.copyApiToEntity(em, from, to, versionId);
 		handleCopyTreeApiToEntity(em, from, to, versionId);
 	}
 
 	@Override
-	public void copyEntityToApi(final EntityManager em, final P from, final A to, final Integer versionId) {
+	public void copyEntityToApi(final EntityManager em, final P from, final A to, final Long versionId) {
 		super.copyEntityToApi(em, from, to, versionId);
 		handleCopyTreeEntityToApi(em, from, to, versionId);
 	}
 
-	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to, final Integer versionId) {
+	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to, final Long versionId) {
 
 		// Get the tree version for this entity
 		U toTree = to.getDataVersion(versionId);
@@ -83,7 +81,7 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 		}
 	}
 
-	protected void handleCopyTreeEntityToApi(final EntityManager em, final P from, final A to, final Integer versionId) {
+	protected void handleCopyTreeEntityToApi(final EntityManager em, final P from, final A to, final Long versionId) {
 		// Get the tree version for this entity
 		U fromTree = from.getDataVersion(versionId);
 		to.setParentId(MapperUtil.convertEntityIdforApi(fromTree.getParentItem()));

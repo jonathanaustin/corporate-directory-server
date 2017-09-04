@@ -21,10 +21,10 @@ public interface ContactFunctions<T extends ApiVersionable> extends Serializable
 
 	DataResponse<T> removeContact(final String keyId, final String contactKeyId);
 
-	DataResponse<List<Contact>> getContacts(final Integer versionId, final String keyId);
+	DataResponse<List<Contact>> getContacts(final Long versionId, final String keyId);
 
-	DataResponse<T> addContact(final Integer versionId, final String keyId, final String contactKeyId);
+	DataResponse<T> addContact(final Long versionId, final String keyId, final String contactKeyId);
 
-	DataResponse<T> removeContact(final Integer versionId, final String keyId, final String contactKeyId);
+	DataResponse<T> removeContact(final Long versionId, final String keyId, final String contactKeyId);
 
 }

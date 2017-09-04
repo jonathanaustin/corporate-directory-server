@@ -39,7 +39,7 @@ public class MyOrgUnitActionModel implements ActionModel<OrgUnit> {
 
 	@Override
 	public OrgUnit createInstance() {
-		return new OrgUnit();
+		return new OrgUnit(null);
 	}
 
 }

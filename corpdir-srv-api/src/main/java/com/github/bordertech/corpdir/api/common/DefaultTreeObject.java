@@ -9,10 +9,17 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultTreeObject extends DefaultObject implements ApiTreeable {
+public class DefaultTreeObject extends DefaultKeyIdObject implements ApiTreeable {
 
 	private String parentId;
 	private List<String> subIds;
+
+	protected DefaultTreeObject() {
+	}
+
+	public DefaultTreeObject(final String id) {
+		super(id);
+	}
 
 	@Override
 	public String getParentId() {

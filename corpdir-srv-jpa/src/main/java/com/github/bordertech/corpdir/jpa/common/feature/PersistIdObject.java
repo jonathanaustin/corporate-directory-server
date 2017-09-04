@@ -3,11 +3,17 @@ package com.github.bordertech.corpdir.jpa.common.feature;
 import java.sql.Timestamp;
 
 /**
- * Persistent Keyed object required fields.
+ * Persistent object with an ID.
  *
  * @author jonathan
  */
-public interface PersistTimestamp extends PersistObject {
+public interface PersistIdObject extends PersistObject {
+
+	Long getId();
+
+	String getDescription();
+
+	void setDescription(final String description);
 
 	Timestamp getTimestamp();
 

@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.common;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import com.github.bordertech.corpdir.jpa.common.feature.VersionIdKey;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.sql.Timestamp;
 import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
@@ -14,12 +15,20 @@ import javax.persistence.Version;
  * Default versionable data holder.
  *
  * @author jonathan
+ * @param <U> the versionable data type
+ * @param <T> the version data owner type
  */
 @MappedSuperclass
 public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T extends PersistVersionData<U>> implements PersistVersionable<U, T> {
 
 	@EmbeddedId
 	private VersionIdKey versionIdKey;
+
+	private String description;
+
+	@ManyToOne
+	@MapsId(value = "versionId")
+	private VersionCtrlEntity versionCtrl;
 
 	@ManyToOne
 	@MapsId(value = "id")
@@ -39,7 +48,7 @@ public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T exte
 	 * @param versionId the tree version id
 	 * @param item the owner item id
 	 */
-	public DefaultVersionableObject(final Integer versionId, final T item) {
+	public DefaultVersionableObject(final Long versionId, final T item) {
 		this.versionIdKey = new VersionIdKey(versionId, item.getId());
 		this.item = item;
 	}
@@ -55,13 +64,28 @@ public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T exte
 	}
 
 	@Override
-	public Integer getVersionId() {
+	public Long getVersionId() {
 		return versionIdKey == null ? null : versionIdKey.getVersionId();
+	}
+
+	@Override
+	public VersionCtrlEntity getVersionCtrl() {
+		return versionCtrl;
 	}
 
 	@Override
 	public VersionIdKey getVersionIdKey() {
 		return versionIdKey;
+	}
+
+	@Override
+	public String getDescription() {
+		return description;
+	}
+
+	@Override
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 	@Override

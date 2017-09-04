@@ -131,47 +131,47 @@ public class OrgUnitResource implements OrgUnitService {
 	}
 
 	@Override
-	public DataResponse<Position> getManagerPosition(Integer versionId, String keyId) {
+	public DataResponse<Position> getManagerPosition(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<List<OrgUnit>> getSubs(Integer versionId, String keyId) {
+	public DataResponse<List<OrgUnit>> getSubs(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<OrgUnit> addSub(Integer versionId, String keyId, String subKeyId) {
+	public DataResponse<OrgUnit> addSub(Long versionId, String keyId, String subKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<OrgUnit> removeSub(Integer versionId, String keyId, String subKeyId) {
+	public DataResponse<OrgUnit> removeSub(Long versionId, String keyId, String subKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<List<OrgUnit>> search(Integer versionId, String search) {
+	public DataResponse<List<OrgUnit>> search(Long versionId, String search) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<OrgUnit> retrieve(Integer versionId, String keyId) {
+	public DataResponse<OrgUnit> retrieve(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<List<Position>> getPositions(Integer versionId, String keyId) {
+	public DataResponse<List<Position>> getPositions(Long versionId, String keyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<OrgUnit> addPosition(Integer versionId, String keyId, String positionKeyId) {
+	public DataResponse<OrgUnit> addPosition(Long versionId, String keyId, String positionKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
-	public DataResponse<OrgUnit> removePosition(Integer versionId, String keyId, String positionKeyId) {
+	public DataResponse<OrgUnit> removePosition(Long versionId, String keyId, String positionKeyId) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 

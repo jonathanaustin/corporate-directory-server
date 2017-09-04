@@ -12,22 +12,22 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class VersionIdKey implements Serializable {
 
-	private Integer versionId;
+	private Long versionId;
 	private Long id;
 
 	public VersionIdKey() {
 	}
 
-	public VersionIdKey(final Integer versionId, final Long id) {
+	public VersionIdKey(final Long versionId, final Long id) {
 		this.versionId = versionId;
 		this.id = id;
 	}
 
-	public Integer getVersionId() {
+	public Long getVersionId() {
 		return versionId;
 	}
 
-	public void setVersionId(final Integer versionId) {
+	public void setVersionId(final Long versionId) {
 		this.versionId = versionId;
 	}
 

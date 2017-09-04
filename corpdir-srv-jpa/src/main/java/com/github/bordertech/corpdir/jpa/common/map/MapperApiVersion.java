@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
-import com.github.bordertech.corpdir.api.common.ApiObject;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
@@ -9,7 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link ApiObject} and {@link PersistentKeyIdObject}.
+ * Map {@link ApiVersionable} and {@link PersistVersionable}.
  *
  * @author jonathan
  * @param <A> the API object
@@ -25,7 +24,7 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param versionId the versionId to map
 	 * @return the entity item
 	 */
-	P convertApiToEntity(final EntityManager em, final A from, final Integer versionId);
+	P convertApiToEntity(final EntityManager em, final A from, final Long versionId);
 
 	/**
 	 *
@@ -34,7 +33,7 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param to the entity
 	 * @param versionId the versionId to map
 	 */
-	void copyApiToEntity(final EntityManager em, final A from, final P to, final Integer versionId);
+	void copyApiToEntity(final EntityManager em, final A from, final P to, final Long versionId);
 
 	/**
 	 * @param em the entity manager
@@ -42,7 +41,7 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param versionId the versionId to map
 	 * @return the API item
 	 */
-	A convertEntityToApi(final EntityManager em, final P from, final Integer versionId);
+	A convertEntityToApi(final EntityManager em, final P from, final Long versionId);
 
 	/**
 	 * @param em the entity manager
@@ -50,7 +49,7 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param to the API item
 	 * @param versionId the versionId to map
 	 */
-	void copyEntityToApi(final EntityManager em, final P from, final A to, final Integer versionId);
+	void copyEntityToApi(final EntityManager em, final P from, final A to, final Long versionId);
 
 	/**
 	 *
@@ -59,7 +58,7 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param versionId the versionId to map
 	 * @return the list of converted API items
 	 */
-	List<A> convertEntitiesToApis(final EntityManager em, final Collection<P> rows, final Integer versionId);
+	List<A> convertEntitiesToApis(final EntityManager em, final Collection<P> rows, final Long versionId);
 
 	/**
 	 *
@@ -68,6 +67,6 @@ public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVer
 	 * @param versionId the versionId to map
 	 * @return the list of converted Entity items
 	 */
-	List<P> convertApisToEntities(final EntityManager em, final Collection<A> rows, final Integer versionId);
+	List<P> convertApisToEntities(final EntityManager em, final Collection<A> rows, final Long versionId);
 
 }

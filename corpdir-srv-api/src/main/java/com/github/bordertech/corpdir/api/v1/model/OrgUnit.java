@@ -17,6 +17,13 @@ public class OrgUnit extends DefaultVersionTreeObject implements OrgUnitLinks {
 	private String managerPosId;
 	private List<String> positionIds;
 
+	protected OrgUnit() {
+	}
+
+	public OrgUnit(final String id) {
+		super(id);
+	}
+
 	/**
 	 *
 	 * @return the organization type key

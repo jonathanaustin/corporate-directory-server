@@ -19,7 +19,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnitLinks")
-public class OrgUnitLinks extends DefaultVersionableTreeObject<OrgUnitLinks, OrgUnitEntity> {
+public class OrgUnitLinksEntity extends DefaultVersionableTreeObject<OrgUnitLinksEntity, OrgUnitEntity> {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private PositionEntity managerPosition;
@@ -27,10 +27,10 @@ public class OrgUnitLinks extends DefaultVersionableTreeObject<OrgUnitLinks, Org
 	@OneToMany(fetch = FetchType.LAZY)
 	private Set<PositionEntity> positions;
 
-	public OrgUnitLinks() {
+	public OrgUnitLinksEntity() {
 	}
 
-	public OrgUnitLinks(final Integer versionId, final OrgUnitEntity orgUnit) {
+	public OrgUnitLinksEntity(final Long versionId, final OrgUnitEntity orgUnit) {
 		super(versionId, orgUnit);
 	}
 
