@@ -1,36 +1,22 @@
 package com.github.bordertech.corpdir.api.common;
 
-import java.sql.Timestamp;
-
 /**
  * API Keyed object common fields.
  *
  * @author jonathan
  */
-public interface ApiKeyIdObject extends ApiObject {
+public interface ApiKeyIdObject extends ApiIdObject {
 
-	public String getId();
+	String getBusinessKey();
 
-	public void setId(final String id);
+	void setBusinessKey(final String businessKey);
 
-	public String getBusinessKey();
+	boolean isCustom();
 
-	public void setBusinessKey(final String businessKey);
+	void setCustom(final boolean custom);
 
-	public String getDescription();
+	boolean isActive();
 
-	public void setDescription(final String description);
-
-	public Timestamp getVersion();
-
-	public void setVersion(final Timestamp version);
-
-	public boolean isCustom();
-
-	public void setCustom(final boolean custom);
-
-	public boolean isActive();
-
-	public void setActive(final boolean active);
+	void setActive(final boolean active);
 
 }

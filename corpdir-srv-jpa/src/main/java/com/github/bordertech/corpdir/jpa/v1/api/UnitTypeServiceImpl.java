@@ -4,7 +4,8 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaKeyIdService;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -16,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
 
 /**
  * Organization unit type JPA service implementation.
@@ -25,7 +25,7 @@ import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
  * @since 1.0.0
  */
 @Singleton
-public class UnitTypeServiceImpl extends AbstractJpaKeyIdService<UnitType, UnitTypeEntity> implements UnitTypeService {
+public class UnitTypeServiceImpl extends JpaBasicService<UnitType, UnitTypeEntity> implements UnitTypeService {
 
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
 	private static final UnitTypeMapper UNITTYPE_MAPPER = new UnitTypeMapper();
@@ -46,7 +46,7 @@ public class UnitTypeServiceImpl extends AbstractJpaKeyIdService<UnitType, UnitT
 			qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
 
 			List<OrgUnitEntity> rows = em.createQuery(qry).getResultList();
-			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows);
+			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, rows, getCurrentVersionId());
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -59,7 +59,7 @@ public class UnitTypeServiceImpl extends AbstractJpaKeyIdService<UnitType, UnitT
 	}
 
 	@Override
-	protected MapperApiEntity<UnitType, UnitTypeEntity> getMapper() {
+	protected MapperApi<UnitType, UnitTypeEntity> getMapper() {
 		return UNITTYPE_MAPPER;
 	}
 

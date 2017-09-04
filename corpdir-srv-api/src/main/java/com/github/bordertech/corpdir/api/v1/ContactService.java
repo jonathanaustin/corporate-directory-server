@@ -1,11 +1,10 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.common.BasicService;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicVersionService;
+import com.github.bordertech.corpdir.api.v1.func.PositionFunctions;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
-import com.github.bordertech.corpdir.api.v1.model.Position;
-import java.util.List;
 
 /**
  * Contact Service Interface.
@@ -13,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ContactService extends BasicService<Contact> {
+public interface ContactService extends BasicVersionService<Contact>, PositionFunctions<Contact> {
 
 	DataResponse<byte[]> getImage(final String keyId);
 
@@ -26,11 +25,5 @@ public interface ContactService extends BasicService<Contact> {
 	BasicResponse deleteThumbnail(final String keyId);
 
 	BasicResponse setThumbnail(final String keyId, final byte[] image);
-
-	DataResponse<List<Position>> getPositions(final String keyId);
-
-	DataResponse<Contact> addPosition(final String keyId, final String positionKeyId);
-
-	DataResponse<Contact> removePosition(final String keyId, final String positionKeyId);
 
 }

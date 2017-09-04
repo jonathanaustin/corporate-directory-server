@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.util;
 
 import com.github.bordertech.corpdir.api.exception.ServiceException;
-import com.github.bordertech.corpdir.jpa.common.PersistentKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -39,7 +39,7 @@ public final class MapperUtil {
 	 * @param entity the entity
 	 * @return the API id format
 	 */
-	public static String convertEntityIdforApi(final PersistentKeyIdObject entity) {
+	public static String convertEntityIdforApi(final PersistKeyIdObject entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -90,17 +90,17 @@ public final class MapperUtil {
 	}
 
 	/**
-	 * Convert {@link Collection} of {@link PersistentKeyIdObject} to {@link List} of {@link String}.
+	 * Convert {@link Collection} of {@link PersistKeyIdObject} to {@link List} of {@link String}.
 	 *
 	 * @param rows the list of entity items
 	 * @return the list of converted API business keys
 	 */
-	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistentKeyIdObject> rows) {
+	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistKeyIdObject> rows) {
 		if (rows == null || rows.isEmpty()) {
 			return Collections.EMPTY_LIST;
 		}
 		List<String> items = new ArrayList<>();
-		for (PersistentKeyIdObject row : rows) {
+		for (PersistKeyIdObject row : rows) {
 			if (row != null) {
 				items.add(convertEntityIdforApi(row));
 			}
@@ -147,7 +147,7 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistentKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+	public static <T extends PersistKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
 		if (keyId == null || keyId.isEmpty()) {
 			return null;
 		}
@@ -166,7 +166,7 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistentKeyIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
+	public static <T extends PersistKeyIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
 		if (id == null) {
 			return null;
 		}
@@ -181,7 +181,7 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistentKeyIdObject> T getEntityByBusinessKey(final EntityManager em, final String businessKey, final Class<T> clazz) {
+	public static <T extends PersistKeyIdObject> T getEntityByBusinessKey(final EntityManager em, final String businessKey, final Class<T> clazz) {
 		if (businessKey == null || businessKey.isEmpty()) {
 			return null;
 		}
@@ -207,7 +207,7 @@ public final class MapperUtil {
 	 * @param entityClass the entity class
 	 * @param <T> the entity type
 	 */
-	public static <T extends PersistentKeyIdObject> void checkBusinessKey(final EntityManager em, final String key, final Class<T> entityClass) {
+	public static <T extends PersistKeyIdObject> void checkBusinessKey(final EntityManager em, final String key, final Class<T> entityClass) {
 		// Check business key
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("Business Key must be provided.");

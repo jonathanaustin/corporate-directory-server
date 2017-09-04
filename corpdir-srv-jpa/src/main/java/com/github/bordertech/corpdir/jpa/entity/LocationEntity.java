@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentTreeObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdTreeObject;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Location")
-public class LocationEntity extends AbstractPersistentTreeObject<LocationEntity> {
+public class LocationEntity extends DefaultKeyIdTreeObject<LocationEntity> {
 
 	@Embedded
 	private AddressEntity address;

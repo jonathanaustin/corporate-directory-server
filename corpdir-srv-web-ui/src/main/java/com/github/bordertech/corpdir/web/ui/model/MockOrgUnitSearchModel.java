@@ -26,10 +26,9 @@ public class MockOrgUnitSearchModel implements ServiceModel<String, List<OrgUnit
 		}
 		List<OrgUnit> items = new ArrayList<>();
 		for (int i = 1; i < 5; i++) {
-			OrgUnit item = new OrgUnit();
+			OrgUnit item = new OrgUnit("A" + i);
 			item.setBusinessKey("A" + i);
 			item.setDescription("DESC" + i);
-			item.setId("A" + i);
 			items.add(item);
 		}
 		return items;
