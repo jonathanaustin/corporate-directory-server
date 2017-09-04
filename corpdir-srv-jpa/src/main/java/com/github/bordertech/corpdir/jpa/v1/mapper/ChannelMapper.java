@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperKeyId;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyId;
 import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import javax.persistence.EntityManager;
 
@@ -59,8 +59,8 @@ public class ChannelMapper extends AbstractMapperKeyId<Channel, ChannelEntity> {
 	}
 
 	@Override
-	protected Channel createApiObject() {
-		return new Channel();
+	protected Channel createApiObject(final String id) {
+		return new Channel(id);
 	}
 
 	@Override

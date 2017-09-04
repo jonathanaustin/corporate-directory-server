@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdObject;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -14,7 +14,7 @@ import javax.persistence.Table;
  */
 @Entity()
 @Table(name = "Channel")
-public class ChannelEntity extends AbstractPersistentKeyIdObject {
+public class ChannelEntity extends DefaultKeyIdObject {
 
 	@Enumerated(EnumType.STRING)
 	private ChannelTypeEnum type;

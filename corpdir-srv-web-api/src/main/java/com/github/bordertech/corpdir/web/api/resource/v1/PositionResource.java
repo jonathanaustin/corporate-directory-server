@@ -131,4 +131,49 @@ public class PositionResource implements PositionService {
 		return impl.getManages(keyId);
 	}
 
+	@Override
+	public DataResponse<List<OrgUnit>> getManages(Long versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<Position>> getSubs(Long versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<Position> addSub(Long versionId, String keyId, String subKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<Position> removeSub(Long versionId, String keyId, String subKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<Position>> search(Long versionId, String search) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<Position> retrieve(Long versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<List<Contact>> getContacts(Long versionId, String keyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<Position> addContact(Long versionId, String keyId, String contactKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public DataResponse<Position> removeContact(Long versionId, String keyId, String contactKeyId) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }
