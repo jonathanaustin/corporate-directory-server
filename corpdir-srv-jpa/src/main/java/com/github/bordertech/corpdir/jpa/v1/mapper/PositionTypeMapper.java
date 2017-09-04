@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperKeyId;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyId;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
 import javax.persistence.EntityManager;
 
@@ -25,8 +25,8 @@ public class PositionTypeMapper extends AbstractMapperKeyId<PositionType, Positi
 	}
 
 	@Override
-	protected PositionType createApiObject() {
-		return new PositionType();
+	protected PositionType createApiObject(final String id) {
+		return new PositionType(id);
 	}
 
 	@Override

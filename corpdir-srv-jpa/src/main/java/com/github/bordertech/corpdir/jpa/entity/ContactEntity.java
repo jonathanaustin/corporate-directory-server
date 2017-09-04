@@ -1,13 +1,13 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.AbstractPersistentKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
+import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,10 +21,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Contact")
-public class ContactEntity extends AbstractPersistentKeyIdObject {
-
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Set<PositionEntity> positions;
+public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ChannelEntity> channels;
@@ -170,33 +167,9 @@ public class ContactEntity extends AbstractPersistentKeyIdObject {
 		this.image = image;
 	}
 
-	/**
-	 *
-	 * @return the positions
-	 */
-	public Set<PositionEntity> getPositions() {
-		return positions;
-	}
-
-	/**
-	 * @param position the position to add
-	 */
-	public void addPosition(final PositionEntity position) {
-		if (positions == null) {
-			positions = new HashSet<>();
-		}
-		positions.add(position);
-		position.addContact(this);
-	}
-
-	/**
-	 * @param position the position to remove
-	 */
-	public void removePosition(final PositionEntity position) {
-		if (positions != null) {
-			positions.remove(position);
-		}
-		position.removeContact(this);
+	@Override
+	protected ContactLinksEntity createDataVersion(final Long versionId) {
+		return new ContactLinksEntity(versionId, this);
 	}
 
 }

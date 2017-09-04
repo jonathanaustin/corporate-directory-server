@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.api.v1.model;
 
-import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
+import com.github.bordertech.corpdir.api.common.DefaultKeyIdObject;
 
 /**
  * Position type.
@@ -8,9 +8,16 @@ import com.github.bordertech.corpdir.api.common.AbstractApiKeyIdObject;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PositionType extends AbstractApiKeyIdObject {
+public class PositionType extends DefaultKeyIdObject {
 
 	private int level;
+
+	protected PositionType() {
+	}
+
+	public PositionType(final String id) {
+		super(id);
+	}
 
 	/**
 	 *

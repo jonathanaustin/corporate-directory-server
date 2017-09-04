@@ -5,16 +5,18 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.jpa.common.AbstractJpaTreeService;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
 
 /**
  * Organization unit JPA service implementation.
@@ -23,17 +25,51 @@ import com.github.bordertech.corpdir.jpa.common.MapperApiEntity;
  * @since 1.0.0
  */
 @Singleton
-public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitEntity> implements OrgUnitService {
+public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgUnitLinksEntity, OrgUnitEntity> implements OrgUnitService {
 
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
 
 	@Override
 	public DataResponse<List<Position>> getPositions(final String keyId) {
+		return getPositions(getCurrentVersionId(), keyId);
+	}
+
+	@Override
+	public DataResponse<OrgUnit> addPosition(final String keyId, final String positionKeyId) {
+		return addPosition(getCurrentVersionId(), keyId, positionKeyId);
+	}
+
+	@Override
+	public DataResponse<OrgUnit> removePosition(final String keyId, final String positionKeyId) {
+		return removePosition(getCurrentVersionId(), keyId, positionKeyId);
+	}
+
+	@Override
+	public DataResponse<Position> getManagerPosition(final String keyId) {
+		return getManagerPosition(getCurrentVersionId(), keyId);
+	}
+
+	@Override
+	public DataResponse<Position> getManagerPosition(final Long versionId, final String keyId) {
 		EntityManager em = getEntityManager();
 		try {
 			OrgUnitEntity entity = getEntity(em, keyId);
-			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, entity.getPositions());
+			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
+			Position data = POSITION_MAPPER.convertEntityToApi(em, links.getManagerPosition(), versionId);
+			return new DataResponse<>(data);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public DataResponse<List<Position>> getPositions(final Long versionId, final String keyId) {
+		EntityManager em = getEntityManager();
+		try {
+			OrgUnitEntity entity = getEntity(em, keyId);
+			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
+			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -41,7 +77,7 @@ public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitE
 	}
 
 	@Override
-	public DataResponse<OrgUnit> addPosition(final String keyId, final String positionKeyId) {
+	public DataResponse<OrgUnit> addPosition(final Long versionId, final String keyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -49,21 +85,24 @@ public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitE
 			OrgUnitEntity orgUnit = getEntity(em, keyId);
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
+			PositionLinksEntity posLinks = position.getDataVersion(versionId);
 			// Remove it from the old org unit (if had one)
-			if (position.getOrgUnit() != null) {
-				position.getOrgUnit().removePosition(position);
+			if (posLinks.getOrgUnit() != null) {
+				OrgUnitLinksEntity posOuLinks = posLinks.getOrgUnit().getDataVersion(versionId);
+				posOuLinks.removePosition(position);
 			}
 			// Add the position to the org unit
-			orgUnit.addPosition(position);
+			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
+			links.addPosition(position);
 			em.getTransaction().commit();
-			return buildResponse(em, orgUnit);
+			return buildResponse(em, orgUnit, versionId);
 		} finally {
 			em.close();
 		}
 	}
 
 	@Override
-	public DataResponse<OrgUnit> removePosition(final String keyId, final String positionKeyId) {
+	public DataResponse<OrgUnit> removePosition(final Long versionId, final String keyId, final String positionKeyId) {
 		EntityManager em = getEntityManager();
 		try {
 			em.getTransaction().begin();
@@ -72,21 +111,10 @@ public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitE
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
 			// Remove the position from the org unit
-			orgUnit.removePosition(position);
+			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
+			links.removePosition(position);
 			em.getTransaction().commit();
-			return buildResponse(em, orgUnit);
-		} finally {
-			em.close();
-		}
-	}
-
-	@Override
-	public DataResponse<Position> getManagerPosition(final String keyId) {
-		EntityManager em = getEntityManager();
-		try {
-			OrgUnitEntity entity = getEntity(em, keyId);
-			Position data = POSITION_MAPPER.convertEntityToApi(em, entity.getManagerPosition());
-			return new DataResponse<>(data);
+			return buildResponse(em, orgUnit, versionId);
 		} finally {
 			em.close();
 		}
@@ -111,7 +139,7 @@ public class OrgUnitServiceImpl extends AbstractJpaTreeService<OrgUnit, OrgUnitE
 	}
 
 	@Override
-	protected MapperApiEntity<OrgUnit, OrgUnitEntity> getMapper() {
+	protected MapperApiVersion<OrgUnit, OrgUnitLinksEntity, OrgUnitEntity> getMapper() {
 		return ORGUNIT_MAPPER;
 	}
 

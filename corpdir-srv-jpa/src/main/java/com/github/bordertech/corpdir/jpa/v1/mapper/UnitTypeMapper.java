@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.v1.mapper;
 
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.jpa.common.AbstractMapperKeyId;
+import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperKeyId;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 
 /**
@@ -12,8 +12,8 @@ import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 public class UnitTypeMapper extends AbstractMapperKeyId<UnitType, UnitTypeEntity> {
 
 	@Override
-	protected UnitType createApiObject() {
-		return new UnitType();
+	protected UnitType createApiObject(final String id) {
+		return new UnitType(id);
 	}
 
 	@Override
