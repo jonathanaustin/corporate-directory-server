@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
@@ -80,7 +81,7 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 		super.initViewContent(request);
 		// Check entity is loaded
 		if (!isLoaded()) {
-			getViewMessages().error("No entity has been loaded.");
+			dispatchMessage(MsgEventType.ERROR, "No entity has been loaded.");
 			setContentVisible(false);
 			return;
 		}

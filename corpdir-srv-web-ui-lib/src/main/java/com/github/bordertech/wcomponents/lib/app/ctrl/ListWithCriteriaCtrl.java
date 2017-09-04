@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -162,13 +163,13 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	protected void handleSearchFailedEvent(final Exception excp) {
 		getPollingView().setContentVisible(false);
-		getViewMessages().error(excp.getMessage());
+		dispatchMessage(MsgEventType.ERROR, excp.getMessage());
 	}
 
 	protected void handleSearchCompleteEvent(final List<T> result) {
 		getPollingView().setContentVisible(false);
 		if (result == null || result.isEmpty()) {
-			getViewMessages().info("No records found");
+			dispatchMessage(MsgEventType.INFO, "No records found");
 		} else {
 			ListView<T> listView = getListView();
 			listView.setViewBean(result);

@@ -4,18 +4,19 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEvent;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
-import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,34 +81,26 @@ public abstract class AbstractView extends WTemplate implements View {
 	}
 
 	@Override
-	public final WMessages getViewMessages() {
-		return WMessages.getInstance(this);
-	}
-
-	@Override
-	public void resetViewMessages() {
-		getViewMessages().reset();
-	}
-
-	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		// Do Nothing
 	}
 
 	@Override
 	public boolean validateView() {
-		WValidationErrors errorsBox = getViewMessages().getValidationErrors();
-		errorsBox.clearErrors();
 
+		// Reset Messages
+		dispatchMessageReset();
+
+		// Validate content
 		List<Diagnostic> diags = new ArrayList<>();
 		WComponent content = getContent();
 		content.validate(diags);
 		content.showWarningIndicators(diags);
 		content.showErrorIndicators(diags);
 
+		// Check if contains errors
 		if (containsError(diags)) {
-			errorsBox.setErrors(diags);
-			errorsBox.setFocussed();
+			dispatchValidationMessages(diags);
 			return false;
 		} else {
 			return true;
@@ -157,6 +150,30 @@ public abstract class AbstractView extends WTemplate implements View {
 		getDispatcher().dispatch(event);
 	}
 
+	protected void dispatchMessageReset() {
+		dispatchViewEvent(ActionEventType.RESET_MSGS);
+	}
+
+	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
+		dispatchMessageEvent(new MsgEvent(diags));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final String text) {
+		dispatchMessageEvent(new MsgEvent(type, text));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
+		dispatchMessageEvent(new MsgEvent(type, texts, true));
+	}
+
+	@Override
+	public void dispatchMessageEvent(final MsgEvent event) {
+		ComboView combo = WebUtilities.getClosestOfClass(ComboView.class, this);
+		if (combo != null) {
+			combo.handleMessageEvent(event);
+		}
+	}
+
 	/**
 	 * Helper method to add target to an Ajax Control.
 	 *
@@ -176,7 +193,6 @@ public abstract class AbstractView extends WTemplate implements View {
 		if (combo != null) {
 			combo.configAjax(this);
 		}
-		addEventTarget(getViewMessages());
 	}
 
 	protected ComboView findParentCombo() {

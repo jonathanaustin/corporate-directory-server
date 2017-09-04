@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
@@ -40,14 +39,10 @@ public interface Controller extends WComponent {
 	void resetViews();
 
 	/**
+	 * Dispatch a message event from this controller.
 	 *
-	 * @return the messages for this controller
+	 * @param event the message event
 	 */
-	WMessages getViewMessages();
-
-	/**
-	 * Reset the view messages.
-	 */
-	void resetViewMessages();
+	void dispatchMessageEvent(final MsgEvent event);
 
 }

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.EntityView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -143,9 +144,9 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 			doDelete(bean);
 			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			resetViews();
-			getViewMessages().success("Delete OK.");
+			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
-			getViewMessages().error("Delete failed. " + e.getMessage());
+			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.DELETE_ERROR, bean, e);
 		}
 	}
@@ -160,9 +161,9 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		try {
 			bean = doRefresh(bean);
 			dispatchCtrlEvent(ActionEventType.REFRESH_OK, bean);
-			getViewMessages().success("Refreshed OK.");
+			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
-			getViewMessages().error("Refresh failed. " + e.getMessage());
+			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.REFRESH_ERROR, bean, e);
 		}
 	}
@@ -187,10 +188,10 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 				bean = doUpdate(bean);
 				dispatchCtrlEvent(ActionEventType.UPDATE_OK, bean);
 			}
-			getViewMessages().success("Saved OK.");
+			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
 			doLoad(bean, EntityMode.VIEW);
 		} catch (Exception e) {
-			getViewMessages().error("Save failed. " + e.getMessage());
+			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
 				dispatchCtrlEvent(ActionEventType.CREATE_ERROR, e);
 			} else {
@@ -206,7 +207,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 			doLoad(bean, EntityMode.ADD);
 			doEntityModeChange(EntityMode.ADD);
 		} catch (Exception e) {
-			getViewMessages().error("ADD failed. " + e.getMessage());
+			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
 		}
 	}

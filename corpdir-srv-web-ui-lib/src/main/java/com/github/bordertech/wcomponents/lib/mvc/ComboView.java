@@ -46,4 +46,11 @@ public interface ComboView extends View {
 	 * @param blocking true if block searching upwards for AJAX or Models
 	 */
 	void setBlocking(final boolean blocking);
+
+	/**
+	 * Check if this view will handle the message event.
+	 *
+	 * @param event the message event
+	 */
+	void handleMessageEvent(final MsgEvent event);
 }

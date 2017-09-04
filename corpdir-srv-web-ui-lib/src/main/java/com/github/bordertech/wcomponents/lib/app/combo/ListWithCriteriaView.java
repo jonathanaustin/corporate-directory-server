@@ -1,26 +1,25 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
-import com.github.bordertech.wcomponents.MessageContainer;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.ViewMessages;
 import java.util.List;
 
 /**
  *
  * @author jonathan
  */
-public class ListWithCriteriaView<S, T> extends DefaultComboView implements MessageContainer, ListView<T> {
+public class ListWithCriteriaView<S, T> extends DefaultComboView implements ListView<T> {
 
-	private final WMessages messages = new ViewMessages();
+	private final MessageCtrl messageCtrl;
 
 	private final ToolbarView toolbarView;
 
@@ -30,27 +29,29 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements Mess
 
 	private final DefaultPollingView<S, List<T>> pollingView;
 
-	private final ListWithCriteriaCtrl<S, T> ctrl;
-
 	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
 		super("wclib/hbs/layout/combo-list-crit.hbs", dispatcher, qualifier);
 
+		// Messages (default to show all)
+		messageCtrl = new MessageCtrl(dispatcher, qualifier);
+		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
+
+		// Views
 		this.toolbarView = new DefaultToolbarView(dispatcher, qualifier);
 		this.criteriaView = criteriaView;
 		this.listView = listView;
 		this.pollingView = new DefaultPollingView<>(dispatcher, qualifier);
 
-		// Create controller
-		this.ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
-
-		// Set views on Controller
+		// Ctrl
+		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
 
 		// Add views to holder
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-messages", messages);
+		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
+		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
 		content.addTaggedComponent("vw-crit", criteriaView);
@@ -59,6 +60,10 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements Mess
 
 		// Default visibility
 		listView.setContentVisible(false);
+	}
+
+	public final MessageCtrl getMessageCtrl() {
+		return messageCtrl;
 	}
 
 	public CriteriaView<S> getCriteriaView() {
@@ -91,11 +96,6 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements Mess
 	@Override
 	public boolean validateView() {
 		return listView.validateView();
-	}
-
-	@Override
-	public WMessages getMessages() {
-		return messages;
 	}
 
 	@Override

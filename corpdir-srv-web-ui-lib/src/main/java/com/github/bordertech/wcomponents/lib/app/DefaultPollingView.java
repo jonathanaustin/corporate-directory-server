@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -37,6 +38,11 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 		protected void handleSuccessfulResult(final T result) {
 			super.handleSuccessfulResult(result);
 			doDispatchPollingEvent(PollingEventType.COMPLETE, result, null);
+		}
+
+		@Override
+		protected void handleErrorMessage(final List<String> msgs) {
+			dispatchMessage(MsgEventType.ERROR, msgs);
 		}
 	};
 
