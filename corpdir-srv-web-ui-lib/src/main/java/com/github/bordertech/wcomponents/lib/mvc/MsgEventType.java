@@ -11,5 +11,6 @@ public enum MsgEventType {
 	WARN,
 	ERROR,
 	INFO,
-	VALIDATION
+	VALIDATION,
+	RESET
 }

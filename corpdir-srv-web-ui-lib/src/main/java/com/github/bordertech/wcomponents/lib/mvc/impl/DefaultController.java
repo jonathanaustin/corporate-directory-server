@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
@@ -156,7 +155,7 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchCtrlEvent(ActionEventType.RESET_MSGS);
+		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {

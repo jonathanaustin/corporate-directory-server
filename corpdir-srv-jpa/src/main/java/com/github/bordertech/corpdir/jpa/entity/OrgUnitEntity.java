@@ -50,8 +50,13 @@ public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinksEntity>
 	}
 
 	@Override
-	protected OrgUnitLinksEntity createDataVersion(final Long versionId) {
-		return new OrgUnitLinksEntity(versionId, this);
+	public OrgUnitLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
+		OrgUnitLinksEntity links = getDataVersion(ctrl.getId());
+		if (links == null) {
+			links = new OrgUnitLinksEntity(ctrl, this);
+			addDataVersion(links);
+		}
+		return links;
 	}
 
 }

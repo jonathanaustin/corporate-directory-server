@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.entity.links;
 import com.github.bordertech.corpdir.jpa.common.DefaultVersionableObject;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -26,8 +27,8 @@ public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEnt
 	public ContactLinksEntity() {
 	}
 
-	public ContactLinksEntity(final Long versionId, final ContactEntity contact) {
-		super(versionId, contact);
+	public ContactLinksEntity(final VersionCtrlEntity versionCtrl, final ContactEntity contact) {
+		super(versionCtrl, contact);
 	}
 
 	/**

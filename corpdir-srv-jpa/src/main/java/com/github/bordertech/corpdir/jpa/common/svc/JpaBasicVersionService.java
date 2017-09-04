@@ -61,8 +61,12 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	public DataResponse<A> create(final A apiObject) {
 		EntityManager em = getEntityManager();
 		try {
-			handleCreateVerify(em, apiObject);
 			Long versionId = apiObject.getVersionId();
+			if (versionId == null) {
+				versionId = getCurrentVersionId();
+				apiObject.setVersionId(versionId);
+			}
+			handleCreateVerify(em, apiObject);
 			P entity = getMapper().convertApiToEntity(em, apiObject, versionId);
 			em.getTransaction().begin();
 			em.persist(entity);

@@ -4,6 +4,7 @@ import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -21,7 +22,7 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to, final Long versionId) {
 		super.copyApiToEntity(em, from, to, versionId);
-		handleCopyTreeApiToEntity(em, from, to, versionId);
+		handleCopyTreeApiToEntity(em, from, to, getVersionCtrl(em, versionId));
 	}
 
 	@Override
@@ -30,10 +31,11 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 		handleCopyTreeEntityToApi(em, from, to, versionId);
 	}
 
-	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to, final Long versionId) {
+	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to, final VersionCtrlEntity ctrl) {
 
 		// Get the tree version for this entity
-		U toTree = to.getDataVersion(versionId);
+		Long versionId = ctrl.getId();
+		U toTree = to.getOrCreateDataVersion(ctrl);
 
 		// Parent Entity
 		String origId = MapperUtil.convertEntityIdforApi(toTree.getParentItem());
@@ -45,7 +47,9 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 				P ent = getEntity(em, origId);
 				if (ent != null) {
 					U entTree = ent.getDataVersion(versionId);
-					entTree.removeChildItem(to);
+					if (entTree != null) {
+						entTree.removeChildItem(to);
+					}
 				}
 			}
 			// Add to New Parent
@@ -54,7 +58,7 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 				if (ent == null) {
 					throw new IllegalStateException("New Parent [" + newId + "] could not be found.");
 				}
-				U entTree = ent.getDataVersion(versionId);
+				U entTree = ent.getOrCreateDataVersion(ctrl);
 				entTree.addChildItem(to);
 			}
 		}
@@ -84,8 +88,10 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 	protected void handleCopyTreeEntityToApi(final EntityManager em, final P from, final A to, final Long versionId) {
 		// Get the tree version for this entity
 		U fromTree = from.getDataVersion(versionId);
-		to.setParentId(MapperUtil.convertEntityIdforApi(fromTree.getParentItem()));
-		to.setSubIds(MapperUtil.convertEntitiesToApiKeys(fromTree.getChildrenItems()));
+		if (fromTree != null) {
+			to.setParentId(MapperUtil.convertEntityIdforApi(fromTree.getParentItem()));
+			to.setSubIds(MapperUtil.convertEntitiesToApiKeys(fromTree.getChildrenItems()));
+		}
 	}
 
 }

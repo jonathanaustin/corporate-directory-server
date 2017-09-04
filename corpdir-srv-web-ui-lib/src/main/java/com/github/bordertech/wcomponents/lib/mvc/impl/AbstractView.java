@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
@@ -88,9 +87,6 @@ public abstract class AbstractView extends WTemplate implements View {
 	@Override
 	public boolean validateView() {
 
-		// Reset Messages
-		dispatchMessageReset();
-
 		// Validate content
 		List<Diagnostic> diags = new ArrayList<>();
 		WComponent content = getContent();
@@ -103,6 +99,7 @@ public abstract class AbstractView extends WTemplate implements View {
 			dispatchValidationMessages(diags);
 			return false;
 		} else {
+			dispatchMessageReset();
 			return true;
 		}
 	}
@@ -151,7 +148,7 @@ public abstract class AbstractView extends WTemplate implements View {
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchViewEvent(ActionEventType.RESET_MSGS);
+		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {

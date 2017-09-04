@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.entity.links;
 import com.github.bordertech.corpdir.jpa.common.DefaultVersionableTreeObject;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -30,8 +31,8 @@ public class OrgUnitLinksEntity extends DefaultVersionableTreeObject<OrgUnitLink
 	public OrgUnitLinksEntity() {
 	}
 
-	public OrgUnitLinksEntity(final Long versionId, final OrgUnitEntity orgUnit) {
-		super(versionId, orgUnit);
+	public OrgUnitLinksEntity(final VersionCtrlEntity versionCtrl, final OrgUnitEntity orgUnit) {
+		super(versionCtrl, orgUnit);
 	}
 
 	/**

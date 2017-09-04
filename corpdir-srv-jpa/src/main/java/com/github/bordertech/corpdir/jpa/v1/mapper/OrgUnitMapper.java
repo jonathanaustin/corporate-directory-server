@@ -5,6 +5,7 @@ import com.github.bordertech.corpdir.jpa.common.map.AbstractMapperVersionTree;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
@@ -59,10 +60,11 @@ public class OrgUnitMapper extends AbstractMapperVersionTree<OrgUnit, OrgUnitLin
 	}
 
 	@Override
-	protected void handleVersionDataApiToEntity(final EntityManager em, final OrgUnit from, final OrgUnitEntity to, final Long versionId) {
+	protected void handleVersionDataApiToEntity(final EntityManager em, final OrgUnit from, final OrgUnitEntity to, final VersionCtrlEntity ctrl) {
 
 		// Get the links version for this entity
-		OrgUnitLinksEntity links = to.getDataVersion(versionId);
+		Long versionId = ctrl.getId();
+		OrgUnitLinksEntity links = to.getOrCreateDataVersion(ctrl);
 
 		// Manager Position
 		String origId = MapperUtil.convertEntityIdforApi(links.getManagerPosition());
@@ -101,7 +103,9 @@ public class OrgUnitMapper extends AbstractMapperVersionTree<OrgUnit, OrgUnitLin
 	protected void handleVersionDataEntityToApi(final EntityManager em, final OrgUnitEntity from, final OrgUnit to, final Long versionId) {
 		// Get the tree version for this entity
 		OrgUnitLinksEntity links = from.getDataVersion(versionId);
-		to.setManagerPosId(MapperUtil.convertEntityIdforApi(links.getManagerPosition()));
-		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
+		if (links != null) {
+			to.setManagerPosId(MapperUtil.convertEntityIdforApi(links.getManagerPosition()));
+			to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
+		}
 	}
 }

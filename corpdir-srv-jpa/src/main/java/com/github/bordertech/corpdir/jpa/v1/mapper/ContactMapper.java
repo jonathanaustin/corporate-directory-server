@@ -7,6 +7,7 @@ import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
@@ -84,10 +85,10 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 	}
 
 	@Override
-	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Long versionId) {
+	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final VersionCtrlEntity ctrl) {
 
 		// Get the links version for this entity
-		ContactLinksEntity links = to.getDataVersion(versionId);
+		ContactLinksEntity links = to.getOrCreateDataVersion(ctrl);
 
 		// Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(links.getPositions());
@@ -110,8 +111,9 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 	protected void handleVersionDataEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Long versionId) {
 		// Get the tree version for this entity
 		ContactLinksEntity links = from.getDataVersion(versionId);
-		// Positions
-		to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
+		if (links != null) {
+			to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
+		}
 	}
 
 }

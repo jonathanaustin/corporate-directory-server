@@ -168,8 +168,13 @@ public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity>
 	}
 
 	@Override
-	protected ContactLinksEntity createDataVersion(final Long versionId) {
-		return new ContactLinksEntity(versionId, this);
+	public ContactLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
+		ContactLinksEntity links = getDataVersion(ctrl.getId());
+		if (links == null) {
+			links = new ContactLinksEntity(ctrl, this);
+			addDataVersion(links);
+		}
+		return links;
 	}
 
 }

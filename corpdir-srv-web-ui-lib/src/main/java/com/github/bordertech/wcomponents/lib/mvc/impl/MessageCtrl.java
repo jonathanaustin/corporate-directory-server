@@ -1,10 +1,7 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.MsgEvent;
 import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.mvc.MsgView;
@@ -27,15 +24,6 @@ public class MessageCtrl extends DefaultController {
 
 	public MessageCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
-
-		// Listeners for reset
-		Listener listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleResetEvent();
-			}
-		};
-		registerCtrlListener(listener, ActionEventType.RESET_MSGS);
 	}
 
 	@Override
@@ -81,7 +69,12 @@ public class MessageCtrl extends DefaultController {
 	public boolean handleMessageEvent(final MsgEvent event) {
 		MsgEventType type = event.getType();
 
-		// Check if process the events
+		if (type == MsgEventType.RESET) {
+			handleResetMessages();
+			// Force all messages up the tree to reset (return not processed)
+			return false;
+		}
+
 		if (!checkProcessEvent(type)) {
 			return false;
 		}
