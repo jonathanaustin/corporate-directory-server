@@ -73,6 +73,7 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 		String origId = MapperUtil.convertEntityIdforApi(links.getOrgUnit());
 		String newId = MapperUtil.cleanApiKey(from.getOuId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
+			links.setOrgUnit(null);
 			// Remove from Orig OU
 			if (origId != null) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, origId);
@@ -92,12 +93,12 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				ContactEntity con = getContactEntity(em, id);
-				links.removeContact(con);
+				con.getOrCreateDataVersion(ctrl).removePosition(to);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				ContactEntity con = getContactEntity(em, id);
-				links.addContact(con);
+				con.getOrCreateDataVersion(ctrl).addPosition(to);
 			}
 		}
 
@@ -108,12 +109,12 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				links.addManageOrgUnit(ou);
+				links.removeManageOrgUnit(ou);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				links.removeManageOrgUnit(ou);
+				links.addManageOrgUnit(ou);
 			}
 		}
 	}

@@ -58,7 +58,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 			contacts = new HashSet<>();
 		}
 		contacts.add(contact);
-		contact.getDataVersion(getVersionId()).addPosition(getItem());
+		contact.getOrCreateDataVersion(getVersionCtrl()).addPosition(getItem());
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		if (contacts != null) {
 			contacts.remove(contact);
 		}
-		contact.getDataVersion(getVersionId()).removePosition(getItem());
+		contact.getOrCreateDataVersion(getVersionCtrl()).removePosition(getItem());
 	}
 
 	/**
@@ -91,7 +91,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 			manageOrgUnits = new HashSet<>();
 		}
 		manageOrgUnits.add(orgUnit);
-		orgUnit.getDataVersion(getVersionId()).setManagerPosition(getItem());
+		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(getItem());
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		if (manageOrgUnits != null) {
 			manageOrgUnits.remove(orgUnit);
 		}
-		orgUnit.getDataVersion(getVersionId()).setManagerPosition(null);
+		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(null);
 	}
 
 	/**

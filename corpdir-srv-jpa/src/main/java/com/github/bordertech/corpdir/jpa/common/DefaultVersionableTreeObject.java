@@ -58,8 +58,7 @@ public class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>
 			childrenItems = new HashSet<>();
 		}
 		childrenItems.add(child);
-		PersistVersionableTree tree = child.getDataVersion(getVersionId());
-		tree.setParentItem(getItem());
+		child.getOrCreateDataVersion(getVersionCtrl()).setParentItem(getItem());
 	}
 
 	@Override
@@ -67,8 +66,7 @@ public class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>
 		if (childrenItems != null) {
 			childrenItems.remove(child);
 		}
-		PersistVersionableTree tree = child.getDataVersion(getVersionId());
-		tree.setParentItem(null);
+		child.getOrCreateDataVersion(getVersionCtrl()).setParentItem(null);
 	}
 
 }

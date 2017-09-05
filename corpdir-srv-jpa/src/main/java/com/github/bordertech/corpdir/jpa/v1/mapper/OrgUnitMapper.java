@@ -63,22 +63,22 @@ public class OrgUnitMapper extends AbstractMapperVersionTree<OrgUnit, OrgUnitLin
 	protected void handleVersionDataApiToEntity(final EntityManager em, final OrgUnit from, final OrgUnitEntity to, final VersionCtrlEntity ctrl) {
 
 		// Get the links version for this entity
-		Long versionId = ctrl.getId();
 		OrgUnitLinksEntity links = to.getOrCreateDataVersion(ctrl);
 
 		// Manager Position
 		String origId = MapperUtil.convertEntityIdforApi(links.getManagerPosition());
 		String newId = MapperUtil.cleanApiKey(from.getManagerPosId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
+			links.setManagerPosition(null);
 			// Remove from Orig Position
 			if (origId != null) {
 				PositionEntity pos = getPositionEntity(em, origId);
-				pos.getDataVersion(versionId).removeManageOrgUnit(to);
+				pos.getOrCreateDataVersion(ctrl).removeManageOrgUnit(to);
 			}
 			// Add to New Position
 			if (newId != null) {
 				PositionEntity pos = getPositionEntity(em, newId);
-				pos.getDataVersion(versionId).addManageOrgUnit(to);
+				pos.getOrCreateDataVersion(ctrl).addManageOrgUnit(to);
 			}
 		}
 

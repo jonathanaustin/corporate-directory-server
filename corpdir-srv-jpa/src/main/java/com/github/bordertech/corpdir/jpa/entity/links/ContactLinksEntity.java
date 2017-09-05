@@ -47,7 +47,8 @@ public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEnt
 			positions = new HashSet<>();
 		}
 		positions.add(position);
-		position.getDataVersion(getVersionId()).addContact(getItem());
+		// Bi-Directional
+		position.getOrCreateDataVersion(getVersionCtrl()).addContact(getItem());
 	}
 
 	/**
@@ -57,6 +58,7 @@ public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEnt
 		if (positions != null) {
 			positions.remove(position);
 		}
-		position.getDataVersion(getVersionId()).removeContact(getItem());
+		// Bi-Directional
+		position.getOrCreateDataVersion(getVersionCtrl()).removeContact(getItem());
 	}
 }

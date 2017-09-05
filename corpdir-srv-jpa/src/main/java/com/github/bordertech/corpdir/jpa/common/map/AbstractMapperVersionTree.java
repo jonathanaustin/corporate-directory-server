@@ -34,7 +34,6 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 	protected void handleCopyTreeApiToEntity(final EntityManager em, final A from, final P to, final VersionCtrlEntity ctrl) {
 
 		// Get the tree version for this entity
-		Long versionId = ctrl.getId();
 		U toTree = to.getOrCreateDataVersion(ctrl);
 
 		// Parent Entity
@@ -42,14 +41,13 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 		String newId = MapperUtil.cleanApiKey(from.getParentId());
 		// Parents dont match, update the parent entities
 		if (!MapperUtil.keyMatch(origId, newId)) {
+			// Clear current parent
+			toTree.setParentItem(null);
 			// Remove from Orig Parent
 			if (origId != null) {
 				P ent = getEntity(em, origId);
 				if (ent != null) {
-					U entTree = ent.getDataVersion(versionId);
-					if (entTree != null) {
-						entTree.removeChildItem(to);
-					}
+					ent.getOrCreateDataVersion(ctrl).removeChildItem(to);
 				}
 			}
 			// Add to New Parent
@@ -58,8 +56,7 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 				if (ent == null) {
 					throw new IllegalStateException("New Parent [" + newId + "] could not be found.");
 				}
-				U entTree = ent.getOrCreateDataVersion(ctrl);
-				entTree.addChildItem(to);
+				ent.getOrCreateDataVersion(ctrl).addChildItem(to);
 			}
 		}
 
@@ -87,10 +84,10 @@ public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTr
 
 	protected void handleCopyTreeEntityToApi(final EntityManager em, final P from, final A to, final Long versionId) {
 		// Get the tree version for this entity
-		U fromTree = from.getDataVersion(versionId);
-		if (fromTree != null) {
-			to.setParentId(MapperUtil.convertEntityIdforApi(fromTree.getParentItem()));
-			to.setSubIds(MapperUtil.convertEntitiesToApiKeys(fromTree.getChildrenItems()));
+		U tree = from.getDataVersion(versionId);
+		if (tree != null) {
+			to.setParentId(MapperUtil.convertEntityIdforApi(tree.getParentItem()));
+			to.setSubIds(MapperUtil.convertEntitiesToApiKeys(tree.getChildrenItems()));
 		}
 	}
 

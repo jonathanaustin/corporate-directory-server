@@ -69,7 +69,7 @@ public class OrgUnitLinksEntity extends DefaultVersionableTreeObject<OrgUnitLink
 			positions = new HashSet<>();
 		}
 		positions.add(position);
-		position.getDataVersion(getVersionId()).setOrgUnit(getItem());
+		position.getOrCreateDataVersion(getVersionCtrl()).setOrgUnit(getItem());
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class OrgUnitLinksEntity extends DefaultVersionableTreeObject<OrgUnitLink
 		if (positions != null) {
 			positions.remove(position);
 		}
-		position.getDataVersion(getVersionId()).setOrgUnit(null);
+		position.getOrCreateDataVersion(getVersionCtrl()).setOrgUnit(null);
 	}
 
 }

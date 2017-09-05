@@ -97,12 +97,12 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				links.removePosition(pos);
+				pos.getOrCreateDataVersion(ctrl).removeContact(to);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				links.addPosition(pos);
+				pos.getOrCreateDataVersion(ctrl).addContact(to);
 			}
 		}
 	}

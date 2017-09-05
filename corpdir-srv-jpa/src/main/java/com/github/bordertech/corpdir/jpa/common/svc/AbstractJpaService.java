@@ -11,7 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 
 /**
- * Abstract class that provides the entity manager.
+ * Class that provides the entity manager.
  *
  * @param <A> the API object type
  * @param <P> the entity type
@@ -19,7 +19,7 @@ import javax.persistence.LockModeType;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
+public abstract class AbstractJpaService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
 
 	/**
 	 * @return the entity manager
