@@ -8,9 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 
 /**
  * Form View with a Select View.
@@ -19,24 +17,14 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class FormWithSelectView<S, T> extends DefaultComboView implements FormView<T> {
-
-	private final MessageCtrl messageCtrl;
+public class FormWithSelectView<S, T> extends DefaultMessageComboView implements FormView<T> {
 
 	private final FormView<T> formView;
-
-	private final SelectView<T> selectView;
 
 	public FormWithSelectView(final Dispatcher dispatcher, final String qualifier, final FormView<T> formView, final SelectView<T> selectView) {
 		super("wclib/hbs/layout/combo-ent-select.hbs", dispatcher, qualifier);
 
-		// Messages (default to show all)
-		this.messageCtrl = new MessageCtrl(dispatcher, qualifier);
-		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
-
-		// Views
 		this.formView = formView;
-		this.selectView = selectView;
 
 		// Ctrl
 		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>(dispatcher, qualifier);
@@ -47,8 +35,6 @@ public class FormWithSelectView<S, T> extends DefaultComboView implements FormVi
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
-		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-select", selectView);
@@ -59,19 +45,6 @@ public class FormWithSelectView<S, T> extends DefaultComboView implements FormVi
 
 		// Default visibility
 		formView.setContentVisible(false);
-
-	}
-
-	public final MessageCtrl getMessageCtrl() {
-		return messageCtrl;
-	}
-
-	public final FormView<T> getFormView() {
-		return formView;
-	}
-
-	public final SelectView<T> getSelectView() {
-		return selectView;
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  * @since 1.0.0
  *
  */
-public interface MsgView extends View {
+public interface MessageView extends View {
 
 	WMessages getMessages();
 

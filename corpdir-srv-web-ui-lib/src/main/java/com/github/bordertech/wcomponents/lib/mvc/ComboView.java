@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.model.Model;
 
 /**
@@ -48,10 +47,4 @@ public interface ComboView extends View {
 	 */
 	void setBlocking(final boolean blocking);
 
-	/**
-	 * Check if this view will handle the message event.
-	 *
-	 * @param event the message event
-	 */
-	void handleMessageEvent(final MsgEvent event);
 }

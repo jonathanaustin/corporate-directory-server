@@ -75,7 +75,7 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected void handleActionEvent(final Event event) {
-		ActionEventType type = (ActionEventType) event.getEventType();
+		ActionEventType type = (ActionEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case BACK:
 				handleBackAction();

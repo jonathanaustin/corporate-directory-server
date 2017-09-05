@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -63,24 +63,6 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	@Override
 	public void setBlocking(final boolean block) {
 		getOrCreateComponentModel().block = block;
-	}
-
-	@Override
-	public void handleMessageEvent(final MsgEvent event) {
-		// Check if any Controllers want to process the Message Event
-		for (Controller ctrl : getControllers()) {
-			if (ctrl instanceof MessageCtrl) {
-				boolean processed = ((MessageCtrl) ctrl).handleMessageEvent(event);
-				if (processed) {
-					return;
-				}
-			}
-		}
-		// Try the parent
-		ComboView parent = findParentCombo();
-		if (parent != null) {
-			parent.handleMessageEvent(event);
-		}
 	}
 
 	@Override
@@ -141,6 +123,14 @@ public class DefaultComboView extends TemplateView implements ComboView {
 			return null;
 		}
 		return super.findParentCombo();
+	}
+
+	@Override
+	protected MessageComboView findComboMessageView() {
+		if (isBlocking()) {
+			return null;
+		}
+		return super.findComboMessageView();
 	}
 
 	protected boolean isConfigured() {

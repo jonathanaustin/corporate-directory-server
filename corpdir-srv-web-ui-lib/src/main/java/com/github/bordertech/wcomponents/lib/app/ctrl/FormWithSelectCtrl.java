@@ -85,6 +85,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity action model has not been set.");
 		}
+
 	}
 
 	public final FormView<T> getFormView() {

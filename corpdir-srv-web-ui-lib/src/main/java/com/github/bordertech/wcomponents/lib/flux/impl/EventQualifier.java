@@ -1,6 +1,7 @@
-package com.github.bordertech.wcomponents.lib.flux;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
-import java.io.Serializable;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.Qualifier;
 import java.util.Objects;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Objects;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class EventQualifier implements Serializable {
+public class EventQualifier implements Qualifier {
 
 	private final EventType eventType;
 	private final String qualifier;
@@ -29,10 +30,12 @@ public class EventQualifier implements Serializable {
 		this.qualifier = qualifier;
 	}
 
+	@Override
 	public EventType getEventType() {
 		return eventType;
 	}
 
+	@Override
 	public String getQualifier() {
 		return qualifier;
 	}

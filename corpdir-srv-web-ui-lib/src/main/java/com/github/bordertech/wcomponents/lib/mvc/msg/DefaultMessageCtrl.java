@@ -1,10 +1,8 @@
-package com.github.bordertech.wcomponents.lib.mvc.impl;
+package com.github.bordertech.wcomponents.lib.mvc.msg;
 
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Collections;
 import java.util.HashSet;
@@ -13,17 +11,17 @@ import java.util.Set;
 /**
  * Controller for a Message View.
  *
- *
  * @author jonathan
  */
-public class MessageCtrl extends DefaultController {
+public class DefaultMessageCtrl extends DefaultController implements MessageCtrl {
 
-	public MessageCtrl(final Dispatcher dispatcher) {
+	public DefaultMessageCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public MessageCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultMessageCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
+		addAllMsgTypes();
 	}
 
 	@Override
@@ -34,15 +32,18 @@ public class MessageCtrl extends DefaultController {
 		}
 	}
 
-	public final MsgView getMessageView() {
+	@Override
+	public final MessageView getMessageView() {
 		return getComponentModel().messageView;
 	}
 
-	public final void setMessageView(final MsgView messageView) {
+	@Override
+	public final void setMessageView(final MessageView messageView) {
 		getOrCreateComponentModel().messageView = messageView;
 		addView(messageView);
 	}
 
+	@Override
 	public final void addHandleMsgType(final MsgEventType type) {
 		MsgCtrlModel model = getOrCreateComponentModel();
 		if (model.events == null) {
@@ -51,6 +52,7 @@ public class MessageCtrl extends DefaultController {
 		model.events.add(type);
 	}
 
+	@Override
 	public final void removeHandleMsgType(final MsgEventType type) {
 		MsgCtrlModel model = getOrCreateComponentModel();
 		if (model.events != null) {
@@ -61,11 +63,41 @@ public class MessageCtrl extends DefaultController {
 		}
 	}
 
+	/**
+	 * Clear all event types so message controller is not listening to any message type.
+	 */
+	@Override
+	public final void clearAllMsgTypes() {
+		getOrCreateComponentModel().events = null;
+	}
+
+	/**
+	 * Add all message event types (this is the default state).
+	 */
+	@Override
+	public final void addAllMsgTypes() {
+		for (MsgEventType type : MsgEventType.values()) {
+			addHandleMsgType(type);
+		}
+	}
+
+	/**
+	 * Helper method to just listen to validation errors and errors.
+	 */
+	@Override
+	public final void addValidationAndErrorMsgTypes() {
+		clearAllMsgTypes();
+		addHandleMsgType(MsgEventType.VALIDATION);
+		addHandleMsgType(MsgEventType.ERROR);
+	}
+
+	@Override
 	public final Set<MsgEventType> getHandleMsgTypes() {
 		MsgCtrlModel model = getComponentModel();
 		return model.events == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(model.events);
 	}
 
+	@Override
 	public boolean handleMessageEvent(final MsgEvent event) {
 		MsgEventType type = event.getType();
 
@@ -101,8 +133,7 @@ public class MessageCtrl extends DefaultController {
 
 	protected boolean checkProcessEvent(final MsgEventType type) {
 		Set<MsgEventType> types = getHandleMsgTypes();
-		// Empty handle all
-		return types.isEmpty() || types.contains(type);
+		return types.contains(type);
 	}
 
 	protected void handleErrorMessage(final MsgEvent event) {
@@ -164,7 +195,7 @@ public class MessageCtrl extends DefaultController {
 	 */
 	public static class MsgCtrlModel extends CtrlModel {
 
-		private MsgView messageView;
+		private MessageView messageView;
 
 		private Set<MsgEventType> events;
 

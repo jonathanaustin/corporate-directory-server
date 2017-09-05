@@ -77,14 +77,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 			}
 		};
 		registerCtrlListener(listener, ActionEventType.ADD);
-		// Reset
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleResetViewEvent();
-			}
-		};
-		registerCtrlListener(listener, ActionEventType.RESET_VIEW);
 	}
 
 	@Override
@@ -141,10 +133,6 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	protected void handleAddEvent() {
 		// Do Nothing
-	}
-
-	protected void handleResetViewEvent() {
-		reset();
 	}
 
 	protected void handleSearchEvent(final S criteria) {

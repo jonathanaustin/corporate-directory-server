@@ -15,10 +15,8 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 
 /**
@@ -28,25 +26,15 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class DefaultCrudView<S, T> extends DefaultComboView {
-
-	private final MessageCtrl messageCtrl;
-
-	private final PollingView<S, List<T>> pollingView;
-	private final FormToolbarView formToolbarView;
-	private final ToolbarView toolbarView;
+public class DefaultCrudView<S, T> extends DefaultMessageComboView {
 
 	public DefaultCrudView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView) {
 		super("wclib/hbs/layout/combo-ent-crud.hbs", dispatcher, qualifier);
 
-		// Messages (default to show all)
-		this.messageCtrl = new MessageCtrl(dispatcher, qualifier);
-		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
-
 		// Views
-		this.pollingView = new DefaultPollingView<>(dispatcher, qualifier);
-		this.formToolbarView = new DefaultFormToolbarView(dispatcher, qualifier);
-		this.toolbarView = new DefaultToolbarView(dispatcher, qualifier);
+		PollingView<S, List<T>> pollingView = new DefaultPollingView<>(dispatcher, qualifier);
+		FormToolbarView formToolbarView = new DefaultFormToolbarView(dispatcher, qualifier);
+		ToolbarView toolbarView = new DefaultToolbarView(dispatcher, qualifier);
 
 		// Ctrls
 		DefaultController ctrl = new DefaultController(dispatcher, qualifier);
@@ -65,8 +53,6 @@ public class DefaultCrudView<S, T> extends DefaultComboView {
 		criteriaCtrl.setListView(selectView);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
-		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-ctrl1", selectCtrl);
@@ -83,10 +69,6 @@ public class DefaultCrudView<S, T> extends DefaultComboView {
 		selectView.setContentVisible(false);
 		formView.setContentVisible(false);
 
-	}
-
-	public final MessageCtrl getMessageCtrl() {
-		return messageCtrl;
 	}
 
 }

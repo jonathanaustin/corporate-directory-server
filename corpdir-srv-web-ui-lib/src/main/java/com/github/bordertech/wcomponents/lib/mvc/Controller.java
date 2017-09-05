@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import java.util.List;
 
 /**
@@ -45,5 +45,11 @@ public interface Controller extends WComponent {
 	 * @param event the message event
 	 */
 	void dispatchMessageEvent(final MsgEvent event);
+
+	/**
+	 *
+	 * @param view the view to control
+	 */
+	void addView(final View view);
 
 }

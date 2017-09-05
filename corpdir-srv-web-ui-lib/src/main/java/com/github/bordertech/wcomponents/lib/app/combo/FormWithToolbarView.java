@@ -10,9 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 
 /**
  * Form View with a Toolbar View.
@@ -20,9 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultComboView implements FormView<T> {
-
-	private final MessageCtrl messageCtrl;
+public class FormWithToolbarView<T> extends DefaultMessageComboView implements FormView<T> {
 
 	private final FormView<T> formView;
 
@@ -39,10 +35,6 @@ public class FormWithToolbarView<T> extends DefaultComboView implements FormView
 	public FormWithToolbarView(final Dispatcher dispatcher, final String qualifier, final FormView<T> formView, final FormToolbarView toolbarView) {
 		super("wclib/hbs/layout/combo-ent-toolbar.hbs", dispatcher, qualifier);
 
-		// Messages (default to show all)
-		this.messageCtrl = new MessageCtrl(dispatcher, qualifier);
-		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
-
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
@@ -55,19 +47,10 @@ public class FormWithToolbarView<T> extends DefaultComboView implements FormView
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
-		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
 		content.addTaggedComponent("vw-entity", formView);
-
-		// Default visibility
-		formView.setContentVisible(false);
-	}
-
-	public final MessageCtrl getMessageCtrl() {
-		return messageCtrl;
 	}
 
 	public final FormView<T> getFormView() {

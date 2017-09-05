@@ -1,12 +1,10 @@
-package com.github.bordertech.wcomponents.lib.flux.util;
-
-import com.github.bordertech.wcomponents.lib.flux.Event;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
 /**
  *
  * @author jonathan
  */
-public class RegisterEvent extends Event {
+public class RegisterEvent extends DefaultEvent {
 
 	private final ListenerWrapper wrapper;
 

@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class ListWithCriteriaView<S, T> extends DefaultComboView implements ListView<T> {
 
-	private final MessageCtrl messageCtrl;
+	private final DefaultMessageCtrl messageCtrl;
 
 	private final ToolbarView toolbarView;
 
@@ -38,7 +38,7 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 		super("wclib/hbs/layout/combo-list-crit.hbs", dispatcher, qualifier);
 
 		// Messages (default to show all)
-		messageCtrl = new MessageCtrl(dispatcher, qualifier);
+		messageCtrl = new DefaultMessageCtrl(dispatcher, qualifier);
 		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
 
 		// Views
@@ -70,7 +70,7 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 		listView.setContentVisible(false);
 	}
 
-	public final MessageCtrl getMessageCtrl() {
+	public final DefaultMessageCtrl getMessageCtrl() {
 		return messageCtrl;
 	}
 

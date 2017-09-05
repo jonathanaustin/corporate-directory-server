@@ -1,10 +1,9 @@
-package com.github.bordertech.wcomponents.lib.flux.util;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
-import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.Matcher;
+import com.github.bordertech.wcomponents.lib.flux.Qualifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -35,10 +34,10 @@ public class DispatcherUtil {
 	public static void handleRegisterListener(final ListenerWrapper wrapper, final DispatcherModel model) {
 		// Register via the wrapper ID
 		model.getListenersById().put(wrapper.getRegisterId(), wrapper);
-		Matcher matcher = wrapper.getMatcher();
+		Qualifier matcher = wrapper.getMatcher().getMatchQualifier();
 		// Register by the matcher details
 		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
-			registerListenerInMap(model.getListenersByMatcher(), matcher, wrapper);
+			registerListenerInMap(model.getListenersByMatcher(), wrapper.getMatcher(), wrapper);
 		} else if (matcher.getEventType() != null) {
 			registerListenerInMap(model.getListenersByType(), matcher.getEventType(), wrapper);
 		} else {
@@ -57,9 +56,9 @@ public class DispatcherUtil {
 			model.clearListenersById();
 		}
 		// Unregister by the matcher details
-		Matcher matcher = wrapper.getMatcher();
+		Qualifier matcher = wrapper.getMatcher().getMatchQualifier();
 		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
-			if (unregisterListenerFromMap(model.getListenersByMatcher(), matcher, wrapper)) {
+			if (unregisterListenerFromMap(model.getListenersByMatcher(), wrapper.getMatcher(), wrapper)) {
 				model.clearListenersByMatcher();
 			}
 		} else if (matcher.getEventType() != null) {
@@ -95,13 +94,13 @@ public class DispatcherUtil {
 	}
 
 	private static void notifyListeners(final Event event, final DispatcherModel model) {
-		List<ListenerWrapper> matches = getListenersForEvent(event.getEventQualifier(), model);
+		List<ListenerWrapper> matches = getListenersForEvent(event.getQualifier(), model);
 		for (ListenerWrapper wrapper : matches) {
 			wrapper.getListener().handleEvent(event);
 		}
 	}
 
-	private static List<ListenerWrapper> getListenersForEvent(final EventQualifier qualifier, final DispatcherModel model) {
+	private static List<ListenerWrapper> getListenersForEvent(final Qualifier qualifier, final DispatcherModel model) {
 		List<ListenerWrapper> matches = new ArrayList<>();
 		if (qualifier.getQualifier() == null) {
 			// Check listeners only matching on Type
@@ -111,7 +110,7 @@ public class DispatcherUtil {
 		} else {
 			// Check listeners with Type and Qualifier
 			if (model.hasListenersByMatcher()) {
-				EventMatcher matcher = new EventMatcher(qualifier.getEventType(), qualifier.getQualifier());
+				Matcher matcher = new EventMatcher(qualifier.getEventType(), qualifier.getQualifier());
 				matches.addAll(getListenersFromMap(model.getListenersByMatcher(), matcher));
 			}
 			// Check listeners only matching on Qualifier
