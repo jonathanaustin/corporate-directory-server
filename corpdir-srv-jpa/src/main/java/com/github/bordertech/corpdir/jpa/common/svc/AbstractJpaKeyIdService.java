@@ -13,7 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
- * Abstract class that provides the entity manager.
+ * Abstract class that provides entity helper methods.
  *
  * @param <A> the API object type
  * @param <P> the entity type
@@ -21,7 +21,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaKeyIdService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends JpaService<A, P> {
+public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends AbstractJpaService<A, P> {
 
 	protected CriteriaQuery<P> handleSearchCriteria(final EntityManager em, final String search) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();

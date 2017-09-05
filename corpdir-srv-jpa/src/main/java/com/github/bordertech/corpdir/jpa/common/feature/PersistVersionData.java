@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common.feature;
 
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.Set;
 
 /**
@@ -17,5 +18,7 @@ public interface PersistVersionData<T extends PersistVersionable> extends Persis
 	void removeDataVersion(final Long versionId);
 
 	T getDataVersion(final Long versionId);
+
+	T getOrCreateDataVersion(final VersionCtrlEntity ctrl);
 
 }

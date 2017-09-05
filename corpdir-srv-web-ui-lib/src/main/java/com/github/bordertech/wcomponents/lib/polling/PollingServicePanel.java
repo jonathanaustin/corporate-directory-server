@@ -11,6 +11,8 @@ import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -182,6 +184,16 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 		return messages;
 	}
 
+	protected void handleErrorMessage(final String msg) {
+		handleErrorMessage(Arrays.asList(msg));
+	}
+
+	protected void handleErrorMessage(final List<String> msgs) {
+		for (String msg : msgs) {
+			getMessages().error(msg);
+		}
+	}
+
 	/**
 	 * @return the retry button.
 	 */
@@ -220,7 +232,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 		// Check we have a criteria
 		final S criteria = getPollingCriteria();
 		if (criteria == null) {
-			getMessages().error("No criteria set for polling action.");
+			handleErrorMessage("No criteria set for polling action.");
 			return;
 		}
 
@@ -353,7 +365,8 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	 * @param excp the exception that occurred
 	 */
 	protected void handleExceptionResult(final Exception excp) {
-		extractExceptionMessages("Error loading data. ", getMessages(), excp);
+		List<String> msgs = extractExceptionMessages("Error loading data. ", excp);
+		handleErrorMessage(msgs);
 		retryButton.setVisible(true);
 	}
 
@@ -372,11 +385,11 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	 * Extract the exception messages from the polling exception.
 	 *
 	 * @param prefix the message prefix
-	 * @param messages the message component
 	 * @param exception the exception to setup messages
+	 * @return the error messages
 	 */
-	protected void extractExceptionMessages(final String prefix, final WMessages messages, final Exception exception) {
-		messages.error(prefix + exception.getMessage());
+	protected List<String> extractExceptionMessages(final String prefix, final Exception exception) {
+		return Arrays.asList(prefix + exception.getMessage());
 	}
 
 	/**

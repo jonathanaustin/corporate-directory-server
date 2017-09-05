@@ -10,17 +10,7 @@ import java.io.Serializable;
  */
 public interface Matcher extends Serializable {
 
-	/**
-	 *
-	 * @return the event type to match against (or null)
-	 */
-	EventType getEventType();
-
-	/**
-	 *
-	 * @return the qualifier to match against (or null)
-	 */
-	String getQualifier();
+	Qualifier getMatchQualifier();
 
 	/**
 	 * Check if the qualifier and matcher are a match.
@@ -28,6 +18,6 @@ public interface Matcher extends Serializable {
 	 * @param qualifier the event qualifier to test if it matches
 	 * @return true if a match
 	 */
-	boolean matches(final EventQualifier qualifier);
+	boolean matches(final Qualifier qualifier);
 
 }

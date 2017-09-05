@@ -3,12 +3,13 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 
 /**
  *
@@ -122,6 +123,14 @@ public class DefaultComboView extends TemplateView implements ComboView {
 			return null;
 		}
 		return super.findParentCombo();
+	}
+
+	@Override
+	protected MessageComboView findComboMessageView() {
+		if (isBlocking()) {
+			return null;
+		}
+		return super.findComboMessageView();
 	}
 
 	protected boolean isConfigured() {

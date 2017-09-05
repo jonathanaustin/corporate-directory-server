@@ -20,6 +20,11 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
+/**
+ * Default navigation view.
+ *
+ * @author jonathan
+ */
 public class DefaultNavigationView extends DefaultView implements NavigationView {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
@@ -426,30 +431,30 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected NavigationPanelModel newComponentModel() {
-		return new NavigationPanelModel();
+	protected NavigationModel newComponentModel() {
+		return new NavigationModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected NavigationPanelModel getOrCreateComponentModel() {
-		return (NavigationPanelModel) super.getOrCreateComponentModel();
+	protected NavigationModel getOrCreateComponentModel() {
+		return (NavigationModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected NavigationPanelModel getComponentModel() {
-		return (NavigationPanelModel) super.getComponentModel();
+	protected NavigationModel getComponentModel() {
+		return (NavigationModel) super.getComponentModel();
 	}
 
 	/**
 	 * This model holds the state information.
 	 */
-	public static final class NavigationPanelModel extends ViewModel {
+	public static final class NavigationModel extends ViewModel {
 
 		/**
 		 * Current index (zero based).

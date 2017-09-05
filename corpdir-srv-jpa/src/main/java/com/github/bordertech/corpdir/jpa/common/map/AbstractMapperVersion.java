@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.common.map;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +46,7 @@ public abstract class AbstractMapperVersion<A extends ApiVersionable, U extends 
 		to.setCustom(from.isCustom());
 		to.setActive(from.isActive());
 		to.setTimestamp(from.getTimestamp());
-		handleVersionDataApiToEntity(em, from, to, versionId);
+		handleVersionDataApiToEntity(em, from, to, getVersionCtrl(em, versionId));
 	}
 
 	@Override
@@ -100,13 +101,21 @@ public abstract class AbstractMapperVersion<A extends ApiVersionable, U extends 
 		return MapperUtil.getEntity(em, keyId, getEntityClass());
 	}
 
+	protected VersionCtrlEntity getVersionCtrl(final EntityManager em, final Long versionId) {
+		VersionCtrlEntity ctrl = em.find(VersionCtrlEntity.class, versionId);
+		if (ctrl == null) {
+			throw new IllegalStateException("No System Control Record Available.");
+		}
+		return ctrl;
+	}
+
 	protected abstract A createApiObject(final String id);
 
 	protected abstract P createEntityObject(final Long id);
 
 	protected abstract Class<P> getEntityClass();
 
-	protected abstract void handleVersionDataApiToEntity(final EntityManager em, final A from, final P to, final Long versionId);
+	protected abstract void handleVersionDataApiToEntity(final EntityManager em, final A from, final P to, final VersionCtrlEntity ctrl);
 
 	protected abstract void handleVersionDataEntityToApi(final EntityManager em, final P from, final A to, final Long versionId);
 

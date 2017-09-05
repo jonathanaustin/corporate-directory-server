@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.flux.util;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.Matcher;

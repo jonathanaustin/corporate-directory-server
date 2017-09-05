@@ -45,11 +45,12 @@ public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T exte
 	}
 
 	/**
-	 * @param versionId the tree version id
-	 * @param item the owner item id
+	 * @param versionCtrl the version ctrl item
+	 * @param item the owner item
 	 */
-	public DefaultVersionableObject(final Long versionId, final T item) {
-		this.versionIdKey = new VersionIdKey(versionId, item.getId());
+	public DefaultVersionableObject(final VersionCtrlEntity versionCtrl, final T item) {
+		this.versionIdKey = new VersionIdKey(versionCtrl.getId(), item.getId());
+		this.versionCtrl = versionCtrl;
 		this.item = item;
 	}
 

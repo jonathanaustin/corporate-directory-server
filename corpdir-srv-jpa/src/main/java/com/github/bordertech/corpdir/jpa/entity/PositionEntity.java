@@ -50,8 +50,13 @@ public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinksEntit
 	}
 
 	@Override
-	protected PositionLinksEntity createDataVersion(final Long versionId) {
-		return new PositionLinksEntity(versionId, this);
+	public PositionLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
+		PositionLinksEntity links = getDataVersion(ctrl.getId());
+		if (links == null) {
+			links = new PositionLinksEntity(ctrl, this);
+			addDataVersion(links);
+		}
+		return links;
 	}
 
 }

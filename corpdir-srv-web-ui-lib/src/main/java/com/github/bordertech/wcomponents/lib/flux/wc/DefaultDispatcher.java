@@ -3,15 +3,15 @@ package com.github.bordertech.wcomponents.lib.flux.wc;
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.flux.Matcher;
-import com.github.bordertech.wcomponents.lib.flux.util.DispatcherEventType;
-import com.github.bordertech.wcomponents.lib.flux.util.DispatcherUtil;
-import com.github.bordertech.wcomponents.lib.flux.util.ListenerWrapper;
-import com.github.bordertech.wcomponents.lib.flux.util.RegisterEvent;
-import com.github.bordertech.wcomponents.lib.flux.util.UnregisterEvent;
+import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.DispatcherEventType;
+import com.github.bordertech.wcomponents.lib.flux.impl.DispatcherUtil;
+import com.github.bordertech.wcomponents.lib.flux.impl.ListenerWrapper;
+import com.github.bordertech.wcomponents.lib.flux.impl.RegisterEvent;
+import com.github.bordertech.wcomponents.lib.flux.impl.UnregisterEvent;
 
 /**
  *

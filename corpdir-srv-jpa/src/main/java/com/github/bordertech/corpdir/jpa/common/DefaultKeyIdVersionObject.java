@@ -67,19 +67,14 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 
 	@Override
 	public T getDataVersion(final Long versionId) {
-		if (this.dataVersions == null) {
-			this.dataVersions = new HashSet<>();
-		}
-		for (T data : this.dataVersions) {
-			if (Objects.equals(data.getVersionId(), versionId)) {
-				return data;
+		if (this.dataVersions != null) {
+			for (T data : this.dataVersions) {
+				if (Objects.equals(data.getVersionId(), versionId)) {
+					return data;
+				}
 			}
 		}
-		T data = createDataVersion(versionId);
-		this.dataVersions.add(data);
-		return data;
+		return null;
 	}
-
-	protected abstract T createDataVersion(final Long versionId);
 
 }

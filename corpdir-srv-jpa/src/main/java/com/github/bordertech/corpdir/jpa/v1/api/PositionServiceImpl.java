@@ -10,11 +10,13 @@ import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
 import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -58,7 +60,12 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 		try {
 			PositionEntity entity = getEntity(em, keyId);
 			PositionLinksEntity links = entity.getDataVersion(versionId);
-			List<Contact> list = CONTACT_MAPPER.convertEntitiesToApis(em, links.getContacts(), versionId);
+			List<Contact> list;
+			if (links == null) {
+				list = Collections.EMPTY_LIST;
+			} else {
+				list = CONTACT_MAPPER.convertEntitiesToApis(em, links.getContacts(), versionId);
+			}
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -74,8 +81,10 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			PositionEntity position = getEntity(em, keyId);
 			// Get the contact
 			ContactEntity contact = getContactEntity(em, contactKeyId);
-			// Add the contact
-			position.getDataVersion(versionId).addContact(contact);
+			// Get Version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
+			// Add Contact to the Position
+			position.getOrCreateDataVersion(ctrl).addContact(contact);
 			em.getTransaction().commit();
 			return buildResponse(em, position, versionId);
 		} finally {
@@ -92,8 +101,10 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			PositionEntity position = getEntity(em, keyId);
 			// Get the contact
 			ContactEntity contact = getContactEntity(em, contactKeyId);
-			// Remove the contact
-			position.getDataVersion(versionId).removeContact(contact);
+			// Get Version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
+			// Remove Contact from the Position
+			position.getOrCreateDataVersion(ctrl).removeContact(contact);
 			em.getTransaction().commit();
 			return buildResponse(em, position, versionId);
 		} finally {
@@ -107,7 +118,12 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 		try {
 			PositionEntity entity = getEntity(em, keyId);
 			PositionLinksEntity links = entity.getDataVersion(versionId);
-			List<OrgUnit> list = ORGUNIT_MAPPER.convertEntitiesToApis(em, links.getManageOrgUnits(), versionId);
+			List<OrgUnit> list;
+			if (links == null) {
+				list = Collections.EMPTY_LIST;
+			} else {
+				list = ORGUNIT_MAPPER.convertEntitiesToApis(em, links.getManageOrgUnits(), versionId);
+			}
 			return new DataResponse<>(list);
 		} finally {
 			em.close();

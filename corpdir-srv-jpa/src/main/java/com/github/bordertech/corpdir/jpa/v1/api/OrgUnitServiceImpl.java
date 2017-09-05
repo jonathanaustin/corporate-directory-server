@@ -9,11 +9,13 @@ import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
 import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -56,6 +58,9 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 		try {
 			OrgUnitEntity entity = getEntity(em, keyId);
 			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
+			if (links == null || links.getManagerPosition() == null) {
+				throw new NotFoundException("Org Unit has no manager");
+			}
 			Position data = POSITION_MAPPER.convertEntityToApi(em, links.getManagerPosition(), versionId);
 			return new DataResponse<>(data);
 		} finally {
@@ -69,7 +74,12 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 		try {
 			OrgUnitEntity entity = getEntity(em, keyId);
 			OrgUnitLinksEntity links = entity.getDataVersion(versionId);
-			List<Position> list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
+			List<Position> list;
+			if (links == null) {
+				list = Collections.EMPTY_LIST;
+			} else {
+				list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
+			}
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -85,15 +95,16 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 			OrgUnitEntity orgUnit = getEntity(em, keyId);
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
+			// Get Version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
+			// Remove thge position from its old org unit (if had one)
 			PositionLinksEntity posLinks = position.getDataVersion(versionId);
-			// Remove it from the old org unit (if had one)
-			if (posLinks.getOrgUnit() != null) {
-				OrgUnitLinksEntity posOuLinks = posLinks.getOrgUnit().getDataVersion(versionId);
-				posOuLinks.removePosition(position);
+			OrgUnitEntity oldOU = posLinks == null ? null : posLinks.getOrgUnit();
+			if (oldOU != null) {
+				oldOU.getOrCreateDataVersion(ctrl).removePosition(position);
 			}
 			// Add the position to the org unit
-			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
-			links.addPosition(position);
+			orgUnit.getOrCreateDataVersion(ctrl).addPosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, orgUnit, versionId);
 		} finally {
@@ -110,9 +121,10 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 			OrgUnitEntity orgUnit = getEntity(em, keyId);
 			// Get the position
 			PositionEntity position = getPositionEntity(em, positionKeyId);
+			// Get Version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the position from the org unit
-			OrgUnitLinksEntity links = orgUnit.getDataVersion(versionId);
-			links.removePosition(position);
+			orgUnit.getOrCreateDataVersion(ctrl).removePosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, orgUnit, versionId);
 		} finally {

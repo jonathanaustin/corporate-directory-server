@@ -6,8 +6,10 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
+ * Select View with a Text Search View.
  *
  * @author jonathan
+ * @param <T> the entity type
  */
 public class SelectWithCriteriaTextView<T> extends SelectWithCriteriaView<String, T> {
 

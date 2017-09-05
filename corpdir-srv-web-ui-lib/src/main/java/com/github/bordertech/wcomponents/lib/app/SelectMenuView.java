@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 
 /**
- * Default list view.
+ * Select menu view.
  *
  * @author Jonathan Austin
  * @since 1.0.0
