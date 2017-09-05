@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
 /**
- * Abstract list view.
+ * Default select list view.
  *
  * @author Jonathan Austin
  * @param <T> the view bean

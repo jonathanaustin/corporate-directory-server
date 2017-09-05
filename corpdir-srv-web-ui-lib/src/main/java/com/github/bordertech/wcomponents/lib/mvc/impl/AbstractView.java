@@ -4,20 +4,21 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
+import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
-import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.ArrayList;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 
 /**
  *
@@ -80,36 +81,26 @@ public abstract class AbstractView extends WTemplate implements View {
 	}
 
 	@Override
-	public final WMessages getViewMessages() {
-		return WMessages.getInstance(this);
-	}
-
-	@Override
-	public void resetViewMessages() {
-		getViewMessages().reset();
-	}
-
-	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		// Do Nothing
 	}
 
 	@Override
 	public boolean validateView() {
-		WValidationErrors errorsBox = getViewMessages().getValidationErrors();
-		errorsBox.clearErrors();
 
+		// Validate content
 		List<Diagnostic> diags = new ArrayList<>();
 		WComponent content = getContent();
 		content.validate(diags);
 		content.showWarningIndicators(diags);
 		content.showErrorIndicators(diags);
 
+		// Check if contains errors
 		if (containsError(diags)) {
-			errorsBox.setErrors(diags);
-			errorsBox.setFocussed();
+			dispatchValidationMessages(diags);
 			return false;
 		} else {
+			dispatchMessageReset();
 			return true;
 		}
 	}
@@ -153,8 +144,32 @@ public abstract class AbstractView extends WTemplate implements View {
 	 * @param exception an exception
 	 */
 	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
-		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
+		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
+	}
+
+	protected void dispatchMessageReset() {
+		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
+	}
+
+	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
+		dispatchMessageEvent(new MsgEvent(diags));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final String text) {
+		dispatchMessageEvent(new MsgEvent(type, text));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
+		dispatchMessageEvent(new MsgEvent(type, texts, true));
+	}
+
+	@Override
+	public void dispatchMessageEvent(final MsgEvent event) {
+		MessageComboView combo = WebUtilities.getClosestOfClass(MessageComboView.class, this);
+		if (combo != null) {
+			combo.handleMessageEvent(event);
+		}
 	}
 
 	/**
@@ -176,11 +191,14 @@ public abstract class AbstractView extends WTemplate implements View {
 		if (combo != null) {
 			combo.configAjax(this);
 		}
-		addEventTarget(getViewMessages());
 	}
 
 	protected ComboView findParentCombo() {
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
+	}
+
+	protected MessageComboView findComboMessageView() {
+		return WebUtilities.getAncestorOfClass(MessageComboView.class, this);
 	}
 
 	@Override

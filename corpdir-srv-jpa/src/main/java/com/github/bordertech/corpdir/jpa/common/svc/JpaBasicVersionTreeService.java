@@ -6,6 +6,8 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
@@ -43,7 +45,12 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 		try {
 			P entity = getEntity(em, keyId);
 			PersistVersionableTree tree = entity.getDataVersion(versionId);
-			List<A> list = getMapper().convertEntitiesToApis(em, tree.getChildrenItems(), versionId);
+			List<A> list;
+			if (tree == null) {
+				list = Collections.EMPTY_LIST;
+			} else {
+				list = getMapper().convertEntitiesToApis(em, tree.getChildrenItems(), versionId);
+			}
 			return new DataResponse<>(list);
 		} finally {
 			em.close();
@@ -63,16 +70,16 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			if (Objects.equals(entity, subEntity)) {
 				throw new IllegalArgumentException("Cannot add an Entity as a child to itself");
 			}
+			// Get version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
 			U tree = subEntity.getDataVersion(versionId);
-			P oldParent = tree.getParentItem();
+			P oldParent = tree == null ? null : tree.getParentItem();
 			if (oldParent != null) {
-				tree = oldParent.getDataVersion(versionId);
-				tree.removeChildItem(subEntity);
+				oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
 			}
-			// Add to the new parent
-			tree = entity.getDataVersion(versionId);
-			tree.addChildItem(subEntity);
+			// Add Child to the new parent
+			entity.getOrCreateDataVersion(ctrl).addChildItem(subEntity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {
@@ -92,9 +99,10 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			P entity = getEntity(em, keyId);
 			// Get the sub entity
 			P subEntity = getEntity(em, subKeyId);
+			// Get the version
+			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the sub entity
-			U tree = entity.getDataVersion(versionId);
-			tree.removeChildItem(subEntity);
+			entity.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {

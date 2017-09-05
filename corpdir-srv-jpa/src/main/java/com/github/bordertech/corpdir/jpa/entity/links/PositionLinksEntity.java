@@ -4,6 +4,7 @@ import com.github.bordertech.corpdir.jpa.common.DefaultVersionableTreeObject;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Entity;
@@ -35,8 +36,8 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	public PositionLinksEntity() {
 	}
 
-	public PositionLinksEntity(final Long versionId, final PositionEntity position) {
-		super(versionId, position);
+	public PositionLinksEntity(final VersionCtrlEntity versionCtrl, final PositionEntity position) {
+		super(versionCtrl, position);
 	}
 
 	/**
@@ -57,7 +58,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 			contacts = new HashSet<>();
 		}
 		contacts.add(contact);
-		contact.getDataVersion(getVersionId()).addPosition(getItem());
+		contact.getOrCreateDataVersion(getVersionCtrl()).addPosition(getItem());
 	}
 
 	/**
@@ -69,7 +70,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		if (contacts != null) {
 			contacts.remove(contact);
 		}
-		contact.getDataVersion(getVersionId()).removePosition(getItem());
+		contact.getOrCreateDataVersion(getVersionCtrl()).removePosition(getItem());
 	}
 
 	/**
@@ -90,7 +91,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 			manageOrgUnits = new HashSet<>();
 		}
 		manageOrgUnits.add(orgUnit);
-		orgUnit.getDataVersion(getVersionId()).setManagerPosition(getItem());
+		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(getItem());
 	}
 
 	/**
@@ -102,7 +103,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		if (manageOrgUnits != null) {
 			manageOrgUnits.remove(orgUnit);
 		}
-		orgUnit.getDataVersion(getVersionId()).setManagerPosition(null);
+		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(null);
 	}
 
 	/**

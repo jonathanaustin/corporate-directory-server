@@ -9,11 +9,9 @@ import java.io.Serializable;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Abstract class that provides the entity manager.
+ * Class that provides the entity manager.
  *
  * @param <A> the API object type
  * @param <P> the entity type
@@ -21,9 +19,7 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
-
-	private static final Logger LOG = LoggerFactory.getLogger(JpaService.class);
+public abstract class AbstractJpaService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
 
 	/**
 	 * @return the entity manager

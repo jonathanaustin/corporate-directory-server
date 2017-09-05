@@ -7,6 +7,7 @@ import com.github.bordertech.corpdir.api.service.BasicVersionService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -21,7 +22,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> extends JpaKeyIdService<A, P> implements BasicVersionService<A> {
+public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> extends AbstractJpaKeyIdService<A, P> implements BasicVersionService<A> {
 
 	@Override
 	public DataResponse<List<A>> search(final String search) {
@@ -61,8 +62,13 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	public DataResponse<A> create(final A apiObject) {
 		EntityManager em = getEntityManager();
 		try {
-			handleCreateVerify(em, apiObject);
 			Long versionId = apiObject.getVersionId();
+			// Add the current version id (if not set)
+			if (versionId == null) {
+				versionId = getCurrentVersionId();
+				apiObject.setVersionId(versionId);
+			}
+			handleCreateVerify(em, apiObject);
 			P entity = getMapper().convertApiToEntity(em, apiObject, versionId);
 			em.getTransaction().begin();
 			em.persist(entity);
@@ -130,6 +136,14 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 	protected DataResponse<A> buildResponse(final EntityManager em, final P entity, final Long versionId) {
 		A data = getMapper().convertEntityToApi(em, entity, versionId);
 		return new DataResponse<>(data);
+	}
+
+	protected VersionCtrlEntity getVersionCtrl(final EntityManager em, final Long versionId) {
+		VersionCtrlEntity ctrl = em.find(VersionCtrlEntity.class, versionId);
+		if (ctrl == null) {
+			throw new IllegalStateException("No System Control Record Available.");
+		}
+		return ctrl;
 	}
 
 	protected abstract MapperApiVersion<A, U, P> getMapper();

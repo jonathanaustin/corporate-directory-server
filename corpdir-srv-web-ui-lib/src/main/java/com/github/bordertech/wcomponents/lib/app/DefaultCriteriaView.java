@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app;
 
+import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -9,7 +10,6 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
-import com.github.bordertech.wcomponents.validation.ValidatingAction;
 
 /**
  * Default criteria view.
@@ -31,10 +31,12 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 
 	public DefaultCriteriaView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
-		searchButton.setAction(new ValidatingAction(getViewMessages().getValidationErrors(), getContent()) {
+		searchButton.setAction(new Action() {
 			@Override
-			public void executeOnValid(final ActionEvent event) {
-				doSearchButtonAction();
+			public void execute(final ActionEvent event) {
+				if (validateView()) {
+					doSearchButtonAction();
+				}
 			}
 		});
 

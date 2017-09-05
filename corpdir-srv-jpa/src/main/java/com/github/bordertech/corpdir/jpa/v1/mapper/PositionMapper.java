@@ -6,6 +6,7 @@ import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
+import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
@@ -63,23 +64,25 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	}
 
 	@Override
-	protected void handleVersionDataApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final Long versionId) {
+	protected void handleVersionDataApiToEntity(final EntityManager em, final Position from, final PositionEntity to, final VersionCtrlEntity ctrl) {
+
 		// Get the links version for this entity
-		PositionLinksEntity links = to.getDataVersion(versionId);
+		PositionLinksEntity links = to.getOrCreateDataVersion(ctrl);
 
 		// Belongs to OU
 		String origId = MapperUtil.convertEntityIdforApi(links.getOrgUnit());
 		String newId = MapperUtil.cleanApiKey(from.getOuId());
 		if (!MapperUtil.keyMatch(origId, newId)) {
+			links.setOrgUnit(null);
 			// Remove from Orig OU
 			if (origId != null) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, origId);
-				ou.getDataVersion(versionId).removePosition(to);
+				ou.getOrCreateDataVersion(ctrl).removePosition(to);
 			}
 			// Add to New OU
 			if (newId != null) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, newId);
-				ou.getDataVersion(versionId).addPosition(to);
+				ou.getOrCreateDataVersion(ctrl).addPosition(to);
 			}
 		}
 
@@ -90,12 +93,12 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				ContactEntity con = getContactEntity(em, id);
-				links.removeContact(con);
+				con.getOrCreateDataVersion(ctrl).removePosition(to);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				ContactEntity con = getContactEntity(em, id);
-				links.addContact(con);
+				con.getOrCreateDataVersion(ctrl).addPosition(to);
 			}
 		}
 
@@ -106,12 +109,12 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				links.addManageOrgUnit(ou);
+				links.removeManageOrgUnit(ou);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				OrgUnitEntity ou = getOrgUnitEntity(em, id);
-				links.removeManageOrgUnit(ou);
+				links.addManageOrgUnit(ou);
 			}
 		}
 	}
@@ -119,9 +122,11 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	@Override
 	protected void handleVersionDataEntityToApi(final EntityManager em, final PositionEntity from, final Position to, final Long versionId) {
 		PositionLinksEntity links = from.getDataVersion(versionId);
-		to.setOuId(MapperUtil.convertEntityIdforApi(links.getOrgUnit()));
-		to.setContactIds(MapperUtil.convertEntitiesToApiKeys(links.getContacts()));
-		to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(links.getManageOrgUnits()));
+		if (links != null) {
+			to.setOuId(MapperUtil.convertEntityIdforApi(links.getOrgUnit()));
+			to.setContactIds(MapperUtil.convertEntitiesToApiKeys(links.getContacts()));
+			to.setManageOuIds(MapperUtil.convertEntitiesToApiKeys(links.getManageOrgUnits()));
+		}
 	}
 
 }

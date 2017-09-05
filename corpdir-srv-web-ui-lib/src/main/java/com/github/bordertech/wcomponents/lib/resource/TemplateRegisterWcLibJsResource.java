@@ -8,19 +8,19 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class RegisterWcLibJsResource extends TemplateResource {
+public class TemplateRegisterWcLibJsResource extends TemplateResource {
 
 	/**
 	 * Default to "wclib" path.
 	 */
-	public RegisterWcLibJsResource() {
+	public TemplateRegisterWcLibJsResource() {
 		this("/wclib");
 	}
 
 	/**
 	 * @param path the path wclib will be mapped to
 	 */
-	public RegisterWcLibJsResource(final String path) {
+	public TemplateRegisterWcLibJsResource(final String path) {
 		super(getBuilder("wclib", path));
 	}
 

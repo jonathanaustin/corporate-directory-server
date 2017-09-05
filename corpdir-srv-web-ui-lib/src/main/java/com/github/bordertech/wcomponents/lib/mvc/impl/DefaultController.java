@@ -3,18 +3,21 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventMatcher;
-import com.github.bordertech.wcomponents.lib.flux.EventQualifier;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
+import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -37,16 +40,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	public DefaultController(final Dispatcher dispatcher, final String qualifier) {
 		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
-
-		// Default Listeners
-		// Reset EVENT
-		Listener listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleResetEvent();
-			}
-		};
-		registerCtrlListener(listener, ControllerEventType.RESET);
 	}
 
 	@Override
@@ -57,11 +50,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	@Override
 	public final String getQualifier() {
 		return qualifier;
-	}
-
-	@Override
-	public final WMessages getViewMessages() {
-		return WMessages.getInstance(this);
 	}
 
 	@Override
@@ -89,7 +77,8 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		return model.views == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.views);
 	}
 
-	protected void addView(final View view) {
+	@Override
+	public void addView(final View view) {
 		CtrlModel model = getOrCreateComponentModel();
 		if (model.views == null) {
 			model.views = new ArrayList<>();
@@ -97,31 +86,11 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		model.views.add(view);
 	}
 
-	protected void removeView(final View view) {
-		CtrlModel model = getOrCreateComponentModel();
-		if (model.views != null) {
-			model.views.remove(view);
-			if (model.views.isEmpty()) {
-				model.views = null;
-			}
-		}
-	}
-
 	@Override
 	public void resetViews() {
-		resetViewMessages();
 		for (View view : getViews()) {
 			view.resetView();
 		}
-	}
-
-	@Override
-	public void resetViewMessages() {
-		getViewMessages().reset();
-	}
-
-	protected void handleResetEvent() {
-		reset();
 	}
 
 	protected boolean isConfigured() {
@@ -159,8 +128,32 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	 * @param exception an exception
 	 */
 	protected void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
-		Event event = new Event(new EventQualifier(eventType, getQualifier()), data, exception);
+		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, getQualifier()), data, exception);
 		getDispatcher().dispatch(event);
+	}
+
+	protected void dispatchMessageReset() {
+		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
+	}
+
+	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
+		dispatchMessageEvent(new MsgEvent(diags));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final String text) {
+		dispatchMessageEvent(new MsgEvent(type, text));
+	}
+
+	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
+		dispatchMessageEvent(new MsgEvent(type, texts, true));
+	}
+
+	@Override
+	public void dispatchMessageEvent(final MsgEvent event) {
+		MessageComboView combo = findComboMessageView();
+		if (combo != null) {
+			combo.handleMessageEvent(event);
+		}
 	}
 
 	/**
@@ -182,6 +175,10 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 	protected ComboView findParentCombo() {
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
+	}
+
+	protected MessageComboView findComboMessageView() {
+		return WebUtilities.getAncestorOfClass(MessageComboView.class, this);
 	}
 
 	@Override

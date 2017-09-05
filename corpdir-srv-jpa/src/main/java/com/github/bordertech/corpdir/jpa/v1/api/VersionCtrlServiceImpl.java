@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.VersionCtrlService;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
-import com.github.bordertech.corpdir.jpa.common.svc.JpaService;
+import com.github.bordertech.corpdir.jpa.common.svc.AbstractJpaService;
 import com.github.bordertech.corpdir.jpa.entity.SystemCtrlEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.v1.mapper.VersionCtrlMapper;
@@ -19,13 +19,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Organization unit type JPA service implementation.
+ * Version Control JPA service implementation.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 @Singleton
-public class VersionCtrlServiceImpl extends JpaService<VersionCtrl, VersionCtrlEntity> implements VersionCtrlService {
+public class VersionCtrlServiceImpl extends AbstractJpaService<VersionCtrl, VersionCtrlEntity> implements VersionCtrlService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(VersionCtrlServiceImpl.class);
 

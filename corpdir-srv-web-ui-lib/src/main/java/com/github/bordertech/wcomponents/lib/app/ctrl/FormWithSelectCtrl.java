@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.app.view.EntityView;
+import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -11,18 +11,19 @@ import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 
 /**
- * Controller for a CriterSelect and Entity View.
+ * Controller for a Form View and Select View.
  *
  * @author jonathan
+ * @param <S> the search type
  * @param <T> the select entity
  */
-public class EntityWithSelectCtrl<S, T> extends DefaultController {
+public class FormWithSelectCtrl<S, T> extends DefaultController {
 
-	public EntityWithSelectCtrl(final Dispatcher dispatcher) {
+	public FormWithSelectCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public EntityWithSelectCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public FormWithSelectCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Listeners
@@ -75,8 +76,8 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 	@Override
 	public void checkConfig() {
 		super.checkConfig();
-		if (getEntityView() == null) {
-			throw new IllegalStateException("A entity view has not been set.");
+		if (getFormView() == null) {
+			throw new IllegalStateException("A form view has not been set.");
 		}
 		if (getSelectView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
@@ -84,15 +85,16 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity action model has not been set.");
 		}
+
 	}
 
-	public final EntityView<T> getEntityView() {
-		return getComponentModel().entityView;
+	public final FormView<T> getFormView() {
+		return getComponentModel().formView;
 	}
 
-	public final void setEntityView(final EntityView<T> entityView) {
-		getOrCreateComponentModel().entityView = entityView;
-		addView(entityView);
+	public final void setFormView(final FormView<T> formView) {
+		getOrCreateComponentModel().formView = formView;
+		addView(formView);
 	}
 
 	public final SelectView<T> getSelectView() {
@@ -110,13 +112,13 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 
 	protected void handleSelectEvent(final T selected) {
 		// Reset Entity View
-		EntityView<T> view = getEntityView();
+		FormView<T> view = getFormView();
 		view.resetView();
-		view.loadEntity(selected, EntityMode.VIEW);
+		view.loadEntity(selected, FormMode.VIEW);
 	}
 
 	protected void handleLoadedOKEvent() {
-		getEntityView().setContentVisible(true);
+		getFormView().setContentVisible(true);
 	}
 
 	protected void handleUpdateOkEvent(final T entity) {
@@ -132,26 +134,26 @@ public class EntityWithSelectCtrl<S, T> extends DefaultController {
 	}
 
 	@Override
-	protected EntitySelectModel newComponentModel() {
-		return new EntitySelectModel();
+	protected FormSelectModel newComponentModel() {
+		return new FormSelectModel();
 	}
 
 	@Override
-	protected EntitySelectModel getComponentModel() {
-		return (EntitySelectModel) super.getComponentModel();
+	protected FormSelectModel getComponentModel() {
+		return (FormSelectModel) super.getComponentModel();
 	}
 
 	@Override
-	protected EntitySelectModel getOrCreateComponentModel() {
-		return (EntitySelectModel) super.getOrCreateComponentModel();
+	protected FormSelectModel getOrCreateComponentModel() {
+		return (FormSelectModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntitySelectModel<S, T> extends CtrlModel {
+	public static class FormSelectModel<S, T> extends CtrlModel {
 
-		private EntityView<T> entityView;
+		private FormView<T> formView;
 
 		private SelectView<T> selectView;
 	}

@@ -46,4 +46,5 @@ public interface ComboView extends View {
 	 * @param blocking true if block searching upwards for AJAX or Models
 	 */
 	void setBlocking(final boolean blocking);
+
 }
