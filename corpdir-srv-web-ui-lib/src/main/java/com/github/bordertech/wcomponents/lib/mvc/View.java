@@ -70,4 +70,13 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 */
 	boolean validateView();
 
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addDispatcherOverride(final String qualifier, final EventType... types);
+
 }

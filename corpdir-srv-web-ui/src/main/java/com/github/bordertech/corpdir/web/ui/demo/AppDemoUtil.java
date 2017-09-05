@@ -47,7 +47,7 @@ public class AppDemoUtil {
 //		WView view3 = buildView3(dispatcher);
 //		WView view4 = buildView4(dispatcher);
 		final ComboView view5 = buildView5();
-		final ComboView crud = buildCrudView();
+//		final ComboView crud = buildCrudView();
 
 		//-----------
 		// MAIN Controller
@@ -62,7 +62,7 @@ public class AppDemoUtil {
 			@Override
 			public void execute(ActionEvent event) {
 				view5.reset();
-				crud.reset();
+//				crud.reset();
 			}
 		});
 
@@ -73,7 +73,7 @@ public class AppDemoUtil {
 //		div.add(wrapInSection(view3, "View 3"));
 //		div.add(wrapInSection(view4, "View 4"));
 		div.add(wrapInSection(view5, "View 5"));
-		div.add(crud);
+//		div.add(crud);
 
 		return div;
 	}
@@ -125,12 +125,13 @@ public class AppDemoUtil {
 //		return view4;
 //	}
 	public static ComboView buildView5() {
-		// Entity View
-		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>();
+		// Form View
+		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>("X");
 		entView.getFormView().getFormHolder().add(new BasicEntityPanel());
 		// Select View
-		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>();
-		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(entView, select);
+		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>("X");
+		// Form and Select View Together
+		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(entView, select, "X");
 
 		// Set Models
 		view.addModel(new MyOrgUnitActionModel());

@@ -20,7 +20,9 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -95,7 +97,8 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	 * @param eventType
 	 */
 	protected final void registerListener(final Listener listener, final EventType eventType) {
-		registerListener(listener, new EventMatcher(eventType, getQualifier()));
+		String qualifier = getListenerQualifier(eventType);
+		registerListener(listener, new EventMatcher(eventType, qualifier));
 	}
 
 	protected void registerListener(final Listener listener, final Matcher matcher) {
@@ -130,28 +133,80 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	 * @param exception an exception
 	 */
 	protected void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
-		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, getQualifier()), data, exception);
+		String qualifier = getDispatcherQualifier(eventType);
+		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
+		dispatchMessage(MsgEventType.RESET, "");
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
-		dispatchMessageEvent(new MsgEvent(diags));
+		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
+		dispatchMessageEvent(new MsgEvent(diags, qualifier));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final String text) {
-		dispatchMessageEvent(new MsgEvent(type, text));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, text));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		dispatchMessageEvent(new MsgEvent(type, null, texts, true));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, texts, true));
 	}
 
-	public void dispatchMessageEvent(final MsgEvent event) {
+	protected void dispatchMessageEvent(final MsgEvent event) {
 		getDispatcher().dispatch(event);
+	}
+
+	protected String getDispatcherQualifier(final EventType type) {
+		String qualifier = getDispatcherOverride(type);
+		return qualifier == null ? getQualifier() : qualifier;
+	}
+
+	@Override
+	public void addDispatcherOverride(final String qualifier, final EventType... types) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.dispatcherOverride == null) {
+			model.dispatcherOverride = new HashMap<>();
+		}
+		for (EventType type : types) {
+			model.dispatcherOverride.put(type, qualifier);
+		}
+	}
+
+	protected String getDispatcherOverride(final EventType type) {
+		CtrlModel model = getComponentModel();
+		if (model.dispatcherOverride != null) {
+			return model.dispatcherOverride.get(type);
+		}
+		return null;
+	}
+
+	protected String getListenerQualifier(final EventType type) {
+		String qualifier = getListenerOverride(type);
+		return qualifier == null ? getQualifier() : qualifier;
+	}
+
+	@Override
+	public void addListenerOverride(final String qualifier, final EventType... types) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.listenerOverride == null) {
+			model.listenerOverride = new HashMap<>();
+		}
+		for (EventType type : types) {
+			model.listenerOverride.put(type, qualifier);
+		}
+	}
+
+	protected String getListenerOverride(final EventType type) {
+		CtrlModel model = getComponentModel();
+		if (model.listenerOverride != null) {
+			return model.listenerOverride.get(type);
+		}
+		return null;
 	}
 
 	protected Model getModel(final Class clazz) {
@@ -187,6 +242,9 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		private List<View> views;
 
 		private String qualifier;
+
+		private Map<EventType, String> dispatcherOverride;
+		private Map<EventType, String> listenerOverride;
 
 	}
 

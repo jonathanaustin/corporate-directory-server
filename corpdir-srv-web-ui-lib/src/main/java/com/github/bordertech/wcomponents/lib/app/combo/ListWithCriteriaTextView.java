@@ -16,6 +16,6 @@ public class ListWithCriteriaTextView<T> extends ListWithCriteriaView<String, T>
 	}
 
 	public ListWithCriteriaTextView(final ListView<T> listView, final String qualifier) {
-		super(new CriteriaTextView(), listView, qualifier);
+		super(new CriteriaTextView(qualifier), listView, qualifier);
 	}
 }

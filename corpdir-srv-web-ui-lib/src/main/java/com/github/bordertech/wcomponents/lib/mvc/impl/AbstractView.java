@@ -18,7 +18,9 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -144,28 +146,56 @@ public abstract class AbstractView extends WTemplate implements View {
 	 * @param exception an exception
 	 */
 	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
-		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, getQualifier()), data, exception);
+		String qualifier = getDispatcherQualifier(eventType);
+		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
+		dispatchMessage(MsgEventType.RESET, "");
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
-		dispatchMessageEvent(new MsgEvent(diags));
+		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
+		dispatchMessageEvent(new MsgEvent(diags, qualifier));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final String text) {
-		dispatchMessageEvent(new MsgEvent(type, text));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, text));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		dispatchMessageEvent(new MsgEvent(type, null, texts, true));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, texts, true));
 	}
 
-	public void dispatchMessageEvent(final MsgEvent event) {
+	protected void dispatchMessageEvent(final MsgEvent event) {
 		getDispatcher().dispatch(event);
+	}
+
+	protected String getDispatcherQualifier(final EventType type) {
+		String qualifier = getQualifierOverride(type);
+		return qualifier == null ? getQualifier() : qualifier;
+	}
+
+	@Override
+	public void addDispatcherOverride(final String qualifier, final EventType... types) {
+		ViewModel model = getOrCreateComponentModel();
+		if (model.qualifierOverride == null) {
+			model.qualifierOverride = new HashMap<>();
+		}
+		for (EventType type : types) {
+			model.qualifierOverride.put(type, qualifier);
+		}
+	}
+
+	protected String getQualifierOverride(final EventType type) {
+		ViewModel model = getComponentModel();
+		if (model.qualifierOverride != null) {
+			return model.qualifierOverride.get(type);
+		}
+		return null;
 	}
 
 	/**
@@ -216,6 +246,8 @@ public abstract class AbstractView extends WTemplate implements View {
 		private boolean contentVisible = true;
 
 		private String qualifier;
+
+		private Map<EventType, String> qualifierOverride;
 	}
 
 	/**

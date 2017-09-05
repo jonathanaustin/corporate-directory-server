@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
@@ -35,7 +36,6 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
 			configViews();
-			setInitialised(true);
 		}
 	}
 
@@ -54,6 +54,7 @@ public class DefaultComboView extends TemplateView implements ComboView {
 				((ComboView) view).configViews();
 			}
 		}
+		setInitialised(true);
 	}
 
 	@Override
@@ -68,6 +69,19 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		ComboView parent = findParentCombo();
 		if (parent != null) {
 			parent.configAjax(view);
+		}
+	}
+
+	@Override
+	public void addDispatcherOverride(final String qualifier, final EventType... types) {
+		// Add to child views.
+		for (View view : getViews()) {
+			view.addDispatcherOverride(qualifier, types);
+		}
+		// Add to child controllers
+		for (Controller ctrl : getControllers()) {
+			ctrl.addDispatcherOverride(qualifier, types);
+			ctrl.addListenerOverride(qualifier, types);
 		}
 	}
 

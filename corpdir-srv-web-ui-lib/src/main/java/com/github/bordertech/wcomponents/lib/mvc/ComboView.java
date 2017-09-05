@@ -47,6 +47,9 @@ public interface ComboView extends View {
 	 */
 	void setBlocking(final boolean blocking);
 
+	/**
+	 * @param id the listener id to register
+	 */
 	void registerListenerId(final String id);
 
 }

@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 
 /**
@@ -54,5 +55,23 @@ public interface Controller extends WComponent {
 	 * @param view the view to control
 	 */
 	void addView(final View view);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addDispatcherOverride(final String qualifier, final EventType... types);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addListenerOverride(final String qualifier, final EventType... types);
 
 }

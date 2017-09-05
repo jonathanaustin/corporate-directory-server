@@ -17,10 +17,10 @@ public class SelectWithCriteriaTextView<T> extends SelectWithCriteriaView<String
 	}
 
 	public SelectWithCriteriaTextView(final String qualifier) {
-		this(new SelectMenuView<T>(), qualifier);
+		this(new SelectMenuView<T>(qualifier), qualifier);
 	}
 
 	public SelectWithCriteriaTextView(final SelectView<T> listView, final String qualifier) {
-		super(new CriteriaTextView(), listView, qualifier);
+		super(new CriteriaTextView(qualifier), listView, qualifier);
 	}
 }

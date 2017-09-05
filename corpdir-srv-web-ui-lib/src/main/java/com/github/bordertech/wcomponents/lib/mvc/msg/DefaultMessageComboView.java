@@ -10,8 +10,8 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
  */
 public class DefaultMessageComboView extends DefaultComboView implements MessageComboView {
 
-	private final DefaultMessageCtrl messageCtrl = new DefaultMessageCtrl();
-	private final MessageView messageView = new DefaultMessageView();
+	private final DefaultMessageCtrl messageCtrl;
+	private final MessageView messageView;
 
 	public DefaultMessageComboView(final String templateName) {
 		this(templateName, null);
@@ -19,6 +19,8 @@ public class DefaultMessageComboView extends DefaultComboView implements Message
 
 	public DefaultMessageComboView(final String templateName, final String qualifier) {
 		super(templateName, qualifier);
+		messageCtrl = new DefaultMessageCtrl(qualifier);
+		messageView = new DefaultMessageView(qualifier);
 		messageCtrl.setMessageView(messageView);
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-messages", getMessageView());

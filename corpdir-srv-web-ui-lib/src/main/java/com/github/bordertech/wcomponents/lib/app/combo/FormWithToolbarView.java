@@ -28,15 +28,15 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView implements F
 	}
 
 	public FormWithToolbarView(final String qualifier) {
-		this(new DefaultFormView<T>(), qualifier);
+		this(new DefaultFormView<T>(qualifier), qualifier);
 	}
 
 	public FormWithToolbarView(final FormView<T> formView) {
-		this(formView, new DefaultFormToolbarView(), null);
+		this(formView, null);
 	}
 
 	public FormWithToolbarView(final FormView<T> formView, final String qualifier) {
-		this(formView, new DefaultFormToolbarView(), qualifier);
+		this(formView, new DefaultFormToolbarView(qualifier), qualifier);
 	}
 
 	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView, final String qualifier) {
@@ -47,11 +47,11 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView implements F
 		this.toolbarView = toolbarView;
 
 		// Ctrl
-		FormWithToolbarCtrl<T> ctrl = new FormWithToolbarCtrl();
+		FormWithToolbarCtrl<T> ctrl = new FormWithToolbarCtrl(qualifier);
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl();
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

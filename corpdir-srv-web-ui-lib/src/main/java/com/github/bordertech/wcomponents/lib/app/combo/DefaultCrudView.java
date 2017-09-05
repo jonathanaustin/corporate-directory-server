@@ -35,16 +35,16 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView {
 		super("wclib/hbs/layout/combo-ent-crud.hbs", qualifier);
 
 		// Views
-		PollingView<S, List<T>> pollingView = new DefaultPollingView<>();
-		FormToolbarView formToolbarView = new DefaultFormToolbarView();
-		ToolbarView toolbarView = new DefaultToolbarView();
+		PollingView<S, List<T>> pollingView = new DefaultPollingView<>(qualifier);
+		FormToolbarView formToolbarView = new DefaultFormToolbarView(qualifier);
+		ToolbarView toolbarView = new DefaultToolbarView(qualifier);
 
 		// Ctrls
-		DefaultController ctrl = new DefaultController();
-		FormWithSelectCtrl<S, T> selectCtrl = new FormWithSelectCtrl<>();
-		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>();
-		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>();
-		ResetViewCtrl resetCtrl = new ResetViewCtrl();
+		DefaultController ctrl = new DefaultController(qualifier);
+		FormWithSelectCtrl<S, T> selectCtrl = new FormWithSelectCtrl<>(qualifier);
+		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>(qualifier);
+		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>(qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		// Set views on the Ctrls
 		selectCtrl.setFormView(formView);

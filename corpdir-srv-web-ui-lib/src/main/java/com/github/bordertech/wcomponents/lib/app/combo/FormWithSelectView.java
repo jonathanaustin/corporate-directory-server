@@ -30,12 +30,13 @@ public class FormWithSelectView<S, T> extends DefaultMessageComboView implements
 		this.formView = formView;
 
 		// Ctrl
-		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>();
+		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>(qualifier);
 		ctrl.setFormView(formView);
 		ctrl.setSelectView(selectView);
 
+//		formView.addDispatcherOverride("X2", MsgEventType.VALIDATION);
 		// Reset
-		ResetViewCtrl resetCtrl = new ResetViewCtrl();
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

@@ -9,9 +9,7 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 
 /**
@@ -21,9 +19,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class ListWithCriteriaView<S, T> extends DefaultComboView implements ListView<T> {
-
-	private final DefaultMessageCtrl messageCtrl;
+public class ListWithCriteriaView<S, T> extends DefaultMessageComboView implements ListView<T> {
 
 	private final ToolbarView toolbarView;
 
@@ -40,28 +36,22 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView, final String qualifier) {
 		super("wclib/hbs/layout/combo-list-crit.hbs", qualifier);
 
-		// Messages (default to show all)
-		messageCtrl = new DefaultMessageCtrl();
-		messageCtrl.setMessageView(new DefaultMessageView());
-
 		// Views
-		this.toolbarView = new DefaultToolbarView();
+		this.toolbarView = new DefaultToolbarView(qualifier);
 		this.criteriaView = criteriaView;
 		this.listView = listView;
-		this.pollingView = new DefaultPollingView<>();
+		this.pollingView = new DefaultPollingView<>(qualifier);
 
 		// Ctrl
-		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>();
+		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>(qualifier);
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl();
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		// Add views to holder
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
-		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
@@ -71,10 +61,6 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 
 		// Default visibility
 		listView.setContentVisible(false);
-	}
-
-	public final DefaultMessageCtrl getMessageCtrl() {
-		return messageCtrl;
 	}
 
 	public CriteriaView<S> getCriteriaView() {
