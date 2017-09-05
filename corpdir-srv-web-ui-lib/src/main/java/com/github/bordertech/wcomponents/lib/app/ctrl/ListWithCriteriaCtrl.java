@@ -1,16 +1,16 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import java.util.List;
 
 /**
@@ -113,11 +113,11 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		addView(criteriaView);
 	}
 
-	public final DefaultPollingView<S, List<T>> getPollingView() {
+	public final PollingView<S, List<T>> getPollingView() {
 		return getComponentModel().pollingView;
 	}
 
-	public final void setPollingView(final DefaultPollingView<S, List<T>> pollingView) {
+	public final void setPollingView(final PollingView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		addView(pollingView);
 	}
@@ -149,7 +149,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 	protected void handleSearchEvent(final S criteria) {
 		// Setup polling view
-		DefaultPollingView pollingView = getPollingView();
+		PollingView pollingView = getPollingView();
 		pollingView.resetView();
 		pollingView.setPollingCriteria(criteria == null ? "" : criteria);
 		pollingView.setServiceModel(getServiceModel());
@@ -199,7 +199,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
 		private CriteriaView<S> criteriaView;
 
-		private DefaultPollingView<S, List<T>> pollingView;
+		private PollingView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
 	}

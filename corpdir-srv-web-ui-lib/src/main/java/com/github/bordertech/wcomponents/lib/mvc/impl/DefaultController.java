@@ -13,9 +13,9 @@ import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEvent;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,15 +40,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		this.dispatcher = dispatcher;
 		this.qualifier = qualifier;
 
-		// Default Listeners
-		// Reset EVENT
-		Listener listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleResetEvent();
-			}
-		};
-		registerCtrlListener(listener, ControllerEventType.RESET);
 	}
 
 	@Override
@@ -109,10 +100,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		for (View view : getViews()) {
 			view.resetView();
 		}
-	}
-
-	protected void handleResetEvent() {
-		reset();
 	}
 
 	protected boolean isConfigured() {

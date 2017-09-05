@@ -3,41 +3,41 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
+import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
- * Entity menu bar implementation.
+ * Entity form toolbar implementation.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityToolbarView extends DefaultToolbarView implements EntityToolbarView {
+public class DefaultFormToolbarView extends DefaultToolbarView implements FormToolbarView {
 
 	private final WMenuItem itemEdit = new MyMenuItem("Edit", ActionEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
-			return isEntityLoaded() && !isDisabled();
+			return isFormReady() && !isDisabled();
 		}
 
 		@Override
 		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return !EntityMode.VIEW.equals(mode);
+			FormMode mode = getFormMode();
+			return !FormMode.VIEW.equals(mode);
 		}
 	};
 
 	private final WMenuItem itemCancel = new MyMenuItem("Cancel", ActionEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
-			return isEntityLoaded() && !isDisabled();
+			return isFormReady() && !isDisabled();
 		}
 
 		@Override
 		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.VIEW.equals(mode);
+			FormMode mode = getFormMode();
+			return FormMode.VIEW.equals(mode);
 		}
 
 		@Override
@@ -49,27 +49,27 @@ public class DefaultEntityToolbarView extends DefaultToolbarView implements Enti
 	private final WMenuItem itemUpdate = new MyMenuItem("Save", ActionEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
-			return getEntityMode() == EntityMode.EDIT;
+			return getFormMode() == FormMode.EDIT;
 		}
 	};
 
 	private final WMenuItem itemCreate = new MyMenuItem("Save", ActionEventType.CREATE) {
 		@Override
 		public boolean isVisible() {
-			return getEntityMode() == EntityMode.ADD;
+			return getFormMode() == FormMode.ADD;
 		}
 	};
 
 	private final WMenuItem itemDelete = new MyMenuItem("Delete", ActionEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
-			return isEntityLoaded() && !isDisabled();
+			return isFormReady() && !isDisabled();
 		}
 
 		@Override
 		public boolean isDisabled() {
-			EntityMode mode = getEntityMode();
-			return EntityMode.ADD == mode || EntityMode.EDIT == mode;
+			FormMode mode = getFormMode();
+			return FormMode.ADD == mode || FormMode.EDIT == mode;
 		}
 	};
 
@@ -78,7 +78,7 @@ public class DefaultEntityToolbarView extends DefaultToolbarView implements Enti
 	 *
 	 * @param dispatcher the controller for this view
 	 */
-	public DefaultEntityToolbarView(final Dispatcher dispatcher) {
+	public DefaultFormToolbarView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
@@ -88,7 +88,7 @@ public class DefaultEntityToolbarView extends DefaultToolbarView implements Enti
 	 * @param dispatcher the controller for this view
 	 * @param qualifier the qualifier
 	 */
-	public DefaultEntityToolbarView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultFormToolbarView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		WMenu menu = getMenu();
@@ -99,55 +99,56 @@ public class DefaultEntityToolbarView extends DefaultToolbarView implements Enti
 		menu.add(itemDelete);
 
 		setUseAdd(false);
+		setUseReset(false);
 	}
 
 	@Override
-	public void setEntityMode(final EntityMode mode) {
-		getOrCreateComponentModel().entityMode = mode == null ? EntityMode.VIEW : mode;
+	public void setFormMode(final FormMode mode) {
+		getOrCreateComponentModel().entityMode = mode == null ? FormMode.VIEW : mode;
 	}
 
 	@Override
-	public EntityMode getEntityMode() {
+	public FormMode getFormMode() {
 		return getComponentModel().entityMode;
 	}
 
 	@Override
-	public boolean isEntityLoaded() {
+	public boolean isFormReady() {
 		return getComponentModel().entityLoaded;
 	}
 
 	@Override
-	public void setEntityLoaded(final boolean entityLoaded) {
+	public void setFormReady(final boolean entityLoaded) {
 		getOrCreateComponentModel().entityLoaded = entityLoaded;
 	}
 
 	@Override
-	protected EntityToolbarModel newComponentModel() {
-		return new EntityToolbarModel();
+	protected FormToolbarModel newComponentModel() {
+		return new FormToolbarModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EntityToolbarModel getComponentModel() {
-		return (EntityToolbarModel) super.getComponentModel();
+	protected FormToolbarModel getComponentModel() {
+		return (FormToolbarModel) super.getComponentModel();
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	protected EntityToolbarModel getOrCreateComponentModel() {
-		return (EntityToolbarModel) super.getOrCreateComponentModel();
+	protected FormToolbarModel getOrCreateComponentModel() {
+		return (FormToolbarModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityToolbarModel extends ToolbarModel {
+	public static class FormToolbarModel extends ToolbarModel {
 
-		private EntityMode entityMode = EntityMode.VIEW;
+		private FormMode entityMode = FormMode.VIEW;
 
 		private boolean entityLoaded;
 

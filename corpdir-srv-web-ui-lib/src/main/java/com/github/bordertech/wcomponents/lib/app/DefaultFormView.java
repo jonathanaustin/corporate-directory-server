@@ -6,41 +6,41 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
-import com.github.bordertech.wcomponents.lib.app.view.EntityView;
+import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
 /**
- * Abstract entity form view.
+ * Default form view.
  *
  * @param <T> the entity type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityView<T> {
+public class DefaultFormView<T> extends DefaultViewBound<T> implements FormView<T> {
 
-	public DefaultEntityView(final Dispatcher dispatcher) {
+	public DefaultFormView(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public DefaultEntityView(final Dispatcher dispatcher, final String qualifier) {
+	public DefaultFormView(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 	}
 
 	@Override
-	public void setEntityMode(final EntityMode mode) {
-		if (getEntityMode() != mode) {
-			getOrCreateComponentModel().entityMode = mode == null ? EntityMode.NONE : mode;
+	public void setFormMode(final FormMode mode) {
+		if (getFormMode() != mode) {
+			getOrCreateComponentModel().entityMode = mode == null ? FormMode.NONE : mode;
 			doRefreshViewState();
 			doDispatchChangeModeEvent();
 		}
 	}
 
 	@Override
-	public EntityMode getEntityMode() {
+	public FormMode getFormMode() {
 		return getComponentModel().entityMode;
 	}
 
@@ -53,26 +53,26 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 	 */
 	@Override
 	public boolean isFormReadOnly() {
-		EntityMode mode = getEntityMode();
-		return !(EntityMode.ADD.equals(mode) || EntityMode.EDIT.equals(mode));
+		FormMode mode = getFormMode();
+		return !(FormMode.ADD.equals(mode) || FormMode.EDIT.equals(mode));
 	}
 
 	@Override
 	public boolean isLoaded() {
-		EntityMode mode = getEntityMode();
-		return !EntityMode.NONE.equals(mode);
+		FormMode mode = getFormMode();
+		return !FormMode.NONE.equals(mode);
 	}
 
 	@Override
-	public void loadEntity(final T entity, final EntityMode mode) {
+	public void loadEntity(final T entity, final FormMode mode) {
 		resetView();
 		setViewBean(entity);
-		setEntityMode(mode);
+		setFormMode(mode);
 		doDispatchLoadOKEvent();
 	}
 
 	@Override
-	public WContainer getEntityDetailsHolder() {
+	public WContainer getFormHolder() {
 		return getContent();
 	}
 
@@ -105,26 +105,26 @@ public class DefaultEntityView<T> extends DefaultViewBound<T> implements EntityV
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getEntityMode());
+		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override
-	protected EntityViewModel newComponentModel() {
-		return new EntityViewModel();
+	protected FormModel newComponentModel() {
+		return new FormModel();
 	}
 
 	@Override
-	protected EntityViewModel getComponentModel() {
-		return (EntityViewModel) super.getComponentModel();
+	protected FormModel getComponentModel() {
+		return (FormModel) super.getComponentModel();
 	}
 
 	@Override
-	protected EntityViewModel getOrCreateComponentModel() {
-		return (EntityViewModel) super.getOrCreateComponentModel();
+	protected FormModel getOrCreateComponentModel() {
+		return (FormModel) super.getOrCreateComponentModel();
 	}
 
-	public static class EntityViewModel extends ViewModel {
+	public static class FormModel extends ViewModel {
 
-		private EntityMode entityMode = EntityMode.NONE;
+		private FormMode entityMode = FormMode.NONE;
 	}
 }

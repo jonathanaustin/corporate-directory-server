@@ -5,9 +5,10 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
- * Default list view.
+ * Basic list view.
  *
  * @author Jonathan Austin
+ * @param <T> the entity type
  * @since 1.0.0
  */
 public class ListBasicView<T> extends DefaultListView<T> {

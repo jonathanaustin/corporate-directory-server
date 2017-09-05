@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.model.Model;
 
 /**

@@ -1,29 +1,29 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.EntityMode;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEventType;
-import com.github.bordertech.wcomponents.lib.app.view.EntityToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.EntityView;
+import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
 /**
- * Controller for an Entity View and Entity Action view.
+ * Controller for a Form View and Form Toolbar View.
  *
  * @param <T> the entity type
  * @author jonathan
  */
-public class EntityWithToolbarCtrl<T> extends DefaultController {
+public class FormWithToolbarCtrl<T> extends DefaultController {
 
-	public EntityWithToolbarCtrl(final Dispatcher dispatcher) {
+	public FormWithToolbarCtrl(final Dispatcher dispatcher) {
 		this(dispatcher, null);
 	}
 
-	public EntityWithToolbarCtrl(final Dispatcher dispatcher, final String qualifier) {
+	public FormWithToolbarCtrl(final Dispatcher dispatcher, final String qualifier) {
 		super(dispatcher, qualifier);
 
 		// Entity Action Event Listeners
@@ -31,29 +31,29 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleEntityActionEvent(event);
+					handleActionEvent(event);
 				}
 			};
 			registerCtrlListener(listener, eventType);
 		}
 	}
 
-	public final EntityToolbarView getToolbarView() {
+	public final FormToolbarView getToolbarView() {
 		return getComponentModel().toolbarView;
 	}
 
-	public final void setToolbarView(final EntityToolbarView toolbarView) {
+	public final void setToolbarView(final FormToolbarView toolbarView) {
 		getOrCreateComponentModel().toolbarView = toolbarView;
 		addView(toolbarView);
 	}
 
-	public final EntityView<T> getEntityView() {
-		return getComponentModel().entityView;
+	public final FormView<T> getFormView() {
+		return getComponentModel().formView;
 	}
 
-	public final void setEntityView(final EntityView<T> entityView) {
-		getOrCreateComponentModel().entityView = entityView;
-		addView(entityView);
+	public final void setFormView(final FormView<T> formView) {
+		getOrCreateComponentModel().formView = formView;
+		addView(formView);
 	}
 
 	public ActionModel<T> getActionModel() {
@@ -64,17 +64,17 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	public void checkConfig() {
 		super.checkConfig();
 		if (getToolbarView() == null) {
-			throw new IllegalStateException("An entity control view has not been set.");
+			throw new IllegalStateException("An toolbar view has not been set.");
 		}
-		if (getEntityView() == null) {
-			throw new IllegalStateException("A entity view has not been set.");
+		if (getFormView() == null) {
+			throw new IllegalStateException("A form view has not been set.");
 		}
 		if (getActionModel() == null) {
 			throw new IllegalStateException("Entity service actions have not been set.");
 		}
 	}
 
-	protected void handleEntityActionEvent(final Event event) {
+	protected void handleActionEvent(final Event event) {
 		ActionEventType type = (ActionEventType) event.getEventType();
 		switch (type) {
 			case BACK:
@@ -116,29 +116,29 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected void handleCancelAction() {
-		EntityView<T> view = getEntityView();
-		if (view.getEntityMode() == EntityMode.EDIT) {
+		FormView<T> view = getFormView();
+		if (view.getFormMode() == FormMode.EDIT) {
 			T bean = view.getViewBean();
 			resetViews();
-			doLoad(bean, EntityMode.VIEW);
+			doLoad(bean, FormMode.VIEW);
 			return;
 		}
 		resetViews();
 	}
 
 	protected void handleEditAction() {
-		EntityView<T> view = getEntityView();
+		FormView<T> view = getFormView();
 		if (view.isLoaded()) {
-			doEntityModeChange(EntityMode.EDIT);
+			doEntityModeChange(FormMode.EDIT);
 		}
 	}
 
 	protected void handleDeleteAction() {
-		EntityView<T> view = getEntityView();
+		FormView<T> view = getFormView();
 		if (!view.isLoaded()) {
 			return;
 		}
-		doEntityModeChange(EntityMode.VIEW);
+		doEntityModeChange(FormMode.VIEW);
 		T bean = view.getViewBean();
 		try {
 			doDelete(bean);
@@ -152,7 +152,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected void handleRefreshAction() {
-		EntityView<T> view = getEntityView();
+		FormView<T> view = getFormView();
 		if (!view.isLoaded()) {
 			return;
 		}
@@ -169,7 +169,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected void handleSaveAction(final boolean create) {
-		EntityView<T> view = getEntityView();
+		FormView<T> view = getFormView();
 		if (!view.isLoaded()) {
 			return;
 		}
@@ -189,7 +189,7 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 				dispatchCtrlEvent(ActionEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
-			doLoad(bean, EntityMode.VIEW);
+			doLoad(bean, FormMode.VIEW);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
@@ -204,8 +204,8 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			T bean = doCreateInstance();
-			doLoad(bean, EntityMode.ADD);
-			doEntityModeChange(EntityMode.ADD);
+			doLoad(bean, FormMode.ADD);
+			doEntityModeChange(FormMode.ADD);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
 			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
@@ -214,24 +214,24 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 
 	protected void handleLoadedOKAction() {
 		getToolbarView().setContentVisible(true);
-		getEntityView().setContentVisible(true);
+		getFormView().setContentVisible(true);
 	}
 
 	protected void handleEntityModeChanged() {
 		// Keep Action View in SYNC
-		EntityView entityView = getEntityView();
-		EntityToolbarView actionView = getToolbarView();
-		actionView.setEntityMode(entityView.getEntityMode());
-		actionView.setEntityLoaded(entityView.isLoaded());
+		FormView entityView = getFormView();
+		FormToolbarView actionView = getToolbarView();
+		actionView.setFormMode(entityView.getFormMode());
+		actionView.setFormReady(entityView.isLoaded());
 	}
 
-	protected void doEntityModeChange(final EntityMode mode) {
-		getEntityView().setEntityMode(mode);
+	protected void doEntityModeChange(final FormMode mode) {
+		getFormView().setFormMode(mode);
 	}
 
-	protected void doLoad(final T entity, final EntityMode mode) {
+	protected void doLoad(final T entity, final FormMode mode) {
 		resetViews();
-		getEntityView().loadEntity(entity, mode);
+		getFormView().loadEntity(entity, mode);
 	}
 
 	protected T doCreate(final T entity) {
@@ -255,28 +255,28 @@ public class EntityWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	protected EntityCtrlModel<T> newComponentModel() {
-		return new EntityCtrlModel();
+	protected FormToolbarModel<T> newComponentModel() {
+		return new FormToolbarModel();
 	}
 
 	@Override
-	protected EntityCtrlModel<T> getComponentModel() {
-		return (EntityCtrlModel<T>) super.getComponentModel();
+	protected FormToolbarModel<T> getComponentModel() {
+		return (FormToolbarModel<T>) super.getComponentModel();
 	}
 
 	@Override
-	protected EntityCtrlModel<T> getOrCreateComponentModel() {
-		return (EntityCtrlModel<T>) super.getOrCreateComponentModel();
+	protected FormToolbarModel<T> getOrCreateComponentModel() {
+		return (FormToolbarModel<T>) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class EntityCtrlModel<T> extends CtrlModel {
+	public static class FormToolbarModel<T> extends CtrlModel {
 
-		private EntityToolbarView toolbarView;
+		private FormToolbarView toolbarView;
 
-		private EntityView<T> entityView;
+		private FormView<T> formView;
 	}
 
 }

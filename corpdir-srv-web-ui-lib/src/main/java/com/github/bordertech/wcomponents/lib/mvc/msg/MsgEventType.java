@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.mvc;
+package com.github.bordertech.wcomponents.lib.mvc.msg;
 
 /**
  * Message events.

@@ -1,21 +1,26 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
-import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultMessageView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.MessageCtrl;
 import java.util.List;
 
 /**
+ * List View with a Text Search View.
  *
  * @author jonathan
+ * @param <S> the criteria type
+ * @param <T> the entity type
  */
 public class ListWithCriteriaView<S, T> extends DefaultComboView implements ListView<T> {
 
@@ -27,7 +32,7 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 
 	private final ListView<T> listView;
 
-	private final DefaultPollingView<S, List<T>> pollingView;
+	private final PollingView<S, List<T>> pollingView;
 
 	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
 		super("wclib/hbs/layout/combo-list-crit.hbs", dispatcher, qualifier);
@@ -48,10 +53,13 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
 
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
+
 		// Add views to holder
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-messages", messageCtrl.getMessageView());
 		content.addTaggedComponent("vw-ctrl-msg", messageCtrl);
+		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
 		content.addTaggedComponent("vw-ctrl", ctrl);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
 		content.addTaggedComponent("vw-crit", criteriaView);
@@ -70,7 +78,7 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 		return criteriaView;
 	}
 
-	public DefaultPollingView<S, List<T>> getPollingView() {
+	public PollingView<S, List<T>> getPollingView() {
 		return pollingView;
 	}
 

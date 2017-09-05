@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.MsgView;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgView;
 
 /**
  * Default message view.

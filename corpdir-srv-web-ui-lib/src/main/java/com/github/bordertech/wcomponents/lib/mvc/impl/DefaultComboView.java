@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
-import com.github.bordertech.wcomponents.lib.mvc.MsgEvent;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.ArrayList;
 import java.util.Collections;

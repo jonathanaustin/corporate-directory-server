@@ -14,23 +14,21 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.DefaultEntityView;
+import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
 import com.github.bordertech.wcomponents.lib.app.ListBasicView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
-import com.github.bordertech.wcomponents.lib.app.combo.EntityCrudView;
-import com.github.bordertech.wcomponents.lib.app.combo.EntityWithSelectView;
-import com.github.bordertech.wcomponents.lib.app.combo.EntityWithToolbarView;
+import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView;
+import com.github.bordertech.wcomponents.lib.app.combo.FormWithSelectView;
+import com.github.bordertech.wcomponents.lib.app.combo.FormWithToolbarView;
 import com.github.bordertech.wcomponents.lib.app.combo.ListWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.app.view.EntityView;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.demo.model.MyStringSearchModel;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.impl.ControllerEventType;
 
 /**
  *
@@ -49,8 +47,8 @@ public class AppDemoUtil {
 //		WView view2 = buildView2(dispatcher);
 //		WView view3 = buildView3(dispatcher);
 //		WView view4 = buildView4(dispatcher);
-		ComboView view5 = buildView5(dispatcher);
-		ComboView crud = buildCrudView(dispatcher);
+		final ComboView view5 = buildView5(dispatcher);
+		final ComboView crud = buildCrudView(dispatcher);
 
 		//-----------
 		// MAIN Controller
@@ -65,7 +63,8 @@ public class AppDemoUtil {
 		button.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatcher.dispatch(new Event(ControllerEventType.RESET));
+				view5.reset();
+				crud.reset();
 			}
 		});
 
@@ -89,9 +88,9 @@ public class AppDemoUtil {
 	}
 
 	public static ComboView buildView2(final Dispatcher dispatcher) {
-		EntityView<OrgUnit> entView = new DefaultEntityView<>(dispatcher, "B");
-		EntityWithToolbarView<OrgUnit> view2 = new EntityWithToolbarView<>(dispatcher, "B", entView);
-		entView.getEntityDetailsHolder().add(new BasicEntityPanel());
+		FormView<OrgUnit> entView = new DefaultFormView<>(dispatcher, "B");
+		FormWithToolbarView<OrgUnit> view2 = new FormWithToolbarView<>(dispatcher, "B", entView);
+		entView.getFormHolder().add(new BasicEntityPanel());
 		// Set Model
 		view2.addModel(new MyOrgUnitActionModel());
 		return view2;
@@ -129,11 +128,11 @@ public class AppDemoUtil {
 //	}
 	public static ComboView buildView5(final Dispatcher dispatcher) {
 		// Entity View
-		EntityWithToolbarView<OrgUnit> entView = new EntityWithToolbarView<>(dispatcher, "W1");
-		entView.getEntityView().getEntityDetailsHolder().add(new BasicEntityPanel());
+		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>(dispatcher, "W1");
+		entView.getFormView().getFormHolder().add(new BasicEntityPanel());
 		// Select View
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W1");
-		EntityWithSelectView<String, OrgUnit> view = new EntityWithSelectView<>(dispatcher, "W1", entView, select);
+		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(dispatcher, "W1", entView, select);
 
 		// Set Models
 		view.addModel(new MyOrgUnitActionModel());
@@ -144,14 +143,14 @@ public class AppDemoUtil {
 
 	public static ComboView buildCrudView(final Dispatcher dispatcher) {
 		// Entity View
-		EntityView<OrgUnit> entity = new DefaultEntityView<>(dispatcher, "W");
-		entity.getEntityDetailsHolder().add(new BasicEntityPanel());
+		FormView<OrgUnit> entity = new DefaultFormView<>(dispatcher, "W");
+		entity.getFormHolder().add(new BasicEntityPanel());
 		// Select View
 		SelectView<OrgUnit> select = new SelectMenuView<>(dispatcher, "W");
 		// Criteria View
 		CriteriaView crit = new CriteriaTextView(dispatcher, "W");
 
-		EntityCrudView view = new EntityCrudView(dispatcher, "W", crit, select, entity);
+		DefaultCrudView view = new DefaultCrudView(dispatcher, "W", crit, select, entity);
 
 		// Set Models
 		view.addModel(new MockOrgUnitActionModel());

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.view;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
- * Entity action view.
+ * Toolbar view.
  *
  * @author Jonathan Austin
  * @since 1.0.0

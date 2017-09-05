@@ -6,8 +6,11 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
+ * Select view with a criteria view.
  *
  * @author jonathan
+ * @param <S> the criteria type
+ * @param <T> the entity type
  */
 public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> implements SelectView<T> {
 
