@@ -26,7 +26,6 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.demo.model.MyStringSearchModel;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 
@@ -42,13 +41,13 @@ public class AppDemoUtil {
 	public static void configApplication(final WApplication app) {
 	}
 
-	public static WDiv buildDemo(final Dispatcher dispatcher) {
+	public static WDiv buildDemo() {
 //		WView view1 = buildView1(dispatcher);
 //		WView view2 = buildView2(dispatcher);
 //		WView view3 = buildView3(dispatcher);
 //		WView view4 = buildView4(dispatcher);
-		final ComboView view5 = buildView5(dispatcher);
-		final ComboView crud = buildCrudView(dispatcher);
+		final ComboView view5 = buildView5();
+		final ComboView crud = buildCrudView();
 
 		//-----------
 		// MAIN Controller
@@ -56,9 +55,8 @@ public class AppDemoUtil {
 //		ctrl.addView(view2);
 //		ctrl.addView(view3);
 //		ctrl.addView(view4);
-		view5.configViews();
-		crud.configViews();
-
+//		view5.configViews();
+//		crud.configViews();
 		WButton button = new WButton("Reset");
 		button.setAction(new Action() {
 			@Override
@@ -80,24 +78,24 @@ public class AppDemoUtil {
 		return div;
 	}
 
-	public static ComboView buildView1(final Dispatcher dispatcher) {
-		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(dispatcher, "A", new ListBasicView(dispatcher, "A"));
+	public static ComboView buildView1() {
+		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(new ListBasicView());
 		// Set Model
 		view.addModel(new MyStringSearchModel());
 		return view;
 	}
 
-	public static ComboView buildView2(final Dispatcher dispatcher) {
-		FormView<OrgUnit> entView = new DefaultFormView<>(dispatcher, "B");
-		FormWithToolbarView<OrgUnit> view2 = new FormWithToolbarView<>(dispatcher, "B", entView);
+	public static ComboView buildView2() {
+		FormView<OrgUnit> entView = new DefaultFormView<>();
+		FormWithToolbarView<OrgUnit> view2 = new FormWithToolbarView<>(entView);
 		entView.getFormHolder().add(new BasicEntityPanel());
 		// Set Model
 		view2.addModel(new MyOrgUnitActionModel());
 		return view2;
 	}
 
-	public static ComboView buildView3(final Dispatcher dispatcher) {
-		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(dispatcher, "X", new SelectMenuView(dispatcher, "X"));
+	public static ComboView buildView3() {
+		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(new SelectMenuView());
 		// Set Model
 		view3.addModel(new MyOrgUnitSearchModel());
 		return view3;
@@ -126,13 +124,13 @@ public class AppDemoUtil {
 //		holder.add(listView4);
 //		return view4;
 //	}
-	public static ComboView buildView5(final Dispatcher dispatcher) {
+	public static ComboView buildView5() {
 		// Entity View
-		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>(dispatcher, "W1");
+		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>();
 		entView.getFormView().getFormHolder().add(new BasicEntityPanel());
 		// Select View
-		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>(dispatcher, "W1");
-		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(dispatcher, "W1", entView, select);
+		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>();
+		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(entView, select);
 
 		// Set Models
 		view.addModel(new MyOrgUnitActionModel());
@@ -141,16 +139,16 @@ public class AppDemoUtil {
 		return view;
 	}
 
-	public static ComboView buildCrudView(final Dispatcher dispatcher) {
+	public static ComboView buildCrudView() {
 		// Entity View
-		FormView<OrgUnit> entity = new DefaultFormView<>(dispatcher, "W");
+		FormView<OrgUnit> entity = new DefaultFormView<>();
 		entity.getFormHolder().add(new BasicEntityPanel());
 		// Select View
-		SelectView<OrgUnit> select = new SelectMenuView<>(dispatcher, "W");
+		SelectView<OrgUnit> select = new SelectMenuView<>();
 		// Criteria View
-		CriteriaView crit = new CriteriaTextView(dispatcher, "W");
+		CriteriaView crit = new CriteriaTextView();
 
-		DefaultCrudView view = new DefaultCrudView(dispatcher, "W", crit, select, entity);
+		DefaultCrudView view = new DefaultCrudView(crit, select, entity);
 
 		// Set Models
 		view.addModel(new MockOrgUnitActionModel());

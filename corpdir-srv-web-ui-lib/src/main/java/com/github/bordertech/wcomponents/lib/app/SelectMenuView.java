@@ -10,7 +10,6 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 
@@ -26,12 +25,7 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 
 	private final WDiv ajaxPanel = new WDiv();
 
-	public SelectMenuView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public SelectMenuView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public SelectMenuView() {
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);

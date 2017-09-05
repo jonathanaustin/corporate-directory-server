@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  *
@@ -27,12 +26,7 @@ public class DefaultView extends AbstractView {
 		}
 	};
 
-	public DefaultView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultView() {
 		addTaggedComponent("vw-content", content);
 	}
 

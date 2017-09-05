@@ -14,7 +14,6 @@ import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
@@ -28,20 +27,20 @@ import java.util.List;
  */
 public class DefaultCrudView<S, T> extends DefaultMessageComboView {
 
-	public DefaultCrudView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView) {
-		super("wclib/hbs/layout/combo-ent-crud.hbs", dispatcher, qualifier);
+	public DefaultCrudView(final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView) {
+		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Views
-		PollingView<S, List<T>> pollingView = new DefaultPollingView<>(dispatcher, qualifier);
-		FormToolbarView formToolbarView = new DefaultFormToolbarView(dispatcher, qualifier);
-		ToolbarView toolbarView = new DefaultToolbarView(dispatcher, qualifier);
+		PollingView<S, List<T>> pollingView = new DefaultPollingView<>();
+		FormToolbarView formToolbarView = new DefaultFormToolbarView();
+		ToolbarView toolbarView = new DefaultToolbarView();
 
 		// Ctrls
-		DefaultController ctrl = new DefaultController(dispatcher, qualifier);
-		FormWithSelectCtrl<S, T> selectCtrl = new FormWithSelectCtrl<>(dispatcher, qualifier);
-		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>(dispatcher, qualifier);
-		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
+		DefaultController ctrl = new DefaultController();
+		FormWithSelectCtrl<S, T> selectCtrl = new FormWithSelectCtrl<>();
+		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>();
+		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>();
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Set views on the Ctrls
 		selectCtrl.setFormView(formView);

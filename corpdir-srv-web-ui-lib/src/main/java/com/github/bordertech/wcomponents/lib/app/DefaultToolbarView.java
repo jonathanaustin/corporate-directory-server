@@ -14,7 +14,6 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.Arrays;
@@ -59,24 +58,7 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 
 	};
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 */
-	public DefaultToolbarView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 * @param qualifier the qualifier
-	 */
-	public DefaultToolbarView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	public DefaultToolbarView() {
 		WContainer content = getContent();
 		content.add(menu);
 		content.add(ajaxPanel);
@@ -85,7 +67,6 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		menu.add(itemAdd);
 		menu.add(itemReset);
 		menu.addHtmlClass("wc-neg-margin");
-
 	}
 
 	public final WMenu getMenu() {

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +13,6 @@ import java.util.List;
  * @since 1.0.0
  */
 public class DefaultListView<T> extends DefaultViewBound<List<T>> implements ListView<T> {
-
-	public DefaultListView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultListView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-	}
 
 	@Override
 	public void addItem(final T entity) {

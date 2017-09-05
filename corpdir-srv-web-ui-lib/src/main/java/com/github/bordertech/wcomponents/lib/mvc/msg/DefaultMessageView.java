@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -13,12 +12,7 @@ public class DefaultMessageView extends DefaultView implements MessageView {
 
 	private final WMessages messages = new WMessages(true);
 
-	public DefaultMessageView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultMessageView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultMessageView() {
 		getContent().add(messages);
 		messages.addHtmlClass("wc-margin-s-lg");
 	}

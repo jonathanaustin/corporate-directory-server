@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
@@ -14,12 +13,9 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.*;
  */
 public class ResetViewCtrl extends DefaultController {
 
-	public ResetViewCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public ResetViewCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
 		// Default Listeners
 		// Reset EVENT
 		Listener listener = new Listener() {
@@ -28,7 +24,7 @@ public class ResetViewCtrl extends DefaultController {
 				handleResetEvent();
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.RESET_VIEW);
+		registerListener(listener, ActionEventType.RESET_VIEW);
 	}
 
 	protected void handleResetEvent() {

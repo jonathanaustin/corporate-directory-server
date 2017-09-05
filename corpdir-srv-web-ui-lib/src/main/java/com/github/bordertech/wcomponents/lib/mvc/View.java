@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
@@ -24,6 +23,12 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 * @return the view qualifier (if needed)
 	 */
 	String getQualifier();
+
+	/**
+	 *
+	 * @param qualifier the qualifier to be used on events
+	 */
+	void setQualifier(final String qualifier);
 
 	/**
 	 * Reset the view to the default state
@@ -64,12 +69,5 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 * @return true if valid
 	 */
 	boolean validateView();
-
-	/**
-	 * Dispatch a message event from this view.
-	 *
-	 * @param event the message event
-	 */
-	void dispatchMessageEvent(final MsgEvent event);
 
 }

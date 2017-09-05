@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 
 /**
@@ -13,12 +12,8 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
  */
 public class TemplateViewBound<T> extends TemplateView implements ViewBound<T> {
 
-	public TemplateViewBound(final String templateName, final Dispatcher dispatcher) {
-		this(templateName, dispatcher, null);
-	}
-
-	public TemplateViewBound(final String templateName, final Dispatcher dispatcher, final String qualifier) {
-		super(templateName, dispatcher, qualifier);
+	public TemplateViewBound(final String templateName) {
+		super(templateName);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

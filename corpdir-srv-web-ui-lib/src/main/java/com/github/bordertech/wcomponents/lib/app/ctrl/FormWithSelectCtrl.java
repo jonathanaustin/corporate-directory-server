@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
@@ -19,13 +18,9 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  */
 public class FormWithSelectCtrl<S, T> extends DefaultController {
 
-	public FormWithSelectCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public FormWithSelectCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
 		// Listeners
 		// Select EVENT
 		Listener listener = new Listener() {
@@ -35,7 +30,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 				handleSelectEvent(selected);
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.SELECT);
+		registerListener(listener, ActionEventType.SELECT);
 
 		// Loaded
 		listener = new Listener() {
@@ -44,7 +39,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 				handleLoadedOKEvent();
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.LOAD_OK);
+		registerListener(listener, ActionEventType.LOAD_OK);
 
 		// Created
 		listener = new Listener() {
@@ -53,7 +48,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 				handleCreateOkEvent((T) event.getData());
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.CREATE_OK);
+		registerListener(listener, ActionEventType.CREATE_OK);
 		// Updated
 		listener = new Listener() {
 			@Override
@@ -61,7 +56,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 				handleUpdateOkEvent((T) event.getData());
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.UPDATE_OK);
+		registerListener(listener, ActionEventType.UPDATE_OK);
 		// Deleted
 		listener = new Listener() {
 			@Override
@@ -69,7 +64,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 				handleDeleteOkEvent((T) event.getData());
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.DELETE_OK);
+		registerListener(listener, ActionEventType.DELETE_OK);
 
 	}
 

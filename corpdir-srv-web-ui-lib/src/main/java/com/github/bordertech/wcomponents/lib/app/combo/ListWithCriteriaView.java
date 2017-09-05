@@ -9,10 +9,9 @@ import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
 import java.util.List;
 
 /**
@@ -34,26 +33,26 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 
 	private final PollingView<S, List<T>> pollingView;
 
-	public ListWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final ListView<T> listView) {
-		super("wclib/hbs/layout/combo-list-crit.hbs", dispatcher, qualifier);
+	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView) {
+		super("wclib/hbs/layout/combo-list-crit.hbs");
 
 		// Messages (default to show all)
-		messageCtrl = new DefaultMessageCtrl(dispatcher, qualifier);
-		messageCtrl.setMessageView(new DefaultMessageView(dispatcher, qualifier));
+		messageCtrl = new DefaultMessageCtrl();
+		messageCtrl.setMessageView(new DefaultMessageView());
 
 		// Views
-		this.toolbarView = new DefaultToolbarView(dispatcher, qualifier);
+		this.toolbarView = new DefaultToolbarView();
 		this.criteriaView = criteriaView;
 		this.listView = listView;
-		this.pollingView = new DefaultPollingView<>(dispatcher, qualifier);
+		this.pollingView = new DefaultPollingView<>();
 
 		// Ctrl
-		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>(dispatcher, qualifier);
+		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>();
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Add views to holder
 		WTemplate content = getContent();

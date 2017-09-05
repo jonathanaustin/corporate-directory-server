@@ -16,7 +16,6 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -149,12 +148,7 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 		}
 	};
 
-	public DefaultNavigationView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultNavigationView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultNavigationView() {
 
 		WContainer content = getContent();
 

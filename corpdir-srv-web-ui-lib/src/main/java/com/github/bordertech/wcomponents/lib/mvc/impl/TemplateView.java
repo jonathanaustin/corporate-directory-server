@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
@@ -29,12 +28,7 @@ public class TemplateView extends AbstractView {
 		}
 	};
 
-	public TemplateView(final String templateName, final Dispatcher dispatcher) {
-		this(templateName, dispatcher, null);
-	}
-
-	public TemplateView(final String templateName, final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public TemplateView(final String templateName) {
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("vw-content", content);

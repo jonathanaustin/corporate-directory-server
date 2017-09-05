@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 
 /**
@@ -13,12 +12,7 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
  */
 public class DefaultViewBound<T> extends DefaultView implements ViewBound<T> {
 
-	public DefaultViewBound(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultViewBound(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultViewBound() {
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

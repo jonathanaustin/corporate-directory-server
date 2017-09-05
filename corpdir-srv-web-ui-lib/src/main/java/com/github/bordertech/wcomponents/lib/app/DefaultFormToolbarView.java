@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * Entity form toolbar implementation.
@@ -73,24 +72,7 @@ public class DefaultFormToolbarView extends DefaultToolbarView implements FormTo
 		}
 	};
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 */
-	public DefaultFormToolbarView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 * @param qualifier the qualifier
-	 */
-	public DefaultFormToolbarView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	public DefaultFormToolbarView() {
 		WMenu menu = getMenu();
 		menu.add(itemEdit);
 		menu.add(itemUpdate);

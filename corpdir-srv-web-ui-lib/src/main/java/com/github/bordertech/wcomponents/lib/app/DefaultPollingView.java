@@ -3,12 +3,11 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -46,12 +45,7 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 		}
 	};
 
-	public DefaultPollingView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultPollingView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultPollingView() {
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);

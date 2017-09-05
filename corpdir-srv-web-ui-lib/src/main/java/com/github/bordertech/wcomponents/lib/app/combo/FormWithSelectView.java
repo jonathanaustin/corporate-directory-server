@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 
 /**
@@ -21,18 +20,18 @@ public class FormWithSelectView<S, T> extends DefaultMessageComboView implements
 
 	private final FormView<T> formView;
 
-	public FormWithSelectView(final Dispatcher dispatcher, final String qualifier, final FormView<T> formView, final SelectView<T> selectView) {
-		super("wclib/hbs/layout/combo-ent-select.hbs", dispatcher, qualifier);
+	public FormWithSelectView(final FormView<T> formView, final SelectView<T> selectView) {
+		super("wclib/hbs/layout/combo-ent-select.hbs");
 
 		this.formView = formView;
 
 		// Ctrl
-		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>(dispatcher, qualifier);
+		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>();
 		ctrl.setFormView(formView);
 		ctrl.setSelectView(selectView);
 
 		// Reset
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

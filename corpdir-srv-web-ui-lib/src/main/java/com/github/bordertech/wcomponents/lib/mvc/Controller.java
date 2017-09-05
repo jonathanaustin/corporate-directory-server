@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import java.util.List;
 
 /**
@@ -24,9 +23,20 @@ public interface Controller extends WComponent {
 	String getQualifier();
 
 	/**
+	 *
+	 * @param qualifier the qualifier to be used on events
+	 */
+	void setQualifier(final String qualifier);
+
+	/**
 	 * Check controller is configured correctly
 	 */
 	void checkConfig();
+
+	/**
+	 * Setup the controller listeners.
+	 */
+	void setupListeners();
 
 	/**
 	 *
@@ -38,13 +48,6 @@ public interface Controller extends WComponent {
 	 * Reset the views.
 	 */
 	void resetViews();
-
-	/**
-	 * Dispatch a message event from this controller.
-	 *
-	 * @param event the message event
-	 */
-	void dispatchMessageEvent(final MsgEvent event);
 
 	/**
 	 *

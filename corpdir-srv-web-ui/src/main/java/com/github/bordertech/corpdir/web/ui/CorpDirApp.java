@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.wc.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.resource.ConfigLibUtil;
 import java.util.Date;
 
@@ -36,8 +35,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	 */
 	private final WCardManager mgr = new WCardManager();
 
-	private final DefaultDispatcher dispatcher = new DefaultDispatcher();
-
 	/**
 	 * Construct Application.
 	 */
@@ -47,8 +44,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		// Add wclib Setup
 		ConfigLibUtil.configApplication(this);
-
-		add(dispatcher);
 
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
@@ -68,7 +63,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 
 		//-----------
 		// Build views;
-		WDiv demo = AppDemoUtil.buildDemo(dispatcher);
+		WDiv demo = AppDemoUtil.buildDemo();
 		mgr.add(demo);
 
 		// Footer
@@ -127,4 +122,5 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	public static CorpDirApp getInstance(final WComponent descendant) {
 		return WebUtilities.getAncestorOfClass(CorpDirApp.class, descendant);
 	}
+
 }

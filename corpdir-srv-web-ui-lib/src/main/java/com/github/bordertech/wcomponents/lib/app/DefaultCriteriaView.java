@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 
@@ -25,12 +24,7 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
-	public DefaultCriteriaView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultCriteriaView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultCriteriaView() {
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {

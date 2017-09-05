@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
@@ -21,14 +20,6 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @since 1.0.0
  */
 public class DefaultFormView<T> extends DefaultViewBound<T> implements FormView<T> {
-
-	public DefaultFormView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultFormView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-	}
 
 	@Override
 	public void setFormMode(final FormMode mode) {

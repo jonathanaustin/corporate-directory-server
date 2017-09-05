@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WSuggestions;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,12 +22,7 @@ public class CriteriaTextView extends DefaultCriteriaView<String> {
 
 	private final WSuggestions suggestions = new WSuggestions();
 
-	public CriteriaTextView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public CriteriaTextView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public CriteriaTextView() {
 
 		WContainer content = getContent();
 

@@ -7,9 +7,10 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
 import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherHelper;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
@@ -18,7 +19,6 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 
 /**
  *
@@ -27,30 +27,25 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
  */
 public abstract class AbstractView extends WTemplate implements View {
 
-	private final Dispatcher dispatcher;
-
-	private final String qualifier;
-
-	public AbstractView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public AbstractView(final Dispatcher dispatcher, final String qualifier) {
+	public AbstractView() {
 		super("wclib/hbs/layout/default-view.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
-		this.dispatcher = dispatcher;
-		this.qualifier = qualifier;
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return dispatcher;
+		return DispatcherHelper.getInstance();
 	}
 
 	@Override
 	public final String getQualifier() {
-		return qualifier;
+		return getComponentModel().qualifier;
+	}
+
+	@Override
+	public final void setQualifier(final String qualifier) {
+		getOrCreateComponentModel().qualifier = qualifier;
 	}
 
 	@Override
@@ -161,15 +156,11 @@ public abstract class AbstractView extends WTemplate implements View {
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		dispatchMessageEvent(new MsgEvent(type, texts, true));
+		dispatchMessageEvent(new MsgEvent(type, null, texts, true));
 	}
 
-	@Override
 	public void dispatchMessageEvent(final MsgEvent event) {
-		MessageComboView combo = WebUtilities.getClosestOfClass(MessageComboView.class, this);
-		if (combo != null) {
-			combo.handleMessageEvent(event);
-		}
+		getDispatcher().dispatch(event);
 	}
 
 	/**
@@ -197,10 +188,6 @@ public abstract class AbstractView extends WTemplate implements View {
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
-	protected MessageComboView findComboMessageView() {
-		return WebUtilities.getAncestorOfClass(MessageComboView.class, this);
-	}
-
 	@Override
 	protected ViewModel newComponentModel() {
 		return new ViewModel();
@@ -222,6 +209,8 @@ public abstract class AbstractView extends WTemplate implements View {
 	public static class ViewModel extends TemplateModel {
 
 		private boolean contentVisible = true;
+
+		private String qualifier;
 	}
 
 	/**

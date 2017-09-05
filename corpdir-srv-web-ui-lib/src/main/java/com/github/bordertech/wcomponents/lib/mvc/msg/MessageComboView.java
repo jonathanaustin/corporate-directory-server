@@ -12,13 +12,6 @@ import com.github.bordertech.wcomponents.lib.mvc.*;
 public interface MessageComboView extends View {
 
 	/**
-	 * Check if this view will handle the message event.
-	 *
-	 * @param event the message event
-	 */
-	void handleMessageEvent(final MsgEvent event);
-
-	/**
 	 *
 	 * @return the combo view message controller
 	 */

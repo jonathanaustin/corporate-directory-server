@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
@@ -22,13 +21,9 @@ import java.util.List;
  */
 public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
-	public ListWithCriteriaCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public ListWithCriteriaCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
 		// Listeners
 		// Search EVENT
 		Listener listener = new Listener() {
@@ -38,7 +33,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 				handleSearchEvent(criteria);
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.SEARCH);
+		registerListener(listener, ActionEventType.SEARCH);
 
 		// Polling - FAIL
 		listener = new Listener() {
@@ -48,7 +43,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 				handleSearchFailedEvent(excp);
 			}
 		};
-		registerCtrlListener(listener, PollingEventType.ERROR);
+		registerListener(listener, PollingEventType.ERROR);
 
 		// Polling - COMPLETE
 		listener = new Listener() {
@@ -58,7 +53,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 				handleSearchCompleteEvent(entities);
 			}
 		};
-		registerCtrlListener(listener, PollingEventType.COMPLETE);
+		registerListener(listener, PollingEventType.COMPLETE);
 
 		// Toolbar
 		// Back
@@ -68,7 +63,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 				handleBackEvent();
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.BACK);
+		registerListener(listener, ActionEventType.BACK);
 		// Add
 		listener = new Listener() {
 			@Override
@@ -76,7 +71,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 				handleAddEvent();
 			}
 		};
-		registerCtrlListener(listener, ActionEventType.ADD);
+		registerListener(listener, ActionEventType.ADD);
 	}
 
 	@Override

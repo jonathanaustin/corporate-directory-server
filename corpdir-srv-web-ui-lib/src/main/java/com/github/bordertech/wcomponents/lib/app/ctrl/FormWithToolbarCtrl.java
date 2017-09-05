@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
@@ -19,12 +18,9 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  */
 public class FormWithToolbarCtrl<T> extends DefaultController {
 
-	public FormWithToolbarCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public FormWithToolbarCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
 
 		// Entity Action Event Listeners
 		for (ActionEventType eventType : ActionEventType.values()) {
@@ -34,7 +30,7 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 					handleActionEvent(event);
 				}
 			};
-			registerCtrlListener(listener, eventType);
+			registerListener(listener, eventType);
 		}
 	}
 

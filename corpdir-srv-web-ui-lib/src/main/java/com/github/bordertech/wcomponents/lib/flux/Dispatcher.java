@@ -11,10 +11,6 @@ public interface Dispatcher extends Serializable {
 
 	void dispatch(final Event event);
 
-	String register(final Listener listener, final String qualifier);
-
-	String register(final Listener listener, final EventType eventType);
-
 	String register(final Listener listener, final Matcher matcher);
 
 	void unregister(final String registerId);

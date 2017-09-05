@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
 /**
@@ -14,14 +13,6 @@ import java.util.List;
  * @since 1.0.0
  */
 public class DefaultSelectView<T> extends DefaultListView<T> implements SelectView<T> {
-
-	public DefaultSelectView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
-	}
-
-	public DefaultSelectView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-	}
 
 	@Override
 	public void setListMode(final ListMode mode) {

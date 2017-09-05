@@ -1,15 +1,17 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -18,26 +20,36 @@ import java.util.List;
  */
 public class DefaultComboView extends TemplateView implements ComboView {
 
-	public DefaultComboView(final String templateName, final Dispatcher dispatcher) {
-		this(templateName, dispatcher, null);
-	}
-
-	public DefaultComboView(final String templateName, final Dispatcher dispatcher, final String qualifier) {
-		super(templateName, dispatcher, qualifier);
+	public DefaultComboView(final String templateName) {
+		super(templateName);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}
 
 	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			configViews();
+			setInitialised(true);
+		}
+	}
+
+	@Override
+	public void reset() {
+		unregisterListenerIds();
+		super.reset();
+	}
+
+	@Override
 	public void configViews() {
-		checkConfig();
+		checkCtrlConfigs();
 		// Call Config on any COMBO Views
 		for (View view : getViews()) {
 			if (view instanceof ComboView) {
 				((ComboView) view).configViews();
 			}
 		}
-		setConfigured();
 	}
 
 	@Override
@@ -52,6 +64,13 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		ComboView parent = findParentCombo();
 		if (parent != null) {
 			parent.configAjax(view);
+		}
+	}
+
+	protected void checkCtrlConfigs() {
+		for (Controller ctrl : getControllers()) {
+			ctrl.checkConfig();
+			ctrl.setupListeners();
 		}
 	}
 
@@ -84,12 +103,6 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		// Not found, so try the parent controller Models
 		ComboView parent = findParentCombo();
 		return parent == null ? null : parent.getModel(clazz);
-	}
-
-	protected void checkConfig() {
-		for (Controller ctrl : getControllers()) {
-			ctrl.checkConfig();
-		}
 	}
 
 	protected List<View> getViews() {
@@ -126,19 +139,23 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	}
 
 	@Override
-	protected MessageComboView findComboMessageView() {
-		if (isBlocking()) {
-			return null;
+	public void registerListenerId(final String id) {
+		ComboModel model = getOrCreateComponentModel();
+		if (model.registeredIds == null) {
+			model.registeredIds = new HashSet<>();
 		}
-		return super.findComboMessageView();
+		model.registeredIds.add(id);
 	}
 
-	protected boolean isConfigured() {
-		return getComponentModel().configured;
-	}
-
-	protected void setConfigured() {
-		getOrCreateComponentModel().configured = true;
+	protected void unregisterListenerIds() {
+		ComboModel model = getOrCreateComponentModel();
+		if (model.registeredIds != null) {
+			Dispatcher dispatcher = getDispatcher();
+			for (String id : model.registeredIds) {
+				dispatcher.unregister(id);
+			}
+			model.registeredIds = null;
+		}
 	}
 
 	@Override
@@ -161,11 +178,11 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	 */
 	public static class ComboModel extends ViewModel {
 
-		private boolean configured;
-
 		private List<Model> models;
 
 		private boolean block;
+
+		private Set<String> registeredIds;
 	}
 
 }
