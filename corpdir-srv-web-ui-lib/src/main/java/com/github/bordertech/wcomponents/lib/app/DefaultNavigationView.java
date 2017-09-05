@@ -149,7 +149,11 @@ public class DefaultNavigationView extends DefaultView implements NavigationView
 	};
 
 	public DefaultNavigationView() {
+		this(null);
+	}
 
+	public DefaultNavigationView(final String qualifier) {
+		super(qualifier);
 		WContainer content = getContent();
 
 		// Layout

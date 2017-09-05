@@ -28,9 +28,14 @@ import java.util.List;
 public abstract class AbstractView extends WTemplate implements View {
 
 	public AbstractView() {
+		this(null);
+	}
+
+	public AbstractView(final String qualifier) {
 		super("wclib/hbs/layout/default-view.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		setSearchAncestors(false);
 		setBeanProperty(".");
+		setQualifier(qualifier);
 	}
 
 	@Override

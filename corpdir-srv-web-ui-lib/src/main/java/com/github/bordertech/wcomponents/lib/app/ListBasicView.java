@@ -15,6 +15,11 @@ public class ListBasicView<T> extends DefaultListView<T> {
 	private final WList list = new WList(WList.Type.STACKED);
 
 	public ListBasicView() {
+		this(null);
+	}
+
+	public ListBasicView(final String qualifier) {
+		super(qualifier);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
 		list.setBeanProperty(".");

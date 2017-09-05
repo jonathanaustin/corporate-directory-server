@@ -18,6 +18,14 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  */
 public class FormWithToolbarCtrl<T> extends DefaultController {
 
+	public FormWithToolbarCtrl() {
+		this(null);
+	}
+
+	public FormWithToolbarCtrl(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void setupListeners() {
 		super.setupListeners();

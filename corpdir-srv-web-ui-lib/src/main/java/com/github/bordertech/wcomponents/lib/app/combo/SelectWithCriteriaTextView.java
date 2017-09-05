@@ -13,10 +13,14 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 public class SelectWithCriteriaTextView<T> extends SelectWithCriteriaView<String, T> {
 
 	public SelectWithCriteriaTextView() {
-		this(new SelectMenuView<T>());
+		this(null);
 	}
 
-	public SelectWithCriteriaTextView(final SelectView<T> listView) {
-		super(new CriteriaTextView(), listView);
+	public SelectWithCriteriaTextView(final String qualifier) {
+		this(new SelectMenuView<T>(), qualifier);
+	}
+
+	public SelectWithCriteriaTextView(final SelectView<T> listView, final String qualifier) {
+		super(new CriteriaTextView(), listView, qualifier);
 	}
 }

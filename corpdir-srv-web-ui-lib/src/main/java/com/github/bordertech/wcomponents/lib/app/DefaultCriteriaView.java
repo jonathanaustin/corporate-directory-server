@@ -25,6 +25,11 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
 	public DefaultCriteriaView() {
+		this(null);
+	}
+
+	public DefaultCriteriaView(final String qualifier) {
+		super(qualifier);
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {

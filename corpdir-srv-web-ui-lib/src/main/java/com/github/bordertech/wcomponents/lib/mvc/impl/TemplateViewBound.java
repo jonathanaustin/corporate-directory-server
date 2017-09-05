@@ -13,7 +13,11 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 public class TemplateViewBound<T> extends TemplateView implements ViewBound<T> {
 
 	public TemplateViewBound(final String templateName) {
-		super(templateName);
+		this(templateName, null);
+	}
+
+	public TemplateViewBound(final String templateName, final String qualifier) {
+		super(templateName, qualifier);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

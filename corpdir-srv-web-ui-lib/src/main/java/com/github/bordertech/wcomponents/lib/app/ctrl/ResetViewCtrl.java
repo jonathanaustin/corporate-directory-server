@@ -13,6 +13,14 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.*;
  */
 public class ResetViewCtrl extends DefaultController {
 
+	public ResetViewCtrl() {
+		this(null);
+	}
+
+	public ResetViewCtrl(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void setupListeners() {
 		super.setupListeners();

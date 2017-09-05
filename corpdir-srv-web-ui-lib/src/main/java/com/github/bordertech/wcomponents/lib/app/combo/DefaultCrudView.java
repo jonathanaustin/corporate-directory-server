@@ -28,7 +28,11 @@ import java.util.List;
 public class DefaultCrudView<S, T> extends DefaultMessageComboView {
 
 	public DefaultCrudView(final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView) {
-		super("wclib/hbs/layout/combo-ent-crud.hbs");
+		this(criteriaView, selectView, formView, null);
+	}
+
+	public DefaultCrudView(final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView, final String qualifier) {
+		super("wclib/hbs/layout/combo-ent-crud.hbs", qualifier);
 
 		// Views
 		PollingView<S, List<T>> pollingView = new DefaultPollingView<>();

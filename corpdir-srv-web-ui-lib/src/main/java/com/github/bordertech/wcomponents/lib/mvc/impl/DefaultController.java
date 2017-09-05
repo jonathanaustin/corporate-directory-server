@@ -29,6 +29,14 @@ import java.util.List;
  */
 public class DefaultController extends AbstractWComponent implements Controller {
 
+	public DefaultController() {
+		this(null);
+	}
+
+	public DefaultController(final String qualifier) {
+		setQualifier(qualifier);
+	}
+
 	@Override
 	public final Dispatcher getDispatcher() {
 		return DispatcherHelper.getInstance();
@@ -78,7 +86,6 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 	@Override
 	public void setupListeners() {
-
 	}
 
 	/**

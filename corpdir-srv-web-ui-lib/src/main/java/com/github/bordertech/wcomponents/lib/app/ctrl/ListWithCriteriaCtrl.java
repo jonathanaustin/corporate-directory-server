@@ -21,6 +21,14 @@ import java.util.List;
  */
 public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 
+	public ListWithCriteriaCtrl() {
+		this(null);
+	}
+
+	public ListWithCriteriaCtrl(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void setupListeners() {
 		super.setupListeners();

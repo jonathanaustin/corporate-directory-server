@@ -26,6 +26,11 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 	private final WDiv ajaxPanel = new WDiv();
 
 	public SelectMenuView() {
+		this(null);
+	}
+
+	public SelectMenuView(final String qualifier) {
+		super(qualifier);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);

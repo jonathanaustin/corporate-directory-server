@@ -24,15 +24,23 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView implements F
 	private final FormToolbarView toolbarView;
 
 	public FormWithToolbarView() {
-		this(new DefaultFormView<T>());
+		this((String) null);
+	}
+
+	public FormWithToolbarView(final String qualifier) {
+		this(new DefaultFormView<T>(), qualifier);
 	}
 
 	public FormWithToolbarView(final FormView<T> formView) {
-		this(formView, new DefaultFormToolbarView());
+		this(formView, new DefaultFormToolbarView(), null);
 	}
 
-	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView) {
-		super("wclib/hbs/layout/combo-ent-toolbar.hbs");
+	public FormWithToolbarView(final FormView<T> formView, final String qualifier) {
+		this(formView, new DefaultFormToolbarView(), qualifier);
+	}
+
+	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView, final String qualifier) {
+		super("wclib/hbs/layout/combo-ent-toolbar.hbs", qualifier);
 
 		// Views
 		this.formView = formView;

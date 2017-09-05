@@ -14,6 +14,14 @@ import java.util.List;
  */
 public class DefaultSelectView<T> extends DefaultListView<T> implements SelectView<T> {
 
+	public DefaultSelectView() {
+		this(null);
+	}
+
+	public DefaultSelectView(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void setListMode(final ListMode mode) {
 		getOrCreateComponentModel().listMode = mode == null ? ListMode.VIEW : mode;

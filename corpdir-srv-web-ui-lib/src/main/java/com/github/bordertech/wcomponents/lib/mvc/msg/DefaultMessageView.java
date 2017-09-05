@@ -13,6 +13,11 @@ public class DefaultMessageView extends DefaultView implements MessageView {
 	private final WMessages messages = new WMessages(true);
 
 	public DefaultMessageView() {
+		this(null);
+	}
+
+	public DefaultMessageView(final String qualifier) {
+		super(qualifier);
 		getContent().add(messages);
 		messages.addHtmlClass("wc-margin-s-lg");
 	}

@@ -14,7 +14,11 @@ public class DefaultMessageComboView extends DefaultComboView implements Message
 	private final MessageView messageView = new DefaultMessageView();
 
 	public DefaultMessageComboView(final String templateName) {
-		super(templateName);
+		this(templateName, null);
+	}
+
+	public DefaultMessageComboView(final String templateName, final String qualifier) {
+		super(templateName, qualifier);
 		messageCtrl.setMessageView(messageView);
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-messages", getMessageView());

@@ -13,6 +13,11 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
 public class DefaultViewBound<T> extends DefaultView implements ViewBound<T> {
 
 	public DefaultViewBound() {
+		this(null);
+	}
+
+	public DefaultViewBound(final String qualifier) {
+		super(qualifier);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

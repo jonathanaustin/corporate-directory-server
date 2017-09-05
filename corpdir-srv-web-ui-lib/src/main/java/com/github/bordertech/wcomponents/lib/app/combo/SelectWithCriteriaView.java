@@ -14,7 +14,11 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> implements SelectView<T> {
 
 	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView) {
-		super(criteriaView, listView);
+		this(criteriaView, listView, null);
+	}
+
+	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView, final String qualifier) {
+		super(criteriaView, listView, qualifier);
 	}
 
 	@Override

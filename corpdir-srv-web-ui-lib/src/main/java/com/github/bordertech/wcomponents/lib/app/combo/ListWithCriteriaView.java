@@ -34,7 +34,11 @@ public class ListWithCriteriaView<S, T> extends DefaultComboView implements List
 	private final PollingView<S, List<T>> pollingView;
 
 	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView) {
-		super("wclib/hbs/layout/combo-list-crit.hbs");
+		this(criteriaView, listView, null);
+	}
+
+	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView, final String qualifier) {
+		super("wclib/hbs/layout/combo-list-crit.hbs", qualifier);
 
 		// Messages (default to show all)
 		messageCtrl = new DefaultMessageCtrl();

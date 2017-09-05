@@ -14,6 +14,14 @@ import java.util.List;
  */
 public class DefaultListView<T> extends DefaultViewBound<List<T>> implements ListView<T> {
 
+	public DefaultListView() {
+		this(null);
+	}
+
+	public DefaultListView(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void addItem(final T entity) {
 		List<T> items = getItemList();

@@ -17,6 +17,11 @@ import java.util.Set;
 public class DefaultMessageCtrl extends DefaultController implements MessageCtrl {
 
 	public DefaultMessageCtrl() {
+		this(null);
+	}
+
+	public DefaultMessageCtrl(final String qualifier) {
+		super(qualifier);
 		addAllMsgTypes();
 	}
 

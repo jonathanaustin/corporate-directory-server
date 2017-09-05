@@ -27,6 +27,11 @@ public class DefaultView extends AbstractView {
 	};
 
 	public DefaultView() {
+		this(null);
+	}
+
+	public DefaultView(final String qualifier) {
+		super(qualifier);
 		addTaggedComponent("vw-content", content);
 	}
 

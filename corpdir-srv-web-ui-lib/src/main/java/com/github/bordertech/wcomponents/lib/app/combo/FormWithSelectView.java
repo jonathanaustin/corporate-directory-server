@@ -21,7 +21,11 @@ public class FormWithSelectView<S, T> extends DefaultMessageComboView implements
 	private final FormView<T> formView;
 
 	public FormWithSelectView(final FormView<T> formView, final SelectView<T> selectView) {
-		super("wclib/hbs/layout/combo-ent-select.hbs");
+		this(formView, selectView, null);
+	}
+
+	public FormWithSelectView(final FormView<T> formView, final SelectView<T> selectView, final String qualifier) {
+		super("wclib/hbs/layout/combo-ent-select.hbs", qualifier);
 
 		this.formView = formView;
 

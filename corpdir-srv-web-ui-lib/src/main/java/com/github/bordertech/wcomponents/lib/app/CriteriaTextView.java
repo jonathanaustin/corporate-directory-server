@@ -23,6 +23,11 @@ public class CriteriaTextView extends DefaultCriteriaView<String> {
 	private final WSuggestions suggestions = new WSuggestions();
 
 	public CriteriaTextView() {
+		this(null);
+	}
+
+	public CriteriaTextView(final String qualifier) {
+		super(qualifier);
 
 		WContainer content = getContent();
 

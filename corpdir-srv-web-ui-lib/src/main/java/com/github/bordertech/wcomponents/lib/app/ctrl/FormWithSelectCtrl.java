@@ -18,6 +18,14 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  */
 public class FormWithSelectCtrl<S, T> extends DefaultController {
 
+	public FormWithSelectCtrl() {
+		this(null);
+	}
+
+	public FormWithSelectCtrl(final String qualifier) {
+		super(qualifier);
+	}
+
 	@Override
 	public void setupListeners() {
 		super.setupListeners();

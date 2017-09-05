@@ -73,6 +73,11 @@ public class DefaultFormToolbarView extends DefaultToolbarView implements FormTo
 	};
 
 	public DefaultFormToolbarView() {
+		this(null);
+	}
+
+	public DefaultFormToolbarView(final String qualifier) {
+		super(qualifier);
 		WMenu menu = getMenu();
 		menu.add(itemEdit);
 		menu.add(itemUpdate);

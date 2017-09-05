@@ -46,6 +46,11 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 	};
 
 	public DefaultPollingView() {
+		this(null);
+	}
+
+	public DefaultPollingView(final String qualifier) {
+		super(qualifier);
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);

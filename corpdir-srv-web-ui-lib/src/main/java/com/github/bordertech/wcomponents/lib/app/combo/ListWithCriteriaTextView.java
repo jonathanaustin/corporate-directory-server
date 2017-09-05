@@ -12,6 +12,10 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 public class ListWithCriteriaTextView<T> extends ListWithCriteriaView<String, T> {
 
 	public ListWithCriteriaTextView(final ListView<T> listView) {
-		super(new CriteriaTextView(), listView);
+		this(listView, null);
+	}
+
+	public ListWithCriteriaTextView(final ListView<T> listView, final String qualifier) {
+		super(new CriteriaTextView(), listView, qualifier);
 	}
 }
