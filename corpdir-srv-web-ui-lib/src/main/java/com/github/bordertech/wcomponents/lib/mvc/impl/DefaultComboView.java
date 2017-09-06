@@ -10,8 +10,10 @@ import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -116,24 +118,26 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	}
 
 	@Override
-	public void addModel(final Model model) {
+	public void addModel(final String key, final Model model) {
 		ComboModel ctrl = getOrCreateComponentModel();
 		if (ctrl.models == null) {
-			ctrl.models = new ArrayList<>();
+			ctrl.models = new HashMap<>();
 		}
-		ctrl.models.add(model);
+		ctrl.models.put(key, model);
 	}
 
 	@Override
-	public Model getModel(final Class clazz) {
-		for (Model model : getModels()) {
-			if (clazz.isAssignableFrom(model.getClass())) {
+	public Model getModel(final String key) {
+		ComboModel ctrl = getComponentModel();
+		if (ctrl.models != null) {
+			Model model = ctrl.models.get(key);
+			if (model != null) {
 				return model;
 			}
 		}
 		// Not found, so try the parent controller Models
 		ComboView parent = findParentCombo();
-		return parent == null ? null : parent.getModel(clazz);
+		return parent == null ? null : parent.getModel(key);
 	}
 
 	protected List<View> getViews() {
@@ -154,11 +158,6 @@ public class DefaultComboView extends TemplateView implements ComboView {
 			}
 		}
 		return Collections.unmodifiableList(ctrls);
-	}
-
-	protected List<Model> getModels() {
-		ComboModel ctrl = getComponentModel();
-		return ctrl.models == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(ctrl.models);
 	}
 
 	@Override
@@ -209,7 +208,7 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	 */
 	public static class ComboModel extends ViewModel {
 
-		private List<Model> models;
+		private Map<String, Model> models;
 
 		private boolean block;
 

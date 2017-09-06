@@ -211,10 +211,10 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		return null;
 	}
 
-	protected Model getModel(final Class clazz) {
+	protected Model getModel(final String key) {
 		// Get Parent Combo
 		ComboView combo = findParentCombo();
-		return combo == null ? null : combo.getModel(clazz);
+		return combo == null ? null : combo.getModel(key);
 	}
 
 	protected ComboView findParentCombo() {

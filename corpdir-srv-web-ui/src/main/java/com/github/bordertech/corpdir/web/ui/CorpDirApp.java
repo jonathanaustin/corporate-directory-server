@@ -1,20 +1,16 @@
 package com.github.bordertech.corpdir.web.ui;
 
-import com.github.bordertech.corpdir.web.ui.demo.AppDemoUtil;
+import com.github.bordertech.corpdir.web.ui.combo.MainComboView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Margin;
-import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.wcomponents.Size;
 import com.github.bordertech.wcomponents.WApplication;
-import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.resource.ConfigLibUtil;
 import java.util.Date;
 
@@ -23,17 +19,9 @@ import java.util.Date;
  *
  * @author jonathan
  */
-public class CorpDirApp extends WApplication implements MessageContainer {
+public class CorpDirApp extends WApplication {
 
-	/**
-	 * Messages.
-	 */
-	private final WMessages messages = new WMessages();
-
-	/**
-	 * Card manager.
-	 */
-	private final WCardManager mgr = new WCardManager();
+	private final MainComboView mainView = new MainComboView("M");
 
 	/**
 	 * Construct Application.
@@ -50,21 +38,11 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		add(header);
 		header.add(new WHeading(HeadingLevel.H1, "Corporate Directory"));
 
-		// Detail
-		WPanel detail = new WPanel();
-		detail.setMargin(new Margin(Size.LARGE));
+		final WPanel detail = new WPanel();
+		detail.setMargin(new Margin(Size.SMALL));
 		add(detail);
 
-		// Messages
-		detail.add(messages);
-
-		// Card manager
-		detail.add(mgr);
-
-		//-----------
-		// Build views;
-		WDiv demo = AppDemoUtil.buildDemo();
-		mgr.add(demo);
+		detail.add(mainView);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
@@ -73,10 +51,6 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 		footer.add(new WText(new Date().toString()));
 
 		add(new WTimeoutWarning());
-
-		// IDs
-		header.setIdName("hdr");
-		messages.setIdName("msgs");
 	}
 
 	/**
@@ -84,15 +58,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	 */
 	@Override
 	public String getTitle() {
-		return "Corp Dir - " + getCurrentTitle();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public WMessages getMessages() {
-		return messages;
+		return "Corp Dir - " + mainView.getCardTitle();
 	}
 
 	/**
@@ -101,16 +67,7 @@ public class CorpDirApp extends WApplication implements MessageContainer {
 	@Override
 	public void handleStepError() {
 		super.handleStepError();
-		getMessages()
-				.warn("A request was made that is not in the expected sequence and the application has been refreshed to its current state.");
-	}
-
-	/**
-	 * @return the title of the current card
-	 */
-	private String getCurrentTitle() {
-		return "Title";
-//		return ((WSection) mgr.getVisible()).getDecoratedLabel().getText();
+		mainView.getMessageView().getMessages().warn("A request was made that is not in the expected sequence and the application has been refreshed to its current state.");
 	}
 
 	/**

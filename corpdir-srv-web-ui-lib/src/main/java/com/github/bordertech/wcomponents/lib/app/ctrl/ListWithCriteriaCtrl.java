@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
@@ -103,7 +104,7 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		if (getListView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
-		if (getServiceModel() == null) {
+		if (getSearchModel() == null) {
 			throw new IllegalStateException("A search service has not been set.");
 		}
 	}
@@ -135,8 +136,8 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		addView(listView);
 	}
 
-	public ServiceModel<S, List<T>> getServiceModel() {
-		return (ServiceModel<S, List<T>>) getModel(ServiceModel.class);
+	public SearchModel<S, List<T>> getSearchModel() {
+		return (SearchModel<S, List<T>>) getModel("search");
 	}
 
 	protected void handleBackEvent() {
@@ -157,7 +158,15 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		PollingView pollingView = getPollingView();
 		pollingView.resetView();
 		pollingView.setPollingCriteria(criteria == null ? "" : criteria);
-		pollingView.setServiceModel(getServiceModel());
+
+		final SearchModel<S, List<T>> model = getSearchModel();
+		ServiceModel wrapper = new ServiceModel<S, List<T>>() {
+			@Override
+			public List<T> service(final S criteria) {
+				return model.search(criteria);
+			}
+		};
+		pollingView.setServiceModel(wrapper);
 		pollingView.setContentVisible(true);
 
 		// Reset Listview

@@ -1,10 +1,10 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.web.ui.model.MockOrgUnitActionModel;
-import com.github.bordertech.corpdir.web.ui.model.MyOrgUnitActionModel;
-import com.github.bordertech.corpdir.web.ui.model.MyOrgUnitSearchModel;
-import com.github.bordertech.corpdir.web.ui.view.BasicEntityPanel;
+import com.github.bordertech.corpdir.web.ui.model.OrgUnitModel;
+import com.github.bordertech.corpdir.web.ui.panel.BasicEntityPanel;
+import com.github.bordertech.corpdir.web.ui.view.PositionTypeCrudView;
+import com.github.bordertech.corpdir.web.ui.view.UnitTypeCrudView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
@@ -18,6 +18,7 @@ import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
 import com.github.bordertech.wcomponents.lib.app.ListBasicView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView;
+import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView2;
 import com.github.bordertech.wcomponents.lib.app.combo.FormWithSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.FormWithToolbarView;
 import com.github.bordertech.wcomponents.lib.app.combo.ListWithCriteriaTextView;
@@ -49,6 +50,7 @@ public class AppDemoUtil {
 //		WView view4 = buildView4(dispatcher);
 		final ComboView view5 = buildView5();
 //		final ComboView crud = buildCrudView();
+		final View crud2 = buildCrudView2();
 
 		//-----------
 		// MAIN Controller
@@ -64,6 +66,7 @@ public class AppDemoUtil {
 			public void execute(ActionEvent event) {
 				view5.reset();
 //				crud.reset();
+				crud2.reset();
 			}
 		});
 
@@ -73,8 +76,12 @@ public class AppDemoUtil {
 //		div.add(wrapInSection(view2, "View 2"));
 //		div.add(wrapInSection(view3, "View 3"));
 //		div.add(wrapInSection(view4, "View 4"));
-		div.add(wrapInSection(view5, "View 5"));
-//		div.add(crud);
+//		div.add(wrapInSection(view5, "View 5"));
+//		div.add(crud2);
+		div.add(new PositionTypeCrudView("A"));
+		div.add(new PositionTypeCrudView("B"));
+		div.add(new UnitTypeCrudView("A3"));
+		div.add(new UnitTypeCrudView("B3"));
 
 		return div;
 	}
@@ -82,7 +89,7 @@ public class AppDemoUtil {
 	public static ComboView buildView1() {
 		ListWithCriteriaTextView<String> view = new ListWithCriteriaTextView<>(new ListBasicView());
 		// Set Model
-		view.addModel(new MyStringSearchModel());
+		view.addModel("search", new MyStringSearchModel());
 		return view;
 	}
 
@@ -91,14 +98,14 @@ public class AppDemoUtil {
 		FormWithToolbarView<OrgUnit> view2 = new FormWithToolbarView<>(entView);
 		entView.getFormHolder().add(new BasicEntityPanel());
 		// Set Model
-		view2.addModel(new MyOrgUnitActionModel());
+		view2.addModel("action", new OrgUnitModel());
 		return view2;
 	}
 
 	public static ComboView buildView3() {
 		ListWithCriteriaTextView<OrgUnit> view3 = new ListWithCriteriaTextView<>(new SelectMenuView());
 		// Set Model
-		view3.addModel(new MyOrgUnitSearchModel());
+		view3.addModel("search", new OrgUnitModel());
 		return view3;
 	}
 
@@ -141,9 +148,16 @@ public class AppDemoUtil {
 		entView.addListenerOverride("X2", MsgEventType.values());
 
 		// Set Models
-		view.addModel(new MyOrgUnitActionModel());
-		view.addModel(new MyOrgUnitSearchModel());
+		view.addModel("action", new OrgUnitModel());
+		view.addModel("search", new OrgUnitModel());
 		view.setBlocking(true);
+		return view;
+	}
+
+	public static View buildCrudView2() {
+
+//		View view = new DefaultCrudView2("Org Unit", new MyOrgUnitActionModel(), new MyOrgUnitSearchModel(), new BasicEntityPanel(), "T");
+		View view = new DefaultCrudView2("Org Unit", new OrgUnitModel(), new BasicEntityPanel(), "T");
 		return view;
 	}
 
@@ -159,8 +173,8 @@ public class AppDemoUtil {
 		DefaultCrudView view = new DefaultCrudView(crit, select, entity);
 
 		// Set Models
-		view.addModel(new MockOrgUnitActionModel());
-		view.addModel(new MyOrgUnitSearchModel());
+		view.addModel("action", new MockOrgUnitActionModel());
+		view.addModel("search", new OrgUnitModel());
 		view.setBlocking(true);
 		return view;
 	}

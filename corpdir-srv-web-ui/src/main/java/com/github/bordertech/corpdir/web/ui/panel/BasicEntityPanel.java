@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.view;
+package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.wcomponents.WCheckBox;

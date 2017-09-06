@@ -24,17 +24,17 @@ public interface ComboView extends View {
 	void configAjax(final View view);
 
 	/**
-	 *
+	 * @param key the key for the model
 	 * @param model the model for this controller
 	 */
-	void addModel(final Model model);
+	void addModel(final String key, final Model model);
 
 	/**
 	 *
-	 * @param clazz the model class to return
+	 * @param key the key for the model
 	 * @return the model instance
 	 */
-	Model getModel(final Class clazz);
+	Model getModel(final String key);
 
 	/**
 	 *

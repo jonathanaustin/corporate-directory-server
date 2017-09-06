@@ -137,7 +137,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 	}
 
 	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel(ActionModel.class);
+		return (ActionModel<T>) getModel("action");
 	}
 
 	protected void handleAddEvent() {

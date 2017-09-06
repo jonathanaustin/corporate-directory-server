@@ -5,14 +5,32 @@ import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.model.SearchModel;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.List;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
  * @author jonathan
  */
-public class MyOrgUnitActionModel implements ActionModel<OrgUnit> {
+public class OrgUnitModel implements SearchModel<String, List<OrgUnit>>, ActionModel<OrgUnit> {
+
+	private static final Log LOG = LogFactory.getLog(OrgUnitModel.class);
 
 	private static final OrgUnitService SERVICE = LocatorUtil.getService(OrgUnitService.class);
+
+	@Override
+	public List<OrgUnit> search(final String criteria) {
+		try {
+			DataResponse<List<OrgUnit>> resp = SERVICE.search(criteria);
+			return resp.getData();
+		} catch (Throwable e) {
+			LOG.error("Error doing search", e);
+			throw new SystemException("Error doing search. " + e.getMessage(), e);
+		}
+	}
 
 	@Override
 	public OrgUnit create(final OrgUnit entity) {

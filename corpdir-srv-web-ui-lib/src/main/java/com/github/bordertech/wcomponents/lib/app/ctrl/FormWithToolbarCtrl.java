@@ -61,7 +61,7 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel(ActionModel.class);
+		return (ActionModel<T>) getModel("action");
 	}
 
 	@Override
