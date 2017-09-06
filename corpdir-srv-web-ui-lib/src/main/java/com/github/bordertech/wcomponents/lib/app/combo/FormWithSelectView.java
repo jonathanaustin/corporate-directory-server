@@ -13,10 +13,9 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  * Form View with a Select View.
  *
  * @author jonathan
- * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class FormWithSelectView<S, T> extends DefaultMessageComboView implements FormView<T> {
+public class FormWithSelectView<T> extends DefaultMessageComboView implements FormView<T> {
 
 	private final FormView<T> formView;
 
@@ -30,7 +29,7 @@ public class FormWithSelectView<S, T> extends DefaultMessageComboView implements
 		this.formView = formView;
 
 		// Ctrl
-		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>(qualifier);
+		FormWithSelectCtrl<T> ctrl = new FormWithSelectCtrl<>(qualifier);
 		ctrl.setFormView(formView);
 		ctrl.setSelectView(selectView);
 		ctrl.addView(getMessageView());

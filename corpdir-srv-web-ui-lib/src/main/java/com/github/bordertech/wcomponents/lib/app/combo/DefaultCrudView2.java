@@ -34,7 +34,7 @@ public class DefaultCrudView2<S, T, U extends ActionModel<T> & SearchModel<S, Li
 		// Select View
 		SelectWithCriteriaTextView<T> select = new SelectWithCriteriaTextView<>(qualifier);
 		// Form and Select View Together
-		FormWithSelectView<S, T> view = new FormWithSelectView<>(entView, select, qualifier);
+		FormWithSelectView<T> view = new FormWithSelectView<>(entView, select, qualifier);
 
 		String prefix = qualifier == null ? "" : qualifier;
 

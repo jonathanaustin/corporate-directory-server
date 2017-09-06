@@ -25,7 +25,7 @@ public class MainCardView extends DefaultView {
 			setupCard(card, card.createCardViewInstance(prefix + "-C" + idx++));
 		}
 		// Default
-		showCard(CardType.UNIT_TYPE_CARD);
+		showCard(CardType.CONTACT_CARD);
 	}
 
 	private void setupCard(final CardType type, final View view) {

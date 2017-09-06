@@ -1,8 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
 import com.github.bordertech.corpdir.web.ui.model.OrgUnitModel;
-import com.github.bordertech.corpdir.web.ui.panel.BasicEntityPanel;
 import com.github.bordertech.corpdir.web.ui.view.PositionTypeCrudView;
 import com.github.bordertech.corpdir.web.ui.view.UnitTypeCrudView;
 import com.github.bordertech.wcomponents.Action;
@@ -96,7 +96,7 @@ public class AppDemoUtil {
 	public static ComboView buildView2() {
 		FormView<OrgUnit> entView = new DefaultFormView<>();
 		FormWithToolbarView<OrgUnit> view2 = new FormWithToolbarView<>(entView);
-		entView.getFormHolder().add(new BasicEntityPanel());
+		entView.getFormHolder().add(new BasicApiKeyPanel());
 		// Set Model
 		view2.addModel("action", new OrgUnitModel());
 		return view2;
@@ -135,11 +135,11 @@ public class AppDemoUtil {
 	public static ComboView buildView5() {
 		// Form View
 		FormWithToolbarView<OrgUnit> entView = new FormWithToolbarView<>("X");
-		entView.getFormView().getFormHolder().add(new BasicEntityPanel());
+		entView.getFormView().getFormHolder().add(new BasicApiKeyPanel());
 		// Select View
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>("X");
 		// Form and Select View Together
-		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(entView, select, "X");
+		FormWithSelectView<OrgUnit> view = new FormWithSelectView<>(entView, select, "X");
 
 		select.addDispatcherOverride("X1", MsgEventType.values());
 		select.addListenerOverride("X1", MsgEventType.values());
@@ -157,14 +157,14 @@ public class AppDemoUtil {
 	public static View buildCrudView2() {
 
 //		View view = new DefaultCrudView2("Org Unit", new MyOrgUnitActionModel(), new MyOrgUnitSearchModel(), new BasicEntityPanel(), "T");
-		View view = new DefaultCrudView2("Org Unit", new OrgUnitModel(), new BasicEntityPanel(), "T");
+		View view = new DefaultCrudView2("Org Unit", new OrgUnitModel(), new BasicApiKeyPanel(), "T");
 		return view;
 	}
 
 	public static ComboView buildCrudView() {
 		// Entity View
 		FormView<OrgUnit> entity = new DefaultFormView<>();
-		entity.getFormHolder().add(new BasicEntityPanel());
+		entity.getFormHolder().add(new BasicApiKeyPanel());
 		// Select View
 		SelectView<OrgUnit> select = new SelectMenuView<>();
 		// Criteria View

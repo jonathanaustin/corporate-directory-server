@@ -41,7 +41,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView {
 
 		// Ctrls
 		DefaultController ctrl = new DefaultController(qualifier);
-		FormWithSelectCtrl<S, T> selectCtrl = new FormWithSelectCtrl<>(qualifier);
+		FormWithSelectCtrl<T> selectCtrl = new FormWithSelectCtrl<>(qualifier);
 		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>(qualifier);
 		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>(qualifier);
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);

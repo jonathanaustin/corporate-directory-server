@@ -13,10 +13,9 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  * Controller for a Form View and Select View.
  *
  * @author jonathan
- * @param <S> the search type
  * @param <T> the select entity
  */
-public class FormWithSelectCtrl<S, T> extends DefaultController {
+public class FormWithSelectCtrl<T> extends DefaultController {
 
 	public FormWithSelectCtrl() {
 		this(null);
@@ -207,7 +206,7 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class FormSelectModel<S, T> extends CtrlModel {
+	public static class FormSelectModel<T> extends CtrlModel {
 
 		private FormView<T> formView;
 
