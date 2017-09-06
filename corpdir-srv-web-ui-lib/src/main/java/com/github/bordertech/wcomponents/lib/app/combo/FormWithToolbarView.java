@@ -50,6 +50,7 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView implements F
 		FormWithToolbarCtrl<T> ctrl = new FormWithToolbarCtrl(qualifier);
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
+		ctrl.addView(getMessageView());
 
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 

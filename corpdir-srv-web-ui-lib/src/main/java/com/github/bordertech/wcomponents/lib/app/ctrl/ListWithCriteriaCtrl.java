@@ -43,6 +43,15 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 		};
 		registerListener(listener, ActionEventType.SEARCH);
 
+		// SEARCH Start
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleSearchStartEvent();
+			}
+		};
+		registerListener(listener, ActionEventType.SEARCH_START);
+
 		// Polling - FAIL
 		listener = new Listener() {
 			@Override
@@ -131,11 +140,16 @@ public class ListWithCriteriaCtrl<S, T> extends DefaultController {
 	}
 
 	protected void handleBackEvent() {
-		reset();
+		resetViews();
 	}
 
 	protected void handleAddEvent() {
 		// Do Nothing
+	}
+
+	protected void handleSearchStartEvent() {
+		getPollingView().resetView();
+		getListView().resetView();
 	}
 
 	protected void handleSearchEvent(final S criteria) {

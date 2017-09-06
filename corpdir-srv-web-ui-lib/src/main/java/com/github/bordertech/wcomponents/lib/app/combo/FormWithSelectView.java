@@ -33,8 +33,8 @@ public class FormWithSelectView<S, T> extends DefaultMessageComboView implements
 		FormWithSelectCtrl<S, T> ctrl = new FormWithSelectCtrl<>(qualifier);
 		ctrl.setFormView(formView);
 		ctrl.setSelectView(selectView);
+		ctrl.addView(getMessageView());
 
-//		formView.addDispatcherOverride("X2", MsgEventType.VALIDATION);
 		// Reset
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 

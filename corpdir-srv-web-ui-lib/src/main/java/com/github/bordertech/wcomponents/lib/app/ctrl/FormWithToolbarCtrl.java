@@ -116,7 +116,7 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected void handleBackAction() {
-		reset();
+		resetViews();
 	}
 
 	protected void handleCancelAction() {
@@ -128,6 +128,8 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			return;
 		}
 		resetViews();
+		// Do a BACK
+		dispatchCtrlEvent(ActionEventType.BACK);
 	}
 
 	protected void handleEditAction() {
@@ -146,8 +148,8 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 		T bean = view.getViewBean();
 		try {
 			doDelete(bean);
-			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			resetViews();
+			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
@@ -187,13 +189,14 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			T bean = view.getViewBean();
 			if (create) {
 				bean = doCreate(bean);
+				resetViews();
 				dispatchCtrlEvent(ActionEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
+				resetViews();
 				dispatchCtrlEvent(ActionEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
-			doLoad(bean, FormMode.VIEW);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {

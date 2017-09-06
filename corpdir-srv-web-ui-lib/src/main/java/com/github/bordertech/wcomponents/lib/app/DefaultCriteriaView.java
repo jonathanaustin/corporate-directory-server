@@ -33,6 +33,7 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
+				doDispatchStartSearchEvent();
 				if (validateView()) {
 					doSearchButtonAction();
 				}
@@ -52,6 +53,13 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 	protected void doSearchButtonAction() {
 		updateViewBean();
 		doDispatchSearchEvent();
+	}
+
+	/**
+	 * Dispatch the search event.
+	 */
+	protected void doDispatchStartSearchEvent() {
+		dispatchViewEvent(ActionEventType.SEARCH_START);
 	}
 
 	/**

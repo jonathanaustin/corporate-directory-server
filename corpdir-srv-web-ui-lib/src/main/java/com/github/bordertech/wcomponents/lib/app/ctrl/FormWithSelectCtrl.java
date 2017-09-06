@@ -30,8 +30,18 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 	public void setupListeners() {
 		super.setupListeners();
 		// Listeners
-		// Select EVENT
+
+		// ADD EVENT
 		Listener listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleAddEvent();
+			}
+		};
+		registerListener(listener, ActionEventType.ADD);
+
+		// Select EVENT
+		listener = new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				T selected = (T) event.getData();
@@ -39,6 +49,15 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 			}
 		};
 		registerListener(listener, ActionEventType.SELECT);
+
+		// LIST Reset
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleListResetEvent();
+			}
+		};
+		registerListener(listener, ActionEventType.LIST_RESET);
 
 		// Loaded
 		listener = new Listener() {
@@ -73,6 +92,14 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 			}
 		};
 		registerListener(listener, ActionEventType.DELETE_OK);
+		// BACK
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleBackEvent();
+			}
+		};
+		registerListener(listener, ActionEventType.BACK);
 
 	}
 
@@ -113,11 +140,21 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 		return (ActionModel<T>) getModel(ActionModel.class);
 	}
 
+	protected void handleAddEvent() {
+		getSelectView().clearSelectedIdx();
+	}
+
 	protected void handleSelectEvent(final T selected) {
 		// Reset Entity View
-		FormView<T> view = getFormView();
-		view.resetView();
-		view.loadEntity(selected, FormMode.VIEW);
+		doLoadEntity(selected);
+	}
+
+	protected void handleListResetEvent() {
+		getFormView().resetView();
+	}
+
+	protected void handleBackEvent() {
+		getFormView().resetView();
 	}
 
 	protected void handleLoadedOKEvent() {
@@ -126,14 +163,30 @@ public class FormWithSelectCtrl<S, T> extends DefaultController {
 
 	protected void handleUpdateOkEvent(final T entity) {
 		getSelectView().updateItem(entity);
+		// Reload Entity
+		doLoadEntity(entity);
 	}
 
 	protected void handleCreateOkEvent(final T entity) {
 		getSelectView().addItem(entity);
+		getSelectView().showList(true);
+		getSelectView().setSelected(entity);
+		// Reload Entity
+		doLoadEntity(entity);
 	}
 
 	protected void handleDeleteOkEvent(final T entity) {
 		getSelectView().removeItem(entity);
+		if (getSelectView().getViewBean().isEmpty()) {
+			getSelectView().showList(false);
+		}
+		getFormView().resetView();
+	}
+
+	protected void doLoadEntity(final T entity) {
+		FormView<T> view = getFormView();
+		view.resetView();
+		view.loadEntity(entity, FormMode.VIEW);
 	}
 
 	@Override

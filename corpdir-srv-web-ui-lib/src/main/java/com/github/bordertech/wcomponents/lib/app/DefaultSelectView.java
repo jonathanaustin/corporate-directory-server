@@ -38,7 +38,10 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 		if (idx < -1 || idx >= size) {
 			throw new IllegalArgumentException("Selected index is invalid. Index: " + idx + " size: " + size + ".");
 		}
-		getOrCreateComponentModel().selectedIdx = idx;
+		if (getSelectedIdx() != idx) {
+			getOrCreateComponentModel().selectedIdx = idx;
+			doDispatchSelectEvent();
+		}
 	}
 
 	@Override
@@ -92,6 +95,12 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	public void updateItem(final T entity) {
 		super.updateItem(entity);
 		setSelected(entity);
+	}
+
+	@Override
+	public void resetView() {
+		dispatchViewEvent(ActionEventType.LIST_RESET);
+		super.resetView();
 	}
 
 	protected void doDispatchSelectEvent() {

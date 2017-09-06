@@ -49,6 +49,11 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 		refreshItemList(items);
 	}
 
+	@Override
+	public void showList(final boolean show) {
+		setContentVisible(show);
+	}
+
 	protected List<T> getItemList() {
 		List<T> current = getViewBean();
 		List<T> items = current == null ? new ArrayList<T>() : new ArrayList<T>(current);
@@ -56,8 +61,10 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 	}
 
 	protected void refreshItemList(final List<T> items) {
+		boolean wasVisible = isContentVisible();
 		resetContent();
 		setViewBean(items);
+		setContentVisible(wasVisible);
 	}
 
 }

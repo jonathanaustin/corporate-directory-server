@@ -60,7 +60,9 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 	@Override
 	public void reset() {
-		resetViews();
+		for (View view : getViews()) {
+			view.reset();
+		}
 		super.reset();
 	}
 

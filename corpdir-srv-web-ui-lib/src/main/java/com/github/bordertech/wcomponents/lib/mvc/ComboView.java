@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.model.Model;
 
 /**
@@ -51,5 +52,14 @@ public interface ComboView extends View {
 	 * @param id the listener id to register
 	 */
 	void registerListenerId(final String id);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addListenerOverride(final String qualifier, final EventType... types);
 
 }

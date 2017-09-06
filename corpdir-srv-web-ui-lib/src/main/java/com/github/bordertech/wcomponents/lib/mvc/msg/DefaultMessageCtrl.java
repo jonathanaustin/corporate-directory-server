@@ -119,6 +119,9 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 			return;
 		}
 
+		// Clear old messages
+		getMessageView().resetView();
+
 		switch (type) {
 			case ERROR:
 				handleErrorMessage(event);

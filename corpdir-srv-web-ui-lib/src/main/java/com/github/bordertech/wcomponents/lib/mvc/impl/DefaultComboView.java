@@ -46,6 +46,12 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	}
 
 	@Override
+	public void resetView() {
+		super.resetView();
+		configViews();
+	}
+
+	@Override
 	public void configViews() {
 		checkCtrlConfigs();
 		// Call Config on any COMBO Views
@@ -81,6 +87,13 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		// Add to child controllers
 		for (Controller ctrl : getControllers()) {
 			ctrl.addDispatcherOverride(qualifier, types);
+		}
+	}
+
+	@Override
+	public void addListenerOverride(final String qualifier, final EventType... types) {
+		// Add to child controllers
+		for (Controller ctrl : getControllers()) {
 			ctrl.addListenerOverride(qualifier, types);
 		}
 	}

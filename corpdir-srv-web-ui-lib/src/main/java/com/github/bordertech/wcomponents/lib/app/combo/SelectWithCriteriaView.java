@@ -32,7 +32,7 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 	}
 
 	@Override
-	public void setListMode(ListMode mode) {
+	public void setListMode(final ListMode mode) {
 		getListView().setListMode(mode);
 	}
 

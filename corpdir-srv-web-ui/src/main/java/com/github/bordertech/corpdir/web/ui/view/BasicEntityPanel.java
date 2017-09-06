@@ -111,7 +111,7 @@ public class BasicEntityPanel<T extends ApiKeyIdObject> extends WDiv {
 
 		// Version
 		WText txtVersion = new WText();
-		txtVersion.setBeanProperty("version");
+		txtVersion.setBeanProperty("timestamp");
 		def.addTerm("Version", txtVersion);
 
 		// ID

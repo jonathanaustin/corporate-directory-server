@@ -47,6 +47,7 @@ public class ListWithCriteriaView<S, T> extends DefaultMessageComboView implemen
 		ctrl.setCriteriaView(criteriaView);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
+		ctrl.addView(getMessageView());
 
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
@@ -108,6 +109,11 @@ public class ListWithCriteriaView<S, T> extends DefaultMessageComboView implemen
 	@Override
 	public void updateItem(final T entity) {
 		listView.updateItem(entity);
+	}
+
+	@Override
+	public void showList(final boolean show) {
+		listView.showList(show);
 	}
 
 }

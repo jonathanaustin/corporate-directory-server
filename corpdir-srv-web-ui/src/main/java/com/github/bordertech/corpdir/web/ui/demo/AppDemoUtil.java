@@ -28,6 +28,7 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.demo.model.MyStringSearchModel;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
 /**
  *
@@ -132,6 +133,12 @@ public class AppDemoUtil {
 		SelectWithCriteriaTextView<OrgUnit> select = new SelectWithCriteriaTextView<>("X");
 		// Form and Select View Together
 		FormWithSelectView<String, OrgUnit> view = new FormWithSelectView<>(entView, select, "X");
+
+		select.addDispatcherOverride("X1", MsgEventType.values());
+		select.addListenerOverride("X1", MsgEventType.values());
+
+		entView.addDispatcherOverride("X2", MsgEventType.values());
+		entView.addListenerOverride("X2", MsgEventType.values());
 
 		// Set Models
 		view.addModel(new MyOrgUnitActionModel());
