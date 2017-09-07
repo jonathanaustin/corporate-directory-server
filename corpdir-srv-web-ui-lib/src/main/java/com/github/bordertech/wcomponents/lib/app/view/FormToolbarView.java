@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
  * @since 1.0.0
  *
  */
-public interface FormToolbarView extends ToolbarView {
+public interface FormToolbarView<T> extends ToolbarView<T> {
 
 	FormMode getFormMode();
 

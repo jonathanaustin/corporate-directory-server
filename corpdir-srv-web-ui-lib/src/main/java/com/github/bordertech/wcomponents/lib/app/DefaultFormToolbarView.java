@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultFormToolbarView extends DefaultToolbarView implements FormToolbarView {
+public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
 	private final WMenuItem itemEdit = new ToolbarMenuItem("Edit", ActionEventType.EDIT) {
 		@Override

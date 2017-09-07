@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  * Default criteria view.
@@ -18,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements CriteriaView<T> {
+public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 

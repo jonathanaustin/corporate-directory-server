@@ -6,10 +6,11 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  * Toolbar view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean type
  * @since 1.0.0
  *
  */
-public interface ToolbarView extends View {
+public interface ToolbarView<T> extends View<T> {
 
 	boolean isUseBack();
 

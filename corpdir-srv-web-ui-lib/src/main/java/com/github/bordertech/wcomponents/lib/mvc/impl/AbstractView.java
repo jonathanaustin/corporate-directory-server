@@ -25,9 +25,10 @@ import java.util.Map;
 /**
  *
  * @author Jonathan Austin
+ * @param <T> the view bean type
  * @since 1.0.0
  */
-public abstract class AbstractView extends WTemplate implements View {
+public abstract class AbstractView<T> extends WTemplate implements View<T> {
 
 	public AbstractView() {
 		this(null);
@@ -105,6 +106,21 @@ public abstract class AbstractView extends WTemplate implements View {
 			dispatchMessageReset();
 			return true;
 		}
+	}
+
+	@Override
+	public void updateViewBean() {
+		WebUtilities.updateBeanValue(this);
+	}
+
+	@Override
+	public T getViewBean() {
+		return (T) getBean();
+	}
+
+	@Override
+	public void setViewBean(final T viewBean) {
+		setBean(viewBean);
 	}
 
 	@Override

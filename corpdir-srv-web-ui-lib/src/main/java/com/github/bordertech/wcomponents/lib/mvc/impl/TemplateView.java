@@ -5,12 +5,13 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
- * AbstraDefault template view.
+ * Default Template View.
  *
+ * @param <T> the view bean type
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TemplateView extends AbstractView {
+public class TemplateView<T> extends AbstractView<T> {
 
 	private final WTemplate content = new WTemplate() {
 		@Override

@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override

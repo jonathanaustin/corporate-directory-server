@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  *
  * @author jonathan
  */
-public class DefaultMessageView extends DefaultView implements MessageView {
+public class DefaultMessageView<T> extends DefaultView<T> implements MessageView<T> {
 
 	private final WMessages messages = new WMessages(true);
 

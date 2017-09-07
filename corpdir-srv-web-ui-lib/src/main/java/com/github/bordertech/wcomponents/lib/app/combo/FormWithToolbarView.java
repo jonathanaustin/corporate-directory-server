@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultMessageComboView implements FormView<T> {
+public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implements FormView<T> {
 
 	private final FormView<T> formView;
 

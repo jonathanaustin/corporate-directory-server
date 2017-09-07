@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.List;
 
 /**
@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends ViewBound<List<T>> {
+public interface ListView<T> extends View<List<T>> {
 
 	void addItem(final T entity);
 

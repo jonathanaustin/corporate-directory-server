@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @param <T> the entity type
  * @param <U> the entity model
  */
-public class DefaultCrudNoSearchView<T, U extends ActionModel> extends DefaultView {
+public class DefaultCrudNoSearchView<T, U extends ActionModel> extends DefaultView<T> {
 
 	private final FormWithSelectView<T> view;
 
@@ -53,7 +53,7 @@ public class DefaultCrudNoSearchView<T, U extends ActionModel> extends DefaultVi
 //		content.add(section);
 	}
 
-	public ViewBound<T> getCrudView() {
+	public View<T> getCrudView() {
 		return view;
 	}
 

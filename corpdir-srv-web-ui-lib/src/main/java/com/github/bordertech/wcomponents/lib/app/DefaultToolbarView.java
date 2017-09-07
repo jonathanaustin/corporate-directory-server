@@ -25,7 +25,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultToolbarView extends DefaultView implements ToolbarView {
+public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView<T> {
 
 	private final WMenu menu = new WMenu();
 

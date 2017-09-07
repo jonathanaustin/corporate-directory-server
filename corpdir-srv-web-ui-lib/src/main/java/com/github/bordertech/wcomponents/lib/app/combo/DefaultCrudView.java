@@ -25,7 +25,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class DefaultCrudView<S, T> extends DefaultMessageComboView {
+public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> {
 
 	public DefaultCrudView(final CriteriaView<S> criteriaView, final SelectView<T> selectView, final FormView<T> formView) {
 		this(criteriaView, selectView, formView, null);

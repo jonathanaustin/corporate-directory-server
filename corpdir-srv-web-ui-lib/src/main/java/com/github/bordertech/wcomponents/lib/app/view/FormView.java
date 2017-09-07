@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Entity form view.
@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
  * @since 1.0.0
  *
  */
-public interface FormView<T> extends ViewBound<T> {
+public interface FormView<T> extends View<T> {
 
 	/**
 	 * @return the form mode

@@ -21,7 +21,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultComboView extends TemplateView implements ComboView {
+public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T> {
 
 	public DefaultComboView(final String templateName) {
 		this(templateName, null);

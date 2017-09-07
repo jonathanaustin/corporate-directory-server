@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.model.Model;
  * @since 1.0.0
  *
  */
-public interface ComboView extends View {
+public interface ComboView<T> extends View<T> {
 
 	/**
 	 * Configure the views.

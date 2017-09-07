@@ -19,7 +19,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class ListWithCriteriaView<S, T> extends DefaultMessageComboView implements ListView<T> {
+public class ListWithCriteriaView<S, T> extends DefaultMessageComboView<List<T>> implements ListView<T> {
 
 	private final ToolbarView toolbarView;
 

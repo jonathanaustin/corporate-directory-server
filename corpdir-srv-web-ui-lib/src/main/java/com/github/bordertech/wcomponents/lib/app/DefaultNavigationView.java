@@ -24,7 +24,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  *
  * @author jonathan
  */
-public class DefaultNavigationView extends DefaultView implements NavigationView {
+public class DefaultNavigationView<T> extends DefaultView<T> implements NavigationView<T> {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";

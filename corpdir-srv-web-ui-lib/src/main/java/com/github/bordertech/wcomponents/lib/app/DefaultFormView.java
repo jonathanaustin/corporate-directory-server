@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
 /**
@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultFormView<T> extends DefaultViewBound<T> implements FormView<T> {
+public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 
 	public DefaultFormView() {
 		this(null);

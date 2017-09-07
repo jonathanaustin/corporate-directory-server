@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultMessageComboView extends DefaultComboView implements MessageComboView {
+public class DefaultMessageComboView<T> extends DefaultComboView<T> implements MessageComboView<T> {
 
 	private final DefaultMessageCtrl messageCtrl;
 	private final MessageView messageView;

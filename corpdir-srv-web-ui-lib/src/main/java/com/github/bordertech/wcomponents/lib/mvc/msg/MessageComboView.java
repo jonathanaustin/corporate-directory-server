@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.mvc.*;
  * @since 1.0.0
  *
  */
-public interface MessageComboView extends View {
+public interface MessageComboView<T> extends View<T> {
 
 	/**
 	 *

@@ -4,11 +4,14 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 
 /**
+ * Default view.
+ *
+ * @param <T> the view bean type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultView extends AbstractView {
+public class DefaultView<T> extends AbstractView<T> {
 
 	private final WContainer content = new WContainer() {
 		@Override

@@ -19,7 +19,7 @@ import java.util.List;
  * @param <T> the entity type
  * @param <U> the entity model
  */
-public class DefaultCrudView2<S, T, U extends ActionModel<T> & SearchModel<S, List<T>>> extends DefaultView {
+public class DefaultCrudView2<S, T, U extends ActionModel<T> & SearchModel<S, List<T>>> extends DefaultView<T> {
 
 	public DefaultCrudView2(final String title, final U model, final Container formPanel) {
 		this(title, model, formPanel, null);
