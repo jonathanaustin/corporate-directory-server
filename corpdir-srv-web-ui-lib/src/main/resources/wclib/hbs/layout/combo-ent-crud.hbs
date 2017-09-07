@@ -2,25 +2,21 @@
 <div id="{{wc.id}}" class="{{wc.htmlClass}}" >
   <section class="wc-section">
     <header class="wc-decoratedlabel">
-        <h1 class="wc_dlbl_seg">MY TITLE</h1>
+        <h1 class="wc_dlbl_seg">{{vw-title}}</h1>
     </header>
-    {{vw-toolbar-2}}
+    {{vw-toolbar-1}}
     <div>
       {{vw-messages}}
-      {{vw-ctrl}}
       <div class="cg-grid cg-cols-2 cg-split-30-70 cg-bk-lg cg-gap-l">
         <!-- Left col -->
-        <div class="wc-panel-type-box">
+        <div>
            {{vw-crit}}
-           <div class="wc-margin-n-lg">
-             {{vw-poll}}
-           </div>
-           <div class="wc-margin-n-lg">
-             {{vw-list}}
-           </div>
+           {{vw-poll}}
+           {{vw-list}}
         </div>
         <!-- Right col -->
-        <div class="wc-panel-type-box">
+        <div>
+           {{vw-toolbar-2}}
            {{vw-entity}}
         </div>
       </div>

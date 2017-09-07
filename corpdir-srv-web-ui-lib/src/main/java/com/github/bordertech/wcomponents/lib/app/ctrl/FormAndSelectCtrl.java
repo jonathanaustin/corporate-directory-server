@@ -9,7 +9,11 @@ import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Controller for a Form View and Select View.
@@ -51,14 +55,6 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 			}
 		};
 		registerListener(listener, ToolbarEventType.ADD);
-		// BACK
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleBackEvent();
-			}
-		};
-		registerListener(listener, ToolbarEventType.BACK);
 
 		// Select EVENT
 		listener = new Listener() {
@@ -154,15 +150,11 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	}
 
 	protected void handleListResetEvent() {
-		getFormView().resetView();
-	}
-
-	protected void handleBackEvent() {
-		getFormView().resetView();
+		resetFormView();
 	}
 
 	protected void handleLoadedOKEvent() {
-		getFormView().setContentVisible(true);
+		makeFormViewContentVisible(true);
 	}
 
 	protected void handleUpdateOkEvent(final T entity) {
@@ -184,13 +176,40 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 		if (getSelectView().getViewBean().isEmpty()) {
 			getSelectView().showList(false);
 		}
-		getFormView().resetView();
+		resetFormView();
 	}
 
 	protected void doLoadEntity(final T entity) {
-		FormView<T> view = getFormView();
-		view.resetView();
-		view.loadEntity(entity, FormMode.VIEW);
+		resetFormView();
+		getFormView().loadEntity(entity, FormMode.VIEW);
+	}
+
+	protected void resetFormView() {
+		getFormView().resetView();
+		for (View view : getGroupFormViews()) {
+			view.resetView();
+		}
+	}
+
+	protected void makeFormViewContentVisible(final boolean show) {
+		getFormView().setContentVisible(show);
+		for (View view : getGroupFormViews()) {
+			view.setContentVisible(show);
+		}
+	}
+
+	public void addGroupFormView(final View view) {
+		FormSelectModel model = getOrCreateComponentModel();
+		if (model.formGroup == null) {
+			model.formGroup = new ArrayList();
+		}
+		model.formGroup.add(view);
+		addView(view);
+	}
+
+	public List<View> getGroupFormViews() {
+		FormSelectModel model = getComponentModel();
+		return model.formGroup == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.formGroup);
 	}
 
 	@Override
@@ -216,6 +235,8 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 		private FormView<T> formView;
 
 		private SelectView<T> selectView;
+
+		private List<View> formGroup;
 	}
 
 }

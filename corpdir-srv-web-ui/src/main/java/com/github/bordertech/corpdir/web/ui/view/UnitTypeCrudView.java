@@ -1,15 +1,15 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
-import com.github.bordertech.corpdir.web.ui.model.UnitTypeModel;
 import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
-import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView2;
+import com.github.bordertech.corpdir.web.ui.model.UnitTypeModel;
+import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView;
 
 /**
  * Unit type crud view.
  *
  * @author jonathan
  */
-public class UnitTypeCrudView extends DefaultCrudView2 {
+public class UnitTypeCrudView extends DefaultCrudView {
 
 	private static final UnitTypeModel MODEL = new UnitTypeModel();
 

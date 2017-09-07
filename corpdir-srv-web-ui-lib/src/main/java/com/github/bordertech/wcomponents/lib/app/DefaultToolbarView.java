@@ -16,8 +16,6 @@ import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Toolbar default implementation.
@@ -111,20 +109,18 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 			if (menuItem instanceof WMenuItem) {
 				WMenuItem item = (WMenuItem) menuItem;
 				item.setAction(action);
-				ajaxPanel.add(new ToolbarAJaxControl(item));
+				ajaxPanel.add(new ToolbarAJaxControl(item, this));
 			}
 		}
 	}
 
 	protected void addTarget(final AjaxTarget target) {
-		addTargets(Arrays.asList(target));
-	}
-
-	protected void addTargets(final List<AjaxTarget> targets) {
 		// Add a target to each AJAX control
 		for (WComponent child : ajaxPanel.getChildren()) {
 			WAjaxControl ctrl = (WAjaxControl) child;
-			ctrl.addTargets(targets);
+			if (!ctrl.getTargets().contains(target)) {
+				ctrl.addTarget(target);
+			}
 		}
 	}
 
@@ -225,8 +221,8 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 
 	public static class ToolbarAJaxControl extends WAjaxControl {
 
-		public ToolbarAJaxControl(final AjaxTrigger trigger) {
-			super(trigger);
+		public ToolbarAJaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
+			super(trigger, target);
 		}
 
 		@Override
