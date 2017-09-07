@@ -1,12 +1,14 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 
 /**
@@ -15,13 +17,13 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  * @author jonathan
  * @param <T> the select entity
  */
-public class FormWithSelectCtrl<T> extends DefaultController {
+public class FormAndSelectCtrl<T> extends DefaultController {
 
-	public FormWithSelectCtrl() {
+	public FormAndSelectCtrl() {
 		this(null);
 	}
 
-	public FormWithSelectCtrl(final String qualifier) {
+	public FormAndSelectCtrl(final String qualifier) {
 		super(qualifier);
 	}
 
@@ -30,6 +32,17 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 		super.setupListeners();
 		// Listeners
 
+		// Form event type Listeners
+		for (FormCtrlEventType eventType : FormCtrlEventType.values()) {
+			Listener listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					handleFormCtrlEvents(event);
+				}
+			};
+			registerListener(listener, eventType);
+		}
+
 		// ADD EVENT
 		Listener listener = new Listener() {
 			@Override
@@ -37,7 +50,15 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 				handleAddEvent();
 			}
 		};
-		registerListener(listener, ActionEventType.ADD);
+		registerListener(listener, ToolbarEventType.ADD);
+		// BACK
+		listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleBackEvent();
+			}
+		};
+		registerListener(listener, ToolbarEventType.BACK);
 
 		// Select EVENT
 		listener = new Listener() {
@@ -47,7 +68,7 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 				handleSelectEvent(selected);
 			}
 		};
-		registerListener(listener, ActionEventType.SELECT);
+		registerListener(listener, ListEventType.SELECT);
 
 		// LIST Reset
 		listener = new Listener() {
@@ -56,7 +77,7 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 				handleListResetEvent();
 			}
 		};
-		registerListener(listener, ActionEventType.LIST_RESET);
+		registerListener(listener, ListEventType.RESET_LIST);
 
 		// Loaded
 		listener = new Listener() {
@@ -65,40 +86,7 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 				handleLoadedOKEvent();
 			}
 		};
-		registerListener(listener, ActionEventType.LOAD_OK);
-
-		// Created
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleCreateOkEvent((T) event.getData());
-			}
-		};
-		registerListener(listener, ActionEventType.CREATE_OK);
-		// Updated
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleUpdateOkEvent((T) event.getData());
-			}
-		};
-		registerListener(listener, ActionEventType.UPDATE_OK);
-		// Deleted
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleDeleteOkEvent((T) event.getData());
-			}
-		};
-		registerListener(listener, ActionEventType.DELETE_OK);
-		// BACK
-		listener = new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleBackEvent();
-			}
-		};
-		registerListener(listener, ActionEventType.BACK);
+		registerListener(listener, FormEventType.LOAD_OK);
 
 	}
 
@@ -111,10 +99,6 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 		if (getSelectView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
-		if (getActionModel() == null) {
-			throw new IllegalStateException("Entity action model has not been set.");
-		}
-
 	}
 
 	public final FormView<T> getFormView() {
@@ -135,8 +119,29 @@ public class FormWithSelectCtrl<T> extends DefaultController {
 		addView(selectView);
 	}
 
-	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel("action");
+	protected void handleFormCtrlEvents(final Event event) {
+		FormCtrlEventType type = (FormCtrlEventType) event.getQualifier().getEventType();
+		switch (type) {
+			case CREATE_OK:
+				handleCreateOkEvent((T) event.getData());
+				break;
+			case CREATE_ERROR:
+				break;
+			case DELETE_OK:
+				handleDeleteOkEvent((T) event.getData());
+				break;
+			case UPDATE_OK:
+				handleUpdateOkEvent((T) event.getData());
+				break;
+
+			case DELETE_ERROR:
+			case LOAD_ERROR:
+			case REFRESH_ERROR:
+			case REFRESH_OK:
+			case UPDATE_ERROR:
+				break;
+		}
+
 	}
 
 	protected void handleAddEvent() {

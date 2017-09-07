@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
@@ -42,11 +42,11 @@ public class ListWithCriteriaView<S, T> extends DefaultMessageComboView<List<T>>
 		this.listView = listView;
 		this.pollingView = new DefaultPollingView<>(qualifier);
 
-		// Ctrl
-		ListWithCriteriaCtrl<S, T> ctrl = new ListWithCriteriaCtrl<>(qualifier);
-		ctrl.setCriteriaView(criteriaView);
+		// Polling and List Ctrl
+		SearchPollingListCtrl<S, T> ctrl = new SearchPollingListCtrl<>(qualifier);
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
+		ctrl.setSearchView(criteriaView);
 		ctrl.addView(getMessageView());
 
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);

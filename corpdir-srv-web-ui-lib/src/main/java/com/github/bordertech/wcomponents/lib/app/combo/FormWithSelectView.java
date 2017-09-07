@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormWithSelectCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
@@ -29,7 +29,7 @@ public class FormWithSelectView<T> extends DefaultMessageComboView<T> implements
 		this.formView = formView;
 
 		// Ctrl
-		FormWithSelectCtrl<T> ctrl = new FormWithSelectCtrl<>(qualifier);
+		FormAndSelectCtrl<T> ctrl = new FormAndSelectCtrl<>(qualifier);
 		ctrl.setFormView(formView);
 		ctrl.setSelectView(selectView);
 		ctrl.addView(getMessageView());

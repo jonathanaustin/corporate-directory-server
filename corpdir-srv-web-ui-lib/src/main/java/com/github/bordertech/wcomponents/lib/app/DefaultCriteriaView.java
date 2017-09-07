@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -59,7 +59,7 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	 * Dispatch the search event.
 	 */
 	protected void doDispatchStartSearchEvent() {
-		dispatchViewEvent(ActionEventType.SEARCH_START);
+		dispatchViewEvent(SearchEventType.SEARCH_VALIDATING);
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchViewEvent(ActionEventType.SEARCH, criteria);
+		dispatchViewEvent(SearchEventType.SEARCH, criteria);
 	}
 
 	@Override

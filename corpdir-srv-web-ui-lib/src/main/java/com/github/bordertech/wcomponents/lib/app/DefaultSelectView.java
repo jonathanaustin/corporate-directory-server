@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app;
 
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import java.util.List;
@@ -97,15 +97,9 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 		setSelected(entity);
 	}
 
-	@Override
-	public void resetView() {
-		dispatchViewEvent(ActionEventType.LIST_RESET);
-		super.resetView();
-	}
-
 	protected void doDispatchSelectEvent() {
 		T bean = getSelected();
-		dispatchViewEvent(ActionEventType.SELECT, bean);
+		dispatchViewEvent(ListEventType.SELECT, bean);
 	}
 
 	@Override

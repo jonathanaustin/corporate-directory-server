@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -100,11 +100,11 @@ public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(ActionEventType.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormEventType.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchViewEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override

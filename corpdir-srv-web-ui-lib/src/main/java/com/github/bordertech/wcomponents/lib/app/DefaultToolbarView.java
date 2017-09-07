@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -29,21 +29,21 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 
 	private final WMenu menu = new WMenu();
 
-	private final WMenuItem itemBack = new ToolbarMenuItem("Back", ActionEventType.BACK) {
+	private final WMenuItem itemBack = new ToolbarMenuItem("Back", ToolbarEventType.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemAdd = new ToolbarMenuItem("Add", ActionEventType.ADD) {
+	private final WMenuItem itemAdd = new ToolbarMenuItem("Add", ToolbarEventType.ADD) {
 		@Override
 		public boolean isVisible() {
 			return isUseAdd();
 		}
 	};
 
-	private final WMenuItem itemReset = new ToolbarMenuItem("Reset", ActionEventType.RESET_VIEW) {
+	private final WMenuItem itemReset = new ToolbarMenuItem("Reset", ToolbarEventType.RESET_VIEW) {
 		@Override
 		public boolean isVisible() {
 			return isUseReset();

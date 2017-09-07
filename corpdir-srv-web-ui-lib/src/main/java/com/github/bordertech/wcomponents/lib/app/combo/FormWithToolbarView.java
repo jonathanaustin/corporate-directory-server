@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormWithToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -47,7 +47,7 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 		this.toolbarView = toolbarView;
 
 		// Ctrl
-		FormWithToolbarCtrl<T> ctrl = new FormWithToolbarCtrl(qualifier);
+		FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl(qualifier);
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
 		ctrl.addView(getMessageView());

@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 
@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
  */
 public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
-	private final WMenuItem itemEdit = new ToolbarMenuItem("Edit", ActionEventType.EDIT) {
+	private final WMenuItem itemEdit = new ToolbarMenuItem("Edit", ToolbarEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -27,7 +27,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemCancel = new ToolbarMenuItem("Cancel", ActionEventType.CANCEL) {
+	private final WMenuItem itemCancel = new ToolbarMenuItem("Cancel", ToolbarEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -45,21 +45,21 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemUpdate = new ToolbarMenuItem("Save", ActionEventType.UPDATE) {
+	private final WMenuItem itemUpdate = new ToolbarMenuItem("Save", ToolbarEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.EDIT;
 		}
 	};
 
-	private final WMenuItem itemCreate = new ToolbarMenuItem("Save", ActionEventType.CREATE) {
+	private final WMenuItem itemCreate = new ToolbarMenuItem("Save", ToolbarEventType.CREATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.ADD;
 		}
 	};
 
-	private final WMenuItem itemDelete = new ToolbarMenuItem("Delete", ActionEventType.DELETE) {
+	private final WMenuItem itemDelete = new ToolbarMenuItem("Delete", ToolbarEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();

@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormWithSelectCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormWithToolbarCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ListWithCriteriaCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -41,9 +41,9 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> {
 
 		// Ctrls
 		DefaultController ctrl = new DefaultController(qualifier);
-		FormWithSelectCtrl<T> selectCtrl = new FormWithSelectCtrl<>(qualifier);
-		FormWithToolbarCtrl entityToolbarCtrl = new FormWithToolbarCtrl<>(qualifier);
-		ListWithCriteriaCtrl<S, T> criteriaCtrl = new ListWithCriteriaCtrl<>(qualifier);
+		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>(qualifier);
+		FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl<>(qualifier);
+		SearchPollingListCtrl<S, T> criteriaCtrl = new SearchPollingListCtrl<>(qualifier);
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		// Set views on the Ctrls
@@ -51,7 +51,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> {
 		selectCtrl.setSelectView(selectView);
 		entityToolbarCtrl.setToolbarView(formToolbarView);
 		entityToolbarCtrl.setFormView(formView);
-		criteriaCtrl.setCriteriaView(criteriaView);
+		criteriaCtrl.setSearchView(criteriaView);
 		criteriaCtrl.setPollingView(pollingView);
 		criteriaCtrl.setListView(selectView);
 

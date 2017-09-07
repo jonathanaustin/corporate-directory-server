@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
- * Entity form view.
+ * Form view.
  *
  * @param <T> the entity type
  * @author Jonathan Austin
