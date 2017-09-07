@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
-import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 
 /**
@@ -11,14 +10,14 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> implements SelectView<T> {
+public class PollingSelectView<S, T> extends PollingListView<S, T> implements SelectView<T> {
 
-	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView) {
-		this(criteriaView, listView, null);
+	public PollingSelectView(final SelectView<T> listView) {
+		this(listView, null);
 	}
 
-	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView, final String qualifier) {
-		super(criteriaView, listView, qualifier);
+	public PollingSelectView(final SelectView<T> listView, final String qualifier) {
+		super(listView, qualifier);
 	}
 
 	@Override

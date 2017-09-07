@@ -1,6 +1,5 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
-import com.github.bordertech.corpdir.web.ui.common.BasicApiPanel;
 import com.github.bordertech.corpdir.api.v1.model.Address;
 
 /**
@@ -14,7 +13,8 @@ public class AddressPanel extends BasicApiPanel<Address> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public AddressPanel() {
+	public AddressPanel(final String qualifier) {
+		super(qualifier);
 		// Address Details
 		addTextField("Work station", "workStation", false);
 		addTextField("Line 1", "line1", false);

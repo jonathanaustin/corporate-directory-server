@@ -73,6 +73,7 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 
 	protected void handleMenuItemSelected(final WMenuItem item, final int idx) {
 		setSelectedIdx(idx);
+		doDispatchSelectEvent();
 	}
 
 	@Override

@@ -40,7 +40,6 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 		}
 		if (getSelectedIdx() != idx) {
 			getOrCreateComponentModel().selectedIdx = idx;
-			doDispatchSelectEvent();
 		}
 	}
 

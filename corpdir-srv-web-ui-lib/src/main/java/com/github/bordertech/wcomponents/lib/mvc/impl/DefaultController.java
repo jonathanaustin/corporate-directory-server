@@ -221,6 +221,11 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
+	protected String getPrefix() {
+		String prefix = getQualifier() == null ? "" : getQualifier();
+		return prefix;
+	}
+
 	@Override
 	protected CtrlModel newComponentModel() {
 		return new CtrlModel();

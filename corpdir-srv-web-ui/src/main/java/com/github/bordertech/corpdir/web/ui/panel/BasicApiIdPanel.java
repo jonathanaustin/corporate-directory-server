@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.wcomponents.WDefinitionList;
@@ -28,8 +28,8 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public BasicApiIdPanel() {
-		this(true);
+	public BasicApiIdPanel(final String qualifier) {
+		this(qualifier, true);
 	}
 
 	/**
@@ -37,8 +37,9 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	 *
 	 * @param addFields add the default fields
 	 */
-	public BasicApiIdPanel(final boolean addFields) {
-		add(versionPanel);
+	public BasicApiIdPanel(final String qualifier, final boolean addFields) {
+		super(qualifier);
+		getContent().add(versionPanel);
 		versionPanel.add(new WHorizontalRule());
 		versionPanel.add(versionDef);
 

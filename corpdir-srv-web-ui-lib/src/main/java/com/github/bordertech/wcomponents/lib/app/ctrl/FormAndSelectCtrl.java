@@ -4,8 +4,6 @@ import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
@@ -89,7 +87,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	@Override
 	public void checkConfig() {
 		super.checkConfig();
-		if (getFormView() == null) {
+		if (getTargetView() == null) {
 			throw new IllegalStateException("A form view has not been set.");
 		}
 		if (getSelectView() == null) {
@@ -97,12 +95,12 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 		}
 	}
 
-	public final FormView<T> getFormView() {
-		return getComponentModel().formView;
+	public final View<T> getTargetView() {
+		return getComponentModel().targetView;
 	}
 
-	public final void setFormView(final FormView<T> formView) {
-		getOrCreateComponentModel().formView = formView;
+	public final void setTargetView(final View<T> formView) {
+		getOrCreateComponentModel().targetView = formView;
 		addView(formView);
 	}
 
@@ -181,18 +179,18 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 
 	protected void doLoadEntity(final T entity) {
 		resetFormView();
-		getFormView().loadEntity(entity, FormMode.VIEW);
+		dispatchCtrlEvent(FormEventType.LOAD, entity);
 	}
 
 	protected void resetFormView() {
-		getFormView().resetView();
+		getTargetView().resetView();
 		for (View view : getGroupFormViews()) {
 			view.resetView();
 		}
 	}
 
 	protected void makeFormViewContentVisible(final boolean show) {
-		getFormView().setContentVisible(show);
+		getTargetView().setContentVisible(show);
 		for (View view : getGroupFormViews()) {
 			view.setContentVisible(show);
 		}
@@ -232,7 +230,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	 */
 	public static class FormSelectModel<T> extends CtrlModel {
 
-		private FormView<T> formView;
+		private View<T> targetView;
 
 		private SelectView<T> selectView;
 

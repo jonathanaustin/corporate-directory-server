@@ -10,8 +10,8 @@ import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
@@ -56,15 +56,15 @@ public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, Lis
 		// Ctrls
 		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>(qualifier);
 		FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl<>(qualifier);
-		SearchPollingListCtrl<S, T> criteriaCtrl = new SearchPollingListCtrl<>(qualifier);
+		PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>(qualifier);
 		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		// Set views on the Ctrls
-		selectCtrl.setFormView(formView);
+		selectCtrl.setTargetView(formView);
 		selectCtrl.setSelectView(selectView);
 		entityToolbarCtrl.setToolbarView(formToolbarView);
 		entityToolbarCtrl.setFormView(formView);
-		criteriaCtrl.setSearchView(criteriaView);
+		criteriaCtrl.addView(criteriaView);
 		criteriaCtrl.setPollingView(pollingView);
 		criteriaCtrl.setListView(selectView);
 
@@ -100,8 +100,8 @@ public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, Lis
 //		formView.addDispatcherOverride(prefix + "-2", MsgEventType.values());
 //		entityToolbarCtrl.addListenerOverride(prefix + "-2", MsgEventType.values());
 		// Set Models
-		addModel("search", model);
-		addModel("action", model);
+		addModel(getPrefix() + "search", model);
+		addModel(getPrefix() + "action", model);
 		setBlocking(true);
 
 	}

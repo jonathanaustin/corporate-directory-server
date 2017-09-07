@@ -24,7 +24,7 @@ public class FormWithSelectView<T> extends DefaultMessageComboView<T> {
 
 		// Ctrl
 		FormAndSelectCtrl<T> ctrl = new FormAndSelectCtrl<>(qualifier);
-		ctrl.setFormView(formView);
+		ctrl.setTargetView(formView);
 		ctrl.setSelectView(selectView);
 		ctrl.addView(getMessageView());
 

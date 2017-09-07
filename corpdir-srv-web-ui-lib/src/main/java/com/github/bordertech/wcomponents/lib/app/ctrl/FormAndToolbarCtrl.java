@@ -75,7 +75,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 	}
 
 	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel("action");
+		return (ActionModel<T>) getModel(getPrefix() + "action");
 	}
 
 	@Override
@@ -129,6 +129,9 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 	protected void handleFormEvents(final Event event) {
 		FormEventType type = (FormEventType) event.getQualifier().getEventType();
 		switch (type) {
+			case LOAD:
+				doLoad((T) event.getData(), FormMode.VIEW);
+				break;
 			case LOAD_OK:
 				handleLoadedOKEvent();
 				break;

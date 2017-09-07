@@ -1,7 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
 
 /**
  * Org Unit detail Form.
@@ -18,7 +17,8 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public OrgUnitPanel() {
+	public OrgUnitPanel(final String qualifier) {
+		super(qualifier);
 	}
 
 }

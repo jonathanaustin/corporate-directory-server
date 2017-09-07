@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
-import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
 import com.github.bordertech.corpdir.web.ui.model.UnitTypeModel;
+import com.github.bordertech.corpdir.web.ui.panel.BasicApiKeyPanel;
 import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView;
 
 /**
@@ -14,7 +14,7 @@ public class UnitTypeCrudView extends DefaultCrudView {
 	private static final UnitTypeModel MODEL = new UnitTypeModel();
 
 	public UnitTypeCrudView(final String qualifier) {
-		super("Unit Type", MODEL, new BasicApiKeyPanel(), qualifier);
+		super("Unit Type", MODEL, new BasicApiKeyPanel(qualifier), qualifier);
 	}
 
 }

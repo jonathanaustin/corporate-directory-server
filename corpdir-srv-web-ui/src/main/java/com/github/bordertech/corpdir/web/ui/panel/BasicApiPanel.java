@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
 import com.github.bordertech.wcomponents.Input;
@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  * Basic API Form View.
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.WDiv;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicApiPanel<T extends ApiObject> extends WDiv {
+public class BasicApiPanel<T extends ApiObject> extends DefaultView<T> {
 
 	private final WPanel formPanel = new WPanel();
 
@@ -26,10 +26,14 @@ public class BasicApiPanel<T extends ApiObject> extends WDiv {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public BasicApiPanel() {
-		add(formPanel);
+	public BasicApiPanel(final String qualifier) {
+		super(qualifier);
+		getContent().add(formPanel);
 		formPanel.add(formLayout);
 		formLayout.setLabelWidth(30);
+
+		setBeanProperty(".");
+		setSearchAncestors(true);
 	}
 
 	/**

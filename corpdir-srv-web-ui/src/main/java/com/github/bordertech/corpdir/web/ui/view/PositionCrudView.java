@@ -14,7 +14,7 @@ public class PositionCrudView extends DefaultCrudView {
 	private static final PositionModel MODEL = new PositionModel();
 
 	public PositionCrudView(final String qualifier) {
-		super("Position", MODEL, new PositionPanel(), qualifier);
+		super("Position", MODEL, new PositionPanel(qualifier), qualifier);
 	}
 
 }

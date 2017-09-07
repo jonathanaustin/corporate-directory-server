@@ -14,7 +14,7 @@ public class ContactCrudView extends DefaultCrudView {
 	private static final ContactModel MODEL = new ContactModel();
 
 	public ContactCrudView(final String qualifier) {
-		super("Contact", MODEL, new ContactPanel(), qualifier);
+		super("Contact", MODEL, new ContactPanel(qualifier), qualifier);
 	}
 
 }

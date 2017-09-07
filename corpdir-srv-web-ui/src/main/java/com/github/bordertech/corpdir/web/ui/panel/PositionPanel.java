@@ -1,7 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
 
 /**
  * Position detail Form.
@@ -19,7 +18,8 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public PositionPanel() {
+	public PositionPanel(final String qualifier) {
+		super(qualifier);
 	}
 
 }

@@ -239,6 +239,11 @@ public abstract class AbstractView<T> extends WTemplate implements View<T> {
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
+	protected String getPrefix() {
+		String prefix = getQualifier() == null ? "" : getQualifier();
+		return prefix;
+	}
+
 	@Override
 	protected ViewModel newComponentModel() {
 		return new ViewModel();

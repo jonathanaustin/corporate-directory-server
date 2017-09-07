@@ -2,7 +2,6 @@ package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
-import com.github.bordertech.corpdir.web.ui.common.BasicApiKeyPanel;
 import com.github.bordertech.wcomponents.WDropdown;
 
 /**
@@ -16,7 +15,8 @@ public class ChannelPanel extends BasicApiKeyPanel<Channel> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public ChannelPanel() {
+	public ChannelPanel(final String qualifier) {
+		super(qualifier);
 		WDropdown dropType = new WDropdown(ChannelTypeEnum.values());
 		addInputField(dropType, "Channel type", "type", true);
 		addTextField("Value", "value", false);

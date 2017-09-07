@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.common;
+package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 
@@ -12,8 +12,8 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
  */
 public class BasicApiKeyPanel<T extends ApiKeyIdObject> extends BasicApiIdPanel<T> {
 
-	public BasicApiKeyPanel() {
-		this(true);
+	public BasicApiKeyPanel(final String qualifier) {
+		this(qualifier, true);
 	}
 
 	/**
@@ -21,8 +21,8 @@ public class BasicApiKeyPanel<T extends ApiKeyIdObject> extends BasicApiIdPanel<
 	 *
 	 * @param addFields add the default fields
 	 */
-	public BasicApiKeyPanel(final boolean addFields) {
-		super(addFields);
+	public BasicApiKeyPanel(final String qualifier, final boolean addFields) {
+		super(qualifier, addFields);
 		// Form Defaults
 		if (addFields) {
 			addTextField("Business key", "businessKey", true);
