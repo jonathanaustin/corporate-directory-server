@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Criteria View.
@@ -10,6 +10,6 @@ import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
  * @since 1.0.0
  *
  */
-public interface CriteriaView<S> extends ViewBound<S> {
+public interface CriteriaView<S> extends View<S> {
 
 }

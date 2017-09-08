@@ -1,11 +1,8 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.wcomponents.lib.flux.impl;
 
-import com.github.bordertech.wcomponents.ComponentModel;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.Matcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DispatcherModel;
-import com.github.bordertech.wcomponents.lib.flux.impl.ListenerWrapper;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.Queue;
 /**
  * Holds the extrinsic state information of the edit view.
  */
-public class DispatcherComponentModel extends ComponentModel implements DispatcherModel {
+public class DefaultDispatcherModel implements DispatcherModel {
 
 	// Listeners that have EventType and Qualifier
 	private Map<Matcher, List<ListenerWrapper>> listenersByMatcher;

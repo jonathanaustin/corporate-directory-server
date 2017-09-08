@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
@@ -10,9 +11,9 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Select menu view.
@@ -22,16 +23,22 @@ import java.util.List;
  */
 public class SelectMenuView<T> extends DefaultSelectView<T> {
 
-	private final WMenu menu = new WMenu(WMenu.MenuType.TREE);
+	private final WMenu menu = new WMenu(WMenu.MenuType.TREE) {
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			findMenuItem();
+		}
+	};
 
 	private final WDiv ajaxPanel = new WDiv();
 
-	public SelectMenuView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public SelectMenuView() {
+		this(null);
 	}
 
-	public SelectMenuView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public SelectMenuView(final String qualifier) {
+		super(qualifier);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);
@@ -65,7 +72,6 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 	}
 
 	protected void handleMenuItemSelected(final WMenuItem item, final int idx) {
-		menu.setSelectedMenuItem(item);
 		setSelectedIdx(idx);
 		doDispatchSelectEvent();
 	}
@@ -76,6 +82,22 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 		for (WComponent ajax : ajaxPanel.getChildren()) {
 			addEventTargetsToAjaxCtrl((WAjaxControl) ajax, target);
 		}
+	}
+
+	protected void findMenuItem() {
+		int idx = getSelectedIdx();
+		if (idx > -1) {
+			for (MenuItem item : menu.getMenuItems()) {
+				if (item instanceof WMenuItem) {
+					Integer menuIdx = (Integer) ((WMenuItem) item).getActionObject();
+					if (Objects.equals(menuIdx, idx)) {
+						menu.setSelectedMenuItem((WMenuItem) item);
+						return;
+					}
+				}
+			}
+		}
+		menu.setSelectedMenuItem(null);
 	}
 
 }

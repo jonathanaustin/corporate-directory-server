@@ -5,11 +5,10 @@ import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
 /**
@@ -20,14 +19,14 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultFormView<T> extends DefaultViewBound<T> implements FormView<T> {
+public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 
-	public DefaultFormView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultFormView() {
+		this(null);
 	}
 
-	public DefaultFormView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultFormView(final String qualifier) {
+		super(qualifier);
 	}
 
 	@Override
@@ -101,11 +100,11 @@ public class DefaultFormView<T> extends DefaultViewBound<T> implements FormView<
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(ActionEventType.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormEventType.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(ActionEventType.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchViewEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override

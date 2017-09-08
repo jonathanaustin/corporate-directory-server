@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.lib.flux.Qualifier;
  */
 public class DefaultEvent implements Event {
 
-	private final Qualifier eventQualifier;
+	private final Qualifier qualifier;
 	private final Object data;
 	private final Exception exception;
 
@@ -38,14 +38,14 @@ public class DefaultEvent implements Event {
 		if (eventQualifier.getEventType() == null) {
 			throw new IllegalArgumentException("An event type must be provided.");
 		}
-		this.eventQualifier = eventQualifier;
+		this.qualifier = eventQualifier;
 		this.data = data;
 		this.exception = exception;
 	}
 
 	@Override
 	public Qualifier getQualifier() {
-		return eventQualifier;
+		return qualifier;
 	}
 
 	@Override

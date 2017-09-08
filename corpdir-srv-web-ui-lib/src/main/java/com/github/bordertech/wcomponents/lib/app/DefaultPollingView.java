@@ -3,12 +3,12 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override
@@ -44,14 +44,36 @@ public class DefaultPollingView<S, T> extends DefaultViewBound<T> implements Pol
 		protected void handleErrorMessage(final List<String> msgs) {
 			dispatchMessage(MsgEventType.ERROR, msgs);
 		}
+
+		@Override
+		public ServiceModel<S, T> getServiceModel() {
+			ServiceModel<S, T> model = super.getServiceModel();
+			if (model == null) {
+				model = (ServiceModel) findParentCombo().getModel(getPrefix() + "polling");
+				if (model == null) {
+					final SearchModel model2 = (SearchModel) findParentCombo().getModel(getPrefix() + "search");
+					if (model2 != null) {
+						ServiceModel wrapper = new ServiceModel() {
+							@Override
+							public Object service(final Object criteria) {
+								return model2.search(criteria);
+							}
+						};
+						setServiceModel(wrapper);
+						model = wrapper;
+					}
+				}
+			}
+			return model;
+		}
 	};
 
-	public DefaultPollingView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultPollingView() {
+		this(null);
 	}
 
-	public DefaultPollingView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultPollingView(final String qualifier) {
+		super(qualifier);
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);

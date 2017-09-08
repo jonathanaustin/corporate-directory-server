@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.model;
+package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;

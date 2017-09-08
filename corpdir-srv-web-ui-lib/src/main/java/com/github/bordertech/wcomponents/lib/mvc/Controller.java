@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 
 /**
@@ -24,9 +24,20 @@ public interface Controller extends WComponent {
 	String getQualifier();
 
 	/**
+	 *
+	 * @param qualifier the qualifier to be used on events
+	 */
+	void setQualifier(final String qualifier);
+
+	/**
 	 * Check controller is configured correctly
 	 */
 	void checkConfig();
+
+	/**
+	 * Setup the controller listeners.
+	 */
+	void setupListeners();
 
 	/**
 	 *
@@ -40,16 +51,27 @@ public interface Controller extends WComponent {
 	void resetViews();
 
 	/**
-	 * Dispatch a message event from this controller.
-	 *
-	 * @param event the message event
-	 */
-	void dispatchMessageEvent(final MsgEvent event);
-
-	/**
 	 *
 	 * @param view the view to control
 	 */
 	void addView(final View view);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addDispatcherOverride(final String qualifier, final EventType... types);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addListenerOverride(final String qualifier, final EventType... types);
 
 }

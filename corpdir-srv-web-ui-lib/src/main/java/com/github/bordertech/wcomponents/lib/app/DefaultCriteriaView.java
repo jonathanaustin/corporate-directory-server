@@ -5,11 +5,10 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  * Default criteria view.
@@ -19,21 +18,22 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements CriteriaView<T> {
+public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
-	public DefaultCriteriaView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultCriteriaView() {
+		this(null);
 	}
 
-	public DefaultCriteriaView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultCriteriaView(final String qualifier) {
+		super(qualifier);
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
+				doDispatchStartSearchEvent();
 				if (validateView()) {
 					doSearchButtonAction();
 				}
@@ -58,9 +58,16 @@ public class DefaultCriteriaView<T> extends DefaultViewBound<T> implements Crite
 	/**
 	 * Dispatch the search event.
 	 */
+	protected void doDispatchStartSearchEvent() {
+		dispatchViewEvent(SearchEventType.SEARCH_VALIDATING);
+	}
+
+	/**
+	 * Dispatch the search event.
+	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchViewEvent(ActionEventType.SEARCH, criteria);
+		dispatchViewEvent(SearchEventType.SEARCH, criteria);
 	}
 
 	@Override

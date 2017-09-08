@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * Select view with a criteria view.
@@ -14,8 +13,12 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  */
 public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> implements SelectView<T> {
 
-	public SelectWithCriteriaView(final Dispatcher dispatcher, final String qualifier, final CriteriaView<S> criteriaView, final SelectView<T> listView) {
-		super(dispatcher, qualifier, criteriaView, listView);
+	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView) {
+		this(criteriaView, listView, null);
+	}
+
+	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView, final String qualifier) {
+		super(criteriaView, listView, qualifier);
 	}
 
 	@Override

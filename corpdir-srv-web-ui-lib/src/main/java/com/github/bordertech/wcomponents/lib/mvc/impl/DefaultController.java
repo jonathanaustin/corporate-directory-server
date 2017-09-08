@@ -2,25 +2,27 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.AbstractWComponent;
 import com.github.bordertech.wcomponents.ComponentModel;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.Matcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
 import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherHelper;
 import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -29,45 +31,38 @@ import java.util.List;
  */
 public class DefaultController extends AbstractWComponent implements Controller {
 
-	private final Dispatcher dispatcher;
-
-	private final String qualifier;
-
-	public DefaultController(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultController() {
+		this(null);
 	}
 
-	public DefaultController(final Dispatcher dispatcher, final String qualifier) {
-		this.dispatcher = dispatcher;
-		this.qualifier = qualifier;
+	public DefaultController(final String qualifier) {
+		setQualifier(qualifier);
 	}
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return dispatcher;
+		return DispatcherHelper.getInstance();
 	}
 
 	@Override
 	public final String getQualifier() {
-		return qualifier;
+		return getComponentModel().qualifier;
 	}
 
 	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		if (!isConfigured()) {
-			throw new IllegalStateException("configViews has not been called on the controller");
-		}
+	public final void setQualifier(final String qualifier) {
+		getOrCreateComponentModel().qualifier = qualifier;
 	}
 
 	@Override
 	public void checkConfig() {
-		setConfigured();
 	}
 
 	@Override
 	public void reset() {
-		resetViews();
+		for (View view : getViews()) {
+			view.reset();
+		}
 		super.reset();
 	}
 
@@ -93,12 +88,24 @@ public class DefaultController extends AbstractWComponent implements Controller 
 		}
 	}
 
-	protected boolean isConfigured() {
-		return getComponentModel().configured;
+	@Override
+	public void setupListeners() {
 	}
 
-	protected void setConfigured() {
-		getOrCreateComponentModel().configured = true;
+	/**
+	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener
+	 * @param eventType
+	 */
+	protected final void registerListener(final Listener listener, final EventType eventType) {
+		String qualifier = getListenerQualifier(eventType);
+		registerListener(listener, new EventMatcher(eventType, qualifier));
+	}
+
+	protected void registerListener(final Listener listener, final Matcher matcher) {
+		String id = getDispatcher().register(listener, matcher);
+		findParentCombo().registerListenerId(id);
 	}
 
 	/**
@@ -128,57 +135,95 @@ public class DefaultController extends AbstractWComponent implements Controller 
 	 * @param exception an exception
 	 */
 	protected void dispatchCtrlEvent(final EventType eventType, final Object data, final Exception exception) {
-		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, getQualifier()), data, exception);
+		String qualifier = getDispatcherQualifier(eventType);
+		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
 		getDispatcher().dispatch(event);
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchMessageEvent(new MsgEvent(MsgEventType.RESET, ""));
+		dispatchMessage(MsgEventType.RESET, "");
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
-		dispatchMessageEvent(new MsgEvent(diags));
+		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
+		dispatchMessageEvent(new MsgEvent(diags, qualifier));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final String text) {
-		dispatchMessageEvent(new MsgEvent(type, text));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, text));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		dispatchMessageEvent(new MsgEvent(type, texts, true));
+		String qualifier = getDispatcherQualifier(type);
+		dispatchMessageEvent(new MsgEvent(type, qualifier, texts, true));
+	}
+
+	protected void dispatchMessageEvent(final MsgEvent event) {
+		getDispatcher().dispatch(event);
+	}
+
+	protected String getDispatcherQualifier(final EventType type) {
+		String qualifier = getDispatcherOverride(type);
+		return qualifier == null ? getQualifier() : qualifier;
 	}
 
 	@Override
-	public void dispatchMessageEvent(final MsgEvent event) {
-		MessageComboView combo = findComboMessageView();
-		if (combo != null) {
-			combo.handleMessageEvent(event);
+	public void addDispatcherOverride(final String qualifier, final EventType... types) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.dispatcherOverride == null) {
+			model.dispatcherOverride = new HashMap<>();
+		}
+		for (EventType type : types) {
+			model.dispatcherOverride.put(type, qualifier);
 		}
 	}
 
-	/**
-	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
-	 *
-	 * @param listener
-	 * @param eventType
-	 * @return the listener register id
-	 */
-	protected final String registerCtrlListener(final Listener listener, final EventType eventType) {
-		return getDispatcher().register(listener, new EventMatcher(eventType, getQualifier()));
+	protected String getDispatcherOverride(final EventType type) {
+		CtrlModel model = getComponentModel();
+		if (model.dispatcherOverride != null) {
+			return model.dispatcherOverride.get(type);
+		}
+		return null;
 	}
 
-	protected Model getModel(final Class clazz) {
+	protected String getListenerQualifier(final EventType type) {
+		String qualifier = getListenerOverride(type);
+		return qualifier == null ? getQualifier() : qualifier;
+	}
+
+	@Override
+	public void addListenerOverride(final String qualifier, final EventType... types) {
+		CtrlModel model = getOrCreateComponentModel();
+		if (model.listenerOverride == null) {
+			model.listenerOverride = new HashMap<>();
+		}
+		for (EventType type : types) {
+			model.listenerOverride.put(type, qualifier);
+		}
+	}
+
+	protected String getListenerOverride(final EventType type) {
+		CtrlModel model = getComponentModel();
+		if (model.listenerOverride != null) {
+			return model.listenerOverride.get(type);
+		}
+		return null;
+	}
+
+	protected Model getModel(final String key) {
 		// Get Parent Combo
 		ComboView combo = findParentCombo();
-		return combo == null ? null : combo.getModel(clazz);
+		return combo == null ? null : combo.getModel(key);
 	}
 
 	protected ComboView findParentCombo() {
 		return WebUtilities.getAncestorOfClass(ComboView.class, this);
 	}
 
-	protected MessageComboView findComboMessageView() {
-		return WebUtilities.getAncestorOfClass(MessageComboView.class, this);
+	protected String getPrefix() {
+		String prefix = getQualifier() == null ? "" : getQualifier();
+		return prefix;
 	}
 
 	@Override
@@ -203,7 +248,10 @@ public class DefaultController extends AbstractWComponent implements Controller 
 
 		private List<View> views;
 
-		private boolean configured;
+		private String qualifier;
+
+		private Map<EventType, String> dispatcherOverride;
+		private Map<EventType, String> listenerOverride;
 
 	}
 

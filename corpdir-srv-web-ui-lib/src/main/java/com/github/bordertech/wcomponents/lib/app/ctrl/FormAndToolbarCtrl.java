@@ -1,10 +1,11 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
+import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.model.ActionModel;
@@ -17,25 +18,42 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormWithToolbarCtrl<T> extends DefaultController {
+public class FormAndToolbarCtrl<T> extends DefaultController {
 
-	public FormWithToolbarCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public FormAndToolbarCtrl() {
+		this(null);
 	}
 
-	public FormWithToolbarCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public FormAndToolbarCtrl(final String qualifier) {
+		super(qualifier);
+	}
 
-		// Entity Action Event Listeners
-		for (ActionEventType eventType : ActionEventType.values()) {
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
+
+		// Form event type Listeners
+		for (FormEventType eventType : FormEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleActionEvent(event);
+					handleFormEvents(event);
 				}
 			};
-			registerCtrlListener(listener, eventType);
+			registerListener(listener, eventType);
 		}
+
+		// Toolbar event type Listeners
+		for (ToolbarEventType eventType : ToolbarEventType.values()) {
+			Listener listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					handleToolbarEvents(event);
+				}
+			};
+			registerListener(listener, eventType);
+		}
+
 	}
 
 	public final FormToolbarView getToolbarView() {
@@ -57,7 +75,7 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 	}
 
 	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel(ActionModel.class);
+		return (ActionModel<T>) getModel(getPrefix() + "action");
 	}
 
 	@Override
@@ -74,8 +92,8 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 		}
 	}
 
-	protected void handleActionEvent(final Event event) {
-		ActionEventType type = (ActionEventType) event.getQualifier().getEventType();
+	protected void handleToolbarEvents(final Event event) {
+		ToolbarEventType type = (ToolbarEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case BACK:
 				handleBackAction();
@@ -83,14 +101,17 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			case CANCEL:
 				handleCancelAction();
 				break;
-			case DELETE:
-				handleDeleteAction();
-				break;
 			case EDIT:
 				handleEditAction();
 				break;
 			case REFRESH:
 				handleRefreshAction();
+				break;
+			case ADD:
+				handleAddAction();
+				break;
+			case DELETE:
+				handleDeleteAction();
 				break;
 			case CREATE:
 				handleSaveAction(true);
@@ -98,21 +119,30 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			case UPDATE:
 				handleSaveAction(false);
 				break;
-			case ADD:
-				handleAddAction();
+
+			case RESET_VIEW:
+				// Let ResetCtrl do this
+				break;
+		}
+	}
+
+	protected void handleFormEvents(final Event event) {
+		FormEventType type = (FormEventType) event.getQualifier().getEventType();
+		switch (type) {
+			case LOAD:
+				doLoad((T) event.getData(), FormMode.VIEW);
 				break;
 			case LOAD_OK:
-				handleLoadedOKAction();
+				handleLoadedOKEvent();
 				break;
-
 			case ENTITY_MODE_CHANGED:
-				handleEntityModeChanged();
+				handleEntityModeChangedEvent();
 				break;
 		}
 	}
 
 	protected void handleBackAction() {
-		reset();
+		resetViews();
 	}
 
 	protected void handleCancelAction() {
@@ -124,6 +154,8 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			return;
 		}
 		resetViews();
+		// Do a BACK
+		dispatchCtrlEvent(ToolbarEventType.BACK);
 	}
 
 	protected void handleEditAction() {
@@ -142,12 +174,12 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 		T bean = view.getViewBean();
 		try {
 			doDelete(bean);
-			dispatchCtrlEvent(ActionEventType.DELETE_OK, bean);
 			resetViews();
+			dispatchCtrlEvent(FormCtrlEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionEventType.DELETE_ERROR, bean, e);
+			dispatchCtrlEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
@@ -160,11 +192,11 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			bean = doRefresh(bean);
-			dispatchCtrlEvent(ActionEventType.REFRESH_OK, bean);
+			dispatchCtrlEvent(FormCtrlEventType.REFRESH_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionEventType.REFRESH_ERROR, bean, e);
+			dispatchCtrlEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -183,19 +215,20 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			T bean = view.getViewBean();
 			if (create) {
 				bean = doCreate(bean);
-				dispatchCtrlEvent(ActionEventType.CREATE_OK, bean);
+				resetViews();
+				dispatchCtrlEvent(FormCtrlEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
-				dispatchCtrlEvent(ActionEventType.UPDATE_OK, bean);
+				resetViews();
+				dispatchCtrlEvent(FormCtrlEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
-			doLoad(bean, FormMode.VIEW);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
-				dispatchCtrlEvent(ActionEventType.CREATE_ERROR, e);
+				dispatchCtrlEvent(FormCtrlEventType.CREATE_ERROR, e);
 			} else {
-				dispatchCtrlEvent(ActionEventType.UPDATE_ERROR, e);
+				dispatchCtrlEvent(FormCtrlEventType.UPDATE_ERROR, e);
 			}
 		}
 	}
@@ -208,16 +241,16 @@ public class FormWithToolbarCtrl<T> extends DefaultController {
 			doEntityModeChange(FormMode.ADD);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
-			dispatchCtrlEvent(ActionEventType.LOAD_ERROR, e);
+			dispatchCtrlEvent(FormCtrlEventType.LOAD_ERROR, e);
 		}
 	}
 
-	protected void handleLoadedOKAction() {
+	protected void handleLoadedOKEvent() {
 		getToolbarView().setContentVisible(true);
 		getFormView().setContentVisible(true);
 	}
 
-	protected void handleEntityModeChanged() {
+	protected void handleEntityModeChangedEvent() {
 		// Keep Action View in SYNC
 		FormView entityView = getFormView();
 		FormToolbarView actionView = getToolbarView();

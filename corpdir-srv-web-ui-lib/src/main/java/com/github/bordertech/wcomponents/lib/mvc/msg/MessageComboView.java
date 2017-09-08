@@ -9,14 +9,7 @@ import com.github.bordertech.wcomponents.lib.mvc.*;
  * @since 1.0.0
  *
  */
-public interface MessageComboView extends View {
-
-	/**
-	 * Check if this view will handle the message event.
-	 *
-	 * @param event the message event
-	 */
-	void handleMessageEvent(final MsgEvent event);
+public interface MessageComboView<T> extends View<T> {
 
 	/**
 	 *

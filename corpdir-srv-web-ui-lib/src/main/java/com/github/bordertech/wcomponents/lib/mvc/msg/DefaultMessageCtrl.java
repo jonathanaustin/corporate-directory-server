@@ -1,7 +1,8 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Collections;
@@ -15,13 +16,27 @@ import java.util.Set;
  */
 public class DefaultMessageCtrl extends DefaultController implements MessageCtrl {
 
-	public DefaultMessageCtrl(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultMessageCtrl() {
+		this(null);
 	}
 
-	public DefaultMessageCtrl(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultMessageCtrl(final String qualifier) {
+		super(qualifier);
 		addAllMsgTypes();
+	}
+
+	@Override
+	public void setupListeners() {
+		super.setupListeners();
+		for (MsgEventType type : MsgEventType.values()) {
+			Listener listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					handleMessageEvent((MsgEvent) event);
+				}
+			};
+			registerListener(listener, type);
+		}
 	}
 
 	@Override
@@ -97,38 +112,33 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 		return model.events == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(model.events);
 	}
 
-	@Override
-	public boolean handleMessageEvent(final MsgEvent event) {
-		MsgEventType type = event.getType();
-
-		if (type == MsgEventType.RESET) {
-			handleResetMessages();
-			// Force all messages up the tree to reset (return not processed)
-			return false;
-		}
+	public void handleMessageEvent(final MsgEvent event) {
+		MsgEventType type = (MsgEventType) event.getQualifier().getEventType();
 
 		if (!checkProcessEvent(type)) {
-			return false;
+			return;
 		}
+
+		// Clear old messages
+		getMessageView().resetView();
 
 		switch (type) {
 			case ERROR:
 				handleErrorMessage(event);
-				return true;
+				return;
 			case SUCCESS:
 				handleSuccessMessage(event);
-				return true;
+				return;
 			case WARN:
 				handleWarnMessage(event);
-				return true;
+				return;
 			case INFO:
 				handleInfoMessage(event);
-				return true;
+				return;
 			case VALIDATION:
 				handleValidationMessage(event);
-				return true;
+				return;
 		}
-		return false;
 	}
 
 	protected boolean checkProcessEvent(final MsgEventType type) {

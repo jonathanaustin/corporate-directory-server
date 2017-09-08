@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
@@ -11,8 +11,9 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  *
  * @author Jonathan Austin
  * @since 1.0.0
+ * @param <T> the view bean
  */
-public interface View extends AjaxTarget, SubordinateTarget {
+public interface View<T> extends AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
@@ -24,6 +25,12 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	 * @return the view qualifier (if needed)
 	 */
 	String getQualifier();
+
+	/**
+	 *
+	 * @param qualifier the qualifier to be used on events
+	 */
+	void setQualifier(final String qualifier);
 
 	/**
 	 * Reset the view to the default state
@@ -66,10 +73,34 @@ public interface View extends AjaxTarget, SubordinateTarget {
 	boolean validateView();
 
 	/**
-	 * Dispatch a message event from this view.
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View.
 	 *
-	 * @param event the message event
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
 	 */
-	void dispatchMessageEvent(final MsgEvent event);
+	void addDispatcherOverride(final String qualifier, final EventType... types);
+
+	/**
+	 * This method is here until it is added to BeanBound.
+	 *
+	 * @param searchAncestors true if search ancestors.
+	 */
+	void setSearchAncestors(final boolean searchAncestors);
+
+	/**
+	 * @return the view bean
+	 */
+	T getViewBean();
+
+	/**
+	 * @param viewBean the view bean
+	 */
+	void setViewBean(final T viewBean);
+
+	/**
+	 * Update the View State onto the Bean.
+	 */
+	void updateViewBean();
 
 }

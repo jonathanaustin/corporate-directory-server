@@ -24,6 +24,9 @@ public class Location extends DefaultTreeObject {
 	 * @return the address
 	 */
 	public Address getAddress() {
+		if (address == null) {
+			address = new Address();
+		}
 		return address;
 	}
 

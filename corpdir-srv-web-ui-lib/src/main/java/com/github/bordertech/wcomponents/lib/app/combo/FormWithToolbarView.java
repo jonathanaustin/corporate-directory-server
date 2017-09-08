@@ -4,12 +4,11 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormWithToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 
 /**
@@ -18,33 +17,42 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultMessageComboView implements FormView<T> {
+public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implements FormView<T> {
 
 	private final FormView<T> formView;
 
 	private final FormToolbarView toolbarView;
 
-	public FormWithToolbarView(final Dispatcher dispatcher, final String qualifier) {
-		this(dispatcher, qualifier, new DefaultFormView<T>(dispatcher, qualifier));
+	public FormWithToolbarView() {
+		this((String) null);
 	}
 
-	public FormWithToolbarView(final Dispatcher dispatcher, final String qualifier, final FormView<T> formView) {
-		this(dispatcher, qualifier, formView, new DefaultFormToolbarView(dispatcher, qualifier));
+	public FormWithToolbarView(final String qualifier) {
+		this(new DefaultFormView<T>(qualifier), qualifier);
 	}
 
-	public FormWithToolbarView(final Dispatcher dispatcher, final String qualifier, final FormView<T> formView, final FormToolbarView toolbarView) {
-		super("wclib/hbs/layout/combo-ent-toolbar.hbs", dispatcher, qualifier);
+	public FormWithToolbarView(final FormView<T> formView) {
+		this(formView, null);
+	}
+
+	public FormWithToolbarView(final FormView<T> formView, final String qualifier) {
+		this(formView, new DefaultFormToolbarView(qualifier), qualifier);
+	}
+
+	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView, final String qualifier) {
+		super("wclib/hbs/layout/combo-ent-toolbar.hbs", qualifier);
 
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
 
 		// Ctrl
-		FormWithToolbarCtrl<T> ctrl = new FormWithToolbarCtrl(dispatcher, qualifier);
+		FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl(qualifier);
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
+		ctrl.addView(getMessageView());
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(dispatcher, qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

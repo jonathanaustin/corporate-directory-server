@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +12,14 @@ import java.util.List;
  * @param <T> the view bean
  * @since 1.0.0
  */
-public class DefaultListView<T> extends DefaultViewBound<List<T>> implements ListView<T> {
+public class DefaultListView<T> extends DefaultView<List<T>> implements ListView<T> {
 
-	public DefaultListView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultListView() {
+		this(null);
 	}
 
-	public DefaultListView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultListView(final String qualifier) {
+		super(qualifier);
 	}
 
 	@Override
@@ -50,6 +49,11 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 		refreshItemList(items);
 	}
 
+	@Override
+	public void showList(final boolean show) {
+		setContentVisible(show);
+	}
+
 	protected List<T> getItemList() {
 		List<T> current = getViewBean();
 		List<T> items = current == null ? new ArrayList<T>() : new ArrayList<T>(current);
@@ -57,8 +61,10 @@ public class DefaultListView<T> extends DefaultViewBound<List<T>> implements Lis
 	}
 
 	protected void refreshItemList(final List<T> items) {
+		boolean wasVisible = isContentVisible();
 		resetContent();
 		setViewBean(items);
+		setContentVisible(wasVisible);
 	}
 
 }

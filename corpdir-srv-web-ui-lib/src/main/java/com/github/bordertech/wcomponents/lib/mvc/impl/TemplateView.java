@@ -2,16 +2,16 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
 /**
- * AbstraDefault template view.
+ * Default Template View.
  *
+ * @param <T> the view bean type
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TemplateView extends AbstractView {
+public class TemplateView<T> extends AbstractView<T> {
 
 	private final WTemplate content = new WTemplate() {
 		@Override
@@ -29,12 +29,12 @@ public class TemplateView extends AbstractView {
 		}
 	};
 
-	public TemplateView(final String templateName, final Dispatcher dispatcher) {
-		this(templateName, dispatcher, null);
+	public TemplateView(final String templateName) {
+		this(templateName, null);
 	}
 
-	public TemplateView(final String templateName, final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public TemplateView(final String templateName, final String qualifier) {
+		super(qualifier);
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("vw-content", content);

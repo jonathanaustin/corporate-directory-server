@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app;
 
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import java.util.List;
 
 /**
@@ -15,12 +14,12 @@ import java.util.List;
  */
 public class DefaultSelectView<T> extends DefaultListView<T> implements SelectView<T> {
 
-	public DefaultSelectView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultSelectView() {
+		this(null);
 	}
 
-	public DefaultSelectView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultSelectView(final String qualifier) {
+		super(qualifier);
 	}
 
 	@Override
@@ -39,7 +38,9 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 		if (idx < -1 || idx >= size) {
 			throw new IllegalArgumentException("Selected index is invalid. Index: " + idx + " size: " + size + ".");
 		}
-		getOrCreateComponentModel().selectedIdx = idx;
+		if (getSelectedIdx() != idx) {
+			getOrCreateComponentModel().selectedIdx = idx;
+		}
 	}
 
 	@Override
@@ -97,7 +98,7 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 
 	protected void doDispatchSelectEvent() {
 		T bean = getSelected();
-		dispatchViewEvent(ActionEventType.SELECT, bean);
+		dispatchViewEvent(ListEventType.SELECT, bean);
 	}
 
 	@Override

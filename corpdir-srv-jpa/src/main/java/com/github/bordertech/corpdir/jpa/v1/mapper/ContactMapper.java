@@ -40,10 +40,14 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 
 		// Channels
 		// Clear all channels and re-add (Use cascade delete, update, insert)
-		to.getChannels().clear();
-		for (Channel channel : from.getChannels()) {
-			ChannelEntity entity = CHANNEL_MAPPER.convertApiToEntity(em, channel);
-			to.addChannel(entity);
+		if (to.getChannels() != null) {
+			to.getChannels().clear();
+		}
+		if (from.getChannels() != null) {
+			for (Channel channel : from.getChannels()) {
+				ChannelEntity entity = CHANNEL_MAPPER.convertApiToEntity(em, channel);
+				to.addChannel(entity);
+			}
 		}
 	}
 

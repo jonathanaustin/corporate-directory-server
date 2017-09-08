@@ -53,11 +53,4 @@ public interface MessageCtrl {
 	 */
 	void setMessageView(final MessageView messageView);
 
-	/**
-	 *
-	 * @param event the event to processed
-	 * @return true if processed
-	 */
-	boolean handleMessageEvent(final MsgEvent event);
-
 }

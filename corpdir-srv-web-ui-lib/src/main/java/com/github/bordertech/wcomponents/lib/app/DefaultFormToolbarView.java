@@ -2,10 +2,9 @@ package com.github.bordertech.wcomponents.lib.app;
 
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
  * Entity form toolbar implementation.
@@ -13,9 +12,9 @@ import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultFormToolbarView extends DefaultToolbarView implements FormToolbarView {
+public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
-	private final WMenuItem itemEdit = new MyMenuItem("Edit", ActionEventType.EDIT) {
+	private final WMenuItem itemEdit = new ToolbarMenuItem("Edit", ToolbarEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -28,7 +27,7 @@ public class DefaultFormToolbarView extends DefaultToolbarView implements FormTo
 		}
 	};
 
-	private final WMenuItem itemCancel = new MyMenuItem("Cancel", ActionEventType.CANCEL) {
+	private final WMenuItem itemCancel = new ToolbarMenuItem("Cancel", ToolbarEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -46,21 +45,21 @@ public class DefaultFormToolbarView extends DefaultToolbarView implements FormTo
 		}
 	};
 
-	private final WMenuItem itemUpdate = new MyMenuItem("Save", ActionEventType.UPDATE) {
+	private final WMenuItem itemUpdate = new ToolbarMenuItem("Save", ToolbarEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.EDIT;
 		}
 	};
 
-	private final WMenuItem itemCreate = new MyMenuItem("Save", ActionEventType.CREATE) {
+	private final WMenuItem itemCreate = new ToolbarMenuItem("Save", ToolbarEventType.CREATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.ADD;
 		}
 	};
 
-	private final WMenuItem itemDelete = new MyMenuItem("Delete", ActionEventType.DELETE) {
+	private final WMenuItem itemDelete = new ToolbarMenuItem("Delete", ToolbarEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -73,24 +72,12 @@ public class DefaultFormToolbarView extends DefaultToolbarView implements FormTo
 		}
 	};
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 */
-	public DefaultFormToolbarView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultFormToolbarView() {
+		this(null);
 	}
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 * @param qualifier the qualifier
-	 */
-	public DefaultFormToolbarView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	public DefaultFormToolbarView(final String qualifier) {
+		super(qualifier);
 		WMenu menu = getMenu();
 		menu.add(itemEdit);
 		menu.add(itemUpdate);

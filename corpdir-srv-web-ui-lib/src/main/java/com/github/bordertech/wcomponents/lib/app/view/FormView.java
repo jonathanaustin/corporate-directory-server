@@ -2,17 +2,17 @@ package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
- * Entity form view.
+ * Form view.
  *
  * @param <T> the entity type
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public interface FormView<T> extends ViewBound<T> {
+public interface FormView<T> extends View<T> {
 
 	/**
 	 * @return the form mode

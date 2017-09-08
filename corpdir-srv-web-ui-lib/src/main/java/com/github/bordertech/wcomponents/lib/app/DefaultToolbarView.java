@@ -12,13 +12,10 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.app.event.ActionEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Toolbar default implementation.
@@ -26,25 +23,25 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultToolbarView extends DefaultView implements ToolbarView {
+public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView<T> {
 
 	private final WMenu menu = new WMenu();
 
-	private final WMenuItem itemBack = new MyMenuItem("Back", ActionEventType.BACK) {
+	private final WMenuItem itemBack = new ToolbarMenuItem("Back", ToolbarEventType.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseBack();
 		}
 	};
 
-	private final WMenuItem itemAdd = new MyMenuItem("Add", ActionEventType.ADD) {
+	private final WMenuItem itemAdd = new ToolbarMenuItem("Add", ToolbarEventType.ADD) {
 		@Override
 		public boolean isVisible() {
 			return isUseAdd();
 		}
 	};
 
-	private final WMenuItem itemReset = new MyMenuItem("Reset", ActionEventType.RESET_VIEW) {
+	private final WMenuItem itemReset = new ToolbarMenuItem("Reset", ToolbarEventType.RESET_VIEW) {
 		@Override
 		public boolean isVisible() {
 			return isUseReset();
@@ -59,24 +56,12 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 
 	};
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 */
-	public DefaultToolbarView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultToolbarView() {
+		this(null);
 	}
 
-	/**
-	 * Construct the Menu Bar.
-	 *
-	 * @param dispatcher the controller for this view
-	 * @param qualifier the qualifier
-	 */
-	public DefaultToolbarView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
-
+	public DefaultToolbarView(final String qualifier) {
+		super(qualifier);
 		WContainer content = getContent();
 		content.add(menu);
 		content.add(ajaxPanel);
@@ -85,7 +70,6 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		menu.add(itemAdd);
 		menu.add(itemReset);
 		menu.addHtmlClass("wc-neg-margin");
-
 	}
 
 	public final WMenu getMenu() {
@@ -115,30 +99,28 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		Action action = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				MyMenuItem item = (MyMenuItem) event.getSource();
-				doDispatchToolbarEvent(item.getItemEvent());
+				ToolbarMenuItem item = (ToolbarMenuItem) event.getSource();
+				doDispatchToolbarEvent(item.getItemEvent(), item.getItemData());
 			}
 		};
 
 		// Add Action and AJAX control for each menu item
-		for (MenuItem menuItem : menu.getMenuItems()) {
+		for (MenuItem menuItem : menu.getMenuItems(true)) {
 			if (menuItem instanceof WMenuItem) {
 				WMenuItem item = (WMenuItem) menuItem;
 				item.setAction(action);
-				ajaxPanel.add(new MyAjaxControl(item));
+				ajaxPanel.add(new ToolbarAJaxControl(item, this));
 			}
 		}
 	}
 
 	protected void addTarget(final AjaxTarget target) {
-		addTargets(Arrays.asList(target));
-	}
-
-	protected void addTargets(final List<AjaxTarget> targets) {
 		// Add a target to each AJAX control
 		for (WComponent child : ajaxPanel.getChildren()) {
 			WAjaxControl ctrl = (WAjaxControl) child;
-			ctrl.addTargets(targets);
+			if (!ctrl.getTargets().contains(target)) {
+				ctrl.addTarget(target);
+			}
 		}
 	}
 
@@ -178,8 +160,8 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		addTarget(target);
 	}
 
-	protected void doDispatchToolbarEvent(final ActionEventType eventType) {
-		dispatchViewEvent(eventType);
+	protected void doDispatchToolbarEvent(final EventType eventType, final Object data) {
+		dispatchViewEvent(eventType, data);
 	}
 
 	@Override
@@ -213,24 +195,34 @@ public class DefaultToolbarView extends DefaultView implements ToolbarView {
 		private boolean useReset = true;
 	}
 
-	public static class MyMenuItem extends WMenuItem {
+	public static class ToolbarMenuItem extends WMenuItem {
 
-		private final ActionEventType event;
+		private final EventType event;
+		private final Object data;
 
-		public MyMenuItem(final String text, final ActionEventType event) {
-			super(text);
-			this.event = event;
+		public ToolbarMenuItem(final String text, final EventType event) {
+			this(text, event, null);
 		}
 
-		public ActionEventType getItemEvent() {
+		public ToolbarMenuItem(final String text, final EventType event, final Object data) {
+			super(text);
+			this.event = event;
+			this.data = data;
+		}
+
+		public EventType getItemEvent() {
 			return event;
+		}
+
+		public Object getItemData() {
+			return data;
 		}
 	}
 
-	public static class MyAjaxControl extends WAjaxControl {
+	public static class ToolbarAJaxControl extends WAjaxControl {
 
-		public MyAjaxControl(final AjaxTrigger trigger) {
-			super(trigger);
+		public ToolbarAJaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
+			super(trigger, target);
 		}
 
 		@Override

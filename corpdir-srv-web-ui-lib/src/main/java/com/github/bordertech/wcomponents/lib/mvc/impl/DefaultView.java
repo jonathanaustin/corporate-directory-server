@@ -2,14 +2,16 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 
 /**
+ * Default view.
+ *
+ * @param <T> the view bean type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultView extends AbstractView {
+public class DefaultView<T> extends AbstractView<T> {
 
 	private final WContainer content = new WContainer() {
 		@Override
@@ -27,12 +29,12 @@ public class DefaultView extends AbstractView {
 		}
 	};
 
-	public DefaultView(final Dispatcher dispatcher) {
-		this(dispatcher, null);
+	public DefaultView() {
+		this(null);
 	}
 
-	public DefaultView(final Dispatcher dispatcher, final String qualifier) {
-		super(dispatcher, qualifier);
+	public DefaultView(final String qualifier) {
+		super(qualifier);
 		addTaggedComponent("vw-content", content);
 	}
 
