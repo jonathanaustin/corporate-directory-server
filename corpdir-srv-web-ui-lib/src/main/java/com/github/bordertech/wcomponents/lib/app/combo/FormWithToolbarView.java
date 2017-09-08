@@ -24,35 +24,27 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 	private final FormToolbarView toolbarView;
 
 	public FormWithToolbarView() {
-		this((String) null);
-	}
-
-	public FormWithToolbarView(final String qualifier) {
-		this(new DefaultFormView<T>(qualifier), qualifier);
+		this(new DefaultFormView<T>());
 	}
 
 	public FormWithToolbarView(final FormView<T> formView) {
-		this(formView, null);
+		this(formView, new DefaultFormToolbarView());
 	}
 
-	public FormWithToolbarView(final FormView<T> formView, final String qualifier) {
-		this(formView, new DefaultFormToolbarView(qualifier), qualifier);
-	}
-
-	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView, final String qualifier) {
-		super("wclib/hbs/layout/combo-ent-toolbar.hbs", qualifier);
+	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView) {
+		super("wclib/hbs/layout/combo-ent-toolbar.hbs");
 
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
 
 		// Ctrl
-		FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl(qualifier);
+		FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl();
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
 		ctrl.addView(getMessageView());
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

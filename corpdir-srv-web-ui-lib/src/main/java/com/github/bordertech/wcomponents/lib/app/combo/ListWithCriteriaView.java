@@ -21,14 +21,10 @@ public class ListWithCriteriaView<S, T> extends PollingListView<S, T> {
 	private final CriteriaView<S> criteriaView;
 
 	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView) {
-		this(criteriaView, listView, null);
-	}
-
-	public ListWithCriteriaView(final CriteriaView<S> criteriaView, final ListView<T> listView, final String qualifier) {
-		super(listView, qualifier);
+		super(listView);
 
 		// Views
-		this.toolbarView = new DefaultToolbarView(qualifier);
+		this.toolbarView = new DefaultToolbarView();
 		this.criteriaView = criteriaView;
 
 		// Polling and List Ctrl

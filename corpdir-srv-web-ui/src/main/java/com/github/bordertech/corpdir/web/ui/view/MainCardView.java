@@ -15,14 +15,16 @@ public class MainCardView extends DefaultView {
 
 	private final WCardManager mgr = new WCardManager();
 
-	public MainCardView(final String qualifier) {
-		super(qualifier);
+	public MainCardView() {
+		super();
 		getContent().add(mgr);
 
-		String prefix = qualifier == null ? "" : qualifier;
-		int idx = 0;
+		int idx = 1;
 		for (CardType card : CardType.values()) {
-			setupCard(card, card.createCardViewInstance(prefix + "-C" + idx++));
+			View view = card.createCardViewInstance();
+			view.setQualifier("M-" + idx++);
+			view.setQualifierContext(true);
+			setupCard(card, view);
 		}
 		// Default
 		showCard(CardType.CONTACT_CARD);

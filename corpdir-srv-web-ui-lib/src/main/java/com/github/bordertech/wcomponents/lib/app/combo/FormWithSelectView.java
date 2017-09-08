@@ -16,20 +16,16 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 public class FormWithSelectView<T> extends DefaultMessageComboView<T> {
 
 	public FormWithSelectView(final FormView<T> formView, final SelectView<T> selectView) {
-		this(formView, selectView, null);
-	}
-
-	public FormWithSelectView(final FormView<T> formView, final SelectView<T> selectView, final String qualifier) {
-		super("wclib/hbs/layout/combo-ent-select.hbs", qualifier);
+		super("wclib/hbs/layout/combo-ent-select.hbs");
 
 		// Ctrl
-		FormAndSelectCtrl<T> ctrl = new FormAndSelectCtrl<>(qualifier);
+		FormAndSelectCtrl<T> ctrl = new FormAndSelectCtrl<>();
 		ctrl.setTargetView(formView);
 		ctrl.setSelectView(selectView);
 		ctrl.addView(getMessageView());
 
 		// Reset
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

@@ -20,14 +20,6 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  */
 public class FormAndToolbarCtrl<T> extends DefaultController {
 
-	public FormAndToolbarCtrl() {
-		this(null);
-	}
-
-	public FormAndToolbarCtrl(final String qualifier) {
-		super(qualifier);
-	}
-
 	@Override
 	public void setupListeners() {
 		super.setupListeners();
@@ -155,7 +147,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		}
 		resetViews();
 		// Do a BACK
-		dispatchCtrlEvent(ToolbarEventType.BACK);
+		dispatchViewEvent(ToolbarEventType.BACK);
 	}
 
 	protected void handleEditAction() {
@@ -175,11 +167,11 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		try {
 			doDelete(bean);
 			resetViews();
-			dispatchCtrlEvent(FormCtrlEventType.DELETE_OK, bean);
+			dispatchViewEvent(FormCtrlEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
-			dispatchCtrlEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
+			dispatchViewEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
@@ -192,11 +184,11 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			bean = doRefresh(bean);
-			dispatchCtrlEvent(FormCtrlEventType.REFRESH_OK, bean);
+			dispatchViewEvent(FormCtrlEventType.REFRESH_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
-			dispatchCtrlEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
+			dispatchViewEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -216,19 +208,19 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 			if (create) {
 				bean = doCreate(bean);
 				resetViews();
-				dispatchCtrlEvent(FormCtrlEventType.CREATE_OK, bean);
+				dispatchViewEvent(FormCtrlEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
 				resetViews();
-				dispatchCtrlEvent(FormCtrlEventType.UPDATE_OK, bean);
+				dispatchViewEvent(FormCtrlEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
-				dispatchCtrlEvent(FormCtrlEventType.CREATE_ERROR, e);
+				dispatchViewEvent(FormCtrlEventType.CREATE_ERROR, e);
 			} else {
-				dispatchCtrlEvent(FormCtrlEventType.UPDATE_ERROR, e);
+				dispatchViewEvent(FormCtrlEventType.UPDATE_ERROR, e);
 			}
 		}
 	}
@@ -241,7 +233,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 			doEntityModeChange(FormMode.ADD);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
-			dispatchCtrlEvent(FormCtrlEventType.LOAD_ERROR, e);
+			dispatchViewEvent(FormCtrlEventType.LOAD_ERROR, e);
 		}
 	}
 

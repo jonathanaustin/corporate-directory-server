@@ -13,8 +13,8 @@ public class OrgUnitCrudView extends DefaultCrudView {
 
 	private static final OrgUnitModel MODEL = new OrgUnitModel();
 
-	public OrgUnitCrudView(final String qualifier) {
-		super("Org Unit", MODEL, new OrgUnitPanel(qualifier), qualifier);
+	public OrgUnitCrudView() {
+		super("Org Unit", MODEL, new OrgUnitPanel());
 	}
 
 }

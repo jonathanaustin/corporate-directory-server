@@ -13,7 +13,6 @@ import com.github.bordertech.wcomponents.lib.app.combo.AddRemoveListView;
 import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaView;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +34,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public ContactPanel(final String qualifier) {
-		super(qualifier, false);
+	public ContactPanel() {
+		super(false);
 		// Contact Details
 		addTextField("Business key", "businessKey", true);
 		addTextField("First name", "firstName", true);
@@ -46,20 +45,23 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		addCheckBox("Active", "active", false);
 
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
-		AddressPanel addressPanel = new AddressPanel(qualifier);
+		AddressPanel addressPanel = new AddressPanel();
 		addressPanel.setBeanProperty("address");
 		getFormPanel().add(addressPanel);
 
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
-		String qual = qualifier + "-pos";
-		selectView = new PollingSelectView(new SelectMenuView(qual), qual);
-		SelectWithCriteriaView findView = new SelectWithCriteriaTextView(qual + "-2");
-		findView.addDispatcherOverride(qual, ListEventType.SELECT);
+		selectView = new PollingSelectView(new SelectMenuView());
+		SelectWithCriteriaView findView = new SelectWithCriteriaTextView();
+		findView.setQualifier("X");
+		findView.setQualifierContext(true);
 
-		AddRemoveListView posView = new AddRemoveListView(selectView, findView, qual);
-		posView.addModel(qual + "search", new ContactPositionsModel());
-		posView.addModel(qual + "-2search", new PositionModel());
+		AddRemoveListView posView = new AddRemoveListView(selectView, findView);
+		posView.setQualifier("pos");
+		posView.setQualifierContext(true);
+
+		posView.addModel("search", new ContactPositionsModel());
+		findView.addModel("search", new PositionModel());
 
 		getFormPanel().add(posView);
 	}

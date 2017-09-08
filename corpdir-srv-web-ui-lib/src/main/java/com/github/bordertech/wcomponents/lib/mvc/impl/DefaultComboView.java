@@ -24,11 +24,7 @@ import java.util.Set;
 public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T> {
 
 	public DefaultComboView(final String templateName) {
-		this(templateName, null);
-	}
-
-	public DefaultComboView(final String templateName, final String qualifier) {
-		super(templateName, qualifier);
+		super(templateName);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}

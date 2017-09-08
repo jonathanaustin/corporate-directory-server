@@ -13,8 +13,8 @@ public class LocationCrudView extends DefaultCrudView {
 
 	private static final LocationModel MODEL = new LocationModel();
 
-	public LocationCrudView(final String qualifier) {
-		super("Location", MODEL, new LocationPanel(qualifier), qualifier);
+	public LocationCrudView() {
+		super("Location", MODEL, new LocationPanel());
 	}
 
 }

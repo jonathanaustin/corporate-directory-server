@@ -4,7 +4,6 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
@@ -13,24 +12,19 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  * @param <T> the view bean
  */
-public interface View<T> extends AjaxTarget, SubordinateTarget, BeanBound {
+public interface View<T> extends BaseView, AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
-	 * @return the dispatcher attached to this view.
+	 * @return true if view is a naming context
 	 */
-	Dispatcher getDispatcher();
-
-	/**
-	 * @return the view qualifier (if needed)
-	 */
-	String getQualifier();
+	boolean isQualifierContext();
 
 	/**
 	 *
-	 * @param qualifier the qualifier to be used on events
+	 * @param context true if view is a naming context
 	 */
-	void setQualifier(final String qualifier);
+	void setQualifierContext(final boolean context);
 
 	/**
 	 * Reset the view to the default state
@@ -71,15 +65,6 @@ public interface View<T> extends AjaxTarget, SubordinateTarget, BeanBound {
 	 * @return true if valid
 	 */
 	boolean validateView();
-
-	/**
-	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
-	 * Combo View.
-	 *
-	 * @param qualifier the qualifier value
-	 * @param types the event type to override the qualifier
-	 */
-	void addDispatcherOverride(final String qualifier, final EventType... types);
 
 	/**
 	 * This method is here until it is added to BeanBound.

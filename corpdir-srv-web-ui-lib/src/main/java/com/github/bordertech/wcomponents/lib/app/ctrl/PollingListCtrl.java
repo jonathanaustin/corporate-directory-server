@@ -22,14 +22,6 @@ import java.util.List;
  */
 public class PollingListCtrl<S, T> extends DefaultController {
 
-	public PollingListCtrl() {
-		this(null);
-	}
-
-	public PollingListCtrl(final String qualifier) {
-		super(qualifier);
-	}
-
 	@Override
 	public void setupListeners() {
 		super.setupListeners();
@@ -158,10 +150,10 @@ public class PollingListCtrl<S, T> extends DefaultController {
 		SearchEventType type = (SearchEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case SEARCH_VALIDATING:
-				dispatchCtrlEvent(ListEventType.RESET_LIST);
+				dispatchViewEvent(ListEventType.RESET_LIST);
 				break;
 			case SEARCH:
-				dispatchCtrlEvent(ListEventType.START_SEARCH, event.getData());
+				dispatchViewEvent(ListEventType.START_SEARCH, event.getData());
 				break;
 		}
 	}

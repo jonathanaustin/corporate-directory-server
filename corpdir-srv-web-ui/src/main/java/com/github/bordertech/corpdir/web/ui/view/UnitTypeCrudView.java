@@ -13,8 +13,8 @@ public class UnitTypeCrudView extends DefaultCrudView {
 
 	private static final UnitTypeModel MODEL = new UnitTypeModel();
 
-	public UnitTypeCrudView(final String qualifier) {
-		super("Unit Type", MODEL, new BasicApiKeyPanel(qualifier), qualifier);
+	public UnitTypeCrudView() {
+		super("Unit Type", MODEL, new BasicApiKeyPanel());
 	}
 
 }

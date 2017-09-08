@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
@@ -51,12 +52,17 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 			if (model == null) {
 				model = (ServiceModel) findParentCombo().getModel(getPrefix() + "polling");
 				if (model == null) {
-					final SearchModel model2 = (SearchModel) findParentCombo().getModel(getPrefix() + "search");
+					ComboView combo = findParentCombo();
+					SearchModel model2 = (SearchModel) combo.getModel(getPrefix() + "search");
+					if (model2 == null) {
+						model2 = (SearchModel) combo.getModel(combo.getPrefix() + "search");
+					}
 					if (model2 != null) {
+						final SearchModel model3 = model2;
 						ServiceModel wrapper = new ServiceModel() {
 							@Override
 							public Object service(final Object criteria) {
-								return model2.search(criteria);
+								return model3.search(criteria);
 							}
 						};
 						setServiceModel(wrapper);
@@ -69,11 +75,6 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	};
 
 	public DefaultPollingView() {
-		this(null);
-	}
-
-	public DefaultPollingView(final String qualifier) {
-		super(qualifier);
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);

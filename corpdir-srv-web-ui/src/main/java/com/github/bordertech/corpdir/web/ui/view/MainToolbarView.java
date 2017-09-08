@@ -14,8 +14,7 @@ import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
  */
 public class MainToolbarView extends DefaultToolbarView {
 
-	public MainToolbarView(final String qualifier) {
-		super(qualifier);
+	public MainToolbarView() {
 		setUseAdd(false);
 		setUseBack(false);
 		setUseReset(false);

@@ -25,23 +25,19 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 	private final PollingListCtrl<S, T> ctrl;
 
 	public PollingListView(final ListView<T> listView) {
-		this(listView, null);
-	}
-
-	public PollingListView(final ListView<T> listView, final String qualifier) {
-		super("wclib/hbs/layout/combo-list-crit.hbs", qualifier);
+		super("wclib/hbs/layout/combo-list-crit.hbs");
 
 		// Views
 		this.listView = listView;
-		this.pollingView = new DefaultPollingView<>(qualifier);
+		this.pollingView = new DefaultPollingView<>();
 
 		// Polling and List Ctrl
-		ctrl = new PollingListCtrl<>(qualifier);
+		ctrl = new PollingListCtrl<>();
 		ctrl.setPollingView(pollingView);
 		ctrl.setListView(listView);
 		ctrl.addView(getMessageView());
 
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Add views to holder
 		WTemplate content = getContent();

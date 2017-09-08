@@ -17,8 +17,8 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public OrgUnitPanel(final String qualifier) {
-		super(qualifier);
+	public OrgUnitPanel() {
+		super();
 	}
 
 }

@@ -33,31 +33,31 @@ import java.util.List;
  */
 public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, List<T>>> extends DefaultMessageComboView<T> {
 
-	public DefaultCrudView(final String title, final U model, final WComponent panel, final String qualifier) {
-		this(title, model, null, null, null, panel, qualifier);
+	public DefaultCrudView(final String title, final U model, final WComponent panel) {
+		this(title, model, null, null, null, panel);
 	}
 
-	public DefaultCrudView(final String title, final U model, final CriteriaView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel, final String qualifier) {
-		super("wclib/hbs/layout/combo-ent-crud.hbs", qualifier);
+	public DefaultCrudView(final String title, final U model, final CriteriaView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
+		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
-		CriteriaView criteriaView = criteriaView2 == null ? new CriteriaTextView(qualifier) : criteriaView2;
-		SelectView<T> selectView = selectView2 == null ? new SelectMenuView<T>(qualifier) : selectView2;
-		FormView<T> formView = formView2 == null ? new DefaultFormView<T>(qualifier) : formView2;
+		CriteriaView criteriaView = criteriaView2 == null ? new CriteriaTextView() : criteriaView2;
+		SelectView<T> selectView = selectView2 == null ? new SelectMenuView<T>() : selectView2;
+		FormView<T> formView = formView2 == null ? new DefaultFormView<T>() : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
 		}
 
 		// Views
-		PollingView<S, List<T>> pollingView = new DefaultPollingView<>(qualifier);
-		ToolbarView toolbarView = new DefaultToolbarView(qualifier);
-		FormToolbarView formToolbarView = new DefaultFormToolbarView(qualifier);
+		PollingView<S, List<T>> pollingView = new DefaultPollingView<>();
+		ToolbarView toolbarView = new DefaultToolbarView();
+		FormToolbarView formToolbarView = new DefaultFormToolbarView();
 
 		// Ctrls
-		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>(qualifier);
-		FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl<>(qualifier);
-		PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>(qualifier);
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
+		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>();
+		FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl<>();
+		PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>();
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Set views on the Ctrls
 		selectCtrl.setTargetView(formView);
@@ -100,8 +100,8 @@ public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, Lis
 //		formView.addDispatcherOverride(prefix + "-2", MsgEventType.values());
 //		entityToolbarCtrl.addListenerOverride(prefix + "-2", MsgEventType.values());
 		// Set Models
-		addModel(getPrefix() + "search", model);
-		addModel(getPrefix() + "action", model);
+		addModel("search", model);
+		addModel("action", model);
 		setBlocking(true);
 
 	}

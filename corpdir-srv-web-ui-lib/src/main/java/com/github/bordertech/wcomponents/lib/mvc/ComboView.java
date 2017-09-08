@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.lib.model.Model;
  * Is a combination of views (ie composite).
  *
  * @author Jonathan Austin
+ * @param <T> the view bean data type
  * @since 1.0.0
  *
  */

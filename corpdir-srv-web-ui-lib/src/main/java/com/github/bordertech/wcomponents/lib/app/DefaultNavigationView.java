@@ -149,11 +149,6 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	};
 
 	public DefaultNavigationView() {
-		this(null);
-	}
-
-	public DefaultNavigationView(final String qualifier) {
-		super(qualifier);
 		WContainer content = getContent();
 
 		// Layout

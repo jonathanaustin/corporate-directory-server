@@ -13,8 +13,8 @@ public class PositionTypeCrudView extends DefaultCrudView {
 
 	private static final PositionTypeModel MODEL = new PositionTypeModel();
 
-	public PositionTypeCrudView(final String qualifier) {
-		super("Position Type", MODEL, new BasicApiKeyPanel(qualifier), qualifier);
+	public PositionTypeCrudView() {
+		super("Position Type", MODEL, new BasicApiKeyPanel());
 	}
 
 }

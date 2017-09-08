@@ -57,11 +57,6 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 	};
 
 	public DefaultToolbarView() {
-		this(null);
-	}
-
-	public DefaultToolbarView(final String qualifier) {
-		super(qualifier);
 		WContainer content = getContent();
 		content.add(menu);
 		content.add(ajaxPanel);

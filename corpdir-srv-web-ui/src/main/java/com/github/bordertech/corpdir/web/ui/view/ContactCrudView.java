@@ -13,8 +13,8 @@ public class ContactCrudView extends DefaultCrudView {
 
 	private static final ContactModel MODEL = new ContactModel();
 
-	public ContactCrudView(final String qualifier) {
-		super("Contact", MODEL, new ContactPanel(qualifier), qualifier);
+	public ContactCrudView() {
+		super("Contact", MODEL, new ContactPanel());
 	}
 
 }
