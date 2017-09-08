@@ -1,8 +1,10 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
+import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.web.ui.model.ContactPositionsModel;
 import com.github.bordertech.corpdir.web.ui.model.PositionModel;
+import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
@@ -12,6 +14,8 @@ import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaView;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contact detail Form.
@@ -48,13 +52,14 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
-		selectView = new PollingSelectView(new SelectMenuView(qualifier), qualifier);
-		SelectWithCriteriaView findView = new SelectWithCriteriaTextView(qualifier + "-2");
-		findView.addDispatcherOverride(qualifier, ListEventType.SELECT);
+		String qual = qualifier + "-pos";
+		selectView = new PollingSelectView(new SelectMenuView(qual), qual);
+		SelectWithCriteriaView findView = new SelectWithCriteriaTextView(qual + "-2");
+		findView.addDispatcherOverride(qual, ListEventType.SELECT);
 
-		AddRemoveListView posView = new AddRemoveListView(selectView, findView, qualifier);
-		posView.addModel(qualifier + "search", new ContactPositionsModel());
-		posView.addModel(qualifier + "-2search", new PositionModel());
+		AddRemoveListView posView = new AddRemoveListView(selectView, findView, qual);
+		posView.addModel(qual + "search", new ContactPositionsModel());
+		posView.addModel(qual + "-2search", new PositionModel());
 
 		getFormPanel().add(posView);
 	}
@@ -63,10 +68,23 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	protected void initViewContent(final Request request) {
 		Contact bean = getViewBean();
 		if (bean.getPositionIds() != null && !bean.getPositionIds().isEmpty()) {
-			selectView.getPollingView().setPollingCriteria(bean.getId());
+			selectView.getPollingView().setPollingCriteria(new SearchVersionKey(null, bean.getId()));
 			selectView.getPollingView().setContentVisible(true);
 		}
 		super.initViewContent(request);
+	}
+
+	@Override
+	public void updateBeanValue() {
+		super.updateBeanValue();
+		Contact bean = getViewBean();
+		List<Position> positions = (List<Position>) selectView.getListView().getBeanValue();
+		List<String> posKeys = new ArrayList<>();
+		for (Position pos : positions) {
+			posKeys.add(pos.getId());
+		}
+		bean.setPositionIds(posKeys);
+
 	}
 
 }

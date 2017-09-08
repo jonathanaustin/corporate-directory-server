@@ -59,6 +59,12 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		}
 		contacts.add(contact);
 		contact.getOrCreateDataVersion(getVersionCtrl()).addPosition(getItem());
+		// Bi-Directional - Add the Position to the Contact
+		ContactLinksEntity conLinks = contact.getOrCreateDataVersion(getVersionCtrl());
+		// To stop a circular call only add if not already there
+		if (!conLinks.getPositions().contains(getItem())) {
+			conLinks.addPosition(getItem());
+		}
 	}
 
 	/**
@@ -70,7 +76,12 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 		if (contacts != null) {
 			contacts.remove(contact);
 		}
-		contact.getOrCreateDataVersion(getVersionCtrl()).removePosition(getItem());
+		// Bi-Directional - Remove the Position from the Contact
+		ContactLinksEntity conLinks = contact.getOrCreateDataVersion(getVersionCtrl());
+		// To stop a circular call only remove if already there
+		if (conLinks.getPositions().contains(getItem())) {
+			conLinks.removePosition(getItem());
+		}
 	}
 
 	/**
