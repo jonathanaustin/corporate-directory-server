@@ -14,8 +14,8 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.*;
 public class ResetViewCtrl extends DefaultController {
 
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 		// Default Listeners
 		// Reset EVENT
 		Listener listener = new Listener() {

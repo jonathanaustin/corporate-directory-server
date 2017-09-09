@@ -18,12 +18,22 @@ import java.util.List;
  * @param <T> the view bean type
  * @since 1.0.0
  */
-public abstract class AbstractView<T> extends AbstractBaseView implements View<T> {
+public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T> {
 
 	public AbstractView() {
 		super("wclib/hbs/layout/default-view.hbs");
 		setSearchAncestors(false);
 		setBeanProperty(".");
+	}
+
+	@Override
+	public boolean isQualifierContext() {
+		return getComponentModel().qualifierContext;
+	}
+
+	@Override
+	public void setQualifierContext(final boolean qualifierContext) {
+		getOrCreateComponentModel().qualifierContext = qualifierContext;
 	}
 
 	@Override
@@ -127,16 +137,6 @@ public abstract class AbstractView<T> extends AbstractBaseView implements View<T
 	}
 
 	@Override
-	public boolean isQualifierContext() {
-		return getComponentModel().qualifierContext;
-	}
-
-	@Override
-	public void setQualifierContext(final boolean qualifierContext) {
-		getOrCreateComponentModel().qualifierContext = qualifierContext;
-	}
-
-	@Override
 	protected ViewModel newComponentModel() {
 		return new ViewModel();
 	}
@@ -159,6 +159,7 @@ public abstract class AbstractView<T> extends AbstractBaseView implements View<T
 		private boolean contentVisible = true;
 
 		private boolean qualifierContext;
+
 	}
 
 	/**

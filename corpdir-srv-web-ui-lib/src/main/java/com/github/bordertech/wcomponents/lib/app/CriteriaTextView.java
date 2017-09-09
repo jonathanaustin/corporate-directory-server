@@ -61,7 +61,8 @@ public class CriteriaTextView extends DefaultCriteriaView<String> {
 
 	@Override
 	public void updateViewBean() {
-		setViewBean(txtField.getValue());
+		String value = txtField.getValue();
+		setViewBean(value == null ? "" : value);
 	}
 
 	protected void doHandleSuggestions() {

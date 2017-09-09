@@ -4,11 +4,12 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
 import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
-import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherHelper;
-import com.github.bordertech.wcomponents.lib.mvc.BaseView;
+import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherFactory;
+import com.github.bordertech.wcomponents.lib.mvc.BaseMvc;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
@@ -23,24 +24,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Base MVC class.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractBaseView extends WTemplate implements BaseView {
+public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 
 	/**
 	 * QUALIFIER pattern.
 	 */
 	private static final Pattern QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_VALIDATION_PATTERN);
 
-	public AbstractBaseView(final String templateName) {
+	public AbstractBaseMvc(final String templateName) {
 		super(templateName, TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 	}
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return DispatcherHelper.getInstance();
+		return DispatcherFactory.getInstance();
 	}
 
 	/**
@@ -48,8 +50,8 @@ public class AbstractBaseView extends WTemplate implements BaseView {
 	 *
 	 * @param eventType the event type
 	 */
-	protected void dispatchViewEvent(final EventType eventType) {
-		dispatchViewEvent(eventType, null, null);
+	protected void dispatchEvent(final EventType eventType) {
+		dispatchEvent(eventType, null, null);
 	}
 
 	/**
@@ -58,8 +60,8 @@ public class AbstractBaseView extends WTemplate implements BaseView {
 	 * @param eventType the event type
 	 * @param data the event data
 	 */
-	protected void dispatchViewEvent(final EventType eventType, final Object data) {
-		dispatchViewEvent(eventType, data, null);
+	protected void dispatchEvent(final EventType eventType, final Object data) {
+		dispatchEvent(eventType, data, null);
 	}
 
 	/**
@@ -69,9 +71,13 @@ public class AbstractBaseView extends WTemplate implements BaseView {
 	 * @param data the event data
 	 * @param exception an exception
 	 */
-	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
+	protected void dispatchEvent(final EventType eventType, final Object data, final Exception exception) {
 		String qualifier = getDispatcherQualifier(eventType);
 		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
+		dispatchEvent(event);
+	}
+
+	protected void dispatchEvent(final Event event) {
 		getDispatcher().dispatch(event);
 	}
 
@@ -81,21 +87,17 @@ public class AbstractBaseView extends WTemplate implements BaseView {
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
 		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
-		dispatchMessageEvent(new MsgEvent(diags, qualifier));
+		dispatchEvent(new MsgEvent(diags, qualifier));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final String text) {
 		String qualifier = getDispatcherQualifier(type);
-		dispatchMessageEvent(new MsgEvent(type, qualifier, text));
+		dispatchEvent(new MsgEvent(type, qualifier, text));
 	}
 
 	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
 		String qualifier = getDispatcherQualifier(type);
-		dispatchMessageEvent(new MsgEvent(type, qualifier, texts, true));
-	}
-
-	protected void dispatchMessageEvent(final MsgEvent event) {
-		getDispatcher().dispatch(event);
+		dispatchEvent(new MsgEvent(type, qualifier, texts, true));
 	}
 
 	protected String getDispatcherQualifier(final EventType type) {
@@ -120,12 +122,6 @@ public class AbstractBaseView extends WTemplate implements BaseView {
 			return model.qualifierOverride.get(type);
 		}
 		return null;
-	}
-
-	@Override
-	public String getPrefix() {
-		String prefix = getQualifier() == null ? "" : getQualifier();
-		return prefix;
 	}
 
 	protected ComboView findParentCombo() {

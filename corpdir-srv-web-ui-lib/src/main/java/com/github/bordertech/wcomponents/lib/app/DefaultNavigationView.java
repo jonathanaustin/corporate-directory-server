@@ -417,7 +417,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	 * @param navEvent the navigation action that caused the change of index
 	 */
 	protected void doDispatchNavigationEvent(final NavigationEventType navEvent) {
-		dispatchViewEvent(navEvent, getCurrentIdx());
+		dispatchEvent(navEvent, getCurrentIdx());
 	}
 
 	/**

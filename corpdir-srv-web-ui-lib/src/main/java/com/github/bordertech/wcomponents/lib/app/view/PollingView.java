@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.polling.PollingService;
 
@@ -13,4 +14,6 @@ import com.github.bordertech.wcomponents.lib.polling.PollingService;
  *
  */
 public interface PollingView<S, T> extends View<T>, PollingService<S, T> {
+
+	void doSetupAndStartPolling(final S criteria, final ServiceModel<S, T> serviceModel);
 }

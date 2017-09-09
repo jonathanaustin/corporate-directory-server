@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  * @param <T> the view bean
  */
-public interface View<T> extends BaseView, AjaxTarget, SubordinateTarget, BeanBound {
+public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
 	 *
@@ -27,7 +27,7 @@ public interface View<T> extends BaseView, AjaxTarget, SubordinateTarget, BeanBo
 	void setQualifierContext(final boolean context);
 
 	/**
-	 * Reset the view to the default state
+	 * Reset the view to the default state.
 	 */
 	void resetView();
 

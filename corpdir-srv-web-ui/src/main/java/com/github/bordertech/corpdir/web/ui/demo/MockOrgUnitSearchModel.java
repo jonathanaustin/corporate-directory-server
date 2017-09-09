@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;

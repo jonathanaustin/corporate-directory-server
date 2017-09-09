@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
@@ -16,7 +17,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> implements ListView<T> {
+public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> implements ListView<T>, SearchModelKey {
 
 	private final ListView<T> listView;
 
@@ -100,6 +101,20 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 	@Override
 	public void showList(final boolean show) {
 		listView.showList(show);
+	}
+
+	@Override
+	public void setSearchModelKey(final String key) {
+		ctrl.setSearchModelKey(key);
+	}
+
+	@Override
+	public String getSearchModelKey() {
+		return ctrl.getSearchModelKey();
+	}
+
+	public void doStartPolling(final S criteria) {
+		ctrl.doStartPolling(criteria);
 	}
 
 }

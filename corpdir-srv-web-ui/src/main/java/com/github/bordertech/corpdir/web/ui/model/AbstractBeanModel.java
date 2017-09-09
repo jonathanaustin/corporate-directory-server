@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.model;
 
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 
 /**
  * Bean bound model (ie no service call).

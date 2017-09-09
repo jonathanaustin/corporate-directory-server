@@ -1,4 +1,6 @@
-package com.github.bordertech.wcomponents.lib.model;
+package com.github.bordertech.wcomponents.lib.app.model;
+
+import com.github.bordertech.wcomponents.lib.mvc.Model;
 
 /**
  *

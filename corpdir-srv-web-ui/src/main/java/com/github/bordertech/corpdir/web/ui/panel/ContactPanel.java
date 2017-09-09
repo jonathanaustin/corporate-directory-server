@@ -2,8 +2,6 @@ package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.model.ContactPositionsModel;
-import com.github.bordertech.corpdir.web.ui.model.PositionModel;
 import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
@@ -56,12 +54,13 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		findView.setQualifier("X");
 		findView.setQualifierContext(true);
 
+		// Models
+		selectView.setSearchModelKey("contact.positions.search");
+		findView.setSearchModelKey("position.search");
+
 		AddRemoveListView posView = new AddRemoveListView(selectView, findView);
 		posView.setQualifier("pos");
 		posView.setQualifierContext(true);
-
-		posView.addModel("search", new ContactPositionsModel());
-		findView.addModel("search", new PositionModel());
 
 		getFormPanel().add(posView);
 	}
@@ -70,8 +69,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	protected void initViewContent(final Request request) {
 		Contact bean = getViewBean();
 		if (bean.getPositionIds() != null && !bean.getPositionIds().isEmpty()) {
-			selectView.getPollingView().setPollingCriteria(new SearchVersionKey(null, bean.getId()));
-			selectView.getPollingView().setContentVisible(true);
+			selectView.doStartPolling(new SearchVersionKey(null, bean.getId()));
 		}
 		super.initViewContent(request);
 	}

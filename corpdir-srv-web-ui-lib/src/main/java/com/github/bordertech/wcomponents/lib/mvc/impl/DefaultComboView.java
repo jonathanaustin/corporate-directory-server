@@ -2,19 +2,13 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.model.Model;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  *
@@ -35,12 +29,6 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 		if (!isInitialised()) {
 			configViews();
 		}
-	}
-
-	@Override
-	public void reset() {
-		unregisterListenerIds();
-		super.reset();
 	}
 
 	@Override
@@ -99,7 +87,7 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 	protected void checkCtrlConfigs() {
 		for (Controller ctrl : getControllers()) {
 			ctrl.checkConfig();
-			ctrl.setupListeners();
+			ctrl.setupController();
 		}
 	}
 
@@ -111,29 +99,6 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 	@Override
 	public void setBlocking(final boolean block) {
 		getOrCreateComponentModel().block = block;
-	}
-
-	@Override
-	public void addModel(final String key, final Model model) {
-		ComboModel ctrl = getOrCreateComponentModel();
-		if (ctrl.models == null) {
-			ctrl.models = new HashMap<>();
-		}
-		ctrl.models.put(key, model);
-	}
-
-	@Override
-	public Model getModel(final String key) {
-		ComboModel ctrl = getComponentModel();
-		if (ctrl.models != null) {
-			Model model = ctrl.models.get(key);
-			if (model != null) {
-				return model;
-			}
-		}
-		// Not found, so try the parent controller Models
-		ComboView parent = findParentCombo();
-		return parent == null ? null : parent.getModel(key);
 	}
 
 	protected List<View> getViews() {
@@ -165,26 +130,6 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 	}
 
 	@Override
-	public void registerListenerId(final String id) {
-		ComboModel model = getOrCreateComponentModel();
-		if (model.registeredIds == null) {
-			model.registeredIds = new HashSet<>();
-		}
-		model.registeredIds.add(id);
-	}
-
-	protected void unregisterListenerIds() {
-		ComboModel model = getOrCreateComponentModel();
-		if (model.registeredIds != null) {
-			Dispatcher dispatcher = getDispatcher();
-			for (String id : model.registeredIds) {
-				dispatcher.unregister(id);
-			}
-			model.registeredIds = null;
-		}
-	}
-
-	@Override
 	protected ComboModel newComponentModel() {
 		return new ComboModel();
 	}
@@ -204,11 +149,8 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 	 */
 	public static class ComboModel extends ViewModel {
 
-		private Map<String, Model> models;
-
 		private boolean block;
 
-		private Set<String> registeredIds;
 	}
 
 }

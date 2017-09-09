@@ -13,8 +13,8 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.*;
 public class AddRemoveCtrl extends DefaultController {
 
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 		// Default Listeners
 		// Reset EVENT
 		Listener listener = new Listener() {
@@ -28,7 +28,7 @@ public class AddRemoveCtrl extends DefaultController {
 
 	protected void handleSelectEvent(final Event event) {
 		// Translate from SELECT to ADD
-		dispatchViewEvent(ListEventType.ADD_ITEM, event.getData());
+		dispatchEvent(ListEventType.ADD_ITEM, event.getData());
 	}
 
 	@Override

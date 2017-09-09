@@ -4,11 +4,12 @@ import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
@@ -18,11 +19,11 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormAndToolbarCtrl<T> extends DefaultController {
+public class FormAndToolbarCtrl<T> extends DefaultController implements ActionModelKey {
 
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 
 		// Form event type Listeners
 		for (FormEventType eventType : FormEventType.values()) {
@@ -66,8 +67,18 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		addView(formView);
 	}
 
-	public ActionModel<T> getActionModel() {
-		return (ActionModel<T>) getModel(getPrefix() + "action");
+	@Override
+	public void setActionModelKey(final String actionModelKey) {
+		getOrCreateComponentModel().actionModelKey = actionModelKey;
+	}
+
+	@Override
+	public String getActionModelKey() {
+		return getComponentModel().actionModelKey;
+	}
+
+	protected ActionModel<T> getActionModelImpl() {
+		return (ActionModel<T>) getModel(getActionModelKey());
 	}
 
 	@Override
@@ -79,8 +90,8 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		if (getFormView() == null) {
 			throw new IllegalStateException("A form view has not been set.");
 		}
-		if (getActionModel() == null) {
-			throw new IllegalStateException("Entity service actions have not been set.");
+		if (getActionModelKey() == null) {
+			throw new IllegalStateException("No Action Model Key has been set.");
 		}
 	}
 
@@ -147,7 +158,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		}
 		resetViews();
 		// Do a BACK
-		dispatchViewEvent(ToolbarEventType.BACK);
+		dispatchEvent(ToolbarEventType.BACK);
 	}
 
 	protected void handleEditAction() {
@@ -167,11 +178,11 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		try {
 			doDelete(bean);
 			resetViews();
-			dispatchViewEvent(FormCtrlEventType.DELETE_OK, bean);
+			dispatchEvent(FormCtrlEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
-			dispatchViewEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
+			dispatchEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
@@ -184,11 +195,11 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		resetViews();
 		try {
 			bean = doRefresh(bean);
-			dispatchViewEvent(FormCtrlEventType.REFRESH_OK, bean);
+			dispatchEvent(FormCtrlEventType.REFRESH_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
-			dispatchViewEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
+			dispatchEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -208,19 +219,19 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 			if (create) {
 				bean = doCreate(bean);
 				resetViews();
-				dispatchViewEvent(FormCtrlEventType.CREATE_OK, bean);
+				dispatchEvent(FormCtrlEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
 				resetViews();
-				dispatchViewEvent(FormCtrlEventType.UPDATE_OK, bean);
+				dispatchEvent(FormCtrlEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
-				dispatchViewEvent(FormCtrlEventType.CREATE_ERROR, e);
+				dispatchEvent(FormCtrlEventType.CREATE_ERROR, e);
 			} else {
-				dispatchViewEvent(FormCtrlEventType.UPDATE_ERROR, e);
+				dispatchEvent(FormCtrlEventType.UPDATE_ERROR, e);
 			}
 		}
 	}
@@ -233,7 +244,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 			doEntityModeChange(FormMode.ADD);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
-			dispatchViewEvent(FormCtrlEventType.LOAD_ERROR, e);
+			dispatchEvent(FormCtrlEventType.LOAD_ERROR, e);
 		}
 	}
 
@@ -260,23 +271,23 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 	}
 
 	protected T doCreate(final T entity) {
-		return getActionModel().create(entity);
+		return getActionModelImpl().create(entity);
 	}
 
 	protected T doUpdate(final T entity) {
-		return getActionModel().update(entity);
+		return getActionModelImpl().update(entity);
 	}
 
 	protected T doRefresh(final T entity) {
-		return getActionModel().refresh(entity);
+		return getActionModelImpl().refresh(entity);
 	}
 
 	protected void doDelete(final T entity) {
-		getActionModel().delete(entity);
+		getActionModelImpl().delete(entity);
 	}
 
 	protected T doCreateInstance() {
-		return getActionModel().createInstance();
+		return getActionModelImpl().createInstance();
 	}
 
 	@Override
@@ -302,6 +313,8 @@ public class FormAndToolbarCtrl<T> extends DefaultController {
 		private FormToolbarView toolbarView;
 
 		private FormView<T> formView;
+
+		private String actionModelKey;
 	}
 
 }

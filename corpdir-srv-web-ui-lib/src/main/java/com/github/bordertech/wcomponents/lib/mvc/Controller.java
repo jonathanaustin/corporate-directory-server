@@ -8,7 +8,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Controller extends BaseView {
+public interface Controller extends BaseMvc {
 
 	/**
 	 * Check controller is configured correctly
@@ -18,7 +18,7 @@ public interface Controller extends BaseView {
 	/**
 	 * Setup the controller listeners.
 	 */
-	void setupListeners();
+	void setupController();
 
 	/**
 	 *

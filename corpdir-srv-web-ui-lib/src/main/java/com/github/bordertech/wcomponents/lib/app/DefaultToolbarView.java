@@ -156,7 +156,7 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 	}
 
 	protected void doDispatchToolbarEvent(final EventType eventType, final Object data) {
-		dispatchViewEvent(eventType, data);
+		dispatchEvent(eventType, data);
 	}
 
 	@Override

@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BaseView extends WComponent {
+public interface BaseMvc extends WComponent {
 
 	/**
 	 * The default qualifier separator character.
@@ -50,11 +50,5 @@ public interface BaseView extends WComponent {
 	 * @param types the event type to override the qualifier
 	 */
 	void addDispatcherOverride(final String qualifier, final EventType... types);
-
-	/**
-	 *
-	 * @return the action model prefix
-	 */
-	String getPrefix();
 
 }

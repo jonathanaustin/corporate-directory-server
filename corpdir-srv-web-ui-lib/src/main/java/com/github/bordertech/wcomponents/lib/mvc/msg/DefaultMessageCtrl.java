@@ -21,8 +21,8 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	}
 
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 		for (MsgEventType type : MsgEventType.values()) {
 			Listener listener = new Listener() {
 				@Override

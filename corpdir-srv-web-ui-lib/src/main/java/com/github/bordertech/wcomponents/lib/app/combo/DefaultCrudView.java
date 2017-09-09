@@ -12,14 +12,14 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 
@@ -29,15 +29,17 @@ import java.util.List;
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the entity type
- * @param <U> the model type
  */
-public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, List<T>>> extends DefaultMessageComboView<T> {
+public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements ActionModelKey, SearchModelKey {
 
-	public DefaultCrudView(final String title, final U model, final WComponent panel) {
-		this(title, model, null, null, null, panel);
+	private final FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl();
+	private final PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>();
+
+	public DefaultCrudView(final String title, final WComponent panel) {
+		this(title, null, null, null, panel);
 	}
 
-	public DefaultCrudView(final String title, final U model, final CriteriaView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
+	public DefaultCrudView(final String title, final CriteriaView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
@@ -55,8 +57,6 @@ public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, Lis
 
 		// Ctrls
 		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>();
-		FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl<>();
-		PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Set views on the Ctrls
@@ -99,11 +99,28 @@ public class DefaultCrudView<S, T, U extends ActionModel<T> & SearchModel<S, Lis
 //
 //		formView.addDispatcherOverride(prefix + "-2", MsgEventType.values());
 //		entityToolbarCtrl.addListenerOverride(prefix + "-2", MsgEventType.values());
-		// Set Models
-		addModel("search", model);
-		addModel("action", model);
 		setBlocking(true);
 
+	}
+
+	@Override
+	public void setActionModelKey(final String key) {
+		entityToolbarCtrl.setActionModelKey(key);
+	}
+
+	@Override
+	public String getActionModelKey() {
+		return entityToolbarCtrl.getActionModelKey();
+	}
+
+	@Override
+	public void setSearchModelKey(final String key) {
+		criteriaCtrl.setSearchModelKey(key);
+	}
+
+	@Override
+	public String getSearchModelKey() {
+		return criteriaCtrl.getSearchModelKey();
 	}
 
 }

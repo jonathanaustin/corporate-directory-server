@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.model;
+package com.github.bordertech.wcomponents.lib.mvc;
 
 import java.io.Serializable;
 

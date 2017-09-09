@@ -3,12 +3,13 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.model.SearchModel;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import java.util.List;
@@ -20,11 +21,11 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class PollingListCtrl<S, T> extends DefaultController {
+public class PollingListCtrl<S, T> extends DefaultController implements SearchModelKey {
 
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 
 		// LIST Listeners
 		for (ListEventType type : ListEventType.values()) {
@@ -70,9 +71,32 @@ public class PollingListCtrl<S, T> extends DefaultController {
 		if (getListView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
-		if (getSearchModel() == null) {
-			throw new IllegalStateException("A search service has not been set.");
+		if (getSearchModelKey() == null) {
+			throw new IllegalStateException("A search model key has not been set.");
 		}
+	}
+
+	/**
+	 * Start the polling.
+	 *
+	 * @param criteria the polling criteria
+	 */
+	public void doStartPolling(final S criteria) {
+		// Setup polling view
+		// Wrap search model into ServiceModel for Polling Panel
+		final SearchModel<S, List<T>> model = getSearchModelImpl();
+		ServiceModel<S, List<T>> wrapper = new ServiceModel<S, List<T>>() {
+			@Override
+			public List<T> service(final S criteria) {
+				return model.search(criteria);
+			}
+		};
+		getPollingView().doSetupAndStartPolling(criteria, wrapper);
+
+		// Reset Listview
+		ListView listView = getListView();
+		listView.resetView();
+		listView.setContentVisible(false);
 	}
 
 	public final PollingView<S, List<T>> getPollingView() {
@@ -93,8 +117,18 @@ public class PollingListCtrl<S, T> extends DefaultController {
 		addView(listView);
 	}
 
-	public SearchModel<S, List<T>> getSearchModel() {
-		return (SearchModel<S, List<T>>) getModel(getPrefix() + "search");
+	@Override
+	public void setSearchModelKey(final String pollingModelKey) {
+		getOrCreateComponentModel().searchModelKey = pollingModelKey;
+	}
+
+	@Override
+	public String getSearchModelKey() {
+		return getComponentModel().searchModelKey;
+	}
+
+	protected SearchModel<S, List<T>> getSearchModelImpl() {
+		return (SearchModel<S, List<T>>) getModel(getSearchModelKey());
 	}
 
 	protected void handleListEvents(final Event event) {
@@ -150,10 +184,10 @@ public class PollingListCtrl<S, T> extends DefaultController {
 		SearchEventType type = (SearchEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case SEARCH_VALIDATING:
-				dispatchViewEvent(ListEventType.RESET_LIST);
+				dispatchEvent(ListEventType.RESET_LIST);
 				break;
 			case SEARCH:
-				dispatchViewEvent(ListEventType.START_SEARCH, event.getData());
+				dispatchEvent(ListEventType.START_SEARCH, event.getData());
 				break;
 		}
 	}
@@ -211,25 +245,7 @@ public class PollingListCtrl<S, T> extends DefaultController {
 	}
 
 	protected void handleStartPollingSearch(final S criteria) {
-		// Setup polling view
-		PollingView pollingView = getPollingView();
-		pollingView.resetView();
-		pollingView.setPollingCriteria(criteria == null ? "" : criteria);
-
-		final SearchModel<S, List<T>> model = getSearchModel();
-		ServiceModel wrapper = new ServiceModel<S, List<T>>() {
-			@Override
-			public List<T> service(final S criteria) {
-				return model.search(criteria);
-			}
-		};
-		pollingView.setServiceModel(wrapper);
-		pollingView.setContentVisible(true);
-
-		// Reset Listview
-		ListView listView = getListView();
-		listView.resetView();
-		listView.setContentVisible(false);
+		doStartPolling(criteria);
 	}
 
 	@Override
@@ -255,6 +271,8 @@ public class PollingListCtrl<S, T> extends DefaultController {
 		private PollingView<S, List<T>> pollingView;
 
 		private ListView<T> listView;
+
+		private String searchModelKey;
 	}
 
 }

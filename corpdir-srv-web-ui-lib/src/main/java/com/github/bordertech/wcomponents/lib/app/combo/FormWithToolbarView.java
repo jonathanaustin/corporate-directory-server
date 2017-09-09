@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
+import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
@@ -17,11 +18,12 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implements FormView<T> {
+public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implements FormView<T>, ActionModelKey {
 
 	private final FormView<T> formView;
 
 	private final FormToolbarView toolbarView;
+	private final FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl();
 
 	public FormWithToolbarView() {
 		this(new DefaultFormView<T>());
@@ -39,7 +41,6 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 		this.toolbarView = toolbarView;
 
 		// Ctrl
-		FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl();
 		ctrl.setToolbarView(toolbarView);
 		ctrl.setFormView(formView);
 		ctrl.addView(getMessageView());
@@ -109,6 +110,16 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 	@Override
 	public WContainer getFormHolder() {
 		return formView.getFormHolder();
+	}
+
+	@Override
+	public void setActionModelKey(final String key) {
+		ctrl.setActionModelKey(key);
+	}
+
+	@Override
+	public String getActionModelKey() {
+		return ctrl.getActionModelKey();
 	}
 
 }

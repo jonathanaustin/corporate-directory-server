@@ -90,7 +90,7 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 
 	protected void doDispatchSelectEvent() {
 		T bean = getSelected();
-		dispatchViewEvent(ListEventType.SELECT, bean);
+		dispatchEvent(ListEventType.SELECT, bean);
 	}
 
 	@Override

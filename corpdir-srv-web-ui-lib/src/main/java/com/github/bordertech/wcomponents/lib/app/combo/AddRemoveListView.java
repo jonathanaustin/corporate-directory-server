@@ -20,13 +20,13 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	private final SelectView findView;
 	private final AddRemoveCtrl ctrl2 = new AddRemoveCtrl() {
 		@Override
-		public void setupListeners() {
+		public void setupController() {
 			String findQual = findView.getFullQualifier();
 			String qual = getFullQualifier();
 			// Listen for the "SELECT" ITEMS and "ADD" to the list
 			ctrl2.addListenerOverride(findQual + "-I", ListEventType.SELECT);
 			ctrl2.addDispatcherOverride(qual, ListEventType.ADD_ITEM);
-			super.setupListeners(); //To change body of generated methods, choose Tools | Templates.
+			super.setupController(); //To change body of generated methods, choose Tools | Templates.
 		}
 
 	};

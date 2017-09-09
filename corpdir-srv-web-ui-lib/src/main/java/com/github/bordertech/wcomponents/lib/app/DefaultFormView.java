@@ -92,11 +92,11 @@ public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(FormEventType.LOAD_OK, getViewBean());
+		dispatchEvent(FormEventType.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override
