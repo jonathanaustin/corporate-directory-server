@@ -1,12 +1,16 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
-import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.WDiv;
 import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
-import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -16,38 +20,51 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
  */
 public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 
-	private final SelectView<T> selectView;
-	private final SelectView findView;
-	private final AddRemoveCtrl ctrl2 = new AddRemoveCtrl() {
+	private final TranslateEventCtrl ctrl = new TranslateEventCtrl();
+
+	private final DefaultView dialogView = new DefaultView() {
 		@Override
-		public void setupController() {
-			String findQual = findView.getFullQualifier();
-			String qual = getFullQualifier();
-			// Listen for the "SELECT" ITEMS and "ADD" to the list
-			ctrl2.addListenerOverride(findQual + "-I", ListEventType.SELECT);
-			ctrl2.addDispatcherOverride(qual, ListEventType.ADD_ITEM);
-			super.setupController(); //To change body of generated methods, choose Tools | Templates.
+		public void setContentVisible(final boolean visible) {
+			super.setContentVisible(visible);
+			if (visible) {
+				showDialog();
+			}
 		}
-
 	};
+	private final WDiv dialogContent = new WDiv();
+	private final WDialog dialog = new WDialog(dialogContent);
 
-	public AddRemoveListView(final SelectView<T> selectView, final SelectView findView) {
+	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
+		dialog.setMode(WDialog.MODAL);
 
-		this.selectView = selectView;
-		this.findView = findView;
+		// Setup qualifier context
+		setQualifier(qualifier);
+		setQualifierContext(true);
+		ctrl.setQualifier("X");
+		findView.setQualifier("X");
+		// Make all the "Events" in FIND View unique with "X"
+		findView.setQualifierContext(true);
 
 		AddRemoveToolbar toolbarView = new AddRemoveToolbar();
+		AddRemoveListCtrl addCtrl = new AddRemoveListCtrl();
+		addCtrl.setAddRemoveToolbar(toolbarView);
+		addCtrl.setAddView(dialogView);
+		addCtrl.setSelectView(selectView);
 
-		// Translate the "FIND" -> SELECT Event
-		toolbarView.setDialogView(findView);
+		dialogView.getContent().add(dialog);
+		dialogContent.add(findView);
+		dialog.setMode(WDialog.MODAL);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl2", ctrl2);
+		content.addTaggedComponent("vw-ctrl2", ctrl);
+		content.addTaggedComponent("vw-ctrl3", addCtrl);
 		content.addTaggedComponent("vw-select", selectView);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
+		content.addTaggedComponent("vw-dialog", dialogView);
 		setBlocking(true);
 
+		// Bean Property
 		setBeanProperty(".");
 		setSearchAncestors(false);
 	}
@@ -55,15 +72,13 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	@Override
 	public void configViews() {
 		super.configViews();
+		// Translate the "SELECT" from the "FIND" to an "ADD"
+		ctrl.translate(ListEventType.SELECT, SearchEventType.SEARCH_ADD, getFullQualifier());
 	}
 
-	@Override
-	protected void preparePaintComponent(Request request) {
-		super.preparePaintComponent(request); //To change body of generated methods, choose Tools | Templates.
-		String findQual = findView.getFullQualifier();
-		String qual = getFullQualifier();
-		// Make the "ITEM" Select in the find unique
-		findView.addDispatcherOverride(findQual + "-I", ListEventType.SELECT);
+	protected void showDialog() {
+		dialogView.reset();
+		dialog.display();
 	}
 
 }

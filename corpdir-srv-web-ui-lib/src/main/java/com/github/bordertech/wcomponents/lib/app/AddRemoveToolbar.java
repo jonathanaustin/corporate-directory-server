@@ -6,11 +6,9 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.lib.WDiv;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -27,10 +25,6 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 	private final WAjaxControl ajaxAdd = new WAjaxControl(btnAdd);
 	private final WAjaxControl ajaxRemove = new WAjaxControl(btnRemove);
 
-	private final WDiv dialogContent = new WDiv();
-
-	private final WDialog dialog = new WDialog(dialogContent);
-
 	private final WPanel ajaxPanel = new WPanel() {
 		@Override
 		public boolean isHidden() {
@@ -44,23 +38,18 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 		WContainer content = getContent();
 		content.add(btnAdd);
 		content.add(btnRemove);
-		content.add(dialog);
-
-//		dialog.setTrigger(btnAdd);
-		dialog.setMode(WDialog.MODAL);
 
 		// Actions
 		btnAdd.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-//				dispatchViewEvent(ToolbarEventType.ADD);
-				dialog.display();
+				dispatchEvent(ToolbarEventType.ADD);
 			}
 		});
 		btnRemove.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-//				dispatchViewEvent(ToolbarEventType.DELETE);
+				dispatchEvent(ToolbarEventType.DELETE);
 			}
 		});
 
@@ -81,11 +70,6 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 
 	public WButton getRemoveButton() {
 		return btnRemove;
-	}
-
-	public void setDialogView(final View dialogView) {
-		dialogContent.removeAll();
-		dialogContent.add(dialogView);
 	}
 
 	@Override
