@@ -2,6 +2,7 @@ package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.web.ui.model.ApiModelUtil;
 import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
@@ -11,7 +12,6 @@ import com.github.bordertech.wcomponents.lib.app.combo.AddRemoveListView;
 import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaView;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,28 +47,25 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		addressPanel.setBeanProperty("address");
 		getFormPanel().add(addressPanel);
 
+		// Positions
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
+		// Setup the select and find view
 		selectView = new PollingSelectView(new SelectMenuView());
 		SelectWithCriteriaView findView = new SelectWithCriteriaTextView();
-		findView.setQualifier("X");
-		findView.setQualifierContext(true);
+		AddRemoveListView posView = new AddRemoveListView("pos", selectView, findView);
+		getFormPanel().add(posView);
 
 		// Models
 		selectView.setSearchModelKey("contact.positions.search");
 		findView.setSearchModelKey("position.search");
 
-		AddRemoveListView posView = new AddRemoveListView(selectView, findView);
-		posView.setQualifier("pos");
-		posView.setQualifierContext(true);
-
-		getFormPanel().add(posView);
 	}
 
 	@Override
 	protected void initViewContent(final Request request) {
 		Contact bean = getViewBean();
-		if (bean.getPositionIds() != null && !bean.getPositionIds().isEmpty()) {
+		if (!bean.getPositionIds().isEmpty()) {
 			selectView.doStartPolling(new SearchVersionKey(null, bean.getId()));
 		}
 		super.initViewContent(request);
@@ -79,12 +76,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		super.updateBeanValue();
 		Contact bean = getViewBean();
 		List<Position> positions = (List<Position>) selectView.getListView().getBeanValue();
-		List<String> posKeys = new ArrayList<>();
-		for (Position pos : positions) {
-			posKeys.add(pos.getId());
-		}
-		bean.setPositionIds(posKeys);
-
+		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
 	}
 
 }

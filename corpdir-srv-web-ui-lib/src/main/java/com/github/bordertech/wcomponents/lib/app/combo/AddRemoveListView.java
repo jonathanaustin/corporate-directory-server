@@ -1,9 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
-import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
@@ -16,26 +15,18 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
  */
 public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 
-	private final SelectView<T> selectView;
-	private final SelectView findView;
-	private final AddRemoveCtrl ctrl2 = new AddRemoveCtrl() {
-		@Override
-		public void setupController() {
-			String findQual = findView.getFullQualifier();
-			String qual = getFullQualifier();
-			// Listen for the "SELECT" ITEMS and "ADD" to the list
-			ctrl2.addListenerOverride(findQual + "-I", ListEventType.SELECT);
-			ctrl2.addDispatcherOverride(qual, ListEventType.ADD_ITEM);
-			super.setupController(); //To change body of generated methods, choose Tools | Templates.
-		}
+	private final TranslateEventCtrl ctrl = new TranslateEventCtrl();
 
-	};
-
-	public AddRemoveListView(final SelectView<T> selectView, final SelectView findView) {
+	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
 
-		this.selectView = selectView;
-		this.findView = findView;
+		// Setup qualifier context
+		setQualifier(qualifier);
+		setQualifierContext(true);
+		ctrl.setQualifier("X");
+		findView.setQualifier("X");
+		// Make all the "Events" in FIND View unique with "X"
+		findView.setQualifierContext(true);
 
 		AddRemoveToolbar toolbarView = new AddRemoveToolbar();
 
@@ -43,11 +34,12 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 		toolbarView.setDialogView(findView);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl2", ctrl2);
+		content.addTaggedComponent("vw-ctrl2", ctrl);
 		content.addTaggedComponent("vw-select", selectView);
 		content.addTaggedComponent("vw-toolbar", toolbarView);
 		setBlocking(true);
 
+		// Bean Property
 		setBeanProperty(".");
 		setSearchAncestors(false);
 	}
@@ -55,15 +47,8 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	@Override
 	public void configViews() {
 		super.configViews();
-	}
-
-	@Override
-	protected void preparePaintComponent(Request request) {
-		super.preparePaintComponent(request); //To change body of generated methods, choose Tools | Templates.
-		String findQual = findView.getFullQualifier();
-		String qual = getFullQualifier();
-		// Make the "ITEM" Select in the find unique
-		findView.addDispatcherOverride(findQual + "-I", ListEventType.SELECT);
+		// Translate the "SELECT" from the "FIND" to an "ADD"
+		ctrl.translate(ListEventType.SELECT, ListEventType.ADD_ITEM, getFullQualifier());
 	}
 
 }
