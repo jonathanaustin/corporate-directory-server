@@ -30,11 +30,6 @@ public class TemplateView<T> extends AbstractView<T> {
 	};
 
 	public TemplateView(final String templateName) {
-		this(templateName, null);
-	}
-
-	public TemplateView(final String templateName, final String qualifier) {
-		super(qualifier);
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("vw-content", content);

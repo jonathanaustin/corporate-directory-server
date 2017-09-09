@@ -14,13 +14,9 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  */
 public class MainCardCtrl extends DefaultController {
 
-	public MainCardCtrl(final String qualifier) {
-		super(qualifier);
-	}
-
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 		// Listeners
 
 		// SHOW CARD EVENT

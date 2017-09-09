@@ -21,7 +21,7 @@ import java.util.Date;
  */
 public class CorpDirApp extends WApplication {
 
-	private final MainComboView mainView = new MainComboView("M");
+	private final MainComboView mainView = new MainComboView();
 
 	/**
 	 * Construct Application.

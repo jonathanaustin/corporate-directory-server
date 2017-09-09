@@ -4,23 +4,13 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
-import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
-import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherHelper;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
-import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -28,32 +18,22 @@ import java.util.Map;
  * @param <T> the view bean type
  * @since 1.0.0
  */
-public abstract class AbstractView<T> extends WTemplate implements View<T> {
+public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T> {
 
 	public AbstractView() {
-		this(null);
-	}
-
-	public AbstractView(final String qualifier) {
-		super("wclib/hbs/layout/default-view.hbs", TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		super("wclib/hbs/layout/default-view.hbs");
 		setSearchAncestors(false);
 		setBeanProperty(".");
-		setQualifier(qualifier);
 	}
 
 	@Override
-	public final Dispatcher getDispatcher() {
-		return DispatcherHelper.getInstance();
+	public boolean isQualifierContext() {
+		return getComponentModel().qualifierContext;
 	}
 
 	@Override
-	public final String getQualifier() {
-		return getComponentModel().qualifier;
-	}
-
-	@Override
-	public final void setQualifier(final String qualifier) {
-		getOrCreateComponentModel().qualifier = qualifier;
+	public void setQualifierContext(final boolean qualifierContext) {
+		getOrCreateComponentModel().qualifierContext = qualifierContext;
 	}
 
 	@Override
@@ -136,85 +116,6 @@ public abstract class AbstractView<T> extends WTemplate implements View<T> {
 	}
 
 	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 */
-	protected void dispatchViewEvent(final EventType eventType) {
-		dispatchViewEvent(eventType, null, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 */
-	protected void dispatchViewEvent(final EventType eventType, final Object data) {
-		dispatchViewEvent(eventType, data, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 * @param exception an exception
-	 */
-	protected void dispatchViewEvent(final EventType eventType, final Object data, final Exception exception) {
-		String qualifier = getDispatcherQualifier(eventType);
-		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
-		getDispatcher().dispatch(event);
-	}
-
-	protected void dispatchMessageReset() {
-		dispatchMessage(MsgEventType.RESET, "");
-	}
-
-	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
-		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
-		dispatchMessageEvent(new MsgEvent(diags, qualifier));
-	}
-
-	protected void dispatchMessage(final MsgEventType type, final String text) {
-		String qualifier = getDispatcherQualifier(type);
-		dispatchMessageEvent(new MsgEvent(type, qualifier, text));
-	}
-
-	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		String qualifier = getDispatcherQualifier(type);
-		dispatchMessageEvent(new MsgEvent(type, qualifier, texts, true));
-	}
-
-	protected void dispatchMessageEvent(final MsgEvent event) {
-		getDispatcher().dispatch(event);
-	}
-
-	protected String getDispatcherQualifier(final EventType type) {
-		String qualifier = getQualifierOverride(type);
-		return qualifier == null ? getQualifier() : qualifier;
-	}
-
-	@Override
-	public void addDispatcherOverride(final String qualifier, final EventType... types) {
-		ViewModel model = getOrCreateComponentModel();
-		if (model.qualifierOverride == null) {
-			model.qualifierOverride = new HashMap<>();
-		}
-		for (EventType type : types) {
-			model.qualifierOverride.put(type, qualifier);
-		}
-	}
-
-	protected String getQualifierOverride(final EventType type) {
-		ViewModel model = getComponentModel();
-		if (model.qualifierOverride != null) {
-			return model.qualifierOverride.get(type);
-		}
-		return null;
-	}
-
-	/**
 	 * Helper method to add target to an Ajax Control.
 	 *
 	 * @param ajax the AJAX control
@@ -235,15 +136,6 @@ public abstract class AbstractView<T> extends WTemplate implements View<T> {
 		}
 	}
 
-	protected ComboView findParentCombo() {
-		return WebUtilities.getAncestorOfClass(ComboView.class, this);
-	}
-
-	protected String getPrefix() {
-		String prefix = getQualifier() == null ? "" : getQualifier();
-		return prefix;
-	}
-
 	@Override
 	protected ViewModel newComponentModel() {
 		return new ViewModel();
@@ -262,13 +154,12 @@ public abstract class AbstractView<T> extends WTemplate implements View<T> {
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class ViewModel extends TemplateModel {
+	public static class ViewModel extends BaseModel {
 
 		private boolean contentVisible = true;
 
-		private String qualifier;
+		private boolean qualifierContext;
 
-		private Map<EventType, String> qualifierOverride;
 	}
 
 	/**
@@ -291,4 +182,5 @@ public abstract class AbstractView<T> extends WTemplate implements View<T> {
 
 		return false;
 	}
+
 }

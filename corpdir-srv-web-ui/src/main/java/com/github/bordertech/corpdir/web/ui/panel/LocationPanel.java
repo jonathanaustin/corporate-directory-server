@@ -15,10 +15,9 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public LocationPanel(final String qualifier) {
-		super(qualifier);
+	public LocationPanel() {
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
-		AddressPanel addressPanel = new AddressPanel(qualifier);
+		AddressPanel addressPanel = new AddressPanel();
 		addressPanel.setBeanProperty("address");
 		getFormPanel().add(addressPanel);
 	}

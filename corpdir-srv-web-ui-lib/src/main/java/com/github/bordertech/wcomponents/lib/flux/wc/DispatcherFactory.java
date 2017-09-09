@@ -1,16 +1,16 @@
 package com.github.bordertech.wcomponents.lib.flux.wc;
 
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
 import com.github.bordertech.wcomponents.lib.flux.impl.DispatcherModel;
 
 /**
  *
  * @author jonathan
  */
-public class DispatcherHelper {
+public final class DispatcherFactory {
 
 	private static final Dispatcher DISPATCHER = new DefaultDispatcher() {
 		@Override
@@ -28,7 +28,7 @@ public class DispatcherHelper {
 		}
 	};
 
-	private DispatcherHelper() {
+	private DispatcherFactory() {
 	}
 
 	public static Dispatcher getInstance() {

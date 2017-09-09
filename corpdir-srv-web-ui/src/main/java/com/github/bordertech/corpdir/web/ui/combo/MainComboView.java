@@ -16,17 +16,17 @@ public class MainComboView extends DefaultMessageComboView {
 
 	private final MainCardView cardView;
 
-	public MainComboView(final String qualifier) {
-		super("wclib/hbs/layout/combo-app-main.hbs", qualifier);
+	public MainComboView() {
+		super("wclib/hbs/layout/combo-app-main.hbs");
 
-		this.cardView = new MainCardView(qualifier);
-		MainToolbarView toolbar = new MainToolbarView(qualifier);
+		this.cardView = new MainCardView();
+		MainToolbarView toolbar = new MainToolbarView();
 
-		MainCardCtrl ctrl = new MainCardCtrl(qualifier);
+		MainCardCtrl ctrl = new MainCardCtrl();
 		ctrl.setCardView(cardView);
 
 		// Reset
-		ResetViewCtrl resetCtrl = new ResetViewCtrl(qualifier);
+		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);

@@ -28,8 +28,8 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public BasicApiIdPanel(final String qualifier) {
-		this(qualifier, true);
+	public BasicApiIdPanel() {
+		this(true);
 	}
 
 	/**
@@ -37,8 +37,7 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	 *
 	 * @param addFields add the default fields
 	 */
-	public BasicApiIdPanel(final String qualifier, final boolean addFields) {
-		super(qualifier);
+	public BasicApiIdPanel(final boolean addFields) {
 		getContent().add(versionPanel);
 		versionPanel.add(new WHorizontalRule());
 		versionPanel.add(versionDef);

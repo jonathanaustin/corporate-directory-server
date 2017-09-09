@@ -43,9 +43,9 @@ public enum CardType {
 		return clazz;
 	}
 
-	public View createCardViewInstance(final String qualifier) {
+	public View createCardViewInstance() {
 		try {
-			return (View) getClazz().getConstructor(String.class).newInstance(qualifier);
+			return (View) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

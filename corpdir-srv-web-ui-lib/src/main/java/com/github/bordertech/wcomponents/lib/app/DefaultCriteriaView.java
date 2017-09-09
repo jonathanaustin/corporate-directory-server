@@ -25,11 +25,6 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	private final WAjaxControl ajax = new WAjaxControl(searchButton);
 
 	public DefaultCriteriaView() {
-		this(null);
-	}
-
-	public DefaultCriteriaView(final String qualifier) {
-		super(qualifier);
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -59,7 +54,7 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	 * Dispatch the search event.
 	 */
 	protected void doDispatchStartSearchEvent() {
-		dispatchViewEvent(SearchEventType.SEARCH_VALIDATING);
+		dispatchEvent(SearchEventType.SEARCH_VALIDATING);
 	}
 
 	/**
@@ -67,7 +62,7 @@ public class DefaultCriteriaView<T> extends DefaultView<T> implements CriteriaVi
 	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchViewEvent(SearchEventType.SEARCH, criteria);
+		dispatchEvent(SearchEventType.SEARCH, criteria);
 	}
 
 	@Override

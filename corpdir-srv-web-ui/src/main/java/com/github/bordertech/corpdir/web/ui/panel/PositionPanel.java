@@ -18,8 +18,8 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public PositionPanel(final String qualifier) {
-		super(qualifier);
+	public PositionPanel() {
+		super();
 	}
 
 }

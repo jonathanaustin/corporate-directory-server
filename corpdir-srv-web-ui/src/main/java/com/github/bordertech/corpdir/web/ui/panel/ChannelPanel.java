@@ -15,8 +15,7 @@ public class ChannelPanel extends BasicApiKeyPanel<Channel> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public ChannelPanel(final String qualifier) {
-		super(qualifier);
+	public ChannelPanel() {
 		WDropdown dropType = new WDropdown(ChannelTypeEnum.values());
 		addInputField(dropType, "Channel type", "type", true);
 		addTextField("Value", "value", false);

@@ -26,8 +26,7 @@ public class BasicApiPanel<T extends ApiObject> extends DefaultView<T> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public BasicApiPanel(final String qualifier) {
-		super(qualifier);
+	public BasicApiPanel() {
 		getContent().add(formPanel);
 		formPanel.add(formLayout);
 		formLayout.setLabelWidth(30);

@@ -21,17 +21,9 @@ import java.util.List;
  */
 public class FormAndSelectCtrl<T> extends DefaultController {
 
-	public FormAndSelectCtrl() {
-		this(null);
-	}
-
-	public FormAndSelectCtrl(final String qualifier) {
-		super(qualifier);
-	}
-
 	@Override
-	public void setupListeners() {
-		super.setupListeners();
+	public void setupController() {
+		super.setupController();
 		// Listeners
 
 		// Form event type Listeners
@@ -179,7 +171,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 
 	protected void doLoadEntity(final T entity) {
 		resetFormView();
-		dispatchCtrlEvent(FormEventType.LOAD, entity);
+		dispatchEvent(FormEventType.LOAD, entity);
 	}
 
 	protected void resetFormView() {

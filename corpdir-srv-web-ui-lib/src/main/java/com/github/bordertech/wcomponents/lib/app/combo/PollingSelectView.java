@@ -13,11 +13,7 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 public class PollingSelectView<S, T> extends PollingListView<S, T> implements SelectView<T> {
 
 	public PollingSelectView(final SelectView<T> listView) {
-		this(listView, null);
-	}
-
-	public PollingSelectView(final SelectView<T> listView, final String qualifier) {
-		super(listView, qualifier);
+		super(listView);
 	}
 
 	@Override

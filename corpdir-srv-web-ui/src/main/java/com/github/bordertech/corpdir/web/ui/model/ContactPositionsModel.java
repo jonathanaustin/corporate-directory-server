@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.ContactService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
-import com.github.bordertech.wcomponents.lib.model.SearchModel;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import java.util.List;
 
 /**

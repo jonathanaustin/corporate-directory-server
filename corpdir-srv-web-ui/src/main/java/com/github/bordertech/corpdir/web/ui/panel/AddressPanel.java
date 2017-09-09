@@ -13,8 +13,7 @@ public class AddressPanel extends BasicApiPanel<Address> {
 	/**
 	 * Construct basic detail panel. \
 	 */
-	public AddressPanel(final String qualifier) {
-		super(qualifier);
+	public AddressPanel() {
 		// Address Details
 		addTextField("Work station", "workStation", false);
 		addTextField("Line 1", "line1", false);

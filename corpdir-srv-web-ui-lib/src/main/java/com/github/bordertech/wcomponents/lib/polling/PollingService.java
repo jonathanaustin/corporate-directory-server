@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 
 /**
  *
@@ -68,8 +68,17 @@ public interface PollingService<S, T> extends Polling {
 	 */
 	void setPollingCriteria(final S criteria);
 
+	/**
+	 * Polling panels require the model to bet set (unlike other panels that use a model key and the Model Provider).
+	 *
+	 * @return the service model to use for polling
+	 */
 	ServiceModel<S, T> getServiceModel();
 
+	/**
+	 *
+	 * @param serviceModel the service model to call for polling
+	 */
 	void setServiceModel(final ServiceModel<S, T> serviceModel);
 
 }

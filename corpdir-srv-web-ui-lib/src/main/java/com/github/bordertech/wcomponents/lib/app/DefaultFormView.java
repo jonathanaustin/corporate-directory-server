@@ -21,14 +21,6 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  */
 public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 
-	public DefaultFormView() {
-		this(null);
-	}
-
-	public DefaultFormView(final String qualifier) {
-		super(qualifier);
-	}
-
 	@Override
 	public void setFormMode(final FormMode mode) {
 		if (getFormMode() != mode) {
@@ -100,11 +92,11 @@ public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(FormEventType.LOAD_OK, getViewBean());
+		dispatchEvent(FormEventType.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override

@@ -3,10 +3,9 @@ package com.github.bordertech.wcomponents.lib.app;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.model.SearchModel;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
@@ -44,36 +43,9 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 		protected void handleErrorMessage(final List<String> msgs) {
 			dispatchMessage(MsgEventType.ERROR, msgs);
 		}
-
-		@Override
-		public ServiceModel<S, T> getServiceModel() {
-			ServiceModel<S, T> model = super.getServiceModel();
-			if (model == null) {
-				model = (ServiceModel) findParentCombo().getModel(getPrefix() + "polling");
-				if (model == null) {
-					final SearchModel model2 = (SearchModel) findParentCombo().getModel(getPrefix() + "search");
-					if (model2 != null) {
-						ServiceModel wrapper = new ServiceModel() {
-							@Override
-							public Object service(final Object criteria) {
-								return model2.search(criteria);
-							}
-						};
-						setServiceModel(wrapper);
-						model = wrapper;
-					}
-				}
-			}
-			return model;
-		}
 	};
 
 	public DefaultPollingView() {
-		this(null);
-	}
-
-	public DefaultPollingView(final String qualifier) {
-		super(qualifier);
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);
@@ -211,7 +183,16 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	}
 
 	protected void doDispatchPollingEvent(final PollingEventType pollingEvent, final Object data, final Exception excp) {
-		dispatchViewEvent(pollingEvent, data, excp);
+		dispatchEvent(pollingEvent, data, excp);
+	}
+
+	@Override
+	public void doSetupAndStartPolling(final S criteria, final ServiceModel<S, T> serviceModel) {
+		resetView();
+		setPollingCriteria(criteria);
+		setServiceModel(serviceModel);
+		// Making the panel visible starts the polling
+		setContentVisible(true);
 	}
 
 }

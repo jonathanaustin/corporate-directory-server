@@ -40,11 +40,6 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 	};
 
 	public AddRemoveToolbar() {
-		this(null);
-	}
-
-	public AddRemoveToolbar(final String qualifier) {
-		super(qualifier);
 
 		WContainer content = getContent();
 		content.add(btnAdd);

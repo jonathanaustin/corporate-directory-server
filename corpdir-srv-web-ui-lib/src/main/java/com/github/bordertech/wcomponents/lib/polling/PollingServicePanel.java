@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
@@ -224,6 +224,10 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	@Override
 	public void doStartLoading() {
 
+		if (!isManualStart()) {
+			startButton.setVisible(false);
+		}
+
 		// Check not started
 		if (getPollingStatus() != PollingStatus.NOT_STARTED) {
 			return;
@@ -280,7 +284,6 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	protected void handleInitContent(final Request request) {
 		super.handleInitContent(request);
 		if (!isManualStart()) {
-			startButton.setVisible(false);
 			doStartLoading();
 		}
 	}
