@@ -108,7 +108,7 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 	}
 
 	protected void handleSelectEvent() {
-		getAddRemoveToolbar().getRemoveButton().setDisabled(false);
+		getAddRemoveToolbar().showRemoveButton(true);
 	}
 
 	protected void handleDeleteEvent() {

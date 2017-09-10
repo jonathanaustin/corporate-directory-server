@@ -5,6 +5,8 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -130,9 +132,18 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	}
 
 	protected void initViewContent(final Request request) {
+		// Configure AJAX
 		ComboView combo = findParentCombo();
 		if (combo != null) {
 			combo.configAjax(this);
+		}
+		// Check for updateable
+		if (this instanceof FormUpdateable) {
+			// Get parent form
+			FormView view = WebUtilities.getAncestorOfClass(FormView.class, this);
+			if (view != null) {
+				((FormUpdateable) this).doMakeFormReadonly(view.isFormReadonly());
+			}
 		}
 	}
 

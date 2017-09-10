@@ -61,4 +61,10 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 	public void setSelected(final T entity) {
 		getListView().setSelected(entity);
 	}
+
+	@Override
+	public void doMakeFormReadonly(boolean readonly) {
+		getListView().doMakeFormReadonly(readonly);
+	}
+
 }

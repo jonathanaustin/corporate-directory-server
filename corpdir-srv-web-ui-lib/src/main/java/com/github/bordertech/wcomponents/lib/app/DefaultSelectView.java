@@ -88,6 +88,11 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 		setSelected(entity);
 	}
 
+	@Override
+	public void doMakeFormReadonly(final boolean readonly) {
+		setListMode(readonly ? ListMode.VIEW : ListMode.SELECT);
+	}
+
 	protected void doDispatchSelectEvent() {
 		T bean = getSelected();
 		dispatchEvent(ListEventType.SELECT, bean);

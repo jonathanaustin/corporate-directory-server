@@ -25,15 +25,16 @@ public interface FormView<T> extends View<T> {
 	void setFormMode(final FormMode mode);
 
 	/**
-	 * @return true if form is in read only
-	 */
-	boolean isFormReadOnly();
-
-	/**
 	 *
 	 * @return true if entity has been loaded
 	 */
 	boolean isLoaded();
+
+	/**
+	 *
+	 * @return true if form is readonly
+	 */
+	boolean isFormReadonly();
 
 	/**
 	 *

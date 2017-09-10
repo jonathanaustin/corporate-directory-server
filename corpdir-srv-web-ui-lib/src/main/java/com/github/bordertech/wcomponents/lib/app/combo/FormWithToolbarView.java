@@ -73,8 +73,8 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 	}
 
 	@Override
-	public boolean isFormReadOnly() {
-		return formView.isFormReadOnly();
+	public boolean isFormReadonly() {
+		return formView.isFormReadonly();
 	}
 
 	@Override

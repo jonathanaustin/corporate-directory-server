@@ -1,9 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app;
 
-import com.github.bordertech.wcomponents.Container;
-import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
@@ -36,14 +33,15 @@ public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 	}
 
 	public void doRefreshViewState() {
-		doMakeReadOnly(getContent(), isFormReadOnly());
+		boolean readonly = isFormReadonly();
+		FormUtil.doMakeInputsReadonly(this, readonly);
 	}
 
 	/**
 	 * @return true if form read only
 	 */
 	@Override
-	public boolean isFormReadOnly() {
+	public boolean isFormReadonly() {
 		FormMode mode = getFormMode();
 		return !(FormMode.ADD.equals(mode) || FormMode.EDIT.equals(mode));
 	}
@@ -77,18 +75,6 @@ public class DefaultFormView<T> extends DefaultView<T> implements FormView<T> {
 			return;
 		}
 		doRefreshViewState();
-	}
-
-	protected void doMakeReadOnly(final WComponent component, final boolean readOnly) {
-		if (component instanceof Input) {
-			((Input) component).setReadOnly(readOnly);
-		}
-
-		if (component instanceof Container) {
-			for (WComponent child : ((Container) component).getChildren()) {
-				doMakeReadOnly(child, readOnly);
-			}
-		}
 	}
 
 	protected void doDispatchLoadOKEvent() {
