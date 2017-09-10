@@ -2,15 +2,13 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.div.WDiv;
-import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveToolbar;
-import com.github.bordertech.wcomponents.lib.app.form.FormUtil;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.form.FormUtil;
+import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveButtonBar;
 import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -35,13 +33,10 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 	};
 	private final WDiv dialogContent = new WDiv();
 	private final WDialog dialog = new WDialog(dialogContent);
-	private final AddRemoveToolbar toolbarView = new AddRemoveToolbar();
-	private final SelectView<T> selectView;
+	private final AddRemoveButtonBar toolbarView = new AddRemoveButtonBar();
 
 	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView<T> findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
-
-		this.selectView = selectView;
 
 		dialog.setMode(WDialog.MODAL);
 
@@ -61,6 +56,8 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 		dialogView.getContent().add(dialog);
 		dialogContent.add(findView);
 		dialog.setMode(WDialog.MODAL);
+		dialog.setHeight(300);
+		dialog.setWidth(600);
 
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl2", ctrl);
@@ -75,11 +72,15 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 		setSearchAncestors(false);
 	}
 
+	public WDialog getDialog() {
+		return dialog;
+	}
+
 	@Override
 	public void configViews() {
 		super.configViews();
 		// Translate the "SELECT" from the "FIND" to a "SELECTED"
-		ctrl.translate(ListEventType.SELECT, ToolbarEventType.SELECTED, getFullQualifier());
+//		ctrl.translate(ListEventType.SELECT, ToolbarEventType.SELECTED, getFullQualifier());
 	}
 
 	protected void showDialog() {

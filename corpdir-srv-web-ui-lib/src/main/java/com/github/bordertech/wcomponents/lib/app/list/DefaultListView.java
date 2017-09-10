@@ -9,34 +9,38 @@ import java.util.List;
  * Abstract list view.
  *
  * @author Jonathan Austin
- * @param <T> the view bean
+ * @param <T> the item bean
  * @since 1.0.0
  */
 public class DefaultListView<T> extends DefaultView<List<T>> implements ListView<T> {
 
 	@Override
-	public void addItem(final T entity) {
+	public void addItem(final T item) {
 		List<T> items = getItemList();
-		items.add(entity);
-		refreshItemList(items);
+		if (!items.contains(item)) {
+			items.add(item);
+			refreshItemList(items);
+		}
 	}
 
 	@Override
-	public void removeItem(final T entity) {
+	public void removeItem(final T item) {
 		List<T> items = getItemList();
-		items.remove(entity);
-		refreshItemList(items);
+		if (items.contains(item)) {
+			items.remove(item);
+			refreshItemList(items);
+		}
 	}
 
 	@Override
-	public void updateItem(final T entity) {
+	public void updateItem(final T item) {
 		List<T> items = getItemList();
-		int idx = items.indexOf(entity);
+		int idx = items.indexOf(item);
 		if (idx > -1) {
 			items.remove(idx);
-			items.add(idx, entity);
+			items.add(idx, item);
 		} else {
-			items.add(entity);
+			items.add(item);
 		}
 		refreshItemList(items);
 	}
@@ -44,6 +48,12 @@ public class DefaultListView<T> extends DefaultView<List<T>> implements ListView
 	@Override
 	public void showList(final boolean show) {
 		setContentVisible(show);
+	}
+
+	@Override
+	public int getSize() {
+		List<T> items = getViewBean();
+		return items == null ? 0 : items.size();
 	}
 
 	protected List<T> getItemList() {

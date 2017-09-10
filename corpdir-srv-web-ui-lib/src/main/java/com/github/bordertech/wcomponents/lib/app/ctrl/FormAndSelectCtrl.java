@@ -131,7 +131,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	}
 
 	protected void handleAddEvent() {
-		getSelectView().clearSelectedIdx();
+		getSelectView().clearSelected();
 	}
 
 	protected void handleSelectEvent(final T selected) {
@@ -155,7 +155,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	protected void handleCreateOkEvent(final T entity) {
 		getSelectView().addItem(entity);
 		getSelectView().showList(true);
-		getSelectView().setSelected(entity);
+		getSelectView().setSelectedItem(entity);
 		// Reload Entity
 		doLoadEntity(entity);
 	}

@@ -16,16 +16,14 @@ public interface SelectView<T> extends ListView<T>, FormUpdateable {
 
 	void setListMode(final ListMode mode);
 
-	void clearSelectedIdx();
+	void clearSelected();
 
-	void setSelectedIdx(final int idx);
+	T getSelectedItem();
 
-	int getSelectedIdx();
+	void setSelectedItem(final T item);
 
-	int getSize();
+	int getIndexOfItem(final T item);
 
-	T getSelected();
-
-	void setSelected(final T entity);
+	T getItem(final int idx);
 
 }

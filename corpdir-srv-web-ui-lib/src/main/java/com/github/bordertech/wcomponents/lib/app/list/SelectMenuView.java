@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
@@ -29,6 +30,11 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 			super.preparePaintComponent(request);
 			findMenuItem();
 		}
+
+		@Override
+		public boolean isDisabled() {
+			return isListModeView();
+		}
 	};
 
 	private final WDiv ajaxPanel = new WDiv();
@@ -37,6 +43,7 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);
+		setListMode(ListMode.SELECT);
 	}
 
 	@Override
@@ -66,8 +73,9 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 		}
 	}
 
-	protected void handleMenuItemSelected(final WMenuItem item, final int idx) {
-		setSelectedIdx(idx);
+	protected void handleMenuItemSelected(final WMenuItem menuItem, final int idx) {
+		T item = getItem(idx);
+		setSelectedItem(item);
 		doDispatchSelectEvent();
 	}
 
@@ -80,13 +88,14 @@ public class SelectMenuView<T> extends DefaultSelectView<T> {
 	}
 
 	protected void findMenuItem() {
-		int idx = getSelectedIdx();
-		if (idx > -1) {
-			for (MenuItem item : menu.getMenuItems()) {
-				if (item instanceof WMenuItem) {
-					Integer menuIdx = (Integer) ((WMenuItem) item).getActionObject();
+		T item = getSelectedItem();
+		if (item != null) {
+			int idx = getIndexOfItem(item);
+			for (MenuItem menuItem : menu.getMenuItems()) {
+				if (menuItem instanceof WMenuItem) {
+					Integer menuIdx = (Integer) ((WMenuItem) menuItem).getActionObject();
 					if (Objects.equals(menuIdx, idx)) {
-						menu.setSelectedMenuItem((WMenuItem) item);
+						menu.setSelectedMenuItem((WMenuItem) menuItem);
 						return;
 					}
 				}

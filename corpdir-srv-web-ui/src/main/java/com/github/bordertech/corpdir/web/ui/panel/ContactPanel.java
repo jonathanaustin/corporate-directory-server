@@ -7,11 +7,11 @@ import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.combo.AddRemoveListView;
 import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaView;
+import com.github.bordertech.wcomponents.lib.app.list.SelectSingleView;
 import java.util.List;
 
 /**
@@ -50,10 +50,14 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
 		// Setup the select and find view
-		selectView = new PollingSelectView(new SelectMenuView());
+		selectView = new PollingSelectView(new SelectSingleView());
+//		selectView = new PollingSelectView(new SelectMenuView());
 		SelectWithCriteriaView findView = new SelectWithCriteriaTextView();
 		AddRemoveListView posView = new AddRemoveListView("pos", selectView, findView);
 		getFormPanel().add(posView);
+		// Setup dialog
+		posView.getDialog().setTitle("Search Positions");
+		findView.getToolbarView().setUseAdd(false);
 
 		// Models
 		selectView.setSearchModelKey("contact.positions.search");

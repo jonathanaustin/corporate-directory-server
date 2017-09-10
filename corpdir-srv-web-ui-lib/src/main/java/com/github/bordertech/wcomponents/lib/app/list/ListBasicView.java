@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WText;
  * Basic list view.
  *
  * @author Jonathan Austin
- * @param <T> the entity type
+ * @param <T> the item type
  * @since 1.0.0
  */
 public class ListBasicView<T> extends DefaultListView<T> {

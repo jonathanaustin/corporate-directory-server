@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.lib.app.list;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import java.util.List;
 
 /**
  * Default select list view.
@@ -25,67 +24,30 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	}
 
 	@Override
-	public void setSelectedIdx(final int idx) {
-		int size = getSize();
-		if (idx < -1 || idx >= size) {
-			throw new IllegalArgumentException("Selected index is invalid. Index: " + idx + " size: " + size + ".");
-		}
-		if (getSelectedIdx() != idx) {
-			getOrCreateComponentModel().selectedIdx = idx;
-		}
+	public void clearSelected() {
+		getOrCreateComponentModel().selected = null;
 	}
 
 	@Override
-	public int getSelectedIdx() {
-		return getComponentModel().selectedIdx;
+	public T getSelectedItem() {
+		return getComponentModel().selected;
 	}
 
 	@Override
-	public void clearSelectedIdx() {
-		if (getSelectedIdx() != -1) {
-			getOrCreateComponentModel().selectedIdx = -1;
-		}
-	}
-
-	@Override
-	public int getSize() {
-		List<T> items = getViewBean();
-		return items == null ? 0 : items.size();
-	}
-
-	@Override
-	public T getSelected() {
-		int idx = getSelectedIdx();
-		if (idx < 0) {
-			return null;
-		}
-		List<T> items = getViewBean();
-		return items.get(idx);
-	}
-
-	@Override
-	public void setSelected(final T entity) {
+	public void setSelectedItem(final T entity) {
 		// Find Bean
-		int idx = entity == null ? -1 : getViewBean().indexOf(entity);
-		setSelectedIdx(idx);
-	}
+		if (getItemList().contains(entity)) {
+			getOrCreateComponentModel().selected = entity;
+		} else {
+			getOrCreateComponentModel().selected = null;
+		}
 
-	@Override
-	public void addItem(final T entity) {
-		super.addItem(entity);
-		setSelected(entity);
 	}
 
 	@Override
 	public void removeItem(final T entity) {
 		super.removeItem(entity);
-		clearSelectedIdx();
-	}
-
-	@Override
-	public void updateItem(final T entity) {
-		super.updateItem(entity);
-		setSelected(entity);
+		clearSelected();
 	}
 
 	@Override
@@ -94,39 +56,55 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	}
 
 	protected void doDispatchSelectEvent() {
-		T bean = getSelected();
-		dispatchEvent(ListEventType.SELECT, bean);
+		T bean = getSelectedItem();
+		if (bean == null) {
+			dispatchEvent(ListEventType.UNSELECT);
+		} else {
+			dispatchEvent(ListEventType.SELECT, bean);
+		}
+	}
+
+	protected boolean isListModeView() {
+		return getListMode() == ListMode.VIEW;
 	}
 
 	@Override
-	protected SelectModel newComponentModel() {
+	public int getIndexOfItem(final T entity) {
+		return getItemList().indexOf(entity);
+	}
+
+	@Override
+	public T getItem(final int idx) {
+		int size = getSize();
+		if (idx < -1 || idx >= size) {
+			throw new IllegalArgumentException("Get item by index is invalid. Index: " + idx + " size: " + size + ".");
+		}
+		return getItemList().get(idx);
+	}
+
+	@Override
+	protected SelectModel<T> newComponentModel() {
 		return new SelectModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected SelectModel getComponentModel() {
+	protected SelectModel<T> getComponentModel() {
 		return (SelectModel) super.getComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	protected SelectModel getOrCreateComponentModel() {
+	protected SelectModel<T> getOrCreateComponentModel() {
 		return (SelectModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class SelectModel extends ViewModel {
+	public static class SelectModel<T> extends ViewModel {
 
 		private ListMode listMode = ListMode.VIEW;
 
-		private int selectedIdx = -1;
+		private T selected;
 	}
 
 }

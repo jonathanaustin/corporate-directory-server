@@ -18,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddRemoveToolbar<T> extends DefaultView<T> implements FormUpdateable {
+public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnRemove = new WButton("Remove");
@@ -34,7 +34,7 @@ public class AddRemoveToolbar<T> extends DefaultView<T> implements FormUpdateabl
 
 	};
 
-	public AddRemoveToolbar() {
+	public AddRemoveButtonBar() {
 
 		WContainer content = getContent();
 		content.add(btnAdd);

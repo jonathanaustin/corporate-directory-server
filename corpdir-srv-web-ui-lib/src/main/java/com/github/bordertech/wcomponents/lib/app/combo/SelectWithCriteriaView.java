@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 
 /**
  * Select view with a criteria view.
@@ -33,38 +33,33 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 	}
 
 	@Override
-	public void clearSelectedIdx() {
-		getListView().clearSelectedIdx();
+	public void clearSelected() {
+		getListView().clearSelected();
 	}
 
 	@Override
-	public void setSelectedIdx(int idx) {
-		getListView().setSelectedIdx(idx);
+	public T getSelectedItem() {
+		return getListView().getSelectedItem();
 	}
 
 	@Override
-	public int getSelectedIdx() {
-		return getListView().getSelectedIdx();
+	public void setSelectedItem(final T item) {
+		getListView().setSelectedItem(item);
 	}
 
 	@Override
-	public int getSize() {
-		return getListView().getSize();
-	}
-
-	@Override
-	public T getSelected() {
-		return getListView().getSelected();
-	}
-
-	@Override
-	public void setSelected(final T entity) {
-		getListView().setSelected(entity);
-	}
-
-	@Override
-	public void doMakeFormReadonly(boolean readonly) {
+	public void doMakeFormReadonly(final boolean readonly) {
 		getListView().doMakeFormReadonly(readonly);
+	}
+
+	@Override
+	public int getIndexOfItem(final T item) {
+		return getListView().getIndexOfItem(item);
+	}
+
+	@Override
+	public T getItem(final int idx) {
+		return getListView().getItem(idx);
 	}
 
 }

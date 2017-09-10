@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
+import com.github.bordertech.wcomponents.lib.app.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
@@ -88,23 +88,28 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 	}
 
 	@Override
-	public void addItem(final T entity) {
-		listView.addItem(entity);
+	public void addItem(final T item) {
+		listView.addItem(item);
 	}
 
 	@Override
-	public void removeItem(final T entity) {
-		listView.removeItem(entity);
+	public void removeItem(final T item) {
+		listView.removeItem(item);
 	}
 
 	@Override
-	public void updateItem(final T entity) {
-		listView.updateItem(entity);
+	public void updateItem(final T item) {
+		listView.updateItem(item);
 	}
 
 	@Override
 	public void showList(final boolean show) {
 		listView.showList(show);
+	}
+
+	@Override
+	public int getSize() {
+		return listView.getSize();
 	}
 
 	@Override

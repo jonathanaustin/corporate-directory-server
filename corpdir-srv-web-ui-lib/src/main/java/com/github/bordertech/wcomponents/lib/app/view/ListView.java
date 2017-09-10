@@ -21,4 +21,6 @@ public interface ListView<T> extends View<List<T>> {
 
 	void showList(final boolean show);
 
+	int getSize();
+
 }
