@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
-import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 
 /**
  * Select view with a criteria view.
@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
  */
 public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> implements SelectView<T> {
 
-	public SelectWithCriteriaView(final CriteriaView<S> criteriaView, final SelectView<T> listView) {
+	public SelectWithCriteriaView(final SearchView<S> criteriaView, final SelectView<T> listView) {
 		super(criteriaView, listView);
 	}
 
@@ -61,4 +61,10 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 	public void setSelected(final T entity) {
 		getListView().setSelected(entity);
 	}
+
+	@Override
+	public void doMakeFormReadonly(boolean readonly) {
+		getListView().doMakeFormReadonly(readonly);
+	}
+
 }

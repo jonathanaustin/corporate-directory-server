@@ -10,6 +10,5 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  */
 public enum SearchEventType implements EventType {
 	SEARCH,
-	SEARCH_VALIDATING,
-	SEARCH_ADD
+	SEARCH_VALIDATING
 }

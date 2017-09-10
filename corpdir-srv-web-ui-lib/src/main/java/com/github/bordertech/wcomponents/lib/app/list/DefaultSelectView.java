@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app;
+package com.github.bordertech.wcomponents.lib.app.list;
 
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
@@ -86,6 +86,11 @@ public class DefaultSelectView<T> extends DefaultListView<T> implements SelectVi
 	public void updateItem(final T entity) {
 		super.updateItem(entity);
 		setSelected(entity);
+	}
+
+	@Override
+	public void doMakeFormReadonly(final boolean readonly) {
+		setListMode(readonly ? ListMode.VIEW : ListMode.SELECT);
 	}
 
 	protected void doDispatchSelectEvent() {

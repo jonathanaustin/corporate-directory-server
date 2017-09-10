@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
  * @since 1.0.0
  *
  */
-public interface SelectView<T> extends ListView<T> {
+public interface SelectView<T> extends ListView<T>, FormUpdateable {
 
 	ListMode getListMode();
 

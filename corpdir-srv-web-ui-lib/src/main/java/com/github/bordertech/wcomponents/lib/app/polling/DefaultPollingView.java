@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app;
+package com.github.bordertech.wcomponents.lib.app.polling;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;

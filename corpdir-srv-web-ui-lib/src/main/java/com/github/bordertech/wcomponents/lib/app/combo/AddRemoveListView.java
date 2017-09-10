@@ -2,12 +2,14 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
+import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveToolbar;
+import com.github.bordertech.wcomponents.lib.app.form.FormUtil;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -18,7 +20,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddRemoveListView<S, T> extends DefaultComboView<T> {
+public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpdateable {
 
 	private final TranslateEventCtrl ctrl = new TranslateEventCtrl();
 
@@ -33,9 +35,14 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	};
 	private final WDiv dialogContent = new WDiv();
 	private final WDialog dialog = new WDialog(dialogContent);
+	private final AddRemoveToolbar toolbarView = new AddRemoveToolbar();
+	private final SelectView<T> selectView;
 
-	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView findView) {
+	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView<T> findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
+
+		this.selectView = selectView;
+
 		dialog.setMode(WDialog.MODAL);
 
 		// Setup qualifier context
@@ -46,7 +53,6 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 		// Make all the "Events" in FIND View unique with "X"
 		findView.setQualifierContext(true);
 
-		AddRemoveToolbar toolbarView = new AddRemoveToolbar();
 		AddRemoveListCtrl addCtrl = new AddRemoveListCtrl();
 		addCtrl.setAddRemoveToolbar(toolbarView);
 		addCtrl.setAddView(dialogView);
@@ -72,13 +78,18 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	@Override
 	public void configViews() {
 		super.configViews();
-		// Translate the "SELECT" from the "FIND" to an "ADD"
-		ctrl.translate(ListEventType.SELECT, SearchEventType.SEARCH_ADD, getFullQualifier());
+		// Translate the "SELECT" from the "FIND" to a "SELECTED"
+		ctrl.translate(ListEventType.SELECT, ToolbarEventType.SELECTED, getFullQualifier());
 	}
 
 	protected void showDialog() {
 		dialogView.reset();
 		dialog.display();
+	}
+
+	@Override
+	public void doMakeFormReadonly(final boolean readonly) {
+		FormUtil.doMakeInputsReadonly(this, readonly);
 	}
 
 }

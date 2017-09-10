@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app;
+package com.github.bordertech.wcomponents.lib.app.list;
 
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;

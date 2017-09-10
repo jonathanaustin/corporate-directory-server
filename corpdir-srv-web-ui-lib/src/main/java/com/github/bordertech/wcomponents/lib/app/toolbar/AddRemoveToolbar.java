@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app;
+package com.github.bordertech.wcomponents.lib.app.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -8,6 +8,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -17,7 +18,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddRemoveToolbar<T> extends DefaultView<T> {
+public class AddRemoveToolbar<T> extends DefaultView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnRemove = new WButton("Remove");
@@ -61,15 +62,11 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 		ajaxRemove.addTarget(this);
 
 		// Defaults
-		btnRemove.setDisabled(true);
+		btnRemove.setVisible(false);
 	}
 
-	public WButton getAddButton() {
-		return btnAdd;
-	}
-
-	public WButton getRemoveButton() {
-		return btnRemove;
+	public void showRemoveButton(final boolean show) {
+		btnRemove.setVisible(show);
 	}
 
 	@Override
@@ -77,6 +74,11 @@ public class AddRemoveToolbar<T> extends DefaultView<T> {
 		super.addEventTarget(target, eventType);
 		ajaxAdd.addTarget(target);
 		ajaxRemove.addTarget(target);
+	}
+
+	@Override
+	public void doMakeFormReadonly(final boolean readonly) {
+		setContentVisible(!readonly);
 	}
 
 }

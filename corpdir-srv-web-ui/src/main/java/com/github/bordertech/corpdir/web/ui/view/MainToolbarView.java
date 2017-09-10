@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
-import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultToolbarView;
 
 /**
  * Main toolbar view.

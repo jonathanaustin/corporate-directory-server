@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
-import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
@@ -26,17 +25,6 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	@Override
 	public void setupController() {
 		super.setupController();
-
-		// LIST Listeners
-		for (ListEventType type : ListEventType.values()) {
-			Listener listener = new Listener() {
-				@Override
-				public void handleEvent(final Event event) {
-					handleListEvents(event);
-				}
-			};
-			registerListener(listener, type);
-		}
 
 		// POLLING Listeners
 		for (PollingEventType type : PollingEventType.values()) {
@@ -68,9 +56,6 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		if (getPollingView() == null) {
 			throw new IllegalStateException("A polling view has not been set.");
 		}
-		if (getListView() == null) {
-			throw new IllegalStateException("A list view has not been set.");
-		}
 		if (getSearchModelKey() == null) {
 			throw new IllegalStateException("A search model key has not been set.");
 		}
@@ -92,11 +77,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 			}
 		};
 		getPollingView().doSetupAndStartPolling(criteria, wrapper);
-
-		// Reset Listview
-		ListView listView = getListView();
-		listView.resetView();
-		listView.setContentVisible(false);
+		dispatchEvent(ListEventType.RESET_LIST);
 	}
 
 	public final PollingView<S, List<T>> getPollingView() {
@@ -106,15 +87,6 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	public final void setPollingView(final PollingView<S, List<T>> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		addView(pollingView);
-	}
-
-	public final ListView<T> getListView() {
-		return getComponentModel().listView;
-	}
-
-	public final void setListView(final ListView<T> listView) {
-		getOrCreateComponentModel().listView = listView;
-		addView(listView);
 	}
 
 	@Override
@@ -131,40 +103,17 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		return (SearchModel<S, List<T>>) getModel(getSearchModelKey());
 	}
 
-	protected void handleListEvents(final Event event) {
-		ListEventType type = (ListEventType) event.getQualifier().getEventType();
-		switch (type) {
-			case START_SEARCH:
-				S criteria = (S) event.getData();
-				handleStartPollingSearch(criteria);
-				break;
-			case RESET_LIST:
-				handleResetListEvent();
-				break;
-			case LOAD_LIST:
-				List<T> items = (List<T>) event.getData();
-				handleLoadList(items);
-				break;
-			case REFRESH_LIST:
-				handleRefreshList();
-				break;
-			case ADD_ITEM:
-				handleAddItemEvent((T) event.getData());
-				break;
-			case REMOVE_ITEM:
-				handleRemoveItemEvent((T) event.getData());
-				break;
-			case UPDATE_ITEM:
-				handleUpdateItemEvent((T) event.getData());
-				break;
-		}
-
-	}
-
 	protected void handlePollingEvents(final Event event) {
 
 		PollingEventType type = (PollingEventType) event.getQualifier().getEventType();
 		switch (type) {
+			case START_POLLING:
+				S criteria = (S) event.getData();
+				handleStartPollingSearch(criteria);
+				break;
+			case REFRESH:
+				handleRefreshList();
+				break;
 			case STARTED:
 				// Do Nothing
 				break;
@@ -176,6 +125,9 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 				List<T> entities = (List<T>) event.getData();
 				handlePollingCompleteEvent(entities);
 				break;
+			case RESET_POLLING:
+				handleResetPollingEvent();
+				break;
 		}
 
 	}
@@ -185,43 +137,19 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		switch (type) {
 			case SEARCH_VALIDATING:
 				dispatchEvent(ListEventType.RESET_LIST);
+				dispatchEvent(PollingEventType.RESET_POLLING);
 				break;
 			case SEARCH:
-				dispatchEvent(ListEventType.START_SEARCH, event.getData());
+				dispatchEvent(PollingEventType.START_POLLING, event.getData());
 				break;
 		}
-	}
-
-	protected void handleResetListEvent() {
-		getPollingView().resetView();
-		getListView().resetView();
 	}
 
 	protected void handleRefreshList() {
 		// Do Search Again
 		getPollingView().setContentVisible(true);
 		getPollingView().doRefreshContent();
-		// Reset Listview
-		ListView listView = getListView();
-		listView.resetView();
-		listView.setContentVisible(false);
-	}
-
-	protected void handleAddItemEvent(final T item) {
-		getListView().addItem(item);
-		getListView().showList(true);
-	}
-
-	protected void handleRemoveItemEvent(final T item) {
-		ListView<T> listView = getListView();
-		listView.removeItem(item);
-		if (listView.getViewBean().isEmpty()) {
-			listView.showList(false);
-		}
-	}
-
-	protected void handleUpdateItemEvent(final T item) {
-		getListView().updateItem(item);
+		dispatchEvent(ListEventType.RESET_LIST);
 	}
 
 	protected void handlePollingFailedEvent(final Exception excp) {
@@ -231,21 +159,15 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 
 	protected void handlePollingCompleteEvent(final List<T> items) {
 		getPollingView().setContentVisible(false);
-		handleLoadList(items);
-	}
-
-	protected void handleLoadList(final List<T> items) {
-		if (items == null || items.isEmpty()) {
-			dispatchMessage(MsgEventType.INFO, "No records found");
-		} else {
-			ListView<T> listView = getListView();
-			listView.setViewBean(items);
-			listView.setContentVisible(true);
-		}
+		dispatchEvent(ListEventType.LOAD_LIST, items);
 	}
 
 	protected void handleStartPollingSearch(final S criteria) {
 		doStartPolling(criteria);
+	}
+
+	protected void handleResetPollingEvent() {
+		getPollingView().resetView();
 	}
 
 	@Override
@@ -269,8 +191,6 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	public static class PollingListModel<S, T> extends CtrlModel {
 
 		private PollingView<S, List<T>> pollingView;
-
-		private ListView<T> listView;
 
 		private String searchModelKey;
 	}

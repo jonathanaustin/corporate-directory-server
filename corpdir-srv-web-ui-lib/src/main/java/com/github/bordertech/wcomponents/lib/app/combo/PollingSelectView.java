@@ -60,4 +60,10 @@ public class PollingSelectView<S, T> extends PollingListView<S, T> implements Se
 	public void setSelected(final T entity) {
 		getListView().setSelected(entity);
 	}
+
+	@Override
+	public void doMakeFormReadonly(boolean readonly) {
+		getListView().doMakeFormReadonly(readonly);
+	}
+
 }

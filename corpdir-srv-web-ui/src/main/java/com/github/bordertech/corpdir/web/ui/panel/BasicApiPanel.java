@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.app.form.FormUpdateableView;
 
 /**
  * Basic API Form View.
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class BasicApiPanel<T extends ApiObject> extends DefaultView<T> {
+public class BasicApiPanel<T extends ApiObject> extends FormUpdateableView<T> {
 
 	private final WPanel formPanel = new WPanel();
 

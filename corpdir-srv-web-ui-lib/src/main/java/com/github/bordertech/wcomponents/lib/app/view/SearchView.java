@@ -3,13 +3,13 @@ package com.github.bordertech.wcomponents.lib.app.view;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
- * Criteria View.
+ * Search View.
  *
  * @author Jonathan Austin
- * @param <S> the criteria type
+ * @param <S> the search type
  * @since 1.0.0
  *
  */
-public interface CriteriaView<S> extends View<S> {
+public interface SearchView<S> extends View<S> {
 
 }
