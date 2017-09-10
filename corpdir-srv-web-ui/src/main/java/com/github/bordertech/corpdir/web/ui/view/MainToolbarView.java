@@ -15,9 +15,7 @@ import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultToolbarView;
 public class MainToolbarView extends DefaultToolbarView {
 
 	public MainToolbarView() {
-		setUseAdd(false);
-		setUseBack(false);
-		setUseReset(false);
+		clearToolbarTypes();
 
 		// Setup Menu Items
 		WMenu menu = getMenu();

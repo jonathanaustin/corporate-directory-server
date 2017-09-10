@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import java.util.Set;
 
 /**
  * Toolbar view.
@@ -12,16 +13,14 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  */
 public interface ToolbarView<T> extends View<T> {
 
-	boolean isUseBack();
+	void addToolbarType(final ToolbarType... types);
 
-	void setUseBack(final boolean useBack);
+	void removeToolbarType(final ToolbarType... types);
 
-	boolean isUseAdd();
+	void clearToolbarTypes();
 
-	void setUseAdd(final boolean useAdd);
+	Set<ToolbarType> getToolbarTypes();
 
-	boolean isUseReset();
-
-	void setUseReset(final boolean useReset);
+	boolean isUseToolbarType(final ToolbarType type);
 
 }

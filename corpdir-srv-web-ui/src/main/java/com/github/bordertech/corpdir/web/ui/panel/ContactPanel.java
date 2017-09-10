@@ -57,7 +57,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormPanel().add(posView);
 		// Setup dialog
 		posView.getDialog().setTitle("Search Positions");
-		findView.getToolbarView().setUseAdd(false);
 
 		// Models
 		selectView.setSearchModelKey("contact.positions.search");

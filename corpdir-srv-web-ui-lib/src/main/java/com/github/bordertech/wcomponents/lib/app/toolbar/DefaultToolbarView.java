@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
  * Toolbar default implementation.
@@ -23,28 +22,28 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView<T> {
+public class DefaultToolbarView<T> extends AbstractToolbar<T> implements ToolbarView<T> {
 
 	private final WMenu menu = new WMenu();
 
 	private final WMenuItem itemBack = new ToolbarMenuItem("Back", ToolbarEventType.BACK) {
 		@Override
 		public boolean isVisible() {
-			return isUseBack();
+			return isUseToolbarType(ToolbarItem.BACK);
 		}
 	};
 
 	private final WMenuItem itemAdd = new ToolbarMenuItem("Add", ToolbarEventType.ADD) {
 		@Override
 		public boolean isVisible() {
-			return isUseAdd();
+			return isUseToolbarType(ToolbarItem.ADD);
 		}
 	};
 
 	private final WMenuItem itemReset = new ToolbarMenuItem("Reset", ToolbarEventType.RESET_VIEW) {
 		@Override
 		public boolean isVisible() {
-			return isUseReset();
+			return isUseToolbarType(ToolbarItem.RESET);
 		}
 	};
 
@@ -60,11 +59,13 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 		WContainer content = getContent();
 		content.add(menu);
 		content.add(ajaxPanel);
-
 		menu.add(itemBack);
 		menu.add(itemAdd);
 		menu.add(itemReset);
 		menu.addHtmlClass("wc-neg-margin");
+
+		// Default to use RESET
+		addToolbarType(ToolbarItem.RESET);
 	}
 
 	public final WMenu getMenu() {
@@ -120,36 +121,6 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 	}
 
 	@Override
-	public final boolean isUseBack() {
-		return getComponentModel().useBack;
-	}
-
-	@Override
-	public final void setUseBack(final boolean useBack) {
-		getOrCreateComponentModel().useBack = useBack;
-	}
-
-	@Override
-	public final boolean isUseAdd() {
-		return getComponentModel().useAdd;
-	}
-
-	@Override
-	public final void setUseAdd(final boolean useAdd) {
-		getOrCreateComponentModel().useAdd = useAdd;
-	}
-
-	@Override
-	public final boolean isUseReset() {
-		return getComponentModel().useReset;
-	}
-
-	@Override
-	public final void setUseReset(final boolean useReset) {
-		getOrCreateComponentModel().useReset = useReset;
-	}
-
-	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		super.addEventTarget(target, eventType);
 		addTarget(target);
@@ -157,37 +128,6 @@ public class DefaultToolbarView<T> extends DefaultView<T> implements ToolbarView
 
 	protected void doDispatchToolbarEvent(final EventType eventType, final Object data) {
 		dispatchEvent(eventType, data);
-	}
-
-	@Override
-	protected ToolbarModel newComponentModel() {
-		return new ToolbarModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ToolbarModel getComponentModel() {
-		return (ToolbarModel) super.getComponentModel();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected ToolbarModel getOrCreateComponentModel() {
-		return (ToolbarModel) super.getOrCreateComponentModel();
-	}
-
-	/**
-	 * Holds the extrinsic state information of the edit view.
-	 */
-	public static class ToolbarModel extends DefaultView.ViewModel {
-
-		private boolean useBack = false;
-		private boolean useAdd = true;
-		private boolean useReset = true;
 	}
 
 	public static class ToolbarMenuItem extends WMenuItem {

@@ -67,7 +67,6 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 			}
 		};
 		registerListener(listener, ToolbarEventType.SELECTED);
-
 	}
 
 	@Override
@@ -138,6 +137,7 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 			dispatchEvent(ListEventType.ADD_ITEM, item);
 		}
 		getAddRemoveToolbar().resetView();
+		getAddView().resetView();
 	}
 
 	@Override

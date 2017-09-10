@@ -80,8 +80,8 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		menu.add(itemCancel);
 		menu.add(itemDelete);
 
-		setUseAdd(false);
-		setUseReset(false);
+		// No Defaults
+		clearToolbarTypes();
 	}
 
 	@Override

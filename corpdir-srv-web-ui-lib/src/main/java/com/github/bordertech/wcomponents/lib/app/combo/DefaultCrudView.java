@@ -2,27 +2,28 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.search.CriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.form.DefaultFormView;
-import com.github.bordertech.wcomponents.lib.app.polling.DefaultPollingView;
-import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
+import com.github.bordertech.wcomponents.lib.app.form.DefaultFormView;
+import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
+import com.github.bordertech.wcomponents.lib.app.polling.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.search.CriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
+import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
-import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 
 /**
  * Default CRUD view.
@@ -89,6 +90,9 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		content.addTaggedComponent("vw-entity", formView);
 
 		content.addParameter("vw-title", title);
+
+		// Toolbar Defaults
+		toolbarView.addToolbarType(ToolbarItem.ADD);
 
 		// Default visibility
 		selectView.setContentVisible(false);

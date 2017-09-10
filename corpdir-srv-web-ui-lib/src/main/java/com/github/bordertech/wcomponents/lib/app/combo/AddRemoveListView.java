@@ -4,13 +4,20 @@ import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
+import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.form.FormUtil;
 import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveButtonBar;
+import com.github.bordertech.wcomponents.lib.app.toolbar.SelectButtonBar;
 import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.Event;
+import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import java.io.Serializable;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -20,9 +27,9 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  */
 public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpdateable {
 
-	private final TranslateEventCtrl ctrl = new TranslateEventCtrl();
-
-	private final DefaultView dialogView = new DefaultView() {
+	private final TranslateEventCtrl transCtrl = new TranslateEventCtrl();
+	private final SelectView<T> findView;
+	private final DefaultComboView dialogView = new DefaultComboView("wclib/hbs/layout/default-view.hbs") {
 		@Override
 		public void setContentVisible(final boolean visible) {
 			super.setContentVisible(visible);
@@ -30,40 +37,80 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 				showDialog();
 			}
 		}
+
+		@Override
+		public void configAjax(final View view) {
+			super.configAjax(view);
+			view.addEventTarget(selBar);
+		}
+
 	};
 	private final WDiv dialogContent = new WDiv();
 	private final WDialog dialog = new WDialog(dialogContent);
-	private final AddRemoveButtonBar toolbarView = new AddRemoveButtonBar();
+	private final AddRemoveButtonBar addRemToolbar = new AddRemoveButtonBar();
+
+	// Add Select Button BAR to Bottom of View
+	private final SelectButtonBar selBar = new SelectButtonBar();
+
+	private final DefaultController selBarCtrl = new DefaultController() {
+		@Override
+		public void setupController() {
+			super.setupController();
+			// Select EVENT - Show Select BAR
+			Listener listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					selBar.getButton().setActionObject((Serializable) findView.getSelectedItem());
+					selBar.setContentVisible(true);
+				}
+			};
+			registerListener(listener, ListEventType.SELECT);
+			// Reset in the DIALOG
+			listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					selBar.reset();
+				}
+			};
+			registerListener(listener, ToolbarEventType.RESET_VIEW);
+		}
+	};
 
 	public AddRemoveListView(final String qualifier, final SelectView<T> selectView, final SelectView<T> findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
 
-		dialog.setMode(WDialog.MODAL);
+		this.findView = findView;
 
 		// Setup qualifier context
 		setQualifier(qualifier);
 		setQualifierContext(true);
-		ctrl.setQualifier("X");
-		findView.setQualifier("X");
-		// Make all the "Events" in FIND View unique with "X"
-		findView.setQualifierContext(true);
 
-		AddRemoveListCtrl addCtrl = new AddRemoveListCtrl();
-		addCtrl.setAddRemoveToolbar(toolbarView);
-		addCtrl.setAddView(dialogView);
-		addCtrl.setSelectView(selectView);
-
-		dialogView.getContent().add(dialog);
-		dialogContent.add(findView);
+		// Make all the "Events" in DIALOG unique with "X"
+		transCtrl.setQualifier("X");
+		dialogView.setQualifier("X");
+		dialogView.setQualifierContext(true);
+		dialogView.getContent().addTaggedComponent("vw-content", dialog);
+		dialogView.getContent().addTaggedComponent("vw-ctrl1", selBarCtrl);
 		dialog.setMode(WDialog.MODAL);
 		dialog.setHeight(300);
 		dialog.setWidth(600);
+		selBarCtrl.addView(selBar);
+
+		dialogContent.add(findView);
+		selBar.setContentVisible(false);
+		selBar.addTarget(this);
+		dialogContent.add(selBar);
+
+		AddRemoveListCtrl addCtrl = new AddRemoveListCtrl();
+		addCtrl.setAddRemoveToolbar(addRemToolbar);
+		addCtrl.setAddView(dialogView);
+		addCtrl.setSelectView(selectView);
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl2", ctrl);
 		content.addTaggedComponent("vw-ctrl3", addCtrl);
+		content.addTaggedComponent("vw-ctrl4", transCtrl);
 		content.addTaggedComponent("vw-select", selectView);
-		content.addTaggedComponent("vw-toolbar", toolbarView);
+		content.addTaggedComponent("vw-toolbar", addRemToolbar);
 		content.addTaggedComponent("vw-dialog", dialogView);
 		setBlocking(true);
 
@@ -80,7 +127,7 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 	public void configViews() {
 		super.configViews();
 		// Translate the "SELECT" from the "FIND" to a "SELECTED"
-//		ctrl.translate(ListEventType.SELECT, ToolbarEventType.SELECTED, getFullQualifier());
+		transCtrl.translate(ToolbarEventType.SELECTED, ToolbarEventType.SELECTED, getFullQualifier());
 	}
 
 	protected void showDialog() {
@@ -92,5 +139,4 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 	public void doMakeFormReadonly(final boolean readonly) {
 		FormUtil.doMakeInputsReadonly(this, readonly);
 	}
-
 }
