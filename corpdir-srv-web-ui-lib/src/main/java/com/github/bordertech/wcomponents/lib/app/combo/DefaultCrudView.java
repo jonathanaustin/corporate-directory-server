@@ -2,12 +2,12 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
-import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
-import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.search.CriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.form.DefaultFormView;
+import com.github.bordertech.wcomponents.lib.app.polling.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
@@ -15,7 +15,6 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
-import com.github.bordertech.wcomponents.lib.app.view.CriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
@@ -23,6 +22,7 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
+import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 
 /**
  * Default CRUD view.
@@ -40,11 +40,11 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		this(title, null, null, null, panel);
 	}
 
-	public DefaultCrudView(final String title, final CriteriaView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
+	public DefaultCrudView(final String title, final SearchView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
-		CriteriaView criteriaView = criteriaView2 == null ? new CriteriaTextView() : criteriaView2;
+		SearchView criteriaView = criteriaView2 == null ? new CriteriaTextView() : criteriaView2;
 		SelectView<T> selectView = selectView2 == null ? new SelectMenuView<T>() : selectView2;
 		FormView<T> formView = formView2 == null ? new DefaultFormView<T>() : formView2;
 		if (panel != null) {

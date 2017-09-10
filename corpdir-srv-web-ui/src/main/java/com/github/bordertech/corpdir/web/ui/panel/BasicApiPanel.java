@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.app.FormUpdateableView;
+import com.github.bordertech.wcomponents.lib.app.form.FormUpdateableView;
 
 /**
  * Basic API Form View.

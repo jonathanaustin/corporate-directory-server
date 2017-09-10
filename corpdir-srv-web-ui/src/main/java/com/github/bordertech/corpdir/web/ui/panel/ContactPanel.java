@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.combo.AddRemoveListView;
 import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
@@ -28,7 +28,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 //	private String locationId;
 //	private boolean hasImage;
 //	private List<Channel> channels;
-//	private List<String> positionIds;
 	/**
 	 * Construct basic detail panel. \
 	 */
@@ -65,6 +64,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	@Override
 	protected void initViewContent(final Request request) {
 		Contact bean = getViewBean();
+		// Positions
 		if (!bean.getPositionIds().isEmpty()) {
 			selectView.doStartPolling(new SearchVersionKey(null, bean.getId()));
 		}
@@ -75,6 +75,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	public void updateBeanValue() {
 		super.updateBeanValue();
 		Contact bean = getViewBean();
+		// Positions
 		List<Position> positions = (List<Position>) selectView.getListView().getBeanValue();
 		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
 	}

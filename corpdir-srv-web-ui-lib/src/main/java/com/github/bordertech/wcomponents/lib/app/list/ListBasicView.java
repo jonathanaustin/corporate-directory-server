@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app;
+package com.github.bordertech.wcomponents.lib.app.list;
 
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WText;

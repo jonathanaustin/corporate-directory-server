@@ -2,8 +2,8 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.DefaultFormView;
+import com.github.bordertech.wcomponents.lib.app.toolbar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.form.DefaultFormView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;

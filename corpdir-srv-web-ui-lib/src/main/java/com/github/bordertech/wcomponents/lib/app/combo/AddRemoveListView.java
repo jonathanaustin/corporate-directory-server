@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.WDiv;
-import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
-import com.github.bordertech.wcomponents.lib.app.FormUtil;
+import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveToolbar;
+import com.github.bordertech.wcomponents.lib.app.form.FormUtil;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;

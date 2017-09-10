@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.combo;
 
-import com.github.bordertech.wcomponents.lib.app.CriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.search.CriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 
 /**
