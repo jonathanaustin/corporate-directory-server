@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddRemoveListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -72,8 +72,8 @@ public class AddRemoveListView<S, T> extends DefaultComboView<T> {
 	@Override
 	public void configViews() {
 		super.configViews();
-		// Translate the "SELECT" from the "FIND" to an "ADD"
-		ctrl.translate(ListEventType.SELECT, SearchEventType.SEARCH_ADD, getFullQualifier());
+		// Translate the "SELECT" from the "FIND" to a "SELECTED"
+		ctrl.translate(ListEventType.SELECT, ToolbarEventType.SELECTED, getFullQualifier());
 	}
 
 	protected void showDialog() {

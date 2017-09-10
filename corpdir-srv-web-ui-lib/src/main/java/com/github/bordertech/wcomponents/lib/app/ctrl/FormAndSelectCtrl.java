@@ -135,7 +135,6 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	}
 
 	protected void handleSelectEvent(final T selected) {
-		// Reset Entity View
 		doLoadEntity(selected);
 	}
 

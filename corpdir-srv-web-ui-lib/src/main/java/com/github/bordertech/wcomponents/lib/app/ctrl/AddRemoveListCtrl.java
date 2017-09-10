@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.AddRemoveToolbar;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -55,10 +54,10 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		listener = new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
-				handleSearchAddItemEvent((T) event.getData());
+				handleSelectedItemEvent((T) event.getData());
 			}
 		};
-		registerListener(listener, SearchEventType.SEARCH_ADD);
+		registerListener(listener, ToolbarEventType.SELECTED);
 
 	}
 
@@ -120,7 +119,7 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		getAddRemoveToolbar().resetView();
 	}
 
-	protected void handleSearchAddItemEvent(final T item) {
+	protected void handleSelectedItemEvent(final T item) {
 		List<T> beans = getSelectView().getViewBean();
 		if (beans == null || !beans.contains(item)) {
 			dispatchEvent(ListEventType.ADD_ITEM, item);

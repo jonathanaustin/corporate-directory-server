@@ -9,9 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  */
 public enum ListEventType implements EventType {
-	START_SEARCH,
 	LOAD_LIST,
-	REFRESH_LIST,
 	RESET_LIST,
 	ADD_ITEM,
 	UPDATE_ITEM,

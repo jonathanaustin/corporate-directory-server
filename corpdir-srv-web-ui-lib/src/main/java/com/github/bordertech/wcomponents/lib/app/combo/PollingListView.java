@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
@@ -35,15 +36,18 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 		// Polling and List Ctrl
 		ctrl = new PollingListCtrl<>();
 		ctrl.setPollingView(pollingView);
-		ctrl.setListView(listView);
 		ctrl.addView(getMessageView());
+
+		ListActionCtrl listCtrl = new ListActionCtrl();
+		listCtrl.setListView(listView);
 
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 
 		// Add views to holder
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
-		content.addTaggedComponent("vw-ctrl-pl", ctrl);
+		content.addTaggedComponent("vw-ctrl-pol", ctrl);
+		content.addTaggedComponent("vw-ctrl-lst", listCtrl);
 		content.addTaggedComponent("vw-poll", pollingView);
 		content.addTaggedComponent("vw-list", listView);
 

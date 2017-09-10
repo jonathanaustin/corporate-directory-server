@@ -17,5 +17,6 @@ public enum ToolbarEventType implements EventType {
 	UPDATE,
 	DELETE,
 	REFRESH,
-	RESET_VIEW
+	RESET_VIEW,
+	SELECTED
 }

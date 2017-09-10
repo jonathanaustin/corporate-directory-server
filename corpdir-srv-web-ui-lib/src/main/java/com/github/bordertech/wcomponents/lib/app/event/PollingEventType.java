@@ -9,7 +9,10 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  */
 public enum PollingEventType implements EventType {
+	START_POLLING,
+	REFRESH,
 	STARTED,
 	ERROR,
-	COMPLETE
+	COMPLETE,
+	RESET_POLLING
 }

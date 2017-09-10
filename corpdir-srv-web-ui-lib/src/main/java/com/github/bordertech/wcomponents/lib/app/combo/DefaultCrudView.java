@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.lib.app.DefaultToolbarView;
 import com.github.bordertech.wcomponents.lib.app.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
@@ -58,6 +59,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		// Ctrls
 		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
+		ListActionCtrl listCtrl = new ListActionCtrl();
 
 		// Set views on the Ctrls
 		selectCtrl.setTargetView(formView);
@@ -66,7 +68,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		entityToolbarCtrl.setFormView(formView);
 		criteriaCtrl.addView(criteriaView);
 		criteriaCtrl.setPollingView(pollingView);
-		criteriaCtrl.setListView(selectView);
+		listCtrl.setListView(selectView);
 
 		// Add formToolbar to Select Ctrl (Controlled with the From)
 		selectCtrl.addGroupFormView(formToolbarView);
@@ -78,6 +80,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		content.addTaggedComponent("vw-ctrl2", entityToolbarCtrl);
 		content.addTaggedComponent("vw-ctrl3", criteriaCtrl);
 		content.addTaggedComponent("vw-ctrl4", resetCtrl);
+		content.addTaggedComponent("vw-ctrl5", listCtrl);
 		content.addTaggedComponent("vw-toolbar-1", toolbarView);
 		content.addTaggedComponent("vw-toolbar-2", formToolbarView);
 		content.addTaggedComponent("vw-crit", criteriaView);
@@ -92,15 +95,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		formView.setContentVisible(false);
 		formToolbarView.setContentVisible(false);
 
-//		String prefix = qualifier == null ? "" : qualifier;
-//
-//		selectView.addDispatcherOverride(prefix + "-1", MsgEventType.values());
-//		selectCtrl.addListenerOverride(prefix + "-1", MsgEventType.values());
-//
-//		formView.addDispatcherOverride(prefix + "-2", MsgEventType.values());
-//		entityToolbarCtrl.addListenerOverride(prefix + "-2", MsgEventType.values());
 		setBlocking(true);
-
 	}
 
 	@Override

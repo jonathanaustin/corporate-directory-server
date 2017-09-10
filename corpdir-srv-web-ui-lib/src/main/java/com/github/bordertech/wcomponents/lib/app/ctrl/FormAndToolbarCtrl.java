@@ -124,6 +124,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 				break;
 
 			case RESET_VIEW:
+			case SELECTED:
 				// Let ResetCtrl do this
 				break;
 		}
