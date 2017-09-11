@@ -23,4 +23,8 @@ public interface ListView<T> extends View<List<T>> {
 
 	int getSize();
 
+	int getIndexOfItem(final T item);
+
+	T getItem(final int idx);
+
 }

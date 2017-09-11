@@ -33,7 +33,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 					handleFormEvents(event);
 				}
 			};
-			registerListener(listener, eventType);
+			registerListener(eventType, listener);
 		}
 
 		// Toolbar event type Listeners
@@ -44,7 +44,7 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 					handleToolbarEvents(event);
 				}
 			};
-			registerListener(listener, eventType);
+			registerListener(eventType, listener);
 		}
 
 	}

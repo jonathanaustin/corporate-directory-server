@@ -7,7 +7,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.tasks.TaskFuture;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManager;
 import com.github.bordertech.wcomponents.lib.tasks.TaskManagerFactory;
@@ -35,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingServicePanel<S, T> extends PollingPanel implements PollingService<S, T> {
+public class PollingServicePanel<S, T> extends PollingPanel implements PollableService<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -417,7 +416,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 
 		clearFuture();
 
-		final ServiceModel<S, T> action = getServiceModel();
+		final PollableModel<S, T> action = getServiceModel();
 		if (action == null) {
 			throw new PollingException("No polling service action has been defined. ");
 		}
@@ -476,7 +475,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	 * @return the service call action
 	 */
 	@Override
-	public ServiceModel<S, T> getServiceModel() {
+	public PollableModel<S, T> getServiceModel() {
 		return getComponentModel().pollingServiceModel;
 	}
 
@@ -490,7 +489,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 	 * @param serviceModel the service call action
 	 */
 	@Override
-	public void setServiceModel(final ServiceModel<S, T> serviceModel) {
+	public void setServiceModel(final PollableModel<S, T> serviceModel) {
 		getOrCreateComponentModel().pollingServiceModel = serviceModel;
 	}
 
@@ -544,7 +543,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollingSe
 		/**
 		 * Service Model.
 		 */
-		private ServiceModel<S, T> pollingServiceModel;
+		private PollableModel<S, T> pollingServiceModel;
 	}
 
 }

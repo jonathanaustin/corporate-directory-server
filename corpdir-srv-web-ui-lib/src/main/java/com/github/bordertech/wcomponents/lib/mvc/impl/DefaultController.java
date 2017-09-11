@@ -88,13 +88,13 @@ public class DefaultController extends AbstractBaseMvc implements Controller {
 	 * @param listener
 	 * @param eventType
 	 */
-	protected final void registerListener(final Listener listener, final EventType eventType) {
+	protected final void registerListener(final EventType eventType, final Listener listener) {
 		String qualifier = getListenerQualifier(eventType);
-		registerListener(listener, new EventMatcher(eventType, qualifier));
+		registerListener(new EventMatcher(eventType, qualifier), listener);
 	}
 
-	protected void registerListener(final Listener listener, final Matcher matcher) {
-		String id = getDispatcher().register(listener, matcher);
+	protected void registerListener(final Matcher matcher, final Listener listener) {
+		String id = getDispatcher().register(matcher, listener);
 		registerListenerId(id);
 	}
 

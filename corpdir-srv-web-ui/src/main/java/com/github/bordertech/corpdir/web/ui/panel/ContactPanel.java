@@ -7,11 +7,11 @@ import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.lib.app.combo.AddRemoveListView;
-import com.github.bordertech.wcomponents.lib.app.combo.PollingSelectView;
-import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.combo.SelectWithCriteriaView;
-import com.github.bordertech.wcomponents.lib.app.list.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.AddRemoveListView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.PollingSelectView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaTextView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaView;
+import com.github.bordertech.wcomponents.lib.app.view.list.SelectSingleView;
 import java.util.List;
 
 /**
@@ -51,7 +51,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
 		// Setup the select and find view
 		selectView = new PollingSelectView(new SelectSingleView());
-//		selectView = new PollingSelectView(new SelectMenuView());
 		SelectWithCriteriaView findView = new SelectWithCriteriaTextView();
 		AddRemoveListView posView = new AddRemoveListView("pos", selectView, findView);
 		getFormPanel().add(posView);

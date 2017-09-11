@@ -28,7 +28,7 @@ public class ListActionCtrl<T> extends DefaultController {
 					handleListEvents(event);
 				}
 			};
-			registerListener(listener, type);
+			registerListener(type, listener);
 		}
 
 	}

@@ -20,22 +20,20 @@ public class MainCardCtrl extends DefaultController {
 		// Listeners
 
 		// SHOW CARD EVENT
-		Listener listener = new Listener() {
+		registerListener(CardEventType.SHOW, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleShowCard((CardType) event.getData());
 			}
-		};
-		registerListener(listener, CardEventType.SHOW);
+		});
 
 		// REST CARD
-		listener = new Listener() {
+		registerListener(CardEventType.RESET, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleResetCard((CardType) event.getData());
 			}
-		};
-		registerListener(listener, CardEventType.RESET);
+		});
 
 	}
 

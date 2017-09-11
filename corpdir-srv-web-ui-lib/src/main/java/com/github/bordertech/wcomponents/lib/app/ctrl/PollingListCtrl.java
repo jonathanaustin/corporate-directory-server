@@ -5,12 +5,12 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.polling.PollableModel;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 					handlePollingEvents(event);
 				}
 			};
-			registerListener(listener, type);
+			registerListener(type, listener);
 		}
 
 		// SEARCH Listeners
@@ -45,7 +45,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 					handleSearchEvents(event);
 				}
 			};
-			registerListener(listener, type);
+			registerListener(type, listener);
 		}
 
 	}
@@ -70,7 +70,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		// Setup polling view
 		// Wrap search model into ServiceModel for Polling Panel
 		final SearchModel<S, List<T>> model = getSearchModelImpl();
-		ServiceModel<S, List<T>> wrapper = new ServiceModel<S, List<T>>() {
+		PollableModel<S, List<T>> wrapper = new PollableModel<S, List<T>>() {
 			@Override
 			public List<T> service(final S criteria) {
 				return model.search(criteria);

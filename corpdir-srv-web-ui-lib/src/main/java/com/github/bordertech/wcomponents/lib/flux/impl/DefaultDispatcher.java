@@ -23,7 +23,7 @@ public abstract class DefaultDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public final String register(final Listener listener, final Matcher matcher) {
+	public final String register(final Matcher matcher, final Listener listener) {
 		ListenerWrapper wrapper = new ListenerWrapper(matcher, listener);
 		dispatch(new RegisterEvent(wrapper));
 		return wrapper.getRegisterId();

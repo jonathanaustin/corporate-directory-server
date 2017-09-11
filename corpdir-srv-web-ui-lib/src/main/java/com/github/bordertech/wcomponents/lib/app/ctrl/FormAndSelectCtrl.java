@@ -34,45 +34,41 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 					handleFormCtrlEvents(event);
 				}
 			};
-			registerListener(listener, eventType);
+			registerListener(eventType, listener);
 		}
 
 		// ADD EVENT
-		Listener listener = new Listener() {
+		registerListener(ToolbarEventType.ADD, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleAddEvent();
 			}
-		};
-		registerListener(listener, ToolbarEventType.ADD);
+		});
 
 		// Select EVENT
-		listener = new Listener() {
+		registerListener(ListEventType.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				T selected = (T) event.getData();
 				handleSelectEvent(selected);
 			}
-		};
-		registerListener(listener, ListEventType.SELECT);
+		});
 
 		// LIST Reset
-		listener = new Listener() {
+		registerListener(ListEventType.RESET_LIST, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleListResetEvent();
 			}
-		};
-		registerListener(listener, ListEventType.RESET_LIST);
+		});
 
 		// Loaded
-		listener = new Listener() {
+		registerListener(FormEventType.LOAD_OK, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleLoadedOKEvent();
 			}
-		};
-		registerListener(listener, FormEventType.LOAD_OK);
+		});
 
 	}
 

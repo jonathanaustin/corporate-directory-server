@@ -13,14 +13,14 @@ import java.util.Set;
  */
 public interface ToolbarView<T> extends View<T> {
 
-	void addToolbarType(final ToolbarType... types);
+	void addToolbarType(final ToolbarItemType... types);
 
-	void removeToolbarType(final ToolbarType... types);
+	void removeToolbarType(final ToolbarItemType... types);
 
 	void clearToolbarTypes();
 
-	Set<ToolbarType> getToolbarTypes();
+	Set<ToolbarItemType> getToolbarTypes();
 
-	boolean isUseToolbarType(final ToolbarType type);
+	boolean isUseToolbarType(final ToolbarItemType type);
 
 }
