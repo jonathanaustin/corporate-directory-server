@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -22,7 +23,7 @@ public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<
 
 	private final WButton searchButton = new WButton("Search");
 
-	private final WAjaxControl ajax = new WAjaxControl(searchButton);
+	private final WAjaxControl ajax = new AppAjaxControl(searchButton);
 
 	public AbstractSearchView() {
 		searchButton.setAction(new Action() {

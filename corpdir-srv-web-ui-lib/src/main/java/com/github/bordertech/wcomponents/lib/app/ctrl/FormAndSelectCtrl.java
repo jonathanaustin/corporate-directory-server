@@ -45,6 +45,14 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 			}
 		});
 
+		// BACK EVENT
+		registerListener(ToolbarEventType.BACK, new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleBackEvent();
+			}
+		});
+
 		// Select EVENT
 		registerListener(ListEventType.SELECT, new Listener() {
 			@Override
@@ -128,6 +136,10 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 
 	protected void handleAddEvent() {
 		getSelectView().clearSelected();
+	}
+
+	protected void handleBackEvent() {
+		resetFormView();
 	}
 
 	protected void handleSelectEvent(final T selected) {

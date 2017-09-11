@@ -10,6 +10,7 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -69,7 +70,7 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 				}
 			});
 			menu.add(item);
-			ajaxPanel.add(new WAjaxControl(item, this));
+			ajaxPanel.add(new AppAjaxControl(item, this));
 		}
 	}
 

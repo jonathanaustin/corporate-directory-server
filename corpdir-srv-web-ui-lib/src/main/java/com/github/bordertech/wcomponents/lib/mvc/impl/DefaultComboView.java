@@ -17,6 +17,10 @@ import java.util.List;
  */
 public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T> {
 
+	public DefaultComboView() {
+		super("wclib/hbs/layout/default-view.hbs");
+	}
+
 	public DefaultComboView(final String templateName) {
 		super(templateName);
 		setSearchAncestors(false);

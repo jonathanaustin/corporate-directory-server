@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
@@ -111,7 +112,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * First button AJAX control.
 	 */
-	private final WAjaxControl firstAjax = new WAjaxControl(firstButton) {
+	private final WAjaxControl firstAjax = new AppAjaxControl(firstButton) {
 		@Override
 		public boolean isVisible() {
 			return !firstButton.isDisabled();
@@ -121,7 +122,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Previous button AJAX control.
 	 */
-	private final WAjaxControl prevAjax = new WAjaxControl(prevButton) {
+	private final WAjaxControl prevAjax = new AppAjaxControl(prevButton) {
 		@Override
 		public boolean isVisible() {
 			return !prevButton.isDisabled();
@@ -131,7 +132,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Next button AJAX control.
 	 */
-	private final WAjaxControl nextAjax = new WAjaxControl(nextButton) {
+	private final WAjaxControl nextAjax = new AppAjaxControl(nextButton) {
 		@Override
 		public boolean isVisible() {
 			return !nextButton.isDisabled();
@@ -141,7 +142,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Last button AJAX control.
 	 */
-	private final WAjaxControl lastAjax = new WAjaxControl(lastButton) {
+	private final WAjaxControl lastAjax = new AppAjaxControl(lastButton) {
 		@Override
 		public boolean isVisible() {
 			return !lastButton.isDisabled();

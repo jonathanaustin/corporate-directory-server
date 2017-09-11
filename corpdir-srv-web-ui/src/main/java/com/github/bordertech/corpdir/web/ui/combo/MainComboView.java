@@ -14,16 +14,16 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  */
 public class MainComboView extends DefaultMessageComboView {
 
-	private final MainCardView cardView;
+	private final MainCardView cardView = new MainCardView();
 
 	public MainComboView() {
 		super("wclib/hbs/layout/combo-app-main.hbs");
 
-		this.cardView = new MainCardView();
 		MainToolbarView toolbar = new MainToolbarView();
 
 		MainCardCtrl ctrl = new MainCardCtrl();
 		ctrl.setCardView(cardView);
+		cardView.addHtmlClass("wc-margin-all-lg");
 
 		// Reset
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();

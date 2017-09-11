@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.bar;
 
+import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -56,7 +58,7 @@ public class AbstractMenuToolbar<T> extends AbstractToolbar<T> {
 		Action action = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				ToolbarMenuItem item = (ToolbarMenuItem) event.getSource();
+				AppMenuItem item = (AppMenuItem) event.getSource();
 				doDispatchToolbarEvent(item.getItemEvent(), item.getItemData());
 			}
 		};
@@ -66,7 +68,7 @@ public class AbstractMenuToolbar<T> extends AbstractToolbar<T> {
 			if (menuItem instanceof WMenuItem) {
 				WMenuItem item = (WMenuItem) menuItem;
 				item.setAction(action);
-				ajaxPanel.add(new ToolbarAjaxControl(item, this));
+				ajaxPanel.add(new AppAjaxControl(item, this));
 			}
 		}
 	}

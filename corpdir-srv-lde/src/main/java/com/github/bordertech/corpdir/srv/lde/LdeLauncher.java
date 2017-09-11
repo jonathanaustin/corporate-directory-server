@@ -1,6 +1,10 @@
 package com.github.bordertech.corpdir.srv.lde;
 
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.resource.Resource;
@@ -58,17 +62,30 @@ public class LdeLauncher {
 		 * @param context the Web App Context
 		 */
 		public void handleClassPathMetaInf(final WebAppContext context) {
-			Resource metainf = Resource.newClassPathResource("META-INF/resources");
-			if (metainf == null) {
-				return;
-			}
-			//add it to the meta inf resources for this context
+
 			Set<Resource> dirs = (Set<Resource>) context.getAttribute(METAINF_RESOURCES);
 			if (dirs == null) {
 				dirs = new HashSet<>();
-				context.setAttribute(METAINF_RESOURCES, dirs);
 			}
-			dirs.add(metainf);
+
+			ClassLoader classloader = getClass().getClassLoader();
+			List<URL> urls = new ArrayList<>();
+
+			try {
+				for (Enumeration<URL> res = classloader.getResources("META-INF/resources");
+						res.hasMoreElements();) {
+					urls.add(res.nextElement());
+				}
+			} catch (Exception e) {
+				throw new IllegalStateException("Could not setup meta-inf resources.", e);
+			}
+			for (URL url : urls) {
+				Resource metainf = Resource.newResource(url);
+				if (metainf != null) {
+					dirs.add(metainf);
+				}
+			}
+			context.setAttribute(METAINF_RESOURCES, dirs);
 		}
 
 	}

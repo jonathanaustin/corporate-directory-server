@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.bar;
 
+import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
@@ -14,7 +15,7 @@ import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
  */
 public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
-	private final WMenuItem itemEdit = new ToolbarMenuItem("Edit", ToolbarEventType.EDIT) {
+	private final WMenuItem itemEdit = new AppMenuItem("Edit", ToolbarEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -27,7 +28,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemCancel = new ToolbarMenuItem("Cancel", ToolbarEventType.CANCEL) {
+	private final WMenuItem itemCancel = new AppMenuItem("Cancel", ToolbarEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();
@@ -45,21 +46,21 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemUpdate = new ToolbarMenuItem("Save", ToolbarEventType.UPDATE) {
+	private final WMenuItem itemUpdate = new AppMenuItem("Save", ToolbarEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.EDIT;
 		}
 	};
 
-	private final WMenuItem itemCreate = new ToolbarMenuItem("Save", ToolbarEventType.CREATE) {
+	private final WMenuItem itemCreate = new AppMenuItem("Save", ToolbarEventType.CREATE) {
 		@Override
 		public boolean isVisible() {
 			return getFormMode() == FormMode.ADD;
 		}
 	};
 
-	private final WMenuItem itemDelete = new ToolbarMenuItem("Delete", ToolbarEventType.DELETE) {
+	private final WMenuItem itemDelete = new AppMenuItem("Delete", ToolbarEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isFormReady() && !isDisabled();

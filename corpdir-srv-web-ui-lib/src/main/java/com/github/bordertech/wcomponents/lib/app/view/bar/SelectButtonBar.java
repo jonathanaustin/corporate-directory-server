@@ -7,6 +7,7 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 
@@ -20,8 +21,8 @@ public class SelectButtonBar<T> extends AbstractToolbar<T> implements ToolbarVie
 
 	private final WPanel panel = new WPanel(WPanel.Type.FEATURE);
 
-	private final WButton btnSelect = new WButton("Select");
-	private final WAjaxControl ajax = new WAjaxControl(btnSelect);
+	private final WButton btnSelect = new WButton("Add");
+	private final WAjaxControl ajax = new AppAjaxControl(btnSelect);
 
 	public SelectButtonBar() {
 		WContainer content = getContent();

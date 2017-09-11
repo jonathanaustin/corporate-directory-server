@@ -29,7 +29,7 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 
 	private final TranslateEventCtrl transCtrl = new TranslateEventCtrl();
 	private final SelectView<T> findView;
-	private final DefaultComboView dialogView = new DefaultComboView("wclib/hbs/layout/default-view.hbs") {
+	private final DefaultComboView dialogView = new DefaultComboView() {
 		@Override
 		public void setContentVisible(final boolean visible) {
 			super.setContentVisible(visible);
@@ -111,6 +111,9 @@ public class AddRemoveListView<T> extends DefaultComboView<T> implements FormUpd
 		content.addTaggedComponent("vw-toolbar", addRemToolbar);
 		content.addTaggedComponent("vw-dialog", dialogView);
 		setBlocking(true);
+
+		selBar.addHtmlClass("wc-margin-n-lg");
+		addRemToolbar.addHtmlClass("wc-margin-n-sm");
 
 		// Bean Property
 		setBeanProperty(".");
