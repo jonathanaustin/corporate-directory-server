@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.demo.model;
 
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MyStringSearchModel implements ServiceModel<String, List<String>> {
+public class MyStringSearchModel implements SearchModel<String, List<String>> {
 
 	@Override
-	public List<String> service(String criteria) {
+	public List<String> search(String criteria) {
 		if ("error".equals(criteria)) {
 			throw new SystemException("Big error");
 		}

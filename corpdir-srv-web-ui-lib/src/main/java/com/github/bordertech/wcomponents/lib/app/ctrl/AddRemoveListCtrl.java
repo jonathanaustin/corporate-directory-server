@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.toolbar.AddRemoveToolbar;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.bar.AddRemoveButtonBar;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -24,41 +24,44 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		// Listeners
 
 		// ADD EVENT
-		Listener listener = new Listener() {
+		registerListener(ToolbarEventType.ADD, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleAddEvent();
 			}
-		};
-		registerListener(listener, ToolbarEventType.ADD);
+		});
 
 		// Select EVENT
-		listener = new Listener() {
+		registerListener(ListEventType.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleSelectEvent();
 			}
-		};
-		registerListener(listener, ListEventType.SELECT);
+		});
+
+		// Unselect EVENT
+		registerListener(ListEventType.UNSELECT, new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleUnselectEvent();
+			}
+		});
 
 		// DELETE Event
-		listener = new Listener() {
+		registerListener(ToolbarEventType.DELETE, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleDeleteEvent();
 			}
-		};
-		registerListener(listener, ToolbarEventType.DELETE);
+		});
 
 		// The ADD ITEM
-		listener = new Listener() {
+		registerListener(ToolbarEventType.SELECTED, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleSelectedItemEvent((T) event.getData());
 			}
-		};
-		registerListener(listener, ToolbarEventType.SELECTED);
-
+		});
 	}
 
 	@Override
@@ -75,11 +78,11 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		}
 	}
 
-	public final AddRemoveToolbar getAddRemoveToolbar() {
+	public final AddRemoveButtonBar getAddRemoveToolbar() {
 		return getComponentModel().addRemoveToolbar;
 	}
 
-	public final void setAddRemoveToolbar(final AddRemoveToolbar addRemoveToolbar) {
+	public final void setAddRemoveToolbar(final AddRemoveButtonBar addRemoveToolbar) {
 		getOrCreateComponentModel().addRemoveToolbar = addRemoveToolbar;
 		addView(addRemoveToolbar);
 	}
@@ -111,8 +114,12 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		getAddRemoveToolbar().showRemoveButton(true);
 	}
 
+	protected void handleUnselectEvent() {
+		getAddRemoveToolbar().showRemoveButton(false);
+	}
+
 	protected void handleDeleteEvent() {
-		T item = getSelectView().getSelected();
+		T item = getSelectView().getSelectedItem();
 		if (item != null) {
 			dispatchEvent(ListEventType.REMOVE_ITEM, item);
 		}
@@ -125,6 +132,7 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 			dispatchEvent(ListEventType.ADD_ITEM, item);
 		}
 		getAddRemoveToolbar().resetView();
+		getAddView().resetView();
 	}
 
 	@Override
@@ -147,7 +155,7 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 	 */
 	public static class AddRemoveModel extends CtrlModel {
 
-		private AddRemoveToolbar addRemoveToolbar;
+		private AddRemoveButtonBar addRemoveToolbar;
 
 		private View addView;
 

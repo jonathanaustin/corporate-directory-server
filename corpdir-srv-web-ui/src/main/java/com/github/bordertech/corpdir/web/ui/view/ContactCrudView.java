@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.web.ui.panel.ContactPanel;
-import com.github.bordertech.wcomponents.lib.app.combo.DefaultCrudView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.DefaultCrudView;
 
 /**
  * Contact crud view.

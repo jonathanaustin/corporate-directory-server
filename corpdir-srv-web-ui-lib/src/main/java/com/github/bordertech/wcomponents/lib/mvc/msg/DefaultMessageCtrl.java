@@ -30,7 +30,7 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 					handleMessageEvent((MsgEvent) event);
 				}
 			};
-			registerListener(listener, type);
+			registerListener(type, listener);
 		}
 	}
 

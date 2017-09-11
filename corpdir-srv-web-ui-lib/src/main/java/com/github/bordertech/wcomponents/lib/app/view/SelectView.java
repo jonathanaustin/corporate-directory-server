@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
+import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 
 /**
  * Entity select list view.
@@ -12,20 +12,14 @@ import com.github.bordertech.wcomponents.lib.app.mode.ListMode;
  */
 public interface SelectView<T> extends ListView<T>, FormUpdateable {
 
-	ListMode getListMode();
+	SelectMode getListMode();
 
-	void setListMode(final ListMode mode);
+	void setListMode(final SelectMode mode);
 
-	void clearSelectedIdx();
+	void clearSelected();
 
-	void setSelectedIdx(final int idx);
+	T getSelectedItem();
 
-	int getSelectedIdx();
-
-	int getSize();
-
-	T getSelected();
-
-	void setSelected(final T entity);
+	void setSelectedItem(final T item);
 
 }

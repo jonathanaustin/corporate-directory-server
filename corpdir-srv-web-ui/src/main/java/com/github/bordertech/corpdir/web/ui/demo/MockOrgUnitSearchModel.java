@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.wcomponents.lib.app.model.ServiceModel;
+import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,10 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MockOrgUnitSearchModel implements ServiceModel<String, List<OrgUnit>> {
+public class MockOrgUnitSearchModel implements SearchModel<String, List<OrgUnit>> {
 
 	@Override
-	public List<OrgUnit> service(final String criteria) {
+	public List<OrgUnit> search(final String criteria) {
 		if ("error".equals(criteria)) {
 			throw new SystemException("Big error");
 		}

@@ -16,15 +16,13 @@ public class ResetViewCtrl extends DefaultController {
 	@Override
 	public void setupController() {
 		super.setupController();
-		// Default Listeners
 		// Reset EVENT
-		Listener listener = new Listener() {
+		registerListener(ToolbarEventType.RESET_VIEW, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleResetEvent();
 			}
-		};
-		registerListener(listener, ToolbarEventType.RESET_VIEW);
+		});
 	}
 
 	protected void handleResetEvent() {

@@ -15,26 +15,24 @@ public class TranslateEventCtrl extends DefaultController {
 
 	public void translate(final EventType fromType, final EventType toType) {
 		// Listen to the "FROM" Type
-		Listener listener = new Listener() {
+		registerListener(fromType, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				// Dispatch as the new Event Type
 				dispatchEvent(toType, event.getData(), event.getException());
 			}
-		};
-		registerListener(listener, fromType);
+		});
 	}
 
 	public void translate(final EventType fromType, final EventType toType, final String qualifier) {
 		// Listen to the "FROM" Type
-		Listener listener = new Listener() {
+		registerListener(fromType, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				// Dispatch as the new Event Type and Qualifier
 				dispatchEvent(new DefaultEvent(toType, qualifier, event.getData(), event.getException()));
 			}
-		};
-		registerListener(listener, fromType);
+		});
 	}
 
 }

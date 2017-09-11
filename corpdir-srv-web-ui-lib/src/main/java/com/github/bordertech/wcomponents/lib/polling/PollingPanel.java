@@ -17,7 +17,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingPanel extends WDiv implements Polling {
+public class PollingPanel extends WDiv implements Pollable {
 
 	private final WDiv holder = new WDiv() {
 		@Override

@@ -14,5 +14,6 @@ public enum ListEventType implements EventType {
 	ADD_ITEM,
 	UPDATE_ITEM,
 	REMOVE_ITEM,
-	SELECT
+	SELECT,
+	UNSELECT
 }
