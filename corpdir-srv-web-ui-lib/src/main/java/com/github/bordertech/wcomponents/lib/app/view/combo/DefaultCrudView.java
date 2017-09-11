@@ -1,27 +1,29 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
-import com.github.bordertech.wcomponents.lib.app.view.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
-import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
-import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.bar.ToolbarItem;
+import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
+import com.github.bordertech.wcomponents.lib.app.view.list.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 
@@ -71,7 +73,16 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		criteriaCtrl.setPollingView(pollingView);
 		listCtrl.setListView(selectView);
 
-		// Add formToolbar to Select Ctrl (Controlled with the From)
+		// Setup a VIEW as a Section to holf the Toolbar/Edit
+		DefaultComboView editView = new DefaultComboView();
+		WSection editSection = new WSection("Details");
+//		editSection.setMargin(new Margin(Size.XL));
+		editSection.getContent().add(formToolbarView);
+		editSection.getContent().add(formView);
+		editView.getContent().addTaggedComponent("vw-content", editSection);
+
+		// Add EditView to Select Ctrl (Controlled with the From)
+		selectCtrl.addGroupFormView(editView);
 		selectCtrl.addGroupFormView(formToolbarView);
 		selectCtrl.addView(getMessageView());
 		entityToolbarCtrl.addView(getMessageView());
@@ -83,11 +94,12 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		content.addTaggedComponent("vw-ctrl4", resetCtrl);
 		content.addTaggedComponent("vw-ctrl5", listCtrl);
 		content.addTaggedComponent("vw-toolbar-1", toolbarView);
-		content.addTaggedComponent("vw-toolbar-2", formToolbarView);
 		content.addTaggedComponent("vw-crit", criteriaView);
 		content.addTaggedComponent("vw-poll", pollingView);
 		content.addTaggedComponent("vw-list", selectView);
-		content.addTaggedComponent("vw-entity", formView);
+//		content.addTaggedComponent("vw-toolbar-2", formToolbarView);
+//		content.addTaggedComponent("vw-entity", formView);
+		content.addTaggedComponent("vw-entity", editView);
 
 		content.addParameter("vw-title", title);
 
@@ -96,9 +108,13 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 
 		// Default visibility
 		selectView.setContentVisible(false);
+		editView.setContentVisible(false);
 		formView.setContentVisible(false);
 		formToolbarView.setContentVisible(false);
 
+		// Margins
+//		pollingView.addHtmlClass("wc-margin-n-lg");
+//		selectView.addHtmlClass("wc-margin-n-lg");
 		setBlocking(true);
 	}
 

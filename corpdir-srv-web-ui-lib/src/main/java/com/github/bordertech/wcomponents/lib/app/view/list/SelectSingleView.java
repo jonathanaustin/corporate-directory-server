@@ -5,8 +5,10 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
+import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WSingleSelect;
-import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.WText;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
@@ -30,17 +32,30 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 		}
 
 		@Override
-		public boolean isDisabled() {
-			return isListModeView();
+		public boolean isVisible() {
+			return !isListModeView();
 		}
 	};
-	private final WDiv ajaxPanel = new WDiv();
-	private final WAjaxControl ajax = new WAjaxControl(select);
+
+	private final WList list = new WList(WList.Type.STACKED) {
+		@Override
+		public boolean isVisible() {
+			return isListModeView();
+		}
+
+	};
+
+	private final WAjaxControl ajax = new AppAjaxControl(select);
 
 	public SelectSingleView() {
+		// READONLY Version
+		list.setRepeatedComponent(new WText());
+		list.setSeparator(WList.Separator.DOT);
+		list.setBeanProperty(".");
+
 		getContent().add(select);
-		getContent().add(ajaxPanel);
-		ajaxPanel.add(ajax);
+		getContent().add(list);
+		getContent().add(ajax);
 		select.setActionOnChange(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
@@ -49,12 +64,13 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 			}
 		});
 		select.setRows(5);
+
 	}
 
 	@Override
 	protected void initViewContent(final Request request) {
 		// AJAX
-		ajax.addTarget(this);
+		addEventTarget(this);
 		// Set options on the select
 		select.setOptions(getViewBean());
 		super.initViewContent(request);
@@ -63,7 +79,17 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		super.addEventTarget(target, eventType);
-		ajax.addTarget(target);
+		if (!ajax.getTargets().contains(target)) {
+			ajax.addTarget(target);
+		}
+	}
+
+	public final WList getList() {
+		return list;
+	}
+
+	public final WSingleSelect getSelect() {
+		return select;
 	}
 
 }

@@ -5,8 +5,8 @@ import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
+import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.lib.app.view.bar.AbstractMenuToolbar;
-import com.github.bordertech.wcomponents.lib.app.view.bar.ToolbarMenuItem;
 
 /**
  * Main toolbar view.
@@ -20,7 +20,7 @@ public class MainToolbarView extends AbstractMenuToolbar {
 		WMenu menu = getMenu();
 		WSubMenu subMenu = new WSubMenu("System");
 		for (CardType card : CardType.values()) {
-			WMenuItem item = new ToolbarMenuItem(card.getDesc(), CardEventType.SHOW, card);
+			WMenuItem item = new AppMenuItem(card.getDesc(), CardEventType.SHOW, card);
 			if (card.isSystem()) {
 				subMenu.add(item);
 			} else {
@@ -28,6 +28,9 @@ public class MainToolbarView extends AbstractMenuToolbar {
 			}
 		}
 		menu.add(subMenu);
+
+		menu.addHtmlClass("wc-neg-margin");
+
 	}
 
 }

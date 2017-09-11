@@ -6,9 +6,10 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WPanel;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -23,10 +24,10 @@ public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdatea
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnRemove = new WButton("Remove");
 
-	private final WAjaxControl ajaxAdd = new WAjaxControl(btnAdd);
-	private final WAjaxControl ajaxRemove = new WAjaxControl(btnRemove);
+	private final WAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
+	private final WAjaxControl ajaxRemove = new AppAjaxControl(btnRemove);
 
-	private final WPanel ajaxPanel = new WPanel() {
+	private final WDiv ajaxPanel = new WDiv() {
 		@Override
 		public boolean isHidden() {
 			return true;

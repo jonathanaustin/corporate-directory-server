@@ -35,6 +35,10 @@ public class MainCardView extends DefaultView {
 		addCard(type, view);
 	}
 
+	public final WCardManager getCardManager() {
+		return mgr;
+	}
+
 	public final void showCard(final CardType card) {
 		View view = getCard(card);
 		if (view != null) {
