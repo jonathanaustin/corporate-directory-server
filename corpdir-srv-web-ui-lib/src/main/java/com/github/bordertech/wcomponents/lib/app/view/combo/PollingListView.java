@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
@@ -24,7 +24,7 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 
 	private final PollingView<S, List<T>> pollingView;
 
-	private final PollingListCtrl<S, T> ctrl;
+	private final SearchPollingListCtrl<S, T> ctrl;
 
 	public PollingListView(final ListView<T> listView) {
 		super("wclib/hbs/layout/combo-list-crit.hbs");
@@ -34,7 +34,7 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 		this.pollingView = new DefaultPollingView<>();
 
 		// Polling and List Ctrl
-		ctrl = new PollingListCtrl<>();
+		ctrl = new SearchPollingListCtrl<>();
 		ctrl.setPollingView(pollingView);
 		ctrl.addView(getMessageView());
 
@@ -63,7 +63,7 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 		return listView;
 	}
 
-	public PollingListCtrl<S, T> getPollingCtrl() {
+	public SearchPollingListCtrl<S, T> getPollingCtrl() {
 		return ctrl;
 	}
 

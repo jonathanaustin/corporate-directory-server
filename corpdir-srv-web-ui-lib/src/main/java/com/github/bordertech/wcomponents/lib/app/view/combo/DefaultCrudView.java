@@ -3,11 +3,12 @@ package com.github.bordertech.wcomponents.lib.app.view.combo;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormActionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -36,8 +37,8 @@ import java.util.List;
  */
 public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements ActionModelKey, SearchModelKey {
 
-	private final FormAndToolbarCtrl entityToolbarCtrl = new FormAndToolbarCtrl();
-	private final PollingListCtrl<S, T> criteriaCtrl = new PollingListCtrl<>();
+	private final FormAndToolbarCtrl formToolbarCtrl = new FormAndToolbarCtrl();
+	private final SearchPollingListCtrl<S, T> searchCtrl = new SearchPollingListCtrl<>();
 
 	public DefaultCrudView(final String title, final WComponent panel) {
 		this(title, null, null, null, panel);
@@ -47,7 +48,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
-		SearchView criteriaView = criteriaView2 == null ? new SearchTextView() : criteriaView2;
+		SearchView searchView = criteriaView2 == null ? new SearchTextView() : criteriaView2;
 		SelectView<T> selectView = selectView2 == null ? new SelectMenuView<T>() : selectView2;
 		FormView<T> formView = formView2 == null ? new AbstractFormView<T>() : formView2;
 		if (panel != null) {
@@ -60,17 +61,17 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		FormToolbarView formToolbarView = new DefaultFormToolbarView();
 
 		// Ctrls
-		FormAndSelectCtrl<T> selectCtrl = new FormAndSelectCtrl<>();
+		FormAndSelectCtrl<T> formSelectCtrl = new FormAndSelectCtrl<>();
+		FormActionCtrl formCtrl = new FormActionCtrl();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 		ListActionCtrl listCtrl = new ListActionCtrl();
 
 		// Set views on the Ctrls
-		selectCtrl.setTargetView(formView);
-		selectCtrl.setSelectView(selectView);
-		entityToolbarCtrl.setToolbarView(formToolbarView);
-		entityToolbarCtrl.setFormView(formView);
-		criteriaCtrl.addView(criteriaView);
-		criteriaCtrl.setPollingView(pollingView);
+		formSelectCtrl.setSelectView(selectView);
+		formCtrl.setFormView(formView);
+		formToolbarCtrl.setToolbarView(formToolbarView);
+		formToolbarCtrl.setFormView(formView);
+		searchCtrl.setPollingView(pollingView);
 		listCtrl.setListView(selectView);
 
 		// Setup a VIEW as a Section to holf the Toolbar/Edit
@@ -82,19 +83,22 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		editView.getContent().addTaggedComponent("vw-content", editSection);
 
 		// Add EditView to Select Ctrl (Controlled with the From)
-		selectCtrl.addGroupFormView(editView);
-		selectCtrl.addGroupFormView(formToolbarView);
-		selectCtrl.addView(getMessageView());
-		entityToolbarCtrl.addView(getMessageView());
+		formCtrl.addGroupFormView(editView);
+		formCtrl.addGroupFormView(formToolbarView);
+
+		// Add message view to the controllers
+		formSelectCtrl.addView(getMessageView());
+		formToolbarCtrl.addView(getMessageView());
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl1", selectCtrl);
-		content.addTaggedComponent("vw-ctrl2", entityToolbarCtrl);
-		content.addTaggedComponent("vw-ctrl3", criteriaCtrl);
+		content.addTaggedComponent("vw-ctrl1", formSelectCtrl);
+		content.addTaggedComponent("vw-ctrl2", formToolbarCtrl);
+		content.addTaggedComponent("vw-ctrl3", searchCtrl);
 		content.addTaggedComponent("vw-ctrl4", resetCtrl);
 		content.addTaggedComponent("vw-ctrl5", listCtrl);
+		content.addTaggedComponent("vw-ctrl6", formCtrl);
 		content.addTaggedComponent("vw-toolbar-1", toolbarView);
-		content.addTaggedComponent("vw-crit", criteriaView);
+		content.addTaggedComponent("vw-crit", searchView);
 		content.addTaggedComponent("vw-poll", pollingView);
 		content.addTaggedComponent("vw-list", selectView);
 //		content.addTaggedComponent("vw-toolbar-2", formToolbarView);
@@ -120,22 +124,22 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 
 	@Override
 	public void setActionModelKey(final String key) {
-		entityToolbarCtrl.setActionModelKey(key);
+		formToolbarCtrl.setActionModelKey(key);
 	}
 
 	@Override
 	public String getActionModelKey() {
-		return entityToolbarCtrl.getActionModelKey();
+		return formToolbarCtrl.getActionModelKey();
 	}
 
 	@Override
 	public void setSearchModelKey(final String key) {
-		criteriaCtrl.setSearchModelKey(key);
+		searchCtrl.setSearchModelKey(key);
 	}
 
 	@Override
 	public String getSearchModelKey() {
-		return criteriaCtrl.getSearchModelKey();
+		return searchCtrl.getSearchModelKey();
 	}
 
 }

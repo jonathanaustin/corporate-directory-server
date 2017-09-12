@@ -25,17 +25,6 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 	public void setupController() {
 		super.setupController();
 
-		// Form event type Listeners
-		for (FormEventType eventType : FormEventType.values()) {
-			Listener listener = new Listener() {
-				@Override
-				public void handleEvent(final Event event) {
-					handleFormEvents(event);
-				}
-			};
-			registerListener(eventType, listener);
-		}
-
 		// Toolbar event type Listeners
 		for (ToolbarEventType eventType : ToolbarEventType.values()) {
 			Listener listener = new Listener() {
@@ -46,6 +35,30 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 			};
 			registerListener(eventType, listener);
 		}
+
+		// MODE CHANGED
+		registerListener(FormEventType.ENTITY_MODE_CHANGED, new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleSyncToolbar();
+			}
+		});
+
+		// LOADED OK
+		registerListener(FormEventType.LOAD_OK, new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleSyncToolbar();
+			}
+		});
+
+		// RESET FORM
+		registerListener(FormEventType.RESET_FORM, new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				resetViews();
+			}
+		});
 
 	}
 
@@ -125,39 +138,21 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 
 			case RESET_VIEW:
 			case SELECTED:
-				// Let ResetCtrl do this
-				break;
-		}
-	}
-
-	protected void handleFormEvents(final Event event) {
-		FormEventType type = (FormEventType) event.getQualifier().getEventType();
-		switch (type) {
-			case LOAD:
-				doLoad((T) event.getData(), FormMode.VIEW);
-				break;
-			case LOAD_OK:
-				handleLoadedOKEvent();
-				break;
-			case ENTITY_MODE_CHANGED:
-				handleEntityModeChangedEvent();
 				break;
 		}
 	}
 
 	protected void handleBackAction() {
-		resetViews();
+		dispatchEvent(FormEventType.RESET_FORM);
 	}
 
 	protected void handleCancelAction() {
 		FormView<T> view = getFormView();
 		if (view.getFormMode() == FormMode.EDIT) {
 			T bean = view.getViewBean();
-			resetViews();
-			doLoad(bean, FormMode.VIEW);
+			dispatchEvent(FormEventType.LOAD, bean);
 			return;
 		}
-		resetViews();
 		// Do a BACK
 		dispatchEvent(ToolbarEventType.BACK);
 	}
@@ -165,7 +160,8 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 	protected void handleEditAction() {
 		FormView<T> view = getFormView();
 		if (view.isLoaded()) {
-			doEntityModeChange(FormMode.EDIT);
+			getFormView().setFormMode(FormMode.EDIT);
+			dispatchEvent(FormEventType.ENTITY_MODE_CHANGED);
 		}
 	}
 
@@ -174,11 +170,10 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 		if (!view.isLoaded()) {
 			return;
 		}
-		doEntityModeChange(FormMode.VIEW);
 		T bean = view.getViewBean();
 		try {
 			doDelete(bean);
-			resetViews();
+			dispatchEvent(FormEventType.RESET_FORM);
 			dispatchEvent(FormCtrlEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
@@ -193,9 +188,9 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 			return;
 		}
 		T bean = view.getViewBean();
-		resetViews();
 		try {
 			bean = doRefresh(bean);
+			dispatchEvent(FormEventType.LOAD, bean);
 			dispatchEvent(FormCtrlEventType.REFRESH_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
@@ -219,11 +214,11 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 			T bean = view.getViewBean();
 			if (create) {
 				bean = doCreate(bean);
-				resetViews();
+				dispatchEvent(FormEventType.RESET_FORM);
 				dispatchEvent(FormCtrlEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
-				resetViews();
+				dispatchEvent(FormEventType.RESET_FORM);
 				dispatchEvent(FormCtrlEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
@@ -241,34 +236,16 @@ public class FormAndToolbarCtrl<T> extends DefaultController implements ActionMo
 		resetViews();
 		try {
 			T bean = doCreateInstance();
-			doLoad(bean, FormMode.ADD);
-			doEntityModeChange(FormMode.ADD);
+			dispatchEvent(FormEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
 			dispatchEvent(FormCtrlEventType.LOAD_ERROR, e);
 		}
 	}
 
-	protected void handleLoadedOKEvent() {
-		getToolbarView().setContentVisible(true);
-		getFormView().setContentVisible(true);
-	}
-
-	protected void handleEntityModeChangedEvent() {
-		// Keep Action View in SYNC
-		FormView entityView = getFormView();
-		FormToolbarView actionView = getToolbarView();
-		actionView.setFormMode(entityView.getFormMode());
-		actionView.setFormReady(entityView.isLoaded());
-	}
-
-	protected void doEntityModeChange(final FormMode mode) {
-		getFormView().setFormMode(mode);
-	}
-
-	protected void doLoad(final T entity, final FormMode mode) {
-		resetViews();
-		getFormView().loadEntity(entity, mode);
+	protected void handleSyncToolbar() {
+		getToolbarView().setFormMode(getFormView().getFormMode());
+		getToolbarView().setFormReady(getFormView().isLoaded());
 	}
 
 	protected T doCreate(final T entity) {

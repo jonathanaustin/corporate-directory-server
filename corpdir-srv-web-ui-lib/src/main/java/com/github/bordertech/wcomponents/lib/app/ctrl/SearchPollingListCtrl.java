@@ -20,7 +20,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public class PollingListCtrl<S, T> extends DefaultController implements SearchModelKey {
+public class SearchPollingListCtrl<S, T> extends DefaultController implements SearchModelKey {
 
 	@Override
 	public void setupController() {
