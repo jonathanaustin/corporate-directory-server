@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarItemType;
 
 /**
  * Toolbar abstract implementation.

@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView;
 
 /**
  * List View with a Text Search View.
@@ -28,7 +28,8 @@ public class ListWithCriteriaView<S, T> extends PollingListView<S, T> {
 		this.searchView = searchView;
 
 		// Polling and List Ctrl
-		PollingListCtrl ctrl = getPollingCtrl();
+		PollingSearchCtrl ctrl = new PollingSearchCtrl();
+		ctrl.setPollingView(getPollingView());
 		ctrl.addView(searchView);
 
 		// Add views to holder

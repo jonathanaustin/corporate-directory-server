@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
@@ -23,7 +23,7 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 	private final FormView<T> formView;
 
 	private final FormToolbarView toolbarView;
-	private final FormAndToolbarCtrl<T> ctrl = new FormAndToolbarCtrl();
+	private final FormToolbarCtrl<T> ctrl = new FormToolbarCtrl();
 
 	public FormWithToolbarView() {
 		this(new AbstractFormView<T>());

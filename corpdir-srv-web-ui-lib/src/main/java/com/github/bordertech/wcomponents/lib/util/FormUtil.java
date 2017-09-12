@@ -1,9 +1,9 @@
-package com.github.bordertech.wcomponents.lib.app.view.form;
+package com.github.bordertech.wcomponents.lib.util;
 
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 
 /**
  * Default updateable view that can be used as a child a of a from view.

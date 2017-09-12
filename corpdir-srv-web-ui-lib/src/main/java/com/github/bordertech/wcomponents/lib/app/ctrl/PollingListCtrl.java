@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
@@ -32,17 +31,6 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 				@Override
 				public void handleEvent(final Event event) {
 					handlePollingEvents(event);
-				}
-			};
-			registerListener(type, listener);
-		}
-
-		// SEARCH Listeners
-		for (SearchEventType type : SearchEventType.values()) {
-			Listener listener = new Listener() {
-				@Override
-				public void handleEvent(final Event event) {
-					handleSearchEvents(event);
 				}
 			};
 			registerListener(type, listener);
@@ -132,21 +120,8 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 
 	}
 
-	protected void handleSearchEvents(final Event event) {
-		SearchEventType type = (SearchEventType) event.getQualifier().getEventType();
-		switch (type) {
-			case SEARCH_VALIDATING:
-				dispatchEvent(ListEventType.RESET_LIST);
-				dispatchEvent(PollingEventType.RESET_POLLING);
-				break;
-			case SEARCH:
-				dispatchEvent(PollingEventType.START_POLLING, event.getData());
-				break;
-		}
-	}
-
 	protected void handleRefreshList() {
-		// Do Search Again
+		// Do Service Again
 		getPollingView().setContentVisible(true);
 		getPollingView().doRefreshContent();
 		dispatchEvent(ListEventType.RESET_LIST);

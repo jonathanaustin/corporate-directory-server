@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**

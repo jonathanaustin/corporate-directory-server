@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -324,13 +324,13 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 
 	protected void configButtons() {
 		// Set Icons
-		firstButton.setImage(firstButton.isDisabled() ? NAV_FIRST_BUTTON_DISABLED_IMAGE
+		firstButton.setImageUrl(firstButton.isDisabled() ? NAV_FIRST_BUTTON_DISABLED_IMAGE
 				: NAV_FIRST_BUTTON_IMAGE);
-		prevButton.setImage(prevButton.isDisabled() ? NAV_PREV_BUTTON_DISABLED_IMAGE
+		prevButton.setImageUrl(prevButton.isDisabled() ? NAV_PREV_BUTTON_DISABLED_IMAGE
 				: NAV_PREV_BUTTON_IMAGE);
-		nextButton.setImage(nextButton.isDisabled() ? NAV_NEXT_BUTTON_DISABLED_IMAGE
+		nextButton.setImageUrl(nextButton.isDisabled() ? NAV_NEXT_BUTTON_DISABLED_IMAGE
 				: NAV_NEXT_BUTTON_IMAGE);
-		lastButton.setImage(lastButton.isDisabled() ? NAV_LAST_BUTTON_DISABLED_IMAGE
+		lastButton.setImageUrl(lastButton.isDisabled() ? NAV_LAST_BUTTON_DISABLED_IMAGE
 				: NAV_LAST_BUTTON_IMAGE);
 
 	}

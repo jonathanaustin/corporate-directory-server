@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
@@ -19,8 +19,7 @@ public class FormWithSelectView<T> extends DefaultMessageComboView<T> {
 		super("wclib/hbs/layout/combo-ent-select.hbs");
 
 		// Ctrl
-		FormAndSelectCtrl<T> ctrl = new FormAndSelectCtrl<>();
-		ctrl.setTargetView(formView);
+		FormSelectCtrl<T> ctrl = new FormSelectCtrl<>();
 		ctrl.setSelectView(selectView);
 		ctrl.addView(getMessageView());
 

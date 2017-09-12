@@ -14,7 +14,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the result type
  */
-public class ListActionCtrl<T> extends DefaultController {
+public class ListMainCtrl<T> extends DefaultController {
 
 	@Override
 	public void setupController() {

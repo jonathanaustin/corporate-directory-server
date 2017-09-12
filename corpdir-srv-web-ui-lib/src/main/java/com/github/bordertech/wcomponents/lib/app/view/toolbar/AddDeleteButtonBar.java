@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -8,9 +8,10 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
-import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -19,13 +20,13 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdateable {
+public class AddDeleteButtonBar<T> extends DefaultView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
-	private final WButton btnRemove = new WButton("Remove");
+	private final WButton btnDelete = new WButton("Remove");
 
 	private final WAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
-	private final WAjaxControl ajaxRemove = new AppAjaxControl(btnRemove);
+	private final WAjaxControl ajaxDelete = new AppAjaxControl(btnDelete);
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -35,11 +36,22 @@ public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdatea
 
 	};
 
-	public AddRemoveButtonBar() {
+	public AddDeleteButtonBar() {
 
 		WContainer content = getContent();
 		content.add(btnAdd);
-		content.add(btnRemove);
+		content.add(btnDelete);
+
+		// Add details
+		btnAdd.setImageUrl(IconConstants.EDIT_IMAGE);
+		btnAdd.setRenderAsLink(false);
+		btnAdd.setToolTip("Add");
+
+		// Delete details
+		btnDelete.setImageUrl(IconConstants.REMOVE_IMAGE);
+		btnDelete.setRenderAsLink(false);
+		btnDelete.setMessage("Do you want to remove this item?");
+		btnDelete.setToolTip("Delete");
 
 		// Actions
 		btnAdd.setAction(new Action() {
@@ -48,7 +60,7 @@ public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdatea
 				dispatchEvent(ToolbarEventType.ADD);
 			}
 		});
-		btnRemove.setAction(new Action() {
+		btnDelete.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
 				dispatchEvent(ToolbarEventType.DELETE);
@@ -58,23 +70,23 @@ public class AddRemoveButtonBar<T> extends DefaultView<T> implements FormUpdatea
 		// AJAX
 		content.add(ajaxPanel);
 		ajaxPanel.add(ajaxAdd);
-		ajaxPanel.add(ajaxRemove);
+		ajaxPanel.add(ajaxDelete);
 		ajaxAdd.addTarget(this);
-		ajaxRemove.addTarget(this);
+		ajaxDelete.addTarget(this);
 
 		// Defaults
-		btnRemove.setVisible(false);
+		btnDelete.setVisible(false);
 	}
 
 	public void showRemoveButton(final boolean show) {
-		btnRemove.setVisible(show);
+		btnDelete.setVisible(show);
 	}
 
 	@Override
 	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
 		super.addEventTarget(target, eventType);
 		ajaxAdd.addTarget(target);
-		ajaxRemove.addTarget(target);
+		ajaxDelete.addTarget(target);
 	}
 
 	@Override

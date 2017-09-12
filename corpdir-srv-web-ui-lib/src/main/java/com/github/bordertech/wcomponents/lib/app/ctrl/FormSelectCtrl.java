@@ -7,11 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Controller for a Form View and Select View.
@@ -19,7 +15,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the select entity
  */
-public class FormAndSelectCtrl<T> extends DefaultController {
+public class FormSelectCtrl<T> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -45,14 +41,6 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 			}
 		});
 
-		// BACK EVENT
-		registerListener(ToolbarEventType.BACK, new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleBackEvent();
-			}
-		});
-
 		// Select EVENT
 		registerListener(ListEventType.SELECT, new Listener() {
 			@Override
@@ -70,34 +58,14 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 			}
 		});
 
-		// Loaded
-		registerListener(FormEventType.LOAD_OK, new Listener() {
-			@Override
-			public void handleEvent(final Event event) {
-				handleLoadedOKEvent();
-			}
-		});
-
 	}
 
 	@Override
 	public void checkConfig() {
 		super.checkConfig();
-		if (getTargetView() == null) {
-			throw new IllegalStateException("A form view has not been set.");
-		}
 		if (getSelectView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
-	}
-
-	public final View<T> getTargetView() {
-		return getComponentModel().targetView;
-	}
-
-	public final void setTargetView(final View<T> formView) {
-		getOrCreateComponentModel().targetView = formView;
-		addView(formView);
 	}
 
 	public final SelectView<T> getSelectView() {
@@ -138,20 +106,12 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 		getSelectView().clearSelected();
 	}
 
-	protected void handleBackEvent() {
-		resetFormView();
-	}
-
 	protected void handleSelectEvent(final T selected) {
 		doLoadEntity(selected);
 	}
 
 	protected void handleListResetEvent() {
-		resetFormView();
-	}
-
-	protected void handleLoadedOKEvent() {
-		makeFormViewContentVisible(true);
+		dispatchEvent(FormEventType.RESET_FORM);
 	}
 
 	protected void handleUpdateOkEvent(final T entity) {
@@ -173,40 +133,12 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 		if (getSelectView().getViewBean().isEmpty()) {
 			getSelectView().showList(false);
 		}
-		resetFormView();
+		dispatchEvent(FormEventType.RESET_FORM);
 	}
 
 	protected void doLoadEntity(final T entity) {
-		resetFormView();
+		dispatchEvent(FormEventType.RESET_FORM);
 		dispatchEvent(FormEventType.LOAD, entity);
-	}
-
-	protected void resetFormView() {
-		getTargetView().resetView();
-		for (View view : getGroupFormViews()) {
-			view.resetView();
-		}
-	}
-
-	protected void makeFormViewContentVisible(final boolean show) {
-		getTargetView().setContentVisible(show);
-		for (View view : getGroupFormViews()) {
-			view.setContentVisible(show);
-		}
-	}
-
-	public void addGroupFormView(final View view) {
-		FormSelectModel model = getOrCreateComponentModel();
-		if (model.formGroup == null) {
-			model.formGroup = new ArrayList();
-		}
-		model.formGroup.add(view);
-		addView(view);
-	}
-
-	public List<View> getGroupFormViews() {
-		FormSelectModel model = getComponentModel();
-		return model.formGroup == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.formGroup);
 	}
 
 	@Override
@@ -229,11 +161,7 @@ public class FormAndSelectCtrl<T> extends DefaultController {
 	 */
 	public static class FormSelectModel<T> extends CtrlModel {
 
-		private View<T> targetView;
-
 		private SelectView<T> selectView;
-
-		private List<View> formGroup;
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.AddRemoveButtonBar;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -16,7 +16,7 @@ import java.util.List;
  * @param <T> the list item type
  * @author jonathan
  */
-public class AddRemoveListCtrl<T> extends DefaultController {
+public class AddDeleteListCtrl<T> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -78,11 +78,11 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 		}
 	}
 
-	public final AddRemoveButtonBar getAddRemoveToolbar() {
+	public final AddDeleteButtonBar getAddRemoveToolbar() {
 		return getComponentModel().addRemoveToolbar;
 	}
 
-	public final void setAddRemoveToolbar(final AddRemoveButtonBar addRemoveToolbar) {
+	public final void setAddRemoveToolbar(final AddDeleteButtonBar addRemoveToolbar) {
 		getOrCreateComponentModel().addRemoveToolbar = addRemoveToolbar;
 		addView(addRemoveToolbar);
 	}
@@ -136,26 +136,26 @@ public class AddRemoveListCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	protected AddRemoveModel newComponentModel() {
-		return new AddRemoveModel();
+	protected AddDeleteModel newComponentModel() {
+		return new AddDeleteModel();
 	}
 
 	@Override
-	protected AddRemoveModel getComponentModel() {
-		return (AddRemoveModel) super.getComponentModel();
+	protected AddDeleteModel getComponentModel() {
+		return (AddDeleteModel) super.getComponentModel();
 	}
 
 	@Override
-	protected AddRemoveModel getOrCreateComponentModel() {
-		return (AddRemoveModel) super.getOrCreateComponentModel();
+	protected AddDeleteModel getOrCreateComponentModel() {
+		return (AddDeleteModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class AddRemoveModel extends CtrlModel {
+	public static class AddDeleteModel extends CtrlModel {
 
-		private AddRemoveButtonBar addRemoveToolbar;
+		private AddDeleteButtonBar addRemoveToolbar;
 
 		private View addView;
 

@@ -10,6 +10,9 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  */
 public enum FormEventType implements EventType {
 	LOAD,
+	LOAD_NEW,
 	LOAD_OK,
-	ENTITY_MODE_CHANGED
+	ENTITY_MODE_CHANGED,
+	RESET_FORM,
+	SHOW_FORM
 }

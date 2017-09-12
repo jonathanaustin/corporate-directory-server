@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.resource.ConfigLibUtil;
+import com.github.bordertech.wcomponents.lib.util.ConfigLibUtil;
 import java.util.Date;
 
 /**

@@ -1,9 +1,11 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.icons.IconConstants;
+import com.github.bordertech.wcomponents.lib.util.ViewUtil;
 
 /**
  * Toolbar default implementation.
@@ -40,6 +42,10 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 		menu.add(itemAdd);
 		menu.add(itemReset);
 		menu.addHtmlClass("wc-neg-margin");
+
+		// Images
+		ViewUtil.addImageToMenuItem(IconConstants.ADD_IMAGE, itemAdd);
+		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset);
 
 		// Default to use RESET
 		addToolbarType(ToolbarItem.RESET);

@@ -1,11 +1,13 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
+import com.github.bordertech.wcomponents.lib.icons.IconConstants;
+import com.github.bordertech.wcomponents.lib.util.ViewUtil;
 
 /**
  * Entity form toolbar implementation.
@@ -80,6 +82,15 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		menu.add(itemCreate);
 		menu.add(itemCancel);
 		menu.add(itemDelete);
+
+		itemDelete.setMessage("Please confirm the delete action.");
+
+		// Images
+		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemEdit);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemUpdate);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemCreate);
+		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemCancel);
+		ViewUtil.addImageToMenuItem(IconConstants.REMOVE_IMAGE, itemDelete);
 
 		// No Defaults
 		clearToolbarTypes();

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
@@ -38,7 +38,7 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 		ctrl.setPollingView(pollingView);
 		ctrl.addView(getMessageView());
 
-		ListActionCtrl listCtrl = new ListActionCtrl();
+		ListMainCtrl listCtrl = new ListMainCtrl();
 		listCtrl.setListView(listView);
 
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
@@ -61,10 +61,6 @@ public class PollingListView<S, T> extends DefaultMessageComboView<List<T>> impl
 
 	public ListView<T> getListView() {
 		return listView;
-	}
-
-	public PollingListCtrl<S, T> getPollingCtrl() {
-		return ctrl;
 	}
 
 	@Override

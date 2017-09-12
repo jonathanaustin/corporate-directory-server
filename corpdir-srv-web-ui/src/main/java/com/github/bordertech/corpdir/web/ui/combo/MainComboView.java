@@ -23,6 +23,7 @@ public class MainComboView extends DefaultMessageComboView {
 
 		MainCardCtrl ctrl = new MainCardCtrl();
 		ctrl.setCardView(cardView);
+		ctrl.setToolbarView(toolbar);
 		cardView.addHtmlClass("wc-margin-all-lg");
 
 		// Reset
