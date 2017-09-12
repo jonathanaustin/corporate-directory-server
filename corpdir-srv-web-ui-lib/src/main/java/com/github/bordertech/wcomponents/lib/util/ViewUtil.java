@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.util;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WebUtilities;
@@ -26,10 +27,14 @@ public class ViewUtil {
 		return WebUtilities.getAncestorOfClass(ComboView.class, component);
 	}
 
-	public static void addImageToMenuItem(final String resource, final WMenuItem menuItem) {
+	public static void addImageToMenuItem(final String resource, final WMenuItem item) {
+		addImageToLabel(resource, item.getDecoratedLabel());
+	}
+
+	public static void addImageToLabel(final String resource, final WDecoratedLabel label) {
 		WImage image = new WImage();
 		image.setImageUrl(resource);
-		menuItem.getDecoratedLabel().setHead(image);
+		label.setHead(image);
 	}
 
 }

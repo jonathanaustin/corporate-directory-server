@@ -7,6 +7,11 @@ package com.github.bordertech.wcomponents.lib.icons;
 public final class IconConstants {
 
 	/**
+	 * Add image.
+	 */
+	public static final String ADD_IMAGE = "/wclib/icons/add.png";
+
+	/**
 	 * Cancel image.
 	 */
 	public static final String CANCEL_IMAGE = "/wclib/icons/cancel.png";

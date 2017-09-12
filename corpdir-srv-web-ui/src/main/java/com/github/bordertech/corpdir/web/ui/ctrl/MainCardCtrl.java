@@ -3,6 +3,8 @@ package com.github.bordertech.corpdir.web.ui.ctrl;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.corpdir.web.ui.view.MainCardView;
+import com.github.bordertech.corpdir.web.ui.view.MainToolbarView;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
@@ -27,14 +29,19 @@ public class MainCardCtrl extends DefaultController {
 			}
 		});
 
-		// REST CARD
+		// RESET CARD
 		registerListener(CardEventType.RESET, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleResetCard((CardType) event.getData());
 			}
 		});
+	}
 
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		getToolbarView().setCurrentCard(getCardView().getCurrent());
 	}
 
 	@Override
@@ -42,6 +49,9 @@ public class MainCardCtrl extends DefaultController {
 		super.checkConfig();
 		if (getCardView() == null) {
 			throw new IllegalStateException("A card view has not been set.");
+		}
+		if (getToolbarView() == null) {
+			throw new IllegalStateException("A toolbar view has not been set.");
 		}
 	}
 
@@ -52,6 +62,15 @@ public class MainCardCtrl extends DefaultController {
 	public final void setCardView(final MainCardView cardView) {
 		getOrCreateComponentModel().cardView = cardView;
 		addView(cardView);
+	}
+
+	public final MainToolbarView getToolbarView() {
+		return getComponentModel().toolbarView;
+	}
+
+	public final void setToolbarView(final MainToolbarView toolbarView) {
+		getOrCreateComponentModel().toolbarView = toolbarView;
+		addView(toolbarView);
 	}
 
 	protected void handleShowCard(final CardType card) {
@@ -83,6 +102,8 @@ public class MainCardCtrl extends DefaultController {
 	public static class CardCtrlModel extends CtrlModel {
 
 		private MainCardView cardView;
+
+		private MainToolbarView toolbarView;
 	}
 
 }

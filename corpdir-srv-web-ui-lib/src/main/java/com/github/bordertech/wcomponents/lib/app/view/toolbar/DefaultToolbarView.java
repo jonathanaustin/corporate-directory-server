@@ -44,7 +44,7 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 		menu.addHtmlClass("wc-neg-margin");
 
 		// Images
-		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemAdd);
+		ViewUtil.addImageToMenuItem(IconConstants.ADD_IMAGE, itemAdd);
 		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset);
 
 		// Default to use RESET
