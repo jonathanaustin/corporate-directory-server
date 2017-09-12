@@ -2,7 +2,11 @@ package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
+import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.List;
 
 /**
  * @author Jonathan Austin
@@ -50,5 +54,39 @@ public interface BaseMvc extends WComponent {
 	 * @param types the event type to override the qualifier
 	 */
 	void addDispatcherOverride(final String qualifier, final EventType... types);
+
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 */
+	void dispatchEvent(final EventType eventType);
+
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 */
+	void dispatchEvent(final EventType eventType, final Object data);
+
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 * @param exception an exception
+	 */
+	void dispatchEvent(final EventType eventType, final Object data, final Exception exception);
+
+	void dispatchEvent(final Event event);
+
+	void dispatchMessageReset();
+
+	void dispatchValidationMessages(final List<Diagnostic> diags);
+
+	void dispatchMessage(final MsgEventType type, final String text);
+
+	void dispatchMessage(final MsgEventType type, final List<String> texts);
 
 }

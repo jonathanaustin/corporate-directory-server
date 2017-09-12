@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
  * @author jonathan
  * @param <T> the select entity
  */
-public class FormAndSelectCtrl<T> extends DefaultController {
+public class FormSelectCtrl<T> extends DefaultController {
 
 	@Override
 	public void setupController() {

@@ -17,7 +17,7 @@ import java.util.List;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormActionCtrl<T> extends DefaultController {
+public class FormMainCtrl<T> extends DefaultController {
 
 	@Override
 	public void setupController() {

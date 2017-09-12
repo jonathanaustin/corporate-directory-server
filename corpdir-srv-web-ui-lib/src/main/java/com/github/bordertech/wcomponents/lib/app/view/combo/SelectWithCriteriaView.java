@@ -1,5 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
+import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
@@ -15,6 +17,10 @@ public class SelectWithCriteriaView<S, T> extends ListWithCriteriaView<S, T> imp
 
 	public SelectWithCriteriaView(final SearchView<S> criteriaView, final SelectView<T> listView) {
 		super(criteriaView, listView);
+		PollingSearchCtrl ctrl = new PollingSearchCtrl();
+		ctrl.setPollingView(getPollingView());
+		WTemplate content = getContent();
+		content.addTaggedComponent("vw-ctrl-polsrch", ctrl);
 	}
 
 	@Override

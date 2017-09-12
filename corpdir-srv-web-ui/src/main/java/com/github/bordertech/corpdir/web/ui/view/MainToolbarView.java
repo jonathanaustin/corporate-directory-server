@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
-import com.github.bordertech.wcomponents.lib.app.view.bar.AbstractMenuToolbar;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.AbstractMenuToolbar;
 
 /**
  * Main toolbar view.
@@ -28,8 +28,6 @@ public class MainToolbarView extends AbstractMenuToolbar {
 			}
 		}
 		menu.add(subMenu);
-
-		menu.addHtmlClass("wc-neg-margin");
 
 	}
 

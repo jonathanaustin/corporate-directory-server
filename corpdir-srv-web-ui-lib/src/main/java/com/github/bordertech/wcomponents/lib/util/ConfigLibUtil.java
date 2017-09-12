@@ -1,6 +1,9 @@
-package com.github.bordertech.wcomponents.lib.resource;
+package com.github.bordertech.wcomponents.lib.util;
 
 import com.github.bordertech.wcomponents.WApplication;
+import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
+import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWcLibJsResource;
+import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
 
 /**
  *

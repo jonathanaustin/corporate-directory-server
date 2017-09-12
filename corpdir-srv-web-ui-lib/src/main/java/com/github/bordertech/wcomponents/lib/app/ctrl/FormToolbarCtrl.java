@@ -19,7 +19,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormAndToolbarCtrl<T> extends DefaultController implements ActionModelKey {
+public class FormToolbarCtrl<T> extends DefaultController implements ActionModelKey {
 
 	@Override
 	public void setupController() {

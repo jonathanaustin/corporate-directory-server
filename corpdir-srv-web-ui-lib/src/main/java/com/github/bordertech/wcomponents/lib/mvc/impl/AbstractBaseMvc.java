@@ -14,6 +14,7 @@ import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.util.ViewUtil;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -50,7 +51,8 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	 *
 	 * @param eventType the event type
 	 */
-	protected void dispatchEvent(final EventType eventType) {
+	@Override
+	public void dispatchEvent(final EventType eventType) {
 		dispatchEvent(eventType, null, null);
 	}
 
@@ -60,7 +62,8 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	 * @param eventType the event type
 	 * @param data the event data
 	 */
-	protected void dispatchEvent(final EventType eventType, final Object data) {
+	@Override
+	public void dispatchEvent(final EventType eventType, final Object data) {
 		dispatchEvent(eventType, data, null);
 	}
 
@@ -71,31 +74,37 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	 * @param data the event data
 	 * @param exception an exception
 	 */
-	protected void dispatchEvent(final EventType eventType, final Object data, final Exception exception) {
+	@Override
+	public void dispatchEvent(final EventType eventType, final Object data, final Exception exception) {
 		String qualifier = getDispatcherQualifier(eventType);
 		DefaultEvent event = new DefaultEvent(new EventQualifier(eventType, qualifier), data, exception);
 		dispatchEvent(event);
 	}
 
-	protected void dispatchEvent(final Event event) {
+	@Override
+	public void dispatchEvent(final Event event) {
 		getDispatcher().dispatch(event);
 	}
 
-	protected void dispatchMessageReset() {
+	@Override
+	public void dispatchMessageReset() {
 		dispatchMessage(MsgEventType.RESET, "");
 	}
 
-	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
+	@Override
+	public void dispatchValidationMessages(final List<Diagnostic> diags) {
 		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
 		dispatchEvent(new MsgEvent(diags, qualifier));
 	}
 
-	protected void dispatchMessage(final MsgEventType type, final String text) {
+	@Override
+	public void dispatchMessage(final MsgEventType type, final String text) {
 		String qualifier = getDispatcherQualifier(type);
 		dispatchEvent(new MsgEvent(type, qualifier, text));
 	}
 
-	protected void dispatchMessage(final MsgEventType type, final List<String> texts) {
+	@Override
+	public void dispatchMessage(final MsgEventType type, final List<String> texts) {
 		String qualifier = getDispatcherQualifier(type);
 		dispatchEvent(new MsgEvent(type, qualifier, texts, true));
 	}
@@ -125,7 +134,7 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	}
 
 	protected ComboView findParentCombo() {
-		return WebUtilities.getAncestorOfClass(ComboView.class, this);
+		return ViewUtil.findParentCombo(this);
 	}
 
 	@Override

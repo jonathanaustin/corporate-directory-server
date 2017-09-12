@@ -3,12 +3,13 @@ package com.github.bordertech.wcomponents.lib.app.view.combo;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormActionCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndSelectCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormAndToolbarCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ListActionCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormMainCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormSelectCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.FormToolbarCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.ListMainCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.SearchPollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -17,13 +18,13 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.bar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
 import com.github.bordertech.wcomponents.lib.app.view.list.SelectMenuView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
@@ -37,8 +38,9 @@ import java.util.List;
  */
 public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements ActionModelKey, SearchModelKey {
 
-	private final FormAndToolbarCtrl formToolbarCtrl = new FormAndToolbarCtrl();
-	private final SearchPollingListCtrl<S, T> searchCtrl = new SearchPollingListCtrl<>();
+	private final FormToolbarCtrl formToolbarCtrl = new FormToolbarCtrl();
+	private final PollingSearchCtrl<S, T> pollingSearchCtrl = new PollingSearchCtrl();
+	private final PollingListCtrl<S, T> pollingListCtrl = new PollingListCtrl();
 
 	public DefaultCrudView(final String title, final WComponent panel) {
 		this(title, null, null, null, panel);
@@ -61,23 +63,23 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		FormToolbarView formToolbarView = new DefaultFormToolbarView();
 
 		// Ctrls
-		FormAndSelectCtrl<T> formSelectCtrl = new FormAndSelectCtrl<>();
-		FormActionCtrl formCtrl = new FormActionCtrl();
+		FormSelectCtrl<T> formSelectCtrl = new FormSelectCtrl<>();
+		FormMainCtrl formCtrl = new FormMainCtrl();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
-		ListActionCtrl listCtrl = new ListActionCtrl();
+		ListMainCtrl listCtrl = new ListMainCtrl();
 
 		// Set views on the Ctrls
 		formSelectCtrl.setSelectView(selectView);
 		formCtrl.setFormView(formView);
 		formToolbarCtrl.setToolbarView(formToolbarView);
 		formToolbarCtrl.setFormView(formView);
-		searchCtrl.setPollingView(pollingView);
+		pollingSearchCtrl.setPollingView(pollingView);
+		pollingListCtrl.setPollingView(pollingView);
 		listCtrl.setListView(selectView);
 
 		// Setup a VIEW as a Section to holf the Toolbar/Edit
 		DefaultComboView editView = new DefaultComboView();
 		WSection editSection = new WSection("Details");
-//		editSection.setMargin(new Margin(Size.XL));
 		editSection.getContent().add(formToolbarView);
 		editSection.getContent().add(formView);
 		editView.getContent().addTaggedComponent("vw-content", editSection);
@@ -93,16 +95,15 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		WTemplate content = getContent();
 		content.addTaggedComponent("vw-ctrl1", formSelectCtrl);
 		content.addTaggedComponent("vw-ctrl2", formToolbarCtrl);
-		content.addTaggedComponent("vw-ctrl3", searchCtrl);
+		content.addTaggedComponent("vw-ctrl3", pollingSearchCtrl);
 		content.addTaggedComponent("vw-ctrl4", resetCtrl);
 		content.addTaggedComponent("vw-ctrl5", listCtrl);
 		content.addTaggedComponent("vw-ctrl6", formCtrl);
+		content.addTaggedComponent("vw-ctrl7", pollingListCtrl);
 		content.addTaggedComponent("vw-toolbar-1", toolbarView);
 		content.addTaggedComponent("vw-crit", searchView);
 		content.addTaggedComponent("vw-poll", pollingView);
 		content.addTaggedComponent("vw-list", selectView);
-//		content.addTaggedComponent("vw-toolbar-2", formToolbarView);
-//		content.addTaggedComponent("vw-entity", formView);
 		content.addTaggedComponent("vw-entity", editView);
 
 		content.addParameter("vw-title", title);
@@ -117,8 +118,6 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		formToolbarView.setContentVisible(false);
 
 		// Margins
-//		pollingView.addHtmlClass("wc-margin-n-lg");
-//		selectView.addHtmlClass("wc-margin-n-lg");
 		setBlocking(true);
 	}
 
@@ -134,12 +133,12 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 
 	@Override
 	public void setSearchModelKey(final String key) {
-		searchCtrl.setSearchModelKey(key);
+		pollingListCtrl.setSearchModelKey(key);
 	}
 
 	@Override
 	public String getSearchModelKey() {
-		return searchCtrl.getSearchModelKey();
+		return pollingListCtrl.getSearchModelKey();
 	}
 
 }

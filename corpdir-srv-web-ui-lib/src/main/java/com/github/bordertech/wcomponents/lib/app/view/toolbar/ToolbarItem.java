@@ -1,6 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.bar;
-
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarItemType;
+package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 /**
  *
