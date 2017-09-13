@@ -58,7 +58,7 @@ public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T>
 		// By default ADD all the views as AJAX
 		for (View vw : getViews()) {
 			if (vw != view) {
-				view.addEventTarget(vw);
+				view.addEventAjaxTarget(vw);
 			}
 		}
 		// Get the parent controller AJAX Targets

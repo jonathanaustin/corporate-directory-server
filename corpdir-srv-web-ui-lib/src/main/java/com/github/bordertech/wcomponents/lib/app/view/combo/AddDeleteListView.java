@@ -5,18 +5,19 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddDeleteListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.SelectButtonBar;
-import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
 
 /**
@@ -40,7 +41,7 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 		@Override
 		public void configAjax(final View view) {
 			super.configAjax(view);
-			view.addEventTarget(selBar);
+			view.addEventAjaxTarget(selBar);
 		}
 
 	};
@@ -65,7 +66,7 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 				}
 			});
 			// Reset in the DIALOG
-			registerListener(ToolbarEventType.RESET_VIEW, new Listener() {
+			registerListener(NavigationEventType.RESET_VIEW, new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
 					selBar.reset();
@@ -128,7 +129,7 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 	public void configViews() {
 		super.configViews();
 		// Translate the "SELECTED" from the "FIND" to a "SELECTED"
-		transCtrl.translate(ToolbarEventType.SELECTED, ToolbarEventType.SELECTED, getFullQualifier());
+		transCtrl.translate(ModelEventType.SELECTED, ModelEventType.SELECTED, getFullQualifier());
 	}
 
 	protected void showDialog() {

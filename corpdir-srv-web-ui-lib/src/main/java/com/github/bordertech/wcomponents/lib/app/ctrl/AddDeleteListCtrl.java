@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -24,7 +24,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		// Listeners
 
 		// ADD EVENT
-		registerListener(ToolbarEventType.ADD, new Listener() {
+		registerListener(ModelEventType.ADD, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleAddEvent();
@@ -48,7 +48,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		});
 
 		// DELETE Event
-		registerListener(ToolbarEventType.DELETE, new Listener() {
+		registerListener(ModelEventType.DELETE, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleDeleteEvent();
@@ -56,7 +56,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		});
 
 		// The ADD ITEM
-		registerListener(ToolbarEventType.SELECTED, new Listener() {
+		registerListener(ModelEventType.SELECTED, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleSelectedItemEvent((T) event.getData());

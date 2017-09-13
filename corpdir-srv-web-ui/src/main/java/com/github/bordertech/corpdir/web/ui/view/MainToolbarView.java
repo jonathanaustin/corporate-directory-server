@@ -29,7 +29,7 @@ public class MainToolbarView extends AbstractMenuToolbar {
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		subMenu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 
-		// SUbmenu Image
+		// Submenu Image
 		ViewUtil.addImageToLabel(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel());
 
 		for (CardType card : CardType.values()) {

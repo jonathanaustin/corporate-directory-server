@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
@@ -10,6 +11,7 @@ import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 
@@ -24,13 +26,23 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 	@Override
 	public void setupController() {
 		super.setupController();
-
-		// Toolbar event type Listeners
-		for (ToolbarEventType eventType : ToolbarEventType.values()) {
+		// Navigation event type Listeners
+		for (NavigationEventType eventType : NavigationEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleToolbarEvents(event);
+					handleNavigationEvents(event);
+				}
+			};
+			registerListener(eventType, listener);
+		}
+
+		// Model event type Listeners
+		for (ModelEventType eventType : ModelEventType.values()) {
+			Listener listener = new Listener() {
+				@Override
+				public void handleEvent(final Event event) {
+					handleModelEvents(event);
 				}
 			};
 			registerListener(eventType, listener);
@@ -108,12 +120,28 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 		}
 	}
 
-	protected void handleToolbarEvents(final Event event) {
-		ToolbarEventType type = (ToolbarEventType) event.getQualifier().getEventType();
+	protected void handleNavigationEvents(final Event event) {
+		NavigationEventType type = (NavigationEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case BACK:
-				handleBackAction();
+				dispatchEvent(FormEventType.RESET_FORM);
 				break;
+			case RESET_VIEW:
+				handleResetEvent();
+				break;
+		}
+	}
+
+	protected void handleResetEvent() {
+		ComboView view = findParentCombo();
+		if (view != null) {
+			view.resetView();
+		}
+	}
+
+	protected void handleModelEvents(final Event event) {
+		ModelEventType type = (ModelEventType) event.getQualifier().getEventType();
+		switch (type) {
 			case CANCEL:
 				handleCancelAction();
 				break;
@@ -136,14 +164,9 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 				handleSaveAction(false);
 				break;
 
-			case RESET_VIEW:
 			case SELECTED:
 				break;
 		}
-	}
-
-	protected void handleBackAction() {
-		dispatchEvent(FormEventType.RESET_FORM);
 	}
 
 	protected void handleCancelAction() {
@@ -154,7 +177,7 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			return;
 		}
 		// Do a BACK
-		dispatchEvent(ToolbarEventType.BACK);
+		dispatchEvent(NavigationEventType.BACK);
 	}
 
 	protected void handleEditAction() {
@@ -174,11 +197,11 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 		try {
 			doDelete(bean);
 			dispatchEvent(FormEventType.RESET_FORM);
-			dispatchEvent(FormCtrlEventType.DELETE_OK, bean);
+			dispatchEvent(ModelOutcomeEventType.DELETE_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
-			dispatchEvent(FormCtrlEventType.DELETE_ERROR, bean, e);
+			dispatchEvent(ModelOutcomeEventType.DELETE_ERROR, bean, e);
 		}
 	}
 
@@ -191,11 +214,11 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 		try {
 			bean = doRefresh(bean);
 			dispatchEvent(FormEventType.LOAD, bean);
-			dispatchEvent(FormCtrlEventType.REFRESH_OK, bean);
+			dispatchEvent(ModelOutcomeEventType.REFRESH_OK, bean);
 			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
-			dispatchEvent(FormCtrlEventType.REFRESH_ERROR, bean, e);
+			dispatchEvent(ModelOutcomeEventType.REFRESH_ERROR, bean, e);
 		}
 	}
 
@@ -215,19 +238,19 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			if (create) {
 				bean = doCreate(bean);
 				dispatchEvent(FormEventType.RESET_FORM);
-				dispatchEvent(FormCtrlEventType.CREATE_OK, bean);
+				dispatchEvent(ModelOutcomeEventType.CREATE_OK, bean);
 			} else {
 				bean = doUpdate(bean);
 				dispatchEvent(FormEventType.RESET_FORM);
-				dispatchEvent(FormCtrlEventType.UPDATE_OK, bean);
+				dispatchEvent(ModelOutcomeEventType.UPDATE_OK, bean);
 			}
 			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
-				dispatchEvent(FormCtrlEventType.CREATE_ERROR, e);
+				dispatchEvent(ModelOutcomeEventType.CREATE_ERROR, e);
 			} else {
-				dispatchEvent(FormCtrlEventType.UPDATE_ERROR, e);
+				dispatchEvent(ModelOutcomeEventType.UPDATE_ERROR, e);
 			}
 		}
 	}
@@ -239,7 +262,7 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			dispatchEvent(FormEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
 			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
-			dispatchEvent(FormCtrlEventType.LOAD_ERROR, e);
+			dispatchEvent(FormEventType.LOAD_ERROR, e);
 		}
 	}
 

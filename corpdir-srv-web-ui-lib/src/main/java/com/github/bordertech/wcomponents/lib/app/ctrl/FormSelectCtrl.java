@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.FormCtrlEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
@@ -22,8 +22,8 @@ public class FormSelectCtrl<T> extends DefaultController {
 		super.setupController();
 		// Listeners
 
-		// Form event type Listeners
-		for (FormCtrlEventType eventType : FormCtrlEventType.values()) {
+		// Model outcome event type Listeners
+		for (ModelOutcomeEventType eventType : ModelOutcomeEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -34,7 +34,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 		}
 
 		// ADD EVENT
-		registerListener(ToolbarEventType.ADD, new Listener() {
+		registerListener(ModelEventType.ADD, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleAddEvent();
@@ -78,7 +78,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 	}
 
 	protected void handleFormCtrlEvents(final Event event) {
-		FormCtrlEventType type = (FormCtrlEventType) event.getQualifier().getEventType();
+		ModelOutcomeEventType type = (ModelOutcomeEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case CREATE_OK:
 				handleCreateOkEvent((T) event.getData());
@@ -93,7 +93,6 @@ public class FormSelectCtrl<T> extends DefaultController {
 				break;
 
 			case DELETE_ERROR:
-			case LOAD_ERROR:
 			case REFRESH_ERROR:
 			case REFRESH_OK:
 			case UPDATE_ERROR:

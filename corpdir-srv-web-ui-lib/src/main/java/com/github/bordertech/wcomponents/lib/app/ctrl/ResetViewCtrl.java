@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
@@ -17,7 +17,7 @@ public class ResetViewCtrl extends DefaultController {
 	public void setupController() {
 		super.setupController();
 		// Reset EVENT
-		registerListener(ToolbarEventType.RESET_VIEW, new Listener() {
+		registerListener(NavigationEventType.RESET_VIEW, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleResetEvent();

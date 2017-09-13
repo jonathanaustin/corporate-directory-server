@@ -73,6 +73,7 @@ public class FormMainCtrl<T> extends DefaultController {
 				break;
 
 			case ENTITY_MODE_CHANGED:
+			case LOAD_ERROR:
 				break;
 		}
 	}

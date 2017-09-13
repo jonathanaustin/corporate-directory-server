@@ -3,7 +3,8 @@ package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.util.ViewUtil;
 
@@ -15,24 +16,24 @@ import com.github.bordertech.wcomponents.lib.util.ViewUtil;
  */
 public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 
-	private final WMenuItem itemBack = new AppMenuItem("Back", ToolbarEventType.BACK) {
+	private final WMenuItem itemBack = new AppMenuItem("Back", NavigationEventType.BACK) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarType(ToolbarItem.BACK);
+			return isUseToolbarItem(ToolbarNavigationItem.BACK);
 		}
 	};
 
-	private final WMenuItem itemAdd = new AppMenuItem("Add", ToolbarEventType.ADD) {
+	private final WMenuItem itemAdd = new AppMenuItem("Add", ModelEventType.ADD) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarType(ToolbarItem.ADD);
+			return isUseToolbarItem(ToolbarModelItem.ADD);
 		}
 	};
 
-	private final WMenuItem itemReset = new AppMenuItem("Reset", ToolbarEventType.RESET_VIEW) {
+	private final WMenuItem itemReset = new AppMenuItem("Reset", NavigationEventType.RESET_VIEW) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarType(ToolbarItem.RESET);
+			return isUseToolbarItem(ToolbarNavigationItem.RESET);
 		}
 	};
 
@@ -44,11 +45,12 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 		menu.addHtmlClass("wc-neg-margin");
 
 		// Images
+		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemBack);
 		ViewUtil.addImageToMenuItem(IconConstants.ADD_IMAGE, itemAdd);
 		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset);
 
 		// Default to use RESET
-		addToolbarType(ToolbarItem.RESET);
+		addToolbarItem(ToolbarNavigationItem.RESET);
 	}
 
 	public final WMenuItem getItemBack() {
