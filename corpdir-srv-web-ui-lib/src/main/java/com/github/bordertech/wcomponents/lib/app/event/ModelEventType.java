@@ -3,12 +3,18 @@ package com.github.bordertech.wcomponents.lib.app.event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
- * Navigation Events.
+ * Model (ie entity) event type.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum NavigationEventType implements EventType {
-	BACK,
-	RESET_VIEW
+public enum ModelEventType implements EventType {
+	CANCEL,
+	EDIT,
+	ADD,
+	CREATE,
+	UPDATE,
+	DELETE,
+	REFRESH,
+	SELECTED
 }

@@ -1,6 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarItem;
+import com.github.bordertech.wcomponents.AjaxTrigger;
+import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
+import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,8 +21,24 @@ import java.util.Set;
  */
 public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T> {
 
+	private final WDiv ajaxPanel = new WDiv() {
+		@Override
+		public boolean isHidden() {
+			return true;
+		}
+	};
+
+	public AbstractToolbar() {
+		WContainer content = getContent();
+		content.add(ajaxPanel);
+	}
+
+	public final WDiv getAjaxPanel() {
+		return ajaxPanel;
+	}
+
 	@Override
-	public void addToolbarType(final ToolbarItemType... types) {
+	public void addToolbarItem(final ToolbarItem... types) {
 		ToolbarModel model = getOrCreateComponentModel();
 		if (model.toolbarTypes == null) {
 			model.toolbarTypes = new HashSet<>();
@@ -25,7 +47,7 @@ public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T>
 	}
 
 	@Override
-	public void removeToolbarType(final ToolbarItemType... types) {
+	public void removeToolbarItem(final ToolbarItem... types) {
 		ToolbarModel model = getOrCreateComponentModel();
 		if (model.toolbarTypes != null) {
 			model.toolbarTypes.removeAll(Arrays.asList(types));
@@ -36,20 +58,26 @@ public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T>
 	}
 
 	@Override
-	public Set<ToolbarItemType> getToolbarTypes() {
+	public Set<ToolbarItem> getToolbarItems() {
 		ToolbarModel model = getComponentModel();
 		return model.toolbarTypes == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(model.toolbarTypes);
 	}
 
 	@Override
-	public boolean isUseToolbarType(final ToolbarItemType type) {
+	public boolean isUseToolbarItem(final ToolbarItem type) {
 		ToolbarModel model = getComponentModel();
 		return model.toolbarTypes == null ? false : model.toolbarTypes.contains(type);
 	}
 
 	@Override
-	public void clearToolbarTypes() {
+	public void clearToolbarItems() {
 		getOrCreateComponentModel().toolbarTypes = null;
+	}
+
+	protected void setupAjaxControl(final EventType type, final AjaxTrigger trigger) {
+		AppAjaxControl ctrl = new AppAjaxControl(trigger, this);
+		getAjaxPanel().add(ctrl);
+		registerEventAjaxControl(type, ctrl);
 	}
 
 	@Override
@@ -72,7 +100,7 @@ public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T>
 	 */
 	public static class ToolbarModel extends DefaultView.ViewModel {
 
-		private Set<ToolbarItemType> toolbarTypes;
+		private Set<ToolbarItem> toolbarTypes;
 	}
 
 }

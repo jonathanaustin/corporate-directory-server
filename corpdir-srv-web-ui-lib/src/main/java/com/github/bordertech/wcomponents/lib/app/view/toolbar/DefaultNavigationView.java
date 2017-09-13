@@ -2,11 +2,9 @@ package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Headers;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
@@ -15,9 +13,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationListEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -112,7 +109,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * First button AJAX control.
 	 */
-	private final WAjaxControl firstAjax = new AppAjaxControl(firstButton) {
+	private final AppAjaxControl firstAjax = new AppAjaxControl(firstButton) {
 		@Override
 		public boolean isVisible() {
 			return !firstButton.isDisabled();
@@ -122,7 +119,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Previous button AJAX control.
 	 */
-	private final WAjaxControl prevAjax = new AppAjaxControl(prevButton) {
+	private final AppAjaxControl prevAjax = new AppAjaxControl(prevButton) {
 		@Override
 		public boolean isVisible() {
 			return !prevButton.isDisabled();
@@ -132,7 +129,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Next button AJAX control.
 	 */
-	private final WAjaxControl nextAjax = new AppAjaxControl(nextButton) {
+	private final AppAjaxControl nextAjax = new AppAjaxControl(nextButton) {
 		@Override
 		public boolean isVisible() {
 			return !nextButton.isDisabled();
@@ -142,7 +139,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * Last button AJAX control.
 	 */
-	private final WAjaxControl lastAjax = new AppAjaxControl(lastButton) {
+	private final AppAjaxControl lastAjax = new AppAjaxControl(lastButton) {
 		@Override
 		public boolean isVisible() {
 			return !lastButton.isDisabled();
@@ -243,6 +240,10 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 		nextButton.setAccessKey('C');
 		lastButton.setAccessKey('V');
 
+		registerEventAjaxControl(NavigationListEventType.FIRST, firstAjax);
+		registerEventAjaxControl(NavigationListEventType.PREV, prevAjax);
+		registerEventAjaxControl(NavigationListEventType.NEXT, nextAjax);
+		registerEventAjaxControl(NavigationListEventType.LAST, lastAjax);
 	}
 
 	/**
@@ -294,19 +295,6 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	public boolean isVisible() {
 		// Only visible if it has more than one row to navigate.
 		return getSize() > 1;
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
-		addTarget(target);
-	}
-
-	protected void addTarget(final AjaxTarget target) {
-		firstAjax.addTarget(target);
-		prevAjax.addTarget(target);
-		nextAjax.addTarget(target);
-		lastAjax.addTarget(target);
 	}
 
 	/**
@@ -373,7 +361,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	protected void doHandleFirst() {
 		setCurrentIdx(0);
 		nextButton.setFocussed();
-		doDispatchNavigationEvent(NavigationEventType.FIRST);
+		doDispatchNavigationEvent(NavigationListEventType.FIRST);
 	}
 
 	/**
@@ -386,7 +374,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 		if (prevButton.isDisabled()) {
 			nextButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationEventType.PREV);
+		doDispatchNavigationEvent(NavigationListEventType.PREV);
 	}
 
 	/**
@@ -399,7 +387,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 		if (nextButton.isDisabled()) {
 			prevButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationEventType.NEXT);
+		doDispatchNavigationEvent(NavigationListEventType.NEXT);
 	}
 
 	/**
@@ -409,7 +397,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 		int idx = getSize() - 1;
 		setCurrentIdx(idx);
 		prevButton.setFocussed();
-		doDispatchNavigationEvent(NavigationEventType.LAST);
+		doDispatchNavigationEvent(NavigationListEventType.LAST);
 	}
 
 	/**
@@ -417,7 +405,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	 *
 	 * @param navEvent the navigation action that caused the change of index
 	 */
-	protected void doDispatchNavigationEvent(final NavigationEventType navEvent) {
+	protected void doDispatchNavigationEvent(final NavigationListEventType navEvent) {
 		dispatchEvent(navEvent, getCurrentIdx());
 	}
 

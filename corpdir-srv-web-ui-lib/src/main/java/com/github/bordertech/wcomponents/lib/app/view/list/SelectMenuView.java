@@ -2,18 +2,14 @@ package com.github.bordertech.wcomponents.lib.app.view.list;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import java.util.List;
 import java.util.Objects;
 
@@ -70,7 +66,9 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 				}
 			});
 			menu.add(item);
-			ajaxPanel.add(new AppAjaxControl(item, this));
+			AppAjaxControl ctrl = new AppAjaxControl(item, this);
+			ajaxPanel.add(ctrl);
+			registerSelectUnselectAjaxControl(ctrl);
 		}
 	}
 
@@ -78,14 +76,6 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 		T item = getItem(idx);
 		setSelectedItem(item);
 		doDispatchSelectEvent();
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
-		for (WComponent ajax : ajaxPanel.getChildren()) {
-			addEventTargetsToAjaxCtrl((WAjaxControl) ajax, target);
-		}
 	}
 
 	protected void findMenuItem() {

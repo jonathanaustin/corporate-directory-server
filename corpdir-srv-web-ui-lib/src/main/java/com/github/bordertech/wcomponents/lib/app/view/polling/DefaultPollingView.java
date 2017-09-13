@@ -53,8 +53,8 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
+	public void addEventAjaxTarget(final AjaxTarget target, final EventType... eventType) {
+		super.addEventAjaxTarget(target, eventType);
 		addAjaxTarget((AjaxTarget) target);
 	}
 

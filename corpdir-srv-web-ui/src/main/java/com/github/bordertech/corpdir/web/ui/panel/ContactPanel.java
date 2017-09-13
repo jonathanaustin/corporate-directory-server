@@ -7,11 +7,14 @@ import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.combo.AddDeleteListView;
 import com.github.bordertech.wcomponents.lib.app.view.combo.PollingSelectView;
 import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaView;
 import com.github.bordertech.wcomponents.lib.app.view.list.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarNavigationItem;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.List;
 
 /**
@@ -51,7 +54,18 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
 		// Setup the select and find view
 		selectView = new PollingSelectView(new SelectSingleView());
-		SelectWithCriteriaView findView = new SelectWithCriteriaTextView();
+		final SelectWithCriteriaView findView = new SelectWithCriteriaTextView() {
+			@Override
+			public void configAjax(final View view) {
+				super.configAjax(view);
+				// Make the BACK button only have one AJAX Target
+				if (view == getToolbarView()) {
+					view.clearEventAjaxTargets(NavigationEventType.BACK);
+					view.addEventAjaxTarget(selectView, NavigationEventType.BACK);
+				}
+			}
+		};
+
 		AddDeleteListView posView = new AddDeleteListView("pos", selectView, findView);
 		getFormPanel().add(posView);
 		// Setup dialog
@@ -61,9 +75,11 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		selectView.setSearchModelKey("contact.positions.search");
 		findView.setSearchModelKey("position.search");
 
+		// Use the back button
+		findView.getToolbarView().addToolbarItem(ToolbarNavigationItem.BACK);
+
 	}
 
-	@Override
 	protected void initViewContent(final Request request) {
 		Contact bean = getViewBean();
 		// Positions

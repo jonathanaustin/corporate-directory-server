@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.list;
 
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
@@ -66,6 +67,11 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 
 	protected boolean isListModeView() {
 		return getListMode() == SelectMode.VIEW;
+	}
+
+	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
+		registerEventAjaxControl(ListEventType.UNSELECT, ctrl);
+		registerEventAjaxControl(ListEventType.SELECT, ctrl);
 	}
 
 	@Override

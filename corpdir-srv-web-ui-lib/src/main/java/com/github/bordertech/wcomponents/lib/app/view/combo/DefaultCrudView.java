@@ -24,7 +24,7 @@ import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarModelItem;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
@@ -109,7 +109,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		content.addParameter("vw-title", title);
 
 		// Toolbar Defaults
-		toolbarView.addToolbarType(ToolbarItem.ADD);
+		toolbarView.addToolbarItem(ToolbarModelItem.ADD);
 
 		// Default visibility
 		selectView.setContentVisible(false);

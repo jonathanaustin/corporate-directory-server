@@ -2,15 +2,12 @@ package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.ToolbarEventType;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
@@ -25,8 +22,8 @@ public class AddDeleteButtonBar<T> extends DefaultView<T> implements FormUpdatea
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");
 
-	private final WAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
-	private final WAjaxControl ajaxDelete = new AppAjaxControl(btnDelete);
+	private final AppAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
+	private final AppAjaxControl ajaxDelete = new AppAjaxControl(btnDelete);
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -57,13 +54,13 @@ public class AddDeleteButtonBar<T> extends DefaultView<T> implements FormUpdatea
 		btnAdd.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchEvent(ToolbarEventType.ADD);
+				dispatchEvent(ModelEventType.ADD);
 			}
 		});
 		btnDelete.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchEvent(ToolbarEventType.DELETE);
+				dispatchEvent(ModelEventType.DELETE);
 			}
 		});
 
@@ -76,17 +73,13 @@ public class AddDeleteButtonBar<T> extends DefaultView<T> implements FormUpdatea
 
 		// Defaults
 		btnDelete.setVisible(false);
+
+		registerEventAjaxControl(ModelEventType.ADD, ajaxAdd);
+		registerEventAjaxControl(ModelEventType.DELETE, ajaxDelete);
 	}
 
 	public void showRemoveButton(final boolean show) {
 		btnDelete.setVisible(show);
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
-		ajaxAdd.addTarget(target);
-		ajaxDelete.addTarget(target);
 	}
 
 	@Override

@@ -2,14 +2,11 @@ package com.github.bordertech.wcomponents.lib.app.view.list;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WSingleSelect;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
  * Select single view.
@@ -45,7 +42,7 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 
 	};
 
-	private final WAjaxControl ajax = new AppAjaxControl(select);
+	private final AppAjaxControl ajax = new AppAjaxControl(select);
 
 	public SelectSingleView() {
 		// READONLY Version
@@ -64,24 +61,17 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 			}
 		});
 		select.setRows(5);
+		registerSelectUnselectAjaxControl(ajax);
 
 	}
 
 	@Override
 	protected void initViewContent(final Request request) {
 		// AJAX
-		addEventTarget(this);
+		addEventAjaxTarget(this);
 		// Set options on the select
 		select.setOptions(getViewBean());
 		super.initViewContent(request);
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
-		if (!ajax.getTargets().contains(target)) {
-			ajax.addTarget(target);
-		}
 	}
 
 	public final WList getList() {

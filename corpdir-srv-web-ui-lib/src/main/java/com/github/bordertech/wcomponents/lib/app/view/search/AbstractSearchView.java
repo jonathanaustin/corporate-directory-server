@@ -2,13 +2,10 @@ package com.github.bordertech.wcomponents.lib.app.view.search;
 
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -23,7 +20,7 @@ public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<
 
 	private final WButton searchButton = new WButton("Search");
 
-	private final WAjaxControl ajax = new AppAjaxControl(searchButton);
+	private final AppAjaxControl ajax = new AppAjaxControl(searchButton);
 
 	public AbstractSearchView() {
 		searchButton.setAction(new Action() {
@@ -37,6 +34,8 @@ public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<
 		});
 
 		getContent().add(ajax);
+		registerEventAjaxControl(SearchEventType.SEARCH_VALIDATING, ajax);
+		registerEventAjaxControl(SearchEventType.SEARCH, ajax);
 	}
 
 	public final WButton getSearchButton() {
@@ -64,12 +63,6 @@ public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
 		dispatchEvent(SearchEventType.SEARCH, criteria);
-	}
-
-	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		super.addEventTarget(target, eventType);
-		addEventTargetsToAjaxCtrl(ajax, target);
 	}
 
 }

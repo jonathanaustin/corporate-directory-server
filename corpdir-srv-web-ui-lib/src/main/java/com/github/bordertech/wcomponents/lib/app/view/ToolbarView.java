@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItemType;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.Set;
 
@@ -14,14 +13,14 @@ import java.util.Set;
  */
 public interface ToolbarView<T> extends View<T> {
 
-	void addToolbarType(final ToolbarItemType... types);
+	void addToolbarItem(final ToolbarItem... types);
 
-	void removeToolbarType(final ToolbarItemType... types);
+	void removeToolbarItem(final ToolbarItem... types);
 
-	void clearToolbarTypes();
+	void clearToolbarItems();
 
-	Set<ToolbarItemType> getToolbarTypes();
+	Set<ToolbarItem> getToolbarItems();
 
-	boolean isUseToolbarType(final ToolbarItemType type);
+	boolean isUseToolbarItem(final ToolbarItem type);
 
 }

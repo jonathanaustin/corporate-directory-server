@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.form;
+package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.WComponent;
 

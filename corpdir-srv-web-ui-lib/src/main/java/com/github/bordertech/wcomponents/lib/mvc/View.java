@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
@@ -53,13 +54,6 @@ public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBou
 	void setContentVisible(final boolean visible);
 
 	/**
-	 *
-	 * @param target the AJAX target to add
-	 * @param eventType the event the target is for
-	 */
-	void addEventTarget(final AjaxTarget target, final EventType... eventType);
-
-	/**
 	 * Validate the view. Will dispatch validation errors.
 	 *
 	 * @return true if valid
@@ -87,5 +81,16 @@ public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBou
 	 * Update the View State onto the Bean.
 	 */
 	void updateViewBean();
+
+	/**
+	 *
+	 * @param target the AJAX target to add
+	 * @param eventType the event the target is for
+	 */
+	void addEventAjaxTarget(final AjaxTarget target, final EventType... eventType);
+
+	void registerEventAjaxControl(final EventType type, final AppAjaxControl ajax);
+
+	void clearEventAjaxTargets(final EventType type);
 
 }

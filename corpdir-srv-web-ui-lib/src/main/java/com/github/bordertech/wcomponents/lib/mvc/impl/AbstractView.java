@@ -2,17 +2,22 @@ package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
+import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -66,11 +71,6 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	}
 
 	@Override
-	public void addEventTarget(final AjaxTarget target, final EventType... eventType) {
-		// Do Nothing
-	}
-
-	@Override
 	public boolean validateView() {
 
 		// Validate content
@@ -106,6 +106,70 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	}
 
 	@Override
+	public void addEventAjaxTarget(final AjaxTarget target, final EventType... eventTypes) {
+		// Add the targets to the registered AJAX Controls
+		Map<EventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		if (map.isEmpty()) {
+			return;
+		}
+		if (eventTypes.length == 0) {
+			// Add to all registered AJAX Controls
+			for (Set<AppAjaxControl> ctrls : map.values()) {
+				for (AppAjaxControl ctrl : ctrls) {
+					if (!ctrl.getTargets().contains(target)) {
+						ctrl.addTarget(target);
+					}
+				}
+			}
+		} else {
+			// Add to AJAX Control for each event type (if it has been registered)
+			for (EventType type : eventTypes) {
+				Set<AppAjaxControl> ctrls = map.get(type);
+				if (ctrls != null) {
+					for (AppAjaxControl ctrl : ctrls) {
+						if (!ctrl.getTargets().contains(target)) {
+							ctrl.addTarget(target);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	@Override
+	public void clearEventAjaxTargets(final EventType type) {
+		Map<EventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		if (map.isEmpty()) {
+			return;
+		}
+		Set<AppAjaxControl> ctrls = map.get(type);
+		if (ctrls != null) {
+			for (AppAjaxControl ctrl : ctrls) {
+				ctrl.removeAllTargets();
+			}
+		}
+	}
+
+	@Override
+	public void registerEventAjaxControl(final EventType type, final AppAjaxControl ajax) {
+		ViewModel model = getOrCreateComponentModel();
+		if (model.ajaxControls == null) {
+			model.ajaxControls = new HashMap<>();
+		}
+		Set<AppAjaxControl> ctrls = model.ajaxControls.get(type);
+		if (ctrls == null) {
+			ctrls = new HashSet<>();
+			model.ajaxControls.put(type, ctrls);
+		}
+		ctrls.add(ajax);
+	}
+
+	protected Map<EventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
+		ViewModel model = getComponentModel();
+		return model.ajaxControls == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.ajaxControls);
+	}
+
+	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		setupTemplateParameters();
@@ -115,20 +179,6 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 		addParameter("vw-id", getId());
 		addParameter("vw-class", getHtmlClass());
 		addParameter("vw-hidden", isHidden() ? "hidden=\"true\"" : "");
-	}
-
-	/**
-	 * Helper method to add target to an Ajax Control.
-	 *
-	 * @param ajax the AJAX control
-	 * @param target the AJAX target
-	 */
-	protected void addEventTargetsToAjaxCtrl(final WAjaxControl ajax, final AjaxTarget target) {
-		// Make Sure the Targets have not already been added
-		List<AjaxTarget> current = ajax.getTargets();
-		if (!current.contains(target)) {
-			ajax.addTarget(target);
-		}
 	}
 
 	protected void initViewContent(final Request request) {
@@ -170,6 +220,7 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 		private boolean contentVisible = true;
 
 		private boolean qualifierContext;
+		private Map<EventType, Set<AppAjaxControl>> ajaxControls;
 
 	}
 
