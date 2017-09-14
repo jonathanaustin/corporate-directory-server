@@ -27,33 +27,34 @@ public class MsgEvent implements Event {
 	}
 
 	public MsgEvent(final List<Diagnostic> diags, final String qualifier) {
-		this.qualifier = new EventQualifier(MsgEventType.VALIDATION, qualifier);
-		this.messages = Collections.EMPTY_LIST;
-		this.encode = true;
-		this.diags = diags;
+		this(MsgEventType.VALIDATION, qualifier, Collections.EMPTY_LIST, true, diags);
 	}
 
-	public MsgEvent(final MsgEventType type, final String text) {
-		this(type, null, text, true);
+	public MsgEvent(final MsgEventType type, final String message) {
+		this(type, null, message, true);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final String text) {
-		this(type, qualifier, text, true);
+	public MsgEvent(final MsgEventType type, final String qualifier, final String message) {
+		this(type, qualifier, message, true);
 	}
 
-	public MsgEvent(final MsgEventType type, final String text, final boolean encode) {
-		this(type, null, text, encode);
+	public MsgEvent(final MsgEventType type, final String message, final boolean encode) {
+		this(type, null, message, encode);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final String text, final boolean encode) {
-		this(type, qualifier, text == null ? Collections.EMPTY_LIST : Arrays.asList(text), encode);
+	public MsgEvent(final MsgEventType type, final String qualifier, final String message, final boolean encode) {
+		this(type, qualifier, message == null ? Collections.EMPTY_LIST : Arrays.asList(message), encode);
 	}
 
 	public MsgEvent(final MsgEventType type, final String qualifier, final List<String> messages, final boolean encode) {
+		this(type, qualifier, messages, encode, Collections.EMPTY_LIST);
+	}
+
+	public MsgEvent(final MsgEventType type, final String qualifier, final List<String> messages, final boolean encode, final List<Diagnostic> diags) {
 		this.qualifier = new EventQualifier(type, qualifier);
 		this.messages = messages == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(messages);
 		this.encode = encode;
-		this.diags = Collections.EMPTY_LIST;
+		this.diags = diags;
 	}
 
 	public List<String> getMessages() {

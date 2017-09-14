@@ -97,6 +97,7 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	@Override
 	public final void addValidationAndErrorMsgTypes() {
 		clearAllMsgTypes();
+		addHandleMsgType(MsgEventType.RESET);
 		addHandleMsgType(MsgEventType.VALIDATION);
 		addHandleMsgType(MsgEventType.ERROR);
 	}
@@ -133,6 +134,10 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 			case VALIDATION:
 				handleValidationMessage(event);
 				return;
+
+			case RESET:
+				// Alreadt reset
+				break;
 		}
 	}
 

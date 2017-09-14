@@ -37,6 +37,8 @@ public class CorpDirApp extends WApplication {
 		header.add(new WHeading(HeadingLevel.H1, "Corporate Directory"));
 
 		add(mainView);
+		mainView.setQualifier("MN");
+		mainView.setQualifierContext(true);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);

@@ -173,10 +173,12 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 		FormView<T> view = getFormView();
 		if (view.getFormMode() == FormMode.EDIT) {
 			T bean = view.getViewBean();
+			dispatchMessageReset();
 			dispatchEvent(FormEventType.LOAD, bean);
 			return;
 		}
 		// Do a BACK
+		dispatchMessageReset();
 		dispatchEvent(NavigationEventType.BACK);
 	}
 

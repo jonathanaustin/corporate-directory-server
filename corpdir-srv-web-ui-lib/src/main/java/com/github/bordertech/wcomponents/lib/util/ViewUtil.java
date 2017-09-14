@@ -28,13 +28,19 @@ public class ViewUtil {
 	}
 
 	public static void addImageToMenuItem(final String resource, final WMenuItem item) {
-		addImageToLabel(resource, item.getDecoratedLabel());
+		addImageToLabelHead(resource, item.getDecoratedLabel());
 	}
 
-	public static void addImageToLabel(final String resource, final WDecoratedLabel label) {
+	public static void addImageToLabelHead(final String resource, final WDecoratedLabel label) {
 		WImage image = new WImage();
 		image.setImageUrl(resource);
 		label.setHead(image);
+	}
+
+	public static void addImageToLabelBody(final String resource, final WDecoratedLabel label) {
+		WImage image = new WImage();
+		image.setImageUrl(resource);
+		label.setBody(image);
 	}
 
 }

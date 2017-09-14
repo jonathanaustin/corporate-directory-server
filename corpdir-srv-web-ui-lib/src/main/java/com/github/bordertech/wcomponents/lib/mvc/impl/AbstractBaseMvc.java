@@ -110,8 +110,14 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	}
 
 	protected String getDispatcherQualifier(final EventType type) {
-		String qualifier = getQualifierOverride(type);
-		return qualifier == null ? getFullQualifier() : qualifier;
+		Map<EventType, String> overrides = getComponentModel().qualifierOverride;
+		String qualifier;
+		if (overrides != null && overrides.containsKey(type)) {
+			qualifier = overrides.get(type);
+		} else {
+			qualifier = getQualifier();
+		}
+		return deriveFullQualifier(qualifier);
 	}
 
 	@Override
@@ -123,14 +129,6 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 		for (EventType type : types) {
 			model.qualifierOverride.put(type, qualifier);
 		}
-	}
-
-	protected String getQualifierOverride(final EventType type) {
-		BaseModel model = getComponentModel();
-		if (model.qualifierOverride != null) {
-			return model.qualifierOverride.get(type);
-		}
-		return null;
 	}
 
 	protected ComboView findParentCombo() {
@@ -189,7 +187,7 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	 * @param qualifier the component id name
 	 * @return the derived id in its context
 	 */
-	private String deriveFullQualifier(final String qualifier) {
+	protected String deriveFullQualifier(final String qualifier) {
 		// Find parent naming context
 		View parent = getParentQualifierContext(this);
 

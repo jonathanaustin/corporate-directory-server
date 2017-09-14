@@ -42,6 +42,10 @@ public final class IconConstants {
 	 * Save image.
 	 */
 	public static final String SAVE_IMAGE = "/wclib/icons/save.png";
+	/**
+	 * Search image.
+	 */
+	public static final String SEARCH_IMAGE = "/wclib/icons/search.png";
 
 	/**
 	 * View image.
