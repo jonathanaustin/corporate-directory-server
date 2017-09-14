@@ -17,15 +17,34 @@ public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBou
 
 	/**
 	 *
-	 * @return true if view is a naming context
+	 * @return true if view is a event qualifier context
 	 */
 	boolean isQualifierContext();
 
 	/**
 	 *
-	 * @param context true if view is a naming context
+	 * @param context true if view is a event qualifier context
 	 */
 	void setQualifierContext(final boolean context);
+
+	/**
+	 *
+	 * @return true if view is a message qualifier context
+	 */
+	boolean isMessageQualifierContext();
+
+	/**
+	 *
+	 * @param context true if view is a message qualifier context
+	 */
+	void setMessageQualifierContext(final boolean context);
+
+	/**
+	 * Helper method to set view as both Qualifier and MessageQualifer context.
+	 *
+	 * @param context true if view is qualifier and message qualifier context
+	 */
+	void setQualifierAndMessageQualifierContext(final boolean context);
 
 	/**
 	 * Reset the view to the default state.

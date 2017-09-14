@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MsgEvent implements Event {
+public class MessageEvent implements Event {
 
 	private final Qualifier qualifier;
 
@@ -22,35 +22,35 @@ public class MsgEvent implements Event {
 
 	private final List<Diagnostic> diags;
 
-	public MsgEvent(final List<Diagnostic> diags) {
+	public MessageEvent(final List<Diagnostic> diags) {
 		this(diags, null);
 	}
 
-	public MsgEvent(final List<Diagnostic> diags, final String qualifier) {
-		this(MsgEventType.VALIDATION, qualifier, Collections.EMPTY_LIST, true, diags);
+	public MessageEvent(final List<Diagnostic> diags, final String qualifier) {
+		this(MessageEventType.VALIDATION, qualifier, Collections.EMPTY_LIST, true, diags);
 	}
 
-	public MsgEvent(final MsgEventType type, final String message) {
+	public MessageEvent(final MessageEventType type, final String message) {
 		this(type, null, message, true);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final String message) {
+	public MessageEvent(final MessageEventType type, final String qualifier, final String message) {
 		this(type, qualifier, message, true);
 	}
 
-	public MsgEvent(final MsgEventType type, final String message, final boolean encode) {
+	public MessageEvent(final MessageEventType type, final String message, final boolean encode) {
 		this(type, null, message, encode);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final String message, final boolean encode) {
+	public MessageEvent(final MessageEventType type, final String qualifier, final String message, final boolean encode) {
 		this(type, qualifier, message == null ? Collections.EMPTY_LIST : Arrays.asList(message), encode);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final List<String> messages, final boolean encode) {
+	public MessageEvent(final MessageEventType type, final String qualifier, final List<String> messages, final boolean encode) {
 		this(type, qualifier, messages, encode, Collections.EMPTY_LIST);
 	}
 
-	public MsgEvent(final MsgEventType type, final String qualifier, final List<String> messages, final boolean encode, final List<Diagnostic> diags) {
+	public MessageEvent(final MessageEventType type, final String qualifier, final List<String> messages, final boolean encode, final List<Diagnostic> diags) {
 		this.qualifier = new EventQualifier(type, qualifier);
 		this.messages = messages == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(messages);
 		this.encode = encode;

@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum MsgEventType implements EventType {
+public enum MessageEventType implements EventType {
 	SUCCESS,
 	WARN,
 	ERROR,

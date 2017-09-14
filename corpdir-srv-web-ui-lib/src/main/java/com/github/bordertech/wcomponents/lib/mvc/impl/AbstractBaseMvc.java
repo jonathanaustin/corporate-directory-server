@@ -12,11 +12,10 @@ import com.github.bordertech.wcomponents.lib.flux.wc.DispatcherFactory;
 import com.github.bordertech.wcomponents.lib.mvc.BaseMvc;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEvent;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEvent;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.util.ViewUtil;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
-import com.github.bordertech.wcomponents.util.Util;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.HashMap;
 import java.util.List;
@@ -88,25 +87,25 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 
 	@Override
 	public void dispatchMessageReset() {
-		dispatchMessage(MsgEventType.RESET, "");
+		dispatchMessage(MessageEventType.RESET, "");
 	}
 
 	@Override
 	public void dispatchValidationMessages(final List<Diagnostic> diags) {
-		String qualifier = getDispatcherQualifier(MsgEventType.VALIDATION);
-		dispatchEvent(new MsgEvent(diags, qualifier));
+		String qualifier = getMessageFullQualifier();
+		dispatchEvent(new MessageEvent(diags, qualifier));
 	}
 
 	@Override
-	public void dispatchMessage(final MsgEventType type, final String text) {
-		String qualifier = getDispatcherQualifier(type);
-		dispatchEvent(new MsgEvent(type, qualifier, text));
+	public void dispatchMessage(final MessageEventType type, final String text) {
+		String qualifier = getMessageFullQualifier();
+		dispatchEvent(new MessageEvent(type, qualifier, text));
 	}
 
 	@Override
-	public void dispatchMessage(final MsgEventType type, final List<String> texts) {
-		String qualifier = getDispatcherQualifier(type);
-		dispatchEvent(new MsgEvent(type, qualifier, texts, true));
+	public void dispatchMessage(final MessageEventType type, final List<String> texts) {
+		String qualifier = getMessageFullQualifier();
+		dispatchEvent(new MessageEvent(type, qualifier, texts, true));
 	}
 
 	protected String getDispatcherQualifier(final EventType type) {
@@ -136,24 +135,27 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	}
 
 	@Override
+	public void setQualifierAndMessageQualifier(final String qualifier) {
+		setQualifier(qualifier);
+		setMessageQualifier(qualifier);
+	}
+
+	@Override
 	public final String getQualifier() {
 		return getComponentModel().qualifier;
 	}
 
 	@Override
 	public final void setQualifier(final String qualifier) {
-		// Not allow empty or null
-		if (Util.empty(qualifier)) {
-			throw new IllegalArgumentException("qualifier cannot be null or empty");
-		}
-
-		// Must start with a letter and followed by letters, digits and or underscores
-		Matcher matcher = QUALIFIER_PATTERN.matcher(qualifier);
-		if (!matcher.matches()) {
-			throw new IllegalArgumentException(
-					"Qualifier "
-					+ qualifier
-					+ " must start with a letter and followed by letters, digits and or dash.");
+		if (qualifier != null) {
+			// Must start with a letter and followed by letters, digits and or underscores
+			Matcher matcher = QUALIFIER_PATTERN.matcher(qualifier);
+			if (!matcher.matches()) {
+				throw new IllegalArgumentException(
+						"Qualifier "
+						+ qualifier
+						+ " must start with a letter and followed by letters, digits and or dash.");
+			}
 		}
 		getOrCreateComponentModel().qualifier = qualifier;
 	}
@@ -219,6 +221,86 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	}
 
 	@Override
+	public final String getMessageQualifier() {
+		return getComponentModel().messageQualifier;
+	}
+
+	@Override
+	public final void setMessageQualifier(final String messageQualifier) {
+		if (messageQualifier != null) {
+			// Must start with a letter and followed by letters, digits and or underscores
+			Matcher matcher = QUALIFIER_PATTERN.matcher(messageQualifier);
+			if (!matcher.matches()) {
+				throw new IllegalArgumentException(
+						"Message qualifier "
+						+ messageQualifier
+						+ " must start with a letter and followed by letters, digits and or dash.");
+			}
+		}
+		getOrCreateComponentModel().messageQualifier = messageQualifier;
+	}
+
+	@Override
+	public String getMessageFullQualifier() {
+		// As determining the qualifier involves a fair bit of tree traversal, it is cached in the scratch map.
+		// Try to retrieve the cached name first.
+		Map scratchMap = getScratchMap();
+		if (scratchMap != null) {
+			String name = (String) scratchMap.get("vw-msg-qualifier");
+			if (name != null) {
+				return name;
+			}
+		}
+
+		// Get qualifier
+		String qualifier = getMessageQualifier();
+		// Derive its full context name
+		String name = deriveMessageFullQualifier(qualifier);
+		if (scratchMap != null) {
+			scratchMap.put("vw-msg-qualifier", name);
+		}
+
+		return name;
+	}
+
+	/**
+	 * Derive the full qualifier from its context.
+	 *
+	 * @param messageQualifier the component id name
+	 * @return the derived id in its context
+	 */
+	protected String deriveMessageFullQualifier(final String messageQualifier) {
+		// Find parent naming context
+		View parent = getParentMessageQualifierContext(this);
+
+		// No Parent
+		if (parent == null) {
+			return messageQualifier;
+		}
+
+		// Get prefix
+		String prefix = parent.getMessageFullQualifier();
+
+		// No Prefix, just use qualifier
+		if (prefix.length() == 0) {
+			return messageQualifier;
+		}
+
+		// No qualifier, just use prefix
+		if (messageQualifier == null || messageQualifier.isEmpty()) {
+			return prefix;
+		}
+
+		// Add Prefix
+		StringBuilder nameBuf = new StringBuilder(prefix.length() + messageQualifier.length() + 1);
+		nameBuf.append(prefix);
+		nameBuf.append(QUALIFIER_CONTEXT_SEPERATOR);
+		nameBuf.append(messageQualifier);
+
+		return nameBuf.toString();
+	}
+
+	@Override
 	protected BaseModel newComponentModel() {
 		return new BaseModel();
 	}
@@ -241,6 +323,9 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 		private String qualifier;
 
 		private Map<EventType, String> qualifierOverride;
+
+		private String messageQualifier;
+
 	}
 
 	/**
@@ -261,7 +346,8 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 			if (naming == null) {
 				break;
 			}
-			if (isActiveQualifierContext(naming)) {
+			// Can only be considered active if a qualifier has been set and flagged as a context.
+			if (naming.isQualifierContext() && naming.getQualifier() != null) {
 				parent = naming;
 				break;
 			}
@@ -271,16 +357,31 @@ public class AbstractBaseMvc extends WTemplate implements BaseMvc {
 	}
 
 	/**
-	 * Determine if this VIEW is an active qualifier context.
-	 * <p>
-	 * Can only be considered active if a qualifier has been set and flagged as a context.
-	 * </p>
+	 * Get this component's parent message qualifier context.
 	 *
-	 * @param view the view to test for naming context
-	 * @return true if view is an active context
+	 * @param component the component to process
+	 * @return the parent qualifier context or null
 	 */
-	public static boolean isActiveQualifierContext(final View view) {
-		return view.isQualifierContext() && view.getQualifier() != null;
+	public static View getParentMessageQualifierContext(final WComponent component) {
+		if (component == null) {
+			return null;
+		}
+
+		WComponent child = component;
+		View parent = null;
+		while (true) {
+			View naming = WebUtilities.getAncestorOfClass(View.class, child);
+			if (naming == null) {
+				break;
+			}
+			// Can only be considered active if a qualifier has been set and flagged as a context.
+			if (naming.isMessageQualifierContext() && naming.getMessageQualifier() != null) {
+				parent = naming;
+				break;
+			}
+			child = naming;
+		}
+		return parent;
 	}
 
 }

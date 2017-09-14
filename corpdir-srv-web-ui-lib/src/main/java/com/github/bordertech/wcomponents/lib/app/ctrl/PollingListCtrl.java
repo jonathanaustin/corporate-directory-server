@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollableModel;
 import java.util.List;
 
@@ -129,7 +129,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 
 	protected void handlePollingFailedEvent(final Exception excp) {
 		getPollingView().setContentVisible(false);
-		dispatchMessage(MsgEventType.ERROR, excp.getMessage());
+		dispatchMessage(MessageEventType.ERROR, excp.getMessage());
 	}
 
 	protected void handlePollingCompleteEvent(final List<T> items) {

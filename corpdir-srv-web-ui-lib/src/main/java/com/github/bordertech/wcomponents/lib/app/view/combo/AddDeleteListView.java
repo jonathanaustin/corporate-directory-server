@@ -86,6 +86,11 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 		transCtrl.setQualifier("X");
 		dialogView.setQualifier("X");
 		dialogView.setQualifierContext(true);
+
+		transCtrl.setMessageQualifier("X");
+		dialogView.setMessageQualifier("X");
+		dialogView.setMessageQualifierContext(true);
+
 		dialogView.getContent().addTaggedComponent("vw-content", dialog);
 		dialogView.getContent().addTaggedComponent("vw-ctrl1", selBarCtrl);
 		dialog.setMode(WDialog.MODAL);

@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 
@@ -85,8 +85,31 @@ public interface BaseMvc extends WComponent {
 
 	void dispatchValidationMessages(final List<Diagnostic> diags);
 
-	void dispatchMessage(final MsgEventType type, final String text);
+	void dispatchMessage(final MessageEventType type, final String text);
 
-	void dispatchMessage(final MsgEventType type, final List<String> texts);
+	void dispatchMessage(final MessageEventType type, final List<String> texts);
+
+	/**
+	 * @return the qualifier to be used on message listeners or message events (if needed)
+	 */
+	String getMessageQualifier();
+
+	/**
+	 *
+	 * @param qualifier the message qualifier to be used on message events
+	 */
+	void setMessageQualifier(final String qualifier);
+
+	/**
+	 * @return the message context qualifier
+	 */
+	String getMessageFullQualifier();
+
+	/**
+	 * Helper method to set both Qualifier and MessageQualifer.
+	 *
+	 * @param qualifier the qualifier and message qualifier
+	 */
+	void setQualifierAndMessageQualifier(final String qualifier);
 
 }

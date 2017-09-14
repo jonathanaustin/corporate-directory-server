@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.ListMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -30,8 +29,8 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageCtrl;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
 import java.util.List;
 
 /**
@@ -50,21 +49,6 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 	private final SearchView searchView;
 	private final FormView<T> formView;
 	private final FormToolbarView formToolbarView = new DefaultFormToolbarView();
-
-	private final TranslateEventCtrl msgTransSearch = new TranslateEventCtrl() {
-		@Override
-		public void setupController() {
-			super.setupController();
-			translateMessage(DefaultCrudView.this.getFullQualifier());
-		}
-	};
-	private final TranslateEventCtrl msgTransForm = new TranslateEventCtrl() {
-		@Override
-		public void setupController() {
-			super.setupController();
-			translateMessage(DefaultCrudView.this.getFullQualifier());
-		}
-	};
 
 	public DefaultCrudView(final String title, final WComponent panel) {
 		this(title, null, null, null, panel);
@@ -91,33 +75,35 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 		ListMainCtrl listCtrl = new ListMainCtrl();
 
+		// View messages needs to listen to other message event contexts
+		getMessageCtrl().addMessageListenerQualifier("CM");
+		getMessageCtrl().addMessageListenerQualifier("EM");
+
 		// Search Messages
 		MessageView searchMessages = new DefaultMessageView();
 		MessageCtrl searchMessagesCtrl = new DefaultMessageCtrl();
 		searchMessagesCtrl.setMessageView(searchMessages);
-		searchMessagesCtrl.setQualifier("CM");
-		msgTransSearch.setQualifier("CM");
-
-		searchView.addDispatcherOverride("CM", MsgEventType.values());
-		pollingView.addDispatcherOverride("CM", MsgEventType.values());
-		selectView.addDispatcherOverride("CM", MsgEventType.values());
-		listCtrl.addDispatcherOverride("CM", MsgEventType.values());
-		pollingListCtrl.addDispatcherOverride("CM", MsgEventType.values());
-		formSelectCtrl.addDispatcherOverride("CM", MsgEventType.values());
+		searchMessagesCtrl.setMessageQualifier("CM");
+		// Other views for this message context
+		searchView.setMessageQualifier("CM");
+		pollingView.setMessageQualifier("CM");
+		listCtrl.setMessageQualifier("CM");
+		pollingListCtrl.setMessageQualifier("CM");
+		formSelectCtrl.setMessageQualifier("CM");
 
 		// Form Messages
 		MessageView formMessages = new DefaultMessageView();
 		MessageCtrl formMessagesCtrl = new DefaultMessageCtrl();
 		formMessagesCtrl.setMessageView(formMessages);
-		formMessagesCtrl.setQualifier("EM");
-		formCtrl.addDispatcherOverride("EM", MsgEventType.values());
-		formToolbarCtrl.addDispatcherOverride("EM", MsgEventType.values());
-		formView.addDispatcherOverride("EM", MsgEventType.values());
-		formToolbarView.addDispatcherOverride("EM", MsgEventType.values());
-		msgTransForm.setQualifier("EM");
+		formMessagesCtrl.setMessageQualifier("EM");
+		// Other views for this message context
+		formCtrl.setMessageQualifier("EM");
+		formToolbarCtrl.setMessageQualifier("EM");
+		formView.setMessageQualifier("EM");
+		formToolbarView.setMessageQualifier("EM");
 
-		getMessageCtrl().removeHandleMsgType(MsgEventType.ERROR);
-		getMessageCtrl().removeHandleMsgType(MsgEventType.VALIDATION);
+		getMessageCtrl().removeHandleMsgType(MessageEventType.ERROR);
+		getMessageCtrl().removeHandleMsgType(MessageEventType.VALIDATION);
 		searchMessagesCtrl.addValidationAndErrorMsgTypes();
 		formMessagesCtrl.addValidationAndErrorMsgTypes();
 
@@ -154,10 +140,8 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		content.addTaggedComponent("vw-ctrl5", pollingListCtrl);
 		content.addTaggedComponent("vw-ctrl6", searchMessagesCtrl);
 		content.addTaggedComponent("vw-ctrl7", formCtrl);
-		content.addTaggedComponent("vw-ctrl8", msgTransSearch);
-		content.addTaggedComponent("vw-ctrl9", msgTransForm);
-		content.addTaggedComponent("vw-ctrl10", formMessagesCtrl);
-		content.addTaggedComponent("vw-ctrl11", formToolbarCtrl);
+		content.addTaggedComponent("vw-ctrl8", formMessagesCtrl);
+		content.addTaggedComponent("vw-ctrl9", formToolbarCtrl);
 		content.addTaggedComponent("vw-toolbar-1", toolbarView);
 		content.addTaggedComponent("vw-crit-msg", searchMessages);
 		content.addTaggedComponent("vw-crit", searchView);
@@ -174,8 +158,9 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		selectView.setContentVisible(false);
 		formCombo.setContentVisible(false);
 
-		// Margins
 		setBlocking(true);
+
+		setQualifierAndMessageQualifierContext(true);
 	}
 
 	@Override
