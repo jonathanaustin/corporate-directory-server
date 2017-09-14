@@ -102,14 +102,17 @@ public class FormSelectCtrl<T> extends DefaultController {
 	}
 
 	protected void handleAddEvent() {
+		dispatchMessageReset();
 		getSelectView().clearSelected();
 	}
 
 	protected void handleSelectEvent(final T selected) {
+		dispatchMessageReset();
 		doLoadEntity(selected);
 	}
 
 	protected void handleListResetEvent() {
+		dispatchMessageReset();
 		dispatchEvent(FormEventType.RESET_FORM);
 	}
 

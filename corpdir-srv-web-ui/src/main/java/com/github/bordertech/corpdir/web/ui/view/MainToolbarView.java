@@ -25,17 +25,17 @@ public class MainToolbarView extends AbstractMenuToolbar {
 	public MainToolbarView() {
 		// Setup Menu Items
 		WSubMenu subMenu = new WSubMenu("System");
+		ViewUtil.addImageToLabelBody(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel());
+		subMenu.setToolTip("System");
 
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		subMenu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 
-		// Submenu Image
-		ViewUtil.addImageToLabel(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel());
-
 		for (CardType card : CardType.values()) {
 			WMenuItem item = new AppMenuItem(card.getDesc(), CardEventType.SHOW, card);
+			item.setToolTip(card.getDesc());
 			if (card.getImageUrl() != null) {
-				ViewUtil.addImageToMenuItem(card.getImageUrl(), item);
+				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel());
 			}
 			if (card.isSystem()) {
 				subMenu.add(item);

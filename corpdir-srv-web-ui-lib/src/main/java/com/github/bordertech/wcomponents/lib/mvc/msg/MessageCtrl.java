@@ -1,12 +1,13 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
+import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import java.util.Set;
 
 /**
  *
  * @author jonathan
  */
-public interface MessageCtrl {
+public interface MessageCtrl extends Controller {
 
 	/**
 	 * Add all message event types (this is the default state).

@@ -5,11 +5,12 @@
         <h1 class="wc_dlbl_seg">{{vw-title}}</h1>
     </header>
     {{vw-toolbar-1}}
-    <div>
+    <div class="wc-margin-all-sm">
       {{vw-messages}}
       <div class="cg-grid cg-cols-2 cg-split-30-70 cg-bk-lg cg-gap-l">
         <!-- Left col -->
-        <div>
+        <div class="wc-panel-type-box">
+           {{vw-crit-msg}}
            {{vw-crit}}
            <h2>Result</h2>
            {{vw-poll}}
@@ -17,8 +18,7 @@
         </div>
         <!-- Right col -->
         <div>
-           {{vw-toolbar-2}}
-           {{vw-entity}}
+           {{vw-form}}
         </div>
       </div>
     </div>

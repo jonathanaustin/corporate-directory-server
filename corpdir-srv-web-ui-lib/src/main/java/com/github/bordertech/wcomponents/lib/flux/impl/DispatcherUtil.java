@@ -102,12 +102,11 @@ public class DispatcherUtil {
 
 	private static List<ListenerWrapper> getListenersForEvent(final Qualifier qualifier, final DispatcherModel model) {
 		List<ListenerWrapper> matches = new ArrayList<>();
-		if (qualifier.getQualifier() == null) {
-			// Check listeners only matching on Type
-			if (model.hasListenersByType()) {
-				matches.addAll(getListenersFromMap(model.getListenersByType(), qualifier.getEventType()));
-			}
-		} else {
+		// Check listeners only matching on Type
+		if (model.hasListenersByType()) {
+			matches.addAll(getListenersFromMap(model.getListenersByType(), qualifier.getEventType()));
+		}
+		if (qualifier.getQualifier() != null) {
 			// Check listeners with Type and Qualifier
 			if (model.hasListenersByMatcher()) {
 				Matcher matcher = new EventMatcher(qualifier.getEventType(), qualifier.getQualifier());

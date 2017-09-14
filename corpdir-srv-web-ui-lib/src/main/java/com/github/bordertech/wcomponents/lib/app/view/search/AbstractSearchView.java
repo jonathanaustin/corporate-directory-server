@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
+import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 
 /**
@@ -32,6 +33,8 @@ public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<
 				}
 			}
 		});
+		searchButton.setImageUrl(IconConstants.SEARCH_IMAGE);
+		searchButton.setRenderAsLink(true);
 
 		getContent().add(ajax);
 		registerEventAjaxControl(SearchEventType.SEARCH_VALIDATING, ajax);

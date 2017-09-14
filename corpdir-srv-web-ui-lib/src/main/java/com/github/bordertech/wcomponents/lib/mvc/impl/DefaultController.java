@@ -99,8 +99,14 @@ public class DefaultController extends AbstractBaseMvc implements Controller {
 	}
 
 	protected String getListenerQualifier(final EventType type) {
-		String qualifier = getListenerOverride(type);
-		return qualifier == null ? getFullQualifier() : qualifier;
+		Map<EventType, String> overrides = getComponentModel().listenerOverride;
+		String qualifier;
+		if (overrides != null && overrides.containsKey(type)) {
+			qualifier = overrides.get(type);
+		} else {
+			qualifier = getQualifier();
+		}
+		return deriveFullQualifier(qualifier);
 	}
 
 	@Override
@@ -118,14 +124,6 @@ public class DefaultController extends AbstractBaseMvc implements Controller {
 			setupController();
 		}
 
-	}
-
-	protected String getListenerOverride(final EventType type) {
-		CtrlModel model = getComponentModel();
-		if (model.listenerOverride != null) {
-			return model.listenerOverride.get(type);
-		}
-		return null;
 	}
 
 	protected void registerListenerId(final String id) {

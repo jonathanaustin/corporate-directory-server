@@ -23,6 +23,10 @@ public class SearchTextView extends AbstractSearchView<String> {
 	private final WSuggestions suggestions = new WSuggestions();
 
 	public SearchTextView() {
+		this(false);
+	}
+
+	public SearchTextView(final boolean mandatory) {
 
 		WContainer content = getContent();
 
@@ -30,12 +34,17 @@ public class SearchTextView extends AbstractSearchView<String> {
 		content.add(panel);
 
 		WFieldLayout layout = new WFieldLayout();
+		layout.setLabelWidth(30);
 		panel.add(layout);
 
-//		txtField.setMandatory(true);
-		layout.addField("Search", txtField);
+		txtField.setMandatory(mandatory);
 
-		layout.addField(getSearchButton());
+		WContainer container = new WContainer();
+		container.add(txtField);
+		container.add(getSearchButton());
+		getSearchButton().addHtmlClass("wc-margin-w-sm");
+
+		layout.addField("Search", container);
 
 		panel.add(suggestions);
 		suggestions.setRefreshAction(new Action() {

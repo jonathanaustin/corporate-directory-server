@@ -88,15 +88,19 @@ public class FormMainCtrl<T> extends DefaultController {
 		dispatchEvent(FormEventType.ENTITY_MODE_CHANGED);
 	}
 
+	@Override
+	public void reset() {
+		unregisterListenerIds();
+		resetFormView();
+	}
+
 	protected void resetFormView() {
-		resetViews();
 		for (View view : getGroupFormViews()) {
 			view.resetView();
 		}
 	}
 
 	protected void showFormView(final boolean show) {
-		getFormView().setContentVisible(show);
 		for (View view : getGroupFormViews()) {
 			view.setContentVisible(show);
 		}
