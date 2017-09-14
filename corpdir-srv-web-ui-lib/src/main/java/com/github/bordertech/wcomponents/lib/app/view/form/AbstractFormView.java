@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 
 /**
  * Default form view.
@@ -71,7 +71,7 @@ public class AbstractFormView<T> extends DefaultView<T> implements FormView<T> {
 		super.initViewContent(request);
 		// Check entity is loaded
 		if (!isLoaded()) {
-			dispatchMessage(MsgEventType.ERROR, "No entity has been loaded.");
+			dispatchMessage(MessageEventType.ERROR, "No entity has been loaded.");
 			setContentVisible(false);
 			return;
 		}

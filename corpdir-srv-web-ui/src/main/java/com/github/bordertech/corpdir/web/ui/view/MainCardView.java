@@ -22,8 +22,8 @@ public class MainCardView extends DefaultView {
 		int idx = 1;
 		for (CardType card : CardType.values()) {
 			View view = card.createCardViewInstance();
-			view.setQualifier("M-" + idx++);
-			view.setQualifierContext(true);
+			view.setQualifierAndMessageQualifier("M-E" + idx++);
+			view.setQualifierAndMessageQualifierContext(true);
 			setupCard(card, view);
 		}
 		// Default

@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import java.util.List;
 
 /**
@@ -102,7 +102,7 @@ public class ListMainCtrl<T> extends DefaultController {
 
 	protected void handleLoadList(final List<T> items) {
 		if (items == null || items.isEmpty()) {
-			dispatchMessage(MsgEventType.INFO, "No records found");
+			dispatchMessage(MessageEventType.INFO, "No records found");
 		} else {
 			ListView<T> listView = getListView();
 			listView.setViewBean(items);

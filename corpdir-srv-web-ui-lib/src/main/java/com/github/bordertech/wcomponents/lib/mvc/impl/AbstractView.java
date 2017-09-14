@@ -34,6 +34,12 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	}
 
 	@Override
+	public void setQualifierAndMessageQualifierContext(final boolean context) {
+		setQualifierContext(context);
+		setMessageQualifierContext(context);
+	}
+
+	@Override
 	public boolean isQualifierContext() {
 		return getComponentModel().qualifierContext;
 	}
@@ -41,6 +47,16 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	@Override
 	public void setQualifierContext(final boolean qualifierContext) {
 		getOrCreateComponentModel().qualifierContext = qualifierContext;
+	}
+
+	@Override
+	public boolean isMessageQualifierContext() {
+		return getComponentModel().messageQualifierContext;
+	}
+
+	@Override
+	public void setMessageQualifierContext(final boolean messageQualifierContext) {
+		getOrCreateComponentModel().messageQualifierContext = messageQualifierContext;
 	}
 
 	@Override
@@ -220,6 +236,9 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 		private boolean contentVisible = true;
 
 		private boolean qualifierContext;
+
+		private boolean messageQualifierContext;
+
 		private Map<EventType, Set<AppAjaxControl>> ajaxControls;
 
 	}

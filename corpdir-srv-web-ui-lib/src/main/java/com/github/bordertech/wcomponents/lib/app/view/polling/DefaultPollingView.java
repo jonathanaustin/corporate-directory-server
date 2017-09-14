@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollableModel;
 import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -41,7 +41,7 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 
 		@Override
 		protected void handleErrorMessage(final List<String> msgs) {
-			dispatchMessage(MsgEventType.ERROR, msgs);
+			dispatchMessage(MessageEventType.ERROR, msgs);
 		}
 	};
 

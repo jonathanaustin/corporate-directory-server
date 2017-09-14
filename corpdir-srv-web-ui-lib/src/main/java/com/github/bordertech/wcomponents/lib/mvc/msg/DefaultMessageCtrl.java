@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.mvc.msg;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Collections;
@@ -23,11 +24,11 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	@Override
 	public void setupController() {
 		super.setupController();
-		for (MsgEventType type : MsgEventType.values()) {
+		for (MessageEventType type : MessageEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleMessageEvent((MsgEvent) event);
+					handleMessageEvent((MessageEvent) event);
 				}
 			};
 			registerListener(type, listener);
@@ -54,21 +55,21 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	}
 
 	@Override
-	public final void addHandleMsgType(final MsgEventType type) {
+	public final void addHandleMsgType(final MessageEventType type) {
 		MsgCtrlModel model = getOrCreateComponentModel();
-		if (model.events == null) {
-			model.events = new HashSet<>();
+		if (model.messageTypes == null) {
+			model.messageTypes = new HashSet<>();
 		}
-		model.events.add(type);
+		model.messageTypes.add(type);
 	}
 
 	@Override
-	public final void removeHandleMsgType(final MsgEventType type) {
+	public final void removeHandleMsgType(final MessageEventType type) {
 		MsgCtrlModel model = getOrCreateComponentModel();
-		if (model.events != null) {
-			model.events.remove(type);
-			if (model.events.isEmpty()) {
-				model.events = null;
+		if (model.messageTypes != null) {
+			model.messageTypes.remove(type);
+			if (model.messageTypes.isEmpty()) {
+				model.messageTypes = null;
 			}
 		}
 	}
@@ -78,7 +79,7 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	 */
 	@Override
 	public final void clearAllMsgTypes() {
-		getOrCreateComponentModel().events = null;
+		getOrCreateComponentModel().messageTypes = null;
 	}
 
 	/**
@@ -86,7 +87,7 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	 */
 	@Override
 	public final void addAllMsgTypes() {
-		for (MsgEventType type : MsgEventType.values()) {
+		for (MessageEventType type : MessageEventType.values()) {
 			addHandleMsgType(type);
 		}
 	}
@@ -97,19 +98,55 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 	@Override
 	public final void addValidationAndErrorMsgTypes() {
 		clearAllMsgTypes();
-		addHandleMsgType(MsgEventType.RESET);
-		addHandleMsgType(MsgEventType.VALIDATION);
-		addHandleMsgType(MsgEventType.ERROR);
+		addHandleMsgType(MessageEventType.RESET);
+		addHandleMsgType(MessageEventType.VALIDATION);
+		addHandleMsgType(MessageEventType.ERROR);
 	}
 
 	@Override
-	public final Set<MsgEventType> getHandleMsgTypes() {
-		MsgCtrlModel model = getComponentModel();
-		return model.events == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(model.events);
+	public final Set<MessageEventType> getHandleMsgTypes() {
+		Set<MessageEventType> types = getComponentModel().messageTypes;
+		return types == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(types);
 	}
 
-	public void handleMessageEvent(final MsgEvent event) {
-		MsgEventType type = (MsgEventType) event.getQualifier().getEventType();
+	@Override
+	protected void registerListener(final MessageEventType eventType, final Listener listener) {
+		super.registerListener(eventType, listener);
+		// Extra qualifiers
+		for (String qualifier : getMessageListenerQualifiers()) {
+			String fullQualifier = deriveMessageFullQualifier(qualifier);
+			registerListener(new EventMatcher(eventType, fullQualifier), listener);
+		}
+	}
+
+	@Override
+	public final void addMessageListenerQualifier(final String messageQualifier) {
+		MsgCtrlModel model = getOrCreateComponentModel();
+		if (model.messageListenerQualifiers == null) {
+			model.messageListenerQualifiers = new HashSet<>();
+		}
+		model.messageListenerQualifiers.add(messageQualifier);
+	}
+
+	@Override
+	public final void removeMessageListenerQualifier(final String messageQualifier) {
+		MsgCtrlModel model = getOrCreateComponentModel();
+		if (model.messageListenerQualifiers != null) {
+			model.messageListenerQualifiers.remove(messageQualifier);
+			if (model.messageListenerQualifiers.isEmpty()) {
+				model.messageListenerQualifiers = null;
+			}
+		}
+	}
+
+	@Override
+	public Set<String> getMessageListenerQualifiers() {
+		Set<String> qualifiers = getComponentModel().messageListenerQualifiers;
+		return qualifiers == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(qualifiers);
+	}
+
+	protected void handleMessageEvent(final MessageEvent event) {
+		MessageEventType type = (MessageEventType) event.getQualifier().getEventType();
 
 		if (!checkProcessEvent(type)) {
 			return;
@@ -141,40 +178,40 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 		}
 	}
 
-	protected boolean checkProcessEvent(final MsgEventType type) {
-		Set<MsgEventType> types = getHandleMsgTypes();
+	protected boolean checkProcessEvent(final MessageEventType type) {
+		Set<MessageEventType> types = getHandleMsgTypes();
 		return types.contains(type);
 	}
 
-	protected void handleErrorMessage(final MsgEvent event) {
+	protected void handleErrorMessage(final MessageEvent event) {
 		WMessages wmsg = getMessageView().getMessages();
 		for (String msg : event.getMessages()) {
 			wmsg.error(msg, event.isEncode());
 		}
 	}
 
-	protected void handleSuccessMessage(final MsgEvent event) {
+	protected void handleSuccessMessage(final MessageEvent event) {
 		WMessages wmsg = getMessageView().getMessages();
 		for (String msg : event.getMessages()) {
 			wmsg.success(msg, event.isEncode());
 		}
 	}
 
-	protected void handleWarnMessage(final MsgEvent event) {
+	protected void handleWarnMessage(final MessageEvent event) {
 		WMessages wmsg = getMessageView().getMessages();
 		for (String msg : event.getMessages()) {
 			wmsg.warn(msg, event.isEncode());
 		}
 	}
 
-	protected void handleInfoMessage(final MsgEvent event) {
+	protected void handleInfoMessage(final MessageEvent event) {
 		WMessages wmsg = getMessageView().getMessages();
 		for (String msg : event.getMessages()) {
 			wmsg.info(msg, event.isEncode());
 		}
 	}
 
-	protected void handleValidationMessage(final MsgEvent event) {
+	protected void handleValidationMessage(final MessageEvent event) {
 		WValidationErrors errors = getMessageView().getMessages().getValidationErrors();
 		errors.clearErrors();
 		errors.setErrors(event.getDiags());
@@ -207,7 +244,9 @@ public class DefaultMessageCtrl extends DefaultController implements MessageCtrl
 
 		private MessageView messageView;
 
-		private Set<MsgEventType> events;
+		private Set<MessageEventType> messageTypes;
+
+		private Set<String> messageListenerQualifiers;
 
 	}
 }

@@ -18,13 +18,13 @@ public interface MessageCtrl extends Controller {
 	 *
 	 * @param type the message event type to listen for
 	 */
-	void addHandleMsgType(final MsgEventType type);
+	void addHandleMsgType(final MessageEventType type);
 
 	/**
 	 *
 	 * @param type the message type to no longer list to
 	 */
-	void removeHandleMsgType(final MsgEventType type);
+	void removeHandleMsgType(final MessageEventType type);
 
 	/**
 	 * Helper method to just listen to validation errors and errors.
@@ -40,7 +40,7 @@ public interface MessageCtrl extends Controller {
 	 *
 	 * @return the set of message event types being listened to.
 	 */
-	Set<MsgEventType> getHandleMsgTypes();
+	Set<MessageEventType> getHandleMsgTypes();
 
 	/**
 	 *
@@ -53,5 +53,11 @@ public interface MessageCtrl extends Controller {
 	 * @param messageView the message view being controlled
 	 */
 	void setMessageView(final MessageView messageView);
+
+	void addMessageListenerQualifier(final String messageQualifier);
+
+	void removeMessageListenerQualifier(final String messageQualifier);
+
+	Set<String> getMessageListenerQualifiers();
 
 }

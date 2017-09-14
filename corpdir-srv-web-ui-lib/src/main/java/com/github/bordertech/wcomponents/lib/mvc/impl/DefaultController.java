@@ -9,6 +9,7 @@ import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.Model;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -88,8 +89,19 @@ public class DefaultController extends AbstractBaseMvc implements Controller {
 	 * @param listener
 	 * @param eventType
 	 */
-	protected final void registerListener(final EventType eventType, final Listener listener) {
+	protected void registerListener(final EventType eventType, final Listener listener) {
 		String qualifier = getListenerQualifier(eventType);
+		registerListener(new EventMatcher(eventType, qualifier), listener);
+	}
+
+	/**
+	 * A helper method to register a listener with a Message Event Type and Message Qualifier.
+	 *
+	 * @param listener
+	 * @param eventType
+	 */
+	protected void registerListener(final MessageEventType eventType, final Listener listener) {
+		String qualifier = getMessageFullQualifier();
 		registerListener(new EventMatcher(eventType, qualifier), listener);
 	}
 

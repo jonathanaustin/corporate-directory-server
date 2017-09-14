@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MsgEventType;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 
 /**
  * Controller for a Form View and Form Toolbar View.
@@ -200,9 +200,9 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			doDelete(bean);
 			dispatchEvent(FormEventType.RESET_FORM);
 			dispatchEvent(ModelOutcomeEventType.DELETE_OK, bean);
-			dispatchMessage(MsgEventType.SUCCESS, "Delete OK.");
+			dispatchMessage(MessageEventType.SUCCESS, "Delete OK.");
 		} catch (Exception e) {
-			dispatchMessage(MsgEventType.ERROR, "Delete failed. " + e.getMessage());
+			dispatchMessage(MessageEventType.ERROR, "Delete failed. " + e.getMessage());
 			dispatchEvent(ModelOutcomeEventType.DELETE_ERROR, bean, e);
 		}
 	}
@@ -217,9 +217,9 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			bean = doRefresh(bean);
 			dispatchEvent(FormEventType.LOAD, bean);
 			dispatchEvent(ModelOutcomeEventType.REFRESH_OK, bean);
-			dispatchMessage(MsgEventType.SUCCESS, "Refreshed OK.");
+			dispatchMessage(MessageEventType.SUCCESS, "Refreshed OK.");
 		} catch (Exception e) {
-			dispatchMessage(MsgEventType.ERROR, "Refresh failed. " + e.getMessage());
+			dispatchMessage(MessageEventType.ERROR, "Refresh failed. " + e.getMessage());
 			dispatchEvent(ModelOutcomeEventType.REFRESH_ERROR, bean, e);
 		}
 	}
@@ -246,9 +246,9 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 				dispatchEvent(FormEventType.RESET_FORM);
 				dispatchEvent(ModelOutcomeEventType.UPDATE_OK, bean);
 			}
-			dispatchMessage(MsgEventType.SUCCESS, "Saved OK.");
+			dispatchMessage(MessageEventType.SUCCESS, "Saved OK.");
 		} catch (Exception e) {
-			dispatchMessage(MsgEventType.ERROR, "Save failed. " + e.getMessage());
+			dispatchMessage(MessageEventType.ERROR, "Save failed. " + e.getMessage());
 			if (create) {
 				dispatchEvent(ModelOutcomeEventType.CREATE_ERROR, e);
 			} else {
@@ -263,7 +263,7 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			T bean = doCreateInstance();
 			dispatchEvent(FormEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
-			dispatchMessage(MsgEventType.ERROR, "ADD failed. " + e.getMessage());
+			dispatchMessage(MessageEventType.ERROR, "ADD failed. " + e.getMessage());
 			dispatchEvent(FormEventType.LOAD_ERROR, e);
 		}
 	}
