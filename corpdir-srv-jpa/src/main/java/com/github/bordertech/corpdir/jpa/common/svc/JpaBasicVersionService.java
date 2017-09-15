@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * Keyed Entity JPA service implementation.
  *
  * @param <A> the API object type
+ * @param <U> the versionable data
  * @param <P> the entity type
  * @author Jonathan Austin
  * @since 1.0.0

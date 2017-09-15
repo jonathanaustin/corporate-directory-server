@@ -18,7 +18,7 @@ import javax.persistence.MappedSuperclass;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>, T extends PersistVersionData<U>> extends DefaultVersionableObject<U, T> implements PersistVersionableTree<U, T> {
+public abstract class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>, T extends PersistVersionData<U>> extends DefaultVersionableObject<U, T> implements PersistVersionableTree<U, T> {
 
 	@ManyToOne
 	private T parentItem;

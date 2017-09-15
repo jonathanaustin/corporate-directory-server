@@ -13,6 +13,8 @@ public interface PersistVersionData<T extends PersistVersionable> extends Persis
 
 	Set<T> getDataVersions();
 
+	void setDataVersions(final Set<T> dataVersions);
+
 	void addDataVersion(final T versionData);
 
 	void removeDataVersion(final Long versionId);

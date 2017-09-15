@@ -19,7 +19,7 @@ import javax.persistence.Version;
  * @param <T> the version data owner type
  */
 @MappedSuperclass
-public class DefaultVersionableObject<U extends PersistVersionable<U, T>, T extends PersistVersionData<U>> implements PersistVersionable<U, T> {
+public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T>, T extends PersistVersionData<U>> implements PersistVersionable<U, T> {
 
 	@EmbeddedId
 	private VersionIdKey versionIdKey;

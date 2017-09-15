@@ -24,6 +24,9 @@ import javax.persistence.Table;
 public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private Set<ContactLinksEntity> dataVersions;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<ChannelEntity> channels;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -175,6 +178,16 @@ public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity>
 			addDataVersion(links);
 		}
 		return links;
+	}
+
+	@Override
+	public Set<ContactLinksEntity> getDataVersions() {
+		return dataVersions;
+	}
+
+	@Override
+	public void setDataVersions(final Set<ContactLinksEntity> dataVersions) {
+		this.dataVersions = dataVersions;
 	}
 
 }

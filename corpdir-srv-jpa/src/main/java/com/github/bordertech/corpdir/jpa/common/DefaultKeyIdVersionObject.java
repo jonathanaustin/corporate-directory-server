@@ -5,10 +5,7 @@ import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 /**
  * Default keyed object with version data.
@@ -19,9 +16,6 @@ import javax.persistence.OneToMany;
  */
 @MappedSuperclass
 public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> extends DefaultKeyIdObject implements PersistVersionData<T> {
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<T> dataVersions;
 
 	/**
 	 * Default constructor.
@@ -38,26 +32,24 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 	}
 
 	@Override
-	public Set<T> getDataVersions() {
-		return dataVersions;
-	}
-
-	@Override
 	public void addDataVersion(final T versionData) {
+		Set<T> dataVersions = getDataVersions();
 		if (dataVersions == null) {
 			dataVersions = new HashSet<>();
+			setDataVersions(dataVersions);
 		}
 		dataVersions.add(versionData);
 	}
 
 	@Override
 	public void removeDataVersion(final Long versionId) {
-		if (this.dataVersions != null) {
-			for (T link : this.dataVersions) {
+		Set<T> dataVersions = getDataVersions();
+		if (dataVersions != null) {
+			for (T link : dataVersions) {
 				if (Objects.equals(link.getVersionId(), versionId)) {
-					this.dataVersions.remove(link);
-					if (this.dataVersions.isEmpty()) {
-						this.dataVersions = null;
+					dataVersions.remove(link);
+					if (dataVersions.isEmpty()) {
+						setDataVersions(null);
 					}
 					return;
 				}
@@ -67,8 +59,9 @@ public abstract class DefaultKeyIdVersionObject<T extends PersistVersionable> ex
 
 	@Override
 	public T getDataVersion(final Long versionId) {
-		if (this.dataVersions != null) {
-			for (T data : this.dataVersions) {
+		Set<T> dataVersions = getDataVersions();
+		if (dataVersions != null) {
+			for (T data : dataVersions) {
 				if (Objects.equals(data.getVersionId(), versionId)) {
 					return data;
 				}
