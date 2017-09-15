@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.event;
 
-import com.github.bordertech.corpdir.web.ui.icons.IconConstants;
+import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.view.ContactCrudView;
 import com.github.bordertech.corpdir.web.ui.view.LocationCrudView;
 import com.github.bordertech.corpdir.web.ui.view.OrgUnitCrudView;
