@@ -1,6 +1,7 @@
-package com.github.bordertech.corpdir.web.ui.model;
+package com.github.bordertech.corpdir.web.ui.model.impl;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
+import com.github.bordertech.corpdir.web.ui.model.AbstractBeanModel;
 import java.util.UUID;
 
 /**

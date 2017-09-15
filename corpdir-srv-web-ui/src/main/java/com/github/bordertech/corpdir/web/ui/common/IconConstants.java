@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.icons;
+package com.github.bordertech.corpdir.web.ui.common;
 
 /**
  *

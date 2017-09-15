@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.model.ApiModelUtil;
+import com.github.bordertech.corpdir.web.ui.util.ApiModelUtil;
 import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;

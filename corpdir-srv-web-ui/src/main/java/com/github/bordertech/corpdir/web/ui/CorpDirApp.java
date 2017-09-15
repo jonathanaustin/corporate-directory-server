@@ -5,12 +5,10 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
-import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.WTimeoutWarning;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.util.ConfigLibUtil;
-import java.util.Date;
 
 /**
  * Corporate Directory Admin UI.
@@ -44,9 +42,7 @@ public class CorpDirApp extends WApplication {
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);
 
-		footer.add(new WText(new Date().toString()));
-
-		add(new WTimeoutWarning());
+		footer.add(new WLink("icon source", "https://icons8.com"));
 	}
 
 	/**

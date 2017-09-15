@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.model;
+package com.github.bordertech.corpdir.web.ui.util;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import java.util.ArrayList;

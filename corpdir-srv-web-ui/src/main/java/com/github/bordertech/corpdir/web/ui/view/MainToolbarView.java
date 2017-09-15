@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.corpdir.web.ui.event.CardType;
-import com.github.bordertech.corpdir.web.ui.icons.IconConstants;
+import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.WMenu;
