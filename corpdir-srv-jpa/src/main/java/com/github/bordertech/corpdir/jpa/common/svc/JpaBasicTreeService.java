@@ -4,10 +4,14 @@ import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
+import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  * Tree Entity service.
@@ -19,6 +23,14 @@ import javax.persistence.EntityManager;
  */
 @Singleton
 public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicService<A, P> implements BasicTreeService<A> {
+
+	@Override
+	public DataResponse<List<A>> search(final String search) {
+		if (search == null || search.isEmpty()) {
+			return getRootItems();
+		}
+		return super.search(search);
+	}
 
 	@Override
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
@@ -89,6 +101,33 @@ public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends Persi
 		} finally {
 			em.close();
 		}
+	}
+
+	@Override
+	public DataResponse<List<A>> getRootItems() {
+		EntityManager em = getEntityManager();
+		try {
+			CriteriaQuery<P> qry = handleRootSearchCriteria(em);
+			List<P> rows = em.createQuery(qry).getResultList();
+			List<A> list = getMapper().convertEntitiesToApis(em, rows);
+			return new DataResponse<>(list);
+		} finally {
+			em.close();
+		}
+	}
+
+	protected CriteriaQuery<P> handleRootSearchCriteria(final EntityManager em) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<P> qry = cb.createQuery(getEntityClass());
+
+		// Search (has null parent)
+		Root<P> from = qry.from(getEntityClass());
+		qry.select(from);
+		qry.where(cb.isNull(from.<P>get("parent")));
+
+		// Order by
+		qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
+		return qry;
 	}
 
 }

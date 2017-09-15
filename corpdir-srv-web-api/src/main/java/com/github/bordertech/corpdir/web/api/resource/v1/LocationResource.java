@@ -96,4 +96,10 @@ public class LocationResource implements LocationService {
 	public DataResponse<Location> removeSub(@PathParam("key") final String keyId, @PathParam("subKey") final String subKeyId) {
 		return impl.removeSub(keyId, subKeyId);
 	}
+
+	@Override
+	public DataResponse<List<Location>> getRootItems() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }
