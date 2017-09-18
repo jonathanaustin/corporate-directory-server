@@ -13,12 +13,12 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class ContactPositionsModel implements SearchModel<SearchVersionKey, List<Position>> {
+public class ContactPositionsModel implements SearchModel<SearchVersionKey, Position> {
 
 	private static final ContactService SERVICE = LocatorUtil.getService(ContactService.class);
 
 	@Override
-	public List<Position> search(final SearchVersionKey criteria) {
+	public List<Position> retrieveCollection(final SearchVersionKey criteria) {
 		Long versionId = criteria.getVersionId();
 		String key = criteria.getId();
 		DataResponse<List<Position>> resp;

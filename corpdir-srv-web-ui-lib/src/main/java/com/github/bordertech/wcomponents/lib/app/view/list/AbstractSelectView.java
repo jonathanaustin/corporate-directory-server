@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.list;
 
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 
@@ -59,9 +59,9 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedItem();
 		if (bean == null) {
-			dispatchEvent(ListEventType.UNSELECT);
+			dispatchEvent(SelectEventType.UNSELECT);
 		} else {
-			dispatchEvent(ListEventType.SELECT, bean);
+			dispatchEvent(SelectEventType.SELECT, bean);
 		}
 	}
 
@@ -70,8 +70,8 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 	}
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(ListEventType.UNSELECT, ctrl);
-		registerEventAjaxControl(ListEventType.SELECT, ctrl);
+		registerEventAjaxControl(SelectEventType.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectEventType.SELECT, ctrl);
 	}
 
 	@Override

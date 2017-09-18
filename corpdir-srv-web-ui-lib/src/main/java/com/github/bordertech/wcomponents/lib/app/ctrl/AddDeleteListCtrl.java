@@ -1,7 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -32,7 +33,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		});
 
 		// Select EVENT
-		registerListener(ListEventType.SELECT, new Listener() {
+		registerListener(SelectEventType.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleSelectEvent();
@@ -40,7 +41,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		});
 
 		// Unselect EVENT
-		registerListener(ListEventType.UNSELECT, new Listener() {
+		registerListener(SelectEventType.UNSELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleUnselectEvent();
@@ -121,7 +122,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 	protected void handleDeleteEvent() {
 		T item = getSelectView().getSelectedItem();
 		if (item != null) {
-			dispatchEvent(ListEventType.REMOVE_ITEM, item);
+			dispatchEvent(CollectionEventType.REMOVE_ITEM, item);
 		}
 		getAddRemoveToolbar().resetView();
 	}
@@ -129,7 +130,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 	protected void handleSelectedItemEvent(final T item) {
 		List<T> beans = getSelectView().getViewBean();
 		if (beans == null || !beans.contains(item)) {
-			dispatchEvent(ListEventType.ADD_ITEM, item);
+			dispatchEvent(CollectionEventType.ADD_ITEM, item);
 		}
 		getAddRemoveToolbar().resetView();
 		getAddView().resetView();

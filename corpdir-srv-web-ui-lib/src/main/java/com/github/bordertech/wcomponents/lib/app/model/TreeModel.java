@@ -1,14 +1,14 @@
 package com.github.bordertech.wcomponents.lib.app.model;
 
-import com.github.bordertech.wcomponents.lib.mvc.Model;
 import java.util.List;
 
 /**
  *
  * @author jonathan
+ * @param <S> the criteria type
  * @param <T> the data type
  */
-public interface TreeModel<T> extends Model {
+public interface TreeModel<S, T> extends RetrieveModel<S, T> {
 
 	boolean hasChildren(final T entity);
 

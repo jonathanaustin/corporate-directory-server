@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class ModelSearchActionService<T extends ApiKeyIdObject> implements SearchModel<String, List<T>>, ActionModel<T> {
+public class ModelSearchActionService<T extends ApiKeyIdObject> implements SearchModel<String, T>, ActionModel<T> {
 
 	private final Class<T> apiClass;
 	private final BasicService<T> service;
@@ -26,7 +26,7 @@ public class ModelSearchActionService<T extends ApiKeyIdObject> implements Searc
 	}
 
 	@Override
-	public List<T> search(final String criteria) {
+	public List<T> retrieveCollection(final String criteria) {
 		DataResponse<List<T>> resp = service.search(criteria);
 		return resp.getData();
 	}

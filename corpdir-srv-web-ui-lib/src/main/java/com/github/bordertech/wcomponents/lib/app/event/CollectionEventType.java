@@ -3,17 +3,15 @@ package com.github.bordertech.wcomponents.lib.app.event;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 
 /**
- * List event type.
+ * Collection event type.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ListEventType implements EventType {
-	LOAD_LIST,
-	RESET_LIST,
+public enum CollectionEventType implements EventType {
+	LOAD_ITEMS,
+	RESET_COLLECTION,
 	ADD_ITEM,
 	UPDATE_ITEM,
-	REMOVE_ITEM,
-	SELECT,
-	UNSELECT
+	REMOVE_ITEM
 }

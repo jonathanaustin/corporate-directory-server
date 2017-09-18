@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
+import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
@@ -42,7 +43,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 		});
 
 		// Select EVENT
-		registerListener(ListEventType.SELECT, new Listener() {
+		registerListener(SelectEventType.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				T selected = (T) event.getData();
@@ -51,7 +52,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 		});
 
 		// LIST Reset
-		registerListener(ListEventType.RESET_LIST, new Listener() {
+		registerListener(CollectionEventType.RESET_COLLECTION, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleListResetEvent();

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.mode;
 
 /**
- * List modes.
+ * Selection modes.
  *
  * @author Jonathan Austin
  * @since 1.0.0

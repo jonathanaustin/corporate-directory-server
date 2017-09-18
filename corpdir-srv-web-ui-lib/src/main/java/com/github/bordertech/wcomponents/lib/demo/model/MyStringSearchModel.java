@@ -9,10 +9,10 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MyStringSearchModel implements SearchModel<String, List<String>> {
+public class MyStringSearchModel implements SearchModel<String, String> {
 
 	@Override
-	public List<String> search(String criteria) {
+	public List<String> retrieveCollection(String criteria) {
 		if ("error".equals(criteria)) {
 			throw new SystemException("Big error");
 		}

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
@@ -56,7 +56,7 @@ public class PollingSearchCtrl<S, T> extends DefaultController {
 		SearchEventType type = (SearchEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case SEARCH_VALIDATING:
-				dispatchEvent(ListEventType.RESET_LIST);
+				dispatchEvent(CollectionEventType.RESET_COLLECTION);
 				dispatchEvent(PollingEventType.RESET_POLLING);
 				break;
 			case SEARCH:
