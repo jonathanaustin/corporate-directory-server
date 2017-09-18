@@ -15,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  * @author jonathan
  * @param <T> the treeable Object
  */
-public class ModelTreeService<T extends ApiTreeable> implements TreeModel<T> {
+public class ModelTreeService<T extends ApiTreeable> implements TreeModel<String, T> {
 
 	private static final Log LOG = LogFactory.getLog(ModelTreeService.class);
 
@@ -23,6 +23,18 @@ public class ModelTreeService<T extends ApiTreeable> implements TreeModel<T> {
 
 	public ModelTreeService(final Class<? extends BasicTreeService<T>> serviceClass) {
 		this.service = LocatorUtil.getService(serviceClass);
+	}
+
+	@Override
+	public T retrieve(final String keyId) {
+		try {
+			DataResponse<T> resp = service.retrieve(keyId);
+			return resp.getData();
+		} catch (Throwable e) {
+			LOG.error("Error doing get item", e);
+			throw new SystemException("Error doing get item. " + e.getMessage(), e);
+		}
+
 	}
 
 	@Override

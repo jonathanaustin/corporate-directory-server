@@ -4,9 +4,9 @@ import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddDeleteListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
@@ -58,7 +58,7 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 		public void setupController() {
 			super.setupController();
 			// Select EVENT - Show Select BAR
-			registerListener(ListEventType.SELECT, new Listener() {
+			registerListener(SelectEventType.SELECT, new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
 					selBar.getButton().setActionObject((Serializable) event.getData());

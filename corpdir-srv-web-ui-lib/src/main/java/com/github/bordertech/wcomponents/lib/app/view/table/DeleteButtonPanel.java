@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.view.table;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -40,7 +40,7 @@ public class DeleteButtonPanel extends WDiv {
 	protected void doDefaultAction() {
 		View view = ViewUtil.findParentView(this);
 		if (view != null) {
-			view.dispatchEvent(ListEventType.REMOVE_ITEM, getBean());
+			view.dispatchEvent(CollectionEventType.REMOVE_ITEM, getBean());
 		}
 	}
 

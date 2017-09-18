@@ -10,10 +10,10 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MockOrgUnitSearchModel implements SearchModel<String, List<OrgUnit>> {
+public class MockOrgUnitSearchModel implements SearchModel<String, OrgUnit> {
 
 	@Override
-	public List<OrgUnit> search(final String criteria) {
+	public List<OrgUnit> retrieveCollection(final String criteria) {
 		if ("error".equals(criteria)) {
 			throw new SystemException("Big error");
 		}

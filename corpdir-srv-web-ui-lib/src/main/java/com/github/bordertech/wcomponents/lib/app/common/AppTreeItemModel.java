@@ -8,17 +8,17 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class AppTreeItemModel<T> extends AbstractTreeItemModel {
+public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> EMPTY_ITEMS = Collections.EMPTY_LIST;
 
 	private final List<T> rootItems;
-	private final TreeModel<T> model;
+	private final TreeModel<S, T> model;
 
 	public AppTreeItemModel(final List<T> rootItems, final String treeModelKey) {
 		this.rootItems = rootItems == null ? EMPTY_ITEMS : rootItems;
-		this.model = (TreeModel<T>) ModelProviderFactory.getInstance().getModel(treeModelKey);
+		this.model = (TreeModel<S, T>) ModelProviderFactory.getInstance().getModel(treeModelKey);
 	}
 
 	@Override

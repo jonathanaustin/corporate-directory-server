@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.ListEventType;
+import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
@@ -57,15 +57,15 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	public void doStartPolling(final S criteria) {
 		// Setup polling view
 		// Wrap search model into ServiceModel for Polling Panel
-		final SearchModel<S, List<T>> model = getSearchModelImpl();
+		final SearchModel<S, T> model = getSearchModelImpl();
 		PollableModel<S, List<T>> wrapper = new PollableModel<S, List<T>>() {
 			@Override
 			public List<T> service(final S criteria) {
-				return model.search(criteria);
+				return model.retrieveCollection(criteria);
 			}
 		};
 		getPollingView().doSetupAndStartPolling(criteria, wrapper);
-		dispatchEvent(ListEventType.RESET_LIST);
+		dispatchEvent(CollectionEventType.RESET_COLLECTION);
 	}
 
 	public final PollingView<S, List<T>> getPollingView() {
@@ -87,8 +87,8 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		return getComponentModel().searchModelKey;
 	}
 
-	protected SearchModel<S, List<T>> getSearchModelImpl() {
-		return (SearchModel<S, List<T>>) getModel(getSearchModelKey());
+	protected SearchModel<S, T> getSearchModelImpl() {
+		return (SearchModel<S, T>) getModel(getSearchModelKey());
 	}
 
 	protected void handlePollingEvents(final Event event) {
@@ -124,7 +124,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		// Do Service Again
 		getPollingView().setContentVisible(true);
 		getPollingView().doRefreshContent();
-		dispatchEvent(ListEventType.RESET_LIST);
+		dispatchEvent(CollectionEventType.RESET_COLLECTION);
 	}
 
 	protected void handlePollingFailedEvent(final Exception excp) {
@@ -134,7 +134,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 
 	protected void handlePollingCompleteEvent(final List<T> items) {
 		getPollingView().setContentVisible(false);
-		dispatchEvent(ListEventType.LOAD_LIST, items);
+		dispatchEvent(CollectionEventType.LOAD_ITEMS, items);
 	}
 
 	protected void handleStartPollingSearch(final S criteria) {
