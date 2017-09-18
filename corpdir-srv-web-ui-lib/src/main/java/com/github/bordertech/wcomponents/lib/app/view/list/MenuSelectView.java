@@ -14,12 +14,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Select menu view.
+ * Single select menu view.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SelectMenuView<T> extends AbstractSelectView<T> {
+public class MenuSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final WMenu menu = new WMenu(WMenu.MenuType.TREE) {
 		@Override
@@ -30,17 +30,17 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 
 		@Override
 		public boolean isDisabled() {
-			return isListModeView();
+			return isViewMode();
 		}
 	};
 
 	private final WDiv ajaxPanel = new WDiv();
 
-	public SelectMenuView() {
+	public MenuSelectView() {
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);
-		setListMode(SelectMode.SELECT);
+		setSelectMode(SelectMode.SELECT);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 	}
 
 	protected void handleMenuItemSelected(final WMenuItem menuItem, final int idx) {
-		T item = getItem(idx);
+		T item = getViewBean().get(idx);
 		setSelectedItem(item);
 		doDispatchSelectEvent();
 	}
@@ -81,7 +81,7 @@ public class SelectMenuView<T> extends AbstractSelectView<T> {
 	protected void findMenuItem() {
 		T item = getSelectedItem();
 		if (item != null) {
-			int idx = getIndexOfItem(item);
+			int idx = getViewBean().indexOf(item);
 			for (MenuItem menuItem : menu.getMenuItems()) {
 				if (menuItem instanceof WMenuItem) {
 					Integer menuIdx = (Integer) ((WMenuItem) menuItem).getActionObject();

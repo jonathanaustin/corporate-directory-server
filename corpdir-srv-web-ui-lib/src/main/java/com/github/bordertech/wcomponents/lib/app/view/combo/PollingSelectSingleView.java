@@ -1,9 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
-import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
-import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import java.util.Collection;
 
@@ -15,14 +12,10 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class SelectWithCriteriaView<S, T, C extends Collection<T>> extends CollectionWithCriteriaView<S, T, C> implements SelectSingleView<T, C> {
+public class PollingSelectSingleView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> implements SelectSingleView<T, C> {
 
-	public SelectWithCriteriaView(final SearchView<S> criteriaView, final SelectSingleView<T, C> listView) {
-		super(criteriaView, listView);
-		PollingSearchCtrl ctrl = new PollingSearchCtrl();
-		ctrl.setPollingView(getPollingView());
-		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl-polsrch", ctrl);
+	public PollingSelectSingleView(final SelectSingleView<T, C> listView) {
+		super(listView);
 	}
 
 	@Override
@@ -51,7 +44,7 @@ public class SelectWithCriteriaView<S, T, C extends Collection<T>> extends Colle
 	}
 
 	@Override
-	public void setSelectedItem(final T item) {
+	public void setSelectedItem(T item) {
 		getCollectionView().setSelectedItem(item);
 	}
 

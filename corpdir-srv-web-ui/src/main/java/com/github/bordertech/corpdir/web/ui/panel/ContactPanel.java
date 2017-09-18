@@ -2,17 +2,17 @@ package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.util.ApiModelUtil;
 import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
+import com.github.bordertech.corpdir.web.ui.util.ApiModelUtil;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.view.combo.AddDeleteListView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.PollingSelectView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.PollingSelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaTextView;
 import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaView;
-import com.github.bordertech.wcomponents.lib.app.view.list.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.list.WSingleSelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarNavigationItem;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.List;
@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingSelectView selectView;
+	private final PollingSelectSingleView selectView;
 
 // TODO
 //	private String locationId;
@@ -53,7 +53,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
 		// Setup the select and find view
-		selectView = new PollingSelectView(new SelectSingleView());
+		selectView = new PollingSelectSingleView(new WSingleSelectView());
 		final SelectWithCriteriaView findView = new SelectWithCriteriaTextView() {
 			@Override
 			public void configAjax(final View view) {
@@ -72,8 +72,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		posView.getDialog().setTitle("Search Positions");
 
 		// Models
-		selectView.setSearchModelKey("contact.positions.search");
-		findView.setSearchModelKey("position.search");
+		selectView.setRetrieveCollectionModelKey("contact.positions.search");
+		findView.setRetrieveCollectionModelKey("position.search");
 
 		// Use the back button
 		findView.getToolbarView().addToolbarItem(ToolbarNavigationItem.BACK);
@@ -94,7 +94,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		super.updateBeanValue();
 		Contact bean = getViewBean();
 		// Positions
-		List<Position> positions = (List<Position>) selectView.getListView().getBeanValue();
+		List<Position> positions = (List<Position>) selectView.getCollectionView().getBeanValue();
 		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
 	}
 

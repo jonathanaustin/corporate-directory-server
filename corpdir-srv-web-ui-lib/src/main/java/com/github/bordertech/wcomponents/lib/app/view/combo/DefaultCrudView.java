@@ -2,11 +2,11 @@ package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
+import com.github.bordertech.wcomponents.lib.app.ctrl.CollectionMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormSelectCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormToolbarCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ListMainCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.PollingListCtrl;
+import com.github.bordertech.wcomponents.lib.app.ctrl.PollingCollectionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
@@ -15,10 +15,10 @@ import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
-import com.github.bordertech.wcomponents.lib.app.view.list.SelectMenuView;
+import com.github.bordertech.wcomponents.lib.app.view.list.MenuSelectView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
@@ -31,7 +31,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageCtrl;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageView;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Default CRUD view.
@@ -39,12 +39,13 @@ import java.util.List;
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the entity type
+ * @param <C> the collection type
  */
-public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements ActionModelKey, SearchModelKey {
+public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessageComboView<T> implements ActionModelKey, SearchModelKey {
 
 	private final FormToolbarCtrl formToolbarCtrl = new FormToolbarCtrl();
-	private final PollingSearchCtrl<S, T> pollingSearchCtrl = new PollingSearchCtrl();
-	private final PollingListCtrl<S, T> pollingListCtrl = new PollingListCtrl();
+	private final PollingSearchCtrl<S, T, C> pollingSearchCtrl = new PollingSearchCtrl();
+	private final PollingCollectionCtrl<S, T, C> pollingListCtrl = new PollingCollectionCtrl();
 
 	private final SearchView searchView;
 	private final FormView<T> formView;
@@ -54,26 +55,26 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		this(title, null, null, null, panel);
 	}
 
-	public DefaultCrudView(final String title, final SearchView<S> criteriaView2, final SelectView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
+	public DefaultCrudView(final String title, final SearchView<S> criteriaView2, final SelectSingleView<T, C> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
 		searchView = criteriaView2 == null ? new SearchTextView() : criteriaView2;
-		SelectView<T> selectView = selectView2 == null ? new SelectMenuView<T>() : selectView2;
+		SelectSingleView<T, C> selectView = selectView2 == null ? (SelectSingleView<T, C>) new MenuSelectView<T>() : selectView2;
 		formView = formView2 == null ? new AbstractFormView<T>() : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
 		}
 
 		// Views
-		PollingView<S, List<T>> pollingView = new DefaultPollingView<>();
+		PollingView<S, C> pollingView = new DefaultPollingView<>();
 		ToolbarView toolbarView = new DefaultToolbarView();
 
 		// Ctrls
-		FormSelectCtrl<T> formSelectCtrl = new FormSelectCtrl<>();
+		FormSelectCtrl<T, C> formSelectCtrl = new FormSelectCtrl<>();
 		FormMainCtrl formCtrl = new FormMainCtrl();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
-		ListMainCtrl listCtrl = new ListMainCtrl();
+		CollectionMainCtrl listCtrl = new CollectionMainCtrl();
 
 		// View messages needs to listen to other message event contexts
 		getMessageCtrl().addMessageListenerQualifier("CM");
@@ -114,7 +115,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 		formToolbarCtrl.setFormView(formView);
 		pollingSearchCtrl.setPollingView(pollingView);
 		pollingListCtrl.setPollingView(pollingView);
-		listCtrl.setListView(selectView);
+		listCtrl.setCollectionView(selectView);
 
 		// Add message views so they get refreshed
 		formSelectCtrl.addView(searchMessages);
@@ -175,12 +176,12 @@ public class DefaultCrudView<S, T> extends DefaultMessageComboView<T> implements
 
 	@Override
 	public void setSearchModelKey(final String key) {
-		pollingListCtrl.setSearchModelKey(key);
+		pollingListCtrl.setRetrieveCollectionModelKey(key);
 	}
 
 	@Override
 	public String getSearchModelKey() {
-		return pollingListCtrl.getSearchModelKey();
+		return pollingListCtrl.getRetrieveCollectionModelKey();
 	}
 
 }

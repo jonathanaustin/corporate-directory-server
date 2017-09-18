@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Controller for a Polling View and Search View.
@@ -15,8 +15,9 @@ import java.util.List;
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the result type
+ * @param <C> the Collection type
  */
-public class PollingSearchCtrl<S, T> extends DefaultController {
+public class PollingSearchCtrl<S, T, C extends Collection<T>> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -43,11 +44,11 @@ public class PollingSearchCtrl<S, T> extends DefaultController {
 		}
 	}
 
-	public final PollingView<S, List<T>> getPollingView() {
+	public final PollingView<S, C> getPollingView() {
 		return getComponentModel().pollingView;
 	}
 
-	public final void setPollingView(final PollingView<S, List<T>> pollingView) {
+	public final void setPollingView(final PollingView<S, C> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		addView(pollingView);
 	}
@@ -66,26 +67,26 @@ public class PollingSearchCtrl<S, T> extends DefaultController {
 	}
 
 	@Override
-	protected PollingListModel newComponentModel() {
+	protected PollingListModel<S, T, C> newComponentModel() {
 		return new PollingListModel();
 	}
 
 	@Override
-	protected PollingListModel getComponentModel() {
+	protected PollingListModel<S, T, C> getComponentModel() {
 		return (PollingListModel) super.getComponentModel();
 	}
 
 	@Override
-	protected PollingListModel getOrCreateComponentModel() {
+	protected PollingListModel<S, T, C> getOrCreateComponentModel() {
 		return (PollingListModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class PollingListModel<S, T> extends CtrlModel {
+	public static class PollingListModel<S, T, C extends Collection<T>> extends CtrlModel {
 
-		private PollingView<S, List<T>> pollingView;
+		private PollingView<S, C> pollingView;
 	}
 
 }

@@ -3,21 +3,22 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Add and Remove Controller.
  *
  * @param <T> the list item type
+ * @param <C> the collection type
  * @author jonathan
  */
-public class AddDeleteListCtrl<T> extends DefaultController {
+public class AddDeleteListCtrl<T, C extends Collection<T>> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -97,11 +98,11 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 		addView(addView);
 	}
 
-	public final SelectView<T> getSelectView() {
+	public final SelectSingleView<T, C> getSelectView() {
 		return getComponentModel().selectView;
 	}
 
-	public final void setSelectView(final SelectView<T> selectView) {
+	public final void setSelectView(final SelectSingleView<T, C> selectView) {
 		getOrCreateComponentModel().selectView = selectView;
 		addView(selectView);
 	}
@@ -128,7 +129,7 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 	}
 
 	protected void handleSelectedItemEvent(final T item) {
-		List<T> beans = getSelectView().getViewBean();
+		C beans = getSelectView().getViewBean();
 		if (beans == null || !beans.contains(item)) {
 			dispatchEvent(CollectionEventType.ADD_ITEM, item);
 		}
@@ -137,30 +138,30 @@ public class AddDeleteListCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	protected AddDeleteModel newComponentModel() {
+	protected AddDeleteModel<T, C> newComponentModel() {
 		return new AddDeleteModel();
 	}
 
 	@Override
-	protected AddDeleteModel getComponentModel() {
+	protected AddDeleteModel<T, C> getComponentModel() {
 		return (AddDeleteModel) super.getComponentModel();
 	}
 
 	@Override
-	protected AddDeleteModel getOrCreateComponentModel() {
+	protected AddDeleteModel<T, C> getOrCreateComponentModel() {
 		return (AddDeleteModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class AddDeleteModel extends CtrlModel {
+	public static class AddDeleteModel<T, C extends Collection<T>> extends CtrlModel {
 
 		private AddDeleteButtonBar addRemoveToolbar;
 
 		private View addView;
 
-		private SelectView selectView;
+		private SelectSingleView<T, C> selectView;
 	}
 
 }

@@ -1,22 +1,24 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.list.MenuSelectView;
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
-import com.github.bordertech.wcomponents.lib.app.view.list.SelectMenuView;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import java.util.Collection;
 
 /**
  * Select View with a Text Search View.
  *
  * @author jonathan
- * @param <T> the entity type
+ * @param <T> the item type
+ * @param <C> the collection type
  */
-public class SelectWithCriteriaTextView<T> extends SelectWithCriteriaView<String, T> {
+public class SelectWithCriteriaTextView<T, C extends Collection<T>> extends SelectWithCriteriaView<String, T, C> {
 
 	public SelectWithCriteriaTextView() {
-		this(new SelectMenuView<T>());
+		this((SelectSingleView<T, C>) new MenuSelectView<T>());
 	}
 
-	public SelectWithCriteriaTextView(final SelectView<T> listView) {
-		super(new SearchTextView(), listView);
+	public SelectWithCriteriaTextView(final SelectSingleView<T, C> selectSingleView) {
+		super(new SearchTextView(), selectSingleView);
 	}
 }

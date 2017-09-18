@@ -26,15 +26,14 @@ public class ModelTreeService<T extends ApiTreeable> implements TreeModel<String
 	}
 
 	@Override
-	public T retrieve(final String keyId) {
+	public List<T> retrieveCollection(final String criteria) {
 		try {
-			DataResponse<T> resp = service.retrieve(keyId);
+			DataResponse<List<T>> resp = service.search(criteria);
 			return resp.getData();
 		} catch (Throwable e) {
-			LOG.error("Error doing get item", e);
-			throw new SystemException("Error doing get item. " + e.getMessage(), e);
+			LOG.error("Error doing get children", e);
+			throw new SystemException("Error doing get children. " + e.getMessage(), e);
 		}
-
 	}
 
 	@Override

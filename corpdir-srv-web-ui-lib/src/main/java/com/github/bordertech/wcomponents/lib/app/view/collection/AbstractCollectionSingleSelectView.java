@@ -1,28 +1,20 @@
-package com.github.bordertech.wcomponents.lib.app.view.list;
+package com.github.bordertech.wcomponents.lib.app.view.collection;
 
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
-import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
+import java.util.Collection;
 
 /**
- * Default select list view.
+ * Default single select view.
+ *
+ * @param <T> the Item type
+ * @param <C> the Collection Type
  *
  * @author Jonathan Austin
- * @param <T> the view bean
  * @since 1.0.0
  */
-public class AbstractSelectView<T> extends AbstractListView<T> implements SelectView<T> {
-
-	@Override
-	public void setListMode(final SelectMode mode) {
-		getOrCreateComponentModel().listMode = mode == null ? SelectMode.VIEW : mode;
-	}
-
-	@Override
-	public SelectMode getListMode() {
-		return getComponentModel().listMode;
-	}
+public class AbstractCollectionSingleSelectView<T, C extends Collection<T>> extends AbstractCollectionSelectableView<T, C> implements SelectSingleView<T, C> {
 
 	@Override
 	public void clearSelected() {
@@ -37,7 +29,7 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 	@Override
 	public void setSelectedItem(final T entity) {
 		// Find Bean
-		if (getItemList().contains(entity)) {
+		if (getItems().contains(entity)) {
 			getOrCreateComponentModel().selected = entity;
 		} else {
 			getOrCreateComponentModel().selected = null;
@@ -51,11 +43,6 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 		clearSelected();
 	}
 
-	@Override
-	public void doMakeFormReadonly(final boolean readonly) {
-		setListMode(readonly ? SelectMode.VIEW : SelectMode.SELECT);
-	}
-
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedItem();
 		if (bean == null) {
@@ -63,10 +50,6 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 		} else {
 			dispatchEvent(SelectEventType.SELECT, bean);
 		}
-	}
-
-	protected boolean isListModeView() {
-		return getListMode() == SelectMode.VIEW;
 	}
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
@@ -92,9 +75,7 @@ public class AbstractSelectView<T> extends AbstractListView<T> implements Select
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class SelectModel<T> extends ViewModel {
-
-		private SelectMode listMode = SelectMode.VIEW;
+	public static class SelectModel<T> extends SelectableModel {
 
 		private T selected;
 	}

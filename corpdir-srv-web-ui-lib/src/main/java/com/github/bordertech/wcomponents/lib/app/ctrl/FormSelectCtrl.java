@@ -5,18 +5,20 @@ import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import java.util.Collection;
 
 /**
  * Controller for a Form View and Select View.
  *
  * @author jonathan
  * @param <T> the select entity
+ * @param <C> the collection type
  */
-public class FormSelectCtrl<T> extends DefaultController {
+public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -69,11 +71,11 @@ public class FormSelectCtrl<T> extends DefaultController {
 		}
 	}
 
-	public final SelectView<T> getSelectView() {
+	public final SelectSingleView<T, C> getSelectView() {
 		return getComponentModel().selectView;
 	}
 
-	public final void setSelectView(final SelectView<T> selectView) {
+	public final void setSelectView(final SelectSingleView<T, C> selectView) {
 		getOrCreateComponentModel().selectView = selectView;
 		addView(selectView);
 	}
@@ -125,7 +127,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 
 	protected void handleCreateOkEvent(final T entity) {
 		getSelectView().addItem(entity);
-		getSelectView().showList(true);
+		getSelectView().showCollection(true);
 		getSelectView().setSelectedItem(entity);
 		// Reload Entity
 		doLoadEntity(entity);
@@ -134,7 +136,7 @@ public class FormSelectCtrl<T> extends DefaultController {
 	protected void handleDeleteOkEvent(final T entity) {
 		getSelectView().removeItem(entity);
 		if (getSelectView().getViewBean().isEmpty()) {
-			getSelectView().showList(false);
+			getSelectView().showCollection(false);
 		}
 		dispatchEvent(FormEventType.RESET_FORM);
 	}
@@ -145,26 +147,26 @@ public class FormSelectCtrl<T> extends DefaultController {
 	}
 
 	@Override
-	protected FormSelectModel newComponentModel() {
+	protected FormSelectModel<T, C> newComponentModel() {
 		return new FormSelectModel();
 	}
 
 	@Override
-	protected FormSelectModel getComponentModel() {
+	protected FormSelectModel<T, C> getComponentModel() {
 		return (FormSelectModel) super.getComponentModel();
 	}
 
 	@Override
-	protected FormSelectModel getOrCreateComponentModel() {
+	protected FormSelectModel<T, C> getOrCreateComponentModel() {
 		return (FormSelectModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class FormSelectModel<T> extends CtrlModel {
+	public static class FormSelectModel<T, C extends Collection<T>> extends CtrlModel {
 
-		private SelectView<T> selectView;
+		private SelectSingleView<T, C> selectView;
 	}
 
 }

@@ -8,7 +8,8 @@ import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
-import com.github.bordertech.wcomponents.lib.app.view.SelectView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.SelectButtonBar;
 import com.github.bordertech.wcomponents.lib.div.WDiv;
@@ -19,6 +20,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -26,7 +28,7 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpdateable {
+public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboView<T> implements FormUpdateable {
 
 	private final TranslateEventCtrl transCtrl = new TranslateEventCtrl();
 	private final DefaultComboView dialogView = new DefaultComboView() {
@@ -75,7 +77,7 @@ public class AddDeleteListView<T> extends DefaultComboView<T> implements FormUpd
 		}
 	};
 
-	public AddDeleteListView(final String qualifier, final SelectView<T> selectView, final SelectView<T> findView) {
+	public AddDeleteListView(final String qualifier, final SelectSingleView<T, C> selectView, final SelectableView<T, C> findView) {
 		super("wclib/hbs/layout/combo-add-rem.hbs");
 
 		// Setup qualifier context
