@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.WText;
  * @since 1.0.0
  */
 public class ListBasicView<T> extends AbstractListView<T> {
-
+	
 	private final WList list = new WList(WList.Type.STACKED);
 
 	public ListBasicView() {

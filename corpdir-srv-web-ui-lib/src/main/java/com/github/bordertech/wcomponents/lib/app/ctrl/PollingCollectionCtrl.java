@@ -2,24 +2,25 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
-import com.github.bordertech.wcomponents.lib.app.model.SearchModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollection;
+import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollableModel;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Controller for a Polling View and List View.
  *
  * @author jonathan
  * @param <S> the criteria type
- * @param <T> the result type
+ * @param <T> the item type
+ * @param <C> the collection type
  */
-public class PollingListCtrl<S, T> extends DefaultController implements SearchModelKey {
+public class PollingCollectionCtrl<S, T, C extends Collection<T>> extends DefaultController implements RetrieveCollectionModelKey {
 
 	@Override
 	public void setupController() {
@@ -44,8 +45,8 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		if (getPollingView() == null) {
 			throw new IllegalStateException("A polling view has not been set.");
 		}
-		if (getSearchModelKey() == null) {
-			throw new IllegalStateException("A search model key has not been set.");
+		if (getRetrieveCollectionModelKey() == null) {
+			throw new IllegalStateException("A retrieve collection model key has not been set.");
 		}
 	}
 
@@ -57,10 +58,10 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	public void doStartPolling(final S criteria) {
 		// Setup polling view
 		// Wrap search model into ServiceModel for Polling Panel
-		final SearchModel<S, T> model = getSearchModelImpl();
-		PollableModel<S, List<T>> wrapper = new PollableModel<S, List<T>>() {
+		final RetrieveCollection<S, T, C> model = getRetrieveCollectionImpl();
+		PollableModel<S, C> wrapper = new PollableModel<S, C>() {
 			@Override
-			public List<T> service(final S criteria) {
+			public C service(final S criteria) {
 				return model.retrieveCollection(criteria);
 			}
 		};
@@ -68,27 +69,27 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		dispatchEvent(CollectionEventType.RESET_COLLECTION);
 	}
 
-	public final PollingView<S, List<T>> getPollingView() {
+	public final PollingView<S, C> getPollingView() {
 		return getComponentModel().pollingView;
 	}
 
-	public final void setPollingView(final PollingView<S, List<T>> pollingView) {
+	public final void setPollingView(final PollingView<S, C> pollingView) {
 		getOrCreateComponentModel().pollingView = pollingView;
 		addView(pollingView);
 	}
 
 	@Override
-	public void setSearchModelKey(final String pollingModelKey) {
+	public void setRetrieveCollectionModelKey(final String pollingModelKey) {
 		getOrCreateComponentModel().searchModelKey = pollingModelKey;
 	}
 
 	@Override
-	public String getSearchModelKey() {
+	public String getRetrieveCollectionModelKey() {
 		return getComponentModel().searchModelKey;
 	}
 
-	protected SearchModel<S, T> getSearchModelImpl() {
-		return (SearchModel<S, T>) getModel(getSearchModelKey());
+	protected RetrieveCollection<S, T, C> getRetrieveCollectionImpl() {
+		return (RetrieveCollection<S, T, C>) getModel(getRetrieveCollectionModelKey());
 	}
 
 	protected void handlePollingEvents(final Event event) {
@@ -110,7 +111,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 				handlePollingFailedEvent(excp);
 				break;
 			case COMPLETE:
-				List<T> entities = (List<T>) event.getData();
+				C entities = (C) event.getData();
 				handlePollingCompleteEvent(entities);
 				break;
 			case RESET_POLLING:
@@ -132,7 +133,7 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 		dispatchMessage(MessageEventType.ERROR, excp.getMessage());
 	}
 
-	protected void handlePollingCompleteEvent(final List<T> items) {
+	protected void handlePollingCompleteEvent(final C items) {
 		getPollingView().setContentVisible(false);
 		dispatchEvent(CollectionEventType.LOAD_ITEMS, items);
 	}
@@ -146,26 +147,26 @@ public class PollingListCtrl<S, T> extends DefaultController implements SearchMo
 	}
 
 	@Override
-	protected PollingListModel newComponentModel() {
+	protected PollingListModel<S, T, C> newComponentModel() {
 		return new PollingListModel();
 	}
 
 	@Override
-	protected PollingListModel getComponentModel() {
+	protected PollingListModel<S, T, C> getComponentModel() {
 		return (PollingListModel) super.getComponentModel();
 	}
 
 	@Override
-	protected PollingListModel getOrCreateComponentModel() {
+	protected PollingListModel<S, T, C> getOrCreateComponentModel() {
 		return (PollingListModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class PollingListModel<S, T> extends CtrlModel {
+	public static class PollingListModel<S, T, C extends Collection<T>> extends CtrlModel {
 
-		private PollingView<S, List<T>> pollingView;
+		private PollingView<S, C> pollingView;
 
 		private String searchModelKey;
 	}

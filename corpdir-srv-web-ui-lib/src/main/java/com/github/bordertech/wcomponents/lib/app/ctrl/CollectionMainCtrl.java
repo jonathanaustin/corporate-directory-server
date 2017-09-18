@@ -1,20 +1,21 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
-import com.github.bordertech.wcomponents.lib.app.view.ListView;
+import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
 import com.github.bordertech.wcomponents.lib.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
-import java.util.List;
+import java.util.Collection;
 
 /**
- * Controller for a List View.
+ * Controller for a Collections View.
  *
  * @author jonathan
- * @param <T> the result type
+ * @param <T> the item type
+ * @param <C> the collection type
  */
-public class ListMainCtrl<T> extends DefaultController {
+public class CollectionMainCtrl<T, C extends Collection<T>> extends DefaultController {
 
 	@Override
 	public void setupController() {
@@ -36,29 +37,29 @@ public class ListMainCtrl<T> extends DefaultController {
 	@Override
 	public void checkConfig() {
 		super.checkConfig();
-		if (getListView() == null) {
+		if (getCollectionView() == null) {
 			throw new IllegalStateException("A list view has not been set.");
 		}
 	}
 
-	public final ListView<T> getListView() {
-		return getComponentModel().listView;
+	public final CollectionView<T, C> getCollectionView() {
+		return getComponentModel().collectionView;
 	}
 
-	public final void setListView(final ListView<T> listView) {
-		getOrCreateComponentModel().listView = listView;
-		addView(listView);
+	public final void setCollectionView(final CollectionView<T, C> collectionView) {
+		getOrCreateComponentModel().collectionView = collectionView;
+		addView(collectionView);
 	}
 
 	protected void handleListEvents(final Event event) {
 		CollectionEventType type = (CollectionEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case RESET_COLLECTION:
-				handleResetListEvent();
+				handleResetCollectionEvent();
 				break;
 			case LOAD_ITEMS:
-				List<T> items = (List<T>) event.getData();
-				handleLoadList(items);
+				C items = (C) event.getData();
+				handleLoadItems(items);
 				break;
 			case ADD_ITEM:
 				handleAddItemEvent((T) event.getData());
@@ -73,58 +74,58 @@ public class ListMainCtrl<T> extends DefaultController {
 
 	}
 
-	protected void handleResetListEvent() {
-		getListView().resetView();
+	protected void handleResetCollectionEvent() {
+		getCollectionView().resetView();
 	}
 
 	protected void handleAddItemEvent(final T item) {
-		getListView().addItem(item);
-		getListView().showList(true);
+		getCollectionView().addItem(item);
+		getCollectionView().showCollection(true);
 	}
 
 	protected void handleRemoveItemEvent(final T item) {
-		ListView<T> listView = getListView();
-		listView.removeItem(item);
-		if (listView.getViewBean().isEmpty()) {
-			listView.showList(false);
+		CollectionView<T, C> colView = getCollectionView();
+		colView.removeItem(item);
+		if (colView.getViewBean().isEmpty()) {
+			colView.showCollection(false);
 		}
 	}
 
 	protected void handleUpdateItemEvent(final T item) {
-		getListView().updateItem(item);
+		getCollectionView().updateItem(item);
 	}
 
-	protected void handleLoadList(final List<T> items) {
+	protected void handleLoadItems(final C items) {
 		if (items == null || items.isEmpty()) {
 			dispatchMessage(MessageEventType.INFO, "No records found");
 		} else {
-			ListView<T> listView = getListView();
-			listView.setViewBean(items);
-			listView.setContentVisible(true);
+			CollectionView<T, C> colView = getCollectionView();
+			colView.setViewBean(items);
+			colView.setContentVisible(true);
 		}
 	}
 
 	@Override
-	protected ListActionModel newComponentModel() {
-		return new ListActionModel();
+	protected CollectionMainModel<T, C> newComponentModel() {
+		return new CollectionMainModel();
 	}
 
 	@Override
-	protected ListActionModel getComponentModel() {
-		return (ListActionModel) super.getComponentModel();
+	protected CollectionMainModel<T, C> getComponentModel() {
+		return (CollectionMainModel) super.getComponentModel();
 	}
 
 	@Override
-	protected ListActionModel getOrCreateComponentModel() {
-		return (ListActionModel) super.getOrCreateComponentModel();
+	protected CollectionMainModel<T, C> getOrCreateComponentModel() {
+		return (CollectionMainModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the view.
 	 */
-	public static class ListActionModel<T> extends CtrlModel {
+	public static class CollectionMainModel<T, C extends Collection<T>> extends CtrlModel {
 
-		private ListView<T> listView;
+		private CollectionView<T, C> collectionView;
 	}
 
 }

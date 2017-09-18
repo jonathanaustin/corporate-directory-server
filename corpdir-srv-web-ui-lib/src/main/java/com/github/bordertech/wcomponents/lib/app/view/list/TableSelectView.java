@@ -14,7 +14,7 @@ import java.util.List;
  * @param <T> the item type
  * @since 1.0.0
  */
-public class TableSelectView<T> extends AbstractSelectView<T> {
+public class TableSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final WTable table = new WTable();
 

@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Basic list view.
+ * Basic table view.
  *
  * @author Jonathan Austin
  * @param <T> the item type

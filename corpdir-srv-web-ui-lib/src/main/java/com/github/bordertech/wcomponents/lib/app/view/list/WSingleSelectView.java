@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SelectSingleView<T> extends AbstractSelectView<T> {
+public class WSingleSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final WSingleSelect select = new WSingleSelect() {
 		@Override
@@ -30,21 +30,21 @@ public class SelectSingleView<T> extends AbstractSelectView<T> {
 
 		@Override
 		public boolean isVisible() {
-			return !isListModeView();
+			return !isViewMode();
 		}
 	};
 
 	private final WList list = new WList(WList.Type.STACKED) {
 		@Override
 		public boolean isVisible() {
-			return isListModeView();
+			return isViewMode();
 		}
 
 	};
 
 	private final AppAjaxControl ajax = new AppAjaxControl(select);
 
-	public SelectSingleView() {
+	public WSingleSelectView() {
 		// READONLY Version
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);

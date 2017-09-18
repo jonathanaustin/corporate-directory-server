@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.lib.app.model.TreeModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.ModelProviderFactory;
 import com.github.bordertech.wcomponents.util.TableUtil;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -11,13 +12,12 @@ import java.util.Objects;
 public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
-	private final List<T> EMPTY_ITEMS = Collections.EMPTY_LIST;
-
-	private final List<T> rootItems;
+	private List<T> rootItems;
 	private final TreeModel<S, T> model;
+	private final S criteria;
 
-	public AppTreeItemModel(final List<T> rootItems, final String treeModelKey) {
-		this.rootItems = rootItems == null ? EMPTY_ITEMS : rootItems;
+	public AppTreeItemModel(final S criteria, final String treeModelKey) {
+		this.criteria = criteria;
 		this.model = (TreeModel<S, T>) ModelProviderFactory.getInstance().getModel(treeModelKey);
 	}
 
@@ -34,7 +34,7 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 
 	@Override
 	public int getRowCount() {
-		return rootItems.size();
+		return getRootItems().size();
 	}
 
 	@Override
@@ -56,11 +56,19 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 	}
 
 	public T getItem(final List<Integer> row) {
-		T item = rootItems.get(row.get(1));
+		T item = getRootItems().get(row.get(1));
 		for (int i = 2; i < row.size(); i++) {
 			item = model.getChildren(item).get(row.get(i));
 		}
 		return item;
+	}
+
+	public List<T> getRootItems() {
+		if (rootItems == null) {
+			List<T> items = model.retrieveCollection(criteria);
+			rootItems = items == null ? Collections.EMPTY_LIST : new ArrayList<>(items);
+		}
+		return rootItems;
 	}
 
 }
