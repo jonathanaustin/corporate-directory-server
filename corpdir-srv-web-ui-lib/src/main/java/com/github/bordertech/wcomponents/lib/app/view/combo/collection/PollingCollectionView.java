@@ -1,10 +1,10 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.combo.collection;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.CollectionMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingCollectionCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.Collection;
 
 /**
- * Collection View with a Text Search View.
+ * Polling View and Collection View.
  *
  * @author jonathan
  * @param <S> the criteria type
@@ -100,8 +100,8 @@ public class PollingCollectionView<S, T, C extends Collection<T>> extends Defaul
 	}
 
 	@Override
-	public void showCollection(final boolean show) {
-		collectionView.showCollection(show);
+	public void showView(final boolean show) {
+		collectionView.showView(show);
 	}
 
 	@Override
@@ -117,10 +117,6 @@ public class PollingCollectionView<S, T, C extends Collection<T>> extends Defaul
 	@Override
 	public String getRetrieveCollectionModelKey() {
 		return ctrl.getRetrieveCollectionModelKey();
-	}
-
-	public void doStartPolling(final S criteria) {
-		ctrl.doStartPolling(criteria);
 	}
 
 	@Override

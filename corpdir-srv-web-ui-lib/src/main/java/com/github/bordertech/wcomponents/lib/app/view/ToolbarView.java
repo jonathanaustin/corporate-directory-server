@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.Set;
 

@@ -80,14 +80,14 @@ public class CollectionMainCtrl<T, C extends Collection<T>> extends DefaultContr
 
 	protected void handleAddItemEvent(final T item) {
 		getCollectionView().addItem(item);
-		getCollectionView().showCollection(true);
+		getCollectionView().showView(true);
 	}
 
 	protected void handleRemoveItemEvent(final T item) {
 		CollectionView<T, C> colView = getCollectionView();
 		colView.removeItem(item);
 		if (colView.getViewBean().isEmpty()) {
-			colView.showCollection(false);
+			colView.showView(false);
 		}
 	}
 

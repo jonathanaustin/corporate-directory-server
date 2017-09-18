@@ -43,7 +43,7 @@ public class AbstractCollectionView<T, C extends Collection<T>> extends DefaultV
 	}
 
 	@Override
-	public void showCollection(final boolean show) {
+	public void showView(final boolean show) {
 		setContentVisible(show);
 	}
 
