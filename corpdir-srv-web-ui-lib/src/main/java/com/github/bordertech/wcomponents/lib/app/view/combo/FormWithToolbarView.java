@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
 import com.github.bordertech.wcomponents.lib.app.ctrl.FormToolbarCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;

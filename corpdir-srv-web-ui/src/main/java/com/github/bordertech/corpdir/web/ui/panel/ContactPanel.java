@@ -8,10 +8,11 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.combo.AddDeleteListView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.PollingSelectSingleView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaTextView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.SelectWithCriteriaView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.select.PollingSelectView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.select.SelectWithSearchTextView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.select.SelectWithSearchView;
 import com.github.bordertech.wcomponents.lib.app.view.list.WSingleSelectView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarNavigationItem;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -25,7 +26,7 @@ import java.util.List;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingSelectSingleView selectView;
+	private final PollingSelectView selectView;
 
 // TODO
 //	private String locationId;
@@ -53,8 +54,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
 
 		// Setup the select and find view
-		selectView = new PollingSelectSingleView(new WSingleSelectView());
-		final SelectWithCriteriaView findView = new SelectWithCriteriaTextView() {
+		selectView = new PollingSelectView(new WSingleSelectView());
+		final SelectWithSearchView findView = new SelectWithSearchTextView() {
 			@Override
 			public void configAjax(final View view) {
 				super.configAjax(view);
@@ -84,7 +85,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		Contact bean = getViewBean();
 		// Positions
 		if (!bean.getPositionIds().isEmpty()) {
-			selectView.doStartPolling(new SearchVersionKey(null, bean.getId()));
+			dispatchEvent(PollingEventType.START_POLLING, new SearchVersionKey(null, bean.getId()));
+//			selectView.doStartPolling();
 		}
 		super.initViewContent(request);
 	}

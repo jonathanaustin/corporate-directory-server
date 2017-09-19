@@ -1,5 +1,6 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.combo.select;
 
+import com.github.bordertech.wcomponents.lib.app.view.combo.collection.CollectionWithSearchView;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
@@ -8,16 +9,16 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import java.util.Collection;
 
 /**
- * Select view with a criteria view.
+ * Select view with a search view.
  *
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class SelectWithCriteriaView<S, T, C extends Collection<T>> extends CollectionWithCriteriaView<S, T, C> implements SelectSingleView<T, C> {
+public class SelectWithSearchView<S, T, C extends Collection<T>> extends CollectionWithSearchView<S, T, C> implements SelectSingleView<T, C> {
 
-	public SelectWithCriteriaView(final SearchView<S> criteriaView, final SelectSingleView<T, C> listView) {
+	public SelectWithSearchView(final SearchView<S> criteriaView, final SelectSingleView<T, C> listView) {
 		super(criteriaView, listView);
 		PollingSearchCtrl ctrl = new PollingSearchCtrl();
 		ctrl.setPollingView(getPollingView());

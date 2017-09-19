@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.combo.collection;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
@@ -9,20 +9,20 @@ import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView
 import java.util.Collection;
 
 /**
- * Collection View with a Text Search View.
+ * Collection View with a Search View.
  *
  * @author jonathan
  * @param <S> the search type
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class CollectionWithCriteriaView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> {
+public class CollectionWithSearchView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> {
 
 	private final ToolbarView toolbarView;
 
 	private final SearchView<S> searchView;
 
-	public CollectionWithCriteriaView(final SearchView<S> searchView, final CollectionView<T, C> collectionView) {
+	public CollectionWithSearchView(final SearchView<S> searchView, final CollectionView<T, C> collectionView) {
 		super(collectionView);
 
 		// Views

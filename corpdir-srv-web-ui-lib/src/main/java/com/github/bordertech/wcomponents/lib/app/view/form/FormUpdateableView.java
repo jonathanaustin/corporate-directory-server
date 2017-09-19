@@ -1,8 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
-import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**
  * Default updateable view that can be used as a child a of a from view.
@@ -18,4 +17,5 @@ public class FormUpdateableView<T> extends DefaultView<T> implements FormUpdatea
 	public void doMakeFormReadonly(final boolean readonly) {
 		FormUtil.doMakeInputsReadonly(this, readonly);
 	}
+
 }

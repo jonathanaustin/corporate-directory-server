@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.combo.select;
 
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.list.MenuSelectView;
@@ -12,13 +12,13 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class SelectWithCriteriaTextView<T, C extends Collection<T>> extends SelectWithCriteriaView<String, T, C> {
+public class SelectWithSearchTextView<T, C extends Collection<T>> extends SelectWithSearchView<String, T, C> {
 
-	public SelectWithCriteriaTextView() {
+	public SelectWithSearchTextView() {
 		this((SelectSingleView<T, C>) new MenuSelectView<T>());
 	}
 
-	public SelectWithCriteriaTextView(final SelectSingleView<T, C> selectSingleView) {
+	public SelectWithSearchTextView(final SelectSingleView<T, C> selectSingleView) {
 		super(new SearchTextView(), selectSingleView);
 	}
 }

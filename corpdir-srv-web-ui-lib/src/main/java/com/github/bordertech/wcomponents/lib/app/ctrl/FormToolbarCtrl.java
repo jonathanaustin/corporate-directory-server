@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModelKey;
+import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.flux.Event;

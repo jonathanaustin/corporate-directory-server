@@ -127,7 +127,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 
 	protected void handleCreateOkEvent(final T entity) {
 		getSelectView().addItem(entity);
-		getSelectView().showCollection(true);
+		getSelectView().showView(true);
 		getSelectView().setSelectedItem(entity);
 		// Reload Entity
 		doLoadEntity(entity);
@@ -136,7 +136,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 	protected void handleDeleteOkEvent(final T entity) {
 		getSelectView().removeItem(entity);
 		if (getSelectView().getViewBean().isEmpty()) {
-			getSelectView().showCollection(false);
+			getSelectView().showView(false);
 		}
 		dispatchEvent(FormEventType.RESET_FORM);
 	}

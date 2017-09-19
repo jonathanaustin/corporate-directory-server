@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.model;
+package com.github.bordertech.wcomponents.lib.app.model.keys;
 
 import java.io.Serializable;
 

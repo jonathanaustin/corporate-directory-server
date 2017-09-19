@@ -20,7 +20,7 @@ public interface CollectionView<T, C extends Collection<T>> extends View<C> {
 
 	void updateItem(final T item);
 
-	void showCollection(final boolean show);
+	void showView(final boolean show);
 
 	int getSize();
 

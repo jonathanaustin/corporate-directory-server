@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
-import com.github.bordertech.wcomponents.lib.app.view.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;

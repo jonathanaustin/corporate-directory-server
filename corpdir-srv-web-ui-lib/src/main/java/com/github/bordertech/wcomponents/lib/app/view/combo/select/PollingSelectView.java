@@ -1,20 +1,21 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.combo.select;
 
+import com.github.bordertech.wcomponents.lib.app.view.combo.collection.PollingCollectionView;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import java.util.Collection;
 
 /**
- * Select view with a criteria view.
+ * Polling view and Select Single View.
  *
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class PollingSelectSingleView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> implements SelectSingleView<T, C> {
+public class PollingSelectView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> implements SelectSingleView<T, C> {
 
-	public PollingSelectSingleView(final SelectSingleView<T, C> listView) {
+	public PollingSelectView(final SelectSingleView<T, C> listView) {
 		super(listView);
 	}
 
