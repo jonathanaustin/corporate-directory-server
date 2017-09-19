@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.lib.app.view.input.impl.DropdownOptions
  */
 public class PollingDropdownOptionsView<S, T> extends PollingInputOptionsView<S, T> implements SingleSelectOptionsView<T> {
 
-	public PollingDropdownOptionsView() {
-		super(new DropdownOptionsView<T>());
+	public PollingDropdownOptionsView(final String qualifier) {
+		super(qualifier, new DropdownOptionsView<T>());
 	}
 
 	@Override

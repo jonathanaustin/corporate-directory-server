@@ -5,10 +5,12 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.InputOptionsMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingInputOptionsCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
+import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
+import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 
@@ -27,8 +29,14 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 
 	private final PollingInputOptionsCtrl<S, T> ctrl = new PollingInputOptionsCtrl<>();
 
-	public PollingInputOptionsView(final InputOptionsView<T> optionsView) {
+	public PollingInputOptionsView(final String qualifier, final InputOptionsView<T> optionsView) {
 		super("wclib/hbs/layout/combo-input-select.hbs");
+
+		setQualifier(qualifier);
+		setQualifierContext(true);
+		setBeanProperty(".");
+		setSearchAncestors(true);
+		setBlocking(true);
 
 		// Views
 		this.optionsView = optionsView;
@@ -52,7 +60,20 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 		content.addTaggedComponent("vw-list", optionsView);
 
 		// Default visibility
+		pollingView.setContentVisible(false);
 		optionsView.setContentVisible(false);
+	}
+
+	public void startLoad(final S criteria) {
+		if (!isInitialised()) {
+			configViews();
+		}
+		dispatchEvent(PollingEventType.START_POLLING, criteria);
+	}
+
+	@Override
+	public void configAjax(final View view) {
+		view.addEventAjaxTarget(this);
 	}
 
 	public PollingView<S, List<T>> getPollingView() {
@@ -104,21 +125,6 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 	}
 
 	@Override
-	public void addOption(final T option) {
-		optionsView.addOption(option);
-	}
-
-	@Override
-	public void removeOption(final T option) {
-		optionsView.removeOption(option);
-	}
-
-	@Override
-	public void updateOption(final T option) {
-		optionsView.updateOption(option);
-	}
-
-	@Override
 	public int getSize() {
 		return optionsView.getSize();
 	}
@@ -136,6 +142,26 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 	@Override
 	public void doMakeFormReadonly(final boolean readonly) {
 		optionsView.doMakeFormReadonly(readonly);
+	}
+
+	@Override
+	public void setCodeProperty(final String codeProperty) {
+		optionsView.setCodeProperty(codeProperty);
+	}
+
+	@Override
+	public String getCodeProperty() {
+		return optionsView.getCodeProperty();
+	}
+
+	@Override
+	public void setIncludeNullOption(final boolean includeNullOption) {
+		optionsView.setIncludeNullOption(includeNullOption);
+	}
+
+	@Override
+	public boolean isIncludeNullOption() {
+		return optionsView.isIncludeNullOption();
 	}
 
 }

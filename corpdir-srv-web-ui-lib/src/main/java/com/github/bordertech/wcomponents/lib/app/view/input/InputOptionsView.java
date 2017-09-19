@@ -19,16 +19,18 @@ public interface InputOptionsView<T> extends View<T>, FormUpdateable {
 
 	List<T> getOptions();
 
-	void addOption(final T option);
-
-	void removeOption(final T option);
-
-	void updateOption(final T option);
-
 	int getSize();
 
 	AbstractWSelectList getSelectInput();
 
 	void showView(final boolean show);
+
+	void setCodeProperty(final String codeProperty);
+
+	String getCodeProperty();
+
+	void setIncludeNullOption(final boolean includeNullOption);
+
+	boolean isIncludeNullOption();
 
 }

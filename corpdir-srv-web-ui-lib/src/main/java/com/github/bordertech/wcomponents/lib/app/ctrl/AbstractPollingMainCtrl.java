@@ -126,6 +126,7 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Defa
 				return model.retrieveCollection(criteria);
 			}
 		};
+		getPollingView().setContentVisible(true);
 		getPollingView().doSetupAndStartPolling(criteria, wrapper);
 	}
 

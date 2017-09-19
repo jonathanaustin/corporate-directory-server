@@ -10,8 +10,5 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  */
 public enum OptionsEventType implements EventType {
 	LOAD_OPTIONS,
-	RESET_OPTIONS,
-	ADD_OPTION,
-	UPDATE_OPTION,
-	REMOVE_OPTION
+	RESET_OPTIONS
 }

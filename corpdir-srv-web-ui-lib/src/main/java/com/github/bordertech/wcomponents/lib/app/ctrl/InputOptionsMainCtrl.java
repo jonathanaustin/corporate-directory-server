@@ -60,38 +60,12 @@ public class InputOptionsMainCtrl<T> extends DefaultController {
 				List<T> options = (List<T>) event.getData();
 				handleLoadOptions(options);
 				break;
-			case ADD_OPTION:
-				handleAddOption((T) event.getData());
-				break;
-			case REMOVE_OPTION:
-				handleRemoveOption((T) event.getData());
-				break;
-			case UPDATE_OPTION:
-				handleUpdateOption((T) event.getData());
-				break;
 		}
 
 	}
 
 	protected void handleResetOptions() {
 		getOptionsView().resetView();
-	}
-
-	protected void handleAddOption(final T option) {
-		getOptionsView().addOption(option);
-		getOptionsView().showView(true);
-	}
-
-	protected void handleRemoveOption(final T option) {
-		InputOptionsView<T> optView = getOptionsView();
-		optView.removeOption(option);
-		if (optView.getOptions().isEmpty()) {
-			optView.showView(false);
-		}
-	}
-
-	protected void handleUpdateOption(final T option) {
-		getOptionsView().updateOption(option);
 	}
 
 	protected void handleLoadOptions(final List<T> options) {
