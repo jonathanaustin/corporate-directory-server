@@ -1,10 +1,12 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingDropdownOptionsView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingMultiSelectPairOptionsView;
 
 /**
  * Org Unit detail Form.
@@ -15,10 +17,9 @@ import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingDropdow
 public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 
 	private final PollingDropdownOptionsView<String, UnitType> drpUnitType = new PollingDropdownOptionsView<>("UT");
-	private final PollingDropdownOptionsView<String, UnitType> drpMgrPos = new PollingDropdownOptionsView<>("MP");
+	private final PollingDropdownOptionsView<String, Position> drpMgrPos = new PollingDropdownOptionsView<>("MP");
+	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
-// TODO
-//	private List<String> positionIds;
 	/**
 	 * Construct basic detail panel. \
 	 */
@@ -28,6 +29,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		// Unit Type
 		WLabel lblUnitType = new WLabel("Unit Type", drpUnitType.getSelectInput());
 		getFormLayout().addField(lblUnitType, drpUnitType);
+		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
 		drpUnitType.setRetrieveCollectionModelKey("unittype.search");
@@ -40,10 +42,17 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpMgrPos.getOptionsView().setBeanProperty("managerPosId");
 		drpMgrPos.setRetrieveCollectionModelKey("position.search");
 
-		// FIXME: Temporary delays as firing extra AJX Trigger
-		drpUnitType.getPollingView().setPollingInterval(200);
-		drpMgrPos.getPollingView().setPollingInterval(400);
+		// Positions in Org Unit
+		WLabel lblPos = new WLabel("Positions", multiPos.getSelectInput());
+		getFormLayout().addField(lblPos, multiPos);
+		multiPos.setCodeProperty("id");
+		multiPos.getOptionsView().setBeanProperty("positionIds");
+		multiPos.setRetrieveCollectionModelKey("position.search");
 
+		// FIXME: Temporary delays as firing extra AJX Trigger
+		drpUnitType.getPollingView().setPollingInterval(100);
+		drpMgrPos.getPollingView().setPollingInterval(200);
+		multiPos.getPollingView().setPollingInterval(300);
 	}
 
 	@Override
@@ -51,5 +60,6 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		super.initViewContent(request);
 		drpUnitType.startLoad("");
 		drpMgrPos.startLoad("");
+		multiPos.startLoad("");
 	}
 }
