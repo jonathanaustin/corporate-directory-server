@@ -20,6 +20,23 @@ import java.util.Collection;
  */
 public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultController {
 
+	private boolean loadFresh;
+
+	public FormSelectCtrl() {
+		this(false);
+	}
+
+	public FormSelectCtrl(final boolean loadFresh) {
+		this.loadFresh = loadFresh;
+	}
+
+	/**
+	 * @return true if reload (ie refresh) the entity when selected.
+	 */
+	public final boolean isLoadFresh() {
+		return loadFresh;
+	}
+
 	@Override
 	public void setupController() {
 		super.setupController();
@@ -30,7 +47,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleFormCtrlEvents(event);
+					handleModelOutcomeEvents(event);
 				}
 			};
 			registerListener(eventType, listener);
@@ -80,7 +97,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 		addView(selectView);
 	}
 
-	protected void handleFormCtrlEvents(final Event event) {
+	protected void handleModelOutcomeEvents(final Event event) {
 		ModelOutcomeEventType type = (ModelOutcomeEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case CREATE_OK:
@@ -95,9 +112,16 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 				handleUpdateOkEvent((T) event.getData());
 				break;
 
+			case REFRESH_OK:
+				handleRefreshOkEvent((T) event.getData());
+				break;
+
+			case RETRIEVE_OK:
+				handleRetrieveOkEvent((T) event.getData());
+				break;
+
 			case DELETE_ERROR:
 			case REFRESH_ERROR:
-			case REFRESH_OK:
 			case UPDATE_ERROR:
 				break;
 		}
@@ -111,7 +135,8 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 
 	protected void handleSelectEvent(final T selected) {
 		dispatchMessageReset();
-		doLoadEntity(selected);
+		dispatchEvent(FormEventType.RESET_FORM);
+		dispatchEvent(isLoadFresh() ? ModelEventType.RETRIEVE : FormEventType.LOAD, selected);
 	}
 
 	protected void handleListResetEvent() {
@@ -122,7 +147,17 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 	protected void handleUpdateOkEvent(final T entity) {
 		getSelectView().updateItem(entity);
 		// Reload Entity
-		doLoadEntity(entity);
+		doReloadEntity(entity);
+	}
+
+	protected void handleRefreshOkEvent(final T entity) {
+		getSelectView().updateItem(entity);
+		getSelectView().setSelectedItem(entity);
+	}
+
+	protected void handleRetrieveOkEvent(final T entity) {
+		getSelectView().updateItem(entity);
+		getSelectView().setSelectedItem(entity);
 	}
 
 	protected void handleCreateOkEvent(final T entity) {
@@ -130,7 +165,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 		getSelectView().showView(true);
 		getSelectView().setSelectedItem(entity);
 		// Reload Entity
-		doLoadEntity(entity);
+		doReloadEntity(entity);
 	}
 
 	protected void handleDeleteOkEvent(final T entity) {
@@ -141,7 +176,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 		dispatchEvent(FormEventType.RESET_FORM);
 	}
 
-	protected void doLoadEntity(final T entity) {
+	protected void doReloadEntity(final T entity) {
 		dispatchEvent(FormEventType.RESET_FORM);
 		dispatchEvent(FormEventType.LOAD, entity);
 	}

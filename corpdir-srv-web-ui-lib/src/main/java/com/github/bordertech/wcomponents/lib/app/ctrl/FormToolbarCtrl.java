@@ -163,6 +163,9 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 			case UPDATE:
 				handleSaveAction(false);
 				break;
+			case RETRIEVE:
+				handleRetrieveAction((T) event.getData());
+				break;
 
 			case SELECTED:
 				break;
@@ -204,6 +207,19 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 		} catch (Exception e) {
 			dispatchMessage(MessageEventType.ERROR, "Delete failed. " + e.getMessage());
 			dispatchEvent(ModelOutcomeEventType.DELETE_ERROR, bean, e);
+		}
+	}
+
+	protected void handleRetrieveAction(final T entity) {
+		try {
+			// Load the entity
+			T bean = doRefresh(entity);
+			// Load into the FORM
+			dispatchEvent(FormEventType.LOAD, bean);
+			dispatchEvent(ModelOutcomeEventType.RETRIEVE_OK, bean);
+		} catch (Exception e) {
+			dispatchMessage(MessageEventType.ERROR, "Retrieve failed. " + e.getMessage());
+			dispatchEvent(ModelOutcomeEventType.RETRIEVE_ERROR, entity, e);
 		}
 	}
 

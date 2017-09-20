@@ -7,19 +7,20 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  *
  * @author jonathan
  */
-public enum ToolbarModelItem implements ToolbarItem {
+public enum ToolbarModelEventItem implements ToolbarItem {
 	ADD("Add", ModelEventType.ADD),
 	EDIT("Edit", ModelEventType.EDIT),
 	UPDATE("Update", ModelEventType.UPDATE),
 	CREATE("Create", ModelEventType.CREATE),
 	CANCEL("Cancel", ModelEventType.CANCEL),
-	DELETE("Delete", ModelEventType.DELETE);
+	DELETE("Delete", ModelEventType.DELETE),
+	REFRESH("Refresh", ModelEventType.REFRESH);
 
-	ToolbarModelItem(final String desc, final EventType eventType) {
+	ToolbarModelEventItem(final String desc, final EventType eventType) {
 		this(desc, eventType, null);
 	}
 
-	ToolbarModelItem(final String desc, final EventType eventType, final String imageUrl) {
+	ToolbarModelEventItem(final String desc, final EventType eventType, final String imageUrl) {
 		this.desc = desc;
 		this.eventType = eventType;
 		this.imageUrl = imageUrl;

@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollection;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.flux.Event;
@@ -10,6 +9,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollableModel;
 import java.util.Collection;
+import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModel;
 
 /**
  * Controller for a Polling View.
@@ -68,8 +68,8 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Defa
 		return getComponentModel().collectionModelKey;
 	}
 
-	protected RetrieveCollection<S, T, C> getRetrieveCollectionImpl() {
-		return (RetrieveCollection<S, T, C>) getModel(getRetrieveCollectionModelKey());
+	protected RetrieveCollectionModel<S, T, C> getRetrieveCollectionImpl() {
+		return (RetrieveCollectionModel<S, T, C>) getModel(getRetrieveCollectionModelKey());
 	}
 
 	protected void handlePollingEvents(final Event event) {
@@ -119,7 +119,7 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Defa
 	protected void handleStartPollingSearch(final S criteria) {
 		// Setup polling view
 		// Wrap search model into ServiceModel for Polling Panel
-		final RetrieveCollection<S, T, C> model = getRetrieveCollectionImpl();
+		final RetrieveCollectionModel<S, T, C> model = getRetrieveCollectionImpl();
 		PollableModel<S, C> wrapper = new PollableModel<S, C>() {
 			@Override
 			public C service(final S criteria) {

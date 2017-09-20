@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.View;
@@ -93,6 +93,7 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 		List<Diagnostic> diags = new ArrayList<>();
 		WComponent content = getContent();
 		content.validate(diags);
+		customValidation(diags);
 		content.showWarningIndicators(diags);
 		content.showErrorIndicators(diags);
 
@@ -104,6 +105,9 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 			dispatchMessageReset();
 			return true;
 		}
+	}
+
+	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
 	@Override

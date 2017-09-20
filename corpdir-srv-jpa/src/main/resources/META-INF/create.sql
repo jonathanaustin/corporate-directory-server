@@ -212,6 +212,7 @@ dataVersions_item_id bigint not null,
 dataVersions_versionCtrl_id bigint not null,
 primary key (ContactEntity_id, dataVersions_item_id, dataVersions_versionCtrl_id)
 );
+
 /** Contact versioned links **/
 create table ContactLinks (
 description varchar(255),
@@ -252,9 +253,7 @@ alter table Contact_Channel add constraint UK_Contact_Channel unique (channels_i
 /** Versioned Data - Unique Keys */
 alter table Contact_ContactLinks add constraint UK_Contact_ContactLinks unique (dataVersions_item_id, dataVersions_versionCtrl_id);
 alter table OrgUnit_OrgUnitLinks add constraint UK_OrgUnit_OrgUnitLinks unique (dataVersions_item_id, dataVersions_versionCtrl_id);
-alter table OrgUnitLinks_Position add constraint UK_OrgUnitLinks_Position unique (positions_id);
 alter table Position_PositionLinks add constraint UK_Position_PositionLinks unique (dataVersions_item_id, dataVersions_versionCtrl_id);
-alter table PositionLinks_OrgUnit add constraint UK_PositionLinks_OrgUnit unique (manageOrgUnits_id);
 
 /** Versioned Data - Foreign Keys */
 alter table Contact_ContactLinks add constraint FK_Contact_ContactLinks_to_ContactLinks foreign key (dataVersions_item_id, dataVersions_versionCtrl_id) references ContactLinks;

@@ -10,7 +10,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public interface RetrieveCollection<S, T, C extends Collection<T>> extends Model {
+public interface RetrieveCollectionModel<S, T, C extends Collection<T>> extends Model {
 
 	C retrieveCollection(final S criteria);
 

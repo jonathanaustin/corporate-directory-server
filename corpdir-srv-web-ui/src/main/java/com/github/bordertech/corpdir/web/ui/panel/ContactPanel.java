@@ -1,22 +1,14 @@
 package com.github.bordertech.corpdir.web.ui.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
+import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.model.SearchVersionKey;
-import com.github.bordertech.corpdir.web.ui.util.ApiModelUtil;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
-import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.app.view.combo.AddDeleteListView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.select.PollingSelectView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.select.SelectWithSearchTextView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.select.SelectWithSearchView;
-import com.github.bordertech.wcomponents.lib.app.view.list.WSingleSelectView;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarNavigationItem;
-import com.github.bordertech.wcomponents.lib.mvc.View;
-import java.util.List;
+import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingDropdownOptionsView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingMultiSelectPairOptionsView;
 
 /**
  * Contact detail Form.
@@ -26,10 +18,10 @@ import java.util.List;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingSelectView selectView;
+	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView<>("LOC");
+	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
 // TODO
-//	private String locationId;
 //	private boolean hasImage;
 //	private List<Channel> channels;
 	/**
@@ -50,54 +42,78 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		addressPanel.setBeanProperty("address");
 		getFormPanel().add(addressPanel);
 
-		// Positions
-		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
+		// Location
+		WLabel lbl = new WLabel("Location", drpLocation.getSelectInput());
+		getFormLayout().addField(lbl, drpLocation);
+		drpLocation.setIncludeNullOption(true);
+		drpLocation.setCodeProperty("id");
+		drpLocation.getOptionsView().setBeanProperty("locatinoId");
+		drpLocation.setRetrieveCollectionModelKey("location.search");
 
-		// Setup the select and find view
-		selectView = new PollingSelectView(new WSingleSelectView());
-		final SelectWithSearchView findView = new SelectWithSearchTextView() {
-			@Override
-			public void configAjax(final View view) {
-				super.configAjax(view);
-				// Make the BACK button only have one AJAX Target
-				if (view == getToolbarView()) {
-					view.clearEventAjaxTargets(NavigationEventType.BACK);
-					view.addEventAjaxTarget(selectView, NavigationEventType.BACK);
-				}
-			}
-		};
+		// Assigned Positions
+		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
+		getFormLayout().addField(lbl, multiPos);
+		multiPos.setCodeProperty("id");
+		multiPos.getOptionsView().setBeanProperty("positionIds");
+		multiPos.setRetrieveCollectionModelKey("position.search");
 
-		AddDeleteListView posView = new AddDeleteListView("pos", selectView, findView);
-		getFormPanel().add(posView);
-		// Setup dialog
-		posView.getDialog().setTitle("Search Positions");
-
-		// Models
-		selectView.setRetrieveCollectionModelKey("contact.positions.search");
-		findView.setRetrieveCollectionModelKey("position.search");
-
-		// Use the back button
-		findView.getToolbarView().addToolbarItem(ToolbarNavigationItem.BACK);
-
-	}
-
-	protected void initViewContent(final Request request) {
-		Contact bean = getViewBean();
-		// Positions
-		if (!bean.getPositionIds().isEmpty()) {
-			dispatchEvent(PollingEventType.START_POLLING, new SearchVersionKey(null, bean.getId()));
-//			selectView.doStartPolling();
-		}
-		super.initViewContent(request);
 	}
 
 	@Override
-	public void updateBeanValue() {
-		super.updateBeanValue();
-		Contact bean = getViewBean();
-		// Positions
-		List<Position> positions = (List<Position>) selectView.getCollectionView().getBeanValue();
-		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
+	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
+		drpLocation.startLoad("");
+		multiPos.startLoad("");
 	}
 
+//	private void setupSearch(){
+//
+//		// Positions
+//		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
+//
+//		// Setup the select and find view
+//		selectView = new PollingSelectView(new WSingleSelectView());
+//		final SelectWithSearchView findView = new SelectWithSearchTextView() {
+//			@Override
+//			public void configAjax(final View view) {
+//				super.configAjax(view);
+//				// Make the BACK button only have one AJAX Target
+//				if (view == getToolbarView()) {
+//					view.clearEventAjaxTargets(NavigationEventType.BACK);
+//					view.addEventAjaxTarget(selectView, NavigationEventType.BACK);
+//				}
+//			}
+//		};
+//
+//		AddDeleteListView posView = new AddDeleteListView("pos", selectView, findView);
+//		getFormPanel().add(posView);
+//		// Setup dialog
+//		posView.getDialog().setTitle("Search Positions");
+//
+//		// Models
+//		selectView.setRetrieveCollectionModelKey("contact.positions.search");
+//		findView.setRetrieveCollectionModelKey("position.search");
+//
+//		// Use the back button
+//		findView.getToolbarView().addToolbarItem(ToolbarNavigationItem.BACK);
+//	}
+//	@Override
+//	protected void initViewContent(final Request request) {
+//		Contact bean = getViewBean();
+//		// Positions
+//		if (!bean.getPositionIds().isEmpty()) {
+//			dispatchEvent(PollingEventType.START_POLLING, new SearchVersionKey(null, bean.getId()));
+////			selectView.doStartPolling();
+//		}
+//		super.initViewContent(request);
+//	}
+//
+//	@Override
+//	public void updateBeanValue() {
+//		super.updateBeanValue();
+//		Contact bean = getViewBean();
+//		// Positions
+//		List<Position> positions = (List<Position>) selectView.getCollectionView().getBeanValue();
+//		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
+//	}
 }

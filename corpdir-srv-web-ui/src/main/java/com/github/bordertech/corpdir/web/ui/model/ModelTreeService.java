@@ -30,7 +30,7 @@ public class ModelTreeService<T extends ApiTreeable> implements TreeModel<String
 		try {
 			DataResponse<List<T>> resp = service.search(criteria);
 			return resp.getData();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			LOG.error("Error doing get children", e);
 			throw new SystemException("Error doing get children. " + e.getMessage(), e);
 		}
@@ -41,7 +41,7 @@ public class ModelTreeService<T extends ApiTreeable> implements TreeModel<String
 		try {
 			DataResponse<List<T>> resp = service.getSubs(entity.getId());
 			return resp.getData();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			LOG.error("Error doing get children", e);
 			throw new SystemException("Error doing get children. " + e.getMessage(), e);
 		}

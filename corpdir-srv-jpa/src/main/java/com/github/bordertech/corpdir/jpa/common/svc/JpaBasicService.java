@@ -69,6 +69,7 @@ public abstract class JpaBasicService<A extends ApiKeyIdObject, P extends Persis
 			P entity = getEntity(em, keyId);
 			handleUpdateVerify(em, apiObject, entity);
 			getMapper().copyApiToEntity(em, apiObject, entity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {

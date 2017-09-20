@@ -32,8 +32,8 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 	public PollingInputOptionsView(final String qualifier, final InputOptionsView<T> optionsView) {
 		super("wclib/hbs/layout/combo-input-select.hbs");
 
-		setQualifier(qualifier);
-		setQualifierContext(true);
+		setQualifierAndMessageQualifier(qualifier);
+		setQualifierAndMessageQualifierContext(true);
 		setBeanProperty(".");
 		setSearchAncestors(true);
 		setBlocking(true);
