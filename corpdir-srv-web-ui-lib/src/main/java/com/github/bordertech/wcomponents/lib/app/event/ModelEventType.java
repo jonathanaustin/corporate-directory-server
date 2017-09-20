@@ -11,6 +11,7 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
 public enum ModelEventType implements EventType {
 	CANCEL,
 	EDIT,
+	RETRIEVE,
 	ADD,
 	CREATE,
 	UPDATE,

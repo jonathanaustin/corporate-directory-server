@@ -9,6 +9,8 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  */
 public enum ModelOutcomeEventType implements EventType {
+	RETRIEVE_OK,
+	RETRIEVE_ERROR,
 	REFRESH_OK,
 	REFRESH_ERROR,
 	DELETE_OK,

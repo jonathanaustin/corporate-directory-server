@@ -26,7 +26,7 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 	private final WMenuItem itemAdd = new AppMenuItem("Add", ModelEventType.ADD) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelItem.ADD);
+			return isUseToolbarItem(ToolbarModelEventItem.ADD);
 		}
 	};
 

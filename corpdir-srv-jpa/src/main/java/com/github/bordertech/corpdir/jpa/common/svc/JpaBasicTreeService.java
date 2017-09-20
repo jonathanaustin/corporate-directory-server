@@ -25,21 +25,16 @@ import javax.persistence.criteria.Root;
 public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicService<A, P> implements BasicTreeService<A> {
 
 	@Override
-	public DataResponse<List<A>> search(final String search) {
-		if (search == null || search.isEmpty()) {
-			return getRootItems();
-		}
-		return super.search(search);
-	}
-
-	@Override
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
 		super.handleUpdateVerify(em, api, entity);
 		if (Objects.equals(api.getId(), api.getParentId())) {
-			throw new IllegalArgumentException("Cannot have itself as a parent OU.");
+			throw new IllegalArgumentException("Cannot have itself as a parent.");
 		}
 		if (api.getSubIds().contains(api.getId())) {
-			throw new IllegalArgumentException("Cannot have itself as a child OU.");
+			throw new IllegalArgumentException("Cannot have itself as a child.");
+		}
+		if (api.getParentId() != null && api.getSubIds().contains(api.getParentId())) {
+			throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
 		}
 	}
 
@@ -64,9 +59,12 @@ public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends Persi
 			P entity = getEntity(em, keyId);
 			// Get the sub entity
 			P subEntity = getEntity(em, subKeyId);
-			// Cant add an OU to itself
+			// Cant add an entity to itself
 			if (Objects.equals(entity, subEntity)) {
 				throw new IllegalArgumentException("Cannot add an Entity as a child to itself");
+			}
+			if (Objects.equals(entity.getParent(), subEntity)) {
+				throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
 			}
 			// Remove Entity from its OLD parent (if it had one)
 			P oldParent = subEntity.getParent();
@@ -75,6 +73,7 @@ public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends Persi
 			}
 			// Add to the new parent
 			entity.addChild(subEntity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {
@@ -96,6 +95,7 @@ public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends Persi
 			P subOrgUnit = getEntity(em, subKeyId);
 			// Remove the entity
 			entity.removeChild(subOrgUnit);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity);
 		} finally {

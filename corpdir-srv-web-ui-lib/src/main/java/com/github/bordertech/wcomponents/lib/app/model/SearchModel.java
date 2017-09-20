@@ -8,6 +8,6 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the response type
  */
-public interface SearchModel<S, T> extends RetrieveCollection<S, T, List<T>> {
+public interface SearchModel<S, T> extends RetrieveCollectionModel<S, T, List<T>> {
 
 }

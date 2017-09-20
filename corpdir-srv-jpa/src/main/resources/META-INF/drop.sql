@@ -21,9 +21,7 @@ alter table Contact_Channel drop constraint UK_Contact_Channel;
 
 /** Versioned Data - Unique Keys */
 alter table Contact_ContactLinks drop constraint UK_Contact_ContactLinks;
-alter table OrgUnit_OrgUnitLinks drop constraint UK_OrgUnit_OrgUnitLinks;
 alter table OrgUnitLinks_Position drop constraint UK_OrgUnitLinks_Position;
-alter table Position_PositionLinks drop constraint UK_Position_PositionLinks;
 alter table PositionLinks_OrgUnit drop constraint UK_PositionLinks_OrgUnit;
 
 /** Versioned Data - Foreign Keys */

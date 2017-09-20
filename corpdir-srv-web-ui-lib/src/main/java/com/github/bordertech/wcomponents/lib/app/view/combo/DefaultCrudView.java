@@ -23,7 +23,7 @@ import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarModelItem;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarModelEventItem;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
@@ -71,7 +71,7 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 		ToolbarView toolbarView = new DefaultToolbarView();
 
 		// Ctrls
-		FormSelectCtrl<T, C> formSelectCtrl = new FormSelectCtrl<>();
+		FormSelectCtrl<T, C> formSelectCtrl = new FormSelectCtrl<>(true);
 		FormMainCtrl formCtrl = new FormMainCtrl();
 		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 		CollectionMainCtrl listCtrl = new CollectionMainCtrl();
@@ -153,7 +153,7 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 		content.addParameter("vw-title", title);
 
 		// Toolbar Defaults
-		toolbarView.addToolbarItem(ToolbarModelItem.ADD);
+		toolbarView.addToolbarItem(ToolbarModelEventItem.ADD);
 
 		// Default visibility
 		selectView.setContentVisible(false);

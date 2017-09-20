@@ -33,14 +33,6 @@ import javax.persistence.criteria.Root;
 public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends JpaBasicVersionService<A, U, P> implements BasicVersionTreeService<A> {
 
 	@Override
-	public DataResponse<List<A>> search(final Long versionId, final String search) {
-		if (search == null || search.isEmpty()) {
-			return getRootItems(versionId);
-		}
-		return super.search(versionId, search);
-	}
-
-	@Override
 	public DataResponse<List<A>> getRootItems() {
 		return getRootItems(getCurrentVersionId());
 	}
@@ -95,12 +87,16 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
 			U tree = subEntity.getDataVersion(versionId);
+			if (Objects.equals(tree.getParentItem(), subEntity)) {
+				throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
+			}
 			P oldParent = tree == null ? null : tree.getParentItem();
 			if (oldParent != null) {
 				oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
 			}
 			// Add Child to the new parent
 			entity.getOrCreateDataVersion(ctrl).addChildItem(subEntity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {
@@ -124,6 +120,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the sub entity
 			entity.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {
@@ -135,10 +132,13 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
 		super.handleUpdateVerify(em, api, entity);
 		if (Objects.equals(api.getId(), api.getParentId())) {
-			throw new IllegalArgumentException("Cannot have itself as a parent OU.");
+			throw new IllegalArgumentException("Cannot have itself as a parent.");
 		}
 		if (api.getSubIds().contains(api.getId())) {
-			throw new IllegalArgumentException("Cannot have itself as a child OU.");
+			throw new IllegalArgumentException("Cannot have itself as a child.");
+		}
+		if (api.getParentId() != null && api.getSubIds().contains(api.getParentId())) {
+			throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
 		}
 	}
 

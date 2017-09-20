@@ -90,6 +90,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 			Long versionId = apiObject.getVersionId();
 			getMapper().copyApiToEntity(em, apiObject, entity, versionId);
 			em.getTransaction().commit();
+			em.merge(entity);
 			return buildResponse(em, entity, versionId);
 		} finally {
 			em.close();
