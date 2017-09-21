@@ -60,7 +60,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			PersistVersionableTree tree = entity.getDataVersion(versionId);
 			List<A> list;
 			if (tree == null) {
-				list = Collections.EMPTY_LIST;
+				list = Collections.emptyList();
 			} else {
 				list = getMapper().convertEntitiesToApis(em, tree.getChildrenItems(), versionId);
 			}
@@ -87,12 +87,14 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
 			U tree = subEntity.getDataVersion(versionId);
-			if (Objects.equals(tree.getParentItem(), subEntity)) {
-				throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
-			}
-			P oldParent = tree == null ? null : tree.getParentItem();
-			if (oldParent != null) {
-				oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+			if(tree != null) {
+				if (Objects.equals(tree.getParentItem(), subEntity)) {
+					throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
+				}
+				P oldParent = tree.getParentItem();
+				if (oldParent != null) {
+					oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+				}
 			}
 			// Add Child to the new parent
 			entity.getOrCreateDataVersion(ctrl).addChildItem(subEntity);

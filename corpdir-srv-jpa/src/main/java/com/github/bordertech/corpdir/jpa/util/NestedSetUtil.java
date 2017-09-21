@@ -9,6 +9,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
+import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 
 /**
@@ -55,6 +57,9 @@ public final class NestedSetUtil {
 
 	private static void rebuildLeftRightThreadBasedOnParent(final List<? extends PersistentNestedObject> entities) {
 		PersistentNestedObject root = findRootFromList(entities);
+		if(root == null) {
+			throw new NotFoundException("No root found for entity list");
+		}
 		root.setLeftIdx(0L);
 		root.setThreadId(root.getId());
 		long current = rebuildLeftRightThreadBasedOnParentRec(entities, root.getId(), root, 1);
