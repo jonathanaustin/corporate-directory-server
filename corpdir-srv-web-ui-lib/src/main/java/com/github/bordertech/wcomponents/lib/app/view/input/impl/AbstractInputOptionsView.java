@@ -39,7 +39,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultView<T> impleme
 	@Override
 	public void setOptions(final List<T> options) {
 		getSelectInput().reset();
-		if (isIncludeNullOption() && !options.contains(null)) {
+		if (isIncludeNullOption() && !options.contains((T) null)) {
 			List<T> withNull = new ArrayList<>(options);
 			withNull.add(0, null);
 			getSelectInput().setOptions(withNull);
@@ -138,7 +138,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultView<T> impleme
 		});
 	}
 
-	abstract protected void doDispatchSelectEvent();
+	protected abstract void doDispatchSelectEvent();
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
 		registerEventAjaxControl(SelectEventType.UNSELECT, ctrl);
