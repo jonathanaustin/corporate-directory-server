@@ -26,7 +26,7 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	private final WDefinitionList versionDef = new WDefinitionList(WDefinitionList.Type.COLUMN);
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic API ID panel.
 	 */
 	public BasicApiIdPanel() {
 		this(true);

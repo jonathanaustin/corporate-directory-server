@@ -27,7 +27,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic org unit panel.
 	 */
 	public OrgUnitPanel() {
 		super();

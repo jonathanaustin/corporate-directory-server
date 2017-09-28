@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.panel;
 import com.github.bordertech.corpdir.api.v1.model.Address;
 
 /**
- * Address panel;
+ * Address panel.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -11,7 +11,7 @@ import com.github.bordertech.corpdir.api.v1.model.Address;
 public class AddressPanel extends BasicApiPanel<Address> {
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic address panel.
 	 */
 	public AddressPanel() {
 		// Address Details

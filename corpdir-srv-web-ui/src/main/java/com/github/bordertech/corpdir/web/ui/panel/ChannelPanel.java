@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
 import com.github.bordertech.wcomponents.WDropdown;
 
 /**
- * Channel panel;
+ * Channel panel.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -13,7 +13,7 @@ import com.github.bordertech.wcomponents.WDropdown;
 public class ChannelPanel extends BasicApiKeyPanel<Channel> {
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic channel panel.
 	 */
 	public ChannelPanel() {
 		WDropdown dropType = new WDropdown(ChannelTypeEnum.values());

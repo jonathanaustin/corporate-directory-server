@@ -23,13 +23,15 @@ public class BasicApiPanel<T extends ApiObject> extends FormUpdateableView<T> {
 
 	private final WFieldLayout formLayout = new WFieldLayout();
 
+	private static final int LABEL_WIDTH = 30;
+
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic API panel.
 	 */
 	public BasicApiPanel() {
 		getContent().add(formPanel);
 		formPanel.add(formLayout);
-		formLayout.setLabelWidth(30);
+		formLayout.setLabelWidth(LABEL_WIDTH);
 
 		setBeanProperty(".");
 		setSearchAncestors(true);
@@ -49,14 +51,36 @@ public class BasicApiPanel<T extends ApiObject> extends FormUpdateableView<T> {
 		return formLayout;
 	}
 
+	/**
+	 * Adds a simple text input field to the form.
+	 * @param label The label that indicates to the user what information should be entered into this field.
+	 * @param beanProperty The property this data will be stored in.
+	 * @param mandatory true if this is a mandatory field (the user must enter a value for the form the be considered valid).
+	 * @return the field which was added.
+	 */
 	protected final WField addTextField(final String label, final String beanProperty, final boolean mandatory) {
 		return addInputField(new WTextField(), label, beanProperty, mandatory);
 	}
 
+	/**
+	 * Adds a check box field to the form.
+	 * @param label The label that indicates to the user what information this check box represents.
+	 * @param beanProperty The property this data will be stored in.
+	 * @param mandatory true if this is a mandatory field.
+	 * @return the field which was added.
+	 */
 	protected final WField addCheckBox(final String label, final String beanProperty, final boolean mandatory) {
 		return addInputField(new WCheckBox(), label, beanProperty, mandatory);
 	}
 
+	/**
+	 * Adds an Input field to the form.
+	 * @param input The input field to add to the form.
+	 * @param label The label that indicates to the user what information this field represents.
+	 * @param beanProperty The property this data will be stored in.
+	 * @param mandatory true if this is a mandatory field for the purposes of validation.
+	 * @return the field which was added.
+	 */
 	protected final WField addInputField(final Input input, final String label, final String beanProperty, final boolean mandatory) {
 		input.setMandatory(mandatory);
 		input.setBeanProperty(beanProperty);
