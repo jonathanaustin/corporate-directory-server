@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
-import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.util.ViewUtil;

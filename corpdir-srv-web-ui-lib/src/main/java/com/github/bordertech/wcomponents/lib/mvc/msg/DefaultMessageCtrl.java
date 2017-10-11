@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.impl.EventMatcher;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.validation.WValidationErrors;
 import java.util.Collections;

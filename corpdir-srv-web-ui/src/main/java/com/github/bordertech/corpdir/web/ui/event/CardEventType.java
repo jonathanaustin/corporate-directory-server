@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.event;
 
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Cards.

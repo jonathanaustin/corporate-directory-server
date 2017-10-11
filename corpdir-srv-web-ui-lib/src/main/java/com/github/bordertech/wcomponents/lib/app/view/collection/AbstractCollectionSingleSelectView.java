@@ -28,13 +28,7 @@ public class AbstractCollectionSingleSelectView<T, C extends Collection<T>> exte
 
 	@Override
 	public void setSelectedItem(final T entity) {
-		// Find Bean
-		if (getItems().contains(entity)) {
-			getOrCreateComponentModel().selected = entity;
-		} else {
-			getOrCreateComponentModel().selected = null;
-		}
-
+		getOrCreateComponentModel().selected = entity;
 	}
 
 	@Override

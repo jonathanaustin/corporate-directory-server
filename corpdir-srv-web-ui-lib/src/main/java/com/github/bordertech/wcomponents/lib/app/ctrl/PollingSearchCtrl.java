@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import java.util.Collection;
 

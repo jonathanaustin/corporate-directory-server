@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.Matcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.EventMatcher;
+import com.github.bordertech.flux.Dispatcher;
+import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.Matcher;
+import com.github.bordertech.flux.impl.EventMatcher;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.Model;
 import com.github.bordertech.wcomponents.lib.mvc.View;

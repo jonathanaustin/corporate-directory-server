@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultEvent;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.impl.DefaultEvent;
 import com.github.bordertech.wcomponents.lib.mvc.impl.*;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEvent;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;

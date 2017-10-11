@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Abstract Menu Toolbar implementation.

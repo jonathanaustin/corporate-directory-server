@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.event;
 
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Select item in Collection event type.

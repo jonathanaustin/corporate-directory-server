@@ -1,9 +1,9 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.Dispatcher;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
