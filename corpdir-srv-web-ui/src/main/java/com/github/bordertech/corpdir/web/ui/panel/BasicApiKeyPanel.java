@@ -12,12 +12,15 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
  */
 public class BasicApiKeyPanel<T extends ApiKeyIdObject> extends BasicApiIdPanel<T> {
 
+	/**
+	 * Create a new instance of this panel.
+	 */
 	public BasicApiKeyPanel() {
 		this(true);
 	}
 
 	/**
-	 * Construct basic detail panel.
+	 * Construct basic API Key panel.
 	 *
 	 * @param addFields add the default fields
 	 */
@@ -29,7 +32,7 @@ public class BasicApiKeyPanel<T extends ApiKeyIdObject> extends BasicApiIdPanel<
 			addCheckBox("Active", "active", false);
 		}
 
-		// Version Defaul
+		// Version Default
 		addVersionItem("Custom", "custom");
 	}
 

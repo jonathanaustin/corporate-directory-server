@@ -29,7 +29,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 	private final PollingMultiSelectPairOptionsView<String, Contact> multiContact = new PollingMultiSelectPairOptionsView<>("CON");
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic position panel.
 	 */
 	public PositionPanel() {
 		super();

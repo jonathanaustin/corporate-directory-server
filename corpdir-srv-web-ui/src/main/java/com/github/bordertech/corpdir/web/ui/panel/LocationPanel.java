@@ -23,7 +23,7 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 	private final PollingMultiSelectPairOptionsView<String, Location> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
 	/**
-	 * Construct basic detail panel. \
+	 * Construct basic location panel.
 	 */
 	public LocationPanel() {
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
