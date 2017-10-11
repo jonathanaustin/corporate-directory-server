@@ -48,6 +48,7 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 	private final PollingCollectionCtrl<S, T, C> pollingListCtrl = new PollingCollectionCtrl();
 
 	private final SearchView searchView;
+	private final SelectSingleView<T, C> selectView;
 	private final FormView<T> formView;
 	private final FormToolbarView formToolbarView = new DefaultFormToolbarView();
 
@@ -55,12 +56,16 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 		this(title, null, null, null, panel);
 	}
 
+	public DefaultCrudView(final String title, final WComponent panel, final SelectSingleView<T, C> selectView2) {
+		this(title, null, selectView2, null, panel);
+	}
+
 	public DefaultCrudView(final String title, final SearchView<S> criteriaView2, final SelectSingleView<T, C> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super("wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
 		searchView = criteriaView2 == null ? new SearchTextView() : criteriaView2;
-		SelectSingleView<T, C> selectView = selectView2 == null ? (SelectSingleView<T, C>) new MenuSelectView<T>() : selectView2;
+		selectView = selectView2 == null ? (SelectSingleView<T, C>) new MenuSelectView<T>() : selectView2;
 		formView = formView2 == null ? new AbstractFormView<T>() : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
@@ -162,6 +167,10 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 		setBlocking(true);
 
 		setQualifierAndMessageQualifierContext(true);
+	}
+
+	public final SelectSingleView<T, C> getSelectView() {
+		return selectView;
 	}
 
 	@Override

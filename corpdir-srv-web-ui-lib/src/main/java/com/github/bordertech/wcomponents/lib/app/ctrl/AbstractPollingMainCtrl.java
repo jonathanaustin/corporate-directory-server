@@ -3,13 +3,13 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
-import com.github.bordertech.wcomponents.lib.polling.PollableModel;
 import java.util.Collection;
 import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModel;
+import com.github.bordertech.wcomponents.polling.ServiceAction;
 
 /**
  * Controller for a Polling View.
@@ -120,7 +120,7 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Defa
 		// Setup polling view
 		// Wrap search model into ServiceModel for Polling Panel
 		final RetrieveCollectionModel<S, T, C> model = getRetrieveCollectionImpl();
-		PollableModel<S, C> wrapper = new PollableModel<S, C>() {
+		ServiceAction<S, C> wrapper = new ServiceAction<S, C>() {
 			@Override
 			public C service(final S criteria) {
 				return model.retrieveCollection(criteria);

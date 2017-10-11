@@ -96,13 +96,12 @@ public final class MapperUtil {
 	 * @return the list of converted API business keys
 	 */
 	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistKeyIdObject> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
 		List<String> items = new ArrayList<>();
-		for (PersistKeyIdObject row : rows) {
-			if (row != null) {
-				items.add(convertEntityIdforApi(row));
+		if (rows != null) {
+			for (PersistKeyIdObject row : rows) {
+				if (row != null) {
+					items.add(convertEntityIdforApi(row));
+				}
 			}
 		}
 		return items;
@@ -115,13 +114,12 @@ public final class MapperUtil {
 	 * @return the list of clean API keys
 	 */
 	public static List<String> cleanApiKeys(final Collection<String> keys) {
-		if (keys == null || keys.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
 		List<String> items = new ArrayList<>();
-		for (String key : keys) {
-			if (key != null && !key.isEmpty()) {
-				items.add(key);
+		if (keys != null) {
+			for (String key : keys) {
+				if (key != null && !key.isEmpty()) {
+					items.add(key);
+				}
 			}
 		}
 		return items;

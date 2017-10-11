@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Qualifier;
-import com.github.bordertech.wcomponents.lib.flux.impl.EventQualifier;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Qualifier;
+import com.github.bordertech.flux.impl.EventQualifier;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Arrays;
 import java.util.Collections;

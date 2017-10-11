@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Message events.

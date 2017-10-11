@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
-import com.github.bordertech.wcomponents.lib.div.WDiv;
+import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 

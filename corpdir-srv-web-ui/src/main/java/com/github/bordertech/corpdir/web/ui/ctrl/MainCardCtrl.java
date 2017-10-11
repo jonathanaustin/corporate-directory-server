@@ -5,8 +5,8 @@ import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.corpdir.web.ui.view.MainCardView;
 import com.github.bordertech.corpdir.web.ui.view.MainToolbarView;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.flux.Event;
-import com.github.bordertech.wcomponents.lib.flux.Listener;
+import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
 
 /**

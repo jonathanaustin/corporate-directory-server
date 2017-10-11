@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.common;
 
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  *

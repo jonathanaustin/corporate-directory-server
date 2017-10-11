@@ -4,26 +4,29 @@ import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.lib.app.model.TreeModel;
 import com.github.bordertech.wcomponents.lib.mvc.impl.ModelProviderFactory;
 import com.github.bordertech.wcomponents.util.TableUtil;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
 public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
-	private List<T> rootItems;
+	private final List<T> rootItems;
 	private final TreeModel<S, T> model;
-	private final S criteria;
 
-	public AppTreeItemModel(final S criteria, final String treeModelKey) {
-		this.criteria = criteria;
+	public AppTreeItemModel(final List<T> rootItems, final String treeModelKey) {
+		this.rootItems = rootItems;
 		this.model = (TreeModel<S, T>) ModelProviderFactory.getInstance().getModel(treeModelKey);
+	}
+
+	public String getItemId(final T item) {
+		return model.getItemId(item);
 	}
 
 	@Override
 	public String getItemId(final List<Integer> row) {
-		return TableUtil.rowIndexListToString(row);
+		T item = getItem(row);
+		String id = model.getItemId(item);
+		return id == null ? TableUtil.rowIndexListToString(row) : id;
 	}
 
 	@Override
@@ -40,7 +43,7 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 	@Override
 	public int getChildCount(final List<Integer> row) {
 		T item = getItem(row);
-		return model.getChildren(item).size();
+		return loadChildren(item).size();
 	}
 
 	@Override
@@ -56,19 +59,19 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 	}
 
 	public T getItem(final List<Integer> row) {
-		T item = getRootItems().get(row.get(1));
-		for (int i = 2; i < row.size(); i++) {
-			item = model.getChildren(item).get(row.get(i));
+		T item = getRootItems().get(row.get(0));
+		for (int i = 1; i < row.size(); i++) {
+			item = loadChildren(item).get(row.get(i));
 		}
 		return item;
 	}
 
-	public List<T> getRootItems() {
-		if (rootItems == null) {
-			List<T> items = model.retrieveCollection(criteria);
-			rootItems = items == null ? Collections.EMPTY_LIST : new ArrayList<>(items);
-		}
+	protected List<T> getRootItems() {
 		return rootItems;
+	}
+
+	protected List<T> loadChildren(final T item) {
+		return model.getChildren(item);
 	}
 
 }

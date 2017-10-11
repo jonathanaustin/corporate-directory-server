@@ -4,13 +4,13 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
-import com.github.bordertech.wcomponents.lib.polling.PollableModel;
-import com.github.bordertech.wcomponents.lib.polling.PollingServicePanel;
-import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.polling.PollingServicePanel;
+import com.github.bordertech.wcomponents.polling.PollingStatus;
 import java.util.List;
+import com.github.bordertech.wcomponents.polling.ServiceAction;
 
 /**
  * Default polling view.
@@ -168,13 +168,13 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	}
 
 	@Override
-	public PollableModel<S, T> getServiceModel() {
-		return pollingPanel.getServiceModel();
+	public ServiceAction<S, T> getServiceAction() {
+		return pollingPanel.getServiceAction();
 	}
 
 	@Override
-	public void setServiceModel(final PollableModel<S, T> serviceModel) {
-		pollingPanel.setServiceModel(serviceModel);
+	public void setServiceAction(final ServiceAction<S, T> serviceModel) {
+		pollingPanel.setServiceAction(serviceModel);
 	}
 
 	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
@@ -187,12 +187,12 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 	}
 
 	@Override
-	public void doSetupAndStartPolling(final S criteria, final PollableModel<S, T> serviceModel) {
+	public void doSetupAndStartPolling(final S criteria, final ServiceAction<S, T> serviceModel) {
 		resetView();
 		setPollingCriteria(criteria);
 		// Wrap the service model
 
-		setServiceModel(serviceModel);
+		setServiceAction(serviceModel);
 		// Making the panel visible starts the polling
 		setContentVisible(true);
 	}

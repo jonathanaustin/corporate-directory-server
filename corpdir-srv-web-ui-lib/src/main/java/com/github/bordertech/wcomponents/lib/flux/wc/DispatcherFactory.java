@@ -2,9 +2,9 @@ package com.github.bordertech.wcomponents.lib.flux.wc;
 
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DefaultDispatcher;
-import com.github.bordertech.wcomponents.lib.flux.impl.DispatcherModel;
+import com.github.bordertech.flux.Dispatcher;
+import com.github.bordertech.flux.impl.DefaultDispatcher;
+import com.github.bordertech.flux.impl.DispatcherModel;
 
 /**
  *
