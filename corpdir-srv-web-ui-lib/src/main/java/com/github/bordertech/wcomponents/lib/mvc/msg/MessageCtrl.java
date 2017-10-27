@@ -1,12 +1,13 @@
 package com.github.bordertech.wcomponents.lib.mvc.msg;
 
+import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import java.util.Set;
 
 /**
  *
  * @author jonathan
  */
-public interface MessageCtrl {
+public interface MessageCtrl extends Controller {
 
 	/**
 	 * Add all message event types (this is the default state).
@@ -17,13 +18,13 @@ public interface MessageCtrl {
 	 *
 	 * @param type the message event type to listen for
 	 */
-	void addHandleMsgType(final MsgEventType type);
+	void addHandleMsgType(final MessageEventType type);
 
 	/**
 	 *
 	 * @param type the message type to no longer list to
 	 */
-	void removeHandleMsgType(final MsgEventType type);
+	void removeHandleMsgType(final MessageEventType type);
 
 	/**
 	 * Helper method to just listen to validation errors and errors.
@@ -39,7 +40,7 @@ public interface MessageCtrl {
 	 *
 	 * @return the set of message event types being listened to.
 	 */
-	Set<MsgEventType> getHandleMsgTypes();
+	Set<MessageEventType> getHandleMsgTypes();
 
 	/**
 	 *
@@ -53,11 +54,10 @@ public interface MessageCtrl {
 	 */
 	void setMessageView(final MessageView messageView);
 
-	/**
-	 *
-	 * @param event the event to processed
-	 * @return true if processed
-	 */
-	boolean handleMessageEvent(final MsgEvent event);
+	void addMessageListenerQualifier(final String messageQualifier);
+
+	void removeMessageListenerQualifier(final String messageQualifier);
+
+	Set<String> getMessageListenerQualifiers();
 
 }

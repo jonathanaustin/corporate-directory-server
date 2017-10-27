@@ -5,6 +5,7 @@ import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -18,12 +19,12 @@ import javax.persistence.MappedSuperclass;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>, T extends PersistVersionData<U>> extends DefaultVersionableObject<U, T> implements PersistVersionableTree<U, T> {
+public abstract class DefaultVersionableTreeObject<U extends PersistVersionableTree<U, T>, T extends PersistVersionData<U>> extends DefaultVersionableObject<U, T> implements PersistVersionableTree<U, T> {
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private T parentItem;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Set<T> childrenItems;
 
 	protected DefaultVersionableTreeObject() {

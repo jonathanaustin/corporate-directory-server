@@ -1,26 +1,27 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
 import com.github.bordertech.wcomponents.lib.mvc.View;
+import java.util.Set;
 
 /**
  * Toolbar view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean type
  * @since 1.0.0
  *
  */
-public interface ToolbarView extends View {
+public interface ToolbarView<T> extends View<T> {
 
-	boolean isUseBack();
+	void addToolbarItem(final ToolbarItem... types);
 
-	void setUseBack(final boolean useBack);
+	void removeToolbarItem(final ToolbarItem... types);
 
-	boolean isUseAdd();
+	void clearToolbarItems();
 
-	void setUseAdd(final boolean useAdd);
+	Set<ToolbarItem> getToolbarItems();
 
-	boolean isUseReset();
-
-	void setUseReset(final boolean useReset);
+	boolean isUseToolbarItem(final ToolbarItem type);
 
 }

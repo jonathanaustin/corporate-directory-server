@@ -1,12 +1,11 @@
 package com.github.bordertech.wcomponents.lib.mvc.impl;
 
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.flux.Dispatcher;
-import com.github.bordertech.wcomponents.lib.model.Model;
+import com.github.bordertech.flux.EventType;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
 import com.github.bordertech.wcomponents.lib.mvc.Controller;
 import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageComboView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -16,28 +15,42 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultComboView extends TemplateView implements ComboView {
+public class DefaultComboView<T> extends TemplateView<T> implements ComboView<T> {
 
-	public DefaultComboView(final String templateName, final Dispatcher dispatcher) {
-		this(templateName, dispatcher, null);
+	public DefaultComboView() {
+		super("wclib/hbs/layout/default-view.hbs");
 	}
 
-	public DefaultComboView(final String templateName, final Dispatcher dispatcher, final String qualifier) {
-		super(templateName, dispatcher, qualifier);
+	public DefaultComboView(final String templateName) {
+		super(templateName);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}
 
 	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			configViews();
+		}
+	}
+
+	@Override
+	public void resetView() {
+		super.resetView();
+		configViews();
+	}
+
+	@Override
 	public void configViews() {
-		checkConfig();
+		checkCtrlConfigs();
 		// Call Config on any COMBO Views
 		for (View view : getViews()) {
 			if (view instanceof ComboView) {
 				((ComboView) view).configViews();
 			}
 		}
-		setConfigured();
+		setInitialised(true);
 	}
 
 	@Override
@@ -45,13 +58,40 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		// By default ADD all the views as AJAX
 		for (View vw : getViews()) {
 			if (vw != view) {
-				view.addEventTarget(vw);
+				view.addEventAjaxTarget(vw);
 			}
 		}
 		// Get the parent controller AJAX Targets
 		ComboView parent = findParentCombo();
 		if (parent != null) {
 			parent.configAjax(view);
+		}
+	}
+
+	@Override
+	public void addDispatcherOverride(final String qualifier, final EventType... types) {
+		// Add to child views.
+		for (View view : getViews()) {
+			view.addDispatcherOverride(qualifier, types);
+		}
+		// Add to child controllers
+		for (Controller ctrl : getControllers()) {
+			ctrl.addDispatcherOverride(qualifier, types);
+		}
+	}
+
+	@Override
+	public void addListenerOverride(final String qualifier, final EventType... types) {
+		// Add to child controllers
+		for (Controller ctrl : getControllers()) {
+			ctrl.addListenerOverride(qualifier, types);
+		}
+	}
+
+	protected void checkCtrlConfigs() {
+		for (Controller ctrl : getControllers()) {
+			ctrl.checkConfig();
+			ctrl.setupController();
 		}
 	}
 
@@ -63,33 +103,6 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	@Override
 	public void setBlocking(final boolean block) {
 		getOrCreateComponentModel().block = block;
-	}
-
-	@Override
-	public void addModel(final Model model) {
-		ComboModel ctrl = getOrCreateComponentModel();
-		if (ctrl.models == null) {
-			ctrl.models = new ArrayList<>();
-		}
-		ctrl.models.add(model);
-	}
-
-	@Override
-	public Model getModel(final Class clazz) {
-		for (Model model : getModels()) {
-			if (clazz.isAssignableFrom(model.getClass())) {
-				return model;
-			}
-		}
-		// Not found, so try the parent controller Models
-		ComboView parent = findParentCombo();
-		return parent == null ? null : parent.getModel(clazz);
-	}
-
-	protected void checkConfig() {
-		for (Controller ctrl : getControllers()) {
-			ctrl.checkConfig();
-		}
 	}
 
 	protected List<View> getViews() {
@@ -112,33 +125,12 @@ public class DefaultComboView extends TemplateView implements ComboView {
 		return Collections.unmodifiableList(ctrls);
 	}
 
-	protected List<Model> getModels() {
-		ComboModel ctrl = getComponentModel();
-		return ctrl.models == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(ctrl.models);
-	}
-
 	@Override
 	protected ComboView findParentCombo() {
 		if (isBlocking()) {
 			return null;
 		}
 		return super.findParentCombo();
-	}
-
-	@Override
-	protected MessageComboView findComboMessageView() {
-		if (isBlocking()) {
-			return null;
-		}
-		return super.findComboMessageView();
-	}
-
-	protected boolean isConfigured() {
-		return getComponentModel().configured;
-	}
-
-	protected void setConfigured() {
-		getOrCreateComponentModel().configured = true;
 	}
 
 	@Override
@@ -161,11 +153,8 @@ public class DefaultComboView extends TemplateView implements ComboView {
 	 */
 	public static class ComboModel extends ViewModel {
 
-		private boolean configured;
-
-		private List<Model> models;
-
 		private boolean block;
+
 	}
 
 }

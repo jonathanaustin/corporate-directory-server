@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.common;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,10 +19,10 @@ import javax.persistence.OneToMany;
 @MappedSuperclass
 public class DefaultKeyIdTreeObject<T extends PersistTreeable> extends DefaultKeyIdObject implements PersistTreeable<T> {
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "parentId")
 	private T parent;
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent", cascade = CascadeType.MERGE)
 	private Set<T> children;
 
 	/**

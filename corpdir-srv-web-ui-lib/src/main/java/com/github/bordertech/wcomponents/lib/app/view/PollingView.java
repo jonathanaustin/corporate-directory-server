@@ -1,7 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.mvc.ViewBound;
-import com.github.bordertech.wcomponents.lib.polling.PollingService;
+import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.wcomponents.polling.PollableService;
+import com.github.bordertech.wcomponents.polling.ServiceAction;
 
 /**
  * Polling View.
@@ -12,5 +13,7 @@ import com.github.bordertech.wcomponents.lib.polling.PollingService;
  * @since 1.0.0
  *
  */
-public interface PollingView<S, T> extends ViewBound<T>, PollingService<S, T> {
+public interface PollingView<S, T> extends View<T>, PollableService<S, T> {
+
+	void doSetupAndStartPolling(final S criteria, final ServiceAction<S, T> serviceModel);
 }

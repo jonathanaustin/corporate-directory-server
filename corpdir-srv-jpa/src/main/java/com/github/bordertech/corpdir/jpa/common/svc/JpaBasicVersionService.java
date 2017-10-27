@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * Keyed Entity JPA service implementation.
  *
  * @param <A> the API object type
+ * @param <U> the versionable data
  * @param <P> the entity type
  * @author Jonathan Austin
  * @since 1.0.0
@@ -89,6 +90,7 @@ public abstract class JpaBasicVersionService<A extends ApiVersionable, U extends
 			Long versionId = apiObject.getVersionId();
 			getMapper().copyApiToEntity(em, apiObject, entity, versionId);
 			em.getTransaction().commit();
+			em.merge(entity);
 			return buildResponse(em, entity, versionId);
 		} finally {
 			em.close();

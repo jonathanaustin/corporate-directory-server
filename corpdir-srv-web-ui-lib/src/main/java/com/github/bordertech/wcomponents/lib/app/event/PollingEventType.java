@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.event;
 
-import com.github.bordertech.wcomponents.lib.flux.EventType;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Polling Service View event.
@@ -9,7 +9,10 @@ import com.github.bordertech.wcomponents.lib.flux.EventType;
  * @since 1.0.0
  */
 public enum PollingEventType implements EventType {
+	START_POLLING,
+	REFRESH,
 	STARTED,
 	ERROR,
-	COMPLETE
+	COMPLETE,
+	RESET_POLLING
 }

@@ -1,15 +1,16 @@
 package com.github.bordertech.wcomponents.lib.mvc;
 
-import com.github.bordertech.wcomponents.lib.model.Model;
+import com.github.bordertech.flux.EventType;
 
 /**
  * Is a combination of views (ie composite).
  *
  * @author Jonathan Austin
+ * @param <T> the view bean data type
  * @since 1.0.0
  *
  */
-public interface ComboView extends View {
+public interface ComboView<T> extends View<T> {
 
 	/**
 	 * Configure the views.
@@ -24,20 +25,7 @@ public interface ComboView extends View {
 
 	/**
 	 *
-	 * @param model the model for this controller
-	 */
-	void addModel(final Model model);
-
-	/**
-	 *
-	 * @param clazz the model class to return
-	 * @return the model instance
-	 */
-	Model getModel(final Class clazz);
-
-	/**
-	 *
-	 * @return true if block searching upwards for AJAX and Models
+	 * @return true if block searching upwards for AJAX.
 	 */
 	boolean isBlocking();
 
@@ -46,5 +34,14 @@ public interface ComboView extends View {
 	 * @param blocking true if block searching upwards for AJAX or Models
 	 */
 	void setBlocking(final boolean blocking);
+
+	/**
+	 * Sometimes an event has to be given a more specific qualifier. The same event might happen more then once in a
+	 * Combo View. Add it too all the combo view controllers.
+	 *
+	 * @param qualifier the qualifier value
+	 * @param types the event type to override the qualifier
+	 */
+	void addListenerOverride(final String qualifier, final EventType... types);
 
 }

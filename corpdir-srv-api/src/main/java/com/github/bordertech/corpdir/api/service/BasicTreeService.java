@@ -19,4 +19,6 @@ public interface BasicTreeService<T extends ApiTreeable> extends BasicService<T>
 
 	DataResponse<T> removeSub(final String keyId, final String subKeyId);
 
+	DataResponse<List<T>> getRootItems();
+
 }

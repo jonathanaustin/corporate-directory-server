@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  * @since 1.0.0
  *
  */
-public interface NavigationView extends View {
+public interface NavigationView<T> extends View<T> {
 
 	int getCurrentIdx();
 

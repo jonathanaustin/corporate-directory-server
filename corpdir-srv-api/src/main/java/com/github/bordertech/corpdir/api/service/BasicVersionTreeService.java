@@ -20,4 +20,6 @@ public interface BasicVersionTreeService<T extends ApiTreeable & ApiVersionable>
 
 	DataResponse<T> removeSub(final Long versionId, final String keyId, final String subKeyId);
 
+	DataResponse<List<T>> getRootItems(final Long versionId);
+
 }

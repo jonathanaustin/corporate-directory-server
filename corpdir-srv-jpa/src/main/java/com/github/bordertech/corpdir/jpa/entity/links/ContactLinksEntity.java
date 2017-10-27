@@ -6,6 +6,7 @@ import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 @Table(name = "ContactLinks")
 public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEntity, ContactEntity> {
 
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private Set<PositionEntity> positions;
 
 	public ContactLinksEntity() {
@@ -47,8 +48,12 @@ public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEnt
 			positions = new HashSet<>();
 		}
 		positions.add(position);
-		// Bi-Directional
-		position.getOrCreateDataVersion(getVersionCtrl()).addContact(getItem());
+		// Bi-Directional - Add the Contact to the Position
+		PositionLinksEntity posLinks = position.getOrCreateDataVersion(getVersionCtrl());
+		// To stop a circular call only add if not already there
+		if (!posLinks.getContacts().contains(getItem())) {
+			posLinks.addContact(getItem());
+		}
 	}
 
 	/**
@@ -58,7 +63,11 @@ public class ContactLinksEntity extends DefaultVersionableObject<ContactLinksEnt
 		if (positions != null) {
 			positions.remove(position);
 		}
-		// Bi-Directional
-		position.getOrCreateDataVersion(getVersionCtrl()).removeContact(getItem());
+		// Bi-Directional - Remove the Contact from the Position
+		PositionLinksEntity posLinks = position.getOrCreateDataVersion(getVersionCtrl());
+		// To stop a circular call only remove if there
+		if (posLinks.getContacts().contains(getItem())) {
+			posLinks.removeContact(getItem());
+		}
 	}
 }

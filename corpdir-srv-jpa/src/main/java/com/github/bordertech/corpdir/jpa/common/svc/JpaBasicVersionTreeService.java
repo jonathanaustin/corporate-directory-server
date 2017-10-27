@@ -7,22 +7,35 @@ import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
+import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
+import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * Tree Entity service.
  *
  * @param <A> the API object type
+ * @param <U> the versionable type
  * @param <P> the entity type
  * @author Jonathan Austin
  * @since 1.0.0
  */
 @Singleton
 public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends JpaBasicVersionService<A, U, P> implements BasicVersionTreeService<A> {
+
+	@Override
+	public DataResponse<List<A>> getRootItems() {
+		return getRootItems(getCurrentVersionId());
+	}
 
 	@Override
 	public DataResponse<List<A>> getSubs(final String keyId) {
@@ -47,7 +60,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			PersistVersionableTree tree = entity.getDataVersion(versionId);
 			List<A> list;
 			if (tree == null) {
-				list = Collections.EMPTY_LIST;
+				list = Collections.emptyList();
 			} else {
 				list = getMapper().convertEntitiesToApis(em, tree.getChildrenItems(), versionId);
 			}
@@ -74,12 +87,18 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
 			U tree = subEntity.getDataVersion(versionId);
-			P oldParent = tree == null ? null : tree.getParentItem();
-			if (oldParent != null) {
-				oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+			if(tree != null) {
+				if (Objects.equals(tree.getParentItem(), subEntity)) {
+					throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
+				}
+				P oldParent = tree.getParentItem();
+				if (oldParent != null) {
+					oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+				}
 			}
 			// Add Child to the new parent
 			entity.getOrCreateDataVersion(ctrl).addChildItem(subEntity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {
@@ -103,6 +122,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the sub entity
 			entity.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
 		} finally {
@@ -114,11 +134,44 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {
 		super.handleUpdateVerify(em, api, entity);
 		if (Objects.equals(api.getId(), api.getParentId())) {
-			throw new IllegalArgumentException("Cannot have itself as a parent OU.");
+			throw new IllegalArgumentException("Cannot have itself as a parent.");
 		}
 		if (api.getSubIds().contains(api.getId())) {
-			throw new IllegalArgumentException("Cannot have itself as a child OU.");
+			throw new IllegalArgumentException("Cannot have itself as a child.");
 		}
+		if (api.getParentId() != null && api.getSubIds().contains(api.getParentId())) {
+			throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
+		}
+	}
+
+	@Override
+	public DataResponse<List<A>> getRootItems(final Long versionId) {
+		EntityManager em = getEntityManager();
+		try {
+			CriteriaQuery<P> qry = handleRootSearchCriteria(em, versionId);
+			List<P> rows = em.createQuery(qry).getResultList();
+			List<A> list = getMapper().convertEntitiesToApis(em, rows, versionId);
+			return new DataResponse<>(list);
+		} finally {
+			em.close();
+		}
+	}
+
+	protected CriteriaQuery<P> handleRootSearchCriteria(final EntityManager em, final Long versionId) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery<P> qry = cb.createQuery(getEntityClass());
+
+		// Search (has null parent on the version data)
+		Root<P> from = qry.from(getEntityClass());
+
+		Join<OrgUnitLinksEntity, P> join = from.join("dataVersions");
+		Predicate p1 = cb.equal(join.get("versionIdKey").get("versionId"), versionId);
+		Predicate p2 = cb.isNull(join.get("parentItem"));
+		qry.where(cb.and(p1, p2));
+		qry.select(from);
+		// Order by
+		qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
+		return qry;
 	}
 
 }

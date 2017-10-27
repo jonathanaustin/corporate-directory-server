@@ -75,6 +75,9 @@ public class Contact extends DefaultVersionObject implements ContactLinks {
 	 * @return the address
 	 */
 	public Address getAddress() {
+		if (address == null) {
+			address = new Address();
+		}
 		return address;
 	}
 

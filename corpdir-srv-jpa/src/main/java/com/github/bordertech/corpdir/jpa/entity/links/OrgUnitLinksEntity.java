@@ -6,6 +6,7 @@ import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.HashSet;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -22,10 +23,10 @@ import javax.persistence.Table;
 @Table(name = "OrgUnitLinks")
 public class OrgUnitLinksEntity extends DefaultVersionableTreeObject<OrgUnitLinksEntity, OrgUnitEntity> {
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private PositionEntity managerPosition;
 
-	@OneToMany(fetch = FetchType.LAZY)
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	private Set<PositionEntity> positions;
 
 	public OrgUnitLinksEntity() {
