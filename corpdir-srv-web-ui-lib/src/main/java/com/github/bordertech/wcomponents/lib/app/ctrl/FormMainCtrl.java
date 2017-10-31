@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.github.bordertech.flux.wc.view.AppView;
 
 /**
  * Controller for a Form View.
@@ -17,7 +17,7 @@ import java.util.List;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormMainCtrl<T> extends DefaultController {
+public class FormMainCtrl<T> extends AbstractStore {
 
 	@Override
 	public void setupController() {
@@ -54,7 +54,7 @@ public class FormMainCtrl<T> extends DefaultController {
 	}
 
 	protected void handleFormEvents(final Event event) {
-		FormEventType type = (FormEventType) event.getQualifier().getEventType();
+		FormEventType type = (FormEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case LOAD:
 				doLoad((T) event.getData(), FormMode.VIEW);
@@ -95,18 +95,18 @@ public class FormMainCtrl<T> extends DefaultController {
 	}
 
 	protected void resetFormView() {
-		for (View view : getGroupFormViews()) {
+		for (AppView view : getGroupFormViews()) {
 			view.resetView();
 		}
 	}
 
 	protected void showFormView(final boolean show) {
-		for (View view : getGroupFormViews()) {
+		for (AppView view : getGroupFormViews()) {
 			view.setContentVisible(show);
 		}
 	}
 
-	public void addGroupFormView(final View view) {
+	public void addGroupFormView(final AppView view) {
 		FormToolbarModel model = getOrCreateComponentModel();
 		if (model.formGroup == null) {
 			model.formGroup = new ArrayList();
@@ -115,7 +115,7 @@ public class FormMainCtrl<T> extends DefaultController {
 		addView(view);
 	}
 
-	public List<View> getGroupFormViews() {
+	public List<AppView> getGroupFormViews() {
 		FormToolbarModel model = getComponentModel();
 		return model.formGroup == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.formGroup);
 	}
@@ -142,7 +142,7 @@ public class FormMainCtrl<T> extends DefaultController {
 
 		private FormView<T> formView;
 
-		private List<View> formGroup;
+		private List<AppView> formGroup;
 
 	}
 

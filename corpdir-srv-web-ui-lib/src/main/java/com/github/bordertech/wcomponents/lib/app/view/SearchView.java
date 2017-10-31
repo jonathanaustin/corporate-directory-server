@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.flux.wc.view.AppView;
 
 /**
  * Search View.
@@ -10,6 +10,6 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  * @since 1.0.0
  *
  */
-public interface SearchView<S> extends View<S> {
+public interface SearchView<S> extends AppView<S> {
 
 }

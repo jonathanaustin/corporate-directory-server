@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * Default search view.
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractSearchView<T> extends DefaultView<T> implements SearchView<T> {
+public class AbstractSearchView<T> extends DefaultAppView<T> implements SearchView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 

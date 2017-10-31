@@ -1,15 +1,12 @@
-package com.github.bordertech.wcomponents.lib.mvc.impl;
+package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.EventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
-import com.github.bordertech.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,43 +17,17 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * @param <T> the view bean type
  *
  * @author Jonathan Austin
- * @param <T> the view bean type
  * @since 1.0.0
  */
-public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T> {
+public abstract class AbstractAppView<T> extends AbstractView implements AppView<T> {
 
-	public AbstractView() {
+	public AbstractAppView() {
 		super("wclib/hbs/layout/default-view.hbs");
 		setSearchAncestors(false);
 		setBeanProperty(".");
-	}
-
-	@Override
-	public void setQualifierAndMessageQualifierContext(final boolean context) {
-		setQualifierContext(context);
-		setMessageQualifierContext(context);
-	}
-
-	@Override
-	public boolean isQualifierContext() {
-		return getComponentModel().qualifierContext;
-	}
-
-	@Override
-	public void setQualifierContext(final boolean qualifierContext) {
-		getOrCreateComponentModel().qualifierContext = qualifierContext;
-	}
-
-	@Override
-	public boolean isMessageQualifierContext() {
-		return getComponentModel().messageQualifierContext;
-	}
-
-	@Override
-	public void setMessageQualifierContext(final boolean messageQualifierContext) {
-		getOrCreateComponentModel().messageQualifierContext = messageQualifierContext;
 	}
 
 	@Override
@@ -99,10 +70,10 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 
 		// Check if contains errors
 		if (containsError(diags)) {
-			dispatchValidationMessages(diags);
+			handleValidationMessages(diags);
 			return false;
 		} else {
-			dispatchMessageReset();
+			handleMessageReset();
 			return true;
 		}
 	}
@@ -172,7 +143,7 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 
 	@Override
 	public void registerEventAjaxControl(final EventType type, final AppAjaxControl ajax) {
-		ViewModel model = getOrCreateComponentModel();
+		AppViewModel model = getOrCreateComponentModel();
 		if (model.ajaxControls == null) {
 			model.ajaxControls = new HashMap<>();
 		}
@@ -184,8 +155,13 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 		ctrls.add(ajax);
 	}
 
+	@Override
+	public WMessages getViewMessages() {
+		return WMessages.getInstance(this);
+	}
+
 	protected Map<EventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
-		ViewModel model = getComponentModel();
+		AppViewModel model = getComponentModel();
 		return model.ajaxControls == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.ajaxControls);
 	}
 
@@ -202,46 +178,66 @@ public abstract class AbstractView<T> extends AbstractBaseMvc implements View<T>
 	}
 
 	protected void initViewContent(final Request request) {
-		// Configure AJAX
-		ComboView combo = findParentCombo();
-		if (combo != null) {
-			combo.configAjax(this);
-		}
-		// Check for updateable
-		if (this instanceof FormUpdateable) {
-			// Get parent form
-			FormView view = WebUtilities.getAncestorOfClass(FormView.class, this);
-			if (view != null) {
-				((FormUpdateable) this).doMakeFormReadonly(view.isFormReadonly());
-			}
-		}
+//		// Configure AJAX
+//		ComboView combo = findParentCombo();
+//		if (combo != null) {
+//			combo.configAjax(this);
+//		}
+//		// Check for updateable
+//		if (this instanceof FormUpdateable) {
+//			// Get parent form
+//			FormView view = WebUtilities.getAncestorOfClass(FormView.class, this);
+//			if (view != null) {
+//				((FormUpdateable) this).doMakeFormReadonly(view.isFormReadonly());
+//			}
+//		}
+	}
+
+	protected void handleMessageReset() {
+		getViewMessages().reset();
+	}
+
+	protected void handleValidationMessages(final List<Diagnostic> diags) {
+		getViewMessages().getValidationErrors().setErrors(diags);
+	}
+
+	protected void handleMessageSuccess(final String text) {
+		getViewMessages().success(text);
+	}
+
+	protected void handleMessageWarning(final String text) {
+		getViewMessages().warn(text);
+	}
+
+	protected void handleMessageError(final String text) {
+		getViewMessages().error(text);
+	}
+
+	protected void handleMessageInfo(final String text) {
+		getViewMessages().info(text);
 	}
 
 	@Override
-	protected ViewModel newComponentModel() {
-		return new ViewModel();
+	protected AppViewModel newComponentModel() {
+		return new AppViewModel();
 	}
 
 	@Override
-	protected ViewModel getComponentModel() {
-		return (ViewModel) super.getComponentModel();
+	protected AppViewModel getComponentModel() {
+		return (AppViewModel) super.getComponentModel();
 	}
 
 	@Override
-	protected ViewModel getOrCreateComponentModel() {
-		return (ViewModel) super.getOrCreateComponentModel();
+	protected AppViewModel getOrCreateComponentModel() {
+		return (AppViewModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class ViewModel extends BaseModel {
+	public static class AppViewModel extends ViewModel {
 
 		private boolean contentVisible = true;
-
-		private boolean qualifierContext;
-
-		private boolean messageQualifierContext;
 
 		private Map<EventType, Set<AppAjaxControl>> ajaxControls;
 

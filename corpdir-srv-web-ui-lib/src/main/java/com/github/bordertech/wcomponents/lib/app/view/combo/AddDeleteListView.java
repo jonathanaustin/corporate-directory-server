@@ -15,12 +15,12 @@ import com.github.bordertech.wcomponents.lib.app.view.toolbar.SelectButtonBar;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
 import java.util.Collection;
+import com.github.bordertech.flux.wc.view.AppView;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -41,7 +41,7 @@ public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboV
 		}
 
 		@Override
-		public void configAjax(final View view) {
+		public void configAjax(final AppView view) {
 			super.configAjax(view);
 			view.addEventAjaxTarget(selBar);
 		}
@@ -55,7 +55,7 @@ public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboV
 	private final SelectButtonBar selBar = new SelectButtonBar();
 
 	// Controller for the Select Bar
-	private final DefaultController selBarCtrl = new DefaultController() {
+	private final AbstractStore selBarCtrl = new AbstractStore() {
 		@Override
 		public void setupController() {
 			super.setupController();

@@ -3,6 +3,7 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
+ * Event dispatcher.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -11,12 +12,18 @@ public interface Dispatcher extends Serializable {
 
 	void dispatch(final Event event);
 
-	String register(final Matcher matcher, final Listener listener);
+	String registerListener(final EventKey matcher, final Listener listener);
 
-	void unregister(final String registerId);
+	void unregisterListener(final String registerId);
 
 	boolean isDispatching();
 
 	Listener getListener(final String registerId);
+
+	void registerStore(final Store store);
+
+	void unregisterStore(final StoreKey storeKey);
+
+	Store getStore(final StoreKey storeKey);
 
 }

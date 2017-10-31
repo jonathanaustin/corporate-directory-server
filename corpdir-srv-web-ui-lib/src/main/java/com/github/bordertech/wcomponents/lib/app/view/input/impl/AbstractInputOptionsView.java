@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * @param <T> the options type
  * @author jonathan
  */
-public abstract class AbstractInputOptionsView<T> extends DefaultView<T> implements InputOptionsView<T> {
+public abstract class AbstractInputOptionsView<T> extends DefaultAppView<T> implements InputOptionsView<T> {
 
 	public AbstractInputOptionsView() {
 		setBeanProperty(".");
@@ -163,7 +163,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultView<T> impleme
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class InputOptionsModel extends ViewModel {
+	public static class InputOptionsModel extends AppViewModel {
 
 		private String codeProperty;
 

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.flux.wc.view.AppView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import java.util.Set;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Set;
  * @since 1.0.0
  *
  */
-public interface ToolbarView<T> extends View<T> {
+public interface ToolbarView<T> extends AppView<T> {
 
 	void addToolbarItem(final ToolbarItem... types);
 

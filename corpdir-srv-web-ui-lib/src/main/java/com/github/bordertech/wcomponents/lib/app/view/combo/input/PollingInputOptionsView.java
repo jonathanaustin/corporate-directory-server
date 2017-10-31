@@ -10,9 +10,9 @@ import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionMo
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
+import com.github.bordertech.flux.wc.view.AppView;
 
 /**
  * Polling View and Input Options View.
@@ -72,7 +72,7 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 	}
 
 	@Override
-	public void configAjax(final View view) {
+	public void configAjax(final AppView view) {
 		view.addEventAjaxTarget(this);
 	}
 

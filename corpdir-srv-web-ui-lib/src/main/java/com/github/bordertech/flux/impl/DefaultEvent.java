@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.impl;
 
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.Qualifier;
 
 /**
  *
@@ -11,7 +11,7 @@ import com.github.bordertech.flux.Qualifier;
  */
 public class DefaultEvent implements Event {
 
-	private final Qualifier qualifier;
+	private final EventKey eventKey;
 	private final Object data;
 	private final Exception exception;
 
@@ -28,24 +28,24 @@ public class DefaultEvent implements Event {
 	}
 
 	public DefaultEvent(final EventType eventType, final String qualifier, final Object data, final Exception exception) {
-		this(new EventQualifier(eventType, qualifier), data, exception);
+		this(new EventKey(eventType, qualifier), data, exception);
 	}
 
-	public DefaultEvent(final Qualifier eventQualifier, final Object data, final Exception exception) {
-		if (eventQualifier == null) {
-			throw new IllegalArgumentException("An event qualifier must be provided.");
+	public DefaultEvent(final EventKey eventKey, final Object data, final Exception exception) {
+		if (eventKey == null) {
+			throw new IllegalArgumentException("An event key must be provided.");
 		}
-		if (eventQualifier.getEventType() == null) {
+		if (eventKey.getEventType() == null) {
 			throw new IllegalArgumentException("An event type must be provided.");
 		}
-		this.qualifier = eventQualifier;
+		this.eventKey = eventKey;
 		this.data = data;
 		this.exception = exception;
 	}
 
 	@Override
-	public Qualifier getQualifier() {
-		return qualifier;
+	public EventKey getEventKey() {
+		return eventKey;
 	}
 
 	@Override

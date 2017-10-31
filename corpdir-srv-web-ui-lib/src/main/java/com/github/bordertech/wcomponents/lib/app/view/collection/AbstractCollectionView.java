@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.collection;
 
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractCollectionView<T, C extends Collection<T>> extends DefaultView<C> implements CollectionView<T, C> {
+public class AbstractCollectionView<T, C extends Collection<T>> extends DefaultAppView<C> implements CollectionView<T, C> {
 
 	@Override
 	public void addItem(final T item) {

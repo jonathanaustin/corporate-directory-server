@@ -3,9 +3,9 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
+ * @param <T> the event type
  *
  * @author Jonathan Austin
- * @param <T> the event type
  * @since 1.0.0
  */
 public interface Listener<T extends Event> extends Serializable {

@@ -1,17 +1,17 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
+import com.github.bordertech.flux.wc.AbstractStore;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.*;
 
 /**
  * Controller that listens for reset view event and resets its parent combo view.
  *
  * @author jonathan
  */
-public class ResetViewCtrl extends DefaultController {
+public class ResetViewCtrl extends AbstractStore {
 
 	@Override
 	public void setupController() {

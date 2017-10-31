@@ -3,11 +3,13 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
- * Event type.
+ * Data API provider.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface EventType extends Serializable {
+public interface DataApiProvider extends Serializable {
+
+	DataApi getDataApi(final String key);
 
 }

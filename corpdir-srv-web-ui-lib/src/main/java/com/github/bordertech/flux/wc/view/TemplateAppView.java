@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.mvc.impl;
+package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TemplateView<T> extends AbstractView<T> {
+public class TemplateAppView<T> extends AbstractAppView<T> {
 
 	private final WTemplate content = new WTemplate() {
 		@Override
@@ -29,7 +29,7 @@ public class TemplateView<T> extends AbstractView<T> {
 		}
 	};
 
-	public TemplateView(final String templateName) {
+	public TemplateAppView(final String templateName) {
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("vw-content", content);

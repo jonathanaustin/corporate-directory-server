@@ -7,14 +7,14 @@ import com.github.bordertech.corpdir.web.ui.view.MainToolbarView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 
 /**
  * Main Card Controller.
  *
  * @author jonathan
  */
-public class MainCardCtrl extends DefaultController {
+public class MainCardCtrl extends AbstractStore {
 
 	@Override
 	public void setupController() {

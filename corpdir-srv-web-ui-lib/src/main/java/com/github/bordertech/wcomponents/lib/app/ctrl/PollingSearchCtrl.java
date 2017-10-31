@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 import java.util.Collection;
 
 /**
@@ -17,7 +17,7 @@ import java.util.Collection;
  * @param <T> the result type
  * @param <C> the Collection type
  */
-public class PollingSearchCtrl<S, T, C extends Collection<T>> extends DefaultController {
+public class PollingSearchCtrl<S, T, C extends Collection<T>> extends AbstractStore {
 
 	@Override
 	public void setupController() {
@@ -54,7 +54,7 @@ public class PollingSearchCtrl<S, T, C extends Collection<T>> extends DefaultCon
 	}
 
 	protected void handleSearchEvents(final Event event) {
-		SearchEventType type = (SearchEventType) event.getQualifier().getEventType();
+		SearchEventType type = (SearchEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case SEARCH_VALIDATING:
 				dispatchEvent(CollectionEventType.RESET_COLLECTION);

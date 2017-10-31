@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 import java.util.Collection;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Collection;
  * @param <T> the select entity
  * @param <C> the collection type
  */
-public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultController {
+public class FormSelectCtrl<T, C extends Collection<T>> extends AbstractStore {
 
 	private boolean loadFresh;
 
@@ -98,7 +98,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultControlle
 	}
 
 	protected void handleModelOutcomeEvents(final Event event) {
-		ModelOutcomeEventType type = (ModelOutcomeEventType) event.getQualifier().getEventType();
+		ModelOutcomeEventType type = (ModelOutcomeEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case CREATE_OK:
 				handleCreateOkEvent((T) event.getData());

@@ -2,8 +2,10 @@ package com.github.bordertech.flux.impl;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.Matcher;
+import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.StoreKey;
 
 /**
  *
@@ -23,15 +25,15 @@ public abstract class DefaultDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public final String register(final Matcher matcher, final Listener listener) {
+	public final String registerListener(final EventKey matcher, final Listener listener) {
 		ListenerWrapper wrapper = new ListenerWrapper(matcher, listener);
-		dispatch(new RegisterEvent(wrapper));
+		dispatch(new DefaultEvent(DispatcherEventType.REGISTER_LISTENER, wrapper));
 		return wrapper.getRegisterId();
 	}
 
 	@Override
-	public final void unregister(final String registerId) {
-		dispatch(new UnregisterEvent(registerId));
+	public final void unregisterListener(final String registerId) {
+		dispatch(new DefaultEvent(DispatcherEventType.UNREGISTER_LISTENER, registerId));
 	}
 
 	@Override
@@ -40,24 +42,55 @@ public abstract class DefaultDispatcher implements Dispatcher {
 		return wrapper == null ? null : wrapper.getListener();
 	}
 
-	protected void doConfigModel(final DispatcherModel model) {
-		// Listen for Register Event
-		Listener regListener = new Listener<RegisterEvent>() {
-			@Override
-			public void handleEvent(final RegisterEvent event) {
-				doHandleRegisterListener(event.getWrapper());
-			}
-		};
+	@Override
+	public void registerStore(final Store store) {
+		dispatch(new DefaultEvent(DispatcherEventType.REGISTER_STORE, store));
+	}
 
-		// Listen for Unregister Event
-		Listener unregListener = new Listener<UnregisterEvent>() {
-			@Override
-			public void handleEvent(final UnregisterEvent event) {
-				doHandleUnregisterListener(event.getRegisterId());
-			}
-		};
-		DispatcherUtil.registerDispatcherListener(regListener, DispatcherEventType.REGISTER, model);
-		DispatcherUtil.registerDispatcherListener(unregListener, DispatcherEventType.UNREGISTER, model);
+	@Override
+	public void unregisterStore(final StoreKey storeKey) {
+		dispatch(new DefaultEvent(DispatcherEventType.UNREGISTER_STORE, storeKey));
+	}
+
+	@Override
+	public Store getStore(final StoreKey storeKey) {
+		return DispatcherUtil.getStore(storeKey, getDispatcherModel());
+	}
+
+	protected void doConfigModel(final DispatcherModel model) {
+		// Register the dispatcher events
+		for (DispatcherEventType eventType : DispatcherEventType.values()) {
+			DispatcherUtil.registerDispatcherListener(eventType, model, new Listener<Event>() {
+				@Override
+				public void handleEvent(final Event event) {
+					doHandleDispatcherEvent(event);
+				}
+			});
+		}
+	}
+
+	protected void doHandleDispatcherEvent(final Event event) {
+		DispatcherEventType type = (DispatcherEventType) event.getEventKey().getEventType();
+		switch (type) {
+			case REGISTER_LISTENER:
+				ListenerWrapper wrapper = (ListenerWrapper) event.getData();
+				doHandleRegisterListener(wrapper);
+				break;
+			case UNREGISTER_LISTENER:
+				String registerId = (String) event.getData();
+				doHandleUnregisterListener(registerId);
+				break;
+			case REGISTER_STORE:
+				Store store = (Store) event.getData();
+				doHandleRegisterStore(store);
+				break;
+			case UNREGISTER_STORE:
+				StoreKey storeKey = (StoreKey) event.getData();
+				doHandleUnregisterStore(storeKey);
+				break;
+			default:
+				throw new IllegalStateException("Dispatcher event type [" + type + "] not handled.");
+		}
 	}
 
 	protected void doHandleRegisterListener(final ListenerWrapper wrapper) {
@@ -65,11 +98,15 @@ public abstract class DefaultDispatcher implements Dispatcher {
 	}
 
 	protected void doHandleUnregisterListener(final String registerId) {
-		// Check it exists
-		if (getListener(registerId) != null) {
-			// Unregister
-			DispatcherUtil.handleUnregisterListener(registerId, getDispatcherModel());
-		}
+		DispatcherUtil.handleUnregisterListener(registerId, getDispatcherModel());
+	}
+
+	protected void doHandleRegisterStore(final Store store) {
+		DispatcherUtil.handleRegisterStore(store, getDispatcherModel());
+	}
+
+	protected void doHandleUnregisterStore(final StoreKey storeKey) {
+		DispatcherUtil.handleUnregisterStore(storeKey, getDispatcherModel());
 	}
 
 	protected abstract DispatcherModel getDispatcherModel();

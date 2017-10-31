@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T> {
+public class AbstractToolbar<T> extends DefaultAppView<T> implements ToolbarView<T> {
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -97,7 +97,7 @@ public class AbstractToolbar<T> extends DefaultView<T> implements ToolbarView<T>
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ToolbarModel extends DefaultView.ViewModel {
+	public static class ToolbarModel extends DefaultAppView.AppViewModel {
 
 		private Set<ToolbarItem> toolbarTypes;
 	}

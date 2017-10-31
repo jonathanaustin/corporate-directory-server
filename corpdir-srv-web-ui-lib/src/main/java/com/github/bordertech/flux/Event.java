@@ -3,12 +3,14 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
+ * Event.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface Event extends Serializable {
 
-	Qualifier getQualifier();
+	EventKey getEventKey();
 
 	Object getData();
 

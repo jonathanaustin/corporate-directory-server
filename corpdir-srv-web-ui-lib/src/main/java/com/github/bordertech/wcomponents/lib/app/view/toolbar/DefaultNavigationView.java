@@ -15,14 +15,14 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.event.NavigationListEventType;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * Default navigation view.
  *
  * @author jonathan
  */
-public class DefaultNavigationView<T> extends DefaultView<T> implements NavigationView<T> {
+public class DefaultNavigationView<T> extends DefaultAppView<T> implements NavigationView<T> {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -436,7 +436,7 @@ public class DefaultNavigationView<T> extends DefaultView<T> implements Navigati
 	/**
 	 * This model holds the state information.
 	 */
-	public static final class NavigationModel extends ViewModel {
+	public static final class NavigationModel extends AppViewModel {
 
 		/**
 		 * Current index (zero based).

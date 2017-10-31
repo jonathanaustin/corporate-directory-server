@@ -7,9 +7,9 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.View;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.flux.wc.AbstractStore;
 import java.util.Collection;
+import com.github.bordertech.flux.wc.view.AppView;
 
 /**
  * Add and Remove Controller.
@@ -18,7 +18,7 @@ import java.util.Collection;
  * @param <C> the collection type
  * @author jonathan
  */
-public class AddDeleteListCtrl<T, C extends Collection<T>> extends DefaultController {
+public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore {
 
 	@Override
 	public void setupController() {
@@ -89,11 +89,11 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends DefaultContro
 		addView(addRemoveToolbar);
 	}
 
-	public final View getAddView() {
+	public final AppView getAddView() {
 		return getComponentModel().addView;
 	}
 
-	public final void setAddView(final View addView) {
+	public final void setAddView(final AppView addView) {
 		getOrCreateComponentModel().addView = addView;
 		addView(addView);
 	}
@@ -159,7 +159,7 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends DefaultContro
 
 		private AddDeleteButtonBar addRemoveToolbar;
 
-		private View addView;
+		private AppView addView;
 
 		private SelectSingleView<T, C> selectView;
 	}

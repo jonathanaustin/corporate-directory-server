@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
+import com.github.bordertech.flux.wc.AbstractStore;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventType;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.impl.DefaultEvent;
-import com.github.bordertech.wcomponents.lib.mvc.impl.*;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEvent;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEvent;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class TranslateEventCtrl extends DefaultController {
+public class TranslateEventCtrl extends AbstractStore {
 
 	public void translate(final EventType fromType, final EventType toType) {
 		// Make sure the types are different
@@ -62,7 +62,7 @@ public class TranslateEventCtrl extends DefaultController {
 					if (!Objects.equals(getFullQualifier(), toQualifier)) {
 						// Dispatch as the new Event Type and Qualifier
 						MessageEvent from = (MessageEvent) event;
-						MessageEventType fromType = (MessageEventType) from.getQualifier().getEventType();
+						MessageEventType fromType = (MessageEventType) from.getEventKey().getEventType();
 						dispatchEvent(new MessageEvent(fromType, toQualifier, from.getMessages(), from.isEncode(), from.getDiags()));
 					}
 				}

@@ -3,11 +3,11 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
- * Event type.
+ * Store type.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface EventType extends Serializable {
+public interface StoreType extends Serializable {
 
 }

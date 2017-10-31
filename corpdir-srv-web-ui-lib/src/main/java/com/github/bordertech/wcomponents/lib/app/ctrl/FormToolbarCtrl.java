@@ -12,8 +12,8 @@ import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
+import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 
 /**
  * Controller for a Form View and Form Toolbar View.
@@ -21,7 +21,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormToolbarCtrl<T> extends DefaultController implements ActionModelKey {
+public class FormToolbarCtrl<T> extends AbstractStore implements ActionModelKey {
 
 	@Override
 	public void setupController() {
@@ -121,7 +121,7 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 	}
 
 	protected void handleNavigationEvents(final Event event) {
-		NavigationEventType type = (NavigationEventType) event.getQualifier().getEventType();
+		NavigationEventType type = (NavigationEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case BACK:
 				dispatchEvent(FormEventType.RESET_FORM);
@@ -140,7 +140,7 @@ public class FormToolbarCtrl<T> extends DefaultController implements ActionModel
 	}
 
 	protected void handleModelEvents(final Event event) {
-		ModelEventType type = (ModelEventType) event.getQualifier().getEventType();
+		ModelEventType type = (ModelEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case CANCEL:
 				handleCancelAction();

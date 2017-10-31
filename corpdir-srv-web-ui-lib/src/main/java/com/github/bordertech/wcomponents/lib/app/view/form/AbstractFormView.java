@@ -1,13 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.wcomponents.lib.util.FormUtil;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
+import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**
  * Default form view.
@@ -17,7 +16,7 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractFormView<T> extends DefaultView<T> implements FormView<T> {
+public class AbstractFormView<T> extends DefaultAppView<T> implements FormView<T> {
 
 	@Override
 	public void setFormMode(final FormMode mode) {
@@ -71,7 +70,7 @@ public class AbstractFormView<T> extends DefaultView<T> implements FormView<T> {
 		super.initViewContent(request);
 		// Check entity is loaded
 		if (!isLoaded()) {
-			dispatchMessage(MessageEventType.ERROR, "No entity has been loaded.");
+			handleMessageError("No entity has been loaded.");
 			setContentVisible(false);
 			return;
 		}
@@ -101,7 +100,7 @@ public class AbstractFormView<T> extends DefaultView<T> implements FormView<T> {
 		return (FormModel) super.getOrCreateComponentModel();
 	}
 
-	public static class FormModel extends ViewModel {
+	public static class FormModel extends AppViewModel {
 
 		private FormMode entityMode = FormMode.NONE;
 	}

@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.lib.app.event.OptionsEventType;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
+import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the options type
  */
-public class InputOptionsMainCtrl<T> extends DefaultController {
+public class InputOptionsMainCtrl<T> extends AbstractStore {
 
 	@Override
 	public void setupController() {
@@ -51,7 +51,7 @@ public class InputOptionsMainCtrl<T> extends DefaultController {
 	}
 
 	protected void handleOptionsEvent(final Event event) {
-		OptionsEventType type = (OptionsEventType) event.getQualifier().getEventType();
+		OptionsEventType type = (OptionsEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case RESET_OPTIONS:
 				handleResetOptions();

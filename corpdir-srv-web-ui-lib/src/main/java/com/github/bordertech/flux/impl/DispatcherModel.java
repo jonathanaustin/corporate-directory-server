@@ -1,20 +1,23 @@
 package com.github.bordertech.flux.impl;
 
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.Matcher;
+import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.StoreKey;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
 /**
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface DispatcherModel {
 
 	// Listeners that have EventType and Qualifier
-	Map<Matcher, List<ListenerWrapper>> getListenersByMatcher();
+	Map<EventKey, List<ListenerWrapper>> getListenersByKey();
 
 	// Listeners that only have a match to EventType
 	Map<EventType, List<ListenerWrapper>> getListenersByType();
@@ -31,24 +34,6 @@ public interface DispatcherModel {
 
 	void setDispatching(final boolean disaptching);
 
-	void clearListenersByMatcher();
-
-	void clearListenersByType();
-
-	void clearListenersByQualifiers();
-
-	void clearListenersById();
-
-	void clearQueuedEvents();
-
-	boolean hasListenersByMatcher();
-
-	boolean hasListenersByType();
-
-	boolean hasListenersByQualifiers();
-
-	boolean hasListenersById();
-
-	boolean hasQueuedEvents();
+	Map<StoreKey, Store> getStoresByKey();
 
 }

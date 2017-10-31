@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.model;
 
-import com.github.bordertech.wcomponents.lib.mvc.Model;
+import com.github.bordertech.flux.DataApi;
 
 /**
  *
@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.mvc.Model;
  * @param <S> the criteria type
  * @param <T> the response type
  */
-public interface RetrieveModel<S, T> extends Model {
+public interface RetrieveModel<S, T> extends DataApi {
 
 	T retrieve(final S criteria);
 

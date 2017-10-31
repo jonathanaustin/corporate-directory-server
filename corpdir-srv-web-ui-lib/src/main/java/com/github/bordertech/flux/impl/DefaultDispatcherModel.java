@@ -1,8 +1,10 @@
 package com.github.bordertech.flux.impl;
 
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.Matcher;
+import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.StoreKey;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -10,58 +12,50 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
- * Holds the extrinsic state information of the edit view.
+ * Holds the dispatcher state.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public class DefaultDispatcherModel implements DispatcherModel {
 
 	// Listeners that have EventType and Qualifier
-	private Map<Matcher, List<ListenerWrapper>> listenersByMatcher;
+	private final Map<EventKey, List<ListenerWrapper>> listenersByKey = new HashMap<>();
 	// Listeners that only have a match to EventType
-	private Map<EventType, List<ListenerWrapper>> listenersByType;
+	private final Map<EventType, List<ListenerWrapper>> listenersByType = new HashMap<>();
 	// Listeners that only match to the qualifier
-	private Map<String, List<ListenerWrapper>> listenersByQualifiers;
+	private final Map<String, List<ListenerWrapper>> listenersByQualifiers = new HashMap<>();
 	// Listeners by ID
-	private Map<String, ListenerWrapper> listenersById;
-	private Queue<Event> queuedEvents;
+	private final Map<String, ListenerWrapper> listenersById = new HashMap<>();
+
+	// Stores that have StoreType and Qualifier
+	private final Map<StoreKey, Store> storesByKey = new HashMap<>();
+
+	private final Queue<Event> queuedEvents = new ArrayDeque<>();
 	private boolean dispatching;
 
 	@Override
-	public Map<Matcher, List<ListenerWrapper>> getListenersByMatcher() {
-		if (listenersByMatcher == null) {
-			listenersByMatcher = new HashMap<>();
-		}
-		return listenersByMatcher;
+	public Map<EventKey, List<ListenerWrapper>> getListenersByKey() {
+		return listenersByKey;
 	}
 
 	@Override
 	public Map<EventType, List<ListenerWrapper>> getListenersByType() {
-		if (listenersByType == null) {
-			listenersByType = new HashMap<>();
-		}
 		return listenersByType;
 	}
 
 	@Override
 	public Map<String, List<ListenerWrapper>> getListenersByQualifiers() {
-		if (listenersByQualifiers == null) {
-			listenersByQualifiers = new HashMap<>();
-		}
 		return listenersByQualifiers;
 	}
 
 	@Override
 	public Map<String, ListenerWrapper> getListenersById() {
-		if (listenersById == null) {
-			listenersById = new HashMap<>();
-		}
 		return listenersById;
 	}
 
 	@Override
 	public Queue<Event> getQueuedEvents() {
-		if (queuedEvents == null) {
-			queuedEvents = new ArrayDeque<>();
-		}
 		return queuedEvents;
 	}
 
@@ -71,58 +65,17 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	}
 
 	@Override
-	public void setDispatching(boolean disaptching) {
-		this.dispatching = disaptching;
+	public void setDispatching(final boolean dispatching) {
+		this.dispatching = dispatching;
 	}
 
-	@Override
-	public void clearListenersByMatcher() {
-		listenersByMatcher = null;
-	}
-
-	@Override
-	public void clearListenersByType() {
-		listenersByType = null;
-	}
-
-	@Override
-	public void clearListenersByQualifiers() {
-		listenersByQualifiers = null;
-	}
-
-	@Override
-	public void clearListenersById() {
-		listenersById = null;
-	}
-
-	@Override
-	public void clearQueuedEvents() {
-		queuedEvents = null;
-	}
-
-	@Override
-	public boolean hasListenersByMatcher() {
-		return listenersByMatcher != null && !listenersByMatcher.isEmpty();
-	}
-
-	@Override
-	public boolean hasListenersByType() {
-		return listenersByType != null && !listenersByType.isEmpty();
-	}
-
-	@Override
-	public boolean hasListenersByQualifiers() {
-		return listenersByQualifiers != null && !listenersByQualifiers.isEmpty();
-	}
-
-	@Override
-	public boolean hasListenersById() {
-		return listenersById != null && !listenersById.isEmpty();
-	}
-
-	@Override
 	public boolean hasQueuedEvents() {
-		return queuedEvents != null && !queuedEvents.isEmpty();
+		return !queuedEvents.isEmpty();
+	}
+
+	@Override
+	public Map<StoreKey, Store> getStoresByKey() {
+		return storesByKey;
 	}
 
 }

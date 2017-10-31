@@ -4,8 +4,8 @@ import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
+import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.Collection;
 
 /**
@@ -15,7 +15,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class CollectionMainCtrl<T, C extends Collection<T>> extends DefaultController {
+public class CollectionMainCtrl<T, C extends Collection<T>> extends AbstractStore {
 
 	@Override
 	public void setupController() {
@@ -52,7 +52,7 @@ public class CollectionMainCtrl<T, C extends Collection<T>> extends DefaultContr
 	}
 
 	protected void handleListEvents(final Event event) {
-		CollectionEventType type = (CollectionEventType) event.getQualifier().getEventType();
+		CollectionEventType type = (CollectionEventType) event.getEventKey().getEventType();
 		switch (type) {
 			case RESET_COLLECTION:
 				handleResetCollectionEvent();

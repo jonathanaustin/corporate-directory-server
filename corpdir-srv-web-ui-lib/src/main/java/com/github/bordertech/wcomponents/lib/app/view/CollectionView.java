@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.lib.mvc.View;
+import com.github.bordertech.flux.wc.view.AppView;
 import java.util.Collection;
 
 /**
@@ -12,7 +12,7 @@ import java.util.Collection;
  * @since 1.0.0
  *
  */
-public interface CollectionView<T, C extends Collection<T>> extends View<C> {
+public interface CollectionView<T, C extends Collection<T>> extends AppView<C> {
 
 	void addItem(final T item);
 

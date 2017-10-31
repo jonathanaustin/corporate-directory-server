@@ -1,14 +1,15 @@
-package com.github.bordertech.wcomponents.lib.flux.wc;
+package com.github.bordertech.flux.wc;
 
-import com.github.bordertech.wcomponents.UIContext;
-import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.impl.DefaultDispatcher;
 import com.github.bordertech.flux.impl.DispatcherModel;
+import com.github.bordertech.wcomponents.UIContext;
+import com.github.bordertech.wcomponents.UIContextHolder;
 
 /**
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public final class DispatcherFactory {
 

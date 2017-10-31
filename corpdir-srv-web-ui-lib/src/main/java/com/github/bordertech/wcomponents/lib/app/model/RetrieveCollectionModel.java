@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.model;
 
-import com.github.bordertech.wcomponents.lib.mvc.Model;
 import java.util.Collection;
+import com.github.bordertech.flux.DataApi;
 
 /**
  *
@@ -10,7 +10,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public interface RetrieveCollectionModel<S, T, C extends Collection<T>> extends Model {
+public interface RetrieveCollectionModel<S, T, C extends Collection<T>> extends DataApi {
 
 	C retrieveCollection(final S criteria);
 

@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddDeleteButtonBar<T> extends DefaultView<T> implements FormUpdateable {
+public class AddDeleteButtonBar<T> extends DefaultAppView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");

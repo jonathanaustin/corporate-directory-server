@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.mvc.impl;
+package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.WContainer;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultView<T> extends AbstractView<T> {
+public class DefaultAppView<T> extends AbstractAppView<T> {
 
 	private final WContainer content = new WContainer() {
 		@Override
@@ -29,7 +29,7 @@ public class DefaultView<T> extends AbstractView<T> {
 		}
 	};
 
-	public DefaultView() {
+	public DefaultAppView() {
 		addTaggedComponent("vw-content", content);
 	}
 

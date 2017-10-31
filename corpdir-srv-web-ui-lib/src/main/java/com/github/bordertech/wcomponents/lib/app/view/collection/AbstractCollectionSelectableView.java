@@ -48,7 +48,7 @@ public class AbstractCollectionSelectableView<T, C extends Collection<T>> extend
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class SelectableModel extends ViewModel {
+	public static class SelectableModel extends AppViewModel {
 
 		private SelectMode selectMode = SelectMode.VIEW;
 	}

@@ -1,50 +1,21 @@
-package com.github.bordertech.wcomponents.lib.mvc;
+package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.View;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.flux.EventType;
 
 /**
  *
+ * @param <T> the view bean
  * @author Jonathan Austin
  * @since 1.0.0
- * @param <T> the view bean
  */
-public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBound {
-
-	/**
-	 *
-	 * @return true if view is a event qualifier context
-	 */
-	boolean isQualifierContext();
-
-	/**
-	 *
-	 * @param context true if view is a event qualifier context
-	 */
-	void setQualifierContext(final boolean context);
-
-	/**
-	 *
-	 * @return true if view is a message qualifier context
-	 */
-	boolean isMessageQualifierContext();
-
-	/**
-	 *
-	 * @param context true if view is a message qualifier context
-	 */
-	void setMessageQualifierContext(final boolean context);
-
-	/**
-	 * Helper method to set view as both Qualifier and MessageQualifer context.
-	 *
-	 * @param context true if view is qualifier and message qualifier context
-	 */
-	void setQualifierAndMessageQualifierContext(final boolean context);
+public interface AppView<T> extends AjaxTarget, SubordinateTarget, BeanBound, View {
 
 	/**
 	 * Reset the view to the default state.
@@ -111,5 +82,7 @@ public interface View<T> extends BaseMvc, AjaxTarget, SubordinateTarget, BeanBou
 	void registerEventAjaxControl(final EventType type, final AppAjaxControl ajax);
 
 	void clearEventAjaxTargets(final EventType type);
+
+	WMessages getViewMessages();
 
 }

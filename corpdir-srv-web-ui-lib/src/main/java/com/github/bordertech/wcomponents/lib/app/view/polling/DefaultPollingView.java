@@ -1,16 +1,15 @@
 package com.github.bordertech.wcomponents.lib.app.view.polling;
 
+import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.wc.view.DefaultAppView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.flux.EventType;
-import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.polling.PollingStatus;
-import java.util.List;
 import com.github.bordertech.wcomponents.polling.ServiceAction;
+import java.util.List;
 
 /**
  * Default polling view.
@@ -18,7 +17,7 @@ import com.github.bordertech.wcomponents.polling.ServiceAction;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DefaultAppView<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override
@@ -41,7 +40,7 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 
 		@Override
 		protected void handleErrorMessage(final List<String> msgs) {
-			dispatchMessage(MessageEventType.ERROR, msgs);
+			doHandlePollingError(msgs);
 		}
 	};
 
@@ -184,6 +183,12 @@ public class DefaultPollingView<S, T> extends DefaultView<T> implements PollingV
 
 	protected void doDispatchPollingEvent(final PollingEventType pollingEvent, final Object data, final Exception excp) {
 		dispatchEvent(pollingEvent, data, excp);
+	}
+
+	protected void doHandlePollingError(final List<String> msgs) {
+		for (String msg : msgs) {
+			getViewMessages().error(msg);
+		}
 	}
 
 	@Override

@@ -26,11 +26,11 @@ import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultToolbarView
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarModelEventItem;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageCtrl;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageView;
+import com.github.bordertech.wcomponents.lib.app.msg.DefaultMessageStore;
+import com.github.bordertech.wcomponents.lib.app.msg.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageCtrl;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
-import com.github.bordertech.wcomponents.lib.mvc.msg.MessageView;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
+import com.github.bordertech.wcomponents.lib.app.msg.MessageView;
 import java.util.Collection;
 
 /**
@@ -87,7 +87,7 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 
 		// Search Messages
 		MessageView searchMessages = new DefaultMessageView();
-		MessageCtrl searchMessagesCtrl = new DefaultMessageCtrl();
+		MessageCtrl searchMessagesCtrl = new DefaultMessageStore();
 		searchMessagesCtrl.setMessageView(searchMessages);
 		searchMessagesCtrl.setMessageQualifier("CM");
 		// Other views for this message context
@@ -99,7 +99,7 @@ public class DefaultCrudView<S, T, C extends Collection<T>> extends DefaultMessa
 
 		// Form Messages
 		MessageView formMessages = new DefaultMessageView();
-		MessageCtrl formMessagesCtrl = new DefaultMessageCtrl();
+		MessageCtrl formMessagesCtrl = new DefaultMessageStore();
 		formMessagesCtrl.setMessageView(formMessages);
 		formMessagesCtrl.setMessageQualifier("EM");
 		// Other views for this message context

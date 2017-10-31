@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.lib.util;
 
+import com.github.bordertech.flux.View;
+import com.github.bordertech.flux.ViewContainer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.mvc.ComboView;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Utility methods useful when working with Views.
@@ -25,6 +25,7 @@ public final class ViewUtil {
 
 	/**
 	 * Find a the View instance that contains this component (anywhere in its ancestry).
+	 *
 	 * @param component The contained component.
 	 * @return The View ancestor, if found.
 	 */
@@ -33,16 +34,18 @@ public final class ViewUtil {
 	}
 
 	/**
-	 * Find a the ComboView instance that contains this component (anywhere in its ancestry).
+	 * Find a the ViewContainer instance that contains this component (anywhere in its ancestry).
+	 *
 	 * @param component The contained component.
 	 * @return The ComboView ancestor, if found.
 	 */
-	public static ComboView findParentCombo(final WComponent component) {
-		return WebUtilities.getAncestorOfClass(ComboView.class, component);
+	public static ViewContainer findParentCombo(final WComponent component) {
+		return WebUtilities.getAncestorOfClass(ViewContainer.class, component);
 	}
 
 	/**
 	 * Injects an image into a menu item.
+	 *
 	 * @param resourceUrl The path to the image.
 	 * @param item The menu item into which the image will be injected.
 	 */
@@ -52,6 +55,7 @@ public final class ViewUtil {
 
 	/**
 	 * Injects an image into the head of a decorated label.
+	 *
 	 * @param resourceUrl The path to the image.
 	 * @param label The label into which the image will be injected.
 	 */
@@ -63,6 +67,7 @@ public final class ViewUtil {
 
 	/**
 	 * Injects an image into the body of a decorated label.
+	 *
 	 * @param resourceUrl The path to the image.
 	 * @param label The label into which the image will be injected.
 	 */

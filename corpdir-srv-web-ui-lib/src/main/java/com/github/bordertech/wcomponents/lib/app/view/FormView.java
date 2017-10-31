@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.flux.wc.view.AppView;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.mvc.View;
 
 /**
  * Form view.
@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.mvc.View;
  * @since 1.0.0
  *
  */
-public interface FormView<T> extends View<T> {
+public interface FormView<T> extends AppView<T> {
 
 	/**
 	 * @return the form mode
