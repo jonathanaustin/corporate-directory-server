@@ -36,7 +36,8 @@ public class MenuSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final WDiv ajaxPanel = new WDiv();
 
-	public MenuSelectView() {
+	public MenuSelectView(final String viewId) {
+		super(viewId);
 		getContent().add(menu);
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 		getContent().add(ajaxPanel);

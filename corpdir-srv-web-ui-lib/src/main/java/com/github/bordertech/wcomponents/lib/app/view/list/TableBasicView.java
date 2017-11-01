@@ -18,15 +18,16 @@ public class TableBasicView<T> extends AbstractListView<T> {
 
 	private final WTable table = new WTable();
 
-	public TableBasicView() {
-		this(new TextBeanColumn<T>());
+	public TableBasicView(final String viewId) {
+		this(viewId, new TextBeanColumn<T>());
 	}
 
-	public TableBasicView(final TableColumn<?, T>... columns) {
-		this(Arrays.asList(columns));
+	public TableBasicView(final String viewId, final TableColumn<?, T>... columns) {
+		this(viewId, Arrays.asList(columns));
 	}
 
-	public TableBasicView(final List<TableColumn<?, T>> columns) {
+	public TableBasicView(final String viewId, final List<TableColumn<?, T>> columns) {
+		super(viewId);
 		table.setBeanProperty(".");
 		getContent().add(table);
 		TableBeanModel model = new TableBeanModel<>(columns);

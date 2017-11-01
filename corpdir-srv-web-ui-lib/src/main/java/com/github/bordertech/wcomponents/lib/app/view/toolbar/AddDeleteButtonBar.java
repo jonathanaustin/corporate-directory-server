@@ -33,7 +33,8 @@ public class AddDeleteButtonBar<T> extends DumbView<T> implements FormUpdateable
 
 	};
 
-	public AddDeleteButtonBar() {
+	public AddDeleteButtonBar(final String viewId) {
+		super(viewId);
 
 		WContainer content = getContent();
 		content.add(btnAdd);

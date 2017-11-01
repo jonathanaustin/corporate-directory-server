@@ -18,6 +18,12 @@ import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 public interface View<T> extends AjaxTarget, SubordinateTarget, BeanBound {
 
 	/**
+	 *
+	 * @return the view unique identifier
+	 */
+	String getViewId();
+
+	/**
 	 * Reset the view to the default state.
 	 */
 	void resetView();

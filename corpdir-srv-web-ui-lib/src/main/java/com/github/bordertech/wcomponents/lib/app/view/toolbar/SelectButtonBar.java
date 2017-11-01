@@ -24,7 +24,8 @@ public class SelectButtonBar<T> extends AbstractToolbar<T> implements ToolbarVie
 	private final WButton btnSelect = new WButton("Add");
 	private final WAjaxControl ajax = new AppAjaxControl(btnSelect);
 
-	public SelectButtonBar() {
+	public SelectButtonBar(final String viewId) {
+		super(viewId);
 		WContainer content = getContent();
 		content.add(panel);
 		panel.add(btnSelect);

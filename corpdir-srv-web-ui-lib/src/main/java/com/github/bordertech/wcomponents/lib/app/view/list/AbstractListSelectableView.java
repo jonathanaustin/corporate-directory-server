@@ -12,6 +12,10 @@ import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
  */
 public class AbstractListSelectableView<T> extends AbstractListView<T> implements SelectableView<T> {
 
+	public AbstractListSelectableView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public void setSelectMode(final SelectMode mode) {
 		getOrCreateComponentModel().selectMode = mode == null ? SelectMode.VIEW : mode;

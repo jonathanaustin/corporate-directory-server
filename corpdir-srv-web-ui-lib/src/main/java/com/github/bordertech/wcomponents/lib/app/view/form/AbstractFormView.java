@@ -18,6 +18,10 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  */
 public class AbstractFormView<T> extends DumbView<T> implements FormView<T> {
 
+	public AbstractFormView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public void setFormMode(final FormMode mode) {
 		if (getFormMode() != mode) {

@@ -24,8 +24,9 @@ import java.util.Map;
  */
 public class SmartView<T> extends DumbTemplateView<T> implements ViewContainer<T> {
 
-	public SmartView(final String templateName) {
-		super(templateName);
+	public SmartView(final String viewId, final String templateName) {
+		super(viewId, templateName);
+		setNamingContext(true);
 	}
 
 	@Override

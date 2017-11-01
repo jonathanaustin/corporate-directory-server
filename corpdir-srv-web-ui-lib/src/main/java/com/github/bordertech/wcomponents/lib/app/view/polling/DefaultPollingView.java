@@ -4,8 +4,8 @@ import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
+import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.polling.PollingStatus;
 import com.github.bordertech.wcomponents.polling.ServiceAction;
@@ -44,7 +44,8 @@ public class DefaultPollingView<S, T> extends DumbView<T> implements PollingView
 		}
 	};
 
-	public DefaultPollingView() {
+	public DefaultPollingView(final String viewId) {
+		super(viewId);
 		getContent().add(pollingPanel);
 		// Default visibility
 		setContentVisible(false);

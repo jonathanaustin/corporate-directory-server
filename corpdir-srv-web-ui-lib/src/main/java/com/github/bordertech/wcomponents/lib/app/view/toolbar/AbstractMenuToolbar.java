@@ -19,7 +19,8 @@ public class AbstractMenuToolbar<T> extends AbstractToolbar<T> {
 
 	private final WMenu menu = new WMenu();
 
-	public AbstractMenuToolbar() {
+	public AbstractMenuToolbar(final String viewId) {
+		super(viewId);
 		WContainer content = getContent();
 		content.add(menu);
 	}

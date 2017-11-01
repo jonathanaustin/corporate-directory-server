@@ -88,7 +88,8 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	public DefaultFormToolbarView() {
+	public DefaultFormToolbarView(final String viewId) {
+		super(viewId);
 		WMenu menu = getMenu();
 		menu.add(itemEdit);
 		menu.add(itemUpdate);

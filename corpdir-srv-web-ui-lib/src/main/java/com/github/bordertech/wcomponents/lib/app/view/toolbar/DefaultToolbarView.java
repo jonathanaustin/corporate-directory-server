@@ -36,7 +36,8 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 		}
 	};
 
-	public DefaultToolbarView() {
+	public DefaultToolbarView(final String viewId) {
+		super(viewId);
 		WMenu menu = getMenu();
 		menu.add(itemBack);
 		menu.add(itemAdd);

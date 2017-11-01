@@ -33,7 +33,8 @@ public class DumbTemplateView<T> extends AbstractDumbView<T> {
 		}
 	};
 
-	public DumbTemplateView(final String templateName) {
+	public DumbTemplateView(final String viewId, final String templateName) {
+		super(viewId);
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		addTaggedComponent("vw-content", content);
@@ -50,8 +51,12 @@ public class DumbTemplateView<T> extends AbstractDumbView<T> {
 	 * @param tag the component identifying tag
 	 * @param component the component to add to the template
 	 */
-	protected void addComponentToContentTemplate(final String tag, final WComponent component) {
+	protected void addComponentToTemplate(final String tag, final WComponent component) {
 		getContent().addTaggedComponent(tag, component);
+	}
+
+	protected void addViewToTemplate(final View view) {
+		getContent().addTaggedComponent(view.getViewId(), view);
 	}
 
 }

@@ -10,6 +10,10 @@ import com.github.bordertech.wcomponents.lib.app.view.input.SingleSelectOptionsV
  */
 public abstract class AbstractSingleSelectOptionsView<T> extends AbstractInputOptionsView<T> implements SingleSelectOptionsView<T> {
 
+	public AbstractSingleSelectOptionsView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedOption();

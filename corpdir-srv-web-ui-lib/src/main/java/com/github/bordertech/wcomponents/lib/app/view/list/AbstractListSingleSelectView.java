@@ -13,6 +13,10 @@ import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
  */
 public class AbstractListSingleSelectView<T> extends AbstractListSelectableView<T> implements SelectSingleView<T> {
 
+	public AbstractListSingleSelectView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public void clearSelected() {
 		getOrCreateComponentModel().selected = null;

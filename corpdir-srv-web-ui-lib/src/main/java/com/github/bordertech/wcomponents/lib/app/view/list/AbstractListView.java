@@ -14,6 +14,10 @@ import java.util.List;
  */
 public class AbstractListView<T> extends DumbView<List<T>> implements ListView<T> {
 
+	public AbstractListView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public List<T> getItems() {
 		List<T> current = getViewBean();

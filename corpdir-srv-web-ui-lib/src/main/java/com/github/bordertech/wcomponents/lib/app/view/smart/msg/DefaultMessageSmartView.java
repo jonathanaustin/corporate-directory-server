@@ -13,12 +13,11 @@ import com.github.bordertech.wcomponents.lib.app.view.msg.DefaultMessageView;
  */
 public class DefaultMessageSmartView<T> extends SmartView<T> implements MessageSmartView<T> {
 
-	private final MessageView messageView;
+	private final MessageView messageView = new DefaultMessageView("vw-messages");
 
-	public DefaultMessageSmartView(final String templateName) {
-		super(templateName);
-		messageView = new DefaultMessageView();
-		addComponentToContentTemplate("vw-messages", messageView);
+	public DefaultMessageSmartView(final String viewId, final String templateName) {
+		super(viewId, templateName);
+		addViewToTemplate(messageView);
 	}
 
 	@Override

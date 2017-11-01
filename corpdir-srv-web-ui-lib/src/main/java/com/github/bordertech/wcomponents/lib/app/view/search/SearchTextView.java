@@ -22,11 +22,12 @@ public class SearchTextView extends AbstractSearchView<String> {
 
 	private final WSuggestions suggestions = new WSuggestions();
 
-	public SearchTextView() {
-		this(false);
+	public SearchTextView(final String viewId) {
+		this(viewId, false);
 	}
 
-	public SearchTextView(final boolean mandatory) {
+	public SearchTextView(final String viewId, final boolean mandatory) {
+		super(viewId);
 
 		WContainer content = getContent();
 

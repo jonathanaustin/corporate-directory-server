@@ -31,14 +31,29 @@ import java.util.Set;
  */
 public abstract class AbstractDumbView<T> extends WTemplate implements View<T> {
 
-	public AbstractDumbView() {
-		this("wclib/hbs/layout/default-view.hbs");
+	private final String viewId;
+
+	public AbstractDumbView(final String viewId) {
+		this(viewId, "wclib/hbs/layout/default-view.hbs");
 	}
 
-	public AbstractDumbView(final String templateName) {
+	public AbstractDumbView(final String viewId, final String templateName) {
 		super(templateName, TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+		this.viewId = viewId;
+		// Set ID name so it is validated
+		setIdName(viewId);
 		setSearchAncestors(false);
 		setBeanProperty(".");
+	}
+
+	@Override
+	public final String getViewId() {
+		return viewId;
+	}
+
+	@Override
+	public final String getIdName() {
+		return viewId;
 	}
 
 	@Override

@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.wcomponents.AjaxTrigger;
-import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.wcomponents.AjaxTrigger;
+import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
+import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,7 +27,8 @@ public class AbstractToolbar<T> extends DumbView<T> implements ToolbarView<T> {
 		}
 	};
 
-	public AbstractToolbar() {
+	public AbstractToolbar(final String viewId) {
+		super(viewId);
 		WContainer content = getContent();
 		content.add(ajaxPanel);
 	}

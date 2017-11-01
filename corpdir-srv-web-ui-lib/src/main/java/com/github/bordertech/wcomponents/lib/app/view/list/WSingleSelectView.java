@@ -44,7 +44,8 @@ public class WSingleSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final AppAjaxControl ajax = new AppAjaxControl(select);
 
-	public WSingleSelectView() {
+	public WSingleSelectView(final String viewId) {
+		super(viewId);
 		// READONLY Version
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);

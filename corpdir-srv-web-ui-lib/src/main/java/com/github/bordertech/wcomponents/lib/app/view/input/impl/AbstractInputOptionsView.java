@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.view.input.impl;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
-import com.github.bordertech.flux.wc.view.DumbView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,7 +21,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractInputOptionsView<T> extends DumbView<T> implements InputOptionsView<T> {
 
-	public AbstractInputOptionsView() {
+	public AbstractInputOptionsView(final String viewId) {
+		super(viewId);
 		setBeanProperty(".");
 		setSearchAncestors(true);
 	}

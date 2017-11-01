@@ -14,8 +14,8 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.event.NavigationListViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
+import com.github.bordertech.wcomponents.lib.app.view.event.NavigationListViewEvent;
 
 /**
  * Default navigation view.
@@ -146,7 +146,8 @@ public class DefaultNavigationView<T> extends DumbView<T> implements NavigationV
 		}
 	};
 
-	public DefaultNavigationView() {
+	public DefaultNavigationView(final String viewId) {
+		super(viewId);
 		WContainer content = getContent();
 
 		// Layout

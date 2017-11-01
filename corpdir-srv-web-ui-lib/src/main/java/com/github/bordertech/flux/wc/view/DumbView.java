@@ -32,7 +32,8 @@ public class DumbView<T> extends AbstractDumbView<T> {
 		}
 	};
 
-	public DumbView() {
+	public DumbView(final String viewId) {
+		super(viewId);
 		addTaggedComponent("vw-content", content);
 	}
 

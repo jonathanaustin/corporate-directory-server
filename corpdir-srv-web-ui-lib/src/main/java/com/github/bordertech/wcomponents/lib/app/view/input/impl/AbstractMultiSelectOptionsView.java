@@ -12,6 +12,10 @@ import java.util.List;
  */
 public abstract class AbstractMultiSelectOptionsView<T> extends AbstractInputOptionsView<T> implements MultiSelectOptionsView<T> {
 
+	public AbstractMultiSelectOptionsView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public Object getBeanValue() {
 		Object beanValue = super.getBeanValue();

@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.event.SearchViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
+import com.github.bordertech.wcomponents.lib.app.view.event.SearchViewEvent;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -23,7 +23,8 @@ public class AbstractSearchView<T> extends DumbView<T> implements SearchView<T> 
 
 	private final AppAjaxControl ajax = new AppAjaxControl(searchButton);
 
-	public AbstractSearchView() {
+	public AbstractSearchView(final String viewId) {
+		super(viewId);
 		searchButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {

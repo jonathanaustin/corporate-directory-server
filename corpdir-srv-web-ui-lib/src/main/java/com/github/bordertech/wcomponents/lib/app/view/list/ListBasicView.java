@@ -11,10 +11,11 @@ import com.github.bordertech.wcomponents.WText;
  * @since 1.0.0
  */
 public class ListBasicView<T> extends AbstractListView<T> {
-	
+
 	private final WList list = new WList(WList.Type.STACKED);
 
-	public ListBasicView() {
+	public ListBasicView(final String viewId) {
+		super(viewId);
 		list.setRepeatedComponent(new WText());
 		list.setSeparator(WList.Separator.DOT);
 		list.setBeanProperty(".");

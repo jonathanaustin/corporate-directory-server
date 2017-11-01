@@ -13,6 +13,10 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  */
 public class FormUpdateableView<T> extends DumbView<T> implements FormUpdateable {
 
+	public FormUpdateableView(final String viewId) {
+		super(viewId);
+	}
+
 	@Override
 	public void doMakeFormReadonly(final boolean readonly) {
 		FormUtil.doMakeInputsReadonly(this, readonly);

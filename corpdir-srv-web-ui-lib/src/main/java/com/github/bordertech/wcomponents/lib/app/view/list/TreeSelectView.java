@@ -37,7 +37,8 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> implement
 
 	private final AppAjaxControl ajax = new AppAjaxControl(tree);
 
-	public TreeSelectView() {
+	public TreeSelectView(final String viewId) {
+		super(viewId);
 		getContent().add(tree);
 		tree.setSelectMode(WTree.SelectMode.SINGLE);
 		setSelectMode(SelectMode.SELECT);

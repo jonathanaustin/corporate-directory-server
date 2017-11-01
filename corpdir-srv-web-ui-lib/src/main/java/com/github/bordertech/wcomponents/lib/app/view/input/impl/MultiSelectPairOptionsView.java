@@ -12,7 +12,8 @@ public class MultiSelectPairOptionsView<T> extends AbstractMultiSelectOptionsVie
 
 	private final WMultiSelectPair multi = new WMultiSelectPair();
 
-	public MultiSelectPairOptionsView() {
+	public MultiSelectPairOptionsView(final String viewId) {
+		super(viewId);
 		getContent().add(multi);
 		multi.setBeanProperty(".");
 		setupInputAjax();
