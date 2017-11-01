@@ -1,19 +1,16 @@
-package com.github.bordertech.wcomponents.lib.app.view.collection;
+package com.github.bordertech.wcomponents.lib.app.view.list;
 
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
-import java.util.Collection;
 
 /**
- * Default selectable collection view.
- *
- * @param <T> the Item type
- * @param <C> the Collection Type
+ * Default single select list view.
  *
  * @author Jonathan Austin
+ * @param <T> the view bean
  * @since 1.0.0
  */
-public class AbstractCollectionSelectableView<T, C extends Collection<T>> extends AbstractCollectionView<T, C> implements SelectableView<T, C> {
+public class AbstractListSelectableView<T> extends AbstractListView<T> implements SelectableView<T> {
 
 	@Override
 	public void setSelectMode(final SelectMode mode) {

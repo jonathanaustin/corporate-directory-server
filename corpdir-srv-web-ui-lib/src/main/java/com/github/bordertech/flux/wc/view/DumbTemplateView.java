@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 
@@ -41,6 +42,16 @@ public class DumbTemplateView<T> extends AbstractDumbView<T> {
 	@Override
 	public final WTemplate getContent() {
 		return content;
+	}
+
+	/**
+	 * Helper method to add a component to the template.
+	 *
+	 * @param tag the component identifying tag
+	 * @param component the component to add to the template
+	 */
+	protected void addComponentToContentTemplate(final String tag, final WComponent component) {
+		getContent().addTaggedComponent(tag, component);
 	}
 
 }

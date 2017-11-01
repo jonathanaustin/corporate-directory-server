@@ -39,14 +39,14 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-		drpParent.setRetrieveCollectionModelKey("position.search");
+		drpParent.setRetrieveListModelKey("position.search");
 
 		// Sub Positions
 		lbl = new WLabel("Looks after positions", multiSub.getSelectInput());
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
-		multiSub.setRetrieveCollectionModelKey("position.search");
+		multiSub.setRetrieveListModelKey("position.search");
 
 		// Unit Type
 		lbl = new WLabel("Position Type", drpUnitType.getSelectInput());
@@ -54,7 +54,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
-		drpUnitType.setRetrieveCollectionModelKey("unittype.search");
+		drpUnitType.setRetrieveListModelKey("unittype.search");
 
 		// Owner OU
 		lbl = new WLabel("Owner Org Unit", drpOwnerOU.getSelectInput());
@@ -62,21 +62,21 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpOwnerOU.setIncludeNullOption(true);
 		drpOwnerOU.setCodeProperty("id");
 		drpOwnerOU.getOptionsView().setBeanProperty("ouId");
-		drpOwnerOU.setRetrieveCollectionModelKey("orgunit.search");
+		drpOwnerOU.setRetrieveListModelKey("orgunit.search");
 
 		// Assigned OU
 		lbl = new WLabel("Assigned Org Units", multiOUs.getSelectInput());
 		getFormLayout().addField(lbl, multiOUs);
 		multiOUs.setCodeProperty("id");
 		multiOUs.getOptionsView().setBeanProperty("manageOuIds");
-		multiOUs.setRetrieveCollectionModelKey("orgunit.search");
+		multiOUs.setRetrieveListModelKey("orgunit.search");
 
 		// Assigned Contacts
 		lbl = new WLabel("Assigned contacts", multiContact.getSelectInput());
 		getFormLayout().addField(lbl, multiContact);
 		multiContact.setCodeProperty("id");
 		multiContact.getOptionsView().setBeanProperty("contactIds");
-		multiContact.setRetrieveCollectionModelKey("contact.search");
+		multiContact.setRetrieveListModelKey("contact.search");
 
 		// FIXME: Temporary delays as firing extra AJX Trigger
 		drpParent.getPollingView().setPollingInterval(50);

@@ -24,15 +24,4 @@ public class DefaultStore extends AbstractStore {
 		return DispatcherFactory.getInstance();
 	}
 
-	/**
-	 * Helper method to load a data API.
-	 *
-	 * @param key
-	 * @return
-	 */
-	protected DataApi getDataApi(final String key) {
-		DataApi model = DataApiProviderFactory.getInstance().getDataApi(key);
-		return model;
-	}
-
 }

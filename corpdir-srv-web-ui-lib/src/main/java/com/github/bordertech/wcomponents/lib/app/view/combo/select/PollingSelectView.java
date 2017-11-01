@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo.select;
 
-import com.github.bordertech.wcomponents.lib.app.view.combo.collection.PollingCollectionView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.list.PollingListView;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import java.util.Collection;
@@ -13,7 +13,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class PollingSelectView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> implements SelectSingleView<T, C> {
+public class PollingSelectView<S, T, C extends Collection<T>> extends PollingListView<S, T, C> implements SelectSingleView<T, C> {
 
 	public PollingSelectView(final SelectSingleView<T, C> listView) {
 		super(listView);

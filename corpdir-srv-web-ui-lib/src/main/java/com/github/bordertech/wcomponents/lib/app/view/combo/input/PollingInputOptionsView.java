@@ -6,13 +6,13 @@ import com.github.bordertech.wcomponents.lib.app.ctrl.InputOptionsMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingInputOptionsCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
-import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
 import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
 
 /**
  * Polling View and Input Options View.
@@ -21,7 +21,7 @@ import com.github.bordertech.flux.wc.view.View;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> implements InputOptionsView<T>, RetrieveCollectionModelKey {
+public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> implements InputOptionsView<T>, RetrieveListModelKey {
 
 	private final InputOptionsView<T> optionsView;
 
@@ -105,12 +105,12 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 	}
 
 	@Override
-	public void setRetrieveCollectionModelKey(final String key) {
+	public void setRetrieveListModelKey(final String key) {
 		ctrl.setRetrieveCollectionModelKey(key);
 	}
 
 	@Override
-	public String getRetrieveCollectionModelKey() {
+	public String getRetrieveListModelKey() {
 		return ctrl.getRetrieveCollectionModelKey();
 	}
 

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.SearchViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;

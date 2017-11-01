@@ -37,14 +37,14 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-		drpParent.setRetrieveCollectionModelKey("location.search");
+		drpParent.setRetrieveListModelKey("location.search");
 
 		// Sub Locations
 		lbl = new WLabel("Sub Locations", multiSub.getSelectInput());
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
-		multiSub.setRetrieveCollectionModelKey("location.search");
+		multiSub.setRetrieveListModelKey("location.search");
 
 		// FIXME: Temporary delays as firing extra AJX Trigger
 		drpParent.getPollingView().setPollingInterval(50);

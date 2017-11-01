@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.FormEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.ModelOutcomeEventType;
 import com.github.bordertech.wcomponents.lib.app.view.event.NavigationViewEvent;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModel;

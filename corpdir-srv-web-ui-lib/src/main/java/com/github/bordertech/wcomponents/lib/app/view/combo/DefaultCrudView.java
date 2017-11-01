@@ -27,10 +27,10 @@ import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarModelEventI
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import com.github.bordertech.wcomponents.lib.app.msg.DefaultMessageStore;
-import com.github.bordertech.wcomponents.lib.app.msg.DefaultMessageView;
+import com.github.bordertech.wcomponents.lib.app.view.msg.DefaultMessageView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.MessageCtrl;
 import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
-import com.github.bordertech.wcomponents.lib.app.msg.MessageView;
+import com.github.bordertech.wcomponents.lib.app.view.MessageView;
 import java.util.Collection;
 
 /**

@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo.collection;
+package com.github.bordertech.wcomponents.lib.app.view.combo.list;
 
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
 import com.github.bordertech.wcomponents.lib.app.view.search.SearchTextView;

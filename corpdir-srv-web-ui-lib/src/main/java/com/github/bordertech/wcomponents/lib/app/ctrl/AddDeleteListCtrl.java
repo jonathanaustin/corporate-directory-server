@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
-import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.CollectionEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.store;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.wc.DefaultStore;
-import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
+import com.github.bordertech.wcomponents.lib.app.store.event.CollectionEventType;
 import java.util.ArrayList;
 import java.util.List;
 

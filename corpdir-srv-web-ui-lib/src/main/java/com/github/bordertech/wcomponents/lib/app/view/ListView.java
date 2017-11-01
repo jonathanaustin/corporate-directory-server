@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.flux.wc.view.View;
 import java.util.List;
 
 /**
@@ -10,6 +11,11 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends CollectionView<T, List<T>> {
+public interface ListView<T> extends View<List<T>> {
 
+	void setItems(final List<T> items);
+
+	List<T> getItems();
+
+	void refreshItems(final List<T> items);
 }

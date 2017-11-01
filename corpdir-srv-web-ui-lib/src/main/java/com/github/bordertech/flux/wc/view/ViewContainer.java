@@ -59,6 +59,13 @@ public interface ViewContainer<T> extends View<T> {
 	List<View> getViews();
 
 	/**
+	 *
+	 * @param tag the view identifying tag
+	 * @param view the view to add to the container
+	 */
+	void addView(final String tag, final View view);
+
+	/**
 	 * A child View can ask the container to configure its AJAX requirements.
 	 *
 	 * @param view the view to add any AJAX details to

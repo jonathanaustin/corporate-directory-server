@@ -48,14 +48,14 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		drpLocation.setIncludeNullOption(true);
 		drpLocation.setCodeProperty("id");
 		drpLocation.getOptionsView().setBeanProperty("locatinoId");
-		drpLocation.setRetrieveCollectionModelKey("location.search");
+		drpLocation.setRetrieveListModelKey("location.search");
 
 		// Assigned Positions
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
-		multiPos.setRetrieveCollectionModelKey("position.search");
+		multiPos.setRetrieveListModelKey("position.search");
 
 	}
 

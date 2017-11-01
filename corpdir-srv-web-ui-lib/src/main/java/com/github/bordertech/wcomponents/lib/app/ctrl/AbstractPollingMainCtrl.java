@@ -1,15 +1,15 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
-import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
-import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.DefaultStore;
-import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
-import java.util.Collection;
+import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
 import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModel;
+import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
+import com.github.bordertech.wcomponents.lib.app.view.PollingView;
+import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultController;
+import com.github.bordertech.wcomponents.lib.mvc.msg.MessageEventType;
 import com.github.bordertech.wcomponents.polling.ServiceAction;
+import java.util.Collection;
 
 /**
  * Controller for a Polling View.
@@ -19,14 +19,14 @@ import com.github.bordertech.wcomponents.polling.ServiceAction;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends DefaultStore implements RetrieveCollectionModelKey {
+public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends DefaultController implements RetrieveCollectionModelKey {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 
 		// POLLING Listeners
-		for (PollingViewEvent type : PollingViewEvent.values()) {
+		for (PollingEventType type : PollingEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -74,7 +74,7 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Defa
 
 	protected void handlePollingEvents(final Event event) {
 
-		PollingViewEvent type = (PollingViewEvent) event.getEventKey().getEventType();
+		PollingEventType type = (PollingEventType) event.getQualifier().getEventType();
 		switch (type) {
 			case START_POLLING:
 				S criteria = (S) event.getData();

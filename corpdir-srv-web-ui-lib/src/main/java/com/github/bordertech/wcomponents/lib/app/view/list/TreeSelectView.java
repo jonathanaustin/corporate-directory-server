@@ -9,7 +9,6 @@ import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.common.AppTreeItemModel;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.lib.app.model.keys.TreeModelKey;
-import com.github.bordertech.wcomponents.lib.app.view.collection.AbstractCollectionSingleSelectView;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Objects;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TreeSelectView<T> extends AbstractCollectionSingleSelectView<T, List<T>> implements TreeModelKey {
+public class TreeSelectView<T> extends AbstractListSingleSelectView<T> implements TreeModelKey {
 
 	private final WTree tree = new WTree(WTree.Type.VERTICAL) {
 		@Override

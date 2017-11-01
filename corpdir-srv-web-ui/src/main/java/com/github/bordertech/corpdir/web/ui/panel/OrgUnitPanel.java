@@ -38,14 +38,14 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-		drpParent.setRetrieveCollectionModelKey("orgunit.search");
+		drpParent.setRetrieveListModelKey("orgunit.search");
 
 		// Sub Org Units
 		lbl = new WLabel("Sub Org Units", multiSub.getSelectInput());
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
-		multiSub.setRetrieveCollectionModelKey("orgunit.search");
+		multiSub.setRetrieveListModelKey("orgunit.search");
 
 		// Unit Type
 		lbl = new WLabel("Unit Type", drpUnitType.getSelectInput());
@@ -53,7 +53,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
-		drpUnitType.setRetrieveCollectionModelKey("unittype.search");
+		drpUnitType.setRetrieveListModelKey("unittype.search");
 
 		// Manager Position
 		lbl = new WLabel("Manager Position", drpMgrPos.getSelectInput());
@@ -61,14 +61,14 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpMgrPos.setIncludeNullOption(true);
 		drpMgrPos.setCodeProperty("id");
 		drpMgrPos.getOptionsView().setBeanProperty("managerPosId");
-		drpMgrPos.setRetrieveCollectionModelKey("position.search");
+		drpMgrPos.setRetrieveListModelKey("position.search");
 
 		// Positions in Org Unit
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
-		multiPos.setRetrieveCollectionModelKey("position.search");
+		multiPos.setRetrieveListModelKey("position.search");
 
 		// FIXME: Temporary delays as firing extra AJX Trigger
 		drpParent.getPollingView().setPollingInterval(50);

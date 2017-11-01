@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo.collection;
+package com.github.bordertech.wcomponents.lib.app.view.combo.list;
 
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
@@ -16,7 +16,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class CollectionWithSearchView<S, T, C extends Collection<T>> extends PollingCollectionView<S, T, C> {
+public class CollectionWithSearchView<S, T, C extends Collection<T>> extends PollingListView<S, T, C> {
 
 	private final ToolbarView toolbarView;
 

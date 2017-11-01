@@ -10,6 +10,7 @@ import com.github.bordertech.flux.impl.DispatcherUtil;
 import com.github.bordertech.flux.wc.DispatcherFactory;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,7 +58,13 @@ public class SmartView<T> extends DumbTemplateView<T> implements ViewContainer<T
 
 	@Override
 	public void handleViewEvent(final ViewEventType event, final Object data) {
-		// Handle child view events
+		if (event == ToolbarViewEvent.RESET) {
+			handleEventReset();
+		}
+	}
+
+	protected void handleEventReset() {
+		resetView();
 	}
 
 	@Override
@@ -69,6 +76,11 @@ public class SmartView<T> extends DumbTemplateView<T> implements ViewContainer<T
 			}
 		}
 		return Collections.unmodifiableList(views);
+	}
+
+	@Override
+	public void addView(final String tag, final View view) {
+		getContent().addTaggedComponent(tag, view);
 	}
 
 	@Override

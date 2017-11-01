@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo.select;
 
-import com.github.bordertech.wcomponents.lib.app.view.combo.collection.CollectionWithSearchView;
+import com.github.bordertech.wcomponents.lib.app.view.combo.list.CollectionWithSearchView;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingSearchCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
