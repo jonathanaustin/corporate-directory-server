@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.web.ui.view.OrgUnitCrudView;
 import com.github.bordertech.corpdir.web.ui.view.PositionCrudView;
 import com.github.bordertech.corpdir.web.ui.view.PositionTypeCrudView;
 import com.github.bordertech.corpdir.web.ui.view.UnitTypeCrudView;
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 
 /**
  * Cards.
@@ -22,7 +22,7 @@ public enum CardType {
 	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null),
 	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE);
 
-	CardType(final String desc, final boolean system, final Class<? extends AppView> clazz, final String imageUrl) {
+	CardType(final String desc, final boolean system, final Class<? extends View> clazz, final String imageUrl) {
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
@@ -31,7 +31,7 @@ public enum CardType {
 
 	final String desc;
 	final boolean system;
-	final Class<? extends AppView> clazz;
+	final Class<? extends View> clazz;
 	final String imageUrl;
 
 	public String getDesc() {
@@ -42,7 +42,7 @@ public enum CardType {
 		return system;
 	}
 
-	public Class<? extends AppView> getClazz() {
+	public Class<? extends View> getClazz() {
 		return clazz;
 	}
 
@@ -50,9 +50,9 @@ public enum CardType {
 		return imageUrl;
 	}
 
-	public AppView createCardViewInstance() {
+	public View createCardViewInstance() {
 		try {
-			return (AppView) getClazz().newInstance();
+			return (View) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

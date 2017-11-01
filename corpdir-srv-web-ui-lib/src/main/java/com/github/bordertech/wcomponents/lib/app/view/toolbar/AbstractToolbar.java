@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
 import com.github.bordertech.wcomponents.WDiv;
-import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
+import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.wc.view.DumbView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractToolbar<T> extends DefaultAppView<T> implements ToolbarView<T> {
+public class AbstractToolbar<T> extends DumbView<T> implements ToolbarView<T> {
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -73,7 +73,7 @@ public class AbstractToolbar<T> extends DefaultAppView<T> implements ToolbarView
 		getOrCreateComponentModel().toolbarTypes = null;
 	}
 
-	protected void setupAjaxControl(final EventType type, final AjaxTrigger trigger) {
+	protected void setupAjaxControl(final ViewEventType type, final AjaxTrigger trigger) {
 		AppAjaxControl ctrl = new AppAjaxControl(trigger, this);
 		getAjaxPanel().add(ctrl);
 		registerEventAjaxControl(type, ctrl);
@@ -97,7 +97,7 @@ public class AbstractToolbar<T> extends DefaultAppView<T> implements ToolbarView
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ToolbarModel extends DefaultAppView.AppViewModel {
+	public static class ToolbarModel extends DumbView.ViewModel {
 
 		private Set<ToolbarItem> toolbarTypes;
 	}

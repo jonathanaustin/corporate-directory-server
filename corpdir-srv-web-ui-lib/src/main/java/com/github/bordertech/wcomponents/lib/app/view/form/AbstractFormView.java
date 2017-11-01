@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.flux.wc.view.DefaultAppView;
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
+import com.github.bordertech.wcomponents.lib.app.view.event.FormViewEvent;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**
@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractFormView<T> extends DefaultAppView<T> implements FormView<T> {
+public class AbstractFormView<T> extends DumbView<T> implements FormView<T> {
 
 	@Override
 	public void setFormMode(final FormMode mode) {
@@ -78,11 +78,11 @@ public class AbstractFormView<T> extends DefaultAppView<T> implements FormView<T
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchEvent(FormEventType.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormViewEvent.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchEvent(FormEventType.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchViewEvent(FormViewEvent.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class AbstractFormView<T> extends DefaultAppView<T> implements FormView<T
 		return (FormModel) super.getOrCreateComponentModel();
 	}
 
-	public static class FormModel extends AppViewModel {
+	public static class FormModel extends ViewModel {
 
 		private FormMode entityMode = FormMode.NONE;
 	}

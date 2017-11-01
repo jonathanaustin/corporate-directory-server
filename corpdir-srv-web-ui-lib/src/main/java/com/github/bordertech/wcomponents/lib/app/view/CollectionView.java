@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 import java.util.Collection;
 
 /**
@@ -12,17 +12,7 @@ import java.util.Collection;
  * @since 1.0.0
  *
  */
-public interface CollectionView<T, C extends Collection<T>> extends AppView<C> {
-
-	void addItem(final T item);
-
-	void removeItem(final T item);
-
-	void updateItem(final T item);
-
-	void showView(final boolean show);
-
-	int getSize();
+public interface CollectionView<T, C extends Collection<T>> extends View<C> {
 
 	void setItems(final C items);
 

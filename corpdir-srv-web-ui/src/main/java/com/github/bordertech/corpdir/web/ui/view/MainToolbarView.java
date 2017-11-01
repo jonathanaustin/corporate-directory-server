@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AbstractMenuToolbar;
-import com.github.bordertech.wcomponents.lib.util.ViewUtil;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import jersey.repackaged.com.google.common.base.Objects;
 
 /**

@@ -14,17 +14,16 @@ import java.util.List;
  */
 public class AbstractListSingleSelectView<T> extends AbstractCollectionSingleSelectView<T, List<T>> implements ListView<T>, SelectSingleView<T, List<T>> {
 
-	@Override
-	public void updateItem(final T item) {
-		List<T> items = getItems();
-		int idx = items.indexOf(item);
-		if (idx > -1) {
-			items.remove(idx);
-			items.add(idx, item);
-		} else {
-			items.add(item);
-		}
-		refreshItems(items);
-	}
-
+//	@Override
+//	public void updateItem(final T item) {
+//		List<T> items = getItems();
+//		int idx = items.indexOf(item);
+//		if (idx > -1) {
+//			items.remove(idx);
+//			items.add(idx, item);
+//		} else {
+//			items.add(item);
+//		}
+//		refreshItems(items);
+//	}
 }

@@ -56,21 +56,20 @@ public class TreeSelectView<T> extends AbstractCollectionSingleSelectView<T, Lis
 		return tree;
 	}
 
-	@Override
-	public void removeItem(final T item) {
-		List<T> items = getItems();
-		// Check if on root items
-		if (items.contains(item)) {
-			items.remove(item);
-		}
-		refreshItems(items);
-	}
-
-	@Override
-	public void updateItem(final T item) {
-		// Do Nothing (as gets complicated with parent and child relationships changing
-	}
-
+//	@Override
+//	public void removeItem(final T item) {
+//		List<T> items = getItems();
+//		// Check if on root items
+//		if (items.contains(item)) {
+//			items.remove(item);
+//		}
+//		refreshItems(items);
+//	}
+//
+//	@Override
+//	public void updateItem(final T item) {
+//		// Do Nothing (as gets complicated with parent and child relationships changing
+//	}
 	@Override
 	public void clearSelected() {
 		super.clearSelected();

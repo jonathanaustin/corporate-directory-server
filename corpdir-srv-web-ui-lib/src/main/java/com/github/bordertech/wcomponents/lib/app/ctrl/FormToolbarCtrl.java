@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.NavigationViewEvent;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 
 /**
@@ -21,13 +21,13 @@ import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormToolbarCtrl<T> extends AbstractStore implements ActionModelKey {
+public class FormToolbarCtrl<T> extends DefaultStore implements ActionModelKey {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 		// Navigation event type Listeners
-		for (NavigationEventType eventType : NavigationEventType.values()) {
+		for (NavigationViewEvent eventType : NavigationViewEvent.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -121,7 +121,7 @@ public class FormToolbarCtrl<T> extends AbstractStore implements ActionModelKey 
 	}
 
 	protected void handleNavigationEvents(final Event event) {
-		NavigationEventType type = (NavigationEventType) event.getEventKey().getEventType();
+		NavigationViewEvent type = (NavigationViewEvent) event.getEventKey().getEventType();
 		switch (type) {
 			case BACK:
 				dispatchEvent(FormEventType.RESET_FORM);
@@ -182,7 +182,7 @@ public class FormToolbarCtrl<T> extends AbstractStore implements ActionModelKey 
 		}
 		// Do a BACK
 		dispatchMessageReset();
-		dispatchEvent(NavigationEventType.BACK);
+		dispatchEvent(NavigationViewEvent.BACK);
 	}
 
 	protected void handleEditAction() {

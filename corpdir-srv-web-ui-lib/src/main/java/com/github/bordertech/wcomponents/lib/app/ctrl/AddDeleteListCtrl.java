@@ -2,14 +2,14 @@ package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import java.util.Collection;
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 
 /**
  * Add and Remove Controller.
@@ -18,7 +18,7 @@ import com.github.bordertech.flux.wc.view.AppView;
  * @param <C> the collection type
  * @author jonathan
  */
-public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore {
+public class AddDeleteListCtrl<T, C extends Collection<T>> extends DefaultStore {
 
 	@Override
 	public void setupController() {
@@ -34,7 +34,7 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore
 		});
 
 		// Select EVENT
-		registerListener(SelectEventType.SELECT, new Listener() {
+		registerListener(SelectViewEvent.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleSelectEvent();
@@ -42,7 +42,7 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore
 		});
 
 		// Unselect EVENT
-		registerListener(SelectEventType.UNSELECT, new Listener() {
+		registerListener(SelectViewEvent.UNSELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleUnselectEvent();
@@ -89,11 +89,11 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore
 		addView(addRemoveToolbar);
 	}
 
-	public final AppView getAddView() {
+	public final View getAddView() {
 		return getComponentModel().addView;
 	}
 
-	public final void setAddView(final AppView addView) {
+	public final void setAddView(final View addView) {
 		getOrCreateComponentModel().addView = addView;
 		addView(addView);
 	}
@@ -159,7 +159,7 @@ public class AddDeleteListCtrl<T, C extends Collection<T>> extends AbstractStore
 
 		private AddDeleteButtonBar addRemoveToolbar;
 
-		private AppView addView;
+		private View addView;
 
 		private SelectSingleView<T, C> selectView;
 	}

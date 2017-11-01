@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
-import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.SearchViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import java.util.Collection;
 
 /**
@@ -17,14 +17,14 @@ import java.util.Collection;
  * @param <T> the result type
  * @param <C> the Collection type
  */
-public class PollingSearchCtrl<S, T, C extends Collection<T>> extends AbstractStore {
+public class PollingSearchCtrl<S, T, C extends Collection<T>> extends DefaultStore {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 
 		// SEARCH Listeners
-		for (SearchEventType type : SearchEventType.values()) {
+		for (SearchViewEvent type : SearchViewEvent.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -54,14 +54,14 @@ public class PollingSearchCtrl<S, T, C extends Collection<T>> extends AbstractSt
 	}
 
 	protected void handleSearchEvents(final Event event) {
-		SearchEventType type = (SearchEventType) event.getEventKey().getEventType();
+		SearchViewEvent type = (SearchViewEvent) event.getEventKey().getEventType();
 		switch (type) {
 			case SEARCH_VALIDATING:
 				dispatchEvent(CollectionEventType.RESET_COLLECTION);
-				dispatchEvent(PollingEventType.RESET_POLLING);
+				dispatchEvent(PollingViewEvent.RESET_POLLING);
 				break;
 			case SEARCH:
-				dispatchEvent(PollingEventType.START_POLLING, event.getData());
+				dispatchEvent(PollingViewEvent.START_POLLING, event.getData());
 				break;
 		}
 	}

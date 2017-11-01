@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view.collection;
 
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import java.util.Collection;
 
 /**
@@ -31,24 +31,23 @@ public class AbstractCollectionSingleSelectView<T, C extends Collection<T>> exte
 		getOrCreateComponentModel().selected = entity;
 	}
 
-	@Override
-	public void removeItem(final T entity) {
-		super.removeItem(entity);
-		clearSelected();
-	}
-
+//	@Override
+//	public void removeItem(final T entity) {
+//		super.removeItem(entity);
+//		clearSelected();
+//	}
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedItem();
 		if (bean == null) {
-			dispatchEvent(SelectEventType.UNSELECT);
+			dispatchViewEvent(SelectViewEvent.UNSELECT);
 		} else {
-			dispatchEvent(SelectEventType.SELECT, bean);
+			dispatchViewEvent(SelectViewEvent.SELECT, bean);
 		}
 	}
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(SelectEventType.UNSELECT, ctrl);
-		registerEventAjaxControl(SelectEventType.SELECT, ctrl);
+		registerEventAjaxControl(SelectViewEvent.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectViewEvent.SELECT, ctrl);
 	}
 
 	@Override

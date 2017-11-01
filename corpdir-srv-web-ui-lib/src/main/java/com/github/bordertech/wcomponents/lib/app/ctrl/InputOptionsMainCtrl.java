@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.OptionsEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.OptionsViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.List;
 
@@ -14,14 +14,14 @@ import java.util.List;
  * @author jonathan
  * @param <T> the options type
  */
-public class InputOptionsMainCtrl<T> extends AbstractStore {
+public class InputOptionsMainCtrl<T> extends DefaultStore {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 
 		// OPTIONS Listeners
-		for (OptionsEventType type : OptionsEventType.values()) {
+		for (OptionsViewEvent type : OptionsViewEvent.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -51,7 +51,7 @@ public class InputOptionsMainCtrl<T> extends AbstractStore {
 	}
 
 	protected void handleOptionsEvent(final Event event) {
-		OptionsEventType type = (OptionsEventType) event.getEventKey().getEventType();
+		OptionsViewEvent type = (OptionsViewEvent) event.getEventKey().getEventType();
 		switch (type) {
 			case RESET_OPTIONS:
 				handleResetOptions();

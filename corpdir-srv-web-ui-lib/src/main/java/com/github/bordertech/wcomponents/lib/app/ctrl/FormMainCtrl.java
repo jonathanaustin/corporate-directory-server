@@ -5,11 +5,11 @@ import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 
 /**
  * Controller for a Form View.
@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.view.AppView;
  * @param <T> the entity type
  * @author jonathan
  */
-public class FormMainCtrl<T> extends AbstractStore {
+public class FormMainCtrl<T> extends DefaultStore {
 
 	@Override
 	public void setupController() {
@@ -95,18 +95,18 @@ public class FormMainCtrl<T> extends AbstractStore {
 	}
 
 	protected void resetFormView() {
-		for (AppView view : getGroupFormViews()) {
+		for (View view : getGroupFormViews()) {
 			view.resetView();
 		}
 	}
 
 	protected void showFormView(final boolean show) {
-		for (AppView view : getGroupFormViews()) {
+		for (View view : getGroupFormViews()) {
 			view.setContentVisible(show);
 		}
 	}
 
-	public void addGroupFormView(final AppView view) {
+	public void addGroupFormView(final View view) {
 		FormToolbarModel model = getOrCreateComponentModel();
 		if (model.formGroup == null) {
 			model.formGroup = new ArrayList();
@@ -115,7 +115,7 @@ public class FormMainCtrl<T> extends AbstractStore {
 		addView(view);
 	}
 
-	public List<AppView> getGroupFormViews() {
+	public List<View> getGroupFormViews() {
 		FormToolbarModel model = getComponentModel();
 		return model.formGroup == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(model.formGroup);
 	}
@@ -142,7 +142,7 @@ public class FormMainCtrl<T> extends AbstractStore {
 
 		private FormView<T> formView;
 
-		private List<AppView> formGroup;
+		private List<View> formGroup;
 
 	}
 

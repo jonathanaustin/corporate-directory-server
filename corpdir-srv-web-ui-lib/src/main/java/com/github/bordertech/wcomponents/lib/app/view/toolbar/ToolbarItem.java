@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.event.ViewEventType;
 import java.io.Serializable;
 
 /**
@@ -13,6 +13,6 @@ public interface ToolbarItem extends Serializable {
 
 	String getImageUrl();
 
-	EventType getEventType();
+	ViewEventType getEventType();
 
 }

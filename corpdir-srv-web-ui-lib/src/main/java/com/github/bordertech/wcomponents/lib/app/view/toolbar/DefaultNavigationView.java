@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;
@@ -13,16 +14,15 @@ import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationListEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.NavigationListViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.NavigationView;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * Default navigation view.
  *
  * @author jonathan
  */
-public class DefaultNavigationView<T> extends DefaultAppView<T> implements NavigationView<T> {
+public class DefaultNavigationView<T> extends DumbView<T> implements NavigationView<T> {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
@@ -240,10 +240,10 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 		nextButton.setAccessKey('C');
 		lastButton.setAccessKey('V');
 
-		registerEventAjaxControl(NavigationListEventType.FIRST, firstAjax);
-		registerEventAjaxControl(NavigationListEventType.PREV, prevAjax);
-		registerEventAjaxControl(NavigationListEventType.NEXT, nextAjax);
-		registerEventAjaxControl(NavigationListEventType.LAST, lastAjax);
+		registerEventAjaxControl(NavigationListViewEvent.FIRST, firstAjax);
+		registerEventAjaxControl(NavigationListViewEvent.PREV, prevAjax);
+		registerEventAjaxControl(NavigationListViewEvent.NEXT, nextAjax);
+		registerEventAjaxControl(NavigationListViewEvent.LAST, lastAjax);
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 	protected void doHandleFirst() {
 		setCurrentIdx(0);
 		nextButton.setFocussed();
-		doDispatchNavigationEvent(NavigationListEventType.FIRST);
+		doDispatchNavigationEvent(NavigationListViewEvent.FIRST);
 	}
 
 	/**
@@ -374,7 +374,7 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 		if (prevButton.isDisabled()) {
 			nextButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationListEventType.PREV);
+		doDispatchNavigationEvent(NavigationListViewEvent.PREV);
 	}
 
 	/**
@@ -387,7 +387,7 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 		if (nextButton.isDisabled()) {
 			prevButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationListEventType.NEXT);
+		doDispatchNavigationEvent(NavigationListViewEvent.NEXT);
 	}
 
 	/**
@@ -397,7 +397,7 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 		int idx = getSize() - 1;
 		setCurrentIdx(idx);
 		prevButton.setFocussed();
-		doDispatchNavigationEvent(NavigationListEventType.LAST);
+		doDispatchNavigationEvent(NavigationListViewEvent.LAST);
 	}
 
 	/**
@@ -405,8 +405,8 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 	 *
 	 * @param navEvent the navigation action that caused the change of index
 	 */
-	protected void doDispatchNavigationEvent(final NavigationListEventType navEvent) {
-		dispatchEvent(navEvent, getCurrentIdx());
+	protected void doDispatchNavigationEvent(final NavigationListViewEvent navEvent) {
+		dispatchViewEvent(navEvent, getCurrentIdx());
 	}
 
 	/**
@@ -436,7 +436,7 @@ public class DefaultNavigationView<T> extends DefaultAppView<T> implements Navig
 	/**
 	 * This model holds the state information.
 	 */
-	public static final class NavigationModel extends AppViewModel {
+	public static final class NavigationModel extends ViewModel {
 
 		/**
 		 * Current index (zero based).

@@ -1,7 +1,5 @@
 package com.github.bordertech.flux.wc;
 
-import com.github.bordertech.flux.DataApiProvider;
-
 /**
  * Model provider factory.
  *

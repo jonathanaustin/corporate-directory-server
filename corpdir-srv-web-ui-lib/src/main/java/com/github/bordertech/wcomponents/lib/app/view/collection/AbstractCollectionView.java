@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.collection;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -14,45 +14,44 @@ import java.util.Collection;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractCollectionView<T, C extends Collection<T>> extends DefaultAppView<C> implements CollectionView<T, C> {
+public class AbstractCollectionView<T, C extends Collection<T>> extends DumbView<C> implements CollectionView<T, C> {
 
-	@Override
-	public void addItem(final T item) {
-		C items = getItems();
-		if (!items.contains(item)) {
-			items.add(item);
-			refreshItems(items);
-		}
-	}
-
-	@Override
-	public void removeItem(final T item) {
-		C items = getItems();
-		if (items.contains(item)) {
-			items.remove(item);
-			refreshItems(items);
-		}
-	}
-
-	@Override
-	public void updateItem(final T item) {
-		C items = getItems();
-		items.remove(item);
-		items.add(item);
-		refreshItems(items);
-	}
-
-	@Override
-	public void showView(final boolean show) {
-		setContentVisible(show);
-	}
-
-	@Override
-	public int getSize() {
-		Collection<T> items = getViewBean();
-		return items == null ? 0 : items.size();
-	}
-
+//	@Override
+//	public void addItem(final T item) {
+//		C items = getItems();
+//		if (!items.contains(item)) {
+//			items.add(item);
+//			refreshItems(items);
+//		}
+//	}
+//
+//	@Override
+//	public void removeItem(final T item) {
+//		C items = getItems();
+//		if (items.contains(item)) {
+//			items.remove(item);
+//			refreshItems(items);
+//		}
+//	}
+//
+//	@Override
+//	public void updateItem(final T item) {
+//		C items = getItems();
+//		items.remove(item);
+//		items.add(item);
+//		refreshItems(items);
+//	}
+//
+//	@Override
+//	public void showView(final boolean show) {
+//		setContentVisible(show);
+//	}
+//
+//	@Override
+//	public int getSize() {
+//		Collection<T> items = getViewBean();
+//		return items == null ? 0 : items.size();
+//	}
 	@Override
 	public C getItems() {
 		C current = getViewBean();

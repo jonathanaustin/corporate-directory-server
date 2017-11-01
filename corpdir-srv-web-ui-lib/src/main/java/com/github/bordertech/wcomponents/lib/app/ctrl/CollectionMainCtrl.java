@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.view.CollectionView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.Collection;
 
@@ -15,7 +15,7 @@ import java.util.Collection;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class CollectionMainCtrl<T, C extends Collection<T>> extends AbstractStore {
+public class CollectionMainCtrl<T, C extends Collection<T>> extends DefaultStore {
 
 	@Override
 	public void setupController() {

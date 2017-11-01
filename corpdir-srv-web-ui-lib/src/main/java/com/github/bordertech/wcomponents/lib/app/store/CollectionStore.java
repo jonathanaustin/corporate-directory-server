@@ -1,8 +1,8 @@
-package com.github.bordertech.wcomponents.lib.app.view;
+package com.github.bordertech.wcomponents.lib.app.store;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public class CollectionStore<T> extends AbstractStore {
+public class CollectionStore<T> extends DefaultStore {
 
 	private List<T> items;
 

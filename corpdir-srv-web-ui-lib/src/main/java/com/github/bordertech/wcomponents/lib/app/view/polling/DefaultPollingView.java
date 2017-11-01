@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.lib.app.view.polling;
 
-import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
+import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.polling.PollingStatus;
@@ -17,25 +17,25 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultAppView<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DumbView<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
-			doDispatchPollingEvent(PollingEventType.STARTED);
+			doDispatchPollingEvent(PollingViewEvent.STARTED, null);
 		}
 
 		@Override
 		protected void handleExceptionResult(final Exception excp) {
 			super.handleExceptionResult(excp);
-			doDispatchPollingEvent(PollingEventType.ERROR, getPollingCriteria(), excp);
+			doDispatchPollingEvent(PollingViewEvent.ERROR, excp);
 		}
 
 		@Override
 		protected void handleSuccessfulResult(final T result) {
 			super.handleSuccessfulResult(result);
-			doDispatchPollingEvent(PollingEventType.COMPLETE, result, null);
+			doDispatchPollingEvent(PollingViewEvent.COMPLETE, result);
 		}
 
 		@Override
@@ -52,7 +52,7 @@ public class DefaultPollingView<S, T> extends DefaultAppView<T> implements Polli
 	}
 
 	@Override
-	public void addEventAjaxTarget(final AjaxTarget target, final EventType... eventType) {
+	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventType) {
 		super.addEventAjaxTarget(target, eventType);
 		addAjaxTarget((AjaxTarget) target);
 	}
@@ -176,13 +176,8 @@ public class DefaultPollingView<S, T> extends DefaultAppView<T> implements Polli
 		pollingPanel.setServiceAction(serviceModel);
 	}
 
-	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
-		doDispatchPollingEvent(pollingEvent, null, null);
-
-	}
-
-	protected void doDispatchPollingEvent(final PollingEventType pollingEvent, final Object data, final Exception excp) {
-		dispatchEvent(pollingEvent, data, excp);
+	protected void doDispatchPollingEvent(final PollingViewEvent pollingEvent, final Object data) {
+		dispatchViewEvent(pollingEvent, data);
 	}
 
 	protected void doHandlePollingError(final List<String> msgs) {

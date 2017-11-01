@@ -1,15 +1,15 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
+import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.view.DefaultAppView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddDeleteButtonBar<T> extends DefaultAppView<T> implements FormUpdateable {
+public class AddDeleteButtonBar<T> extends DumbView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");
@@ -54,13 +54,13 @@ public class AddDeleteButtonBar<T> extends DefaultAppView<T> implements FormUpda
 		btnAdd.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchEvent(ModelEventType.ADD);
+				dispatchViewEvent(ToolbarViewEvent.ADD);
 			}
 		});
 		btnDelete.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchEvent(ModelEventType.DELETE);
+				dispatchViewEvent(ToolbarViewEvent.DELETE);
 			}
 		});
 
@@ -74,8 +74,8 @@ public class AddDeleteButtonBar<T> extends DefaultAppView<T> implements FormUpda
 		// Defaults
 		btnDelete.setVisible(false);
 
-		registerEventAjaxControl(ModelEventType.ADD, ajaxAdd);
-		registerEventAjaxControl(ModelEventType.DELETE, ajaxDelete);
+		registerEventAjaxControl(ToolbarViewEvent.ADD, ajaxAdd);
+		registerEventAjaxControl(ToolbarViewEvent.DELETE, ajaxDelete);
 	}
 
 	public void showRemoveButton(final boolean show) {

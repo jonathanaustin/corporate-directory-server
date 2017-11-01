@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.common;
 
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.event.ViewEventType;
 
 /**
  *
@@ -9,20 +9,20 @@ import com.github.bordertech.flux.EventType;
  */
 public class AppMenuItem extends WMenuItem {
 
-	private final EventType event;
+	private final ViewEventType event;
 	private final Object data;
 
-	public AppMenuItem(final String text, final EventType event) {
+	public AppMenuItem(final String text, final ViewEventType event) {
 		this(text, event, null);
 	}
 
-	public AppMenuItem(final String text, final EventType event, final Object data) {
+	public AppMenuItem(final String text, final ViewEventType event, final Object data) {
 		super(text);
 		this.event = event;
 		this.data = data;
 	}
 
-	public EventType getItemEvent() {
+	public ViewEventType getItemEvent() {
 		return event;
 	}
 

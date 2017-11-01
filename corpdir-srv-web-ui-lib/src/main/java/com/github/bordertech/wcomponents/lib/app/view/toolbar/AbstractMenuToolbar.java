@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
+import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MenuItem;
@@ -7,7 +8,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
-import com.github.bordertech.flux.EventType;
 
 /**
  * Abstract Menu Toolbar implementation.
@@ -54,8 +54,8 @@ public class AbstractMenuToolbar<T> extends AbstractToolbar<T> {
 		}
 	}
 
-	protected void doDispatchToolbarEvent(final EventType eventType, final Object data) {
-		dispatchEvent(eventType, data);
+	protected void doDispatchToolbarEvent(final ViewEventType eventType, final Object data) {
+		dispatchViewEvent(eventType, data);
 	}
 
 }

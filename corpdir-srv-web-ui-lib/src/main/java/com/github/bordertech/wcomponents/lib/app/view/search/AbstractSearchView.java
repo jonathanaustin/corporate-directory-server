@@ -1,13 +1,13 @@
 package com.github.bordertech.wcomponents.lib.app.view.search;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.event.SearchEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.SearchViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.SearchView;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
 
 /**
  * Default search view.
@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.view.DefaultAppView;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractSearchView<T> extends DefaultAppView<T> implements SearchView<T> {
+public class AbstractSearchView<T> extends DumbView<T> implements SearchView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 
@@ -37,8 +37,8 @@ public class AbstractSearchView<T> extends DefaultAppView<T> implements SearchVi
 		searchButton.setRenderAsLink(true);
 
 		getContent().add(ajax);
-		registerEventAjaxControl(SearchEventType.SEARCH_VALIDATING, ajax);
-		registerEventAjaxControl(SearchEventType.SEARCH, ajax);
+		registerEventAjaxControl(SearchViewEvent.SEARCH_VALIDATING, ajax);
+		registerEventAjaxControl(SearchViewEvent.SEARCH, ajax);
 	}
 
 	public final WButton getSearchButton() {
@@ -57,7 +57,7 @@ public class AbstractSearchView<T> extends DefaultAppView<T> implements SearchVi
 	 * Dispatch the search event.
 	 */
 	protected void doDispatchStartSearchEvent() {
-		dispatchEvent(SearchEventType.SEARCH_VALIDATING);
+		dispatchViewEvent(SearchViewEvent.SEARCH_VALIDATING);
 	}
 
 	/**
@@ -65,7 +65,7 @@ public class AbstractSearchView<T> extends DefaultAppView<T> implements SearchVi
 	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchEvent(SearchEventType.SEARCH, criteria);
+		dispatchViewEvent(SearchViewEvent.SEARCH, criteria);
 	}
 
 }

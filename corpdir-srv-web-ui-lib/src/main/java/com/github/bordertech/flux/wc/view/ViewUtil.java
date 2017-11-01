@@ -1,7 +1,5 @@
-package com.github.bordertech.wcomponents.lib.util;
+package com.github.bordertech.flux.wc.view;
 
-import com.github.bordertech.flux.View;
-import com.github.bordertech.flux.ViewContainer;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WImage;
@@ -39,7 +37,7 @@ public final class ViewUtil {
 	 * @param component The contained component.
 	 * @return The ComboView ancestor, if found.
 	 */
-	public static ViewContainer findParentCombo(final WComponent component) {
+	public static ViewContainer findParentViewContainer(final WComponent component) {
 		return WebUtilities.getAncestorOfClass(ViewContainer.class, component);
 	}
 

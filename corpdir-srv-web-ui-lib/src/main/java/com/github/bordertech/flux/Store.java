@@ -37,4 +37,9 @@ public interface Store<T extends Serializable> extends Serializable {
 	 * Dispatch the change event.
 	 */
 	void dispatchChangeEvent();
+
+	/**
+	 * @return the attached dispatcher.
+	 */
+	Dispatcher getDispatcher();
 }

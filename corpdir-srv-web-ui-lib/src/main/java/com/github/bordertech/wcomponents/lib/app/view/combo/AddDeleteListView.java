@@ -5,8 +5,8 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.AddDeleteListCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.TranslateEventCtrl;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.NavigationViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
@@ -16,11 +16,11 @@ import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.impl.DefaultComboView;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
 import java.util.Collection;
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -41,7 +41,7 @@ public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboV
 		}
 
 		@Override
-		public void configAjax(final AppView view) {
+		public void configAjax(final View view) {
 			super.configAjax(view);
 			view.addEventAjaxTarget(selBar);
 		}
@@ -55,12 +55,12 @@ public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboV
 	private final SelectButtonBar selBar = new SelectButtonBar();
 
 	// Controller for the Select Bar
-	private final AbstractStore selBarCtrl = new AbstractStore() {
+	private final DefaultStore selBarCtrl = new DefaultStore() {
 		@Override
 		public void setupController() {
 			super.setupController();
 			// Select EVENT - Show Select BAR
-			registerListener(SelectEventType.SELECT, new Listener() {
+			registerListener(SelectViewEvent.SELECT, new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
 					selBar.getButton().setActionObject((Serializable) event.getData());
@@ -68,7 +68,7 @@ public class AddDeleteListView<T, C extends Collection<T>> extends DefaultComboV
 				}
 			});
 			// Reset in the DIALOG
-			registerListener(NavigationEventType.RESET_VIEW, new Listener() {
+			registerListener(NavigationViewEvent.RESET_VIEW, new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
 					selBar.reset();

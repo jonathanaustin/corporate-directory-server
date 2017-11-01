@@ -13,25 +13,20 @@ public class DefaultEvent implements Event {
 
 	private final EventKey eventKey;
 	private final Object data;
-	private final Exception exception;
 
 	public DefaultEvent(final EventType eventType) {
 		this(eventType, null);
 	}
 
 	public DefaultEvent(final EventType eventType, final Object data) {
-		this(eventType, data, null);
+		this(eventType, null, data);
 	}
 
-	public DefaultEvent(final EventType eventType, final Object data, final Exception exception) {
-		this(eventType, null, data, exception);
+	public DefaultEvent(final EventType eventType, final String qualifier, final Object data) {
+		this(new EventKey(eventType, qualifier), data);
 	}
 
-	public DefaultEvent(final EventType eventType, final String qualifier, final Object data, final Exception exception) {
-		this(new EventKey(eventType, qualifier), data, exception);
-	}
-
-	public DefaultEvent(final EventKey eventKey, final Object data, final Exception exception) {
+	public DefaultEvent(final EventKey eventKey, final Object data) {
 		if (eventKey == null) {
 			throw new IllegalArgumentException("An event key must be provided.");
 		}
@@ -40,7 +35,6 @@ public class DefaultEvent implements Event {
 		}
 		this.eventKey = eventKey;
 		this.data = data;
-		this.exception = exception;
 	}
 
 	@Override
@@ -51,11 +45,6 @@ public class DefaultEvent implements Event {
 	@Override
 	public Object getData() {
 		return data;
-	}
-
-	@Override
-	public Exception getException() {
-		return exception;
 	}
 
 }

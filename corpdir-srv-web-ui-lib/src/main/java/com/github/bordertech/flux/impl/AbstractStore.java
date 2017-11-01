@@ -1,15 +1,13 @@
-package com.github.bordertech.flux.wc;
+package com.github.bordertech.flux.impl;
 
-import com.github.bordertech.flux.DataApi;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.EventType;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreChangeEventType;
+import com.github.bordertech.flux.event.StateEventType;
 import com.github.bordertech.flux.StoreKey;
 import com.github.bordertech.flux.StoreType;
-import com.github.bordertech.flux.impl.DefaultEvent;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,13 +17,10 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractStore implements Store {
+public abstract class AbstractStore implements Store {
 
-	/**
-	 * QUALIFIER pattern.
-	 */
 	private final StoreKey storeKey;
-	private Set<String> registeredIds;
+	private final Set<String> registeredIds = new HashSet<>();
 
 	public AbstractStore(final StoreType type) {
 		this(type, null);
@@ -52,23 +47,16 @@ public class AbstractStore implements Store {
 
 	@Override
 	public void unregisterListeners() {
-		if (registeredIds != null) {
-			Dispatcher dispatcher = getDispatcher();
-			for (String id : registeredIds) {
-				dispatcher.unregisterListener(id);
-			}
-			registeredIds = null;
+		Dispatcher dispatcher = getDispatcher();
+		for (String id : registeredIds) {
+			dispatcher.unregisterListener(id);
 		}
 	}
 
 	@Override
 	public void dispatchChangeEvent() {
-		DefaultEvent event = new DefaultEvent(new EventKey(new StoreChangeEventType(), storeKey.getQualifier()), this, null);
+		DefaultEvent event = new DefaultEvent(new EventKey(StateEventType.STORE_CHANGED, storeKey.getQualifier()), this);
 		getDispatcher().dispatch(event);
-	}
-
-	protected final Dispatcher getDispatcher() {
-		return DispatcherFactory.getInstance();
 	}
 
 	/**
@@ -79,21 +67,7 @@ public class AbstractStore implements Store {
 	 */
 	protected void registerListener(final EventType eventType, final Listener listener) {
 		String id = getDispatcher().registerListener(new EventKey(eventType, storeKey.getQualifier()), listener);
-		if (registeredIds == null) {
-			registeredIds = new HashSet<>();
-		}
 		registeredIds.add(id);
-	}
-
-	/**
-	 * Helper method to load a data API.
-	 *
-	 * @param key
-	 * @return
-	 */
-	protected DataApi getDataApi(final String key) {
-		DataApi model = DataApiProviderFactory.getInstance().getDataApi(key);
-		return model;
 	}
 
 }

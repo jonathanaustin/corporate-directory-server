@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.flux.wc.AbstractStore;
-import com.github.bordertech.wcomponents.lib.app.event.NavigationEventType;
+import com.github.bordertech.flux.wc.DefaultStore;
+import com.github.bordertech.wcomponents.lib.app.view.event.NavigationViewEvent;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.wcomponents.lib.mvc.ComboView;
@@ -11,13 +11,13 @@ import com.github.bordertech.wcomponents.lib.mvc.ComboView;
  *
  * @author jonathan
  */
-public class ResetViewCtrl extends AbstractStore {
+public class ResetViewCtrl extends DefaultStore {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 		// Reset EVENT
-		registerListener(NavigationEventType.RESET_VIEW, new Listener() {
+		registerListener(NavigationViewEvent.RESET_VIEW, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				handleResetEvent();

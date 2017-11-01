@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventType;
 import com.github.bordertech.flux.Listener;
@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class TranslateEventCtrl extends AbstractStore {
+public class TranslateEventCtrl extends DefaultStore {
 
 	public void translate(final EventType fromType, final EventType toType) {
 		// Make sure the types are different

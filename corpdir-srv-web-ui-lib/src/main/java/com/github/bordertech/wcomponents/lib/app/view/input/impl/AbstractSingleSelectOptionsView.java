@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.input.impl;
 
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.SingleSelectOptionsView;
 
 /**
@@ -14,9 +14,9 @@ public abstract class AbstractSingleSelectOptionsView<T> extends AbstractInputOp
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedOption();
 		if (bean == null) {
-			dispatchEvent(SelectEventType.UNSELECT);
+			dispatchViewEvent(SelectViewEvent.UNSELECT);
 		} else {
-			dispatchEvent(SelectEventType.SELECT, bean);
+			dispatchViewEvent(SelectViewEvent.SELECT, bean);
 		}
 	}
 

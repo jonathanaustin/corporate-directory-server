@@ -1,19 +1,22 @@
 package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import com.github.bordertech.wcomponents.WContainer;
 
 /**
- * Default Template View.
+ * Default dumb view.
+ * <p>
+ * Uses a {@link WContainer} to hold the content.
+ * </p>
  *
  * @param <T> the view bean type
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TemplateAppView<T> extends AbstractAppView<T> {
+public class DumbView<T> extends AbstractDumbView<T> {
 
-	private final WTemplate content = new WTemplate() {
+	private final WContainer content = new WContainer() {
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
@@ -29,14 +32,12 @@ public class TemplateAppView<T> extends AbstractAppView<T> {
 		}
 	};
 
-	public TemplateAppView(final String templateName) {
-		content.setTemplateName(templateName);
-		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	public DumbView() {
 		addTaggedComponent("vw-content", content);
 	}
 
 	@Override
-	public final WTemplate getContent() {
+	public final WContainer getContent() {
 		return content;
 	}
 

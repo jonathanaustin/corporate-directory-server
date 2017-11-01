@@ -1,11 +1,11 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import com.github.bordertech.wcomponents.lib.app.msg.MessageEventType;
 import java.util.Collection;
 import com.github.bordertech.wcomponents.lib.app.model.RetrieveCollectionModel;
@@ -19,14 +19,14 @@ import com.github.bordertech.wcomponents.polling.ServiceAction;
  * @param <T> the item type
  * @param <C> the collection type
  */
-public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends AbstractStore implements RetrieveCollectionModelKey {
+public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends DefaultStore implements RetrieveCollectionModelKey {
 
 	@Override
 	public void setupController() {
 		super.setupController();
 
 		// POLLING Listeners
-		for (PollingEventType type : PollingEventType.values()) {
+		for (PollingViewEvent type : PollingViewEvent.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -74,7 +74,7 @@ public class AbstractPollingMainCtrl<S, T, C extends Collection<T>> extends Abst
 
 	protected void handlePollingEvents(final Event event) {
 
-		PollingEventType type = (PollingEventType) event.getEventKey().getEventType();
+		PollingViewEvent type = (PollingViewEvent) event.getEventKey().getEventType();
 		switch (type) {
 			case START_POLLING:
 				S criteria = (S) event.getData();

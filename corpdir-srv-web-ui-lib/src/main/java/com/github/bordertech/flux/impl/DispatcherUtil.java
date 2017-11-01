@@ -5,7 +5,6 @@ import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.StoreKey;
-import com.github.bordertech.flux.View;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -20,7 +19,12 @@ import java.util.regex.Pattern;
  */
 public class DispatcherUtil {
 
-	private static final Pattern QUALIFIER_PATTERN = Pattern.compile(View.QUALIFIER_VALIDATION_PATTERN);
+	/**
+	 * A qualifier must start with a letter and followed by letters, digits or dash.
+	 */
+	public static final String QUALIFIER_VALIDATION_PATTERN = "[a-zA-Z][0-9a-zA-Z-]*";
+
+	private static final Pattern QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_VALIDATION_PATTERN);
 
 	private DispatcherUtil() {
 	}

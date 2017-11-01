@@ -1,4 +1,4 @@
-package com.github.bordertech.flux;
+package com.github.bordertech.flux.wc;
 
 import java.io.Serializable;
 

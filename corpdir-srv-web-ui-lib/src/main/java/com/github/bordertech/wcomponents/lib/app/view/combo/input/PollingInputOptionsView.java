@@ -5,14 +5,14 @@ import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.ctrl.InputOptionsMainCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.PollingInputOptionsCtrl;
 import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
-import com.github.bordertech.wcomponents.lib.app.event.PollingEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveCollectionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
 import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.AppView;
+import com.github.bordertech.flux.wc.view.View;
 
 /**
  * Polling View and Input Options View.
@@ -68,11 +68,11 @@ public class PollingInputOptionsView<S, T> extends DefaultMessageComboView<T> im
 		if (!isInitialised()) {
 			configViews();
 		}
-		dispatchEvent(PollingEventType.START_POLLING, criteria);
+		dispatchEvent(PollingViewEvent.START_POLLING, criteria);
 	}
 
 	@Override
-	public void configAjax(final AppView view) {
+	public void configAjax(final View view) {
 		view.addEventAjaxTarget(this);
 	}
 

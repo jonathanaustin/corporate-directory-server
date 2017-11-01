@@ -1,12 +1,17 @@
 package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WMessages;
+import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
+import com.github.bordertech.wcomponents.lib.app.view.FormView;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
+import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,15 +22,21 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * Abstract dumb view allows different types of components to hold the view content.
+ *
  * @param <T> the view bean type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractAppView<T> extends AbstractView implements AppView<T> {
+public abstract class AbstractDumbView<T> extends WTemplate implements View<T> {
 
-	public AbstractAppView() {
-		super("wclib/hbs/layout/default-view.hbs");
+	public AbstractDumbView() {
+		this("wclib/hbs/layout/default-view.hbs");
+	}
+
+	public AbstractDumbView(final String templateName) {
+		super(templateName, TemplateRendererFactory.TemplateEngine.HANDLEBARS);
 		setSearchAncestors(false);
 		setBeanProperty(".");
 	}
@@ -78,9 +89,6 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 		}
 	}
 
-	protected void customValidation(final List<Diagnostic> diags) {
-	}
-
 	@Override
 	public void updateViewBean() {
 		WebUtilities.updateBeanValue(this);
@@ -97,9 +105,9 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 	}
 
 	@Override
-	public void addEventAjaxTarget(final AjaxTarget target, final EventType... eventTypes) {
+	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventTypes) {
 		// Add the targets to the registered AJAX Controls
-		Map<EventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
@@ -128,8 +136,8 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 	}
 
 	@Override
-	public void clearEventAjaxTargets(final EventType type) {
-		Map<EventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+	public void clearEventAjaxTargets(final ViewEventType type) {
+		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
@@ -142,8 +150,8 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 	}
 
 	@Override
-	public void registerEventAjaxControl(final EventType type, final AppAjaxControl ajax) {
-		AppViewModel model = getOrCreateComponentModel();
+	public void registerEventAjaxControl(final ViewEventType type, final AppAjaxControl ajax) {
+		ViewModel model = getOrCreateComponentModel();
 		if (model.ajaxControls == null) {
 			model.ajaxControls = new HashMap<>();
 		}
@@ -160,8 +168,11 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 		return WMessages.getInstance(this);
 	}
 
-	protected Map<EventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
-		AppViewModel model = getComponentModel();
+	protected void customValidation(final List<Diagnostic> diags) {
+	}
+
+	protected Map<ViewEventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
+		ViewModel model = getComponentModel();
 		return model.ajaxControls == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.ajaxControls);
 	}
 
@@ -178,19 +189,19 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 	}
 
 	protected void initViewContent(final Request request) {
-//		// Configure AJAX
-//		ComboView combo = findParentCombo();
-//		if (combo != null) {
-//			combo.configAjax(this);
-//		}
-//		// Check for updateable
-//		if (this instanceof FormUpdateable) {
-//			// Get parent form
-//			FormView view = WebUtilities.getAncestorOfClass(FormView.class, this);
-//			if (view != null) {
-//				((FormUpdateable) this).doMakeFormReadonly(view.isFormReadonly());
-//			}
-//		}
+		// Configure AJAX
+		ViewContainer view = findParentViewContainer();
+		if (view != null) {
+			view.configAjax(this);
+		}
+		// Check for form updateable
+		if (this instanceof FormUpdateable) {
+			// Get parent form
+			FormView form = WebUtilities.getAncestorOfClass(FormView.class, this);
+			if (form != null) {
+				((FormUpdateable) this).doMakeFormReadonly(form.isFormReadonly());
+			}
+		}
 	}
 
 	protected void handleMessageReset() {
@@ -217,29 +228,56 @@ public abstract class AbstractAppView<T> extends AbstractView implements AppView
 		getViewMessages().info(text);
 	}
 
+	/**
+	 * Helper method to dispatch an event for this view to the smart view.
+	 *
+	 * @param eventType the view event
+	 */
+	protected void dispatchViewEvent(final ViewEventType eventType) {
+		dispatchViewEvent(eventType, null);
+	}
+
+	/**
+	 * Helper method to dispatch an event for this view to the smart view.
+	 *
+	 * @param eventType the view event
+	 * @param data the event data
+	 */
 	@Override
-	protected AppViewModel newComponentModel() {
-		return new AppViewModel();
+	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
+		ViewContainer parent = findParentViewContainer();
+		if (parent != null) {
+			parent.handleViewEvent(eventType, data);
+		}
+	}
+
+	protected ViewContainer findParentViewContainer() {
+		return ViewUtil.findParentViewContainer(this);
 	}
 
 	@Override
-	protected AppViewModel getComponentModel() {
-		return (AppViewModel) super.getComponentModel();
+	protected ViewModel newComponentModel() {
+		return new ViewModel();
 	}
 
 	@Override
-	protected AppViewModel getOrCreateComponentModel() {
-		return (AppViewModel) super.getOrCreateComponentModel();
+	protected ViewModel getComponentModel() {
+		return (ViewModel) super.getComponentModel();
+	}
+
+	@Override
+	protected ViewModel getOrCreateComponentModel() {
+		return (ViewModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class AppViewModel extends ViewModel {
+	public static class ViewModel extends TemplateModel {
 
 		private boolean contentVisible = true;
 
-		private Map<EventType, Set<AppAjaxControl>> ajaxControls;
+		private Map<ViewEventType, Set<AppAjaxControl>> ajaxControls;
 
 	}
 

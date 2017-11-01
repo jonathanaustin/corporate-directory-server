@@ -1,14 +1,14 @@
 package com.github.bordertech.wcomponents.lib.app.msg;
 
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.flux.wc.view.DefaultAppView;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Default message view.
  *
  * @author jonathan
  */
-public class DefaultMessageView<T> extends DefaultAppView<T> implements MessageView<T> {
+public class DefaultMessageView<T> extends DumbView<T> implements MessageView<T> {
 
 	private final WMessages messages = new WMessages(true);
 

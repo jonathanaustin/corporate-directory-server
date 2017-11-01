@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.input.impl;
 
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.MultiSelectOptionsView;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,9 +65,9 @@ public abstract class AbstractMultiSelectOptionsView<T> extends AbstractInputOpt
 	protected void doDispatchSelectEvent() {
 		List<T> beans = getSelectedOptions();
 		if (beans == null) {
-			dispatchEvent(SelectEventType.UNSELECT);
+			dispatchViewEvent(SelectViewEvent.UNSELECT);
 		} else {
-			dispatchEvent(SelectEventType.SELECT, beans);
+			dispatchViewEvent(SelectViewEvent.SELECT, beans);
 		}
 	}
 

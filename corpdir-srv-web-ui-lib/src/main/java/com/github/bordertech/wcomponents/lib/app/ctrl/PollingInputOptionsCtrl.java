@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.ctrl;
 
-import com.github.bordertech.wcomponents.lib.app.event.OptionsEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.OptionsViewEvent;
 import java.util.List;
 
 /**
@@ -15,19 +15,19 @@ public class PollingInputOptionsCtrl<S, T> extends AbstractPollingMainCtrl<S, T,
 	@Override
 	protected void handleRefreshList() {
 		super.handleRefreshList();
-		dispatchEvent(OptionsEventType.RESET_OPTIONS);
+		dispatchEvent(OptionsViewEvent.RESET_OPTIONS);
 	}
 
 	@Override
 	protected void handlePollingCompleteEvent(final List<T> items) {
 		super.handlePollingCompleteEvent(items);
-		dispatchEvent(OptionsEventType.LOAD_OPTIONS, items);
+		dispatchEvent(OptionsViewEvent.LOAD_OPTIONS, items);
 	}
 
 	@Override
 	protected void handleStartPollingSearch(S criteria) {
 		super.handleStartPollingSearch(criteria);
-		dispatchEvent(OptionsEventType.RESET_OPTIONS);
+		dispatchEvent(OptionsViewEvent.RESET_OPTIONS);
 	}
 
 }

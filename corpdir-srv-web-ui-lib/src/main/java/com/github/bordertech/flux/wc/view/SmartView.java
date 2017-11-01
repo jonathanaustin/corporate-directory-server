@@ -2,85 +2,83 @@ package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventType;
-import com.github.bordertech.flux.View;
-import com.github.bordertech.flux.ViewContainer;
-import com.github.bordertech.flux.impl.DefaultEvent;
 import com.github.bordertech.flux.EventKey;
+import com.github.bordertech.flux.event.StoreEventType;
+import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.impl.DefaultEvent;
+import com.github.bordertech.flux.impl.DispatcherUtil;
 import com.github.bordertech.flux.wc.DispatcherFactory;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
- * Dumb Flux View.
+ * Smart view.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractView extends WTemplate implements View {
+public class SmartView<T> extends DumbTemplateView<T> implements ViewContainer<T> {
 
-	/**
-	 * QUALIFIER pattern.
-	 */
-	private static final Pattern QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_VALIDATION_PATTERN);
-
-	public AbstractView(final String templateName) {
-		super(templateName, TemplateRendererFactory.TemplateEngine.HANDLEBARS);
+	public SmartView(final String templateName) {
+		super(templateName);
 	}
 
 	@Override
-	public void registerStoreChangeListeners() {
-		// None by default.
+	public void configAjax(final View view) {
+		// By default ADD all the views as AJAX
+		for (View vw : getViews()) {
+			if (vw != view) {
+				((View) view).addEventAjaxTarget(vw);
+			}
+		}
+		if (isAjaxContext()) {
+			return;
+		}
+		// Get the parent controller AJAX Targets
+		ViewContainer parent = findParentViewContainer();
+		if (parent != null) {
+			parent.configAjax(view);
+		}
 	}
 
 	@Override
-	public void unregisterStoreChangeListeners() {
-		// None by default.
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 */
-	@Override
-	public void dispatchEvent(final EventType eventType) {
-		dispatchEvent(eventType, null, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 */
-	@Override
-	public void dispatchEvent(final EventType eventType, final Object data) {
-		dispatchEvent(eventType, data, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 * @param exception an exception
-	 */
-	@Override
-	public void dispatchEvent(final EventType eventType, final Object data, final Exception exception) {
-		String qualifier = getFullQualifier();
-		DefaultEvent event = new DefaultEvent(new EventKey(eventType, qualifier), data, exception);
-		dispatchEvent(event);
+	public boolean isAjaxContext() {
+		return getComponentModel().ajaxContext;
 	}
 
 	@Override
-	public void dispatchEvent(final Event event) {
-		getDispatcher().dispatch(event);
+	public void setAjaxContext(final boolean ajaxContext) {
+		getOrCreateComponentModel().ajaxContext = ajaxContext;
+	}
+
+	@Override
+	public void handleViewEvent(final ViewEventType event, final Object data) {
+		// Handle child view events
+	}
+
+	@Override
+	public List<View> getViews() {
+		List<View> views = new ArrayList<>();
+		for (WComponent child : getContent().getTaggedComponents().values()) {
+			if (child instanceof View) {
+				views.add((View) child);
+			}
+		}
+		return Collections.unmodifiableList(views);
+	}
+
+	@Override
+	public boolean isQualifierContext() {
+		return getComponentModel().qualifierContext;
+	}
+
+	@Override
+	public void setQualifierContext(final boolean qualifierContext) {
+		getOrCreateComponentModel().qualifierContext = qualifierContext;
 	}
 
 	@Override
@@ -90,16 +88,7 @@ public class AbstractView extends WTemplate implements View {
 
 	@Override
 	public final void setQualifier(final String qualifier) {
-		if (qualifier != null) {
-			// Must start with a letter and followed by letters, digits and or underscores
-			Matcher matcher = QUALIFIER_PATTERN.matcher(qualifier);
-			if (!matcher.matches()) {
-				throw new IllegalArgumentException(
-						"Qualifier "
-						+ qualifier
-						+ " must start with a letter and followed by letters, digits and or dash.");
-			}
-		}
+		DispatcherUtil.validateQualifier(qualifier);
 		getOrCreateComponentModel().qualifier = qualifier;
 	}
 
@@ -168,6 +157,31 @@ public class AbstractView extends WTemplate implements View {
 	}
 
 	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 */
+	protected void dispatchEvent(final StoreEventType eventType) {
+		dispatchEvent(eventType, null);
+	}
+
+	/**
+	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 *
+	 * @param eventType the event type
+	 * @param data the event data
+	 */
+	protected void dispatchEvent(final StoreEventType eventType, final Object data) {
+		String qualifier = getFullQualifier();
+		DefaultEvent event = new DefaultEvent(new EventKey(eventType, qualifier), data);
+		dispatchEvent(event);
+	}
+
+	protected void dispatchEvent(final Event event) {
+		getDispatcher().dispatch(event);
+	}
+
+	/**
 	 * Get this component's parent qualifier context.
 	 *
 	 * @param component the component to process
@@ -196,27 +210,30 @@ public class AbstractView extends WTemplate implements View {
 	}
 
 	@Override
-	protected ViewModel newComponentModel() {
-		return new ViewModel();
+	protected ViewContainerModel newComponentModel() {
+		return new ViewContainerModel();
 	}
 
 	@Override
-	protected ViewModel getComponentModel() {
-		return (ViewModel) super.getComponentModel();
+	protected ViewContainerModel getComponentModel() {
+		return (ViewContainerModel) super.getComponentModel();
 	}
 
 	@Override
-	protected ViewModel getOrCreateComponentModel() {
-		return (ViewModel) super.getOrCreateComponentModel();
+	protected ViewContainerModel getOrCreateComponentModel() {
+		return (ViewContainerModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class ViewModel extends TemplateModel {
+	public static class ViewContainerModel extends ViewModel {
 
 		private String qualifier;
 
-	}
+		private boolean qualifierContext;
 
+		private boolean ajaxContext;
+
+	}
 }

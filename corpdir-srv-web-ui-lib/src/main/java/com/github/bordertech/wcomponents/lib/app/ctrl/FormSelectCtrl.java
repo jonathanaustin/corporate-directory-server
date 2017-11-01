@@ -4,11 +4,11 @@ import com.github.bordertech.wcomponents.lib.app.event.CollectionEventType;
 import com.github.bordertech.wcomponents.lib.app.event.FormEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelEventType;
 import com.github.bordertech.wcomponents.lib.app.event.ModelOutcomeEventType;
-import com.github.bordertech.wcomponents.lib.app.event.SelectEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.wc.AbstractStore;
+import com.github.bordertech.flux.wc.DefaultStore;
 import java.util.Collection;
 
 /**
@@ -18,7 +18,7 @@ import java.util.Collection;
  * @param <T> the select entity
  * @param <C> the collection type
  */
-public class FormSelectCtrl<T, C extends Collection<T>> extends AbstractStore {
+public class FormSelectCtrl<T, C extends Collection<T>> extends DefaultStore {
 
 	private boolean loadFresh;
 
@@ -62,7 +62,7 @@ public class FormSelectCtrl<T, C extends Collection<T>> extends AbstractStore {
 		});
 
 		// Select EVENT
-		registerListener(SelectEventType.SELECT, new Listener() {
+		registerListener(SelectViewEvent.SELECT, new Listener() {
 			@Override
 			public void handleEvent(final Event event) {
 				T selected = (T) event.getData();

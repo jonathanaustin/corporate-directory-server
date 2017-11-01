@@ -14,6 +14,4 @@ public interface Event extends Serializable {
 
 	Object getData();
 
-	Exception getException();
-
 }
