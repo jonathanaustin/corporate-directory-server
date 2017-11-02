@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.input;
 
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
-import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Form input via search view. The view bean is the input value.
@@ -11,6 +11,6 @@ import com.github.bordertech.flux.wc.view.View;
  * @since 1.0.0
  *
  */
-public interface InputViaSearchView<T> extends View<T>, FormUpdateable {
+public interface InputViaSearchView<T> extends DumbView<T>, FormUpdateable {
 
 }

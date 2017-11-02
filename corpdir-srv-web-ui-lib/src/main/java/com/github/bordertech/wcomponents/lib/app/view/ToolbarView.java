@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
 import java.util.Set;
-import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Toolbar view.
@@ -12,7 +12,7 @@ import com.github.bordertech.flux.wc.view.View;
  * @since 1.0.0
  *
  */
-public interface ToolbarView<T> extends View<T> {
+public interface ToolbarView<T> extends DumbView<T> {
 
 	void addToolbarItem(final ToolbarItem... types);
 

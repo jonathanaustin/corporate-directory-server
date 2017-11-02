@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**
@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class FormUpdateableView<T> extends DumbView<T> implements FormUpdateable {
+public class FormUpdateableView<T> extends DefaultDumbView<T> implements FormUpdateable {
 
 	public FormUpdateableView(final String viewId) {
 		super(viewId);

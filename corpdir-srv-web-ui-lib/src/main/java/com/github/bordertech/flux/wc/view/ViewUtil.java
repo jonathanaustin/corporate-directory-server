@@ -27,8 +27,8 @@ public final class ViewUtil {
 	 * @param component The contained component.
 	 * @return The View ancestor, if found.
 	 */
-	public static View findParentView(final WComponent component) {
-		return WebUtilities.getAncestorOfClass(View.class, component);
+	public static DumbView findParentView(final WComponent component) {
+		return WebUtilities.getAncestorOfClass(DumbView.class, component);
 	}
 
 	/**
@@ -37,8 +37,8 @@ public final class ViewUtil {
 	 * @param component The contained component.
 	 * @return The ComboView ancestor, if found.
 	 */
-	public static ViewContainer findParentViewContainer(final WComponent component) {
-		return WebUtilities.getAncestorOfClass(ViewContainer.class, component);
+	public static SmartView findParentViewContainer(final WComponent component) {
+		return WebUtilities.getAncestorOfClass(SmartView.class, component);
 	}
 
 	/**

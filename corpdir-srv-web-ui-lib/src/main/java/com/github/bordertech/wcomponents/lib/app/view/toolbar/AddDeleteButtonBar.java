@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddDeleteButtonBar<T> extends DumbView<T> implements FormUpdateable {
+public class AddDeleteButtonBar<T> extends DefaultDumbView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");

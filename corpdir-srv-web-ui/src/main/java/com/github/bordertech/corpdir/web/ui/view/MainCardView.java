@@ -2,16 +2,16 @@ package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.wcomponents.WCardManager;
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import java.util.HashMap;
 import java.util.Map;
-import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  *
  * @author jonathan
  */
-public class MainCardView extends DumbView {
+public class MainCardView extends DefaultDumbView {
 
 	private final WCardManager mgr = new WCardManager();
 
@@ -21,7 +21,7 @@ public class MainCardView extends DumbView {
 
 		int idx = 1;
 		for (CardType card : CardType.values()) {
-			View view = card.createCardViewInstance();
+			DumbView view = card.createCardViewInstance();
 			view.setQualifierAndMessageQualifier("M-E" + idx++);
 			view.setQualifierAndMessageQualifierContext(true);
 			setupCard(card, view);
@@ -30,7 +30,7 @@ public class MainCardView extends DumbView {
 		showCard(CardType.CONTACT_CARD);
 	}
 
-	private void setupCard(final CardType type, final View view) {
+	private void setupCard(final CardType type, final DumbView view) {
 		mgr.add(view);
 		addCard(type, view);
 	}
@@ -40,7 +40,7 @@ public class MainCardView extends DumbView {
 	}
 
 	public final void showCard(final CardType card) {
-		View view = getCard(card);
+		DumbView view = getCard(card);
 		if (view != null) {
 			mgr.makeVisible(view);
 			getOrCreateComponentModel().current = card;
@@ -48,7 +48,7 @@ public class MainCardView extends DumbView {
 	}
 
 	public void resetCard(final CardType card) {
-		View view = getCard(card);
+		DumbView view = getCard(card);
 		if (view != null) {
 			view.reset();
 		}
@@ -58,7 +58,7 @@ public class MainCardView extends DumbView {
 		return getComponentModel().current;
 	}
 
-	protected final void addCard(final CardType card, final View view) {
+	protected final void addCard(final CardType card, final DumbView view) {
 		MainCardModel model = getOrCreateComponentModel();
 		if (model.cards == null) {
 			model.cards = new HashMap<>();
@@ -66,7 +66,7 @@ public class MainCardView extends DumbView {
 		model.cards.put(card, view);
 	}
 
-	protected final View getCard(final CardType card) {
+	protected final DumbView getCard(final CardType card) {
 		MainCardModel model = getComponentModel();
 		if (model.cards != null) {
 			return model.cards.get(card);
@@ -94,7 +94,7 @@ public class MainCardView extends DumbView {
 	 */
 	public static class MainCardModel extends ViewModel {
 
-		private Map<CardType, View> cards;
+		private Map<CardType, DumbView> cards;
 
 		private CardType current;
 	}

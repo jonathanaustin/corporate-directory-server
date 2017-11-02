@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.list;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @param <T> the item type
  * @since 1.0.0
  */
-public class AbstractListView<T> extends DumbView<List<T>> implements ListView<T> {
+public class AbstractListView<T> extends DefaultDumbView<List<T>> implements ListView<T> {
 
 	public AbstractListView(final String viewId) {
 		super(viewId);

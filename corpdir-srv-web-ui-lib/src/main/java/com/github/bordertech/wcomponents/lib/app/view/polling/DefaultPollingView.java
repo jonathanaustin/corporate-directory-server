@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.polling;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
@@ -17,7 +17,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DumbView<T> implements PollingView<S, T> {
+public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements PollingView<S, T> {
 
 	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
 		@Override

@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractFormView<T> extends DumbView<T> implements FormView<T> {
+public class AbstractFormView<T> extends DefaultDumbView<T> implements FormView<T> {
 
 	public AbstractFormView(final String viewId) {
 		super(viewId);

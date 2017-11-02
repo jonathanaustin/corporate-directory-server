@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;
@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractToolbar<T> extends DumbView<T> implements ToolbarView<T> {
+public class AbstractToolbar<T> extends DefaultDumbView<T> implements ToolbarView<T> {
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -98,7 +98,7 @@ public class AbstractToolbar<T> extends DumbView<T> implements ToolbarView<T> {
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class ToolbarModel extends DumbView.ViewModel {
+	public static class ToolbarModel extends DefaultDumbView.ViewModel {
 
 		private Set<ToolbarItem> toolbarTypes;
 	}

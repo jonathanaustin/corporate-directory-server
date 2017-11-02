@@ -15,7 +15,7 @@ import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DumbTemplateView<T> extends AbstractDumbView<T> {
+public class DefaultDumbTemplateView<T> extends AbstractDumbView<T> {
 
 	private final WTemplate content = new WTemplate() {
 		@Override
@@ -33,7 +33,7 @@ public class DumbTemplateView<T> extends AbstractDumbView<T> {
 		}
 	};
 
-	public DumbTemplateView(final String viewId, final String templateName) {
+	public DefaultDumbTemplateView(final String viewId, final String templateName) {
 		super(viewId);
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
@@ -51,11 +51,11 @@ public class DumbTemplateView<T> extends AbstractDumbView<T> {
 	 * @param tag the component identifying tag
 	 * @param component the component to add to the template
 	 */
-	protected void addComponentToTemplate(final String tag, final WComponent component) {
+	public void addComponentToTemplate(final String tag, final WComponent component) {
 		getContent().addTaggedComponent(tag, component);
 	}
 
-	protected void addViewToTemplate(final View view) {
+	public void addViewToTemplate(final DumbView view) {
 		getContent().addTaggedComponent(view.getViewId(), view);
 	}
 

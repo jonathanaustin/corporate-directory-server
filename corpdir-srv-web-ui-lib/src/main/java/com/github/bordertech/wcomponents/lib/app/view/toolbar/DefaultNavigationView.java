@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;
@@ -22,7 +22,7 @@ import com.github.bordertech.wcomponents.lib.app.view.event.NavigationListViewEv
  *
  * @author jonathan
  */
-public class DefaultNavigationView<T> extends DumbView<T> implements NavigationView<T> {
+public class DefaultNavigationView<T> extends DefaultDumbView<T> implements NavigationView<T> {
 
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";

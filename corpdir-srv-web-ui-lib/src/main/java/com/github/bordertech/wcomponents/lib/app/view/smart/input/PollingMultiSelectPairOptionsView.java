@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo.input;
+package com.github.bordertech.wcomponents.lib.app.view.smart.input;
 
 import com.github.bordertech.wcomponents.AbstractWMultiSelectList;
 import com.github.bordertech.wcomponents.lib.app.view.input.MultiSelectOptionsView;
@@ -12,8 +12,8 @@ import java.util.List;
  */
 public class PollingMultiSelectPairOptionsView<S, T> extends PollingInputOptionsView<S, T> implements MultiSelectOptionsView<T> {
 
-	public PollingMultiSelectPairOptionsView(final String qualifier) {
-		super(qualifier, new MultiSelectPairOptionsView<T>());
+	public PollingMultiSelectPairOptionsView(final String viewId) {
+		super(viewId, new MultiSelectPairOptionsView<T>("vw-select"));
 	}
 
 	@Override

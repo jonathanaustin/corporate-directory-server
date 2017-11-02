@@ -7,8 +7,8 @@ import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingDropdownOptionsView;
-import com.github.bordertech.wcomponents.lib.app.view.combo.input.PollingMultiSelectPairOptionsView;
+import com.github.bordertech.wcomponents.lib.app.view.smart.input.PollingDropdownOptionsView;
+import com.github.bordertech.wcomponents.lib.app.view.smart.input.PollingMultiSelectPairOptionsView;
 
 /**
  * Contact detail Form.

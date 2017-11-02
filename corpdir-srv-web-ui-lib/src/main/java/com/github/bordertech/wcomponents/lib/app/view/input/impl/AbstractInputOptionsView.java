@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.input.impl;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  * @param <T> the options type
  * @author jonathan
  */
-public abstract class AbstractInputOptionsView<T> extends DumbView<T> implements InputOptionsView<T> {
+public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> implements InputOptionsView<T> {
 
 	public AbstractInputOptionsView(final String viewId) {
 		super(viewId);

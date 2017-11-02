@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.view.input;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Form input from options view. The view bean is the input value.
@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.View;
  * @since 1.0.0
  *
  */
-public interface InputOptionsView<T> extends View<T>, FormUpdateable {
+public interface InputOptionsView<T> extends DumbView<T>, FormUpdateable {
 
 	void setOptions(final List<T> options);
 

@@ -1,16 +1,13 @@
 package com.github.bordertech.wcomponents.lib.app.view.combo;
 
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WTemplate;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
-import com.github.bordertech.wcomponents.lib.app.ctrl.FormToolbarCtrl;
-import com.github.bordertech.wcomponents.lib.app.ctrl.ResetViewCtrl;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
-import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
+import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
+import com.github.bordertech.wcomponents.lib.app.view.smart.msg.DefaultMessageSmartView;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbarView;
 
 /**
  * Form View with a Toolbar View.
@@ -18,40 +15,29 @@ import com.github.bordertech.wcomponents.lib.mvc.msg.DefaultMessageComboView;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implements FormView<T>, ActionModelKey {
+public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implements FormView<T>, ActionModelKey {
 
 	private final FormView<T> formView;
 
 	private final FormToolbarView toolbarView;
-	private final FormToolbarCtrl<T> ctrl = new FormToolbarCtrl();
 
-	public FormWithToolbarView() {
-		this(new AbstractFormView<T>());
+	public FormWithToolbarView(final String viewId) {
+		this(viewId, new AbstractFormView<T>("vw-entity"));
 	}
 
-	public FormWithToolbarView(final FormView<T> formView) {
-		this(formView, new DefaultFormToolbarView());
+	public FormWithToolbarView(final String viewId, final FormView<T> formView) {
+		this(viewId, formView, new DefaultFormToolbarView("vw-toolbar"));
 	}
 
-	public FormWithToolbarView(final FormView<T> formView, final FormToolbarView toolbarView) {
-		super("wclib/hbs/layout/combo-ent-toolbar.hbs");
+	public FormWithToolbarView(final String viewId, final FormView<T> formView, final FormToolbarView toolbarView) {
+		super(viewId, "wclib/hbs/layout/combo-ent-toolbar.hbs");
 
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
 
-		// Ctrl
-		ctrl.setToolbarView(toolbarView);
-		ctrl.setFormView(formView);
-		ctrl.addView(getMessageView());
-
-		ResetViewCtrl resetCtrl = new ResetViewCtrl();
-
-		WTemplate content = getContent();
-		content.addTaggedComponent("vw-ctrl-res", resetCtrl);
-		content.addTaggedComponent("vw-ctrl", ctrl);
-		content.addTaggedComponent("vw-toolbar", toolbarView);
-		content.addTaggedComponent("vw-entity", formView);
+		addViewToTemplate(toolbarView);
+		addViewToTemplate(formView);
 	}
 
 	public final FormView<T> getFormView() {
@@ -114,12 +100,36 @@ public class FormWithToolbarView<T> extends DefaultMessageComboView<T> implement
 
 	@Override
 	public void setActionModelKey(final String key) {
-		ctrl.setActionModelKey(key);
+//		ctrl.setActionModelKey(key);
 	}
 
 	@Override
 	public String getActionModelKey() {
-		return ctrl.getActionModelKey();
+		return "";
+//		return ctrl.getActionModelKey();
 	}
 
+//		// MODE CHANGED
+//		registerListener(FormEventType.ENTITY_MODE_CHANGED, new Listener() {
+//			@Override
+//			public void handleEvent(final Event event) {
+//				handleSyncToolbar();
+//			}
+//		});
+//
+//		// LOADED OK
+//		registerListener(FormEventType.LOAD_OK, new Listener() {
+//			@Override
+//			public void handleEvent(final Event event) {
+//				handleSyncToolbar();
+//			}
+//		});
+//
+//		// RESET FORM
+//		registerListener(FormEventType.RESET_FORM, new Listener() {
+//			@Override
+//			public void handleEvent(final Event event) {
+//				resetViews();
+//			}
+//		});
 }

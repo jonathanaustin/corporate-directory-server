@@ -29,7 +29,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public abstract class AbstractDumbView<T> extends WTemplate implements View<T> {
+public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<T> {
 
 	private final String viewId;
 
@@ -205,7 +205,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements View<T> {
 
 	protected void initViewContent(final Request request) {
 		// Configure AJAX
-		ViewContainer view = findParentViewContainer();
+		SmartView view = findParentViewContainer();
 		if (view != null) {
 			view.configAjax(this);
 		}
@@ -260,13 +260,13 @@ public abstract class AbstractDumbView<T> extends WTemplate implements View<T> {
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		ViewContainer parent = findParentViewContainer();
+		SmartView parent = findParentViewContainer();
 		if (parent != null) {
 			parent.handleViewEvent(eventType, data);
 		}
 	}
 
-	protected ViewContainer findParentViewContainer() {
+	protected SmartView findParentViewContainer() {
 		return ViewUtil.findParentViewContainer(this);
 	}
 

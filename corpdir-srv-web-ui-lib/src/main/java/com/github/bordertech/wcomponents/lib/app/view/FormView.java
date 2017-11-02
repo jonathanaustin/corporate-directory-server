@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.view;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.flux.wc.view.View;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Form view.
@@ -12,7 +12,7 @@ import com.github.bordertech.flux.wc.view.View;
  * @since 1.0.0
  *
  */
-public interface FormView<T> extends View<T> {
+public interface FormView<T> extends DumbView<T> {
 
 	/**
 	 * @return the form mode

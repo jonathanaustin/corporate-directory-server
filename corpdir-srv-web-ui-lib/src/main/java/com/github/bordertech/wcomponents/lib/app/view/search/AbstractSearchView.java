@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.search;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractSearchView<T> extends DumbView<T> implements SearchView<T> {
+public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchView<T> {
 
 	private final WButton searchButton = new WButton("Search");
 

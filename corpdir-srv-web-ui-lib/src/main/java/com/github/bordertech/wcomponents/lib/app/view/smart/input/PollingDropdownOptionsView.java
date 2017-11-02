@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo.input;
+package com.github.bordertech.wcomponents.lib.app.view.smart.input;
 
 import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
 import com.github.bordertech.wcomponents.lib.app.view.input.SingleSelectOptionsView;
@@ -11,8 +11,8 @@ import com.github.bordertech.wcomponents.lib.app.view.input.impl.DropdownOptions
  */
 public class PollingDropdownOptionsView<S, T> extends PollingInputOptionsView<S, T> implements SingleSelectOptionsView<T> {
 
-	public PollingDropdownOptionsView(final String qualifier) {
-		super(qualifier, new DropdownOptionsView<T>());
+	public PollingDropdownOptionsView(final String viewId, final String qualifier) {
+		super(viewId, new DropdownOptionsView<T>("vw-select"));
 	}
 
 	@Override
