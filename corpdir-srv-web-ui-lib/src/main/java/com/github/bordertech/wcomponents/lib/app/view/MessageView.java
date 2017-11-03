@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
-import com.github.bordertech.wcomponents.MessageContainer;
 import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.wcomponents.MessageContainer;
 
 /**
  * Message view.

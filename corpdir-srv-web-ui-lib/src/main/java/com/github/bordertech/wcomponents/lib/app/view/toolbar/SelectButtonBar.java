@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.ToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 
 /**
  * Select button.
@@ -33,7 +33,7 @@ public class SelectButtonBar<T> extends AbstractToolbar<T> implements ToolbarVie
 		btnSelect.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				dispatchViewEvent(ToolbarViewEvent.SELECT, event.getActionObject());
+				dispatchViewEvent(ToolbarBaseViewEvent.SELECT, event.getActionObject());
 			}
 		});
 	}

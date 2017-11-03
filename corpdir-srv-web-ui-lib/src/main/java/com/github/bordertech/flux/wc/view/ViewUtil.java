@@ -37,7 +37,7 @@ public final class ViewUtil {
 	 * @param component The contained component.
 	 * @return The ComboView ancestor, if found.
 	 */
-	public static SmartView findParentViewContainer(final WComponent component) {
+	public static SmartView findParentSmartView(final WComponent component) {
 		return WebUtilities.getAncestorOfClass(SmartView.class, component);
 	}
 

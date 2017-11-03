@@ -5,9 +5,10 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
-import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectableViewEvent;
 
 /**
  * Panel with a Button that can be used in a table column.
@@ -38,7 +39,7 @@ public class ViewButtonPanel extends WDiv {
 	protected void doDefaultAction() {
 		DumbView view = ViewUtil.findParentView(this);
 		if (view != null) {
-			view.dispatchViewEvent(SelectViewEvent.SELECT, getBean());
+			view.dispatchViewEvent(SelectableBaseViewEvent.SELECT, getBean());
 		}
 	}
 

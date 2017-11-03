@@ -5,7 +5,8 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectableViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import java.util.ArrayList;
 import java.util.List;
@@ -142,8 +143,8 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	protected abstract void doDispatchSelectEvent();
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(SelectViewEvent.UNSELECT, ctrl);
-		registerEventAjaxControl(SelectViewEvent.SELECT, ctrl);
+		registerEventAjaxControl(SelectableBaseViewEvent.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectableBaseViewEvent.SELECT, ctrl);
 	}
 
 	@Override

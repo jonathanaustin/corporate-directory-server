@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.polling;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
-import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;
 
 /**
@@ -27,14 +27,14 @@ public class DefaultPollingSmartView<S, T> extends DefaultSmartView<T> {
 	}
 
 	@Override
-	public void handleViewEvent(final ViewEventType event, final Object data) {
-		super.handleViewEvent(event, data);
-		if (event instanceof PollingViewEvent) {
-			handlePollingEvents((PollingViewEvent) event, data);
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		if (event instanceof PollingBaseViewEvent) {
+			handlePollingEvents((PollingBaseViewEvent) event, data);
 		}
 	}
 
-	protected void handlePollingEvents(final PollingViewEvent type, final Object data) {
+	protected void handlePollingEvents(final PollingBaseViewEvent type, final Object data) {
 
 		switch (type) {
 			case START_POLLING:

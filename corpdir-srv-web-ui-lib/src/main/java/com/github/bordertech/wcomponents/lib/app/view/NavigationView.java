@@ -22,4 +22,5 @@ public interface NavigationView<T> extends DumbView<T> {
 	boolean isUseSwipe();
 
 	void setUseSwipe(final boolean useSwipe);
+
 }

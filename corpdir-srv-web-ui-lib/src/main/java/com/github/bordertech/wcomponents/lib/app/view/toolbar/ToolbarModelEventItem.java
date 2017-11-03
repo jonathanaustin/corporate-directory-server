@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
 
 /**
@@ -8,19 +8,19 @@ import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
  * @author jonathan
  */
 public enum ToolbarModelEventItem implements ToolbarItem {
-	ADD("Add", ToolbarViewEvent.ADD),
-	EDIT("Edit", ToolbarViewEvent.EDIT),
-	UPDATE("Update", ToolbarViewEvent.UPDATE),
-	CREATE("Create", ToolbarViewEvent.CREATE),
-	CANCEL("Cancel", ToolbarViewEvent.CANCEL),
-	DELETE("Delete", ToolbarViewEvent.DELETE),
-	REFRESH("Refresh", ToolbarViewEvent.REFRESH);
+	ADD("Add", ToolbarBaseViewEvent.ADD),
+	EDIT("Edit", ToolbarBaseViewEvent.EDIT),
+	UPDATE("Update", ToolbarBaseViewEvent.UPDATE),
+	CREATE("Create", ToolbarBaseViewEvent.CREATE),
+	CANCEL("Cancel", ToolbarBaseViewEvent.CANCEL),
+	DELETE("Delete", ToolbarBaseViewEvent.DELETE),
+	REFRESH("Refresh", ToolbarBaseViewEvent.REFRESH);
 
-	ToolbarModelEventItem(final String desc, final ViewEventType eventType) {
+	ToolbarModelEventItem(final String desc, final ToolbarViewEvent eventType) {
 		this(desc, eventType, null);
 	}
 
-	ToolbarModelEventItem(final String desc, final ViewEventType eventType, final String imageUrl) {
+	ToolbarModelEventItem(final String desc, final ToolbarViewEvent eventType, final String imageUrl) {
 		this.desc = desc;
 		this.eventType = eventType;
 		this.imageUrl = imageUrl;
@@ -28,7 +28,7 @@ public enum ToolbarModelEventItem implements ToolbarItem {
 
 	final String desc;
 	final String imageUrl;
-	final ViewEventType eventType;
+	final ToolbarViewEvent eventType;
 
 	@Override
 	public String getDesc() {
@@ -41,7 +41,7 @@ public enum ToolbarModelEventItem implements ToolbarItem {
 	}
 
 	@Override
-	public ViewEventType getEventType() {
+	public ToolbarViewEvent getEventType() {
 		return eventType;
 	}
 }

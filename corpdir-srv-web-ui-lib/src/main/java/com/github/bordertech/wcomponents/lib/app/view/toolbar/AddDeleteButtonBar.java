@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
-import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
@@ -55,13 +55,13 @@ public class AddDeleteButtonBar<T> extends DefaultDumbView<T> implements FormUpd
 		btnAdd.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchViewEvent(ToolbarViewEvent.ADD);
+				dispatchViewEvent(ToolbarBaseViewEvent.ADD);
 			}
 		});
 		btnDelete.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchViewEvent(ToolbarViewEvent.DELETE);
+				dispatchViewEvent(ToolbarBaseViewEvent.DELETE);
 			}
 		});
 
@@ -75,8 +75,8 @@ public class AddDeleteButtonBar<T> extends DefaultDumbView<T> implements FormUpd
 		// Defaults
 		btnDelete.setVisible(false);
 
-		registerEventAjaxControl(ToolbarViewEvent.ADD, ajaxAdd);
-		registerEventAjaxControl(ToolbarViewEvent.DELETE, ajaxDelete);
+		registerEventAjaxControl(ToolbarBaseViewEvent.ADD, ajaxAdd);
+		registerEventAjaxControl(ToolbarBaseViewEvent.DELETE, ajaxDelete);
 	}
 
 	public void showRemoveButton(final boolean show) {

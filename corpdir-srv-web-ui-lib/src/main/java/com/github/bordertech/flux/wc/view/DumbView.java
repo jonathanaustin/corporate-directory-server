@@ -5,7 +5,6 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 
 /**
@@ -99,12 +98,6 @@ public interface DumbView<T> extends AjaxTarget, SubordinateTarget, BeanBound {
 	 * @param type
 	 */
 	void clearEventAjaxTargets(final ViewEventType type);
-
-	/**
-	 *
-	 * @return the messages component for this view.
-	 */
-	WMessages getViewMessages();
 
 	/**
 	 * Dispatches an event to the parent container view.

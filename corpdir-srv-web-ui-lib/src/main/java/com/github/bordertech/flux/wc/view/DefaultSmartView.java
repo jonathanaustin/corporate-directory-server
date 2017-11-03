@@ -10,7 +10,7 @@ import com.github.bordertech.flux.impl.DispatcherUtil;
 import com.github.bordertech.flux.wc.DispatcherFactory;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,8 +58,8 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	}
 
 	@Override
-	public void handleViewEvent(final ViewEventType event, final Object data) {
-		if (event == ToolbarViewEvent.RESET) {
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		if (event == ToolbarBaseViewEvent.RESET) {
 			handleEventReset();
 		}
 	}

@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.list;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
-import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.smart.polling.DefaultPollingMessageSmartView;
 import java.util.List;
 
@@ -88,10 +88,10 @@ public class PollingListView<S, T> extends DefaultPollingMessageSmartView<S, Lis
 	}
 
 	@Override
-	public void handleViewEvent(final ViewEventType event, final Object data) {
-		super.handleViewEvent(event, data);
-		if (event instanceof PollingViewEvent) {
-			handlePollingEvents((PollingViewEvent) event, data);
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		if (event instanceof PollingBaseViewEvent) {
+			handlePollingEvents((PollingBaseViewEvent) event, data);
 		}
 	}
 

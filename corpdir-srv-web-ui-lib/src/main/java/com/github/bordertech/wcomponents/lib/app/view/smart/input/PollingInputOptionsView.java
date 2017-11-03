@@ -1,13 +1,14 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.input;
 
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
-import com.github.bordertech.wcomponents.lib.app.view.event.OptionsViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
+import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.smart.polling.DefaultPollingMessageSmartView;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Polling View and Input Options View.
@@ -135,7 +136,7 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 	}
 
 	protected void handleOptionsEvent(final Event event) {
-		OptionsViewEvent type = (OptionsViewEvent) event.getEventKey().getEventType();
+		InputOptionsBaseViewEvent type = (InputOptionsBaseViewEvent) event.getEventKey().getEventType();
 		switch (type) {
 			case RESET_OPTIONS:
 				handleResetOptions();

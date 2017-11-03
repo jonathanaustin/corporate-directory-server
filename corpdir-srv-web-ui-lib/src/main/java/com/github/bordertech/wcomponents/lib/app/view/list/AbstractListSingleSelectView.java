@@ -2,7 +2,8 @@ package com.github.bordertech.wcomponents.lib.app.view.list;
 
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
-import com.github.bordertech.wcomponents.lib.app.view.event.SelectViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.SelectableViewEvent;
 
 /**
  * Default single select list view.
@@ -40,15 +41,15 @@ public class AbstractListSingleSelectView<T> extends AbstractListSelectableView<
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedItem();
 		if (bean == null) {
-			dispatchViewEvent(SelectViewEvent.UNSELECT);
+			dispatchViewEvent(SelectableBaseViewEvent.UNSELECT);
 		} else {
-			dispatchViewEvent(SelectViewEvent.SELECT, bean);
+			dispatchViewEvent(SelectableBaseViewEvent.SELECT, bean);
 		}
 	}
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(SelectViewEvent.UNSELECT, ctrl);
-		registerEventAjaxControl(SelectViewEvent.SELECT, ctrl);
+		registerEventAjaxControl(SelectableBaseViewEvent.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectableBaseViewEvent.SELECT, ctrl);
 	}
 
 	@Override

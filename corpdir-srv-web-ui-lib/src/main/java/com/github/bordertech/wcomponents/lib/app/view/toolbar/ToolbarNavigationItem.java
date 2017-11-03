@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
 
 /**
@@ -8,14 +8,14 @@ import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
  * @author jonathan
  */
 public enum ToolbarNavigationItem implements ToolbarItem {
-	RESET("Reset", ToolbarViewEvent.RESET),
-	BACK("Back", ToolbarViewEvent.BACK);
+	RESET("Reset", ToolbarBaseViewEvent.RESET),
+	BACK("Back", ToolbarBaseViewEvent.BACK);
 
-	ToolbarNavigationItem(final String desc, final ViewEventType eventType) {
+	ToolbarNavigationItem(final String desc, final ToolbarViewEvent eventType) {
 		this(desc, eventType, null);
 	}
 
-	ToolbarNavigationItem(final String desc, final ViewEventType eventType, final String imageUrl) {
+	ToolbarNavigationItem(final String desc, final ToolbarViewEvent eventType, final String imageUrl) {
 		this.desc = desc;
 		this.eventType = eventType;
 		this.imageUrl = imageUrl;
@@ -23,7 +23,7 @@ public enum ToolbarNavigationItem implements ToolbarItem {
 
 	final String desc;
 	final String imageUrl;
-	final ViewEventType eventType;
+	final ToolbarViewEvent eventType;
 
 	@Override
 	public String getDesc() {
@@ -36,7 +36,7 @@ public enum ToolbarNavigationItem implements ToolbarItem {
 	}
 
 	@Override
-	public ViewEventType getEventType() {
+	public ToolbarViewEvent getEventType() {
 		return eventType;
 	}
 }

@@ -5,15 +5,16 @@ import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.template.TemplateRendererFactory;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -178,11 +179,6 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 		ctrls.add(ajax);
 	}
 
-	@Override
-	public WMessages getViewMessages() {
-		return WMessages.getInstance(this);
-	}
-
 	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
@@ -220,27 +216,43 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	}
 
 	protected void handleMessageReset() {
-		getViewMessages().reset();
+		dispatchViewEvent(MessageBaseViewEvent.RESET);
 	}
 
 	protected void handleValidationMessages(final List<Diagnostic> diags) {
-		getViewMessages().getValidationErrors().setErrors(diags);
+		dispatchViewEvent(MessageBaseViewEvent.RESET, diags);
 	}
 
-	protected void handleMessageSuccess(final String text) {
-		getViewMessages().success(text);
+	protected void handleMessageSuccess(final String msg) {
+		handleMessageSuccess(Arrays.asList(msg));
 	}
 
-	protected void handleMessageWarning(final String text) {
-		getViewMessages().warn(text);
+	protected void handleMessageWarning(final String msg) {
+		handleMessageWarning(Arrays.asList(msg));
 	}
 
-	protected void handleMessageError(final String text) {
-		getViewMessages().error(text);
+	protected void handleMessageError(final String msg) {
+		handleMessageError(Arrays.asList(msg));
 	}
 
-	protected void handleMessageInfo(final String text) {
-		getViewMessages().info(text);
+	protected void handleMessageInfo(final String msg) {
+		handleMessageInfo(Arrays.asList(msg));
+	}
+
+	protected void handleMessageSuccess(final List<String> msgs) {
+		dispatchViewEvent(MessageBaseViewEvent.SUCCESS, msgs);
+	}
+
+	protected void handleMessageWarning(final List<String> msgs) {
+		dispatchViewEvent(MessageBaseViewEvent.WARN, msgs);
+	}
+
+	protected void handleMessageError(final List<String> msgs) {
+		dispatchViewEvent(MessageBaseViewEvent.ERROR, msgs);
+	}
+
+	protected void handleMessageInfo(final List<String> msgs) {
+		dispatchViewEvent(MessageBaseViewEvent.INFO, msgs);
 	}
 
 	/**
@@ -262,12 +274,12 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
 		SmartView parent = findParentViewContainer();
 		if (parent != null) {
-			parent.handleViewEvent(eventType, data);
+			parent.handleViewEvent(getViewId(), eventType, data);
 		}
 	}
 
 	protected SmartView findParentViewContainer() {
-		return ViewUtil.findParentViewContainer(this);
+		return ViewUtil.findParentSmartView(this);
 	}
 
 	@Override

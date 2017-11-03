@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.lib.app.view.toolbar.ToolbarItem;
 import java.util.Set;
-import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Toolbar view.

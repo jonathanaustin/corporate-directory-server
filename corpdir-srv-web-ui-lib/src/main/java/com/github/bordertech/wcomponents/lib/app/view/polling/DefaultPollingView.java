@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.polling.PollingServicePanel;
 import com.github.bordertech.wcomponents.polling.PollingStatus;
 import com.github.bordertech.wcomponents.polling.ServiceAction;
@@ -23,19 +24,19 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
-			doDispatchPollingEvent(PollingViewEvent.STARTED, null);
+			doDispatchPollingEvent(PollingBaseViewEvent.STARTED, null);
 		}
 
 		@Override
 		protected void handleExceptionResult(final Exception excp) {
 			super.handleExceptionResult(excp);
-			doDispatchPollingEvent(PollingViewEvent.ERROR, excp);
+			doDispatchPollingEvent(PollingBaseViewEvent.ERROR, excp);
 		}
 
 		@Override
 		protected void handleSuccessfulResult(final T result) {
 			super.handleSuccessfulResult(result);
-			doDispatchPollingEvent(PollingViewEvent.COMPLETE, result);
+			doDispatchPollingEvent(PollingBaseViewEvent.COMPLETE, result);
 		}
 
 		@Override
@@ -182,9 +183,7 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 	}
 
 	protected void doHandlePollingError(final List<String> msgs) {
-		for (String msg : msgs) {
-			getViewMessages().error(msg);
-		}
+		handleMessageError(msgs);
 	}
 
 	@Override

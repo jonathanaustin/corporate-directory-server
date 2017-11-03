@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.app.view;
 
+import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Form view.

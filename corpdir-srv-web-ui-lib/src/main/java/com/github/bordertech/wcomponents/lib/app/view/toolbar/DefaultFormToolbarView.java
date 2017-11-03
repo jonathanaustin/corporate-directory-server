@@ -6,7 +6,7 @@ import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
-import com.github.bordertech.wcomponents.lib.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
-	private final WMenuItem itemEdit = new AppMenuItem("Edit", ToolbarViewEvent.EDIT) {
+	private final WMenuItem itemEdit = new AppMenuItem("Edit", ToolbarBaseViewEvent.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.EDIT) && isFormReady() && !isDisabled();
@@ -30,7 +30,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemCancel = new AppMenuItem("Cancel", ToolbarViewEvent.CANCEL) {
+	private final WMenuItem itemCancel = new AppMenuItem("Cancel", ToolbarBaseViewEvent.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.CANCEL) && isFormReady() && !isDisabled();
@@ -48,21 +48,21 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemUpdate = new AppMenuItem("Save", ToolbarViewEvent.UPDATE) {
+	private final WMenuItem itemUpdate = new AppMenuItem("Save", ToolbarBaseViewEvent.UPDATE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.UPDATE) && getFormMode() == FormMode.EDIT;
 		}
 	};
 
-	private final WMenuItem itemCreate = new AppMenuItem("Save", ToolbarViewEvent.CREATE) {
+	private final WMenuItem itemCreate = new AppMenuItem("Save", ToolbarBaseViewEvent.CREATE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.CREATE) && getFormMode() == FormMode.ADD;
 		}
 	};
 
-	private final WMenuItem itemDelete = new AppMenuItem("Delete", ToolbarViewEvent.DELETE) {
+	private final WMenuItem itemDelete = new AppMenuItem("Delete", ToolbarBaseViewEvent.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.DELETE) && isFormReady() && !isDisabled();
@@ -75,7 +75,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemRefresh = new AppMenuItem("Refresh", ToolbarViewEvent.REFRESH) {
+	private final WMenuItem itemRefresh = new AppMenuItem("Refresh", ToolbarBaseViewEvent.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModelEventItem.REFRESH) && isFormReady() && !isDisabled();

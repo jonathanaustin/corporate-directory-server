@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.view.combo;
+package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;

@@ -5,6 +5,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
+import com.github.bordertech.wcomponents.lib.app.view.event.base.FormBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.FormViewEvent;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
@@ -82,11 +83,11 @@ public class AbstractFormView<T> extends DefaultDumbView<T> implements FormView<
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(FormViewEvent.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormBaseViewEvent.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(FormViewEvent.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchViewEvent(FormBaseViewEvent.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override
