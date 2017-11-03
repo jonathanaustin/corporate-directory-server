@@ -29,7 +29,7 @@ public class ListWithSearchView<S, T> extends PollingListView<S, T> {
 //		ctrl.setPollingView(getPollingView());
 //		ctrl.addView(searchView);
 		// Add views to holder
-		addViewToTemplate(toolbarView);
+		addComponentToTemplate("vw-toolbar", toolbarView);
 
 		// Default visibility
 		listView.setContentVisible(false);

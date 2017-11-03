@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WTemplate;
 import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.model.keys.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
@@ -71,18 +70,19 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 		DefaultSmartView formCombo = new DefaultSmartView("vw-form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
 		formCombo.addHtmlClass("wc-panel-type-box");
 
-		formCombo.addViewToTemplate(formToolbarView);
-		formCombo.addViewToTemplate(formMessages);
-		formCombo.addViewToTemplate(formView);
+		formCombo.addComponentToTemplate("vw-form-toolbar", formToolbarView);
+		formCombo.addComponentToTemplate("vw-form-msg", formMessages);
+		formCombo.addComponentToTemplate("vw-form-view", formView);
 
-		WTemplate content = getContent();
-		addViewToTemplate(toolbarView);
-		addViewToTemplate(searchMessages);
-		addViewToTemplate(searchView);
-		addViewToTemplate(pollingView);
-		addViewToTemplate(selectView);
-		addViewToTemplate(formCombo);
-		content.addParameter("vw-title", title);
+		addComponentToTemplate("vw-toolbar-1", toolbarView);
+		addComponentToTemplate("vw-crit-msg", searchMessages);
+		addComponentToTemplate("vw-crit", searchView);
+		addComponentToTemplate("vw-poll", pollingView);
+		addComponentToTemplate("vw-list", selectView);
+		addComponentToTemplate("vw-form", formCombo);
+
+		// Title
+		getContent().addParameter("vw-title", title);
 
 		// Toolbar Defaults
 		toolbarView.addToolbarItem(ToolbarModelEventItem.ADD);

@@ -55,8 +55,4 @@ public class DefaultDumbTemplateView<T> extends AbstractDumbView<T> {
 		getContent().addTaggedComponent(tag, component);
 	}
 
-	public void addViewToTemplate(final DumbView view) {
-		getContent().addTaggedComponent(view.getViewId(), view);
-	}
-
 }

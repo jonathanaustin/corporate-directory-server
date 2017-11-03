@@ -36,8 +36,8 @@ public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implement
 		this.formView = formView;
 		this.toolbarView = toolbarView;
 
-		addViewToTemplate(toolbarView);
-		addViewToTemplate(formView);
+		addComponentToTemplate("vw-toolbar", toolbarView);
+		addComponentToTemplate("vw-form", formView);
 	}
 
 	public final FormView<T> getFormView() {

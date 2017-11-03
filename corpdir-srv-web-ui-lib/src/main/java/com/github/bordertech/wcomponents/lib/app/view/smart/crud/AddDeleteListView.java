@@ -1,16 +1,16 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
-import com.github.bordertech.wcomponents.WDialog;
-import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
-import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
-import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.SelectButtonBar;
-import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WDialog;
+import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.app.view.SelectSingleView;
+import com.github.bordertech.wcomponents.lib.app.view.SelectableView;
+import com.github.bordertech.wcomponents.lib.app.view.form.FormUpdateable;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.AddDeleteButtonBar;
+import com.github.bordertech.wcomponents.lib.app.view.toolbar.SelectButtonBar;
+import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -77,9 +77,9 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 //		addCtrl.setAddRemoveToolbar(addRemToolbar);
 //		addCtrl.setAddView(dialogView);
 //		addCtrl.setSelectView(selectView);
-		addViewToTemplate(selectView);
-		addViewToTemplate(addRemToolbar);
-		addViewToTemplate(dialogView);
+		addComponentToTemplate("vw-select", selectView);
+		addComponentToTemplate("vw-toolbar", addRemToolbar);
+		addComponentToTemplate("vw-dialog", dialogView);
 
 		selBar.addHtmlClass("wc-margin-n-lg");
 		addRemToolbar.addHtmlClass("wc-margin-n-sm");

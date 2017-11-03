@@ -20,7 +20,7 @@ public class DefaultPollingMessageSmartView<S, T> extends DefaultPollingSmartVie
 
 	public DefaultPollingMessageSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
-		addViewToTemplate(messageView);
+		addComponentToTemplate("vw-messages", messageView);
 	}
 
 	@Override

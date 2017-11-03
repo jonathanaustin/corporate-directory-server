@@ -6,7 +6,6 @@ import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
-import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.smart.polling.DefaultPollingMessageSmartView;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 //		setBlocking(true);
 
 		// Add views to holder
-		addViewToTemplate(optionsView);
+		addComponentToTemplate("vw-options", optionsView);
 
 		// Default visibility
 		getPollingView().setContentVisible(false);

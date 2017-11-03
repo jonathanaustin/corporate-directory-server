@@ -19,7 +19,7 @@ public class DefaultPollingSmartView<S, T> extends DefaultSmartView<T> {
 
 	public DefaultPollingSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
-		addViewToTemplate(pollingView);
+		addComponentToTemplate("vw-poll", pollingView);
 	}
 
 	public PollingView<S, T> getPollingView() {

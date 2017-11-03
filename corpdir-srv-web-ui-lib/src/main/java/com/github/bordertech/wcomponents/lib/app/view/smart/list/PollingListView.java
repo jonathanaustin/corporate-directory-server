@@ -32,7 +32,7 @@ public class PollingListView<S, T> extends DefaultPollingMessageSmartView<S, Lis
 //		listCtrl.setCollectionView(collectionView);
 //		ResetViewCtrl resetCtrl = new ResetViewCtrl();
 		// Add views to holder
-		addViewToTemplate(listView);
+		addComponentToTemplate("vw-list", listView);
 
 		// Default visibility
 		listView.setContentVisible(false);

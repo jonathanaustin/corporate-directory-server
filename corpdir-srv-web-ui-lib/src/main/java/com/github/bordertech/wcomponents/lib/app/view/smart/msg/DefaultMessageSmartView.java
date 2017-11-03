@@ -20,7 +20,7 @@ public class DefaultMessageSmartView<T> extends DefaultSmartView<T> implements M
 
 	public DefaultMessageSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
-		addViewToTemplate(messageView);
+		addComponentToTemplate("vw-messages", messageView);
 	}
 
 	@Override
