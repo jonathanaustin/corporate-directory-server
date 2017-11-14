@@ -7,7 +7,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the item type
  */
-public interface TreeModel<S, T> extends SearchModel<S, T> {
+public interface TreeModel<S, T> extends RetrieveListModel<S, T> {
 
 	boolean hasChildren(final T item);
 

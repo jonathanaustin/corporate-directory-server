@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.demo.model;
 
-import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
+import com.github.bordertech.wcomponents.lib.app.model.RetrieveListModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MyStringSearchModel implements SearchModel<String, String> {
+public class MyStringSearchModel implements RetrieveListModel<String, String> {
 
 	@Override
 	public List<String> retrieveCollection(String criteria) {

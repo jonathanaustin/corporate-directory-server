@@ -5,11 +5,17 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.task.TaskFuture;
 import com.github.bordertech.wcomponents.task.TaskManager;
 import com.github.bordertech.wcomponents.task.TaskManagerFactory;
+import com.github.bordertech.wcomponents.task.service.ResultHolder;
+import com.github.bordertech.wcomponents.task.service.ServiceAction;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
+import com.github.bordertech.wcomponents.task.service.ServiceStatus;
+import com.github.bordertech.wcomponents.util.SystemException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -34,7 +40,7 @@ import org.apache.commons.logging.LogFactory;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class PollingServicePanel<S, T> extends PollingPanel implements PollableService<S, T> {
+public class PollingServicePanel<S extends Serializable, T extends Serializable> extends PollingPanel implements PollableService<S, T> {
 
 	/**
 	 * The logger instance for this class.
@@ -228,7 +234,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		}
 
 		// Check not started
-		if (getPollingStatus() != PollingStatus.NOT_STARTED) {
+		if (getServiceStatus() != ServiceStatus.NOT_STARTED) {
 			return;
 		}
 
@@ -264,7 +270,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		}
 		handleClearPollingCache();
 		getHolder().reset();
-		setPollingStatus(PollingStatus.NOT_STARTED);
+		setServiceStatus(ServiceStatus.NOT_STARTED);
 		clearFuture();
 	}
 
@@ -276,7 +282,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		getHolder().reset();
 		startButton.setVisible(false);
 		setPollingCriteria(criteria);
-		handleResult(result);
+		handleResult(new ResultHolder(result));
 	}
 
 	@Override
@@ -302,7 +308,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		try {
 			handleAsyncPollingAction(criteria);
 		} catch (Exception e) {
-			handleResult(e);
+			handleResult(new ResultHolder<T>(e));
 			return;
 		}
 
@@ -319,17 +325,16 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		TaskFuture<ResultHolder> future = getFuture();
 		if (future == null) {
 			// Stop polling as future must have expired
-			handleResult(new PollingException("Future has expired so polling result not available"));
+			handleResult(new ResultHolder(new ServiceException("Future has expired so polling result not available")));
 			return;
 		}
 
 		// Extract the result from the future
-		Object result;
+		ResultHolder result;
 		try {
-			ResultHolder holder = future.get();
-			result = holder.getResult();
+			result = future.get();
 		} catch (Exception e) {
-			result = e;
+			result = new ResultHolder(e);
 		}
 		// Clear future
 		clearFuture();
@@ -339,25 +344,25 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 	/**
 	 * Handle the result from the polling action.
 	 *
-	 * @param pollingResult the polling action result
+	 * @param resultHolder the polling action result
 	 * @return the polling status
 	 */
-	protected PollingStatus handleResult(final Object pollingResult) {
+	protected ServiceStatus handleResult(final ResultHolder<T> resultHolder) {
 		// Exception message
-		final PollingStatus status;
-		if (pollingResult instanceof Exception) {
-			Exception excp = (Exception) pollingResult;
+		final ServiceStatus status;
+		if (resultHolder.hasException()) {
+			Exception excp = resultHolder.getException();
 			handleExceptionResult(excp);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
-			status = PollingStatus.ERROR;
+			status = ServiceStatus.ERROR;
 		} else {
 			// Successful Result
-			T result = (T) pollingResult;
+			T result = resultHolder.getResult();
 			handleSuccessfulResult(result);
-			status = PollingStatus.COMPLETE;
+			status = ServiceStatus.COMPLETE;
 		}
-		setPollingStatus(PollingStatus.ERROR);
+		setServiceStatus(ServiceStatus.ERROR);
 		return status;
 	}
 
@@ -367,8 +372,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 	 * @param excp the exception that occurred
 	 */
 	protected void handleExceptionResult(final Exception excp) {
-		List<String> msgs = extractExceptionMessages("Error loading data. ", excp);
-		handleErrorMessage(msgs);
+		handleErrorMessage(excp.getMessage());
 		retryButton.setVisible(true);
 	}
 
@@ -381,17 +385,6 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		// Set the result as the bean
 		getHolder().setBean(result);
 		contentResultHolder.setVisible(true);
-	}
-
-	/**
-	 * Extract the exception messages from the polling exception.
-	 *
-	 * @param prefix the message prefix
-	 * @param exception the exception to setup messages
-	 * @return the error messages
-	 */
-	protected List<String> extractExceptionMessages(final String prefix, final Exception exception) {
-		return Arrays.asList(prefix + exception.getMessage());
 	}
 
 	/**
@@ -410,15 +403,14 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 	 * Handle the polling action.
 	 *
 	 * @param criteria the criteria for the polling action
-	 * @throws PollingException the polling exception
 	 */
-	protected void handleAsyncPollingAction(final S criteria) throws PollingException {
+	protected void handleAsyncPollingAction(final S criteria) {
 
 		clearFuture();
 
 		final ServiceAction<S, T> action = getServiceAction();
 		if (action == null) {
-			throw new PollingException("No polling service action has been defined. ");
+			throw new IllegalStateException("No polling service action has been defined. ");
 		}
 
 		final ResultHolder result = new ResultHolder();
@@ -429,7 +421,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 					T resp = action.service(criteria);
 					result.setResult(resp);
 				} catch (Exception e) {
-					PollingException excp = new PollingException("Error calling service." + e.getMessage(), e);
+					ServiceException excp = new ServiceException("Error calling service." + e.getMessage(), e);
 					result.setResult(excp);
 				}
 			}
@@ -439,7 +431,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 			// Save the future
 			setFuture(future);
 		} catch (Exception e) {
-			throw new PollingException("Could not start thread to process polling action. " + e.getMessage());
+			throw new SystemException("Could not start thread to process polling action. " + e.getMessage());
 		}
 	}
 
@@ -476,7 +468,7 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 	 */
 	@Override
 	public ServiceAction<S, T> getServiceAction() {
-		return getComponentModel().pollingServiceModel;
+		return getComponentModel().serviceAction;
 	}
 
 	/**
@@ -486,11 +478,11 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 	 * context.
 	 * </p>
 	 *
-	 * @param serviceModel the service call action
+	 * @param serviceAction the service call action
 	 */
 	@Override
-	public void setServiceAction(final ServiceAction<S, T> serviceModel) {
-		getOrCreateComponentModel().pollingServiceModel = serviceModel;
+	public void setServiceAction(final ServiceAction<S, T> serviceAction) {
+		getOrCreateComponentModel().serviceAction = serviceAction;
 	}
 
 	/**
@@ -541,9 +533,9 @@ public class PollingServicePanel<S, T> extends PollingPanel implements PollableS
 		private boolean manualStart;
 
 		/**
-		 * Service Model.
+		 * Service action.
 		 */
-		private ServiceAction<S, T> pollingServiceModel;
+		private ServiceAction<S, T> serviceAction;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.app.mode.FormMode;
-import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.form.AbstractFormView;
@@ -15,7 +14,8 @@ import com.github.bordertech.wcomponents.lib.app.view.toolbar.DefaultFormToolbar
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implements FormView<T>, ActionModelKey {
+//public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implements FormView<T>, ActionModelKey {
+public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implements FormView<T> {
 
 	private final FormView<T> formView;
 
@@ -98,17 +98,16 @@ public class FormWithToolbarView<T> extends DefaultMessageSmartView<T> implement
 		return formView.getFormHolder();
 	}
 
-	@Override
-	public void setActionModelKey(final String key) {
-//		ctrl.setActionModelKey(key);
-	}
-
-	@Override
-	public String getActionModelKey() {
-		return "";
-//		return ctrl.getActionModelKey();
-	}
-
+//	@Override
+//	public void setActionModelKey(final String key) {
+////		ctrl.setActionModelKey(key);
+//	}
+//
+//	@Override
+//	public String getActionModelKey() {
+//		return "";
+////		return ctrl.getActionModelKey();
+//	}
 //		// MODE CHANGED
 //		registerListener(FormEventType.ENTITY_MODE_CHANGED, new Listener() {
 //			@Override

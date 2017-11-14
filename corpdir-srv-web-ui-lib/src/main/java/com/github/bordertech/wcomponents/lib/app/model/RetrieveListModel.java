@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.model;
 
-import com.github.bordertech.flux.wc.DataApi;
+import com.github.bordertech.flux.wc.dataapi.DataApi;
 import java.util.List;
 
 /**

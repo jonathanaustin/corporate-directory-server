@@ -1,14 +1,18 @@
 package com.github.bordertech.wcomponents.polling;
 
 import com.github.bordertech.wcomponents.WButton;
+import java.io.Serializable;
+import com.github.bordertech.wcomponents.task.service.ServiceAction;
 
 /**
  * Polling component that creates a new thread to call a service and polls for the result.
  *
  * @author Jonathan Austin
+ * @param <S> the criteria type
+ * @param <T> the result type
  * @since 1.0.0
  */
-public interface PollableService<S, T> extends Pollable {
+public interface PollableService<S extends Serializable, T extends Serializable> extends Pollable {
 
 	/**
 	 * Manually set the criteria and the result.

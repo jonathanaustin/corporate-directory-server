@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.list;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.ListView;
 import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.smart.polling.DefaultPollingMessageSmartView;
@@ -14,7 +13,8 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class PollingListView<S, T> extends DefaultPollingMessageSmartView<S, List<T>> implements ListView<T>, RetrieveListModelKey {
+//public class PollingListView<S, T> extends DefaultPollingMessageSmartView<List<T>> implements ListView<T>, RetrieveListModelKey {
+public class PollingListView<S, T> extends DefaultPollingMessageSmartView<List<T>> implements ListView<T> {
 
 	private final ListView<T> listView;
 
@@ -62,16 +62,15 @@ public class PollingListView<S, T> extends DefaultPollingMessageSmartView<S, Lis
 		return listView.validateView();
 	}
 
-	@Override
-	public void setRetrieveListModelKey(final String key) {
-		getOrCreateComponentModel().collectionModelKey = key;
-	}
-
-	@Override
-	public String getRetrieveListModelKey() {
-		return getComponentModel().collectionModelKey;
-	}
-
+//	@Override
+//	public void setRetrieveListModelKey(final String key) {
+//		getOrCreateComponentModel().collectionModelKey = key;
+//	}
+//
+//	@Override
+//	public String getRetrieveListModelKey() {
+//		return getComponentModel().collectionModelKey;
+//	}
 	@Override
 	public void setItems(final List<T> items) {
 		listView.setItems(items);

@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.table;
 
 import com.github.bordertech.wcomponents.WComponent;
 import java.io.Serializable;
-import java.util.Comparator;
 
 /**
  * Table column.
@@ -22,7 +21,7 @@ public interface TableColumn<V, T> extends Serializable {
 	/**
 	 * @return the column comparator
 	 */
-	Comparator<V> getComparator();
+	ComparatorSerializable<V> getComparator();
 
 	/**
 	 * @return true if column is editable

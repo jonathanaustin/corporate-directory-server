@@ -1,8 +1,9 @@
 package com.github.bordertech.wcomponents.lib.app.common;
 
+import com.github.bordertech.flux.wc.dataapi.DataApiFactory;
+import com.github.bordertech.flux.wc.dataapi.DataApiType;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.lib.app.model.TreeModel;
-import com.github.bordertech.flux.wc.DataApiProviderFactory;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.List;
 import java.util.Objects;
@@ -13,10 +14,10 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 	private final List<T> rootItems;
 	private final TreeModel<S, T> model;
 
-	public AppTreeItemModel(final List<T> rootItems, final String treeModelKey) {
+	public AppTreeItemModel(final List<T> rootItems, final DataApiType treeModelKey) {
 		this.rootItems = rootItems;
 		// TODO Pass this in (no dependency on flux package)
-		this.model = (TreeModel<S, T>) DataApiProviderFactory.getInstance().getDataApi(treeModelKey);
+		this.model = (TreeModel<S, T>) DataApiFactory.getInstance(treeModelKey);
 	}
 
 	public String getItemId(final T item) {

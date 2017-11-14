@@ -14,7 +14,7 @@ import com.github.bordertech.wcomponents.lib.app.view.smart.msg.*;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingMessageSmartView<S, T> extends DefaultPollingSmartView<S, T> implements MessageSmartView<T> {
+public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T> implements MessageSmartView<T> {
 
 	private final MessageView messageView = new DefaultMessageView("vw-messages");
 

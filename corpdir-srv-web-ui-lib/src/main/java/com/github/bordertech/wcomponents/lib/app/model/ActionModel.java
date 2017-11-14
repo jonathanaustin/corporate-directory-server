@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.model;
 
-import com.github.bordertech.flux.wc.DataApi;
+import com.github.bordertech.flux.wc.dataapi.DataApi;
 
 /**
  *
@@ -14,8 +14,6 @@ public interface ActionModel<T> extends DataApi {
 	T update(final T entity);
 
 	void delete(final T entity);
-
-	T refresh(final T entity);
 
 	T createInstance();
 

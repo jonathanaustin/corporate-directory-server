@@ -2,8 +2,6 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.app.model.keys.ActionModelKey;
-import com.github.bordertech.wcomponents.lib.app.model.keys.SearchModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;
 import com.github.bordertech.wcomponents.lib.app.view.MessageView;
@@ -29,7 +27,8 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements ActionModelKey, SearchModelKey {
+//public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements ActionModelKey, SearchModelKey {
+public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
 
 //	private final FormToolbarCtrl formToolbarCtrl = new FormToolbarCtrl();
 //	private final PollingSearchCtrl<S, T, C> pollingSearchCtrl = new PollingSearchCtrl();
@@ -59,7 +58,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 		}
 
 		// Views
-		PollingView<S, List<T>> pollingView = new DefaultPollingView<>("vw-poll");
+		PollingView<List<T>> pollingView = new DefaultPollingView<>("vw-poll");
 		ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar-1");
 		MessageView searchMessages = new DefaultMessageView("vw-crit-msg");
 
@@ -99,26 +98,25 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 		return selectView;
 	}
 
-	@Override
-	public void setActionModelKey(final String key) {
-//		formToolbarCtrl.setActionModelKey(key);
-	}
-
-	@Override
-	public String getActionModelKey() {
-		return "";
-//		return formToolbarCtrl.getActionModelKey();
-	}
-
-	@Override
-	public void setSearchModelKey(final String key) {
-//		pollingListCtrl.setRetrieveCollectionModelKey(key);
-	}
-
-	@Override
-	public String getSearchModelKey() {
-		return "";
-//		return pollingListCtrl.getRetrieveCollectionModelKey();
-	}
-
+//	@Override
+//	public void setActionModelKey(final String key) {
+////		formToolbarCtrl.setActionModelKey(key);
+//	}
+//
+//	@Override
+//	public String getActionModelKey() {
+//		return "";
+////		return formToolbarCtrl.getActionModelKey();
+//	}
+//
+//	@Override
+//	public void setSearchModelKey(final String key) {
+////		pollingListCtrl.setRetrieveCollectionModelKey(key);
+//	}
+//
+//	@Override
+//	public String getSearchModelKey() {
+//		return "";
+////		return pollingListCtrl.getRetrieveCollectionModelKey();
+//	}
 }

@@ -3,13 +3,11 @@ package com.github.bordertech.wcomponents.lib.app.view.polling;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
-import com.github.bordertech.wcomponents.polling.PollingServicePanel;
-import com.github.bordertech.wcomponents.polling.PollingStatus;
-import com.github.bordertech.wcomponents.polling.ServiceAction;
+import com.github.bordertech.wcomponents.polling.PollingPanel;
+import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 import java.util.List;
 
 /**
@@ -18,31 +16,27 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements PollingView<S, T> {
+public class DefaultPollingView<T> extends DefaultDumbView<T> implements PollingView<T> {
 
-	private final PollingServicePanel<S, T> pollingPanel = new PollingServicePanel<S, T>() {
+	private final PollingPanel pollingPanel = new PollingPanel() {
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
-			doDispatchPollingEvent(PollingBaseViewEvent.STARTED, null);
+			doDispatchPollingEvent(PollingBaseViewEvent.STARTED);
 		}
 
 		@Override
-		protected void handleExceptionResult(final Exception excp) {
-			super.handleExceptionResult(excp);
-			doDispatchPollingEvent(PollingBaseViewEvent.ERROR, excp);
+		protected void handleStoppedPolling() {
+			super.handleStoppedPolling();
+			doDispatchPollingEvent(PollingBaseViewEvent.STOPPED);
 		}
 
 		@Override
-		protected void handleSuccessfulResult(final T result) {
-			super.handleSuccessfulResult(result);
-			doDispatchPollingEvent(PollingBaseViewEvent.COMPLETE, result);
+		protected boolean checkForStopPolling() {
+			doDispatchPollingEvent(PollingBaseViewEvent.CHECK_STATUS);
+			return super.checkForStopPolling();
 		}
 
-		@Override
-		protected void handleErrorMessage(final List<String> msgs) {
-			doHandlePollingError(msgs);
-		}
 	};
 
 	public DefaultPollingView(final String viewId) {
@@ -59,63 +53,8 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 		addAjaxTarget((AjaxTarget) target);
 	}
 
-	public final PollingServicePanel getPollingPanel() {
+	public final PollingPanel getPollingPanel() {
 		return pollingPanel;
-	}
-
-	@Override
-	public void doManuallyLoadResult(final S criteria, final T result) {
-		pollingPanel.doManuallyLoadResult(criteria, result);
-	}
-
-	@Override
-	public void doRefreshContent() {
-		pollingPanel.doRefreshContent();
-	}
-
-	@Override
-	public void doRetry() {
-		pollingPanel.doRetry();
-	}
-
-	@Override
-	public void doStartLoading() {
-		pollingPanel.doStartLoading();
-	}
-
-	@Override
-	public S getPollingCriteria() {
-		return pollingPanel.getPollingCriteria();
-	}
-
-	@Override
-	public T getPollingResult() {
-		return pollingPanel.getPollingResult();
-	}
-
-	@Override
-	public WButton getRetryButton() {
-		return pollingPanel.getRetryButton();
-	}
-
-	@Override
-	public WButton getStartButton() {
-		return pollingPanel.getStartButton();
-	}
-
-	@Override
-	public boolean isManualStart() {
-		return pollingPanel.isManualStart();
-	}
-
-	@Override
-	public void setManualStart(final boolean manualStart) {
-		pollingPanel.setManualStart(manualStart);
-	}
-
-	@Override
-	public void setPollingCriteria(final S criteria) {
-		pollingPanel.setPollingCriteria(criteria);
 	}
 
 	@Override
@@ -144,8 +83,8 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 	}
 
 	@Override
-	public PollingStatus getPollingStatus() {
-		return pollingPanel.getPollingStatus();
+	public ServiceStatus getServiceStatus() {
+		return pollingPanel.getServiceStatus();
 	}
 
 	@Override
@@ -159,8 +98,8 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 	}
 
 	@Override
-	public void setPollingStatus(final PollingStatus panelStatus) {
-		pollingPanel.setPollingStatus(panelStatus);
+	public void setServiceStatus(final ServiceStatus panelStatus) {
+		pollingPanel.setServiceStatus(panelStatus);
 	}
 
 	@Override
@@ -168,33 +107,8 @@ public class DefaultPollingView<S, T> extends DefaultDumbView<T> implements Poll
 		pollingPanel.setPollingText(text);
 	}
 
-	@Override
-	public ServiceAction<S, T> getServiceAction() {
-		return pollingPanel.getServiceAction();
-	}
-
-	@Override
-	public void setServiceAction(final ServiceAction<S, T> serviceModel) {
-		pollingPanel.setServiceAction(serviceModel);
-	}
-
-	protected void doDispatchPollingEvent(final PollingViewEvent pollingEvent, final Object data) {
-		dispatchViewEvent(pollingEvent, data);
-	}
-
-	protected void doHandlePollingError(final List<String> msgs) {
-		handleMessageError(msgs);
-	}
-
-	@Override
-	public void doSetupAndStartPolling(final S criteria, final ServiceAction<S, T> serviceModel) {
-		resetView();
-		setPollingCriteria(criteria);
-		// Wrap the service model
-
-		setServiceAction(serviceModel);
-		// Making the panel visible starts the polling
-		setContentVisible(true);
+	protected void doDispatchPollingEvent(final PollingViewEvent pollingEvent) {
+		dispatchViewEvent(pollingEvent);
 	}
 
 }

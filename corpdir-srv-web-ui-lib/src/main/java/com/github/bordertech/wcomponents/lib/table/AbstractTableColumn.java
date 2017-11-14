@@ -2,7 +2,6 @@ package com.github.bordertech.wcomponents.lib.table;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WText;
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -19,7 +18,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	/**
 	 * Column comparator.
 	 */
-	private final transient Comparator<V> comparator;
+	private final ComparatorSerializable comparator;
 
 	/**
 	 * Column id.
@@ -57,7 +56,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param label the column label
 	 * @param comparator the column comparator
 	 */
-	public AbstractTableColumn(final String label, final Comparator<V> comparator) {
+	public AbstractTableColumn(final String label, final ComparatorSerializable comparator) {
 		this(null, label, new WText(), comparator);
 	}
 
@@ -74,7 +73,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param renderer the column renderer
 	 * @param comparator the column comparator
 	 */
-	public AbstractTableColumn(final String label, final WComponent renderer, final Comparator<V> comparator) {
+	public AbstractTableColumn(final String label, final WComponent renderer, final ComparatorSerializable comparator) {
 		this(null, label, renderer, comparator);
 	}
 
@@ -85,7 +84,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param comparator the column comparator
 	 */
 	public AbstractTableColumn(final String columnId, final String label, final WComponent renderer,
-			final Comparator<V> comparator) {
+			final ComparatorSerializable comparator) {
 		this.columnId = columnId == null ? UUID.randomUUID().toString() : columnId;
 		this.columnLabel = label;
 		this.comparator = comparator;
@@ -100,7 +99,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param comparator the column comparator
 	 */
 	public AbstractTableColumn(final String columnId, final String label,
-			final Class<? extends WComponent> rendererClass, final Comparator<V> comparator) {
+			final Class<? extends WComponent> rendererClass, final ComparatorSerializable comparator) {
 		this.columnId = columnId == null ? UUID.randomUUID().toString() : columnId;
 		this.columnLabel = label;
 		this.comparator = comparator;
@@ -112,7 +111,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Comparator<V> getComparator() {
+	public ComparatorSerializable getComparator() {
 		return comparator;
 	}
 

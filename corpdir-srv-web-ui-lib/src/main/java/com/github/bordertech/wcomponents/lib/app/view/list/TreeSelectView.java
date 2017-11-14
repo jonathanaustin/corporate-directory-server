@@ -3,12 +3,10 @@ package com.github.bordertech.wcomponents.lib.app.view.list;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WTree;
 import com.github.bordertech.wcomponents.lib.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.lib.app.common.AppTreeItemModel;
 import com.github.bordertech.wcomponents.lib.app.mode.SelectMode;
-import com.github.bordertech.wcomponents.lib.app.model.keys.TreeModelKey;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +18,7 @@ import java.util.Objects;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TreeSelectView<T> extends AbstractListSingleSelectView<T> implements TreeModelKey {
+public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final WTree tree = new WTree(WTree.Type.VERTICAL) {
 		@Override
@@ -81,10 +79,10 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> implement
 	) {
 		super.initViewContent(request);
 		List<T> beans = getViewBean();
-		if (beans != null && !beans.isEmpty()) {
-			TreeItemModel model = new AppTreeItemModel<>(beans, getTreeModelKey());
-			tree.setTreeModel(model);
-		}
+//		if (beans != null && !beans.isEmpty()) {
+//			TreeItemModel model = new AppTreeItemModel<>(beans, getTreeModelKey());
+//			tree.setTreeModel(model);
+//		}
 	}
 
 	protected void handleSelectedItem() {
@@ -118,16 +116,15 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> implement
 		return (AppTreeItemModel) tree.getTreeModel();
 	}
 
-	@Override
-	public void setTreeModelKey(final String key) {
-		getOrCreateComponentModel().treeModelKey = key;
-	}
-
-	@Override
-	public String getTreeModelKey() {
-		return getComponentModel().treeModelKey;
-	}
-
+//	@Override
+//	public void setTreeModelKey(final String key) {
+//		getOrCreateComponentModel().treeModelKey = key;
+//	}
+//
+//	@Override
+//	public String getTreeModelKey() {
+//		return getComponentModel().treeModelKey;
+//	}
 	@Override
 	protected TreeSelectModel<T> newComponentModel() {
 		return new TreeSelectModel();

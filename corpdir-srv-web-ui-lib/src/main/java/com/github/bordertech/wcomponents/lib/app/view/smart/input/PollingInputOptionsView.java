@@ -3,7 +3,6 @@ package com.github.bordertech.wcomponents.lib.app.view.smart.input;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
-import com.github.bordertech.wcomponents.lib.app.model.keys.RetrieveListModelKey;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;
 import com.github.bordertech.wcomponents.lib.app.view.smart.polling.DefaultPollingMessageSmartView;
@@ -16,7 +15,8 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartView<S, T> implements InputOptionsView<T>, RetrieveListModelKey {
+public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartView<T> implements InputOptionsView<T> {
+//public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartView<T> implements InputOptionsView<T>, RetrieveListModelKey {
 
 	private final InputOptionsView<T> optionsView;
 
@@ -73,17 +73,16 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 		return optionsView.validateView();
 	}
 
-	@Override
-	public void setRetrieveListModelKey(final String key) {
-//		ctrl.setRetrieveCollectionModelKey(key);
-	}
-
-	@Override
-	public String getRetrieveListModelKey() {
-		return "";
-//		return ctrl.getRetrieveCollectionModelKey();
-	}
-
+//	@Override
+//	public void setRetrieveListModelKey(final String key) {
+////		ctrl.setRetrieveCollectionModelKey(key);
+//	}
+//
+//	@Override
+//	public String getRetrieveListModelKey() {
+//		return "";
+////		return ctrl.getRetrieveCollectionModelKey();
+//	}
 	@Override
 	public void setOptions(final List<T> options) {
 		optionsView.setOptions(options);

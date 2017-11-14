@@ -70,7 +70,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	@Override
 	public boolean isCellEditable(final List<Integer> row, final int col) {
-		TableColumn<?, T> column = getColumn(col);
+		TableColumn column = getColumn(col);
 		return column.isEditable();
 	}
 
@@ -79,7 +79,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	@Override
 	public boolean isSortable(final int col) {
-		TableColumn<?, T> column = getColumn(col);
+		TableColumn column = getColumn(col);
 		return column.getComparator() != null;
 	}
 
@@ -96,7 +96,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
-		TableColumn<?, T> column = getColumn(col);
+		TableColumn column = getColumn(col);
 		Comparator<Object> comp = (Comparator<Object>) column.getComparator();
 		if (comp == null) {
 			return null;

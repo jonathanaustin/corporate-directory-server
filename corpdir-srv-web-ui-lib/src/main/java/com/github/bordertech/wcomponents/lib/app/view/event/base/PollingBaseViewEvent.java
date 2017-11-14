@@ -9,10 +9,7 @@ import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
  * @since 1.0.0
  */
 public enum PollingBaseViewEvent implements PollingViewEvent {
-	START_POLLING,
-	REFRESH,
 	STARTED,
-	ERROR,
-	COMPLETE,
-	RESET_POLLING
+	CHECK_STATUS,
+	STOPPED
 }

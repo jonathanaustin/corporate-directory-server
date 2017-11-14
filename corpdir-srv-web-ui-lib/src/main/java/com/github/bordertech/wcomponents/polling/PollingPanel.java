@@ -5,9 +5,10 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -176,16 +177,16 @@ public class PollingPanel extends WDiv implements Pollable {
 	 * @param panelStatus the panel status
 	 */
 	@Override
-	public void setPollingStatus(final PollingStatus panelStatus) {
-		getOrCreateComponentModel().pollingStatus = panelStatus;
+	public void setServiceStatus(final ServiceStatus panelStatus) {
+		getOrCreateComponentModel().serviceStatus = panelStatus;
 	}
 
 	/**
 	 * @return the panel status
 	 */
 	@Override
-	public PollingStatus getPollingStatus() {
-		return getComponentModel().pollingStatus;
+	public ServiceStatus getServiceStatus() {
+		return getComponentModel().serviceStatus;
 	}
 
 	/**
@@ -194,7 +195,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void doStartPolling() {
 		// Start AJAX polling
-		setPollingStatus(PollingStatus.STARTED);
+		setServiceStatus(ServiceStatus.STARTED);
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
@@ -240,8 +241,8 @@ public class PollingPanel extends WDiv implements Pollable {
 	 * @return true if need to stop polling
 	 */
 	protected boolean checkForStopPolling() {
-		PollingStatus status = getPollingStatus();
-		return status != PollingStatus.STARTED;
+		ServiceStatus status = getServiceStatus();
+		return status != ServiceStatus.STARTED;
 	}
 
 	/**
@@ -328,9 +329,9 @@ public class PollingPanel extends WDiv implements Pollable {
 	public static class PollingModel extends DivModel {
 
 		/**
-		 * Polling status.
+		 * Service status.
 		 */
-		private PollingStatus pollingStatus = PollingStatus.NOT_STARTED;
+		private ServiceStatus serviceStatus = ServiceStatus.NOT_STARTED;
 
 		/**
 		 * Polling text.

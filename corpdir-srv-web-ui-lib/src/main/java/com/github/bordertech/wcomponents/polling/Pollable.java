@@ -2,6 +2,7 @@ package com.github.bordertech.wcomponents.polling;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 import java.util.List;
 
 /**
@@ -42,9 +43,9 @@ public interface Pollable extends WComponent {
 	int getPollingInterval();
 
 	/**
-	 * @return the panel status
+	 * @return the service status
 	 */
-	PollingStatus getPollingStatus();
+	ServiceStatus getServiceStatus();
 
 	/**
 	 * @return the text displayed while polling
@@ -58,9 +59,9 @@ public interface Pollable extends WComponent {
 	void setPollingInterval(final int interval);
 
 	/**
-	 * @param panelStatus the panel status
+	 * @param serviceStatus the panel status
 	 */
-	void setPollingStatus(final PollingStatus panelStatus);
+	void setServiceStatus(final ServiceStatus serviceStatus);
 
 	/**
 	 * @param text the text displayed while polling
