@@ -1,12 +1,16 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.store.retrieve;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.dataapi.DataApiType;
+import com.github.bordertech.flux.dataapi.retrieve.RetrieveApiServiceAction;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.event.base.ActionEventType;
 import com.github.bordertech.flux.event.base.RetrieveEventType;
+import com.github.bordertech.flux.store.DefaultStore;
+import com.github.bordertech.flux.store.StoreException;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 import com.github.bordertech.wcomponents.task.service.ServiceAction;
 import com.github.bordertech.wcomponents.task.service.ServiceException;
@@ -30,6 +34,14 @@ import javax.cache.expiry.Duration;
 public class DefaultRetrieveStore<S, T> extends DefaultStore implements RetrieveStore<S, T> {
 
 	private final ServiceAction<S, T> serviceAction;
+
+	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType) {
+		this(apiType, storeType, null);
+	}
+
+	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
+		this(new RetrieveApiServiceAction<S, T>(apiType), storeType, qualifier);
+	}
 
 	public DefaultRetrieveStore(final ServiceAction<S, T> serviceAction, final StoreType storeType) {
 		this(serviceAction, storeType, null);

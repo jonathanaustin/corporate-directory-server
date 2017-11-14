@@ -10,6 +10,6 @@ package com.github.bordertech.wcomponents.task.service;
  */
 public interface ServiceAction<S, T> {
 
-	T service(final S key) throws ServiceException;
+	T service(final S criteria) throws ServiceException;
 
 }

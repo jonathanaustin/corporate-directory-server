@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.store.retrieve;
 
 import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 

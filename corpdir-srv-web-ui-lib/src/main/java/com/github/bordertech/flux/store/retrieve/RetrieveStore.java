@@ -1,6 +1,7 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.store.retrieve;
 
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.store.StoreException;
 
 /**
  * Store that holds key value pairs.

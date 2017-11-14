@@ -1,6 +1,7 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.store.retrieve;
 
 import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.wcomponents.task.TaskFuture;
 import com.github.bordertech.wcomponents.task.TaskManager;
 import com.github.bordertech.wcomponents.task.TaskManagerFactory;
@@ -31,8 +32,16 @@ public class DefaultRetrieveAsyncStore<S, T> extends DefaultRetrieveStore<S, T> 
 
 	private static final TaskManager TASK_MANAGER = TaskManagerFactory.getInstance();
 
+	public DefaultRetrieveAsyncStore(final DataApiType apiType, final StoreType storeType) {
+		super(apiType, storeType);
+	}
+
+	public DefaultRetrieveAsyncStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
+		super(apiType, storeType, qualifier);
+	}
+
 	public DefaultRetrieveAsyncStore(final ServiceAction<S, T> serviceAction, final StoreType storeType) {
-		this(serviceAction, storeType, null);
+		super(serviceAction, storeType);
 	}
 
 	public DefaultRetrieveAsyncStore(final ServiceAction<S, T> serviceAction, final StoreType storeType, final String qualifier) {
