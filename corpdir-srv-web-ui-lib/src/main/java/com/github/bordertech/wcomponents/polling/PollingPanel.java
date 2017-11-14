@@ -195,7 +195,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void doStartPolling() {
 		// Start AJAX polling
-		setServiceStatus(ServiceStatus.STARTED);
+		setServiceStatus(ServiceStatus.PROCESSING);
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
@@ -242,7 +242,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	 */
 	protected boolean checkForStopPolling() {
 		ServiceStatus status = getServiceStatus();
-		return status != ServiceStatus.STARTED;
+		return status != ServiceStatus.PROCESSING;
 	}
 
 	/**

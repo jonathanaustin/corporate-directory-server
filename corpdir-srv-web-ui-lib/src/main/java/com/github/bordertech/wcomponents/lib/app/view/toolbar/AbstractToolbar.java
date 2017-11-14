@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;

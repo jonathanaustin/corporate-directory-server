@@ -4,9 +4,9 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import java.util.List;
+import com.github.bordertech.flux.dataapi.action.ActionApi;
 
 /**
  * API Search and Action Model.
@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class DefaultModelSearchActionService<T extends ApiKeyIdObject> implements SearchModel<String, T>, ActionModel<T> {
+public class DefaultModelSearchActionService<T extends ApiKeyIdObject> implements SearchModel<String, T>, ActionApi<T> {
 
 	private final Class<T> apiClass;
 	private final BasicService<T> service;

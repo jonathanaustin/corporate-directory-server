@@ -9,8 +9,8 @@ import com.github.bordertech.flux.Store;
  * @param <K> the key type
  * @param <V> the value type
  */
-public interface KeyValueStore<K, V> extends Store {
+public interface MapStore<K, V> extends Store {
 
-	V getValue(final K key) throws StoreException;
+	V getValue(final K key);
 
 }

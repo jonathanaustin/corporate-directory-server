@@ -14,7 +14,7 @@ public enum ServiceStatus {
 	/**
 	 * Service action started.
 	 */
-	STARTED,
+	PROCESSING,
 	/**
 	 * Error occurred.
 	 */

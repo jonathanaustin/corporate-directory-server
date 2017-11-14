@@ -27,8 +27,10 @@ public interface Store extends Serializable {
 
 	/**
 	 * Dispatch the change event.
+	 *
+	 * @param eventType the event type that caused the change
 	 */
-	void dispatchChangeEvent();
+	void dispatchChangeEvent(final EventType eventType);
 
 	/**
 	 * @return the attached dispatcher.

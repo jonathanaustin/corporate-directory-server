@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.toolbar;
 
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;

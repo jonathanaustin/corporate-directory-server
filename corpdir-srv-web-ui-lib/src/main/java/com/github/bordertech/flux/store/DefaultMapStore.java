@@ -17,15 +17,15 @@ import java.util.Map;
  * @since 1.0.0
  *
  */
-public class MapStoreImpl<K, V> extends DefaultStore implements KeyValueStore<K, V> {
+public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V> {
 
 	private final Map<K, V> items = new HashMap<>();
 
-	public MapStoreImpl(final StoreType storeType) {
+	public DefaultMapStore(final StoreType storeType) {
 		this(storeType, null);
 	}
 
-	public MapStoreImpl(final StoreType storeType, final String qualifier) {
+	public DefaultMapStore(final StoreType storeType, final String qualifier) {
 		super(storeType, qualifier);
 	}
 
@@ -53,7 +53,7 @@ public class MapStoreImpl<K, V> extends DefaultStore implements KeyValueStore<K,
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:
-				handleResetListEvent();
+				handleResetItemsEvent();
 				break;
 			case LOAD_ITEMS:
 				handleLoadItemsEvent(event.getData());
@@ -72,12 +72,12 @@ public class MapStoreImpl<K, V> extends DefaultStore implements KeyValueStore<K,
 				handled = false;
 		}
 		if (handled) {
-			dispatchChangeEvent();
+			dispatchChangeEvent(type);
 		}
 
 	}
 
-	protected void handleResetListEvent() {
+	protected void handleResetItemsEvent() {
 		items.clear();
 	}
 

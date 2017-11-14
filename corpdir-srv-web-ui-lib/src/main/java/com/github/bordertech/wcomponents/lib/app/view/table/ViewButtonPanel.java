@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.app.view.table;
 
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.view.ViewUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.wcomponents.lib.app.view.event.base.SelectableBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.SelectableViewEvent;
 

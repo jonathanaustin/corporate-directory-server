@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.app.view.FormToolbarView;
 import com.github.bordertech.wcomponents.lib.app.view.FormView;

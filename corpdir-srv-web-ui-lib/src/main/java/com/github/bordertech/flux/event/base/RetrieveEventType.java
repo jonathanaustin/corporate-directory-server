@@ -12,7 +12,5 @@ public enum RetrieveEventType implements StoreEventType {
 	RETRIEVE,
 	RETRIEVE_OK,
 	RETRIEVE_ERROR,
-	REFRESH,
-	REFRESH_OK,
-	REFRESH_ERROR
+	REFRESH
 }

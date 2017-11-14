@@ -308,7 +308,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		try {
 			handleAsyncPollingAction(criteria);
 		} catch (Exception e) {
-			handleResult(new ResultHolder<T>(e));
+			handleResult(new ResultHolder(criteria, e));
 			return;
 		}
 
@@ -347,7 +347,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param resultHolder the polling action result
 	 * @return the polling status
 	 */
-	protected ServiceStatus handleResult(final ResultHolder<T> resultHolder) {
+	protected ServiceStatus handleResult(final ResultHolder<S, T> resultHolder) {
 		// Exception message
 		final ServiceStatus status;
 		if (resultHolder.hasException()) {
@@ -413,7 +413,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			throw new IllegalStateException("No polling service action has been defined. ");
 		}
 
-		final ResultHolder result = new ResultHolder();
+		final ResultHolder result = new ResultHolder(criteria);
 		Runnable task = new Runnable() {
 			@Override
 			public void run() {

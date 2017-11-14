@@ -8,14 +8,8 @@ import com.github.bordertech.flux.event.StoreEventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ModifyEventType implements StoreEventType {
+public enum ActionEventType implements StoreEventType {
 	DELETE,
-	DELETE_OK,
-	DELETE_ERROR,
 	CREATE,
-	CREATE_OK,
-	CREATE_ERROR,
-	UPDATE,
-	UPDATE_OK,
-	UPDATE_ERROR
+	UPDATE
 }

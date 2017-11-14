@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.demo.model;
 
-import com.github.bordertech.wcomponents.lib.app.model.RetrieveListModel;
+import com.github.bordertech.flux.dataapi.retrieve.RetrieveListApi;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +9,10 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MyStringSearchModel implements RetrieveListModel<String, String> {
+public class MyStringSearchModel implements RetrieveListApi<String, String> {
 
 	@Override
-	public List<String> retrieveCollection(String criteria) {
+	public List<String> retrieve(String criteria) {
 		if ("error".equals(criteria)) {
 			throw new SystemException("Big error");
 		}

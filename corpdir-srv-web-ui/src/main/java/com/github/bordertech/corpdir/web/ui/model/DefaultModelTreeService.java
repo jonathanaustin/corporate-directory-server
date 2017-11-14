@@ -4,18 +4,18 @@ import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
 import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
-import com.github.bordertech.wcomponents.lib.app.model.TreeModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import com.github.bordertech.flux.dataapi.retrieve.RetrieveTreeApi;
 
 /**
  *
  * @author jonathan
  * @param <T> the treeable Object
  */
-public class DefaultModelTreeService<T extends ApiTreeable> implements TreeModel<String, T> {
+public class DefaultModelTreeService<T extends ApiTreeable> implements RetrieveTreeApi<String, T> {
 
 	private static final Log LOG = LogFactory.getLog(DefaultModelTreeService.class);
 

@@ -18,15 +18,15 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public class ListStoreImpl<T> extends DefaultStore implements ListStore<T> {
+public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 
 	private final List<T> items = new ArrayList<>();
 
-	public ListStoreImpl(final StoreType storeType) {
+	public DefaultListStore(final StoreType storeType) {
 		this(storeType, null);
 	}
 
-	public ListStoreImpl(final StoreType storeType, final String qualifier) {
+	public DefaultListStore(final StoreType storeType, final String qualifier) {
 		super(storeType, qualifier);
 	}
 
@@ -54,7 +54,7 @@ public class ListStoreImpl<T> extends DefaultStore implements ListStore<T> {
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:
-				handleResetListEvent();
+				handleResetItemsEvent();
 				break;
 			case LOAD_ITEMS:
 				handleLoadItemsEvent(event.getData());
@@ -73,12 +73,12 @@ public class ListStoreImpl<T> extends DefaultStore implements ListStore<T> {
 				handled = false;
 		}
 		if (handled) {
-			dispatchChangeEvent();
+			dispatchChangeEvent(type);
 		}
 
 	}
 
-	protected void handleResetListEvent() {
+	protected void handleResetItemsEvent() {
 		items.clear();
 	}
 

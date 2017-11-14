@@ -1,14 +1,14 @@
 package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.wcomponents.lib.app.model.ActionModel;
 import java.util.UUID;
+import com.github.bordertech.flux.dataapi.action.ActionApi;
 
 /**
  *
  * @author jonathan
  */
-public class MockOrgUnitActionModel implements ActionModel<OrgUnit> {
+public class MockOrgUnitActionModel implements ActionApi<OrgUnit> {
 
 	@Override
 	public OrgUnit create(final OrgUnit entity) {

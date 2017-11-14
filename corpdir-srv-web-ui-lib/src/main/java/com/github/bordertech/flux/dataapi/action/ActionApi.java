@@ -1,13 +1,13 @@
-package com.github.bordertech.wcomponents.lib.app.model;
+package com.github.bordertech.flux.dataapi.action;
 
-import com.github.bordertech.flux.wc.dataapi.DataApi;
+import com.github.bordertech.flux.dataapi.DataApi;
 
 /**
  *
  * @author jonathan
  * @param <T> the data type
  */
-public interface ActionModel<T> extends DataApi {
+public interface ActionApi<T> extends DataApi {
 
 	T create(final T entity);
 

@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.input;
 
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.input.InputOptionsView;

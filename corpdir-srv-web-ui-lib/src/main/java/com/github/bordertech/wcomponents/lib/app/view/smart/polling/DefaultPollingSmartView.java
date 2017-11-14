@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.polling;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.polling.DefaultPollingView;

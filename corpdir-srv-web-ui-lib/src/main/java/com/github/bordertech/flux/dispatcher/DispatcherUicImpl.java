@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.dispatcher;
+package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.dispatcher.AbstractDispatcher;
 import com.github.bordertech.flux.dispatcher.DispatcherModel;

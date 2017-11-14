@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.app.model;
+package com.github.bordertech.flux.dataapi.retrieve;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the item type
  */
-public interface TreeModel<S, T> extends RetrieveListModel<S, T> {
+public interface RetrieveTreeApi<S, T> extends RetrieveListApi<S, T> {
 
 	boolean hasChildren(final T item);
 

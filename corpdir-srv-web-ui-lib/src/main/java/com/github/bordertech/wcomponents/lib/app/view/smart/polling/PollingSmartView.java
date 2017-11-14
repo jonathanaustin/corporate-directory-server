@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.polling;
 
-import com.github.bordertech.flux.wc.view.SmartView;
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 
 /**

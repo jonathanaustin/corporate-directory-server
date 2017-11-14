@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.app.view.smart.crud;
 
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WDiv;

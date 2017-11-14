@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.app.view.form;
 
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 
 /**

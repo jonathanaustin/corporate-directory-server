@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.store;
 
-import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.EventType;
@@ -9,6 +8,7 @@ import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.StoreKey;
 import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.event.base.StateBaseEventType;
 import java.util.HashSet;
 import java.util.Set;
@@ -50,8 +50,8 @@ public class DefaultStore implements Store {
 	}
 
 	@Override
-	public void dispatchChangeEvent() {
-		DefaultEvent event = new DefaultEvent(new EventKey(StateBaseEventType.STORE_CHANGED, storeKey.getQualifier()), this);
+	public void dispatchChangeEvent(final EventType eventType) {
+		DefaultEvent event = new DefaultEvent(new EventKey(StateBaseEventType.STORE_CHANGED, storeKey.getQualifier()), eventType);
 		getDispatcher().dispatch(event);
 	}
 

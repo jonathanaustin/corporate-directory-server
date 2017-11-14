@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.dataapi;
+package com.github.bordertech.flux.dataapi;
 
 import com.github.bordertech.wcomponents.util.Config;
 import java.util.HashMap;
