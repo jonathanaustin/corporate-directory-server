@@ -7,7 +7,7 @@ import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.flux.dataapi.retrieve.RetrieveApiServiceAction;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
-import com.github.bordertech.flux.event.base.ActionEventType;
+import com.github.bordertech.flux.event.base.ModifyEventType;
 import com.github.bordertech.flux.event.base.RetrieveEventType;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.flux.store.StoreException;
@@ -66,7 +66,7 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		}
 
 		// Action Listeners
-		for (ActionEventType type : ActionEventType.values()) {
+		for (ModifyEventType type : ModifyEventType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
@@ -147,7 +147,7 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 	}
 
 	protected void handleActionEvents(final Event event) {
-		ActionEventType type = (ActionEventType) event.getEventKey().getEventType();
+		ModifyEventType type = (ModifyEventType) event.getEventKey().getEventType();
 		boolean changed = false;
 		switch (type) {
 			case CREATE:

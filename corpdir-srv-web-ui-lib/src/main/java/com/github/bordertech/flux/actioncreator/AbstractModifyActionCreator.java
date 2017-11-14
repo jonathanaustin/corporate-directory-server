@@ -5,29 +5,29 @@ import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.dataapi.DataApiException;
 import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
-import com.github.bordertech.flux.dataapi.action.ActionApi;
+import com.github.bordertech.flux.dataapi.modify.ModifyApi;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
-import com.github.bordertech.flux.event.base.ActionEventType;
+import com.github.bordertech.flux.event.base.ModifyEventType;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 
 /**
- * Action creator used by views.
+ * Modify action creator used by views.
  *
  * @author jonathan
  */
-public abstract class AbstractActionCreator<S, T> implements ActionApi<T> {
+public abstract class AbstractModifyActionCreator<S, T> implements ModifyApi<T> {
 
-	private final ActionApi<T> api;
+	private final ModifyApi<T> api;
 
 	private final String qualifier;
 
-	public AbstractActionCreator(final DataApiType type) {
+	public AbstractModifyActionCreator(final DataApiType type) {
 		this(type, null);
 	}
 
-	public AbstractActionCreator(final DataApiType type, final String qualifier) {
-		this.api = (ActionApi<T>) DataApiFactory.getInstance(type);
+	public AbstractModifyActionCreator(final DataApiType type, final String qualifier) {
+		this.api = (ModifyApi<T>) DataApiFactory.getInstance(type);
 		this.qualifier = qualifier;
 	}
 
@@ -38,21 +38,21 @@ public abstract class AbstractActionCreator<S, T> implements ActionApi<T> {
 	@Override
 	public T create(final T entity) throws DataApiException {
 		T created = api.create(entity);
-		dispatchActionEvent(ActionEventType.CREATE, created);
+		dispatchModifyEvent(ModifyEventType.CREATE, created);
 		return created;
 	}
 
 	@Override
 	public T update(final T entity) throws DataApiException {
 		T updated = api.update(entity);
-		dispatchActionEvent(ActionEventType.UPDATE, updated);
+		dispatchModifyEvent(ModifyEventType.UPDATE, updated);
 		return updated;
 	}
 
 	@Override
 	public void delete(final T entity) throws DataApiException {
 		api.delete(entity);
-		dispatchActionEvent(ActionEventType.DELETE, entity);
+		dispatchModifyEvent(ModifyEventType.DELETE, entity);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public abstract class AbstractActionCreator<S, T> implements ActionApi<T> {
 
 	protected abstract S getKey(final T entity);
 
-	protected void dispatchActionEvent(final ActionEventType eventType, final T entity) {
+	protected void dispatchModifyEvent(final ModifyEventType eventType, final T entity) {
 		ResultHolder holder = new ResultHolder(getKey(entity), entity);
 		DefaultEvent event = new DefaultEvent(new EventKey(eventType, getQualifier()), holder);
 		getDispatcher().dispatch(event);

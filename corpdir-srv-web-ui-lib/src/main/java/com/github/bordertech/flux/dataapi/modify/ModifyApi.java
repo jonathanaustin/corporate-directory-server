@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.dataapi.action;
+package com.github.bordertech.flux.dataapi.modify;
 
 import com.github.bordertech.flux.dataapi.DataApi;
 import com.github.bordertech.flux.dataapi.DataApiException;
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.dataapi.DataApiException;
  * @author jonathan
  * @param <T> the data type
  */
-public interface ActionApi<T> extends DataApi {
+public interface ModifyApi<T> extends DataApi {
 
 	T create(final T entity) throws DataApiException;
 
