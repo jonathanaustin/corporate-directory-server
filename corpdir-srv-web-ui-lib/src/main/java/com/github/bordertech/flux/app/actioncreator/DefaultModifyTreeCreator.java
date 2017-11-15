@@ -3,7 +3,7 @@ package com.github.bordertech.flux.app.actioncreator;
 import com.github.bordertech.flux.app.dataapi.modify.ModifyTreeApi;
 import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
 import com.github.bordertech.flux.dataapi.DataApiType;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
+import com.github.bordertech.taskmanager.service.ServiceException;
 
 /**
  * Modify tree event creator used by views.

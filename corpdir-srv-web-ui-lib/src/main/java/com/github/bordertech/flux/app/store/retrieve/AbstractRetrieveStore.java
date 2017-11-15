@@ -5,11 +5,11 @@ import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.store.DefaultStore;
-import com.github.bordertech.wcomponents.task.service.ResultHolder;
-import com.github.bordertech.wcomponents.task.service.ServiceAction;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
-import com.github.bordertech.wcomponents.task.service.ServiceUtil;
+import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.taskmanager.service.ServiceException;
+import com.github.bordertech.taskmanager.service.ServiceStatus;
+import com.github.bordertech.taskmanager.service.ServiceUtil;
 
 /**
  * Abstract retrieve store.

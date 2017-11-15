@@ -9,7 +9,7 @@ import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
+import com.github.bordertech.taskmanager.service.ServiceException;
 
 /**
  * Modify event creator used by views.

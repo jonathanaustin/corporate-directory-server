@@ -9,10 +9,10 @@ import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveApi;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
-import com.github.bordertech.wcomponents.task.service.ResultHolder;
-import com.github.bordertech.wcomponents.task.service.ServiceAction;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
+import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.taskmanager.service.ServiceException;
+import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.Objects;
 
 /**

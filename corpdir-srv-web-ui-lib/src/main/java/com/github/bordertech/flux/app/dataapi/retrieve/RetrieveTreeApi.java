@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.app.dataapi.retrieve;
 
-import com.github.bordertech.wcomponents.task.service.ServiceException;
+import com.github.bordertech.taskmanager.service.ServiceException;
 import java.util.List;
 
 /**

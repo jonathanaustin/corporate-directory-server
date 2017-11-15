@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.web.ui.view.OrgUnitCrudView;
 import com.github.bordertech.corpdir.web.ui.view.PositionCrudView;
 import com.github.bordertech.corpdir.web.ui.view.PositionTypeCrudView;
 import com.github.bordertech.corpdir.web.ui.view.UnitTypeCrudView;
-import com.github.bordertech.flux.view.DumbView;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  * Cards.

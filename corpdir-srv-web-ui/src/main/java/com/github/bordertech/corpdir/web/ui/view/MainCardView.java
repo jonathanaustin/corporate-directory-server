@@ -2,10 +2,10 @@ package com.github.bordertech.corpdir.web.ui.view;
 
 import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.wcomponents.WCardManager;
-import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import java.util.HashMap;
 import java.util.Map;
-import com.github.bordertech.flux.view.DumbView;
+import com.github.bordertech.flux.wc.view.DumbView;
 
 /**
  *

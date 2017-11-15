@@ -8,9 +8,9 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
-import com.github.bordertech.wcomponents.lib.app.common.AppMenuItem;
-import com.github.bordertech.wcomponents.lib.app.view.toolbar.AbstractMenuToolbar;
-import com.github.bordertech.flux.view.ViewUtil;
+import com.github.bordertech.flux.wc.app.common.AppMenuItem;
+import com.github.bordertech.flux.wc.app.view.toolbar.AbstractMenuToolbar;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import jersey.repackaged.com.google.common.base.Objects;
 
 /**

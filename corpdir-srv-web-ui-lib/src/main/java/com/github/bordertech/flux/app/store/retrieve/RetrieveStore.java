@@ -2,7 +2,7 @@ package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveApi;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
+import com.github.bordertech.taskmanager.service.ServiceStatus;
 
 /**
  * Store that holds key value pairs.
