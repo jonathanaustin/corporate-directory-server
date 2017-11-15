@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.wc.app.view.smart.list;
 
-import com.github.bordertech.flux.wc.app.view.smart.list.ListWithSearchView;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;

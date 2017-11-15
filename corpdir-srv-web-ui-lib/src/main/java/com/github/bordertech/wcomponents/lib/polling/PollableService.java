@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.wcomponents.WButton;
 import java.io.Serializable;
-import com.github.bordertech.taskmanager.service.ServiceAction;
 
 /**
  * Polling component that creates a new thread to call a service and polls for the result.

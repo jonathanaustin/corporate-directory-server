@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.app.view.list;
 
+import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.WSingleSelect;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 
 /**
  * Select single view.

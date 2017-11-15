@@ -1,11 +1,5 @@
 package com.github.bordertech.wcomponents;
 
-import com.github.bordertech.wcomponents.AjaxTarget;
-import com.github.bordertech.wcomponents.BeanAndProviderBoundComponentModel;
-import com.github.bordertech.wcomponents.RenderContext;
-import com.github.bordertech.wcomponents.SubordinateTarget;
-import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.XmlStringBuilder;
 import com.github.bordertech.wcomponents.lib.grid.DragMode;
 import com.github.bordertech.wcomponents.lib.grid.DropMode;
 import com.github.bordertech.wcomponents.servlet.WebXmlRenderContext;

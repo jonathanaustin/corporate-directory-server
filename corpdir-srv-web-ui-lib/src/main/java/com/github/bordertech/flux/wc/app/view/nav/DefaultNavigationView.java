@@ -1,5 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.nav;
 
+import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.app.view.NavigationView;
+import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseViewEvent;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -13,9 +16,6 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.layout.ColumnLayout;
-import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
-import com.github.bordertech.flux.wc.app.view.NavigationView;
-import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseViewEvent;
 
 /**
  * Default navigation view.

@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.wc.app.view.InputOptionsView;
+import com.github.bordertech.flux.wc.app.view.event.base.InputOptionsBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.smart.polling.DefaultPollingMessageSmartView;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
-import com.github.bordertech.flux.wc.app.view.event.base.InputOptionsBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.InputOptionsView;
-import com.github.bordertech.flux.wc.app.view.smart.polling.DefaultPollingMessageSmartView;
 import java.util.List;
 
 /**

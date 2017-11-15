@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.msg;
 
+import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.flux.wc.app.view.MessageView;
 
 /**
  * Default message view.

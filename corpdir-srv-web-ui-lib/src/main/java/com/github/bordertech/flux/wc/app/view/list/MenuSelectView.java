@@ -1,5 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.list;
 
+import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MenuItem;
@@ -8,8 +10,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
-import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import java.util.List;
 import java.util.Objects;
 

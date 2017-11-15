@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.app.view.toolbar;
 
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.app.view.ToolbarView;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;
-import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
-import com.github.bordertech.flux.wc.app.view.ToolbarView;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;

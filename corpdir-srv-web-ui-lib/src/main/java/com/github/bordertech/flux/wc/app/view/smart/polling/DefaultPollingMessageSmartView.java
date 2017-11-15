@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.wc.app.view.smart.msg.MessageSmartView;
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventUtil;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
+import com.github.bordertech.flux.wc.app.view.smart.msg.MessageSmartView;
+import com.github.bordertech.wcomponents.WMessages;
 
 /**
  * Default Smart View that is a Message Container and has a polling view.

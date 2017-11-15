@@ -2,8 +2,8 @@ package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.StoreType;
-import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
+import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;

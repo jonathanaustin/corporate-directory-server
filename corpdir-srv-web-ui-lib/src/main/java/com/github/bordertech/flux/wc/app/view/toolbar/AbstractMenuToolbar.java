@@ -1,13 +1,13 @@
 package com.github.bordertech.flux.wc.app.view.toolbar;
 
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.wc.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WMenu;
-import com.github.bordertech.flux.wc.app.common.AppMenuItem;
 
 /**
  * Abstract Menu Toolbar implementation.

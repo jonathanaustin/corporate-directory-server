@@ -1,7 +1,5 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.MessageView;
@@ -18,6 +16,8 @@ import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.toolbar.ToolbarModelEventItem;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
 /**

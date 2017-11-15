@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.list;
 
-import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.flux.wc.app.common.table.TextBeanColumn;
+import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.lib.table.TableBeanModel;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
 import java.util.Arrays;

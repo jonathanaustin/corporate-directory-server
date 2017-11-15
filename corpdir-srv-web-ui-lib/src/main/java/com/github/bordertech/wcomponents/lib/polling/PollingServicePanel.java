@@ -1,5 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.taskmanager.service.ServiceUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Margin;
@@ -7,9 +10,6 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;

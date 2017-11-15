@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
 import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.polling.DefaultPollingView;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 
 /**
  * Smart View that contains a polling view.

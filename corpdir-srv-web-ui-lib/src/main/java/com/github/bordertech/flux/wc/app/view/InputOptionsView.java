@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view;
 
+import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
-import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
 import java.util.List;
 
 /**

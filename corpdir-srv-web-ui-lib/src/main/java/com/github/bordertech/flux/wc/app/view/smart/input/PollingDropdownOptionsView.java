@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
-import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
 import com.github.bordertech.flux.wc.app.view.input.SingleSelectOptionsView;
 import com.github.bordertech.flux.wc.app.view.input.impl.DropdownOptionsView;
+import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
 
 /**
  * Polling dropdown options view.

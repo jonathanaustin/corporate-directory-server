@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 
 /**
  * View with WComponent requirements.

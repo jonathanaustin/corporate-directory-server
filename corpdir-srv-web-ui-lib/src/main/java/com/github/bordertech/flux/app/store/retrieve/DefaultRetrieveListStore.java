@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.StoreType;
-import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveListApi;
+import com.github.bordertech.flux.dataapi.DataApiType;
 import java.util.List;
 
 /**

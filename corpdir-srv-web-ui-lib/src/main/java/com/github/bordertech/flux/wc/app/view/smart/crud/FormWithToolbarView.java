@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.form.AbstractFormView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultFormToolbarView;
+import com.github.bordertech.wcomponents.WContainer;
 
 /**
  * Form View with a Toolbar View.
