@@ -83,8 +83,8 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public ServiceStatus getServiceStatus() {
-		return pollingPanel.getServiceStatus();
+	public ServiceStatus getPollingStatus() {
+		return pollingPanel.getPollingStatus();
 	}
 
 	@Override
@@ -98,8 +98,8 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public void setServiceStatus(final ServiceStatus panelStatus) {
-		pollingPanel.setServiceStatus(panelStatus);
+	public void setPollingStatus(final ServiceStatus panelStatus) {
+		pollingPanel.setPollingStatus(panelStatus);
 	}
 
 	@Override

@@ -17,7 +17,6 @@ public class ResultHolder<S, T> {
 	private final S criteria;
 	private T result;
 	private Exception exception;
-	private boolean processed;
 
 	public ResultHolder(final S criteria) {
 		this.criteria = criteria;
@@ -67,14 +66,6 @@ public class ResultHolder<S, T> {
 
 	public boolean hasResult() {
 		return result != null;
-	}
-
-	public boolean isProcessed() {
-		return processed;
-	}
-
-	public void setProcessed(final boolean processed) {
-		this.processed = processed;
 	}
 
 }

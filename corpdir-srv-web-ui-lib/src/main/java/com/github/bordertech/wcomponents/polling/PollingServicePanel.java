@@ -13,7 +13,6 @@ import com.github.bordertech.wcomponents.task.TaskManagerFactory;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 import com.github.bordertech.wcomponents.task.service.ServiceAction;
 import com.github.bordertech.wcomponents.task.service.ServiceException;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.io.Serializable;
 import java.util.Arrays;
@@ -234,7 +233,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		}
 
 		// Check not started
-		if (getServiceStatus() != ServiceStatus.NOT_STARTED) {
+		if (getPollingStatus() != PollingStatus.NOT_STARTED) {
 			return;
 		}
 
@@ -270,7 +269,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		}
 		handleClearPollingCache();
 		getHolder().reset();
-		setServiceStatus(ServiceStatus.NOT_STARTED);
+		setPollingStatus(PollingStatus.NOT_STARTED);
 		clearFuture();
 	}
 
@@ -347,22 +346,22 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param resultHolder the polling action result
 	 * @return the polling status
 	 */
-	protected ServiceStatus handleResult(final ResultHolder<S, T> resultHolder) {
+	protected PollingStatus handleResult(final ResultHolder<S, T> resultHolder) {
 		// Exception message
-		final ServiceStatus status;
+		final PollingStatus status;
 		if (resultHolder.hasException()) {
 			Exception excp = resultHolder.getException();
 			handleExceptionResult(excp);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
-			status = ServiceStatus.ERROR;
+			status = PollingStatus.ERROR;
 		} else {
 			// Successful Result
 			T result = resultHolder.getResult();
 			handleSuccessfulResult(result);
-			status = ServiceStatus.COMPLETE;
+			status = PollingStatus.COMPLETE;
 		}
-		setServiceStatus(ServiceStatus.ERROR);
+		setPollingStatus(PollingStatus.ERROR);
 		return status;
 	}
 

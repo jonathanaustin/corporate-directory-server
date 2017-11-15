@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,7 +176,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	 * @param panelStatus the panel status
 	 */
 	@Override
-	public void setServiceStatus(final ServiceStatus panelStatus) {
+	public void setPollingStatus(final PollingStatus panelStatus) {
 		getOrCreateComponentModel().serviceStatus = panelStatus;
 	}
 
@@ -185,7 +184,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	 * @return the panel status
 	 */
 	@Override
-	public ServiceStatus getServiceStatus() {
+	public PollingStatus getPollingStatus() {
 		return getComponentModel().serviceStatus;
 	}
 
@@ -195,7 +194,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void doStartPolling() {
 		// Start AJAX polling
-		setServiceStatus(ServiceStatus.PROCESSING);
+		setPollingStatus(PollingStatus.PROCESSING);
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
@@ -241,8 +240,8 @@ public class PollingPanel extends WDiv implements Pollable {
 	 * @return true if need to stop polling
 	 */
 	protected boolean checkForStopPolling() {
-		ServiceStatus status = getServiceStatus();
-		return status != ServiceStatus.PROCESSING;
+		PollingStatus status = getPollingStatus();
+		return status != PollingStatus.PROCESSING;
 	}
 
 	/**
@@ -331,7 +330,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		/**
 		 * Service status.
 		 */
-		private ServiceStatus serviceStatus = ServiceStatus.NOT_STARTED;
+		private PollingStatus serviceStatus = PollingStatus.NOT_STARTED;
 
 		/**
 		 * Polling text.

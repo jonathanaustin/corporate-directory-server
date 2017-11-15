@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.store.retrieve;
 
+import com.github.bordertech.wcomponents.task.service.RetrieveServiceUtil;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.Listener;
@@ -13,14 +14,7 @@ import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.flux.store.StoreException;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 import com.github.bordertech.wcomponents.task.service.ServiceAction;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
-import java.util.concurrent.TimeUnit;
-import javax.cache.Cache;
-import javax.cache.CacheManager;
-import javax.cache.Caching;
-import javax.cache.configuration.MutableConfiguration;
-import javax.cache.expiry.AccessedExpiryPolicy;
-import javax.cache.expiry.Duration;
+import com.github.bordertech.wcomponents.task.service.ServiceStatus;
 
 /**
  * Default retrieve store.
@@ -79,6 +73,18 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 	}
 
 	@Override
+	public ServiceStatus getStatus(final S criteria) {
+		checkAsyncResult(criteria);
+		return RetrieveServiceUtil.getServiceStatus(getCacheKey(criteria));
+	}
+
+	@Override
+	public boolean isDone(final S criteria) {
+		ServiceStatus status = getStatus(criteria);
+		return status == ServiceStatus.COMPLETE || status == ServiceStatus.ERROR;
+	}
+
+	@Override
 	public T getValue(final S criteria) throws StoreException {
 
 		// Check if have result
@@ -104,18 +110,26 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		switch (type) {
 			case RETRIEVE:
 				handleRetrieve((S) event.getData());
-				break;
-			case RETRIEVE_ERROR:
-				handleRetrieveError((ResultHolder<S, T>) event.getData());
 				changed = true;
 				break;
-			case RETRIEVE_OK:
-				handleRetrieveOK((ResultHolder<S, T>) event.getData());
+			case RETRIEVE_ASYNC:
+				handleRetrieveAsync((S) event.getData());
+				break;
+			case RETRIEVE_ASYNC_ERROR:
+				handleRetrieveAsyncError((ResultHolder<S, T>) event.getData());
+				changed = true;
+				break;
+			case RETRIEVE_ASYNC_OK:
+				handleRetrieveAsyncOK((ResultHolder<S, T>) event.getData());
 				changed = true;
 				break;
 
 			case REFRESH:
 				handleRefresh((S) event.getData());
+				changed = true;
+				break;
+			case REFRESH_ASYNC:
+				handleRefreshAsync((S) event.getData());
 				changed = true;
 				break;
 
@@ -129,21 +143,33 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 	}
 
 	protected void handleRetrieve(final S criteria) {
-		ResultHolder result = handleServiceCall(criteria);
-		handleResult(result);
+		String key = getCacheKey(criteria);
+		RetrieveServiceUtil.handleServiceCall(key, criteria, getServiceAction());
 	}
 
-	protected void handleRetrieveOK(final ResultHolder<S, T> holder) {
-		setResultHolder(holder);
+	protected void handleRetrieveAsync(final S criteria) {
+		String key = getCacheKey(criteria);
+		RetrieveServiceUtil.handleAsyncServiceCall(key, criteria, getServiceAction());
 	}
 
-	protected void handleRetrieveError(final ResultHolder<S, T> holder) {
-		setResultHolder(holder);
+	protected void handleRetrieveAsyncOK(final ResultHolder<S, T> holder) {
+		// OK
+	}
+
+	protected void handleRetrieveAsyncError(final ResultHolder<S, T> holder) {
+		// ERROR
 	}
 
 	protected void handleRefresh(final S criteria) {
-		clearResult(criteria);
+		String key = getCacheKey(criteria);
+		RetrieveServiceUtil.clearResult(key);
 		handleRetrieve(criteria);
+	}
+
+	protected void handleRefreshAsync(final S criteria) {
+		String key = getCacheKey(criteria);
+		RetrieveServiceUtil.clearResult(key);
+		handleRetrieveAsync(criteria);
 	}
 
 	protected void handleActionEvents(final Event event) {
@@ -151,15 +177,15 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		boolean changed = false;
 		switch (type) {
 			case CREATE:
-				handleCreate((ResultHolder<S, T>) event.getData());
+				handleCreate(event);
 				changed = true;
 				break;
 			case UPDATE:
-				handleUpdate((ResultHolder<S, T>) event.getData());
+				handleUpdate(event);
 				changed = true;
 				break;
 			case DELETE:
-				handleDelete((ResultHolder<S, T>) event.getData());
+				handleDelete(event);
 				changed = true;
 				break;
 
@@ -171,56 +197,28 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		}
 	}
 
-	protected void handleCreate(final ResultHolder<S, T> holder) {
-		setResultHolder(holder);
+	protected void handleCreate(final Event event) {
+		// Create Action
 	}
 
-	protected void handleUpdate(final ResultHolder<S, T> holder) {
-		setResultHolder(holder);
+	protected void handleUpdate(final Event event) {
+		// Update action
 	}
 
-	protected void handleDelete(final ResultHolder<S, T> holder) {
-		clearResult(holder.getCriteria());
+	protected void handleDelete(final Event event) {
+		// Delete action
 	}
 
-	protected ResultHolder<S, T> handleServiceCall(final S criteria) {
-
-		// Check Cache
-		ResultHolder<S, T> result = getResultHolder(criteria);
-		if (result != null) {
-			return result;
-		}
-
-		// Do service call
-		final ServiceAction<S, T> action = getServiceAction();
-		if (action == null) {
-			throw new IllegalStateException("No task service action has been defined. ");
-		}
-
-		result = new ResultHolder(criteria);
-		try {
-			T resp = action.service(criteria);
-			result.setResult(resp);
-		} catch (Exception e) {
-			ServiceException excp = new ServiceException("Error calling service." + e.getMessage(), e);
-			result.setException(excp);
-		}
-		return result;
-	}
-
-	/**
-	 * Handle the result from the service action.
-	 *
-	 * @param resultHolder the service action result
-	 */
-	protected void handleResult(final ResultHolder<S, T> resultHolder) {
-		if (resultHolder == null) {
-			return;
-		}
-		if (resultHolder.hasException()) {
-			dispatchResultEvent(RetrieveEventType.RETRIEVE_ERROR, resultHolder);
-		} else {
-			dispatchResultEvent(RetrieveEventType.RETRIEVE_OK, resultHolder);
+	protected void checkAsyncResult(final S criteria) {
+		String key = getCacheKey(criteria);
+		// Check if async result available
+		ResultHolder resultHolder = RetrieveServiceUtil.checkASyncResult(key);
+		if (resultHolder != null) {
+			if (resultHolder.hasException()) {
+				dispatchResultEvent(RetrieveEventType.RETRIEVE_ASYNC_ERROR, resultHolder);
+			} else {
+				dispatchResultEvent(RetrieveEventType.RETRIEVE_ASYNC_OK, resultHolder);
+			}
 		}
 	}
 
@@ -244,55 +242,18 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		return serviceAction;
 	}
 
-	/**
-	 * @return the polling action future object
-	 * @param criteria the key for the task action
-	 */
+	protected String getCacheKey(final S criteria) {
+		return getStoreKey().toString() + "-" + criteria.toString();
+	}
+
 	protected ResultHolder<S, T> getResultHolder(final S criteria) {
-		return getResultCache().get(criteria);
+		String key = getCacheKey(criteria);
+		return RetrieveServiceUtil.getResultHolder(key);
 	}
 
-	/**
-	 * @param result the result holder
-	 */
-	protected void setResultHolder(final ResultHolder<S, T> result) {
-		getResultCache().put(result.getCriteria(), result);
-	}
-
-	/**
-	 * Clear the result cache.
-	 *
-	 * @param criteria the key for the result holder
-	 */
-	protected void clearResult(final S criteria) {
-		getResultCache().remove(criteria);
-	}
-
-	/**
-	 * Use a cache to hold a reference to the future so the user context can be serialized. Future Objects are not
-	 * serializable.
-	 *
-	 * @return the cache instance
-	 */
-	protected synchronized Cache<Object, ResultHolder> getResultCache() {
-		String name = getResultCacheName();
-		Cache<Object, ResultHolder> cache = Caching.getCache(name, Object.class, ResultHolder.class);
-		if (cache == null) {
-			final CacheManager mgr = Caching.getCachingProvider().getCacheManager();
-			MutableConfiguration<Object, ResultHolder> config = new MutableConfiguration<>();
-			config.setTypes(Object.class, ResultHolder.class);
-			config.setExpiryPolicyFactory(AccessedExpiryPolicy.factoryOf(getResultCacheDuration()));
-			cache = mgr.createCache(name, config);
-		}
-		return cache;
-	}
-
-	protected String getResultCacheName() {
-		return getStoreKey().toString() + "-result";
-	}
-
-	protected Duration getResultCacheDuration() {
-		return new Duration(TimeUnit.MINUTES, 30);
+	protected void setResultHolder(final S criteria, final ResultHolder<S, T> resultHolder) {
+		String key = getCacheKey(criteria);
+		RetrieveServiceUtil.setResultHolder(key, resultHolder);
 	}
 
 }
