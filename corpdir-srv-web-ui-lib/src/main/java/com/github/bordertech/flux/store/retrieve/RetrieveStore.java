@@ -13,10 +13,10 @@ import com.github.bordertech.wcomponents.task.service.ServiceStatus;
  */
 public interface RetrieveStore<S, T> extends Store {
 
-	T getValue(final S criteria) throws StoreException;
+	T getRetrieveValue(final S criteria) throws StoreException;
 
-	ServiceStatus getStatus(final S criteria);
+	ServiceStatus getRetrieveStatus(final S criteria);
 
-	boolean isDone(final S criteria);
+	boolean isRetrieveDone(final S criteria);
 
 }

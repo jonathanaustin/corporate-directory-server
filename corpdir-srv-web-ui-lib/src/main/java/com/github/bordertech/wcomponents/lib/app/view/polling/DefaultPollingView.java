@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.lib.app.view.PollingView;
 import com.github.bordertech.wcomponents.lib.app.view.event.PollingViewEvent;
 import com.github.bordertech.wcomponents.lib.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.polling.PollingPanel;
-import com.github.bordertech.wcomponents.task.service.ServiceStatus;
+import com.github.bordertech.wcomponents.polling.PollingStatus;
 import java.util.List;
 
 /**
@@ -83,7 +83,7 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public ServiceStatus getPollingStatus() {
+	public PollingStatus getPollingStatus() {
 		return pollingPanel.getPollingStatus();
 	}
 
@@ -98,7 +98,7 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public void setPollingStatus(final ServiceStatus panelStatus) {
+	public void setPollingStatus(final PollingStatus panelStatus) {
 		pollingPanel.setPollingStatus(panelStatus);
 	}
 

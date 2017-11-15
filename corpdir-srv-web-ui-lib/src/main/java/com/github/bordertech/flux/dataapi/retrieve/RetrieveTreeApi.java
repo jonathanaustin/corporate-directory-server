@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.dataapi.retrieve;
 
-import com.github.bordertech.flux.dataapi.DataApiException;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
 import java.util.List;
 
 /**
@@ -12,9 +12,9 @@ public interface RetrieveTreeApi<S, T> extends RetrieveListApi<S, T> {
 
 	boolean hasChildren(final T item);
 
-	List<T> getChildren(final T item) throws DataApiException;
+	List<T> getChildren(final T item) throws ServiceException;
 
-	String getItemLabel(final T item) throws DataApiException;
+	String getItemLabel(final T item);
 
-	String getItemId(final T item) throws DataApiException;
+	String getItemId(final T item);
 }

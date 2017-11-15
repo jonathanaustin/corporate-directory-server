@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.dataapi.retrieve;
 
 import com.github.bordertech.flux.dataapi.DataApi;
-import com.github.bordertech.flux.dataapi.DataApiException;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
 
 /**
  *
@@ -11,6 +11,6 @@ import com.github.bordertech.flux.dataapi.DataApiException;
  */
 public interface RetrieveApi<S, T> extends DataApi {
 
-	T retrieve(final S criteria) throws DataApiException;
+	T retrieve(final S criteria) throws ServiceException;
 
 }

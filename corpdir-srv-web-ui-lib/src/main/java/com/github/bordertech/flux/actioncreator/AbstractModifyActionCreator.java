@@ -2,7 +2,6 @@ package com.github.bordertech.flux.actioncreator;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.EventKey;
-import com.github.bordertech.flux.dataapi.DataApiException;
 import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.flux.dataapi.modify.ModifyApi;
@@ -10,6 +9,7 @@ import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.event.base.ModifyEventType;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
 
 /**
  * Modify action creator used by views.
@@ -36,21 +36,21 @@ public abstract class AbstractModifyActionCreator<S, T> implements ModifyApi<T> 
 	}
 
 	@Override
-	public T create(final T entity) throws DataApiException {
+	public T create(final T entity) throws ServiceException {
 		T created = api.create(entity);
 		dispatchModifyEvent(ModifyEventType.CREATE, created);
 		return created;
 	}
 
 	@Override
-	public T update(final T entity) throws DataApiException {
+	public T update(final T entity) throws ServiceException {
 		T updated = api.update(entity);
 		dispatchModifyEvent(ModifyEventType.UPDATE, updated);
 		return updated;
 	}
 
 	@Override
-	public void delete(final T entity) throws DataApiException {
+	public void delete(final T entity) throws ServiceException {
 		api.delete(entity);
 		dispatchModifyEvent(ModifyEventType.DELETE, entity);
 	}

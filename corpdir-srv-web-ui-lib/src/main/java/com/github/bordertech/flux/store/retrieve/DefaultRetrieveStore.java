@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.store.retrieve;
 
-import com.github.bordertech.wcomponents.task.service.RetrieveServiceUtil;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
-import com.github.bordertech.flux.dataapi.retrieve.RetrieveApiServiceAction;
+import com.github.bordertech.flux.dataapi.retrieve.RetrieveApi;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.event.base.ModifyEventType;
 import com.github.bordertech.flux.event.base.RetrieveEventType;
@@ -14,36 +14,31 @@ import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.flux.store.StoreException;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 import com.github.bordertech.wcomponents.task.service.ServiceAction;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
 import com.github.bordertech.wcomponents.task.service.ServiceStatus;
+import com.github.bordertech.wcomponents.task.service.ServiceUtil;
 
 /**
  * Default retrieve store.
  *
  * @param <S> the criteria type
  * @param <T> the response type
+ * @param <R> the retrieve api type
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public class DefaultRetrieveStore<S, T> extends DefaultStore implements RetrieveStore<S, T> {
+public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends DefaultStore implements RetrieveStore<S, T> {
 
-	private final ServiceAction<S, T> serviceAction;
+	private final R api;
 
 	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType) {
 		this(apiType, storeType, null);
 	}
 
 	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
-		this(new RetrieveApiServiceAction<S, T>(apiType), storeType, qualifier);
-	}
-
-	public DefaultRetrieveStore(final ServiceAction<S, T> serviceAction, final StoreType storeType) {
-		this(serviceAction, storeType, null);
-	}
-
-	public DefaultRetrieveStore(final ServiceAction<S, T> serviceAction, final StoreType storeType, final String qualifier) {
 		super(storeType, qualifier);
-		this.serviceAction = serviceAction;
+		api = (R) DataApiFactory.getInstance(apiType);
 	}
 
 	@Override
@@ -73,22 +68,139 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 	}
 
 	@Override
-	public ServiceStatus getStatus(final S criteria) {
-		checkAsyncResult(criteria);
-		return RetrieveServiceUtil.getServiceStatus(getCacheKey(criteria));
+	public ServiceStatus getRetrieveStatus(final S criteria) {
+		return getResultStatus(RetrieveEventType.RETRIEVE, criteria);
 	}
 
 	@Override
-	public boolean isDone(final S criteria) {
-		ServiceStatus status = getStatus(criteria);
+	public boolean isRetrieveDone(final S criteria) {
+		ServiceStatus status = getRetrieveStatus(criteria);
 		return status == ServiceStatus.COMPLETE || status == ServiceStatus.ERROR;
 	}
 
 	@Override
-	public T getValue(final S criteria) throws StoreException {
+	public T getRetrieveValue(final S criteria) throws StoreException {
+		// Retrieve and RetrieveAsync get treated the same
+		return getResultValue(RetrieveEventType.RETRIEVE, criteria);
+	}
+
+	protected void handleRetrieveEvents(final Event event) {
+		RetrieveEventType type = (RetrieveEventType) event.getEventKey().getEventType();
+		boolean changed = false;
+		switch (type) {
+			case RETRIEVE:
+				handleRetrieveEvent((S) event.getData(), false);
+				changed = true;
+				break;
+			case RETRIEVE_ASYNC:
+				handleRetrieveEvent((S) event.getData(), true);
+				break;
+			case RETRIEVE_ASYNC_ERROR:
+				handleRetrieveAsyncErrorEvent((ResultHolder<S, T>) event.getData());
+				changed = true;
+				break;
+			case RETRIEVE_ASYNC_OK:
+				handleRetrieveAsyncOKEvent((ResultHolder<S, T>) event.getData());
+				changed = true;
+				break;
+
+			case REFRESH:
+				handleRefreshEvent((S) event.getData(), false);
+				changed = true;
+				break;
+			case REFRESH_ASYNC:
+				handleRefreshEvent((S) event.getData(), true);
+				changed = true;
+				break;
+
+			default:
+				changed = false;
+		}
+		if (changed) {
+			dispatchChangeEvent(type);
+		}
+
+	}
+
+	protected void handleRetrieveEvent(final S criteria, final boolean async) {
+		handleServiceCall(RetrieveEventType.RETRIEVE, criteria, async);
+	}
+
+	protected void handleRetrieveAsyncOKEvent(final ResultHolder<S, T> holder) {
+		// OK
+	}
+
+	protected void handleRetrieveAsyncErrorEvent(final ResultHolder<S, T> holder) {
+		// ERROR
+	}
+
+	protected void handleRefreshEvent(final S criteria, final boolean async) {
+		clearResultHolder(RetrieveEventType.RETRIEVE, criteria);
+		handleRetrieveEvent(criteria, async);
+	}
+
+	protected void handleActionEvents(final Event event) {
+		ModifyEventType type = (ModifyEventType) event.getEventKey().getEventType();
+		boolean changed = false;
+		switch (type) {
+			case CREATE:
+				handleCreateEvent(event);
+				changed = true;
+				break;
+			case UPDATE:
+				handleUpdateEvent(event);
+				changed = true;
+				break;
+			case DELETE:
+				handleDeleteEvent(event);
+				changed = true;
+				break;
+
+			default:
+				changed = false;
+		}
+		if (changed) {
+			dispatchChangeEvent(type);
+		}
+	}
+
+	protected void handleCreateEvent(final Event event) {
+		// Create Action
+	}
+
+	protected void handleUpdateEvent(final Event event) {
+		// Update action
+	}
+
+	protected void handleDeleteEvent(final Event event) {
+		// Delete action
+	}
+
+	protected String getResultCacheKey(final RetrieveEventType type, final Object criteria) {
+		String typeDesc = type.toString();
+		String suffix = criteria == null ? "" : criteria.toString();
+		return getStoreKey().toString() + "-" + typeDesc + "-" + suffix;
+	}
+
+	protected ResultHolder<S, T> getResultHolder(final RetrieveEventType type, final Object criteria) {
+		String key = getResultCacheKey(type, criteria);
+		return ServiceUtil.getResultHolder(key);
+	}
+
+	protected void setResultHolder(final RetrieveEventType type, final ResultHolder<S, T> resultHolder) {
+		String key = getResultCacheKey(type, resultHolder.getCriteria());
+		ServiceUtil.setResultHolder(key, resultHolder);
+	}
+
+	protected void clearResultHolder(final RetrieveEventType type, final Object criteria) {
+		String key = getResultCacheKey(type, criteria);
+		ServiceUtil.clearResult(key);
+	}
+
+	protected T getResultValue(final RetrieveEventType type, final Object criteria) throws StoreException {
 
 		// Check if have result
-		ResultHolder<S, T> holder = getResultHolder(criteria);
+		ResultHolder<S, T> holder = getResultHolder(type, criteria);
 		if (holder == null) {
 			throw new StoreException("No value for this criteria.");
 		}
@@ -104,122 +216,64 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		return holder.getResult();
 	}
 
-	protected void handleRetrieveEvents(final Event event) {
-		RetrieveEventType type = (RetrieveEventType) event.getEventKey().getEventType();
-		boolean changed = false;
-		switch (type) {
-			case RETRIEVE:
-				handleRetrieve((S) event.getData());
-				changed = true;
-				break;
-			case RETRIEVE_ASYNC:
-				handleRetrieveAsync((S) event.getData());
-				break;
-			case RETRIEVE_ASYNC_ERROR:
-				handleRetrieveAsyncError((ResultHolder<S, T>) event.getData());
-				changed = true;
-				break;
-			case RETRIEVE_ASYNC_OK:
-				handleRetrieveAsyncOK((ResultHolder<S, T>) event.getData());
-				changed = true;
-				break;
-
-			case REFRESH:
-				handleRefresh((S) event.getData());
-				changed = true;
-				break;
-			case REFRESH_ASYNC:
-				handleRefreshAsync((S) event.getData());
-				changed = true;
-				break;
-
-			default:
-				changed = false;
-		}
-		if (changed) {
-			dispatchChangeEvent(type);
-		}
-
+	public ServiceStatus getResultStatus(final RetrieveEventType type, final Object criteria) {
+		checkAsyncResult(type, criteria);
+		String key = getResultCacheKey(type, criteria);
+		return ServiceUtil.getServiceStatus(key);
 	}
 
-	protected void handleRetrieve(final S criteria) {
-		String key = getCacheKey(criteria);
-		RetrieveServiceUtil.handleServiceCall(key, criteria, getServiceAction());
-	}
-
-	protected void handleRetrieveAsync(final S criteria) {
-		String key = getCacheKey(criteria);
-		RetrieveServiceUtil.handleAsyncServiceCall(key, criteria, getServiceAction());
-	}
-
-	protected void handleRetrieveAsyncOK(final ResultHolder<S, T> holder) {
-		// OK
-	}
-
-	protected void handleRetrieveAsyncError(final ResultHolder<S, T> holder) {
-		// ERROR
-	}
-
-	protected void handleRefresh(final S criteria) {
-		String key = getCacheKey(criteria);
-		RetrieveServiceUtil.clearResult(key);
-		handleRetrieve(criteria);
-	}
-
-	protected void handleRefreshAsync(final S criteria) {
-		String key = getCacheKey(criteria);
-		RetrieveServiceUtil.clearResult(key);
-		handleRetrieveAsync(criteria);
-	}
-
-	protected void handleActionEvents(final Event event) {
-		ModifyEventType type = (ModifyEventType) event.getEventKey().getEventType();
-		boolean changed = false;
-		switch (type) {
-			case CREATE:
-				handleCreate(event);
-				changed = true;
-				break;
-			case UPDATE:
-				handleUpdate(event);
-				changed = true;
-				break;
-			case DELETE:
-				handleDelete(event);
-				changed = true;
-				break;
-
-			default:
-				changed = false;
-		}
-		if (changed) {
-			dispatchChangeEvent(type);
-		}
-	}
-
-	protected void handleCreate(final Event event) {
-		// Create Action
-	}
-
-	protected void handleUpdate(final Event event) {
-		// Update action
-	}
-
-	protected void handleDelete(final Event event) {
-		// Delete action
-	}
-
-	protected void checkAsyncResult(final S criteria) {
-		String key = getCacheKey(criteria);
+	protected void checkAsyncResult(final RetrieveEventType type, final Object criteria) {
+		String key = getResultCacheKey(type, criteria);
 		// Check if async result available
-		ResultHolder resultHolder = RetrieveServiceUtil.checkASyncResult(key);
+		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
-			if (resultHolder.hasException()) {
-				dispatchResultEvent(RetrieveEventType.RETRIEVE_ASYNC_ERROR, resultHolder);
-			} else {
-				dispatchResultEvent(RetrieveEventType.RETRIEVE_ASYNC_OK, resultHolder);
+			RetrieveEventType event = getAsyncOutcomeEvent(type, resultHolder.hasException());
+			if (event != null) {
+				dispatchResultEvent(event, resultHolder);
 			}
 		}
+	}
+
+	protected RetrieveEventType getAsyncOutcomeEvent(final RetrieveEventType type, final boolean excp) {
+		switch (type) {
+			case RETRIEVE:
+				return excp ? RetrieveEventType.RETRIEVE_ASYNC_ERROR : RetrieveEventType.RETRIEVE_ASYNC_OK;
+			default:
+				return null;
+		}
+	}
+
+	protected void handleServiceCall(final RetrieveEventType type, final Object criteria, final boolean async) {
+		String key = getResultCacheKey(type, criteria);
+		ServiceAction action = getWrappedApiServiceAction(type);
+		if (async) {
+			ServiceUtil.handleAsyncServiceCall(key, criteria, action);
+		} else {
+			ServiceUtil.handleServiceCall(key, criteria, action);
+		}
+	}
+
+	/**
+	 *
+	 * @param type the event type
+	 * @return the wrapped API action for the event type.
+	 */
+	protected ServiceAction<S, T> getWrappedApiServiceAction(final RetrieveEventType type) {
+		switch (type) {
+			case RETRIEVE:
+				return new ServiceAction<S, T>() {
+					@Override
+					public T service(final S criteria) throws ServiceException {
+						return getRetrieveApi().retrieve(criteria);
+					}
+				};
+			default:
+				return null;
+		}
+	}
+
+	protected R getRetrieveApi() {
+		return api;
 	}
 
 	/**
@@ -232,28 +286,6 @@ public class DefaultRetrieveStore<S, T> extends DefaultStore implements Retrieve
 		String qualifier = getStoreKey().getQualifier();
 		DefaultEvent event = new DefaultEvent(new EventKey(eventType, qualifier), result);
 		getDispatcher().dispatch(event);
-	}
-
-	/**
-	 *
-	 * @return the async action.
-	 */
-	protected ServiceAction<S, T> getServiceAction() {
-		return serviceAction;
-	}
-
-	protected String getCacheKey(final S criteria) {
-		return getStoreKey().toString() + "-" + criteria.toString();
-	}
-
-	protected ResultHolder<S, T> getResultHolder(final S criteria) {
-		String key = getCacheKey(criteria);
-		return RetrieveServiceUtil.getResultHolder(key);
-	}
-
-	protected void setResultHolder(final S criteria, final ResultHolder<S, T> resultHolder) {
-		String key = getCacheKey(criteria);
-		RetrieveServiceUtil.setResultHolder(key, resultHolder);
 	}
 
 }

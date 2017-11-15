@@ -18,11 +18,11 @@ import javax.cache.expiry.Duration;
  *
  * @author jonathan
  */
-public class RetrieveServiceUtil {
+public class ServiceUtil {
 
 	private static final TaskManager TASK_MANAGER = TaskManagerFactory.getInstance();
 
-	private RetrieveServiceUtil() {
+	private ServiceUtil() {
 	}
 
 	/**

@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.dataapi.modify;
 
 import com.github.bordertech.flux.dataapi.DataApi;
-import com.github.bordertech.flux.dataapi.DataApiException;
+import com.github.bordertech.wcomponents.task.service.ServiceException;
 
 /**
  *
@@ -10,11 +10,11 @@ import com.github.bordertech.flux.dataapi.DataApiException;
  */
 public interface ModifyApi<T> extends DataApi {
 
-	T create(final T entity) throws DataApiException;
+	T create(final T entity) throws ServiceException;
 
-	T update(final T entity) throws DataApiException;
+	T update(final T entity) throws ServiceException;
 
-	void delete(final T entity) throws DataApiException;
+	void delete(final T entity) throws ServiceException;
 
 	T createInstance();
 

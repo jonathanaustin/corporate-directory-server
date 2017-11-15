@@ -2,11 +2,12 @@ package com.github.bordertech.wcomponents.lib.app.common;
 
 import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
+import com.github.bordertech.flux.dataapi.retrieve.RetrieveTreeApi;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
+import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.List;
 import java.util.Objects;
-import com.github.bordertech.flux.dataapi.retrieve.RetrieveTreeApi;
 
 public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 
@@ -73,7 +74,11 @@ public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
 	}
 
 	protected List<T> loadChildren(final T item) {
-		return model.getChildren(item);
+		try {
+			return model.getChildren(item);
+		} catch (Exception e) {
+			throw new SystemException("COuld not load child items. " + e.getMessage(), e);
+		}
 	}
 
 }

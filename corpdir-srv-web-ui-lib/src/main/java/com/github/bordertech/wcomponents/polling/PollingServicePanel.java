@@ -7,16 +7,13 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WMessages;
-import com.github.bordertech.wcomponents.task.TaskFuture;
-import com.github.bordertech.wcomponents.task.TaskManager;
-import com.github.bordertech.wcomponents.task.TaskManagerFactory;
 import com.github.bordertech.wcomponents.task.service.ResultHolder;
 import com.github.bordertech.wcomponents.task.service.ServiceAction;
-import com.github.bordertech.wcomponents.task.service.ServiceException;
-import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.task.service.ServiceUtil;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -45,11 +42,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
-
-	/**
-	 * The TaskManager implementation.
-	 */
-	private static final TaskManager TASK_MANAGER = TaskManagerFactory.getInstance();
 
 	/**
 	 * Start polling manually button.
@@ -270,7 +262,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		handleClearPollingCache();
 		getHolder().reset();
 		setPollingStatus(PollingStatus.NOT_STARTED);
-		clearFuture();
 	}
 
 	@Override
@@ -303,14 +294,10 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param criteria the criteria for the polling action
 	 */
 	protected void handleStartPollingAction(final S criteria) {
-		// Start polling action
-		try {
-			handleAsyncPollingAction(criteria);
-		} catch (Exception e) {
-			handleResult(new ResultHolder(criteria, e));
-			return;
-		}
-
+		clearServiceKey();
+		String key = generateServiceKey();
+		// Start Service action
+		ServiceUtil.handleAsyncServiceCall(key, criteria, getServiceAction());
 		// Start polling
 		doStartPolling();
 	}
@@ -320,23 +307,12 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	@Override
 	protected void handleStoppedPolling() {
-		// Get the Future for the polling action
-		TaskFuture<ResultHolder> future = getFuture();
-		if (future == null) {
-			// Stop polling as future must have expired
-			handleResult(new ResultHolder(new ServiceException("Future has expired so polling result not available")));
-			return;
+		String key = getServiceKey();
+		ResultHolder result = ServiceUtil.getResultHolder(key);
+		if (result == null) {
+			throw new IllegalStateException("Result has expired so polling result not available");
 		}
-
-		// Extract the result from the future
-		ResultHolder result;
-		try {
-			result = future.get();
-		} catch (Exception e) {
-			result = new ResultHolder(e);
-		}
-		// Clear future
-		clearFuture();
+		clearServiceKey();
 		handleResult(result);
 	}
 
@@ -387,77 +363,30 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	}
 
 	/**
-	 * Check the future holds the result.
+	 * Check the result is available.
 	 *
 	 * @return true if have result and need to stop polling
 	 */
 	@Override
 	protected boolean checkForStopPolling() {
-		// Stop polling if future null (must have expired) or is done
-		TaskFuture<ResultHolder> future = getFuture();
-		return future == null || future.isDone();
+		return ServiceUtil.checkASyncResult(getServiceKey()) != null;
 	}
 
-	/**
-	 * Handle the polling action.
-	 *
-	 * @param criteria the criteria for the polling action
-	 */
-	protected void handleAsyncPollingAction(final S criteria) {
-
-		clearFuture();
-
-		final ServiceAction<S, T> action = getServiceAction();
-		if (action == null) {
-			throw new IllegalStateException("No polling service action has been defined. ");
-		}
-
-		final ResultHolder result = new ResultHolder(criteria);
-		Runnable task = new Runnable() {
-			@Override
-			public void run() {
-				try {
-					T resp = action.service(criteria);
-					result.setResult(resp);
-				} catch (Exception e) {
-					ServiceException excp = new ServiceException("Error calling service." + e.getMessage(), e);
-					result.setResult(excp);
-				}
-			}
-		};
-		try {
-			TaskFuture future = TASK_MANAGER.submit(task, result);
-			// Save the future
-			setFuture(future);
-		} catch (Exception e) {
-			throw new SystemException("Could not start thread to process polling action. " + e.getMessage());
-		}
+	protected String generateServiceKey() {
+		String key = "polling=" + UUID.randomUUID().toString();
+		getOrCreateComponentModel().serviceKey = key;
+		return key;
 	}
 
-	/**
-	 * @return the polling action future object
-	 */
-	protected TaskFuture<ResultHolder> getFuture() {
-		return getComponentModel().future;
+	protected String getServiceKey() {
+		return getComponentModel().serviceKey;
 	}
 
-	/**
-	 * @param future the polling action future to save
-	 */
-	protected void setFuture(final TaskFuture<ResultHolder> future) {
-		getOrCreateComponentModel().future = future;
-	}
-
-	/**
-	 * Cancel and clear the future if there is one already running.
-	 */
-	protected void clearFuture() {
-		TaskFuture future = getFuture();
-		if (future != null) {
-			if (!future.isDone() && !future.isCancelled()) {
-				future.cancel(true);
-			}
-			getOrCreateComponentModel().future = null;
+	protected void clearServiceKey() {
+		String key = getServiceKey();
+		if (key != null) {
+			ServiceUtil.clearResult(key);
+			getOrCreateComponentModel().serviceKey = null;
 		}
 	}
 
@@ -522,9 +451,9 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		private S criteria;
 
 		/**
-		 * Holds the reference to the future for the polling action.
+		 * Holds the reference to the service action.
 		 */
-		private TaskFuture<ResultHolder> future;
+		private String serviceKey;
 
 		/**
 		 * Flag if start polling manually with the start button.
