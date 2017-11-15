@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.event.base;
 
-import com.github.bordertech.flux.event.StoreEventType;
+import com.github.bordertech.flux.event.RetrieveEventType;
 
 /**
  * Model (ie entity) event type.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.event.StoreEventType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum RetrieveEventType implements StoreEventType {
+public enum RetrieveBaseEventType implements RetrieveEventType {
 	RETRIEVE,
 	REFRESH,
 	RETRIEVE_ASYNC,

@@ -9,5 +9,4 @@ import java.util.List;
  * @param <T> the item type
  */
 public interface RetrieveListApi<S, T> extends RetrieveApi<S, List<T>> {
-
 }

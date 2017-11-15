@@ -7,27 +7,29 @@ import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.flux.dataapi.modify.ModifyApi;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
-import com.github.bordertech.flux.event.base.ModifyEventType;
-import com.github.bordertech.wcomponents.task.service.ResultHolder;
+import com.github.bordertech.flux.event.ModifyEventType;
+import com.github.bordertech.flux.event.base.ModifyBaseEventType;
 import com.github.bordertech.wcomponents.task.service.ServiceException;
 
 /**
- * Modify action creator used by views.
+ * Modify event creator used by views.
  *
  * @author jonathan
+ * @param <T> the entity type
+ * @param <M> the modify API type
  */
-public abstract class AbstractModifyActionCreator<S, T> implements ModifyApi<T> {
+public class DefaultModifyCreator<T, M extends ModifyApi<T>> implements ModifyApi<T> {
 
-	private final ModifyApi<T> api;
+	private final M api;
 
 	private final String qualifier;
 
-	public AbstractModifyActionCreator(final DataApiType type) {
+	public DefaultModifyCreator(final DataApiType type) {
 		this(type, null);
 	}
 
-	public AbstractModifyActionCreator(final DataApiType type, final String qualifier) {
-		this.api = (ModifyApi<T>) DataApiFactory.getInstance(type);
+	public DefaultModifyCreator(final DataApiType type, final String qualifier) {
+		this.api = (M) DataApiFactory.getInstance(type);
 		this.qualifier = qualifier;
 	}
 
@@ -37,39 +39,40 @@ public abstract class AbstractModifyActionCreator<S, T> implements ModifyApi<T> 
 
 	@Override
 	public T create(final T entity) throws ServiceException {
-		T created = api.create(entity);
-		dispatchModifyEvent(ModifyEventType.CREATE, created);
+		T created = getModifyApi().create(entity);
+		dispatchModifyEvent(ModifyBaseEventType.CREATE, created);
 		return created;
 	}
 
 	@Override
 	public T update(final T entity) throws ServiceException {
-		T updated = api.update(entity);
-		dispatchModifyEvent(ModifyEventType.UPDATE, updated);
+		T updated = getModifyApi().update(entity);
+		dispatchModifyEvent(ModifyBaseEventType.UPDATE, updated);
 		return updated;
 	}
 
 	@Override
 	public void delete(final T entity) throws ServiceException {
-		api.delete(entity);
-		dispatchModifyEvent(ModifyEventType.DELETE, entity);
+		getModifyApi().delete(entity);
+		dispatchModifyEvent(ModifyBaseEventType.DELETE, entity);
 	}
 
 	@Override
 	public T createInstance() {
-		return api.createInstance();
+		return getModifyApi().createInstance();
 	}
 
-	protected abstract S getKey(final T entity);
-
 	protected void dispatchModifyEvent(final ModifyEventType eventType, final T entity) {
-		ResultHolder holder = new ResultHolder(getKey(entity), entity);
-		DefaultEvent event = new DefaultEvent(new EventKey(eventType, getQualifier()), holder);
+		DefaultEvent event = new DefaultEvent(new EventKey(eventType, getQualifier()), entity);
 		getDispatcher().dispatch(event);
 	}
 
 	protected final Dispatcher getDispatcher() {
 		return DispatcherFactory.getInstance();
+	}
+
+	protected M getModifyApi() {
+		return api;
 	}
 
 }
