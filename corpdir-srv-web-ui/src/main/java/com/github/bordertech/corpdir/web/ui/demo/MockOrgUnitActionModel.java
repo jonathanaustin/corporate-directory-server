@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.demo;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import java.util.UUID;
-import com.github.bordertech.flux.dataapi.modify.ModifyApi;
+import com.github.bordertech.flux.app.dataapi.modify.ModifyApi;
 
 /**
  *

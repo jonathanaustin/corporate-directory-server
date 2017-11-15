@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.dataapi;
 
+import com.github.bordertech.flux.DataApi;
 import com.github.bordertech.wcomponents.util.Config;
 import java.util.HashMap;
 import java.util.Map;

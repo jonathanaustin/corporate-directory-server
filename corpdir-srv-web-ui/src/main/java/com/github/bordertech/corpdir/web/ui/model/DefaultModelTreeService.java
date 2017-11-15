@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import com.github.bordertech.flux.dataapi.retrieve.RetrieveTreeApi;
+import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveTreeApi;
 
 /**
  *

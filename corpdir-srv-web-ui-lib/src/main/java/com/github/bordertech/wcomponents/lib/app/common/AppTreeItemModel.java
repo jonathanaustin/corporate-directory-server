@@ -2,7 +2,7 @@ package com.github.bordertech.wcomponents.lib.app.common;
 
 import com.github.bordertech.flux.dataapi.DataApiFactory;
 import com.github.bordertech.flux.dataapi.DataApiType;
-import com.github.bordertech.flux.dataapi.retrieve.RetrieveTreeApi;
+import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveTreeApi;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;

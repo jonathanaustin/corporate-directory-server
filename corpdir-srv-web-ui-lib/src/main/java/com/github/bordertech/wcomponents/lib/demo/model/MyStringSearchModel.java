@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.demo.model;
 
-import com.github.bordertech.flux.dataapi.retrieve.RetrieveListApi;
+import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveListApi;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.ArrayList;
 import java.util.List;

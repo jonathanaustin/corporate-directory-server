@@ -1,5 +1,7 @@
 package com.github.bordertech.flux.dataapi;
 
+import com.github.bordertech.flux.DataApi;
+
 /**
  * Model provider factory.
  *
@@ -13,8 +15,8 @@ public class DataApiFactory {
 	private DataApiFactory() {
 	}
 
-	public static <T extends DataApi> DataApi getInstance(final DataApiType type) {
-		return PROVIDER.getDataApi(type);
+	public static <T extends DataApi> T getInstance(final DataApiType type) {
+		return (T) PROVIDER.getDataApi(type);
 	}
 
 }

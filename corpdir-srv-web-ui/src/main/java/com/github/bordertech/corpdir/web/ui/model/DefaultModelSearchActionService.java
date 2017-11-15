@@ -6,7 +6,7 @@ import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
 import com.github.bordertech.wcomponents.lib.app.model.SearchModel;
 import java.util.List;
-import com.github.bordertech.flux.dataapi.modify.ModifyApi;
+import com.github.bordertech.flux.app.dataapi.modify.ModifyApi;
 
 /**
  * API Search and Action Model.

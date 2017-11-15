@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.dataapi;
 
+import com.github.bordertech.flux.DataApi;
 import java.io.Serializable;
 
 /**
