@@ -12,7 +12,7 @@ import com.github.bordertech.flux.wc.app.view.toolbar.DefaultToolbarView;
  * @param <S> the search type
  * @param <T> the item type
  */
-public class ListWithSearchView<S, T> extends PollingListView<S, T> {
+public class ListWithSearchView<S, T> extends RetrieveListSmartView<S, T> {
 
 	private final ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar");
 

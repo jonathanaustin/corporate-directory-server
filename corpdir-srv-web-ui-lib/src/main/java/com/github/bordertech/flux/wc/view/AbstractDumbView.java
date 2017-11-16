@@ -272,7 +272,12 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		SmartView parent = findParentViewContainer();
+		SmartView parent;
+		if (this instanceof SmartView) {
+			parent = (SmartView) this;
+		} else {
+			parent = findParentViewContainer();
+		}
 		if (parent != null) {
 			parent.handleViewEvent(getViewId(), eventType, data);
 		}

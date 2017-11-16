@@ -3,16 +3,9 @@ package com.github.bordertech.wcomponents.lib.polling;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
-import com.github.bordertech.wcomponents.Action;
-import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.Margin;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
-import com.github.bordertech.wcomponents.WMessages;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,11 +36,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
 
-	/**
-	 * Start polling manually button.
-	 */
-	private final WButton startButton = new WButton("Start");
-
 	private final WDiv contentResultHolder = new WDiv() {
 		@Override
 		protected void preparePaintComponent(final Request request) {
@@ -58,16 +46,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			}
 		}
 	};
-
-	/**
-	 * Messages.
-	 */
-	private final WMessages messages = new WMessages(true);
-
-	/**
-	 * Retry load.
-	 */
-	private final WButton retryButton = new WButton("Retry");
 
 	/**
 	 * Default constructor.
@@ -93,57 +71,12 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	public PollingServicePanel(final int delay, final boolean manualStart) {
 		super(delay);
-
-		WDiv holder = getHolder();
-
-		messages.setMargin(new Margin(0, 0, 3, 0));
-		holder.add(messages);
-		holder.add(retryButton);
-		holder.add(contentResultHolder);
-
-		// Manual Start load
-		startButton.setAjaxTarget(this);
-		startButton.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				doStartLoading();
-				startButton.setVisible(false);
-			}
-		});
-
-		// Retry load
-		retryButton.setAjaxTarget(this);
-		retryButton.setAction(new Action() {
-			@Override
-			public void execute(final ActionEvent event) {
-				doRetry();
-			}
-		});
-
-		// Set default visibility
-		retryButton.setVisible(false);
+		getHolder().add(contentResultHolder);
 		contentResultHolder.setVisible(false);
 	}
 
 	public final WDiv getContentResultHolder() {
 		return contentResultHolder;
-	}
-
-	/**
-	 * @return true if start polling manually with the start button.
-	 */
-	@Override
-	public boolean isManualStart() {
-		return getComponentModel().manualStart;
-	}
-
-	/**
-	 *
-	 * @param manualStart true if start polling manually with the start button
-	 */
-	@Override
-	public void setManualStart(final boolean manualStart) {
-		getOrCreateComponentModel().manualStart = manualStart;
 	}
 
 	/**
@@ -172,41 +105,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	}
 
 	/**
-	 * The messages for the panel.
-	 *
-	 * @return the messages for the panel
-	 */
-	protected WMessages getMessages() {
-		return messages;
-	}
-
-	protected void handleErrorMessage(final String msg) {
-		handleErrorMessage(Arrays.asList(msg));
-	}
-
-	protected void handleErrorMessage(final List<String> msgs) {
-		for (String msg : msgs) {
-			getMessages().error(msg);
-		}
-	}
-
-	/**
-	 * @return the retry button.
-	 */
-	@Override
-	public WButton getRetryButton() {
-		return retryButton;
-	}
-
-	/**
-	 * @return the start button
-	 */
-	@Override
-	public WButton getStartButton() {
-		return startButton;
-	}
-
-	/**
 	 * @return the polling result, or null if not processed successfully yet
 	 */
 	@Override
@@ -218,12 +116,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * Start loading data.
 	 */
 	@Override
-	public void doStartLoading() {
-
-		if (!isManualStart()) {
-			startButton.setVisible(false);
-		}
-
+	public void doStartPolling() {
 		// Check not started
 		if (getPollingStatus() != PollingStatus.NOT_STARTED) {
 			return;
@@ -237,17 +130,8 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		}
 
 		handleStartPollingAction(criteria);
-	}
 
-	/**
-	 * Retry the polling action.
-	 */
-	@Override
-	public void doRetry() {
-		doRefreshContent();
-		if (isManualStart()) {
-			doStartLoading();
-		}
+		super.doStartPolling();
 	}
 
 	/**
@@ -260,8 +144,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			return;
 		}
 		handleClearPollingCache();
-		getHolder().reset();
-		setPollingStatus(PollingStatus.NOT_STARTED);
+		super.doRefreshContent();
 	}
 
 	@Override
@@ -270,17 +153,9 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			return;
 		}
 		getHolder().reset();
-		startButton.setVisible(false);
+		getStartButton().setVisible(false);
 		setPollingCriteria(criteria);
 		handleResult(new ResultHolder(result));
-	}
-
-	@Override
-	protected void handleInitContent(final Request request) {
-		super.handleInitContent(request);
-		if (!isManualStart()) {
-			doStartLoading();
-		}
 	}
 
 	/**
@@ -298,8 +173,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		String key = generateServiceKey();
 		// Start Service action
 		ServiceUtil.handleAsyncServiceCall(key, criteria, getServiceAction());
-		// Start polling
-		doStartPolling();
 	}
 
 	/**
@@ -348,7 +221,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	protected void handleExceptionResult(final Exception excp) {
 		handleErrorMessage(excp.getMessage());
-		retryButton.setVisible(true);
+		getRetryButton().setVisible(true);
 	}
 
 	/**
@@ -454,11 +327,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		 * Holds the reference to the service action.
 		 */
 		private String serviceKey;
-
-		/**
-		 * Flag if start polling manually with the start button.
-		 */
-		private boolean manualStart;
 
 		/**
 		 * Service action.

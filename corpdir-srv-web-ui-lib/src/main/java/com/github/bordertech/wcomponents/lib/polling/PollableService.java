@@ -1,7 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.wcomponents.WButton;
 import java.io.Serializable;
 
 /**
@@ -23,21 +22,6 @@ public interface PollableService<S extends Serializable, T extends Serializable>
 	void doManuallyLoadResult(final S criteria, final T result);
 
 	/**
-	 * Reset to start load again.
-	 */
-	void doRefreshContent();
-
-	/**
-	 * Retry the polling action.
-	 */
-	void doRetry();
-
-	/**
-	 * Start loading data.
-	 */
-	void doStartLoading();
-
-	/**
 	 * @return the id for the record
 	 */
 	S getPollingCriteria();
@@ -51,27 +35,6 @@ public interface PollableService<S extends Serializable, T extends Serializable>
 	 * @return the polling result, or null if not processed successfully yet
 	 */
 	T getPollingResult();
-
-	/**
-	 * @return the retry button.
-	 */
-	WButton getRetryButton();
-
-	/**
-	 * @return the start button
-	 */
-	WButton getStartButton();
-
-	/**
-	 * @return true if start polling manually with the start button.
-	 */
-	boolean isManualStart();
-
-	/**
-	 *
-	 * @param manualStart true if start polling manually with the start button
-	 */
-	void setManualStart(final boolean manualStart);
 
 	/**
 	 *

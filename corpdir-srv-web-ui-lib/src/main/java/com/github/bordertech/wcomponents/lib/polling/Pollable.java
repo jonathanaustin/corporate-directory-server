@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
@@ -29,12 +30,22 @@ public interface Pollable extends WComponent {
 	/**
 	 * Do AJAX Reload.
 	 */
-	void doReload();
+	void doPanelReload();
 
 	/**
 	 * Start AJAX polling.
 	 */
 	void doStartPolling();
+
+	/**
+	 * Retry the polling action.
+	 */
+	void doRetry();
+
+	/**
+	 * Reset to start polling again.
+	 */
+	void doRefreshContent();
 
 	/**
 	 * @return the AJAX polling interval in milli seconds
@@ -66,5 +77,26 @@ public interface Pollable extends WComponent {
 	 * @param text the text displayed while polling
 	 */
 	void setPollingText(final String text);
+
+	/**
+	 * @return the retry button.
+	 */
+	WButton getRetryButton();
+
+	/**
+	 * @return the start button
+	 */
+	WButton getStartButton();
+
+	/**
+	 * @return true if start polling manually with the start button.
+	 */
+	boolean isManualStart();
+
+	/**
+	 *
+	 * @param manualStart true if start polling manually with the start button
+	 */
+	void setManualStart(final boolean manualStart);
 
 }

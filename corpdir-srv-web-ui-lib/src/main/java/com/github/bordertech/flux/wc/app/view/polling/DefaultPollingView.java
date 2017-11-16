@@ -68,8 +68,8 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public void doReload() {
-		pollingPanel.doReload();
+	public void doPanelReload() {
+		pollingPanel.doPanelReload();
 	}
 
 	@Override
