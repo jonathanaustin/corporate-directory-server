@@ -28,11 +28,6 @@ public interface Pollable extends WComponent {
 	void addAjaxTarget(final AjaxTarget target);
 
 	/**
-	 * Do AJAX Reload.
-	 */
-	void doPanelReload();
-
-	/**
 	 * Start AJAX polling.
 	 */
 	void doStartPolling();

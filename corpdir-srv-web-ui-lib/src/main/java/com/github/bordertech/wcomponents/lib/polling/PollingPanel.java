@@ -273,24 +273,6 @@ public class PollingPanel extends WDiv implements Pollable {
 		setPollingStatus(PollingStatus.NOT_STARTED);
 	}
 
-	/**
-	 * Do AJAX Reload.
-	 */
-	@Override
-	public void doPanelReload() {
-		boolean alreadyPolling = isPolling();
-		pollingContainer.reset();
-		List<AjaxTarget> targets = getAjaxTargets();
-		if (targets != null && !targets.isEmpty()) {
-			ajaxReload.addTargets(targets);
-		}
-		pollingContainer.setVisible(true);
-		ajaxReload.setVisible(true);
-		if (!alreadyPolling) {
-			handleStartedPolling();
-		}
-	}
-
 	@Override
 	public List<AjaxTarget> getAjaxTargets() {
 		return getComponentModel().extraTargets;
@@ -322,6 +304,23 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void setManualStart(final boolean manualStart) {
 		getOrCreateComponentModel().manualStart = manualStart;
+	}
+
+	/**
+	 * Do AJAX Reload.
+	 */
+	protected void doPanelReload() {
+		boolean alreadyPolling = isPolling();
+		pollingContainer.reset();
+		List<AjaxTarget> targets = getAjaxTargets();
+		if (targets != null && !targets.isEmpty()) {
+			ajaxReload.addTargets(targets);
+		}
+		pollingContainer.setVisible(true);
+		ajaxReload.setVisible(true);
+		if (!alreadyPolling) {
+			handleStartedPolling();
+		}
 	}
 
 	/**
