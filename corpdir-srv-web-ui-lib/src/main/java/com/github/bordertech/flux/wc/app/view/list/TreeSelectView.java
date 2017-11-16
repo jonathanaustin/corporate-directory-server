@@ -54,6 +54,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		return tree;
 	}
 
+	// FIXME JA
 //	@Override
 //	public void removeItem(final T item) {
 //		List<T> items = getItems();

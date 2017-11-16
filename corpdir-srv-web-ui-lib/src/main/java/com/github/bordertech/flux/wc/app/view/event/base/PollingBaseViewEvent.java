@@ -11,5 +11,8 @@ import com.github.bordertech.flux.wc.app.view.event.PollingViewEvent;
 public enum PollingBaseViewEvent implements PollingViewEvent {
 	STARTED,
 	CHECK_STATUS,
-	STOPPED
+	STOPPED,
+	START_RETRY,
+	START_BUTTON,
+	START_AUTO
 }

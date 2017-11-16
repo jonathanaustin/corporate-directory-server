@@ -1,9 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
-import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
-import com.github.bordertech.flux.wc.app.view.event.base.InputOptionsBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.smart.polling.DefaultPollingMessageSmartView;
+import com.github.bordertech.flux.wc.app.view.smart.list.AbstractListSmartView;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import java.util.List;
@@ -15,20 +13,17 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartView<T> implements InputOptionsView<T> {
-//public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartView<T> implements InputOptionsView<T>, RetrieveListModelKey {
+public class DefaultPollingInputOptionsView<S, T> extends AbstractListSmartView<S, T, T> implements InputOptionsView<T> {
 
 	private final InputOptionsView<T> optionsView;
 
-	public PollingInputOptionsView(final String viewId, final InputOptionsView<T> optionsView) {
+	public DefaultPollingInputOptionsView(final String viewId, final InputOptionsView<T> optionsView) {
 		super(viewId, "wclib/hbs/layout/combo-input-select.hbs");
 
 		this.optionsView = optionsView;
 
-		setBeanProperty(".");
-		setSearchAncestors(true);
-//		setBlocking(true);
-
+//		setBeanProperty(".");
+//		setSearchAncestors(true);
 		// Add views to holder
 		addComponentToTemplate("vw-options", optionsView);
 
@@ -37,11 +32,15 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 		optionsView.setContentVisible(false);
 	}
 
-	public void startLoad(final S criteria) {
-//		if (!isInitialised()) {
-//			configViews();
-//		}
-//		dispatchEvent(PollingViewEvent.START_POLLING, criteria);
+	@Override
+	protected void handleResultSuccessful(final List<T> options) {
+		if (options == null || options.isEmpty()) {
+//			dispatchMessage(MessageEventType.INFO, "No options found");
+		} else {
+			InputOptionsView<T> optView = getOptionsView();
+			optView.setOptions(options);
+			optView.setContentVisible(true);
+		}
 	}
 
 	@Override
@@ -73,16 +72,6 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 		return optionsView.validateView();
 	}
 
-//	@Override
-//	public void setRetrieveListModelKey(final String key) {
-////		ctrl.setRetrieveCollectionModelKey(key);
-//	}
-//
-//	@Override
-//	public String getRetrieveListModelKey() {
-//		return "";
-////		return ctrl.getRetrieveCollectionModelKey();
-//	}
 	@Override
 	public void setOptions(final List<T> options) {
 		optionsView.setOptions(options);
@@ -131,34 +120,6 @@ public class PollingInputOptionsView<S, T> extends DefaultPollingMessageSmartVie
 	@Override
 	public boolean isIncludeNullOption() {
 		return optionsView.isIncludeNullOption();
-	}
-
-	protected void handleOptionsEvent(final Event event) {
-		InputOptionsBaseViewEvent type = (InputOptionsBaseViewEvent) event.getEventKey().getEventType();
-		switch (type) {
-			case RESET_OPTIONS:
-				handleResetOptions();
-				break;
-			case LOAD_OPTIONS:
-				List<T> options = (List<T>) event.getData();
-				handleLoadOptions(options);
-				break;
-		}
-
-	}
-
-	protected void handleResetOptions() {
-		getOptionsView().resetView();
-	}
-
-	protected void handleLoadOptions(final List<T> options) {
-		if (options == null || options.isEmpty()) {
-//			dispatchMessage(MessageEventType.INFO, "No options found");
-		} else {
-			InputOptionsView<T> optView = getOptionsView();
-			optView.setOptions(options);
-			optView.setContentVisible(true);
-		}
 	}
 
 }

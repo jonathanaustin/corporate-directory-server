@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 /**
- * Status of the service action and if the action has been processed successfully.
+ * Status of the polling panel.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -10,18 +10,10 @@ public enum PollingStatus {
 	/**
 	 * Not started yet.
 	 */
-	NOT_STARTED,
+	STOPPED,
 	/**
 	 * Service action started.
 	 */
-	PROCESSING,
-	/**
-	 * Error occurred.
-	 */
-	ERROR,
-	/**
-	 * Task action completed successfully.
-	 */
-	COMPLETE
+	PROCESSING
 
 }

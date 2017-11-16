@@ -7,15 +7,20 @@ import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
  *
  * @author jonathan
  */
-public enum ToolbarNavigationItem implements ToolbarItem {
-	RESET("Reset", ToolbarBaseViewEvent.RESET),
-	BACK("Back", ToolbarBaseViewEvent.BACK);
+public enum ToolbarModifyItemType implements ToolbarItem {
+	ADD("Add", ToolbarBaseViewEvent.ADD),
+	EDIT("Edit", ToolbarBaseViewEvent.EDIT),
+	UPDATE("Update", ToolbarBaseViewEvent.UPDATE),
+	CREATE("Create", ToolbarBaseViewEvent.CREATE),
+	CANCEL("Cancel", ToolbarBaseViewEvent.CANCEL),
+	DELETE("Delete", ToolbarBaseViewEvent.DELETE),
+	REFRESH("Refresh", ToolbarBaseViewEvent.REFRESH);
 
-	ToolbarNavigationItem(final String desc, final ToolbarViewEvent eventType) {
+	ToolbarModifyItemType(final String desc, final ToolbarViewEvent eventType) {
 		this(desc, eventType, null);
 	}
 
-	ToolbarNavigationItem(final String desc, final ToolbarViewEvent eventType, final String imageUrl) {
+	ToolbarModifyItemType(final String desc, final ToolbarViewEvent eventType, final String imageUrl) {
 		this.desc = desc;
 		this.eventType = eventType;
 		this.imageUrl = imageUrl;

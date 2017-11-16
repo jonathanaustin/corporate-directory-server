@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.msg;
 
+import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventUtil;

@@ -17,14 +17,14 @@ import com.github.bordertech.wcomponents.WPanel;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SelectButtonBar<T> extends AbstractToolbar<T> implements ToolbarView<T> {
+public class SelectButtonBarView<T> extends AbstractToolbarView<T> implements ToolbarView<T> {
 
 	private final WPanel panel = new WPanel(WPanel.Type.FEATURE);
 
 	private final WButton btnSelect = new WButton("Add");
 	private final WAjaxControl ajax = new AppAjaxControl(btnSelect);
 
-	public SelectButtonBar(final String viewId) {
+	public SelectButtonBarView(final String viewId) {
 		super(viewId);
 		WContainer content = getContent();
 		content.add(panel);

@@ -33,6 +33,11 @@ public interface Pollable extends WComponent {
 	void doStartPolling();
 
 	/**
+	 * Put the panel in a retry mode.
+	 */
+	void doShowRetry();
+
+	/**
 	 * Retry the polling action.
 	 */
 	void doRetry();
@@ -84,14 +89,14 @@ public interface Pollable extends WComponent {
 	WButton getStartButton();
 
 	/**
-	 * @return true if start polling manually with the start button.
+	 * @return the start type
 	 */
-	boolean isManualStart();
+	PollingStartType getStartType();
 
 	/**
 	 *
-	 * @param manualStart true if start polling manually with the start button
+	 * @param startType the start type
 	 */
-	void setManualStart(final boolean manualStart);
+	void setStartType(final PollingStartType startType);
 
 }

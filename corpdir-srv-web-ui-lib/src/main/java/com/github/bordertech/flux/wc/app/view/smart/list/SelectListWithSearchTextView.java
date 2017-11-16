@@ -10,13 +10,13 @@ import com.github.bordertech.flux.wc.app.view.search.SearchTextView;
  * @author jonathan
  * @param <T> the item type
  */
-public class SelectWithSearchTextView<T> extends SelectWithSearchView<String, T> {
+public class SelectListWithSearchTextView<T> extends DefaultSelectListWithSearchView<String, T> {
 
-	public SelectWithSearchTextView(final String viewId) {
+	public SelectListWithSearchTextView(final String viewId) {
 		this(viewId, (SelectSingleView<T>) new MenuSelectView<T>("vw-select"));
 	}
 
-	public SelectWithSearchTextView(final String viewId, final SelectSingleView<T> selectSingleView) {
+	public SelectListWithSearchTextView(final String viewId, final SelectSingleView<T> selectSingleView) {
 		super(viewId, new SearchTextView("vw-srch"), selectSingleView);
 	}
 }

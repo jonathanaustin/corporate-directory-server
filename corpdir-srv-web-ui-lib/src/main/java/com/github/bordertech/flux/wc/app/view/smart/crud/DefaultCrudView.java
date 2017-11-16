@@ -15,7 +15,7 @@ import com.github.bordertech.flux.wc.app.view.search.SearchTextView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultToolbarView;
-import com.github.bordertech.flux.wc.app.view.toolbar.ToolbarModelEventItem;
+import com.github.bordertech.flux.wc.app.view.toolbar.ToolbarModifyItemType;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
@@ -84,7 +84,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
 		getContent().addParameter("vw-title", title);
 
 		// Toolbar Defaults
-		toolbarView.addToolbarItem(ToolbarModelEventItem.ADD);
+		toolbarView.addToolbarItem(ToolbarModifyItemType.ADD);
 
 		// Default visibility
 		selectView.setContentVisible(false);

@@ -6,7 +6,10 @@ import com.github.bordertech.flux.wc.app.view.event.PollingViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.polling.PollingPanel;
+import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
 
@@ -19,6 +22,27 @@ import java.util.List;
 public class DefaultPollingView<T> extends DefaultDumbView<T> implements PollingView<T> {
 
 	private final PollingPanel pollingPanel = new PollingPanel() {
+
+		@Override
+		protected void handleInitContent(final Request request) {
+			if (getStartType() == PollingStartType.AUTOMATIC) {
+				doDispatchPollingEvent(PollingBaseViewEvent.START_AUTO);
+			}
+			super.handleInitContent(request);
+		}
+
+		@Override
+		protected void handleStartButton() {
+			doDispatchPollingEvent(PollingBaseViewEvent.START_BUTTON);
+			super.handleStartButton();
+		}
+
+		@Override
+		protected void handleRetryButton() {
+			doDispatchPollingEvent(PollingBaseViewEvent.START_RETRY);
+			super.handleRetryButton();
+		}
+
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
@@ -68,11 +92,6 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public void doPanelReload() {
-		pollingPanel.doPanelReload();
-	}
-
-	@Override
 	public void doStartPolling() {
 		pollingPanel.doStartPolling();
 	}
@@ -109,6 +128,41 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 
 	protected void doDispatchPollingEvent(final PollingViewEvent pollingEvent) {
 		dispatchViewEvent(pollingEvent);
+	}
+
+	@Override
+	public void doShowRetry() {
+		pollingPanel.doShowRetry();
+	}
+
+	@Override
+	public void doRetry() {
+		pollingPanel.doRetry();
+	}
+
+	@Override
+	public void doRefreshContent() {
+		pollingPanel.doRefreshContent();
+	}
+
+	@Override
+	public WButton getRetryButton() {
+		return pollingPanel.getRetryButton();
+	}
+
+	@Override
+	public WButton getStartButton() {
+		return pollingPanel.getStartButton();
+	}
+
+	@Override
+	public PollingStartType getStartType() {
+		return pollingPanel.getStartType();
+	}
+
+	@Override
+	public void setStartType(final PollingStartType startType) {
+		pollingPanel.setStartType(startType);
 	}
 
 }

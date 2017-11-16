@@ -15,11 +15,11 @@ import com.github.bordertech.wcomponents.WMenu;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractMenuToolbar<T> extends AbstractToolbar<T> {
+public class AbstractMenuToolbarView<T> extends AbstractToolbarView<T> {
 
 	private final WMenu menu = new WMenu();
 
-	public AbstractMenuToolbar(final String viewId) {
+	public AbstractMenuToolbarView(final String viewId) {
 		super(viewId);
 		WContainer content = getContent();
 		content.add(menu);

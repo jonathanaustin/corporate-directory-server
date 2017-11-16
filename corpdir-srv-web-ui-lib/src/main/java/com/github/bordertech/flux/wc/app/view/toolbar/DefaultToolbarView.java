@@ -13,26 +13,26 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
+public class DefaultToolbarView<T> extends AbstractMenuToolbarView<T> {
 
 	private final WMenuItem itemBack = new AppMenuItem("Back", ToolbarBaseViewEvent.BACK) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarNavigationItem.BACK);
+			return isUseToolbarItem(ToolbarNavigationItemType.BACK);
 		}
 	};
 
 	private final WMenuItem itemAdd = new AppMenuItem("Add", ToolbarBaseViewEvent.ADD) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.ADD);
+			return isUseToolbarItem(ToolbarModifyItemType.ADD);
 		}
 	};
 
 	private final WMenuItem itemReset = new AppMenuItem("Reset", ToolbarBaseViewEvent.RESET) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarNavigationItem.RESET);
+			return isUseToolbarItem(ToolbarNavigationItemType.RESET);
 		}
 	};
 
@@ -50,7 +50,7 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbar<T> {
 		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset);
 
 		// Default to use RESET
-		addToolbarItem(ToolbarNavigationItem.RESET);
+		addToolbarItem(ToolbarNavigationItemType.RESET);
 	}
 
 	public final WMenuItem getItemBack() {

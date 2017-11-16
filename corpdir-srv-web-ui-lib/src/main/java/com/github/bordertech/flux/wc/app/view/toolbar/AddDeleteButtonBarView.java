@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AddDeleteButtonBar<T> extends DefaultDumbView<T> implements FormUpdateable {
+public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements FormUpdateable {
 
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");
@@ -33,7 +33,7 @@ public class AddDeleteButtonBar<T> extends DefaultDumbView<T> implements FormUpd
 
 	};
 
-	public AddDeleteButtonBar(final String viewId) {
+	public AddDeleteButtonBarView(final String viewId) {
 		super(viewId);
 
 		WContainer content = getContent();

@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class PollingMultiSelectPairOptionsView<S, T> extends PollingInputOptionsView<S, T> implements MultiSelectOptionsView<T> {
+public class PollingMultiSelectPairOptionsView<S, T> extends DefaultPollingInputOptionsView<S, T> implements MultiSelectOptionsView<T> {
 
 	public PollingMultiSelectPairOptionsView(final String viewId) {
 		super(viewId, new MultiSelectPairOptionsView<T>("vw-select"));

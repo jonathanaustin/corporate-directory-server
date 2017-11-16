@@ -32,6 +32,7 @@ public class AbstractListSingleSelectView<T> extends AbstractListSelectableView<
 		getOrCreateComponentModel().selected = entity;
 	}
 
+	// FIXME JA
 //	@Override
 //	public void removeItem(final T entity) {
 //		super.removeItem(entity);

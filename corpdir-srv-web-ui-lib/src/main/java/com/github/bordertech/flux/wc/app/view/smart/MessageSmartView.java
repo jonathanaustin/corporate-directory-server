@@ -1,15 +1,14 @@
-package com.github.bordertech.flux.wc.app.view.smart.msg;
+package com.github.bordertech.flux.wc.app.view.smart;
 
 import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.view.SmartView;
-import com.github.bordertech.wcomponents.MessageContainer;
 
 /**
  * Smart view that is a Message Container.
  *
  * @author jonathan
  */
-public interface MessageSmartView<T> extends SmartView<T>, MessageContainer {
+public interface MessageSmartView<T> extends SmartView<T>, MessageView<T> {
 
 	/**
 	 *

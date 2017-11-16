@@ -20,7 +20,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 	private final WMenuItem itemEdit = new AppMenuItem("Edit", ToolbarBaseViewEvent.EDIT) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.EDIT) && isFormReady() && !isDisabled();
+			return isUseToolbarItem(ToolbarModifyItemType.EDIT) && isFormReady() && !isDisabled();
 		}
 
 		@Override
@@ -33,7 +33,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 	private final WMenuItem itemCancel = new AppMenuItem("Cancel", ToolbarBaseViewEvent.CANCEL) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.CANCEL) && isFormReady() && !isDisabled();
+			return isUseToolbarItem(ToolbarModifyItemType.CANCEL) && isFormReady() && !isDisabled();
 		}
 
 		@Override
@@ -51,21 +51,21 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 	private final WMenuItem itemUpdate = new AppMenuItem("Save", ToolbarBaseViewEvent.UPDATE) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.UPDATE) && getFormMode() == FormMode.EDIT;
+			return isUseToolbarItem(ToolbarModifyItemType.UPDATE) && getFormMode() == FormMode.EDIT;
 		}
 	};
 
 	private final WMenuItem itemCreate = new AppMenuItem("Save", ToolbarBaseViewEvent.CREATE) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.CREATE) && getFormMode() == FormMode.ADD;
+			return isUseToolbarItem(ToolbarModifyItemType.CREATE) && getFormMode() == FormMode.ADD;
 		}
 	};
 
 	private final WMenuItem itemDelete = new AppMenuItem("Delete", ToolbarBaseViewEvent.DELETE) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.DELETE) && isFormReady() && !isDisabled();
+			return isUseToolbarItem(ToolbarModifyItemType.DELETE) && isFormReady() && !isDisabled();
 		}
 
 		@Override
@@ -78,7 +78,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 	private final WMenuItem itemRefresh = new AppMenuItem("Refresh", ToolbarBaseViewEvent.REFRESH) {
 		@Override
 		public boolean isVisible() {
-			return isUseToolbarItem(ToolbarModelEventItem.REFRESH) && isFormReady() && !isDisabled();
+			return isUseToolbarItem(ToolbarModifyItemType.REFRESH) && isFormReady() && !isDisabled();
 		}
 
 		@Override
@@ -110,12 +110,12 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 
 		// Clear Defaults
 		clearToolbarItems();
-		addToolbarItem(ToolbarModelEventItem.EDIT);
-		addToolbarItem(ToolbarModelEventItem.UPDATE);
-		addToolbarItem(ToolbarModelEventItem.CREATE);
-		addToolbarItem(ToolbarModelEventItem.CANCEL);
-		addToolbarItem(ToolbarModelEventItem.DELETE);
-		addToolbarItem(ToolbarModelEventItem.REFRESH);
+		addToolbarItem(ToolbarModifyItemType.EDIT);
+		addToolbarItem(ToolbarModifyItemType.UPDATE);
+		addToolbarItem(ToolbarModifyItemType.CREATE);
+		addToolbarItem(ToolbarModifyItemType.CANCEL);
+		addToolbarItem(ToolbarModifyItemType.DELETE);
+		addToolbarItem(ToolbarModifyItemType.REFRESH);
 	}
 
 	@Override

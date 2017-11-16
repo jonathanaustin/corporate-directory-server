@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.app.view.smart.polling;
+package com.github.bordertech.flux.wc.app.view.smart;
 
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.view.SmartView;
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.view.SmartView;
  *
  * @author jonathan
  */
-public interface PollingSmartView<T> extends SmartView<T> {
+public interface PollingSmartView<T> extends SmartView<T>, PollingView<T> {
 
 	/**
 	 *

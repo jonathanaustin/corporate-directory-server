@@ -55,6 +55,11 @@ public class PollingPanel extends WDiv implements Pollable {
 	 */
 	private final WContainer pollingContainer = new WContainer();
 
+	/**
+	 * The container that holds the AJAX progress text and bar.
+	 */
+	private final WContainer pollingProgressContainer = new WContainer();
+
 	private final WText pollingText = new WText() {
 		@Override
 		public String getText() {
@@ -143,8 +148,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		startButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				doStartPolling();
-				startButton.setVisible(false);
+				handleStartButton();
 			}
 		});
 
@@ -153,7 +157,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		retryButton.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				doRetry();
+				handleRetryButton();
 			}
 		});
 
@@ -165,14 +169,19 @@ public class PollingPanel extends WDiv implements Pollable {
 		ajaxReload.setDelay(10);
 		progressBarScript.setEncodeText(false);
 
-		// Polling container is outside AJAX panel so it does not pulse)
-		holder.add(pollingContainer);
-		pollingContainer.add(pollingText);
-		pollingContainer.add(pollingProgressBar);
-		pollingContainer.add(progressBarScript);
-		pollingContainer.add(ajaxPollingPanel);
+		// Progress Detials
+		pollingProgressContainer.add(pollingText);
+		pollingProgressContainer.add(pollingProgressBar);
+		pollingProgressContainer.add(progressBarScript);
+
+		// AJAX Details
 		ajaxPollingPanel.add(ajaxPolling);
 		ajaxPollingPanel.add(ajaxReload);
+
+		// Polling container is outside AJAX panel so it does not pulse)
+		holder.add(pollingContainer);
+		pollingContainer.add(pollingProgressContainer);
+		pollingContainer.add(ajaxPollingPanel);
 
 		// Set default visibility
 		pollingContainer.setVisible(false);
@@ -187,7 +196,20 @@ public class PollingPanel extends WDiv implements Pollable {
 	}
 
 	protected void handleInitContent(final Request request) {
-		getStartButton().setVisible(isManualStart());
+		getStartButton().setVisible(getStartType() == PollingStartType.BUTTON);
+		// AUTO Start Polling
+		if (getStartType() == PollingStartType.AUTOMATIC) {
+			doStartPolling();
+		}
+	}
+
+	protected void handleStartButton() {
+		doStartPolling();
+		startButton.setVisible(false);
+	}
+
+	protected void handleRetryButton() {
+		doRetry();
 	}
 
 	/**
@@ -224,11 +246,11 @@ public class PollingPanel extends WDiv implements Pollable {
 	}
 
 	/**
-	 * @param panelStatus the panel status
+	 * @param pollingStatus the panel status
 	 */
 	@Override
-	public void setPollingStatus(final PollingStatus panelStatus) {
-		getOrCreateComponentModel().serviceStatus = panelStatus;
+	public void setPollingStatus(final PollingStatus pollingStatus) {
+		getOrCreateComponentModel().serviceStatus = pollingStatus == null ? PollingStatus.STOPPED : pollingStatus;
 	}
 
 	/**
@@ -244,7 +266,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	 */
 	@Override
 	public void doStartPolling() {
-		// Make sure start buttonis not visible
+		// Make sure start button is not visible
 		getStartButton().setVisible(false);
 
 		// Start AJAX polling
@@ -253,6 +275,13 @@ public class PollingPanel extends WDiv implements Pollable {
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
 		handleStartedPolling();
+	}
+
+	@Override
+	public void doShowRetry() {
+		getStartButton().setVisible(false);
+		getRetryButton().setVisible(true);
+		pollingProgressContainer.setVisible(false);
 	}
 
 	/**
@@ -270,7 +299,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void doRefreshContent() {
 		getHolder().reset();
-		setPollingStatus(PollingStatus.NOT_STARTED);
+		setPollingStatus(PollingStatus.STOPPED);
 	}
 
 	@Override
@@ -289,21 +318,14 @@ public class PollingPanel extends WDiv implements Pollable {
 		}
 	}
 
-	/**
-	 * @return true if start polling manually with the start button.
-	 */
 	@Override
-	public boolean isManualStart() {
-		return getComponentModel().manualStart;
+	public PollingStartType getStartType() {
+		return getComponentModel().startType;
 	}
 
-	/**
-	 *
-	 * @param manualStart true if start polling manually with the start button
-	 */
 	@Override
-	public void setManualStart(final boolean manualStart) {
-		getOrCreateComponentModel().manualStart = manualStart;
+	public void setStartType(final PollingStartType startType) {
+		getOrCreateComponentModel().startType = startType == null ? PollingStartType.MANUAL : startType;
 	}
 
 	/**
@@ -446,7 +468,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		/**
 		 * Service status.
 		 */
-		private PollingStatus serviceStatus = PollingStatus.NOT_STARTED;
+		private PollingStatus serviceStatus = PollingStatus.STOPPED;
 
 		/**
 		 * Polling text.
@@ -464,9 +486,9 @@ public class PollingPanel extends WDiv implements Pollable {
 		private List<AjaxTarget> extraTargets;
 
 		/**
-		 * Flag if start polling manually with the start button.
+		 * Start type.
 		 */
-		private boolean manualStart;
+		private PollingStartType startType = PollingStartType.MANUAL;
 
 	}
 

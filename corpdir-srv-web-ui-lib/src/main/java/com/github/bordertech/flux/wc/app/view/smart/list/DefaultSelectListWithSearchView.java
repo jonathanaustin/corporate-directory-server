@@ -1,8 +1,10 @@
 package com.github.bordertech.flux.wc.app.view.smart.list;
 
+import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
 
 /**
  * Select view with a search view.
@@ -11,10 +13,35 @@ import com.github.bordertech.flux.wc.app.view.SelectSingleView;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class SelectWithSearchView<S, T> extends ListWithSearchView<S, T> implements SelectSingleView<T> {
+public class DefaultSelectListWithSearchView<S, T> extends DefaultListWithSearchView<S, T> implements SelectSingleView<T> {
 
-	public SelectWithSearchView(final String viewId, final SearchView<S> criteriaView, final SelectSingleView<T> listView) {
+	public DefaultSelectListWithSearchView(final String viewId, final SearchView<S> criteriaView, final SelectSingleView<T> listView) {
 		super(viewId, criteriaView, listView);
+	}
+
+	@Override
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		if (event instanceof SelectableBaseViewEvent) {
+			handleSelectableBaseEvents((SelectableBaseViewEvent) event, data);
+		}
+	}
+
+	protected void handleSelectableBaseEvents(final SelectableBaseViewEvent type, final Object data) {
+		switch (type) {
+			case SELECT:
+				handleSelectEvent((T) data);
+				break;
+			case UNSELECT:
+				handleUnselectEvent();
+				break;
+		}
+	}
+
+	protected void handleSelectEvent(final T item) {
+	}
+
+	protected void handleUnselectEvent() {
 	}
 
 	@Override
@@ -51,17 +78,4 @@ public class SelectWithSearchView<S, T> extends ListWithSearchView<S, T> impleme
 	public boolean isViewMode() {
 		return getListView().isViewMode();
 	}
-
-//	protected void handleSearchEvents(final Event event) {
-//		SearchViewEvent type = (SearchViewEvent) event.getEventKey().getEventType();
-//		switch (type) {
-//			case SEARCH_VALIDATING:
-//				dispatchEvent(CollectionEventType.RESET_COLLECTION);
-//				dispatchEvent(PollingViewEvent.RESET_POLLING);
-//				break;
-//			case SEARCH:
-//				dispatchEvent(PollingViewEvent.START_POLLING, event.getData());
-//				break;
-//		}
-//	}
 }

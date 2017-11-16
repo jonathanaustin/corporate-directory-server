@@ -18,7 +18,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractToolbar<T> extends DefaultDumbView<T> implements ToolbarView<T> {
+public class AbstractToolbarView<T> extends DefaultDumbView<T> implements ToolbarView<T> {
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -27,7 +27,7 @@ public class AbstractToolbar<T> extends DefaultDumbView<T> implements ToolbarVie
 		}
 	};
 
-	public AbstractToolbar(final String viewId) {
+	public AbstractToolbarView(final String viewId) {
 		super(viewId);
 		WContainer content = getContent();
 		content.add(ajaxPanel);

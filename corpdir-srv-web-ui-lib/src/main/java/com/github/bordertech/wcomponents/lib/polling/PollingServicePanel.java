@@ -118,7 +118,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	public void doStartPolling() {
 		// Check not started
-		if (getPollingStatus() != PollingStatus.NOT_STARTED) {
+		if (getPollingStatus() != PollingStatus.STOPPED) {
 			return;
 		}
 
@@ -193,9 +193,8 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * Handle the result from the polling action.
 	 *
 	 * @param resultHolder the polling action result
-	 * @return the polling status
 	 */
-	protected PollingStatus handleResult(final ResultHolder<S, T> resultHolder) {
+	protected void handleResult(final ResultHolder<S, T> resultHolder) {
 		// Exception message
 		final PollingStatus status;
 		if (resultHolder.hasException()) {
@@ -203,15 +202,11 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			handleExceptionResult(excp);
 			// Log error
 			LOG.error("Error loading data. " + excp.getMessage());
-			status = PollingStatus.ERROR;
 		} else {
 			// Successful Result
 			T result = resultHolder.getResult();
 			handleSuccessfulResult(result);
-			status = PollingStatus.COMPLETE;
 		}
-		setPollingStatus(PollingStatus.ERROR);
-		return status;
 	}
 
 	/**
@@ -221,7 +216,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	protected void handleExceptionResult(final Exception excp) {
 		handleErrorMessage(excp.getMessage());
-		getRetryButton().setVisible(true);
+		doShowRetry();
 	}
 
 	/**
