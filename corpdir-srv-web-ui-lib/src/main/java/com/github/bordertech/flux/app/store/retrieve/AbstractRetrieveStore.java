@@ -1,7 +1,8 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
-import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.app.event.base.RetrieveActionType;
+import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.store.DefaultStore;
@@ -14,13 +15,11 @@ import com.github.bordertech.taskmanager.service.ServiceUtil;
 /**
  * Abstract retrieve store.
  *
- * @param <S> the criteria type
- * @param <T> the response type
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
+public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveStore {
 
 	public AbstractRetrieveStore(final StoreType storeType) {
 		this(storeType, null);
@@ -30,18 +29,45 @@ public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
 		super(storeType, qualifier);
 	}
 
+	@Override
+	public ServiceStatus getEventStatus(final RetrieveEventType type, final Object criteria) {
+		return getResultStatus(type, criteria);
+	}
+
+	@Override
+	public boolean isEventDone(final RetrieveEventType type, final Object criteria) {
+		return isResultDone(type, criteria);
+	}
+
+	protected void handleCallAction(final RetrieveEventType type, final Object criteria, final boolean async) {
+		handleServiceCall(type, criteria, async);
+	}
+
+	protected void handleAsyncOKAction(final RetrieveEventType type, final ResultHolder<?, ?> holder) {
+		// OK
+	}
+
+	protected void handleAsyncErrorAction(final RetrieveEventType type, final ResultHolder<?, ?> holder) {
+		// ERROR
+	}
+
+	protected void handleRefreshAction(final RetrieveEventType type, final Object criteria, final boolean async) {
+		clearResultHolder(type, criteria);
+		handleCallAction(type, criteria, async);
+	}
+
 	protected String getResultCacheKey(final RetrieveEventType type, final Object criteria) {
 		String typeDesc = type.toString();
 		String suffix = criteria == null ? "" : criteria.toString();
 		return getStoreKey().toString() + "-" + typeDesc + "-" + suffix;
 	}
 
-	protected ResultHolder<S, T> getResultHolder(final RetrieveEventType type, final Object criteria) {
+	protected ResultHolder<?, ?> getResultHolder(final RetrieveEventType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		return ServiceUtil.getResultHolder(key);
 	}
 
-	protected void setResultHolder(final RetrieveEventType type, final ResultHolder<S, T> resultHolder) {
+	protected void setResultHolder(final RetrieveEventType type, final ResultHolder<?, ?> resultHolder) {
 		String key = getResultCacheKey(type, resultHolder.getCriteria());
 		ServiceUtil.setResultHolder(key, resultHolder);
 	}
@@ -51,10 +77,10 @@ public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
 		ServiceUtil.clearResult(key);
 	}
 
-	protected T getResultValue(final RetrieveEventType type, final Object criteria) throws ServiceException {
+	protected Object getResultValue(final RetrieveEventType type, final Object criteria) throws ServiceException {
 
 		// Check if have result
-		ResultHolder<S, T> holder = getResultHolder(type, criteria);
+		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
 		if (holder == null) {
 			throw new ServiceException("No value for this criteria.");
 		}
@@ -86,10 +112,8 @@ public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
-			RetrieveEventType event = getAsyncOutcomeEvent(type, resultHolder.hasException());
-			if (event != null) {
-				dispatchResultEvent(event, resultHolder);
-			}
+			RetrieveActionType action = resultHolder.hasException() ? RetrieveActionType.ASYNC_ERROR : RetrieveActionType.ASYNC_OK;
+			dispatchResultEvent(type, action, resultHolder);
 		}
 	}
 
@@ -109,9 +133,9 @@ public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
 	 * @param eventType the event type
 	 * @param result the event data
 	 */
-	protected void dispatchResultEvent(final RetrieveEventType eventType, final ResultHolder<S, T> result) {
+	protected void dispatchResultEvent(final RetrieveEventType eventType, final RetrieveActionType action, final ResultHolder<?, ?> result) {
 		String qualifier = getStoreKey().getQualifier();
-		DefaultEvent event = new DefaultEvent(new EventKey(eventType, qualifier), result);
+		DefaultEvent event = new RetrieveEvent(eventType, qualifier, result, action);
 		getDispatcher().dispatch(event);
 	}
 
@@ -121,7 +145,5 @@ public abstract class AbstractRetrieveStore<S, T> extends DefaultStore {
 	 * @return the wrapped API action for the event type.
 	 */
 	protected abstract ServiceAction<?, ?> getWrappedApiServiceAction(final RetrieveEventType type);
-
-	protected abstract RetrieveEventType getAsyncOutcomeEvent(final RetrieveEventType type, final boolean excp);
 
 }

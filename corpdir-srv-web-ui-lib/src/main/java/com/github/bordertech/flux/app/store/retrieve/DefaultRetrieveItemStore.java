@@ -3,7 +3,9 @@ package com.github.bordertech.flux.app.store.retrieve;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.StoreType;
-import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveApi;
+import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveItemApi;
+import com.github.bordertech.flux.app.event.base.RetrieveActionType;
+import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
@@ -18,22 +20,22 @@ import java.util.Objects;
 /**
  * Default retrieve store.
  *
- * @param <S> the criteria type
- * @param <T> the response type
+ * @param <K> the key type
+ * @param <T> the item type
  * @param <R> the retrieve api type
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends AbstractRetrieveStore<S, T> implements RetrieveStore<S, T> {
+public class DefaultRetrieveItemStore<K, T, R extends RetrieveItemApi<K, T>> extends AbstractRetrieveStore implements RetrieveItemStore<K, T> {
 
 	private final R api;
 
-	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType) {
+	public DefaultRetrieveItemStore(final DataApiType apiType, final StoreType storeType) {
 		this(apiType, storeType, null);
 	}
 
-	public DefaultRetrieveStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
+	public DefaultRetrieveItemStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
 		super(storeType, qualifier);
 		api = (R) DataApiFactory.getInstance(apiType);
 	}
@@ -45,7 +47,7 @@ public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends Abs
 			Listener listener = new Listener() {
 				@Override
 				public void handleEvent(final Event event) {
-					handleRetrieveBaseEvents(event);
+					handleRetrieveBaseEvents((RetrieveEvent) event);
 				}
 			};
 			registerListener(type, listener);
@@ -64,47 +66,48 @@ public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends Abs
 	}
 
 	@Override
-	public ServiceStatus getRetrieveStatus(final S criteria) {
+	public ServiceStatus getRetrieveStatus(final K criteria) {
 		return getResultStatus(RetrieveBaseEventType.RETRIEVE, criteria);
 	}
 
 	@Override
-	public boolean isRetrieveDone(final S criteria) {
+	public boolean isRetrieveDone(final K criteria) {
 		return isResultDone(RetrieveBaseEventType.RETRIEVE, criteria);
 	}
 
 	@Override
-	public T retrieve(final S criteria) throws ServiceException {
+	public T retrieve(final K criteria) throws ServiceException {
 		// Retrieve and RetrieveAsync get treated the same
-		return getResultValue(RetrieveBaseEventType.RETRIEVE, criteria);
+		return (T) getResultValue(RetrieveBaseEventType.RETRIEVE, criteria);
 	}
 
-	protected void handleRetrieveBaseEvents(final Event event) {
+	protected void handleRetrieveBaseEvents(final RetrieveEvent event) {
 		RetrieveBaseEventType type = (RetrieveBaseEventType) event.getEventKey().getEventType();
+		RetrieveActionType action = event.getActionType();
 		boolean changed = false;
-		switch (type) {
-			case RETRIEVE:
-				handleRetrieveEvent((S) event.getData(), false);
+		switch (action) {
+			case CALL_SYNC:
+				handleCallAction(type, event.getData(), false);
 				changed = true;
 				break;
-			case RETRIEVE_ASYNC:
-				handleRetrieveEvent((S) event.getData(), true);
+			case CALL_ASYNC:
+				handleCallAction(type, event.getData(), true);
 				break;
-			case RETRIEVE_ASYNC_ERROR:
-				handleRetrieveAsyncErrorEvent((ResultHolder<S, T>) event.getData());
+			case ASYNC_ERROR:
+				handleAsyncErrorAction(type, (ResultHolder) event.getData());
 				changed = true;
 				break;
-			case RETRIEVE_ASYNC_OK:
-				handleRetrieveAsyncOKEvent((ResultHolder<S, T>) event.getData());
+			case ASYNC_OK:
+				handleAsyncOKAction(type, (ResultHolder) event.getData());
 				changed = true;
 				break;
 
-			case REFRESH:
-				handleRefreshEvent((S) event.getData(), false);
+			case REFRESH_SYNC:
+				handleRefreshAction(type, event.getData(), false);
 				changed = true;
 				break;
 			case REFRESH_ASYNC:
-				handleRefreshEvent((S) event.getData(), true);
+				handleRefreshAction(type, event.getData(), true);
 				changed = true;
 				break;
 
@@ -115,23 +118,6 @@ public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends Abs
 			dispatchChangeEvent(type);
 		}
 
-	}
-
-	protected void handleRetrieveEvent(final S criteria, final boolean async) {
-		handleServiceCall(RetrieveBaseEventType.RETRIEVE, criteria, async);
-	}
-
-	protected void handleRetrieveAsyncOKEvent(final ResultHolder<S, T> holder) {
-		// OK
-	}
-
-	protected void handleRetrieveAsyncErrorEvent(final ResultHolder<S, T> holder) {
-		// ERROR
-	}
-
-	protected void handleRefreshEvent(final S criteria, final boolean async) {
-		clearResultHolder(RetrieveBaseEventType.RETRIEVE, criteria);
-		handleRetrieveEvent(criteria, async);
 	}
 
 	protected void handleModifyBaseEvents(final Event event) {
@@ -171,14 +157,6 @@ public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends Abs
 		// Delete action
 	}
 
-	@Override
-	protected RetrieveEventType getAsyncOutcomeEvent(final RetrieveEventType type, final boolean excp) {
-		if (Objects.equals(type, RetrieveBaseEventType.RETRIEVE)) {
-			return excp ? RetrieveBaseEventType.RETRIEVE_ASYNC_ERROR : RetrieveBaseEventType.RETRIEVE_ASYNC_OK;
-		}
-		return null;
-	}
-
 	/**
 	 *
 	 * @param type the event type
@@ -187,10 +165,10 @@ public class DefaultRetrieveStore<S, T, R extends RetrieveApi<S, T>> extends Abs
 	@Override
 	protected ServiceAction<?, ?> getWrappedApiServiceAction(final RetrieveEventType type) {
 		if (Objects.equals(type, RetrieveBaseEventType.RETRIEVE)) {
-			return new ServiceAction<S, T>() {
+			return new ServiceAction<K, T>() {
 				@Override
-				public T service(final S criteria) throws ServiceException {
-					return getRetrieveApi().retrieve(criteria);
+				public T service(final K key) throws ServiceException {
+					return getRetrieveApi().retrieve(key);
 				}
 			};
 		}

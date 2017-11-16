@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.app.actioncreator;
 
-import com.github.bordertech.flux.*;
-import com.github.bordertech.flux.app.dataapi.modify.ModifyApi;
+import com.github.bordertech.flux.app.dataapi.modify.ModifyEntityApi;
 
 /**
  * Provides the action (event) creator interface to handle change store events.
@@ -9,6 +8,6 @@ import com.github.bordertech.flux.app.dataapi.modify.ModifyApi;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ModifyCreator extends ActionCreator, ModifyApi {
+public interface ModifyEntityCreator<T> extends ModifyCreator, ModifyEntityApi<T> {
 
 }

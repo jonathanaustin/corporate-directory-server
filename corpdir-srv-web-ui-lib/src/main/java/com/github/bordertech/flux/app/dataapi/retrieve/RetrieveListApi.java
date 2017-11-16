@@ -5,8 +5,9 @@ import java.util.List;
 /**
  *
  * @author jonathan
- * @param <S> the criteria type
+ * @param <K> the key type
  * @param <T> the item type
  */
-public interface RetrieveListApi<S, T> extends RetrieveApi<S, List<T>> {
+public interface RetrieveListApi<K, T> extends RetrieveItemApi<K, List<T>> {
+
 }

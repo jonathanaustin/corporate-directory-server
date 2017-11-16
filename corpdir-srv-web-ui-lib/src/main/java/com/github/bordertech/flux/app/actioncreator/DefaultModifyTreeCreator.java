@@ -2,7 +2,6 @@ package com.github.bordertech.flux.app.actioncreator;
 
 import com.github.bordertech.flux.app.dataapi.modify.ModifyTreeApi;
 import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
-import com.github.bordertech.flux.dataapi.DataApiType;
 import com.github.bordertech.taskmanager.service.ServiceException;
 
 /**
@@ -12,14 +11,14 @@ import com.github.bordertech.taskmanager.service.ServiceException;
  * @param <T> the entity type
  * @param <M> the modify API type
  */
-public class DefaultModifyTreeCreator<T, M extends ModifyTreeApi<T>> extends DefaultModifyCreator<T, M> implements ModifyTreeCreator<T> {
+public class DefaultModifyTreeCreator<T, M extends ModifyTreeApi<T>> extends DefaultModifyEntityCreator<T, M> implements ModifyTreeCreator<T> {
 
-	public DefaultModifyTreeCreator(final DataApiType type) {
-		super(type);
+	public DefaultModifyTreeCreator(final M api) {
+		super(api);
 	}
 
-	public DefaultModifyTreeCreator(final DataApiType type, final String qualifier) {
-		super(type, qualifier);
+	public DefaultModifyTreeCreator(final M api, final String qualifier) {
+		super(api, qualifier);
 	}
 
 	@Override

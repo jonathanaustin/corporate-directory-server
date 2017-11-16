@@ -6,10 +6,11 @@ import java.util.List;
 /**
  *
  * @author jonathan
- * @param <S> the criteria type
+ * @param <K> the entity key type
  * @param <T> the item type
+ * @param <S> the search criteria type
  */
-public interface RetrieveTreeApi<S, T> extends RetrieveListApi<S, T> {
+public interface RetrieveTreeApi<K, T, S> extends RetrieveEntityApi<K, T, S> {
 
 	boolean hasChildren(final T item);
 

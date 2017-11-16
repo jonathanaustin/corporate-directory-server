@@ -1,15 +1,15 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
-import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveListApi;
+import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveItemApi;
 import java.util.List;
 
 /**
- * Store that holds list values.
+ * Store that holds key value pairs.
  *
  * @author jonathan
- * @param <S> the criteria type
- * @param <T> the result type
+ * @param <K> the item key type
+ * @param <T> the item type
  */
-public interface RetrieveListStore<S, T> extends RetrieveStore<S, List<T>>, RetrieveListApi<S, T> {
+public interface RetrieveListStore<K, T> extends RetrieveItemStore<K, List<T>>, RetrieveItemApi<K, List<T>> {
 
 }

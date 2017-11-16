@@ -10,14 +10,14 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
  * @param <S> the criteria type
  * @param <T> the result type
  */
-public interface RetrieveTreeStore<S, T> extends RetrieveListStore<S, T>, RetrieveTreeApi<S, T> {
+public interface RetrieveTreeStore<S, T, U> extends RetrieveEntityStore<S, T, U>, RetrieveTreeApi<S, T, U> {
 
-	ServiceStatus getRetrieveChildrenStatus(final T item);
+	ServiceStatus getChildrenStatus(final T item);
 
-	boolean isRetrieveChildrenDone(final T item);
+	boolean isChildrenDone(final T item);
 
-	ServiceStatus getRetrieveRootStatus();
+	ServiceStatus getRootItemsStatus();
 
-	boolean isRetrieveRootDone();
+	boolean isRootItemsDone();
 
 }

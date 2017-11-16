@@ -8,6 +8,6 @@ import com.github.bordertech.flux.app.dataapi.modify.ModifyTreeApi;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ModifyTreeCreator<T> extends ModifyCreator<T>, ModifyTreeApi<T> {
+public interface ModifyTreeCreator<T> extends ModifyEntityCreator<T>, ModifyTreeApi<T> {
 
 }

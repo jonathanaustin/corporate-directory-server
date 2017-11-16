@@ -16,9 +16,9 @@ import com.github.bordertech.wcomponents.lib.util.FormUtil;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class AbstractFormView<T> extends DefaultDumbView<T> implements FormView<T> {
+public class DefaultFormView<T> extends DefaultDumbView<T> implements FormView<T> {
 
-	public AbstractFormView(final String viewId) {
+	public DefaultFormView(final String viewId) {
 		super(viewId);
 	}
 

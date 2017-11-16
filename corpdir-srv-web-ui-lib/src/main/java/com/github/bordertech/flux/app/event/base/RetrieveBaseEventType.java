@@ -10,9 +10,7 @@ import com.github.bordertech.flux.app.event.RetrieveEventType;
  */
 public enum RetrieveBaseEventType implements RetrieveEventType {
 	RETRIEVE,
-	REFRESH,
-	RETRIEVE_ASYNC,
-	RETRIEVE_ASYNC_OK,
-	RETRIEVE_ASYNC_ERROR,
-	REFRESH_ASYNC
+	SEARCH,
+	CHILDREN,
+	ROOT
 }

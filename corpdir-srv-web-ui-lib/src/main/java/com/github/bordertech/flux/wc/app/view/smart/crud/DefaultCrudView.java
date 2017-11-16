@@ -7,7 +7,7 @@ import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
-import com.github.bordertech.flux.wc.app.view.form.AbstractFormView;
+import com.github.bordertech.flux.wc.app.view.form.DefaultFormView;
 import com.github.bordertech.flux.wc.app.view.list.MenuSelectView;
 import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.polling.DefaultPollingView;
@@ -52,7 +52,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
 		// Setup Defaults
 		searchView = criteriaView2 == null ? new SearchTextView("vw-crit") : criteriaView2;
 		selectView = selectView2 == null ? (SelectSingleView<T>) new MenuSelectView<T>("vw-list") : selectView2;
-		formView = formView2 == null ? new AbstractFormView<T>("vw-form") : formView2;
+		formView = formView2 == null ? new DefaultFormView<T>("vw-form") : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
 		}

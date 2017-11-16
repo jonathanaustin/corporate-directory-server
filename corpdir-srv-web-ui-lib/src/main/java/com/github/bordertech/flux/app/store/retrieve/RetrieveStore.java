@@ -2,19 +2,18 @@ package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveApi;
+import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 
 /**
- * Store that holds key value pairs.
+ * Store that retrieves its state via the data api.
  *
  * @author jonathan
- * @param <S> the criteria type
- * @param <T> the result type
  */
-public interface RetrieveStore<S, T> extends Store, RetrieveApi<S, T> {
+public interface RetrieveStore extends Store, RetrieveApi {
 
-	ServiceStatus getRetrieveStatus(final S criteria);
+	ServiceStatus getEventStatus(final RetrieveEventType type, final Object criteria);
 
-	boolean isRetrieveDone(final S criteria);
+	boolean isEventDone(final RetrieveEventType type, final Object criteria);
 
 }

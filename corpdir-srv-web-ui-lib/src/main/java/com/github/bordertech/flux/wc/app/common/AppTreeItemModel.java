@@ -11,16 +11,16 @@ import java.util.Objects;
  * Tree Model that retrieves it data via a RetrieveTreeApi.
  *
  * @author jonathan
- * @param <S>
+ * @param <K>
  * @param <T>
  */
-public class AppTreeItemModel<S, T> extends AbstractTreeItemModel {
+public class AppTreeItemModel<K, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final RetrieveTreeApi<S, T> model;
+	private final RetrieveTreeApi<K, T, ?> model;
 
-	public AppTreeItemModel(final List<T> rootItems, final RetrieveTreeApi<S, T> model) {
+	public AppTreeItemModel(final List<T> rootItems, final RetrieveTreeApi<K, T, ?> model) {
 		this.rootItems = rootItems;
 		this.model = model;
 	}

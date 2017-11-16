@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.list;
 
 import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.app.event.base.RetrieveActionType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveListStore;
 import com.github.bordertech.flux.store.StoreUtil;
@@ -25,7 +26,7 @@ public abstract class AbstractListSmartView<S, L, T> extends DefaultPollingMessa
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
-		dispatchEvent(RetrieveBaseEventType.RETRIEVE_ASYNC, getListCriteria());
+		dispatchEvent(RetrieveBaseEventType.RETRIEVE, getListCriteria(), RetrieveActionType.CALL_ASYNC);
 	}
 
 	@Override

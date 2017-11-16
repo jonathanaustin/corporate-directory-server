@@ -9,9 +9,8 @@ import com.github.bordertech.flux.wc.app.view.event.FormViewEvent;
  * @since 1.0.0
  */
 public enum FormBaseViewEvent implements FormViewEvent {
+	LOAD,
+	LOAD_NEW,
 	LOAD_OK,
-	LOAD_ERROR,
-	ENTITY_MODE_CHANGED,
-	RESET_FORM,
-	SHOW_FORM
+	ENTITY_MODE_CHANGED
 }

@@ -7,7 +7,7 @@ import com.github.bordertech.taskmanager.service.ServiceException;
  * @author jonathan
  * @param <T> the data type
  */
-public interface ModifyTreeApi<T> extends ModifyApi<T> {
+public interface ModifyTreeApi<T> extends ModifyEntityApi<T> {
 
 	T addChild(final T parent, final T child) throws ServiceException;
 
