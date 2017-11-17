@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.wc.view.DumbView;
+import com.github.bordertech.flux.view.DumbView;
 import java.util.List;
 
 /**

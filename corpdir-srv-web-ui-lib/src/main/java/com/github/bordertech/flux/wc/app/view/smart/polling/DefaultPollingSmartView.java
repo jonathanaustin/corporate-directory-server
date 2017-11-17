@@ -5,7 +5,7 @@ import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.polling.DefaultPollingView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;

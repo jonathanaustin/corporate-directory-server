@@ -5,7 +5,6 @@ import com.github.bordertech.flux.wc.app.view.ListView;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultToolbarView;
 
 /**
@@ -48,8 +47,6 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof SearchBaseViewEvent) {
 			handleSearchBaseEvents((SearchBaseViewEvent) event, data);
-		} else if (event instanceof ToolbarBaseViewEvent) {
-			handleToolbarBaseEvents((ToolbarBaseViewEvent) event, data);
 		}
 	}
 
@@ -70,31 +67,8 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 	}
 
 	protected void handleSearchValidatingEvent() {
-		getListView().reset();;
+		getListView().reset();
 		getPollingView().reset();
-	}
-
-	protected void handleToolbarBaseEvents(final ToolbarBaseViewEvent type, final Object data) {
-		switch (type) {
-			case ADD:
-				handleToolbarAddEvent();
-				break;
-			case BACK:
-				handleToolbarBackEvent();
-				break;
-			case RESET:
-				handleToolbarResetEvent();
-				break;
-		}
-	}
-
-	protected void handleToolbarAddEvent() {
-	}
-
-	protected void handleToolbarBackEvent() {
-	}
-
-	protected void handleToolbarResetEvent() {
 	}
 
 }

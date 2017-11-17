@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.nav;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.NavigationView;
 import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseViewEvent;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;

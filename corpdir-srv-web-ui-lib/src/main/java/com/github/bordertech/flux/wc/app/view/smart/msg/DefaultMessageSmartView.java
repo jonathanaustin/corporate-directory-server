@@ -6,7 +6,7 @@ import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;
 import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WMessages;
 
 /**

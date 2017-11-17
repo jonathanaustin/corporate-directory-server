@@ -1,7 +1,8 @@
-package com.github.bordertech.flux.wc.view;
+package com.github.bordertech.flux.view;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.app.event.RetrieveActionType;
 import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
@@ -10,16 +11,20 @@ import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
 import com.github.bordertech.flux.event.StoreEventType;
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.event.base.StateBaseEventType;
 import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Smart view.
@@ -220,6 +225,45 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		getDispatcher().dispatch(event);
 	}
 
+	protected void handleStoreChangedEvent(final StoreKey storeKey, final Event event) {
+	}
+
+	protected void registerStoreChangeListener(final StoreKey storeKey) {
+		Listener listener = new Listener() {
+			@Override
+			public void handleEvent(final Event event) {
+				handleStoreChangedEvent(storeKey, event);
+			}
+		};
+		registerListener(StateBaseEventType.STORE_CHANGED, storeKey.getQualifier(), listener);
+	}
+
+	protected void registerListener(final EventType eventType, final String qualifier, final Listener listener) {
+		String id = getDispatcher().registerListener(new EventKey(eventType, qualifier), listener);
+		SmartViewModel model = getOrCreateComponentModel();
+		if (model.registeredIds == null) {
+			model.registeredIds = new HashSet<>();
+		}
+		model.registeredIds.add(id);
+	}
+
+	protected void unregisterListeners() {
+		SmartViewModel model = getComponentModel();
+		if (model.registeredIds != null) {
+			Dispatcher dispatcher = getDispatcher();
+			for (String id : model.registeredIds) {
+				dispatcher.unregisterListener(id);
+			}
+			model.registeredIds = null;
+		}
+	}
+
+	@Override
+	public void reset() {
+		unregisterListeners();
+		super.reset();
+	}
+
 	/**
 	 * Get this component's parent qualifier context.
 	 *
@@ -249,24 +293,24 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	}
 
 	@Override
-	protected ViewContainerModel newComponentModel() {
-		return new ViewContainerModel();
+	protected SmartViewModel newComponentModel() {
+		return new SmartViewModel();
 	}
 
 	@Override
-	protected ViewContainerModel getComponentModel() {
-		return (ViewContainerModel) super.getComponentModel();
+	protected SmartViewModel getComponentModel() {
+		return (SmartViewModel) super.getComponentModel();
 	}
 
 	@Override
-	protected ViewContainerModel getOrCreateComponentModel() {
-		return (ViewContainerModel) super.getOrCreateComponentModel();
+	protected SmartViewModel getOrCreateComponentModel() {
+		return (SmartViewModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Just here as a place holder and easier for other Views to extend.
 	 */
-	public static class ViewContainerModel extends ViewModel {
+	public static class SmartViewModel extends ViewModel {
 
 		private String qualifier;
 
@@ -274,5 +318,6 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 
 		private boolean ajaxContext;
 
+		private Set<String> registeredIds;
 	}
 }

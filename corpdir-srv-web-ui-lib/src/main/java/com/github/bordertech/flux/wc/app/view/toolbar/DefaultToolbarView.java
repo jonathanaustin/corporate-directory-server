@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.app.view.toolbar;
 
 import com.github.bordertech.flux.wc.app.common.AppMenuItem;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.view.ViewUtil;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;

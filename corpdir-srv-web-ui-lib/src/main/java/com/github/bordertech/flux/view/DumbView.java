@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view;
+package com.github.bordertech.flux.view;
 
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;

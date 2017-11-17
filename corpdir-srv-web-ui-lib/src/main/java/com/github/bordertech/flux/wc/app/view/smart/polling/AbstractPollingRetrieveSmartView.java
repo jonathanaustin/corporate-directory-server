@@ -17,9 +17,9 @@ import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
  * @param <R> the result type
  * @param <T> the view type
  */
-public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends DefaultPollingMessageSmartView<T> {
+public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultPollingMessageSmartView<T> {
 
-	public AbstractPollingRetrieveStoreSmartView(final String viewId, final String template) {
+	public AbstractPollingRetrieveSmartView(final String viewId, final String template) {
 		super(viewId, template);
 	}
 
@@ -102,7 +102,7 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class PollingStoreModel<S> extends ViewContainerModel {
+	public static class PollingStoreModel<S> extends SmartViewModel {
 
 		private RetrieveEventType retrieveType = RetrieveBaseEventType.RETRIEVE;
 

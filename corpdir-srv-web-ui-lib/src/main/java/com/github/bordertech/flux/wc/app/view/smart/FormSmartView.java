@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.smart;
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
 import com.github.bordertech.flux.wc.app.view.FormView;
-import com.github.bordertech.flux.wc.view.SmartView;
+import com.github.bordertech.flux.view.SmartView;
 
 /**
  * Smart form view with an Entity Creator and Retrieve Store.
