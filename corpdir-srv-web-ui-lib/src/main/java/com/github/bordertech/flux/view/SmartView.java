@@ -2,6 +2,7 @@ package com.github.bordertech.flux.view;
 
 import com.github.bordertech.flux.event.ViewEventType;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Smart View.
@@ -83,5 +84,24 @@ public interface SmartView<T> extends DumbView<T> {
 	 * @param ajaxContext true if this view is an AJAX context
 	 */
 	void setAjaxContext(final boolean ajaxContext);
+
+	/**
+	 * This is used when a smart view is being used as a dumb view.
+	 *
+	 * @param dumbMode true if need to pass events for this view to its parent.
+	 */
+	void setDumbMode(final boolean dumbMode);
+
+	/**
+	 *
+	 * @return true if pass events to its parent smart view
+	 */
+	boolean isDumbMode();
+
+	void addPassThrough(final ViewEventType type);
+
+	void removePassThrough(final ViewEventType type);
+
+	Set<ViewEventType> getPassThroughs();
 
 }

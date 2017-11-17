@@ -69,12 +69,12 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-		if (event == ToolbarBaseViewEvent.RESET) {
-			handleEventReset();
+		if (isEvent(event, ToolbarBaseViewEvent.RESET)) {
+			handleResetEvent(viewId);
 		}
 	}
 
-	protected void handleEventReset() {
+	protected void handleResetEvent(final String viewId) {
 		resetView();
 	}
 
@@ -121,6 +121,42 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	public final void setQualifier(final String qualifier) {
 		DispatcherUtil.validateQualifier(qualifier);
 		getOrCreateComponentModel().qualifier = qualifier;
+	}
+
+	@Override
+	public boolean isDumbMode() {
+		return getComponentModel().dumbMode;
+	}
+
+	@Override
+	public void setDumbMode(final boolean dumbMode) {
+		getOrCreateComponentModel().dumbMode = dumbMode;
+	}
+
+	@Override
+	public void addPassThrough(final ViewEventType type) {
+		SmartViewModel model = getOrCreateComponentModel();
+		if (model.passThroughs == null) {
+			model.passThroughs = new HashSet();
+		}
+		model.passThroughs.add(type);
+	}
+
+	@Override
+	public void removePassThrough(final ViewEventType type) {
+		SmartViewModel model = getOrCreateComponentModel();
+		if (model.passThroughs != null) {
+			model.passThroughs.remove(type);
+			if (model.passThroughs.isEmpty()) {
+				model.passThroughs = null;
+			}
+		}
+	}
+
+	@Override
+	public Set<ViewEventType> getPassThroughs() {
+		SmartViewModel model = getComponentModel();
+		return model.passThroughs == null ? Collections.EMPTY_SET : Collections.unmodifiableSet(model.passThroughs);
 	}
 
 	@Override
@@ -319,5 +355,10 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		private boolean ajaxContext;
 
 		private Set<String> registeredIds;
+
+		private boolean dumbMode;
+
+		private Set<ViewEventType> passThroughs;
+
 	}
 }

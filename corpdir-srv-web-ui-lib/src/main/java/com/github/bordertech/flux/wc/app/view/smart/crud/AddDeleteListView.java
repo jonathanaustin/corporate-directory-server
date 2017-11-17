@@ -1,18 +1,22 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.view.DefaultSmartView;
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.SelectableView;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
 import com.github.bordertech.flux.wc.app.view.toolbar.AddDeleteButtonBarView;
 import com.github.bordertech.flux.wc.app.view.toolbar.SelectButtonBarView;
-import com.github.bordertech.flux.view.DefaultDumbView;
-import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -34,7 +38,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		@Override
 		protected void initViewContent(Request request) {
 			super.initViewContent(request);
-			addEventAjaxTarget(selBar);
+			addEventAjaxTarget(findSelBar);
 		}
 	};
 	private final WDiv dialogContent = new WDiv();
@@ -42,10 +46,22 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	private final AddDeleteButtonBarView addRemToolbar = new AddDeleteButtonBarView("vw-toolbar");
 
 	// Add Select Button BAR to Bottom of Dialog View
-	private final SelectButtonBarView selBar = new SelectButtonBarView("vw-select");
+	private final SelectButtonBarView findSelBar = new SelectButtonBarView("vw-select");
+	private final SelectSingleView<T> selectView;
+	private final SelectableView<T> findView;
 
 	public AddDeleteListView(final String viewId, final SelectSingleView<T> selectView, final SelectableView<T> findView) {
 		super(viewId, "wclib/hbs/layout/combo-add-rem.hbs");
+
+		this.selectView = selectView;
+		this.findView = findView;
+
+		// Put the find view into dumb mode so we get the view events
+		if (findView instanceof SmartView) {
+			SmartView smart = (SmartView) findView;
+			smart.setDumbMode(true);
+			smart.addPassThrough(ToolbarBaseViewEvent.SELECT);
+		}
 
 		// Bean Property
 		setBeanProperty(".");
@@ -58,16 +74,16 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 
 		// Setup dialog content
 		dialogContent.add(findView);
-		selBar.setContentVisible(false);
+		findSelBar.setContentVisible(false);
 		// Add this as the AJAX button to the "Select Bar" so the dialog closes via AJAX
-		selBar.addTarget(this);
-		dialogContent.add(selBar);
+		findSelBar.addTarget(this);
+		dialogContent.add(findSelBar);
 
 		addComponentToTemplate("vw-select", selectView);
 		addComponentToTemplate("vw-toolbar", addRemToolbar);
 		addComponentToTemplate("vw-dialog", dialogView);
 
-		selBar.addHtmlClass("wc-margin-n-lg");
+		findSelBar.addHtmlClass("wc-margin-n-lg");
 		addRemToolbar.addHtmlClass("wc-margin-n-sm");
 
 	}
@@ -90,34 +106,34 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 
-		// FIXME JA
-// SelectViewEvent.SELECT
-// NavigationViewEvent.RESET_VIEW
-// ModelEventType.ADD
-// SelectViewEvent.SELECT
-// SelectViewEvent.UNSELECT
-// ModelEventType.DELETE
-// ModelEventType.SELECTED
-	}
+		// Select View Events
+		if (isView(viewId, selectView)) {
+			if (isEvent(event, SelectableBaseViewEvent.SELECT)) {
+				handleSelectEvent();
+			}
+			if (isEvent(event, SelectableBaseViewEvent.UNSELECT)) {
+				handleUnselectEvent();
+			}
+			if (isEvent(event, ToolbarBaseViewEvent.DELETE)) {
+				handleDeleteEvent();
+			}
+			if (isEvent(event, ToolbarBaseViewEvent.ADD)) {
+				handleAddEvent();
+			}
 
-	protected void handleSelect(final T item) {
-		// Select EVENT - Show Select BAR
-		selBar.getButton().setActionObject((Serializable) item);
-		selBar.setContentVisible(true);
-		addRemToolbar.showRemoveButton(true);
-	}
-
-	protected void handleUnselect() {
-	}
-
-	// Reset in the DIALOG
-	protected void handleReset() {
-		selBar.reset();
+		} else if (isView(viewId, findView)) {
+			if (isEvent(event, SelectableBaseViewEvent.SELECT)) {
+				handleFindSelect((T) data);
+			}
+			if (isEvent(event, ToolbarBaseViewEvent.SELECT)) {
+				handleFindSelectedItemEvent((T) data);
+			}
+		}
 	}
 
 	protected void handleAddEvent() {
-		addRemToolbar.resetView();
-		addRemToolbar.setContentVisible(true);
+		dialogView.resetView();
+		dialogView.setContentVisible(true);
 	}
 
 	protected void handleSelectEvent() {
@@ -128,20 +144,29 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		addRemToolbar.showRemoveButton(false);
 	}
 
-//	protected void handleDeleteEvent() {
-//		T item = getSelectView().getSelectedItem();
-//		if (item != null) {
+	protected void handleDeleteEvent() {
+		T item = selectView.getSelectedItem();
+		if (item != null) {
+			// FIXME JA - Remove ITEM
 //			dispatchEvent(CollectionEventType.REMOVE_ITEM, item);
-//		}
-//		getAddRemoveToolbar().resetView();
-//	}
-//
-//	protected void handleSelectedItemEvent(final T item) {
-//		C beans = getSelectView().getViewBean();
-//		if (beans == null || !beans.contains(item)) {
+		}
+		addRemToolbar.resetView();
+	}
+
+	protected void handleFindSelect(final T item) {
+		// Select EVENT - Show Select BAR
+		findSelBar.getButton().setActionObject((Serializable) item);
+		addRemToolbar.showRemoveButton(true);
+	}
+
+	protected void handleFindSelectedItemEvent(final T item) {
+		List<T> beans = selectView.getViewBean();
+		if (beans == null || !beans.contains(item)) {
+			// Add Items
 //			dispatchEvent(CollectionEventType.ADD_ITEM, item);
-//		}
-//		getAddRemoveToolbar().resetView();
-//		getAddView().resetView();
-//	}
+		}
+		addRemToolbar.resetView();
+		dialogView.resetView();
+	}
+
 }

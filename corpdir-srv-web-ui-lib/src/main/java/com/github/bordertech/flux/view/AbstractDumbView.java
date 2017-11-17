@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.view;
 
-import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -179,6 +180,14 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 		ctrls.add(ajax);
 	}
 
+	protected boolean isView(final String viewId, final DumbView view) {
+		return Objects.equals(viewId, view.getViewId());
+	}
+
+	protected boolean isEvent(final ViewEventType type1, final ViewEventType type2) {
+		return Objects.equals(type1, type2);
+	}
+
 	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
@@ -273,10 +282,16 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		SmartView parent;
+		SmartView parent = null;
+		// Check if this is a smart view and is not in "dumb mode". Dumb mode delegates to the parent.
 		if (this instanceof SmartView) {
-			parent = (SmartView) this;
-		} else {
+			SmartView smart = (SmartView) this;
+			boolean pass = smart.isDumbMode() && smart.getPassThroughs().contains(eventType);
+			if (!pass) {
+				parent = (SmartView) this;
+			}
+		}
+		if (parent == null) {
 			parent = findParentViewContainer();
 		}
 		if (parent != null) {
