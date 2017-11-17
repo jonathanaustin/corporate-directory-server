@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view;
 
-import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.FormView;

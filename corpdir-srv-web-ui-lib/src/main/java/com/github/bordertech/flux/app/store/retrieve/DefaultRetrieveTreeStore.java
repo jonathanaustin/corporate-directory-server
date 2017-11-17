@@ -2,11 +2,11 @@ package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
 import java.util.Objects;
@@ -19,12 +19,8 @@ import java.util.Objects;
  */
 public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends DefaultRetrieveEntityStore<T, D> implements RetrieveTreeStore<T> {
 
-	public DefaultRetrieveTreeStore(final D api, final StoreType storeType) {
-		super(api, storeType);
-	}
-
-	public DefaultRetrieveTreeStore(final D api, final StoreType storeType, final String qualifier) {
-		super(api, storeType, qualifier);
+	public DefaultRetrieveTreeStore(final StoreKey storeKey, final D api) {
+		super(storeKey, api);
 	}
 
 	@Override
@@ -88,7 +84,7 @@ public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends Defau
 	}
 
 	protected void handleModifyTreeBaseEvents(final Event event) {
-		ModifyTreeBaseEventType type = (ModifyTreeBaseEventType) event.getEventKey().getEventType();
+		ModifyTreeBaseEventType type = (ModifyTreeBaseEventType) event.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case ADD_CHILD:

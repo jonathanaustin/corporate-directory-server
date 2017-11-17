@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.app.event;
 
-import com.github.bordertech.flux.EventKey;
+import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 
 /**

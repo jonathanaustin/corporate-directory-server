@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventKey;
-import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreKey;
+import com.github.bordertech.flux.key.StoreKey;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;

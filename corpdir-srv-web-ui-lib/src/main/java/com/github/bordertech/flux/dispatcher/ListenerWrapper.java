@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.dispatcher;
 
-import com.github.bordertech.flux.EventKey;
+import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.Listener;
 import java.io.Serializable;
 import java.util.Objects;

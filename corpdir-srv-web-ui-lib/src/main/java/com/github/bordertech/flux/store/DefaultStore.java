@@ -1,15 +1,14 @@
 package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.EventKey;
-import com.github.bordertech.flux.EventType;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreKey;
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.event.base.StateBaseEventType;
+import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.StoreKey;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,16 +22,12 @@ public class DefaultStore implements Store {
 	private final StoreKey storeKey;
 	private final Set<String> registeredIds = new HashSet<>();
 
-	public DefaultStore(final StoreType type) {
-		this(type, null);
-	}
-
-	public DefaultStore(final StoreType type, final String qualifier) {
-		this.storeKey = new StoreKey(type, qualifier);
+	public DefaultStore(final StoreKey storeKey) {
+		this.storeKey = storeKey;
 	}
 
 	@Override
-	public StoreKey getStoreKey() {
+	public StoreKey getKey() {
 		return storeKey;
 	}
 

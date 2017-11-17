@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreKey;
-import com.github.bordertech.flux.StoreType;
+import com.github.bordertech.flux.key.StoreKey;
+import com.github.bordertech.flux.key.StoreType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import org.apache.commons.beanutils.PropertyUtils;
 

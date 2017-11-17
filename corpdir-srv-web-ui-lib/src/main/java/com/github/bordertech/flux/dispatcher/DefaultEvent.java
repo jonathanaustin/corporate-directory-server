@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventKey;
-import com.github.bordertech.flux.EventType;
+import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.EventType;
 
 /**
  *
@@ -30,7 +30,7 @@ public class DefaultEvent implements Event {
 		if (eventKey == null) {
 			throw new IllegalArgumentException("An event key must be provided.");
 		}
-		if (eventKey.getEventType() == null) {
+		if (eventKey.getType() == null) {
 			throw new IllegalArgumentException("An event type must be provided.");
 		}
 		this.eventKey = eventKey;
@@ -38,7 +38,7 @@ public class DefaultEvent implements Event {
 	}
 
 	@Override
-	public EventKey getEventKey() {
+	public EventKey getKey() {
 		return eventKey;
 	}
 

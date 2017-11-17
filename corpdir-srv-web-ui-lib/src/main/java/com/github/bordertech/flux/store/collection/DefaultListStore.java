@@ -2,8 +2,8 @@ package com.github.bordertech.flux.store.collection;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.event.base.CollectionBaseEventType;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +23,8 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 
 	private final List<T> items = new ArrayList<>();
 
-	public DefaultListStore(final StoreType storeType) {
-		this(storeType, null);
-	}
-
-	public DefaultListStore(final StoreType storeType, final String qualifier) {
-		super(storeType, qualifier);
+	public DefaultListStore(final StoreKey storeKey) {
+		super(storeKey);
 	}
 
 	@Override
@@ -51,7 +47,7 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 	}
 
 	protected void handleListEvents(final Event event) {
-		CollectionBaseEventType type = (CollectionBaseEventType) event.getEventKey().getEventType();
+		CollectionBaseEventType type = (CollectionBaseEventType) event.getKey().getType();
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:

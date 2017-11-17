@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.app.dataapi.SearchApi;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
 import java.util.Objects;
@@ -20,12 +20,8 @@ import java.util.Objects;
  */
 public class DefaultRetrieveSearchStore<S, T, D extends SearchApi<S, T>> extends AbstractRetrieveDataApiStore<D> implements RetrieveSearchStore<S, T> {
 
-	public DefaultRetrieveSearchStore(final D api, final StoreType storeType) {
-		super(api, storeType);
-	}
-
-	public DefaultRetrieveSearchStore(final D api, final StoreType storeType, final String qualifier) {
-		super(api, storeType, qualifier);
+	public DefaultRetrieveSearchStore(final StoreKey storeKey, final D api) {
+		super(storeKey, api);
 	}
 
 	@Override

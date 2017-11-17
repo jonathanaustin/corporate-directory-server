@@ -2,8 +2,8 @@ package com.github.bordertech.flux.store.collection;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.event.base.CollectionBaseEventType;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Collection;
 import java.util.HashMap;
@@ -22,12 +22,8 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 
 	private final Map<K, V> items = new HashMap<>();
 
-	public DefaultMapStore(final StoreType storeType) {
-		this(storeType, null);
-	}
-
-	public DefaultMapStore(final StoreType storeType, final String qualifier) {
-		super(storeType, qualifier);
+	public DefaultMapStore(final StoreKey storeKey) {
+		super(storeKey);
 	}
 
 	@Override
@@ -50,7 +46,7 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 	}
 
 	protected void handleListEvents(final Event event) {
-		CollectionBaseEventType type = (CollectionBaseEventType) event.getEventKey().getEventType();
+		CollectionBaseEventType type = (CollectionBaseEventType) event.getKey().getType();
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:

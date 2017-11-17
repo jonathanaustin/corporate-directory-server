@@ -2,10 +2,10 @@ package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventKey;
+import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreKey;
+import com.github.bordertech.flux.key.StoreKey;
 
 /**
  *
@@ -70,7 +70,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	}
 
 	protected void doHandleDispatcherEvent(final Event event) {
-		DispatcherEventType type = (DispatcherEventType) event.getEventKey().getEventType();
+		DispatcherEventType type = (DispatcherEventType) event.getKey().getType();
 		switch (type) {
 			case REGISTER_LISTENER:
 				ListenerWrapper wrapper = (ListenerWrapper) event.getData();

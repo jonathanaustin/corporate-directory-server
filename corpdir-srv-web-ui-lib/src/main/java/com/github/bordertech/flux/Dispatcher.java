@@ -1,5 +1,7 @@
 package com.github.bordertech.flux;
 
+import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.StoreKey;
 import java.io.Serializable;
 
 /**

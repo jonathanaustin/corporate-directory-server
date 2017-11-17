@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.app.event.RetrieveActionType;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -25,7 +25,7 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
-		dispatchEvent(getStoreRetrieveType(), getStoreCriteria(), RetrieveActionType.CALL_ASYNC);
+		dispatchRetrieveEvent(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), RetrieveActionType.CALL_ASYNC);
 	}
 
 	@Override
@@ -60,12 +60,12 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 		return getComponentModel().retrieveType;
 	}
 
-	public void setStoreType(final StoreType storeType) {
-		getOrCreateComponentModel().storeType = storeType;
+	public void setStoreKey(final StoreKey storeKey) {
+		getOrCreateComponentModel().storeKey = storeKey;
 	}
 
-	public StoreType getStoreType() {
-		return getComponentModel().storeType;
+	public StoreKey getStoreKey() {
+		return getComponentModel().storeKey;
 	}
 
 	public void setStoreCriteria(final S criteria) {
@@ -81,7 +81,7 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 	}
 
 	protected RetrieveStore getStore() {
-		return StoreUtil.getStore(getStoreType(), getFullQualifier());
+		return StoreUtil.getStore(getStoreKey());
 	}
 
 	@Override
@@ -106,7 +106,7 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 
 		private RetrieveEventType retrieveType = RetrieveBaseEventType.RETRIEVE;
 
-		private StoreType storeType;
+		private StoreKey storeKey;
 
 		private S criteria;
 	}

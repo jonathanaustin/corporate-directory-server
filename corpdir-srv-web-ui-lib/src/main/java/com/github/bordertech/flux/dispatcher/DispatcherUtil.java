@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventKey;
+import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.StoreKey;
+import com.github.bordertech.flux.key.StoreKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -57,10 +57,10 @@ public class DispatcherUtil {
 		model.getListenersById().put(wrapper.getRegisterId(), wrapper);
 		EventKey matcher = wrapper.getEventKey();
 		// Register by the matcher details
-		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
+		if (matcher.getType() != null && matcher.getQualifier() != null) {
 			registerListenerInMap(model.getListenersByKey(), wrapper.getEventKey(), wrapper);
-		} else if (matcher.getEventType() != null) {
-			registerListenerInMap(model.getListenersByType(), matcher.getEventType(), wrapper);
+		} else if (matcher.getType() != null) {
+			registerListenerInMap(model.getListenersByType(), matcher.getType(), wrapper);
 		} else {
 			registerListenerInMap(model.getListenersByQualifiers(), matcher.getQualifier(), wrapper);
 		}
@@ -75,10 +75,10 @@ public class DispatcherUtil {
 		model.getListenersById().remove(registerId);
 		// Unregister by the matcher details
 		EventKey matcher = wrapper.getEventKey();
-		if (matcher.getEventType() != null && matcher.getQualifier() != null) {
+		if (matcher.getType() != null && matcher.getQualifier() != null) {
 			unregisterListenerFromMap(model.getListenersByKey(), wrapper.getEventKey(), wrapper);
-		} else if (matcher.getEventType() != null) {
-			unregisterListenerFromMap(model.getListenersByType(), matcher.getEventType(), wrapper);
+		} else if (matcher.getType() != null) {
+			unregisterListenerFromMap(model.getListenersByType(), matcher.getType(), wrapper);
 		} else {
 			unregisterListenerFromMap(model.getListenersByQualifiers(), matcher.getQualifier(), wrapper);
 		}
@@ -97,9 +97,9 @@ public class DispatcherUtil {
 
 	public static void handleRegisterStore(final Store store, final DispatcherModel model) {
 		// Just in case Unregister the previous store with this key
-		handleUnregisterStore(store.getStoreKey(), model);
+		handleUnregisterStore(store.getKey(), model);
 		// Register the store
-		model.getStoresByKey().put(store.getStoreKey(), store);
+		model.getStoresByKey().put(store.getKey(), store);
 		store.registerListeners();
 	}
 
@@ -124,7 +124,7 @@ public class DispatcherUtil {
 	}
 
 	private static void notifyListeners(final Event event, final DispatcherModel model) {
-		List<ListenerWrapper> matches = getListenersForEvent(event.getEventKey(), model);
+		List<ListenerWrapper> matches = getListenersForEvent(event.getKey(), model);
 		for (ListenerWrapper wrapper : matches) {
 			wrapper.getListener().handleEvent(event);
 		}
@@ -133,10 +133,10 @@ public class DispatcherUtil {
 	private static List<ListenerWrapper> getListenersForEvent(final EventKey eventKey, final DispatcherModel model) {
 		List<ListenerWrapper> matches = new ArrayList<>();
 		// Check listeners only matching on Type
-		matches.addAll(getListenersFromMap(model.getListenersByType(), eventKey.getEventType()));
+		matches.addAll(getListenersFromMap(model.getListenersByType(), eventKey.getType()));
 		if (eventKey.getQualifier() != null) {
 			// Check listeners with Type and Qualifier
-			EventKey matcher = new EventKey(eventKey.getEventType(), eventKey.getQualifier());
+			EventKey matcher = new EventKey(eventKey.getType(), eventKey.getQualifier());
 			matches.addAll(getListenersFromMap(model.getListenersByKey(), matcher));
 			// Check listeners only matching on Qualifier
 			matches.addAll(getListenersFromMap(model.getListenersByQualifiers(), eventKey.getQualifier()));

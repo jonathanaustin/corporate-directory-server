@@ -1,6 +1,8 @@
 package com.github.bordertech.flux;
 
-import java.io.Serializable;
+import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.Keyable;
+import com.github.bordertech.flux.key.StoreKey;
 
 /**
  * Store the current state for views.
@@ -8,12 +10,7 @@ import java.io.Serializable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Store extends Serializable {
-
-	/**
-	 * @return the store identifier
-	 */
-	StoreKey getStoreKey();
+public interface Store extends Keyable<StoreKey> {
 
 	/**
 	 * Register the event listeners.

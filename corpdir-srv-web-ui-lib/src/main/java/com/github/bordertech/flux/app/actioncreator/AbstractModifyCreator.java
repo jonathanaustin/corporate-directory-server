@@ -1,10 +1,11 @@
 package com.github.bordertech.flux.app.actioncreator;
 
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.app.event.ModifyEventType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
+import com.github.bordertech.flux.key.CreatorKey;
+import com.github.bordertech.flux.key.EventKey;
 
 /**
  * Modify event creator used by views.
@@ -13,14 +14,19 @@ import com.github.bordertech.flux.dispatcher.DispatcherFactory;
  */
 public class AbstractModifyCreator implements ModifyCreator {
 
-	private final String qualifier;
+	private final CreatorKey key;
 
-	public AbstractModifyCreator(final String qualifier) {
-		this.qualifier = qualifier;
+	public AbstractModifyCreator(final CreatorKey key) {
+		this.key = key;
+	}
+
+	@Override
+	public CreatorKey getKey() {
+		return key;
 	}
 
 	public String getQualifier() {
-		return qualifier;
+		return getKey().getQualifier();
 	}
 
 	protected void dispatchModifyEvent(final ModifyEventType eventType, final Object entity) {

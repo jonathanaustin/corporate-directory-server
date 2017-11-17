@@ -2,6 +2,7 @@ package com.github.bordertech.flux.app.actioncreator;
 
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
+import com.github.bordertech.flux.key.CreatorKey;
 
 /**
  * Modify tree event creator used by views.
@@ -12,12 +13,8 @@ import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
  */
 public class DefaultModifyTreeCreator<T, D extends CrudTreeApi<T>> extends DefaultModifyEntityCreator<T, D> implements ModifyTreeCreator<T> {
 
-	public DefaultModifyTreeCreator(final D api) {
-		super(api);
-	}
-
-	public DefaultModifyTreeCreator(final D api, final String qualifier) {
-		super(api, qualifier);
+	public DefaultModifyTreeCreator(final CreatorKey key, final D api) {
+		super(key, api);
 	}
 
 	@Override

@@ -2,13 +2,13 @@ package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.StoreType;
 import com.github.bordertech.flux.app.event.RetrieveActionType;
 import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
@@ -25,12 +25,8 @@ import com.github.bordertech.taskmanager.service.ServiceUtil;
  */
 public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveStore {
 
-	public AbstractRetrieveStore(final StoreType storeType) {
-		this(storeType, null);
-	}
-
-	public AbstractRetrieveStore(final StoreType storeType, final String qualifier) {
-		super(storeType, qualifier);
+	public AbstractRetrieveStore(final StoreKey storeKey) {
+		super(storeKey);
 	}
 
 	@Override
@@ -95,7 +91,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	protected void handleModifyBaseEvents(final Event event) {
-		ModifyBaseEventType type = (ModifyBaseEventType) event.getEventKey().getEventType();
+		ModifyBaseEventType type = (ModifyBaseEventType) event.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case CREATE:
@@ -132,7 +128,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	protected void handleRetrieveBaseEvents(final RetrieveEvent event) {
-		RetrieveBaseEventType type = (RetrieveBaseEventType) event.getEventKey().getEventType();
+		RetrieveBaseEventType type = (RetrieveBaseEventType) event.getKey().getType();
 		RetrieveActionType action = event.getActionType();
 		boolean changed = false;
 		switch (action) {
@@ -201,7 +197,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	protected String getResultCacheKey(final RetrieveEventType type, final Object criteria) {
 		String typeDesc = type.toString();
 		String suffix = criteria == null ? "" : criteria.toString();
-		return getStoreKey().toString() + "-" + typeDesc + "-" + suffix;
+		return getKey().toString() + "-" + typeDesc + "-" + suffix;
 	}
 
 	protected ResultHolder<?, ?> getResultHolder(final RetrieveEventType type, final Object criteria) {
@@ -237,7 +233,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	 * @param result the event data
 	 */
 	protected void dispatchResultEvent(final RetrieveEventType eventType, final RetrieveActionType action, final ResultHolder<?, ?> result) {
-		String qualifier = getStoreKey().getQualifier();
+		String qualifier = getKey().getQualifier();
 		DefaultEvent event = new RetrieveEvent(eventType, qualifier, result, action);
 		getDispatcher().dispatch(event);
 	}

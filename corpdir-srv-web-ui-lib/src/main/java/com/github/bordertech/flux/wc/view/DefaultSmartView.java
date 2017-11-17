@@ -2,7 +2,6 @@ package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.app.event.RetrieveActionType;
 import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
@@ -11,6 +10,8 @@ import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
 import com.github.bordertech.flux.event.StoreEventType;
 import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.key.EventKey;
+import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
@@ -205,13 +206,13 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	/**
 	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
 	 *
+	 * @param storeKey the target store
 	 * @param eventType the retrieve event type
 	 * @param data the event data
 	 * @param action the retrieve action
 	 */
-	protected void dispatchEvent(final RetrieveEventType eventType, final Object data, final RetrieveActionType action) {
-		String qualifier = getFullQualifier();
-		DefaultEvent event = new RetrieveEvent(eventType, qualifier, data, action);
+	protected void dispatchRetrieveEvent(final StoreKey storeKey, final RetrieveEventType eventType, final Object data, final RetrieveActionType action) {
+		DefaultEvent event = new RetrieveEvent(eventType, storeKey.getQualifier(), data, action);
 		dispatchEvent(event);
 	}
 
