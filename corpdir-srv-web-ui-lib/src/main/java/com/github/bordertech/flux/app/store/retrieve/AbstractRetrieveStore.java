@@ -52,7 +52,11 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		// Check if have result
 		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
 		if (holder == null) {
-			throw new ServiceException("No value for this criteria.");
+			if (getEventStatus(type, criteria) == ServiceStatus.PROCESSING) {
+				throw new IllegalStateException("Item is still being retrieved.");
+			}
+			// Call SYNC (ie retrieve immediately)
+			holder = handleCallAction(type, criteria, false);
 		}
 
 		if (holder.isException()) {
@@ -165,7 +169,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		}
 	}
 
-	protected void handleCallAction(final RetrieveEventType type, final Object criteria, final boolean async) {
+	protected ResultHolder<?, ?> handleCallAction(final RetrieveEventType type, final Object criteria, final boolean async) {
 		String key = getResultCacheKey(type, criteria);
 		ServiceAction action = new ServiceAction() {
 			@Override
@@ -175,8 +179,9 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		};
 		if (async) {
 			ServiceUtil.handleAsyncServiceCall(key, criteria, action);
+			return null;
 		} else {
-			ServiceUtil.handleServiceCall(key, criteria, action);
+			return ServiceUtil.handleServiceCall(key, criteria, action);
 		}
 	}
 

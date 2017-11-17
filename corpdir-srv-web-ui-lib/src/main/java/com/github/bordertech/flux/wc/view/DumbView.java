@@ -103,6 +103,13 @@ public interface DumbView<T> extends AjaxTarget, SubordinateTarget, BeanBound {
 	 * Dispatches an event to the parent container view.
 	 *
 	 * @param eventType the view event
+	 */
+	void dispatchViewEvent(final ViewEventType eventType);
+
+	/**
+	 * Dispatches an event to the parent container view.
+	 *
+	 * @param eventType the view event
 	 * @param data the data
 	 */
 	void dispatchViewEvent(final ViewEventType eventType, final Object data);

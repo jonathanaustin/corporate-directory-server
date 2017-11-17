@@ -18,9 +18,9 @@ public class AppTreeItemModel<K, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final RetrieveTreeStore<?, T, K> model;
+	private final RetrieveTreeStore<T> model;
 
-	public AppTreeItemModel(final List<T> rootItems, final RetrieveTreeStore<?, T, K> model) {
+	public AppTreeItemModel(final List<T> rootItems, final RetrieveTreeStore<T> model) {
 		this.rootItems = rootItems;
 		this.model = model;
 	}

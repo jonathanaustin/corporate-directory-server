@@ -10,7 +10,7 @@ import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
  * @param <T> the entity type
  * @param <D> the data API type
  */
-public class DefaultModifyEntityCreator<T, D extends CrudApi<?, T, ?>> extends DefaultModifyCreator implements ModifyEntityCreator<T> {
+public class DefaultModifyEntityCreator<T, D extends CrudApi<T>> extends AbstractModifyCreator implements ModifyEntityCreator<T> {
 
 	private final D api;
 

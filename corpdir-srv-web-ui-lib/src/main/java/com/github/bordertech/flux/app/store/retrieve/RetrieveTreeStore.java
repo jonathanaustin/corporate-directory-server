@@ -7,11 +7,9 @@ import java.util.List;
  * Store that holds tree values.
  *
  * @author jonathan
- * @param <S> the criteria type
  * @param <T> the entity type
- * @param <K> the entity key type
  */
-public interface RetrieveTreeStore<S, T, K> extends RetrieveEntityStore<S, T, K> {
+public interface RetrieveTreeStore<T> extends RetrieveEntityStore<T> {
 
 	boolean hasChildren(final T item);
 

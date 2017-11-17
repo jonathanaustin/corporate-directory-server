@@ -11,11 +11,11 @@ import com.github.bordertech.flux.dispatcher.DispatcherFactory;
  *
  * @author jonathan
  */
-public class DefaultModifyCreator implements ModifyCreator {
+public class AbstractModifyCreator implements ModifyCreator {
 
 	private final String qualifier;
 
-	public DefaultModifyCreator(final String qualifier) {
+	public AbstractModifyCreator(final String qualifier) {
 		this.qualifier = qualifier;
 	}
 

@@ -8,14 +8,12 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.Objects;
 
 /**
- * @param <S> the key type
  * @param <T> the item type
- * @param <K> the item key type
- * @param <D> the data api type
+ * @param <D> the API data type
  *
  * @author jonathan
  */
-public class DefaultRetrieveEntityStore<S, T, K, D extends CrudApi<S, T, K>> extends DefaultRetrieveSearchStore<S, T, D> implements RetrieveEntityStore<S, T, K> {
+public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends AbstractRetrieveDataApiStore<D> implements RetrieveEntityStore<T> {
 
 	public DefaultRetrieveEntityStore(final D api, final StoreType storeType) {
 		super(api, storeType);
@@ -26,17 +24,17 @@ public class DefaultRetrieveEntityStore<S, T, K, D extends CrudApi<S, T, K>> ext
 	}
 
 	@Override
-	public ServiceStatus getRetrieveStatus(final K key) {
+	public ServiceStatus getRetrieveStatus(final T key) {
 		return getEventStatus(RetrieveBaseEventType.RETRIEVE, key);
 	}
 
 	@Override
-	public boolean isRetrieveDone(final K key) {
+	public boolean isRetrieveDone(final T key) {
 		return isEventDone(RetrieveBaseEventType.RETRIEVE, key);
 	}
 
 	@Override
-	public T retrieve(final K key) {
+	public T retrieve(final T key) {
 		// Retrieve and RetrieveAsync get treated the same
 		return (T) getEventResult(RetrieveBaseEventType.RETRIEVE, key);
 	}
@@ -44,9 +42,9 @@ public class DefaultRetrieveEntityStore<S, T, K, D extends CrudApi<S, T, K>> ext
 	@Override
 	protected Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveBaseEventType.SEARCH)) {
-			return getDataApi().retrieve((K) criteria);
+			return getDataApi().refresh((T) criteria);
 		}
-		return super.doRetrieveServiceCall(type, criteria);
+		throw new IllegalStateException("Event not supported [" + type + "].");
 	}
 
 }

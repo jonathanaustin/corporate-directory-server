@@ -49,7 +49,7 @@ public abstract class AbstractPollingRetrieveStoreSmartView<S, R, T> extends Def
 	protected abstract void handleResultSuccessful(final R result);
 
 	protected void handleResultError(final Exception excp) {
-		handleMessageError("Error loading details. " + excp.getMessage());
+		dispatchMessageError("Error loading details. " + excp.getMessage());
 	}
 
 	public void setStoreRetrieveType(final RetrieveEventType retrieveType) {

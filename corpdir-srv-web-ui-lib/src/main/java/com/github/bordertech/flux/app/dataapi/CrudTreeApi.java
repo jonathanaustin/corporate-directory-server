@@ -6,11 +6,9 @@ import java.util.List;
  * Entity with a Tree Structure crud API.
  *
  * @author jonathan
- * @param <S> the search criteria type
  * @param <T> the entity type
- * @param <K> the entity key
  */
-public interface CrudTreeApi<S, T, K> extends CrudApi<S, T, K> {
+public interface CrudTreeApi<T> extends CrudApi<T> {
 
 	boolean hasChildren(final T item);
 

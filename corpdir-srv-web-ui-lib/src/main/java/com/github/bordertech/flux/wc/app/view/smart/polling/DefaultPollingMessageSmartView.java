@@ -2,8 +2,8 @@ package com.github.bordertech.flux.wc.app.view.smart.polling;
 
 import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
-import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventUtil;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;
 import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
 import com.github.bordertech.wcomponents.WMessages;
@@ -43,6 +43,6 @@ public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T
 	}
 
 	protected void handleMesssageEvent(final String viewId, final MessageBaseViewEvent event, final Object data) {
-		MessageBaseEventUtil.handleMessageEvent(getMessages(), event, data);
+		MessageBaseEventUtil.handleMessageEvent(getMessageView(), event, data);
 	}
 }

@@ -17,7 +17,7 @@ public class PollingDropdownOptionsView<S, T> extends DefaultPollingInputOptions
 
 	@Override
 	public SingleSelectOptionsView<T> getOptionsView() {
-		return (SingleSelectOptionsView) super.getOptionsView(); //To change body of generated methods, choose Tools | Templates.
+		return (SingleSelectOptionsView) super.getOptionsView();
 	}
 
 	@Override

@@ -11,9 +11,9 @@ import java.util.Objects;
 /**
  * Default search store.
  *
- * @param <S> the key type
+ * @param <S> the criteria type
  * @param <T> the item type
- * @param <D> the data api type
+ * @param <D> the data API type
  * @author Jonathan Austin
  * @since 1.0.0
  *

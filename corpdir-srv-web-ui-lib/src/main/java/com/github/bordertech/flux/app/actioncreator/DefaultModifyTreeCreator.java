@@ -10,7 +10,7 @@ import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
  * @param <T> the entity type
  * @param <D> the data API type
  */
-public class DefaultModifyTreeCreator<T, D extends CrudTreeApi<?, T, ?>> extends DefaultModifyEntityCreator<T, D> implements ModifyTreeCreator<T> {
+public class DefaultModifyTreeCreator<T, D extends CrudTreeApi<T>> extends DefaultModifyEntityCreator<T, D> implements ModifyTreeCreator<T> {
 
 	public DefaultModifyTreeCreator(final D api) {
 		super(api);

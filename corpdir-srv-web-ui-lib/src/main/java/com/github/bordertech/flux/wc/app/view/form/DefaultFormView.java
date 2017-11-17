@@ -74,7 +74,7 @@ public class DefaultFormView<T> extends DefaultDumbView<T> implements FormView<T
 		super.initViewContent(request);
 		// Check entity is loaded
 		if (!isLoaded()) {
-			handleMessageError("No entity has been loaded.");
+			dispatchMessageError("No entity has been loaded.");
 			setContentVisible(false);
 			return;
 		}

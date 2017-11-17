@@ -87,7 +87,7 @@ public class ServiceUtil {
 		return result;
 	}
 
-	public static <S, T> ResultHolder<S, T> handleAsyncServiceCall(final String cacheKey, final S criteria, final ServiceAction<S, T> action) {
+	public static <S, T> void handleAsyncServiceCall(final String cacheKey, final S criteria, final ServiceAction<S, T> action) {
 
 		// Check cache key provided
 		if (cacheKey == null) {
@@ -101,7 +101,7 @@ public class ServiceUtil {
 
 		// Check if already processing
 		if (getFuture(cacheKey) != null) {
-			return null;
+			return;
 		}
 
 		final ResultHolder<S, T> result = new ResultHolder(cacheKey);
@@ -124,7 +124,6 @@ public class ServiceUtil {
 		} catch (Exception e) {
 			throw new SystemException("Could not start thread to process task action. " + e.getMessage());
 		}
-		return null;
 	}
 
 	/**

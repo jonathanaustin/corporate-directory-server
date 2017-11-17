@@ -97,10 +97,10 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 
 		// Check if contains errors
 		if (containsError(diags)) {
-			handleValidationMessages(diags);
+			dispatchValidationMessages(diags);
 			return false;
 		} else {
-			handleMessageReset();
+			dispatchMessageReset();
 			return true;
 		}
 	}
@@ -215,43 +215,43 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 		}
 	}
 
-	protected void handleMessageReset() {
+	protected void dispatchMessageReset() {
 		dispatchViewEvent(MessageBaseViewEvent.RESET);
 	}
 
-	protected void handleValidationMessages(final List<Diagnostic> diags) {
+	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
 		dispatchViewEvent(MessageBaseViewEvent.RESET, diags);
 	}
 
-	protected void handleMessageSuccess(final String msg) {
-		handleMessageSuccess(Arrays.asList(msg));
+	protected void dispatchMessageSuccess(final String msg) {
+		dispatchMessageSuccess(Arrays.asList(msg));
 	}
 
-	protected void handleMessageWarning(final String msg) {
-		handleMessageWarning(Arrays.asList(msg));
+	protected void dipsatchMessageWarning(final String msg) {
+		dispatchMessageWarning(Arrays.asList(msg));
 	}
 
-	protected void handleMessageError(final String msg) {
-		handleMessageError(Arrays.asList(msg));
+	protected void dispatchMessageError(final String msg) {
+		dispatchMessageError(Arrays.asList(msg));
 	}
 
-	protected void handleMessageInfo(final String msg) {
-		handleMessageInfo(Arrays.asList(msg));
+	protected void dispatchMessageInfo(final String msg) {
+		dispatchMessageInfo(Arrays.asList(msg));
 	}
 
-	protected void handleMessageSuccess(final List<String> msgs) {
+	protected void dispatchMessageSuccess(final List<String> msgs) {
 		dispatchViewEvent(MessageBaseViewEvent.SUCCESS, msgs);
 	}
 
-	protected void handleMessageWarning(final List<String> msgs) {
+	protected void dispatchMessageWarning(final List<String> msgs) {
 		dispatchViewEvent(MessageBaseViewEvent.WARN, msgs);
 	}
 
-	protected void handleMessageError(final List<String> msgs) {
+	protected void dispatchMessageError(final List<String> msgs) {
 		dispatchViewEvent(MessageBaseViewEvent.ERROR, msgs);
 	}
 
-	protected void handleMessageInfo(final List<String> msgs) {
+	protected void dispatchMessageInfo(final List<String> msgs) {
 		dispatchViewEvent(MessageBaseViewEvent.INFO, msgs);
 	}
 
@@ -260,7 +260,8 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	 *
 	 * @param eventType the view event
 	 */
-	protected void dispatchViewEvent(final ViewEventType eventType) {
+	@Override
+	public void dispatchViewEvent(final ViewEventType eventType) {
 		dispatchViewEvent(eventType, null);
 	}
 

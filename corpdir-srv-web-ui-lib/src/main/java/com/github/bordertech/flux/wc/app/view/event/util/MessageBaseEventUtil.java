@@ -1,5 +1,7 @@
-package com.github.bordertech.flux.wc.app.view.event.base;
+package com.github.bordertech.flux.wc.app.view.event.util;
 
+import com.github.bordertech.flux.wc.app.view.MessageView;
+import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.wcomponents.WMessages;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.Collection;
@@ -15,7 +17,9 @@ public class MessageBaseEventUtil {
 	private MessageBaseEventUtil() {
 	}
 
-	public static void handleMessageEvent(final WMessages messages, final MessageBaseViewEvent event, final Object data) {
+	public static void handleMessageEvent(final MessageView view, final MessageBaseViewEvent event, final Object data) {
+
+		WMessages messages = view.getMessages();
 
 		// Clear old messages
 		messages.reset();

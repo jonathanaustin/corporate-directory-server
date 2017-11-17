@@ -12,14 +12,12 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * @param <S> the key type
  * @param <T> the item type
- * @param <K> the item key type
  * @param <D> the data API type
  *
  * @author jonathan
  */
-public class DefaultRetrieveTreeStore<S, T, K, D extends CrudTreeApi<S, T, K>> extends DefaultRetrieveEntityStore<S, T, K, D> implements RetrieveTreeStore<S, T, K> {
+public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends DefaultRetrieveEntityStore<T, D> implements RetrieveTreeStore<T> {
 
 	public DefaultRetrieveTreeStore(final D api, final StoreType storeType) {
 		super(api, storeType);

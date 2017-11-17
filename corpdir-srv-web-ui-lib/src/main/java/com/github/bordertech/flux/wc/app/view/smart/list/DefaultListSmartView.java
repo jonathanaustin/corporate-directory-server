@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.list;
 
 import com.github.bordertech.flux.wc.app.view.ListView;
+import com.github.bordertech.flux.wc.app.view.smart.polling.AbstractPollingRetrieveStoreSmartView;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class DefaultListSmartView<S, T> extends AbstractListSmartView<S, T> implements ListView<T> {
+public class DefaultListSmartView<S, T> extends AbstractPollingRetrieveStoreSmartView<S, List<T>, List<T>> implements ListView<T> {
 
 	private final ListView<T> listView;
 

@@ -1,16 +1,16 @@
 package com.github.bordertech.flux.app.dataapi;
 
+import com.github.bordertech.flux.DataApi;
+
 /**
  * Entity crud API.
  *
  * @author jonathan
- * @param <S> the search criteria type
  * @param <T> the entity type
- * @param <K> the entity key
  */
-public interface CrudApi<S, T, K> extends SearchApi<S, T> {
+public interface CrudApi<T> extends DataApi {
 
-	T retrieve(final K key);
+	T refresh(final T entity);
 
 	T create(final T entity);
 
