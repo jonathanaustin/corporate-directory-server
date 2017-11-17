@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.app.event;
 
-import com.github.bordertech.flux.app.event.base.RetrieveActionType;
 import com.github.bordertech.flux.EventKey;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
 
@@ -10,7 +9,7 @@ import com.github.bordertech.flux.dispatcher.DefaultEvent;
  */
 public class RetrieveEvent extends DefaultEvent {
 
-	private RetrieveActionType actionType;
+	private final RetrieveActionType actionType;
 
 	public RetrieveEvent(final RetrieveEventType eventType, final String qualifier, final Object data, final RetrieveActionType actionType) {
 		super(new EventKey(eventType, qualifier), data);

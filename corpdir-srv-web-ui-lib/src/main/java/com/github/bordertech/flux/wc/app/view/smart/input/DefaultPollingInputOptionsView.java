@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
-import com.github.bordertech.flux.wc.app.view.smart.list.AbstractListSmartView;
+import com.github.bordertech.flux.wc.app.view.smart.polling.AbstractPollingRetrieveStoreSmartView;
 import com.github.bordertech.flux.wc.view.DumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class DefaultPollingInputOptionsView<S, T> extends AbstractListSmartView<S, T, T> implements InputOptionsView<T> {
+public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetrieveStoreSmartView<S, List<T>, T> implements InputOptionsView<T> {
 
 	private final InputOptionsView<T> optionsView;
 

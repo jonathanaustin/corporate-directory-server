@@ -8,32 +8,32 @@ package com.github.bordertech.taskmanager.service;
  * </p>
  *
  * @author Jonathan Austin
- * @param <S> the criteria type
+ * @param <M> the meta type
  * @param <T> the result type
  * @since 1.0.0
  */
-public class ResultHolder<S, T> {
+public class ResultHolder<M, T> {
 
-	private final S criteria;
+	private final M metaData;
 	private T result;
 	private Exception exception;
 
-	public ResultHolder(final S criteria) {
-		this.criteria = criteria;
+	public ResultHolder(final M metaData) {
+		this.metaData = metaData;
 	}
 
-	public ResultHolder(final S criteria, final T result) {
-		this(criteria);
+	public ResultHolder(final M metaData, final T result) {
+		this(metaData);
 		this.result = result;
 	}
 
-	public ResultHolder(final S criteria, final Exception exception) {
-		this(criteria);
+	public ResultHolder(final M metaData, final Exception exception) {
+		this(metaData);
 		this.exception = exception;
 	}
 
-	public S getCriteria() {
-		return criteria;
+	public M getMetaData() {
+		return metaData;
 	}
 
 	/**
@@ -60,12 +60,20 @@ public class ResultHolder<S, T> {
 		this.result = null;
 	}
 
-	public boolean hasException() {
+	public boolean isException() {
 		return exception != null;
 	}
 
-	public boolean hasResult() {
-		return result != null;
+	public boolean isResult() {
+		return !isException();
+	}
+
+	public boolean isNotFoundException() {
+		return exception instanceof NotFoundException;
+	}
+
+	public boolean isServiceException() {
+		return exception instanceof ServiceException;
 	}
 
 }

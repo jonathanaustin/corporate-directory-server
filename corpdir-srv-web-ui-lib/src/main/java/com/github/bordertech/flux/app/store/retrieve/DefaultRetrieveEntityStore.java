@@ -1,56 +1,52 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.StoreType;
-import com.github.bordertech.flux.app.dataapi.retrieve.RetrieveEntityApi;
+import com.github.bordertech.flux.app.dataapi.CrudApi;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
-import com.github.bordertech.flux.dataapi.DataApiType;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
-import java.util.List;
 import java.util.Objects;
 
 /**
+ * @param <S> the key type
+ * @param <T> the item type
+ * @param <K> the item key type
+ * @param <D> the data api type
  *
  * @author jonathan
  */
-public class DefaultRetrieveEntityStore<K, T, S, R extends RetrieveEntityApi<K, T, S>> extends DefaultRetrieveItemStore<K, T, R> implements RetrieveEntityStore<K, T, S> {
+public class DefaultRetrieveEntityStore<S, T, K, D extends CrudApi<S, T, K>> extends DefaultRetrieveSearchStore<S, T, D> implements RetrieveEntityStore<S, T, K> {
 
-	public DefaultRetrieveEntityStore(final DataApiType apiType, final StoreType storeType) {
-		super(apiType, storeType);
+	public DefaultRetrieveEntityStore(final D api, final StoreType storeType) {
+		super(api, storeType);
 	}
 
-	public DefaultRetrieveEntityStore(final DataApiType apiType, final StoreType storeType, final String qualifier) {
-		super(apiType, storeType, qualifier);
-	}
-
-	@Override
-	public ServiceStatus getSearchStatus(final S criteria) {
-		return getEventStatus(RetrieveBaseEventType.SEARCH, criteria);
+	public DefaultRetrieveEntityStore(final D api, final StoreType storeType, final String qualifier) {
+		super(api, storeType, qualifier);
 	}
 
 	@Override
-	public boolean isSearchDone(S criteria) {
-		return isEventDone(RetrieveBaseEventType.SEARCH, criteria);
+	public ServiceStatus getRetrieveStatus(final K key) {
+		return getEventStatus(RetrieveBaseEventType.RETRIEVE, key);
 	}
 
 	@Override
-	public List<T> search(S criteria) throws ServiceException {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	public boolean isRetrieveDone(final K key) {
+		return isEventDone(RetrieveBaseEventType.RETRIEVE, key);
 	}
 
 	@Override
-	protected ServiceAction<?, ?> getWrappedApiServiceAction(final RetrieveEventType type) {
+	public T retrieve(final K key) {
+		// Retrieve and RetrieveAsync get treated the same
+		return (T) getEventResult(RetrieveBaseEventType.RETRIEVE, key);
+	}
+
+	@Override
+	protected Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveBaseEventType.SEARCH)) {
-			return new ServiceAction<S, List<T>>() {
-				@Override
-				public List<T> service(final S item) throws ServiceException {
-					return getRetrieveApi().search(item);
-				}
-			};
+			return getDataApi().retrieve((K) criteria);
 		}
-		return super.getWrappedApiServiceAction(type);
+		return super.doRetrieveServiceCall(type, criteria);
 	}
 
 }

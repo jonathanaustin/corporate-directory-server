@@ -10,6 +10,6 @@ package com.github.bordertech.taskmanager.service;
  */
 public interface ServiceAction<S, T> {
 
-	T service(final S criteria) throws ServiceException;
+	T service(final S criteria);
 
 }

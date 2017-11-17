@@ -197,7 +197,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	protected void handleResult(final ResultHolder<S, T> resultHolder) {
 		// Exception message
 		final PollingStatus status;
-		if (resultHolder.hasException()) {
+		if (resultHolder.isException()) {
 			Exception excp = resultHolder.getException();
 			handleExceptionResult(excp);
 			// Log error

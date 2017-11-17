@@ -65,7 +65,7 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 	}
 
 	protected void handleSearchEvent(final S criteria) {
-		setListCriteria(criteria);
+		setStoreCriteria(criteria);
 		doStartPolling();
 	}
 

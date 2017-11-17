@@ -10,7 +10,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the item type
  */
-public class DefaultListSmartView<S, T> extends AbstractListSmartView<S, T, List<T>> implements ListView<T> {
+public class DefaultListSmartView<S, T> extends AbstractListSmartView<S, T> implements ListView<T> {
 
 	private final ListView<T> listView;
 

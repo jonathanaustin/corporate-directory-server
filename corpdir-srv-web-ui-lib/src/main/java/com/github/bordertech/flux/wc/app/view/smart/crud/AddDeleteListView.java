@@ -89,6 +89,8 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
+
+		// FIXME JA
 // SelectViewEvent.SELECT
 // NavigationViewEvent.RESET_VIEW
 // ModelEventType.ADD

@@ -179,7 +179,7 @@ public class ServiceUtil {
 		// Check for result
 		ResultHolder holder = getResultHolder(cacheKey);
 		if (holder != null) {
-			return holder.hasException() ? ServiceStatus.ERROR : ServiceStatus.COMPLETE;
+			return holder.isException() ? ServiceStatus.ERROR : ServiceStatus.COMPLETE;
 		}
 
 		// Not available

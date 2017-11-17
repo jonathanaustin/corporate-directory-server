@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.view;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.EventKey;
-import com.github.bordertech.flux.app.event.base.RetrieveActionType;
+import com.github.bordertech.flux.app.event.RetrieveActionType;
 import com.github.bordertech.flux.app.event.RetrieveEvent;
 import com.github.bordertech.flux.app.event.RetrieveEventType;
 import com.github.bordertech.flux.dispatcher.DefaultEvent;
