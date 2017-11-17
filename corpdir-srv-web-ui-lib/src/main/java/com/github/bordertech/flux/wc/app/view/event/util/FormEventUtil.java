@@ -59,7 +59,7 @@ public class FormEventUtil {
 			// Not Handled here
 			case BACK:
 			case RESET:
-			case SELECT:
+			case APPLY:
 				break;
 		}
 	}

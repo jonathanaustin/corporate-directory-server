@@ -10,7 +10,7 @@ import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
 import com.github.bordertech.flux.wc.app.view.toolbar.AddDeleteButtonBarView;
-import com.github.bordertech.flux.wc.app.view.toolbar.SelectButtonBarView;
+import com.github.bordertech.flux.wc.app.view.toolbar.ApplyButtonBarView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WDiv;
@@ -46,7 +46,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	private final AddDeleteButtonBarView addRemToolbar = new AddDeleteButtonBarView("vw-toolbar");
 
 	// Add Select Button BAR to Bottom of Dialog View
-	private final SelectButtonBarView findSelBar = new SelectButtonBarView("vw-select");
+	private final ApplyButtonBarView findSelBar = new ApplyButtonBarView("vw-select");
 	private final SelectSingleView<T> selectView;
 	private final SelectableView<T> findView;
 
@@ -56,11 +56,11 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		this.selectView = selectView;
 		this.findView = findView;
 
-		// Put the find view into dumb mode so we get the view events
+		// Put the find view into dumb mode so we get the SELECT event
 		if (findView instanceof SmartView) {
 			SmartView smart = (SmartView) findView;
 			smart.setDumbMode(true);
-			smart.addPassThrough(ToolbarBaseViewEvent.SELECT);
+			smart.addPassThrough(ToolbarBaseViewEvent.APPLY);
 		}
 
 		// Bean Property
@@ -121,11 +121,12 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 				handleAddEvent();
 			}
 
+			// Find View Events
 		} else if (isView(viewId, findView)) {
 			if (isEvent(event, SelectableBaseViewEvent.SELECT)) {
 				handleFindSelect((T) data);
 			}
-			if (isEvent(event, ToolbarBaseViewEvent.SELECT)) {
+			if (isEvent(event, ToolbarBaseViewEvent.APPLY)) {
 				handleFindSelectedItemEvent((T) data);
 			}
 		}

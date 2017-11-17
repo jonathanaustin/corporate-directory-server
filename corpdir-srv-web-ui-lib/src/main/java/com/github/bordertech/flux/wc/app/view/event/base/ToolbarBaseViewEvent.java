@@ -18,5 +18,5 @@ public enum ToolbarBaseViewEvent implements ToolbarViewEvent {
 	UPDATE,
 	CREATE,
 	BACK,
-	SELECT
+	APPLY
 }

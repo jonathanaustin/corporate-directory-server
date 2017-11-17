@@ -18,4 +18,10 @@ public interface ListView<T> extends DumbView<List<T>> {
 	List<T> getItems();
 
 	void refreshItems(final List<T> items);
+
+	void addItem(final T item);
+
+	void removeItem(final T item);
+
+	void updateItem(final T item);
 }

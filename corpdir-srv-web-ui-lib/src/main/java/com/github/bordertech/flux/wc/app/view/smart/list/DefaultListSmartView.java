@@ -66,4 +66,19 @@ public class DefaultListSmartView<S, T> extends AbstractPollingRetrieveSmartView
 		listView.refreshItems(items);
 	}
 
+	@Override
+	public void addItem(T item) {
+		listView.addItem(item);
+	}
+
+	@Override
+	public void removeItem(T item) {
+		listView.removeItem(item);
+	}
+
+	@Override
+	public void updateItem(T item) {
+		listView.updateItem(item);
+	}
+
 }

@@ -12,28 +12,28 @@ import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WPanel;
 
 /**
- * Select button.
+ * Apply button.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class SelectButtonBarView<T> extends AbstractToolbarView<T> implements ToolbarView<T> {
+public class ApplyButtonBarView<T> extends AbstractToolbarView<T> implements ToolbarView<T> {
 
 	private final WPanel panel = new WPanel(WPanel.Type.FEATURE);
 
-	private final WButton btnSelect = new WButton("Add");
-	private final WAjaxControl ajax = new AppAjaxControl(btnSelect);
+	private final WButton btnApply = new WButton("Apply");
+	private final WAjaxControl ajax = new AppAjaxControl(btnApply);
 
-	public SelectButtonBarView(final String viewId) {
+	public ApplyButtonBarView(final String viewId) {
 		super(viewId);
 		WContainer content = getContent();
 		content.add(panel);
-		panel.add(btnSelect);
+		panel.add(btnApply);
 		panel.add(ajax);
-		btnSelect.setAction(new Action() {
+		btnApply.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				dispatchViewEvent(ToolbarBaseViewEvent.SELECT, event.getActionObject());
+				dispatchViewEvent(ToolbarBaseViewEvent.APPLY, event.getActionObject());
 			}
 		});
 	}
@@ -43,7 +43,7 @@ public class SelectButtonBarView<T> extends AbstractToolbarView<T> implements To
 	}
 
 	public WButton getButton() {
-		return btnSelect;
+		return btnApply;
 	}
 
 }

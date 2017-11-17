@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.list;
 
-import com.github.bordertech.flux.wc.app.view.ListView;
 import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.app.view.ListView;
 import java.util.Collections;
 import java.util.List;
 
@@ -35,5 +35,31 @@ public class AbstractListView<T> extends DefaultDumbView<List<T>> implements Lis
 		resetContent();
 		setItems(items);
 		setContentVisible(wasVisible);
+	}
+
+	@Override
+	public void addItem(final T item) {
+		List<T> items = getItems();
+		if (!items.contains(item)) {
+			items.add(item);
+			refreshItems(items);
+		}
+	}
+
+	@Override
+	public void removeItem(final T item) {
+		List<T> items = getItems();
+		if (items.contains(item)) {
+			items.remove(item);
+			refreshItems(items);
+		}
+	}
+
+	@Override
+	public void updateItem(final T item) {
+		List<T> items = getItems();
+		items.remove(item);
+		items.add(item);
+		refreshItems(items);
 	}
 }
