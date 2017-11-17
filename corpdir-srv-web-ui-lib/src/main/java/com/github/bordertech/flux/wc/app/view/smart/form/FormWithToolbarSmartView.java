@@ -10,10 +10,10 @@ import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.form.DefaultFormView;
+import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.flux.wc.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 
 /**
  * Form View with a Toolbar View.
@@ -21,7 +21,7 @@ import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> implements FormSmartView<T> {
+public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> implements FormSmartView<T>, FormView<T> {
 
 	private final ModifyEntityCreator<T> creator;
 
@@ -63,10 +63,12 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 		return store;
 	}
 
+	@Override
 	public final FormView<T> getFormView() {
 		return formView;
 	}
 
+	@Override
 	public final FormToolbarView getToolbarView() {
 		return toolbarView;
 	}
@@ -81,17 +83,22 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 		}
 	}
 
+	@Override
+	public void resetFormViews() {
+		reset();
+	}
+
 	protected void handleFormBaseEvents(final FormBaseViewEvent type, final Object data) {
 		switch (type) {
 			case ENTITY_MODE_CHANGED:
 			case LOAD_OK:
-				FormEventUtil.handleSyncToolbar(getToolbarView(), getFormView());
+				FormEventUtil.handleSyncToolbar(this);
 				break;
 			case LOAD:
-				FormEventUtil.doLoad(getFormView(), (T) data, FormMode.VIEW);
+				FormEventUtil.doLoad(this, (T) data, FormMode.VIEW);
 				break;
 			case LOAD_NEW:
-				FormEventUtil.doLoad(getFormView(), (T) data, FormMode.ADD);
+				FormEventUtil.doLoad(this, (T) data, FormMode.ADD);
 				break;
 		}
 	}
