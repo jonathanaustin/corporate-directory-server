@@ -1,7 +1,6 @@
 package com.github.bordertech.flux;
 
 import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.Keyable;
 
 /**
  * Flux Action between a view and a store.
@@ -9,7 +8,9 @@ import com.github.bordertech.flux.key.Keyable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Action extends Keyable<ActionKey> {
+public interface Action {
+
+	ActionKey getKey();
 
 	Object getData();
 

@@ -21,8 +21,7 @@ public class DefaultDataApiProvider implements DataApiProvider {
 	private static final String DATA_API_KEY_PREFIX = "wc.data.api.impl.";
 
 	@Override
-	public DataApi getDataApi(final DataApiType type) {
-		String key = type.getKey();
+	public DataApi getDataApi(final String key) {
 		DataApi model = DATA_APIS.get(key);
 		if (model != null) {
 			return model;

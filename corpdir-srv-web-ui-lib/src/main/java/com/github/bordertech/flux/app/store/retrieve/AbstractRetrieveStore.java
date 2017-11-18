@@ -8,7 +8,6 @@ import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.RetrieveCallType;
 import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
@@ -25,7 +24,7 @@ import com.github.bordertech.taskmanager.service.ServiceUtil;
  */
 public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveStore {
 
-	public AbstractRetrieveStore(final StoreKey storeKey) {
+	public AbstractRetrieveStore(final String storeKey) {
 		super(storeKey);
 	}
 
@@ -233,7 +232,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	 * @param result the action data
 	 */
 	protected void dispatchResultAction(final RetrieveActionType actionType, final RetrieveCallType callType, final ResultHolder<?, ?> result) {
-		String qualifier = getKey().getQualifier();
+		String qualifier = getKey();
 		DefaultAction action = new RetrieveAction(actionType, qualifier, result, callType);
 		getDispatcher().dispatch(action);
 	}

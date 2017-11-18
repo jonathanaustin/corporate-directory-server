@@ -3,7 +3,6 @@ package com.github.bordertech.flux.store.collection;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.ListBaseActionType;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,7 +22,7 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 
 	private final List<T> items = new ArrayList<>();
 
-	public DefaultListStore(final StoreKey storeKey) {
+	public DefaultListStore(final String storeKey) {
 		super(storeKey);
 	}
 

@@ -4,7 +4,6 @@ import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.RetrieveCallType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
@@ -81,11 +80,11 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().retrieveType;
 	}
 
-	public void setStoreKey(final StoreKey storeKey) {
+	public void setStoreKey(final String storeKey) {
 		getOrCreateComponentModel().storeKey = storeKey;
 	}
 
-	public StoreKey getStoreKey() {
+	public String getStoreKey() {
 		return getComponentModel().storeKey;
 	}
 
@@ -127,7 +126,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 		private RetrieveActionType retrieveType = RetrieveBaseActionType.RETRIEVE;
 
-		private StoreKey storeKey;
+		private String storeKey;
 
 		private S criteria;
 	}

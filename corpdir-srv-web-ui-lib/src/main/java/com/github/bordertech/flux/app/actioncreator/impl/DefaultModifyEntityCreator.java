@@ -1,8 +1,8 @@
-package com.github.bordertech.flux.app.actioncreator;
+package com.github.bordertech.flux.app.actioncreator.impl;
 
 import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
+import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.dataapi.CrudApi;
-import com.github.bordertech.flux.key.CreatorKey;
 
 /**
  * Modify action creator used by views.
@@ -15,7 +15,7 @@ public class DefaultModifyEntityCreator<T, D extends CrudApi<T>> extends Abstrac
 
 	private final D api;
 
-	public DefaultModifyEntityCreator(final CreatorKey key, final D api) {
+	public DefaultModifyEntityCreator(final String key, final D api) {
 		super(key);
 		this.api = api;
 	}

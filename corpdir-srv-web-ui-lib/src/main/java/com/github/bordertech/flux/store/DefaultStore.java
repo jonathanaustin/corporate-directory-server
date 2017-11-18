@@ -8,7 +8,6 @@ import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.flux.key.StoreKey;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,16 +18,16 @@ import java.util.Set;
  */
 public class DefaultStore implements Store {
 
-	private final StoreKey storeKey;
+	private final String key;
 	private final Set<String> registeredIds = new HashSet<>();
 
-	public DefaultStore(final StoreKey storeKey) {
-		this.storeKey = storeKey;
+	public DefaultStore(final String key) {
+		this.key = key;
 	}
 
 	@Override
-	public StoreKey getKey() {
-		return storeKey;
+	public String getKey() {
+		return key;
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class DefaultStore implements Store {
 
 	@Override
 	public void dispatchChangeAction(final ActionType actionType) {
-		DefaultAction action = new DefaultAction(new ActionKey(StateBaseActionType.STORE_CHANGED, storeKey.getQualifier()), actionType);
+		DefaultAction action = new DefaultAction(new ActionKey(StateBaseActionType.STORE_CHANGED, getKey()), actionType);
 		getDispatcher().dispatch(action);
 	}
 
@@ -62,7 +61,7 @@ public class DefaultStore implements Store {
 	 * @param actionType
 	 */
 	protected void registerListener(final ActionType actionType, final Listener listener) {
-		String id = getDispatcher().registerListener(new ActionKey(actionType, storeKey.getQualifier()), listener);
+		String id = getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
 		registeredIds.add(id);
 	}
 

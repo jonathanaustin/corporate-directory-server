@@ -1,7 +1,6 @@
 package com.github.bordertech.flux;
 
 import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.StoreKey;
 import java.io.Serializable;
 
 /**
@@ -24,8 +23,14 @@ public interface Dispatcher extends Serializable {
 
 	void registerStore(final Store store);
 
-	void unregisterStore(final StoreKey storeKey);
+	void unregisterStore(final String key);
 
-	Store getStore(final StoreKey storeKey);
+	Store getStore(final String key);
+
+	void registerActionCreator(final ActionCreator creator);
+
+	void unregisterActionCreator(final String key);
+
+	ActionCreator getActionCreator(final String key);
 
 }

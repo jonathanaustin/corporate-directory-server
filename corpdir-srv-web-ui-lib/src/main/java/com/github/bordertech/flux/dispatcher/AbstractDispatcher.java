@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.StoreKey;
 
 /**
  *
@@ -49,13 +49,28 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public void unregisterStore(final StoreKey storeKey) {
+	public void unregisterStore(final String storeKey) {
 		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_STORE, storeKey));
 	}
 
 	@Override
-	public Store getStore(final StoreKey storeKey) {
+	public Store getStore(final String storeKey) {
 		return DispatcherUtil.getStore(storeKey, getDispatcherModel());
+	}
+
+	@Override
+	public void registerActionCreator(final ActionCreator creator) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void unregisterActionCreator(final String key) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public ActionCreator getActionCreator(final String key) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	protected void doConfigModel(final DispatcherModel model) {
@@ -86,7 +101,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 				doHandleRegisterStore(store);
 				break;
 			case UNREGISTER_STORE:
-				StoreKey storeKey = (StoreKey) action.getData();
+				String storeKey = (String) action.getData();
 				doHandleUnregisterStore(storeKey);
 				break;
 			default:
@@ -106,7 +121,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 		DispatcherUtil.handleRegisterStore(store, getDispatcherModel());
 	}
 
-	protected void doHandleUnregisterStore(final StoreKey storeKey) {
+	protected void doHandleUnregisterStore(final String storeKey) {
 		DispatcherUtil.handleUnregisterStore(storeKey, getDispatcherModel());
 	}
 

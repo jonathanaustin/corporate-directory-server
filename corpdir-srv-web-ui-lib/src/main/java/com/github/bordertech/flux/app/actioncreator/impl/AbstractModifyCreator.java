@@ -1,36 +1,32 @@
-package com.github.bordertech.flux.app.actioncreator;
+package com.github.bordertech.flux.app.actioncreator.impl;
 
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.app.action.ModifyActionType;
+import com.github.bordertech.flux.app.actioncreator.ModifyCreator;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.CreatorKey;
 
 /**
  * Modify action creator used by views.
  *
  * @author jonathan
  */
-public class AbstractModifyCreator implements ModifyCreator {
+public abstract class AbstractModifyCreator implements ModifyCreator {
 
-	private final CreatorKey key;
+	private final String key;
 
-	public AbstractModifyCreator(final CreatorKey key) {
+	public AbstractModifyCreator(final String key) {
 		this.key = key;
 	}
 
 	@Override
-	public CreatorKey getKey() {
+	public String getKey() {
 		return key;
 	}
 
-	public String getQualifier() {
-		return getKey().getQualifier();
-	}
-
 	protected void dispatchModifyAction(final ModifyActionType actionType, final Object entity) {
-		DefaultAction action = new DefaultAction(new ActionKey(actionType, getQualifier()), entity);
+		DefaultAction action = new DefaultAction(new ActionKey(actionType, getKey()), entity);
 		getDispatcher().dispatch(action);
 	}
 

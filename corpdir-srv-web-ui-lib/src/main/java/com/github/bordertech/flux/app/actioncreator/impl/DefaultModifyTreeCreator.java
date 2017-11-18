@@ -1,8 +1,8 @@
-package com.github.bordertech.flux.app.actioncreator;
+package com.github.bordertech.flux.app.actioncreator.impl;
 
 import com.github.bordertech.flux.app.action.base.ModifyTreeBaseActionType;
+import com.github.bordertech.flux.app.actioncreator.ModifyTreeCreator;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.key.CreatorKey;
 
 /**
  * Modify tree action creator used by views.
@@ -13,7 +13,7 @@ import com.github.bordertech.flux.key.CreatorKey;
  */
 public class DefaultModifyTreeCreator<T, D extends CrudTreeApi<T>> extends DefaultModifyEntityCreator<T, D> implements ModifyTreeCreator<T> {
 
-	public DefaultModifyTreeCreator(final CreatorKey key, final D api) {
+	public DefaultModifyTreeCreator(final String key, final D api) {
 		super(key, api);
 	}
 

@@ -4,7 +4,6 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.StoreKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,7 +90,7 @@ public class DispatcherUtil {
 		}
 	}
 
-	public static Store getStore(final StoreKey storeKey, final DispatcherModel model) {
+	public static Store getStore(final String storeKey, final DispatcherModel model) {
 		return model.getStoresByKey().get(storeKey);
 	}
 
@@ -103,7 +102,7 @@ public class DispatcherUtil {
 		store.registerListeners();
 	}
 
-	public static void handleUnregisterStore(final StoreKey storeKey, final DispatcherModel model) {
+	public static void handleUnregisterStore(final String storeKey, final DispatcherModel model) {
 		Store store = model.getStoresByKey().remove(storeKey);
 		if (store != null) {
 			store.unregisterListeners();

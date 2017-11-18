@@ -11,6 +11,6 @@ import java.io.Serializable;
  */
 public interface DataApiProvider extends Serializable {
 
-	DataApi getDataApi(final DataApiType type);
+	DataApi getDataApi(final String key);
 
 }

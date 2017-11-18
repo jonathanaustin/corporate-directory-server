@@ -1,8 +1,7 @@
 package com.github.bordertech.flux;
 
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.flux.key.Keyable;
-import com.github.bordertech.flux.key.StoreKey;
+import java.io.Serializable;
 
 /**
  * Store the current state for views.
@@ -10,7 +9,12 @@ import com.github.bordertech.flux.key.StoreKey;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Store extends Keyable<StoreKey> {
+public interface Store extends Serializable {
+
+	/**
+	 * @return the store key (also used as its qualifier for actions).
+	 */
+	String getKey();
 
 	/**
 	 * Register the action listeners.

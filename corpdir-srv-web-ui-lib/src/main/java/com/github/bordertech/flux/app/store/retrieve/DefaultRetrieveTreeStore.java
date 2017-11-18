@@ -6,7 +6,6 @@ import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.base.ModifyTreeBaseActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +18,7 @@ import java.util.Objects;
  */
 public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends DefaultRetrieveEntityStore<T, D> implements RetrieveTreeStore<T> {
 
-	public DefaultRetrieveTreeStore(final StoreKey storeKey, final D api) {
+	public DefaultRetrieveTreeStore(final String storeKey, final D api) {
 		super(storeKey, api);
 	}
 

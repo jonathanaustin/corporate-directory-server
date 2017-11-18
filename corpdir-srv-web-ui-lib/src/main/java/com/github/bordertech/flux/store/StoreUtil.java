@@ -2,8 +2,6 @@ package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
-import com.github.bordertech.flux.key.StoreKey;
-import com.github.bordertech.flux.key.StoreType;
 import org.apache.commons.beanutils.PropertyUtils;
 
 /**
@@ -15,12 +13,8 @@ public class StoreUtil {
 	private StoreUtil() {
 	}
 
-	public static <T extends Store> T getStore(final StoreType storeType, final String qualifier) {
-		return getStore(new StoreKey(storeType, qualifier));
-	}
-
-	public static <T extends Store> T getStore(final StoreKey storeKey) {
-		return (T) DispatcherFactory.getInstance().getStore(storeKey);
+	public static <T extends Store> T getStore(final String key) {
+		return (T) DispatcherFactory.getInstance().getStore(key);
 	}
 
 	/**

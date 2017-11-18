@@ -3,7 +3,6 @@ package com.github.bordertech.flux.app.store.retrieve;
 import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudApi;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.Objects;
 
@@ -15,7 +14,7 @@ import java.util.Objects;
  */
 public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends AbstractRetrieveDataApiStore<D> implements RetrieveEntityStore<T> {
 
-	public DefaultRetrieveEntityStore(final StoreKey storeKey, final D api) {
+	public DefaultRetrieveEntityStore(final String storeKey, final D api) {
 		super(storeKey, api);
 	}
 

@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.DataApi;
-import com.github.bordertech.flux.key.StoreKey;
 
 /**
  * Abstract search store that uses the data api interface.
@@ -15,7 +14,7 @@ public abstract class AbstractRetrieveDataApiStore<D extends DataApi> extends Ab
 
 	private final D api;
 
-	public AbstractRetrieveDataApiStore(final StoreKey storeKey, final D api) {
+	public AbstractRetrieveDataApiStore(final String storeKey, final D api) {
 		super(storeKey);
 		this.api = api;
 	}

@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.flux.key.StoreKey;
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.List;
@@ -28,8 +28,8 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	// Listeners by ID
 	private final Map<String, ListenerWrapper> listenersById = new HashMap<>();
 
-	// Stores that have StoreType and Qualifier
-	private final Map<StoreKey, Store> storesByKey = new HashMap<>();
+	private final Map<String, Store> storesByKey = new HashMap<>();
+	private final Map<String, ActionCreator> creatorsByKey = new HashMap<>();
 
 	private final Queue<Action> queuedActions = new ArrayDeque<>();
 	private boolean dispatching;
@@ -74,8 +74,13 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	}
 
 	@Override
-	public Map<StoreKey, Store> getStoresByKey() {
+	public Map<String, Store> getStoresByKey() {
 		return storesByKey;
+	}
+
+	@Override
+	public Map<String, ActionCreator> getActionCreatorsByKey() {
+		return creatorsByKey;
 	}
 
 }

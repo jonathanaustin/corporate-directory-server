@@ -13,7 +13,6 @@ import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
@@ -251,8 +250,8 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	 * @param data the event data
 	 * @param action the retrieve action
 	 */
-	protected void dispatchRetrieveEvent(final StoreKey storeKey, final RetrieveActionType eventType, final Object data, final RetrieveCallType action) {
-		DefaultAction event = new RetrieveAction(eventType, storeKey.getQualifier(), data, action);
+	protected void dispatchRetrieveEvent(final String storeKey, final RetrieveActionType eventType, final Object data, final RetrieveCallType action) {
+		DefaultAction event = new RetrieveAction(eventType, storeKey, data, action);
 		dispatchEvent(event);
 	}
 
@@ -260,17 +259,17 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		getDispatcher().dispatch(event);
 	}
 
-	protected void handleStoreChangedEvent(final StoreKey storeKey, final Action event) {
+	protected void handleStoreChangedEvent(final String storeKey, final Action event) {
 	}
 
-	protected void registerStoreChangeListener(final StoreKey storeKey) {
+	protected void registerStoreChangeListener(final String storeKey) {
 		Listener listener = new Listener() {
 			@Override
 			public void handleAction(final Action event) {
 				handleStoreChangedEvent(storeKey, event);
 			}
 		};
-		registerListener(StateBaseActionType.STORE_CHANGED, storeKey.getQualifier(), listener);
+		registerListener(StateBaseActionType.STORE_CHANGED, storeKey, listener);
 	}
 
 	protected void registerListener(final ActionType eventType, final String qualifier, final Listener listener) {

@@ -1,7 +1,6 @@
 package com.github.bordertech.flux;
 
-import com.github.bordertech.flux.key.CreatorKey;
-import com.github.bordertech.flux.key.Keyable;
+import java.io.Serializable;
 
 /**
  * Provides the action creator interface to handle change store actions.
@@ -9,6 +8,11 @@ import com.github.bordertech.flux.key.Keyable;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ActionCreator extends Keyable<CreatorKey> {
+public interface ActionCreator extends Serializable {
+
+	/**
+	 * @return the creator key (also used as its qualifier for actions).
+	 */
+	String getKey();
 
 }

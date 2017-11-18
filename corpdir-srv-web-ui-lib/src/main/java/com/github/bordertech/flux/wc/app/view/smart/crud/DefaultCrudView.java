@@ -1,5 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
+import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
+import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
 import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
@@ -16,6 +18,7 @@ import com.github.bordertech.flux.wc.app.view.dumb.search.SearchTextView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ToolbarModifyItemType;
+import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
@@ -27,16 +30,18 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-//public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements ActionModelKey, SearchModelKey {
-public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
+public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements FormSmartView<T> {
 
-//	private final FormToolbarCtrl formToolbarCtrl = new FormToolbarCtrl();
-//	private final PollingSearchCtrl<S, T, C> pollingSearchCtrl = new PollingSearchCtrl();
-//	private final PollingCollectionCtrl<S, T, C> pollingListCtrl = new PollingCollectionCtrl();
 	private final SearchView searchView;
 	private final SelectSingleView<T> selectView;
-	private final FormView<T> formView;
+	private final PollingView<List<T>> pollingView = new DefaultPollingView<>("vw-poll");
+	private final ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar-1");
+	private final MessageView searchMessages = new DefaultMessageView("vw-crit-msg");
+	// Form Details
+	private final DefaultSmartView formHolder = new DefaultSmartView("vw-form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
+	private final MessageView formMessages = new DefaultMessageView("vw-form-msg");
 	private final FormToolbarView formToolbarView = new DefaultFormToolbarView("vw-form-toolbar");
+	private final FormView<T> formView;
 
 	public DefaultCrudView(final String viewId, final String title, final WComponent panel) {
 		this(viewId, title, null, null, null, panel);
@@ -51,34 +56,25 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
 
 		// Setup Defaults
 		searchView = criteriaView2 == null ? new SearchTextView("vw-crit") : criteriaView2;
-		selectView = selectView2 == null ? (SelectSingleView<T>) new MenuSelectView<T>("vw-list") : selectView2;
+		selectView = selectView2 == null ? (SelectSingleView) new MenuSelectView("vw-list") : selectView2;
 		formView = formView2 == null ? new DefaultFormView<T>("vw-form") : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
 		}
 
-		// Views
-		PollingView<List<T>> pollingView = new DefaultPollingView<>("vw-poll");
-		ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar-1");
-		MessageView searchMessages = new DefaultMessageView("vw-crit-msg");
-
-		// Form Messages
-		MessageView formMessages = new DefaultMessageView("vw-form-msg");
-
 		// Form Holder
-		DefaultSmartView formCombo = new DefaultSmartView("vw-form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
-		formCombo.addHtmlClass("wc-panel-type-box");
+		formHolder.addHtmlClass("wc-panel-type-box");
+		formHolder.addComponentToTemplate("vw-form-toolbar", formToolbarView);
+		formHolder.addComponentToTemplate("vw-form-msg", formMessages);
+		formHolder.addComponentToTemplate("vw-form-view", formView);
 
-		formCombo.addComponentToTemplate("vw-form-toolbar", formToolbarView);
-		formCombo.addComponentToTemplate("vw-form-msg", formMessages);
-		formCombo.addComponentToTemplate("vw-form-view", formView);
-
+		// Add views
 		addComponentToTemplate("vw-toolbar-1", toolbarView);
 		addComponentToTemplate("vw-crit-msg", searchMessages);
 		addComponentToTemplate("vw-crit", searchView);
 		addComponentToTemplate("vw-poll", pollingView);
 		addComponentToTemplate("vw-list", selectView);
-		addComponentToTemplate("vw-form", formCombo);
+		addComponentToTemplate("vw-form", formHolder);
 
 		// Title
 		getContent().addParameter("vw-title", title);
@@ -88,35 +84,38 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> {
 
 		// Default visibility
 		selectView.setContentVisible(false);
-		formCombo.setContentVisible(false);
+		formHolder.setContentVisible(false);
 
-//		setBlocking(true);
-//		setQualifierAndMessageQualifierContext(true);
+		setQualifierContext(true);
 	}
 
 	public final SelectSingleView<T> getSelectView() {
 		return selectView;
 	}
 
-//	@Override
-//	public void setActionModelKey(final String key) {
-////		formToolbarCtrl.setActionModelKey(key);
-//	}
-//
-//	@Override
-//	public String getActionModelKey() {
-//		return "";
-////		return formToolbarCtrl.getActionModelKey();
-//	}
-//
-//	@Override
-//	public void setSearchModelKey(final String key) {
-////		pollingListCtrl.setRetrieveCollectionModelKey(key);
-//	}
-//
-//	@Override
-//	public String getSearchModelKey() {
-//		return "";
-////		return pollingListCtrl.getRetrieveCollectionModelKey();
-//	}
+	@Override
+	public ModifyEntityCreator<T> getEntityCreator() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public RetrieveEntityStore<T> getEntityStore() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public FormView<T> getFormView() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public FormToolbarView<T> getToolbarView() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void resetFormViews() {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 }
