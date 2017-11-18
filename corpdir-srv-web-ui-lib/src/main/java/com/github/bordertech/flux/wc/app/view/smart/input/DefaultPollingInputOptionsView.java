@@ -34,7 +34,7 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 	}
 
 	@Override
-	protected void handleResultSuccessful(final List<T> options) {
+	protected void handleRetrieveOKEvent(final List<T> options) {
 		if (options == null || options.isEmpty()) {
 //			dispatchMessage(MessageEventType.INFO, "No options found");
 		} else {

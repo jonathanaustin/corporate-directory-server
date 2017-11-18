@@ -6,7 +6,9 @@ import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseViewEvent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 
 /**
@@ -21,6 +23,31 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	public AbstractPollingRetrieveSmartView(final String viewId, final String template) {
 		super(viewId, template);
+	}
+
+	@Override
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		if (event instanceof RetrieveOutcomeBaseViewEvent) {
+			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseViewEvent) event, data);
+		}
+	}
+
+	protected void handleRetrieveOutcomeBaseEvents(final RetrieveOutcomeBaseViewEvent type, final Object data) {
+		switch (type) {
+			case RETRIEVE_OK:
+				handleRetrieveOKEvent((R) data);
+				break;
+			case RETRIEVE_ERROR:
+				handleRetrieveErrorEvent((Exception) data);
+				break;
+		}
+	}
+
+	protected abstract void handleRetrieveOKEvent(final R result);
+
+	protected void handleRetrieveErrorEvent(final Exception excp) {
+		dispatchMessageError("Error loading details. " + excp.getMessage());
 	}
 
 	@Override
@@ -40,16 +67,10 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		resetContent();
 		try {
 			R result = (R) getStore().getActionResult(getStoreRetrieveType(), getStoreCriteria());
-			handleResultSuccessful(result);
+			dispatchViewEvent(RetrieveOutcomeBaseViewEvent.RETRIEVE_OK, result);
 		} catch (Exception e) {
-			handleResultError(e);
+			dispatchViewEvent(RetrieveOutcomeBaseViewEvent.RETRIEVE_ERROR, e);
 		}
-	}
-
-	protected abstract void handleResultSuccessful(final R result);
-
-	protected void handleResultError(final Exception excp) {
-		dispatchMessageError("Error loading details. " + excp.getMessage());
 	}
 
 	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {

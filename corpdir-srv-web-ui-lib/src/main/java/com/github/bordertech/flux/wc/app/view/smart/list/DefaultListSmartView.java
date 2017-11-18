@@ -27,7 +27,7 @@ public class DefaultListSmartView<S, T> extends AbstractPollingRetrieveSmartView
 	}
 
 	@Override
-	protected void handleResultSuccessful(final List<T> items) {
+	protected void handleRetrieveOKEvent(final List<T> items) {
 		setItems(items);
 	}
 
