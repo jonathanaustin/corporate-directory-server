@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
-import com.github.bordertech.flux.wc.app.view.input.MultiSelectOptionsView;
-import com.github.bordertech.flux.wc.app.view.input.impl.MultiSelectPairOptionsView;
+import com.github.bordertech.flux.wc.app.view.dumb.input.MultiSelectOptionsView;
+import com.github.bordertech.flux.wc.app.view.dumb.input.impl.MultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.AbstractWMultiSelectList;
 import java.util.List;
 

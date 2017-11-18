@@ -6,14 +6,14 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
+import com.github.bordertech.flux.wc.app.view.dumb.form.DefaultFormView;
+import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
-import com.github.bordertech.flux.wc.app.view.form.DefaultFormView;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
-import com.github.bordertech.flux.wc.app.view.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.wcomponents.WContainer;
 
 /**

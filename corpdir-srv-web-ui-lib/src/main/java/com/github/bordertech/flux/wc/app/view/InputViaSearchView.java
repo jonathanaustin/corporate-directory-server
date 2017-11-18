@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view;
 
 import com.github.bordertech.flux.view.DumbView;
-import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
+import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
 
 /**
  * Form input via search view. The view bean is the input value.

@@ -4,8 +4,8 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.ListView;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
+import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.toolbar.DefaultToolbarView;
 
 /**
  * Collection View with a Search View.

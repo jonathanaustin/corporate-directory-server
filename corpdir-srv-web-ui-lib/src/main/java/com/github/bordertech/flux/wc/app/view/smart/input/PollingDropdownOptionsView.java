@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
-import com.github.bordertech.flux.wc.app.view.input.SingleSelectOptionsView;
-import com.github.bordertech.flux.wc.app.view.input.impl.DropdownOptionsView;
+import com.github.bordertech.flux.wc.app.view.dumb.input.SingleSelectOptionsView;
+import com.github.bordertech.flux.wc.app.view.dumb.input.impl.DropdownOptionsView;
 import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
 
 /**

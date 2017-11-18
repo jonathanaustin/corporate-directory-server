@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.util;
 
-import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
+import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.WComponent;

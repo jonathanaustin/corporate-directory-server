@@ -3,9 +3,9 @@ package com.github.bordertech.flux.wc.app.view.smart.msg;
 import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
+import com.github.bordertech.flux.wc.app.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;
-import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
 import com.github.bordertech.wcomponents.WMessages;
 

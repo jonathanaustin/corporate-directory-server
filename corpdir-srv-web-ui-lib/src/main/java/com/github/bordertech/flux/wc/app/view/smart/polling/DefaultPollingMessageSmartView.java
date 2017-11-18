@@ -2,9 +2,9 @@ package com.github.bordertech.flux.wc.app.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
+import com.github.bordertech.flux.wc.app.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;
-import com.github.bordertech.flux.wc.app.view.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
 import com.github.bordertech.wcomponents.WMessages;
 

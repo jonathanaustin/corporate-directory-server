@@ -2,8 +2,8 @@ package com.github.bordertech.flux.view;
 
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.FormView;
+import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.form.FormUpdateable;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
