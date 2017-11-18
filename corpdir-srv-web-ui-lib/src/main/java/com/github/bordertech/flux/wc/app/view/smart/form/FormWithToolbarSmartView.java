@@ -2,6 +2,7 @@ package com.github.bordertech.flux.wc.app.view.smart.form;
 
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
+import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
@@ -24,28 +25,20 @@ import com.github.bordertech.wcomponents.WContainer;
  */
 public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> implements FormSmartView<T>, FormView<T> {
 
-	private final ModifyEntityCreator<T> creator;
-
-	private final RetrieveEntityStore<T> store;
-
 	private final FormView<T> formView;
 
 	private final FormToolbarView toolbarView;
 
-	public FormWithToolbarSmartView(final String viewId, final ModifyEntityCreator<T> creator, final RetrieveEntityStore<T> store) {
-		this(viewId, creator, store, new DefaultFormView<T>("vw-entity"));
+	public FormWithToolbarSmartView(final String viewId) {
+		this(viewId, new DefaultFormView<T>("vw-entity"));
 	}
 
-	public FormWithToolbarSmartView(final String viewId, final ModifyEntityCreator<T> creator, final RetrieveEntityStore<T> store, final FormView<T> formView) {
-		this(viewId, creator, store, formView, new DefaultFormToolbarView("vw-toolbar"));
+	public FormWithToolbarSmartView(final String viewId, final FormView<T> formView) {
+		this(viewId, formView, new DefaultFormToolbarView("vw-toolbar"));
 	}
 
-	public FormWithToolbarSmartView(final String viewId, final ModifyEntityCreator<T> creator, final RetrieveEntityStore<T> store, final FormView<T> formView, final FormToolbarView toolbarView) {
+	public FormWithToolbarSmartView(final String viewId, final FormView<T> formView, final FormToolbarView toolbarView) {
 		super(viewId, "wclib/hbs/layout/combo-ent-toolbar.hbs");
-
-		this.creator = creator;
-		this.store = store;
-
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
@@ -55,13 +48,33 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
+	public String getEntityCreatorKey() {
+		return getComponentModel().entityCreatorKey;
+	}
+
+	@Override
+	public void setEntityCreatorKey(final String entityCreatorKey) {
+		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
+	}
+
+	@Override
 	public ModifyEntityCreator<T> getEntityCreator() {
-		return creator;
+		return FluxUtil.getActionCreator(getEntityCreatorKey());
+	}
+
+	@Override
+	public String getEntityStoreKey() {
+		return getComponentModel().entityStoreKey;
+	}
+
+	@Override
+	public void setEntityStoreKey(final String entityStoreKey) {
+		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
 	public RetrieveEntityStore<T> getEntityStore() {
-		return store;
+		return FluxUtil.getStore(getEntityStoreKey());
 	}
 
 	@Override
@@ -152,4 +165,30 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	public WContainer getFormHolder() {
 		return formView.getFormHolder();
 	}
+
+	@Override
+	protected SmartFormModel newComponentModel() {
+		return new SmartFormModel();
+	}
+
+	@Override
+	protected SmartFormModel getComponentModel() {
+		return (SmartFormModel) super.getComponentModel();
+	}
+
+	@Override
+	protected SmartFormModel getOrCreateComponentModel() {
+		return (SmartFormModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * Holds the extrinsic state information of the edit view.
+	 */
+	public static class SmartFormModel extends SmartViewModel {
+
+		private String entityStoreKey;
+
+		private String entityCreatorKey;
+	}
+
 }

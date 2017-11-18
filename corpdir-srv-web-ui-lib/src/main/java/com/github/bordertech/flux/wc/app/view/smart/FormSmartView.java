@@ -13,7 +13,15 @@ import com.github.bordertech.flux.wc.app.view.FormView;
  */
 public interface FormSmartView<T> extends SmartView<T> {
 
+	void setEntityCreatorKey(final String creatorKey);
+
+	String getEntityCreatorKey();
+
 	ModifyEntityCreator<T> getEntityCreator();
+
+	void setEntityStoreKey(final String storeKey);
+
+	String getEntityStoreKey();
 
 	RetrieveEntityStore<T> getEntityStore();
 

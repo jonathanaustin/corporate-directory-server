@@ -92,7 +92,14 @@ public class DispatcherUtil {
 	}
 
 	public static Store getStore(final String storeKey, final DispatcherModel model) {
-		return model.getStoresByKey().get(storeKey);
+		if (storeKey == null) {
+			throw new IllegalArgumentException("Store key must be provided.");
+		}
+		Store store = model.getStoresByKey().get(storeKey);
+		if (store == null) {
+			throw new IllegalStateException("No Store registered for key [" + storeKey + "].");
+		}
+		return store;
 	}
 
 	public static void handleRegisterStore(final Store store, final DispatcherModel model) {
@@ -111,7 +118,14 @@ public class DispatcherUtil {
 	}
 
 	public static ActionCreator getActionCreator(final String creatorKey, final DispatcherModel model) {
-		return model.getActionCreatorsByKey().get(creatorKey);
+		if (creatorKey == null) {
+			throw new IllegalArgumentException("ActionCreator key must be provided.");
+		}
+		ActionCreator creator = model.getActionCreatorsByKey().get(creatorKey);
+		if (creator == null) {
+			throw new IllegalStateException("No ActionCreator registered for key [" + creatorKey + "].");
+		}
+		return creator;
 	}
 
 	public static void handleRegisterActionCreator(final ActionCreator creator, final DispatcherModel model) {

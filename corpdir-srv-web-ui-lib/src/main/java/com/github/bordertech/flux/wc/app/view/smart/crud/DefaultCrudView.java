@@ -2,6 +2,7 @@ package com.github.bordertech.flux.wc.app.view.smart.crud;
 
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
+import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
@@ -94,28 +95,73 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 	}
 
 	@Override
+	public String getEntityCreatorKey() {
+		return getComponentModel().entityCreatorKey;
+	}
+
+	@Override
+	public void setEntityCreatorKey(final String entityCreatorKey) {
+		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
+	}
+
+	@Override
 	public ModifyEntityCreator<T> getEntityCreator() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return FluxUtil.getActionCreator(getEntityCreatorKey());
+	}
+
+	@Override
+	public String getEntityStoreKey() {
+		return getComponentModel().entityStoreKey;
+	}
+
+	@Override
+	public void setEntityStoreKey(final String entityStoreKey) {
+		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
 	public RetrieveEntityStore<T> getEntityStore() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return FluxUtil.getStore(getEntityStoreKey());
 	}
 
 	@Override
 	public FormView<T> getFormView() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return formView;
 	}
 
 	@Override
 	public FormToolbarView<T> getToolbarView() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		return formToolbarView;
 	}
 
 	@Override
 	public void resetFormViews() {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		formHolder.reset();
+	}
+
+	@Override
+	protected SmartFormModel newComponentModel() {
+		return new SmartFormModel();
+	}
+
+	@Override
+	protected SmartFormModel getComponentModel() {
+		return (SmartFormModel) super.getComponentModel();
+	}
+
+	@Override
+	protected SmartFormModel getOrCreateComponentModel() {
+		return (SmartFormModel) super.getOrCreateComponentModel();
+	}
+
+	/**
+	 * Holds the extrinsic state information of the edit view.
+	 */
+	public static class SmartFormModel extends SmartViewModel {
+
+		private String entityStoreKey;
+
+		private String entityCreatorKey;
 	}
 
 }

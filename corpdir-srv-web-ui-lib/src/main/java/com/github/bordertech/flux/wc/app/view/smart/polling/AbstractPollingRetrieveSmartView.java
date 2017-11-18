@@ -4,7 +4,7 @@ import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.RetrieveCallType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
-import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseViewEvent;
@@ -101,7 +101,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	protected RetrieveStore getStore() {
-		return StoreUtil.getStore(getStoreKey());
+		return FluxUtil.getStore(getStoreKey());
 	}
 
 	@Override
