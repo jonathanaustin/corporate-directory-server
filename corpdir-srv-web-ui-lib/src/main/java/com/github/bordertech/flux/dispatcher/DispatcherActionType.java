@@ -1,13 +1,13 @@
 package com.github.bordertech.flux.dispatcher;
 
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.ActionType;
 
 /**
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum DispatcherEventType implements EventType {
+public enum DispatcherActionType implements ActionType {
 	REGISTER_LISTENER,
 	UNREGISTER_LISTENER,
 	REGISTER_STORE,

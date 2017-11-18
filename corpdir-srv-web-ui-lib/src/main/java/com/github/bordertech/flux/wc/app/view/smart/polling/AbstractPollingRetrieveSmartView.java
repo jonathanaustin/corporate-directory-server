@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.app.event.RetrieveActionType;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.StoreUtil;
@@ -25,7 +25,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
-		dispatchRetrieveEvent(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), RetrieveActionType.CALL_ASYNC);
+		dispatchRetrieveEvent(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), RetrieveCallType.CALL_ASYNC);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	protected void handleStoreResult() {
 		resetContent();
 		try {
-			R result = (R) getStore().getEventResult(getStoreRetrieveType(), getStoreCriteria());
+			R result = (R) getStore().getActionResult(getStoreRetrieveType(), getStoreCriteria());
 			handleResultSuccessful(result);
 		} catch (Exception e) {
 			handleResultError(e);
@@ -52,11 +52,11 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		dispatchMessageError("Error loading details. " + excp.getMessage());
 	}
 
-	public void setStoreRetrieveType(final RetrieveEventType retrieveType) {
+	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {
 		getOrCreateComponentModel().retrieveType = retrieveType;
 	}
 
-	public RetrieveEventType getStoreRetrieveType() {
+	public RetrieveActionType getStoreRetrieveType() {
 		return getComponentModel().retrieveType;
 	}
 
@@ -77,7 +77,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	protected boolean isStoreDone() {
-		return getStore().isEventDone(getStoreRetrieveType(), getStoreCriteria());
+		return getStore().isActionDone(getStoreRetrieveType(), getStoreCriteria());
 	}
 
 	protected RetrieveStore getStore() {
@@ -104,7 +104,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	 */
 	public static class PollingStoreModel<S> extends SmartViewModel {
 
-		private RetrieveEventType retrieveType = RetrieveBaseEventType.RETRIEVE;
+		private RetrieveActionType retrieveType = RetrieveBaseActionType.RETRIEVE;
 
 		private StoreKey storeKey;
 

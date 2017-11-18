@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.store.collection;
 
-import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.event.base.CollectionBaseEventType;
+import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.ArrayList;
@@ -35,59 +35,59 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 	@Override
 	public void registerListeners() {
 		// LIST Listeners
-		for (CollectionBaseEventType type : CollectionBaseEventType.values()) {
+		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
-				public void handleEvent(final Event event) {
-					handleListEvents(event);
+				public void handleAction(final Action action) {
+					handleListActions(action);
 				}
 			};
 			registerListener(type, listener);
 		}
 	}
 
-	protected void handleListEvents(final Event event) {
-		CollectionBaseEventType type = (CollectionBaseEventType) event.getKey().getType();
+	protected void handleListActions(final Action action) {
+		ListBaseActionType type = (ListBaseActionType) action.getKey().getType();
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:
-				handleResetItemsEvent();
+				handleResetItemsAction();
 				break;
 			case LOAD_ITEMS:
-				handleLoadItemsEvent(event.getData());
+				handleLoadItemsAction(action.getData());
 				break;
 			case ADD_ITEM:
-				handleAddItemEvent((T) event.getData());
+				handleAddItemAction((T) action.getData());
 				break;
 			case REMOVE_ITEM:
-				handleRemoveItemEvent((T) event.getData());
+				handleRemoveItemAction((T) action.getData());
 				break;
 			case UPDATE_ITEM:
-				handleUpdateItemEvent((T) event.getData());
+				handleUpdateItemAction((T) action.getData());
 				break;
 
 			default:
 				handled = false;
 		}
 		if (handled) {
-			dispatchChangeEvent(type);
+			dispatchChangeAction(type);
 		}
 
 	}
 
-	protected void handleResetItemsEvent() {
+	protected void handleResetItemsAction() {
 		items.clear();
 	}
 
-	protected void handleAddItemEvent(final T item) {
+	protected void handleAddItemAction(final T item) {
 		items.add(item);
 	}
 
-	protected void handleRemoveItemEvent(final T item) {
+	protected void handleRemoveItemAction(final T item) {
 		items.remove(item);
 	}
 
-	protected void handleUpdateItemEvent(final T item) {
+	protected void handleUpdateItemAction(final T item) {
 		int idx = items.indexOf(item);
 		if (idx > -1) {
 			items.remove(item);
@@ -97,7 +97,7 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 		}
 	}
 
-	protected void handleLoadItemsEvent(final Object data) {
+	protected void handleLoadItemsAction(final Object data) {
 		items.clear();
 		if (data instanceof Collection) {
 			items.addAll((Collection) data);

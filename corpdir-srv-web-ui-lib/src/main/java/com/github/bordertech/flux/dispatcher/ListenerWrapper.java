@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.dispatcher;
 
-import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.key.ActionKey;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
@@ -14,11 +14,11 @@ import java.util.UUID;
 public class ListenerWrapper implements Serializable {
 
 	private final String registerId = UUID.randomUUID().toString();
-	private final EventKey eventKey;
+	private final ActionKey actionKey;
 	private final Listener listener;
 
-	public ListenerWrapper(final EventKey eventKey, final Listener listener) {
-		this.eventKey = eventKey;
+	public ListenerWrapper(final ActionKey actionKey, final Listener listener) {
+		this.actionKey = actionKey;
 		this.listener = listener;
 	}
 
@@ -26,8 +26,8 @@ public class ListenerWrapper implements Serializable {
 		return registerId;
 	}
 
-	public EventKey getEventKey() {
-		return eventKey;
+	public ActionKey getActionKey() {
+		return actionKey;
 	}
 
 	public Listener getListener() {

@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.common;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.wcomponents.WMenuItem;
 
 /**

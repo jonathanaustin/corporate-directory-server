@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.view;
 
-import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;

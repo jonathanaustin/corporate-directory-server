@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudApi;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.Objects;
@@ -21,26 +21,26 @@ public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends Abstrac
 
 	@Override
 	public ServiceStatus getRetrieveStatus(final T key) {
-		return getEventStatus(RetrieveBaseEventType.RETRIEVE, key);
+		return getActionStatus(RetrieveBaseActionType.RETRIEVE, key);
 	}
 
 	@Override
 	public boolean isRetrieveDone(final T key) {
-		return isEventDone(RetrieveBaseEventType.RETRIEVE, key);
+		return isActionDone(RetrieveBaseActionType.RETRIEVE, key);
 	}
 
 	@Override
 	public T retrieve(final T key) {
 		// Retrieve and RetrieveAsync get treated the same
-		return (T) getEventResult(RetrieveBaseEventType.RETRIEVE, key);
+		return (T) getActionResult(RetrieveBaseActionType.RETRIEVE, key);
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria) {
-		if (Objects.equals(type, RetrieveBaseEventType.SEARCH)) {
+	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+		if (Objects.equals(type, RetrieveBaseActionType.SEARCH)) {
 			return getDataApi().refresh((T) criteria);
 		}
-		throw new IllegalStateException("Event not supported [" + type + "].");
+		throw new IllegalStateException("ACtion not supported [" + type + "].");
 	}
 
 }

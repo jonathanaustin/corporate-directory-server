@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
-import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.base.ModifyTreeBaseActionType;
+import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
-import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
@@ -27,11 +27,11 @@ public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends Defau
 	public void registerListeners() {
 
 		// Action Listeners
-		for (ModifyTreeBaseEventType type : ModifyTreeBaseEventType.values()) {
+		for (ModifyTreeBaseActionType type : ModifyTreeBaseActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
-				public void handleEvent(final Event event) {
-					handleModifyTreeBaseEvents(event);
+				public void handleAction(final Action action) {
+					handleModifyTreeBaseActions(action);
 				}
 			};
 			registerListener(type, listener);
@@ -45,12 +45,12 @@ public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends Defau
 
 	@Override
 	public List<T> getChildren(final T item) {
-		return (List<T>) getEventResult(RetrieveBaseEventType.CHILDREN, item);
+		return (List<T>) getActionResult(RetrieveBaseActionType.CHILDREN, item);
 	}
 
 	@Override
 	public List<T> getRootItems() {
-		return (List<T>) getEventResult(RetrieveBaseEventType.ROOT, null);
+		return (List<T>) getActionResult(RetrieveBaseActionType.ROOT, null);
 	}
 
 	@Override
@@ -65,34 +65,34 @@ public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends Defau
 
 	@Override
 	public ServiceStatus getChildrenStatus(final T item) {
-		return getEventStatus(RetrieveBaseEventType.CHILDREN, item);
+		return getActionStatus(RetrieveBaseActionType.CHILDREN, item);
 	}
 
 	@Override
 	public boolean isChildrenDone(final T item) {
-		return isEventDone(RetrieveBaseEventType.CHILDREN, item);
+		return isActionDone(RetrieveBaseActionType.CHILDREN, item);
 	}
 
 	@Override
 	public ServiceStatus getRootItemsStatus() {
-		return getEventStatus(RetrieveBaseEventType.ROOT, null);
+		return getActionStatus(RetrieveBaseActionType.ROOT, null);
 	}
 
 	@Override
 	public boolean isRootItemsDone() {
-		return isEventDone(RetrieveBaseEventType.ROOT, null);
+		return isActionDone(RetrieveBaseActionType.ROOT, null);
 	}
 
-	protected void handleModifyTreeBaseEvents(final Event event) {
-		ModifyTreeBaseEventType type = (ModifyTreeBaseEventType) event.getKey().getType();
+	protected void handleModifyTreeBaseActions(final Action action) {
+		ModifyTreeBaseActionType type = (ModifyTreeBaseActionType) action.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case ADD_CHILD:
-				handleAddChildEvent(event);
+				handleAddChildAction(action);
 				changed = true;
 				break;
 			case REMOVE_CHILD:
-				handleRemoveChildEvent(event);
+				handleRemoveChildAction(action);
 				changed = true;
 				break;
 
@@ -100,24 +100,24 @@ public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends Defau
 				changed = false;
 		}
 		if (changed) {
-			dispatchChangeEvent(type);
+			dispatchChangeAction(type);
 		}
 	}
 
-	protected void handleAddChildEvent(final Event event) {
+	protected void handleAddChildAction(final Action action) {
 		// Create Action
 	}
 
-	protected void handleRemoveChildEvent(final Event event) {
+	protected void handleRemoveChildAction(final Action action) {
 		// Update action
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria) {
-		if (Objects.equals(type, RetrieveBaseEventType.CHILDREN)) {
+	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+		if (Objects.equals(type, RetrieveBaseActionType.CHILDREN)) {
 			return getDataApi().getChildren((T) criteria);
 		}
-		if (Objects.equals(type, RetrieveBaseEventType.ROOT)) {
+		if (Objects.equals(type, RetrieveBaseActionType.ROOT)) {
 			return getDataApi().getRootItems();
 		}
 		return super.doRetrieveServiceCall(type, criteria);

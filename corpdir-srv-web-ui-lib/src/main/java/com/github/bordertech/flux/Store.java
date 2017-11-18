@@ -1,6 +1,6 @@
 package com.github.bordertech.flux;
 
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.key.Keyable;
 import com.github.bordertech.flux.key.StoreKey;
 
@@ -13,21 +13,21 @@ import com.github.bordertech.flux.key.StoreKey;
 public interface Store extends Keyable<StoreKey> {
 
 	/**
-	 * Register the event listeners.
+	 * Register the action listeners.
 	 */
 	void registerListeners();
 
 	/**
-	 * Unregister the event listeners.
+	 * Unregister the action listeners.
 	 */
 	void unregisterListeners();
 
 	/**
-	 * Dispatch the change event.
+	 * Dispatch the change action.
 	 *
-	 * @param eventType the event type that caused the change
+	 * @param actionType the action type that caused the change
 	 */
-	void dispatchChangeEvent(final EventType eventType);
+	void dispatchChangeAction(final ActionType actionType);
 
 	/**
 	 * @return the attached dispatcher.

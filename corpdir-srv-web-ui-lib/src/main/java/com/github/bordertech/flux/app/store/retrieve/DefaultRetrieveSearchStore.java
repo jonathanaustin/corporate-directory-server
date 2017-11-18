@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.SearchApi;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
@@ -26,25 +26,25 @@ public class DefaultRetrieveSearchStore<S, T, D extends SearchApi<S, T>> extends
 
 	@Override
 	public ServiceStatus getSearchStatus(final S criteria) {
-		return getEventStatus(RetrieveBaseEventType.SEARCH, criteria);
+		return getActionStatus(RetrieveBaseActionType.SEARCH, criteria);
 	}
 
 	@Override
 	public boolean isSearchDone(final S criteria) {
-		return isEventDone(RetrieveBaseEventType.SEARCH, criteria);
+		return isActionDone(RetrieveBaseActionType.SEARCH, criteria);
 	}
 
 	@Override
 	public List<T> search(final S criteria) {
-		return (List<T>) getEventResult(RetrieveBaseEventType.SEARCH, criteria);
+		return (List<T>) getActionResult(RetrieveBaseActionType.SEARCH, criteria);
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria) {
-		if (Objects.equals(type, RetrieveBaseEventType.RETRIEVE)) {
+	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+		if (Objects.equals(type, RetrieveBaseActionType.RETRIEVE)) {
 			return getDataApi().search((S) criteria);
 		}
-		throw new IllegalStateException("Event not supported [" + type + "].");
+		throw new IllegalStateException("Action not supported [" + type + "].");
 	}
 
 }

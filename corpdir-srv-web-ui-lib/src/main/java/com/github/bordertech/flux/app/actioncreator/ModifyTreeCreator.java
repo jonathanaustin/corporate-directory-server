@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.app.actioncreator;
 
 /**
- * Provides the action (event) creator interface to handle change store events.
+ * Provides the action creator interface to handle change store actions.
  *
  * @author Jonathan Austin
  * @since 1.0.0

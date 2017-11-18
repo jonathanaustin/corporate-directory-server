@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.app.actioncreator;
 
+import com.github.bordertech.flux.app.action.base.ModifyTreeBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.app.event.base.ModifyTreeBaseEventType;
 import com.github.bordertech.flux.key.CreatorKey;
 
 /**
- * Modify tree event creator used by views.
+ * Modify tree action creator used by views.
  *
  * @author jonathan
  * @param <T> the entity type
@@ -20,14 +20,14 @@ public class DefaultModifyTreeCreator<T, D extends CrudTreeApi<T>> extends Defau
 	@Override
 	public T addChild(final T parent, final T child) {
 		T updated = getDataApi().addChild(parent, child);
-		dispatchModifyEvent(ModifyTreeBaseEventType.ADD_CHILD, updated);
+		dispatchModifyAction(ModifyTreeBaseActionType.ADD_CHILD, updated);
 		return updated;
 	}
 
 	@Override
 	public T removeChild(final T parent, final T child) {
 		T updated = getDataApi().removeChild(parent, child);
-		dispatchModifyEvent(ModifyTreeBaseEventType.REMOVE_CHILD, updated);
+		dispatchModifyAction(ModifyTreeBaseActionType.REMOVE_CHILD, updated);
 		return updated;
 	}
 

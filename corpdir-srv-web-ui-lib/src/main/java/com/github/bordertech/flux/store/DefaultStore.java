@@ -3,11 +3,11 @@ package com.github.bordertech.flux.store;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
-import com.github.bordertech.flux.event.base.StateBaseEventType;
-import com.github.bordertech.flux.key.EventKey;
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import java.util.HashSet;
 import java.util.Set;
@@ -45,9 +45,9 @@ public class DefaultStore implements Store {
 	}
 
 	@Override
-	public void dispatchChangeEvent(final EventType eventType) {
-		DefaultEvent event = new DefaultEvent(new EventKey(StateBaseEventType.STORE_CHANGED, storeKey.getQualifier()), eventType);
-		getDispatcher().dispatch(event);
+	public void dispatchChangeAction(final ActionType actionType) {
+		DefaultAction action = new DefaultAction(new ActionKey(StateBaseActionType.STORE_CHANGED, storeKey.getQualifier()), actionType);
+		getDispatcher().dispatch(action);
 	}
 
 	@Override
@@ -56,13 +56,13 @@ public class DefaultStore implements Store {
 	}
 
 	/**
-	 * A helper method to register a listener with an Event Type and the Controller qualifier automatically added.
+	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
 	 *
 	 * @param listener
-	 * @param eventType
+	 * @param actionType
 	 */
-	protected void registerListener(final EventType eventType, final Listener listener) {
-		String id = getDispatcher().registerListener(new EventKey(eventType, storeKey.getQualifier()), listener);
+	protected void registerListener(final ActionType actionType, final Listener listener) {
+		String id = getDispatcher().registerListener(new ActionKey(actionType, storeKey.getQualifier()), listener);
 		registeredIds.add(id);
 	}
 

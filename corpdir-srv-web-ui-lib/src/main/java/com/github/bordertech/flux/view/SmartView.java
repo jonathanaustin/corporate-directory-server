@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.view;
 
-import com.github.bordertech.flux.event.ViewEventType;
 import java.util.List;
 import java.util.Set;
 

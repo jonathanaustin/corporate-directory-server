@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.store.collection;
 
-import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.event.base.CollectionBaseEventType;
+import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Collection;
@@ -29,11 +29,11 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 	@Override
 	public void registerListeners() {
 		// Collection Listeners
-		for (CollectionBaseEventType type : CollectionBaseEventType.values()) {
+		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
-				public void handleEvent(final Event event) {
-					handleListEvents(event);
+				public void handleAction(final Action action) {
+					handleListActions(action);
 				}
 			};
 			registerListener(type, listener);
@@ -45,52 +45,52 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 		return items.get(key);
 	}
 
-	protected void handleListEvents(final Event event) {
-		CollectionBaseEventType type = (CollectionBaseEventType) event.getKey().getType();
+	protected void handleListActions(final Action action) {
+		ListBaseActionType type = (ListBaseActionType) action.getKey().getType();
 		boolean handled = true;
 		switch (type) {
 			case RESET_ITEMS:
-				handleResetItemsEvent();
+				handleResetItemsAction();
 				break;
 			case LOAD_ITEMS:
-				handleLoadItemsEvent(event.getData());
+				handleLoadItemsAction(action.getData());
 				break;
 			case ADD_ITEM:
-				handleAddItemEvent((Map.Entry<K, V>) event.getData());
+				handleAddItemAction((Map.Entry<K, V>) action.getData());
 				break;
 			case REMOVE_ITEM:
-				handleRemoveItemEvent((Map.Entry<K, V>) event.getData());
+				handleRemoveItemAction((Map.Entry<K, V>) action.getData());
 				break;
 			case UPDATE_ITEM:
-				handleUpdateItemEvent((Map.Entry<K, V>) event.getData());
+				handleUpdateItemAction((Map.Entry<K, V>) action.getData());
 				break;
 
 			default:
 				handled = false;
 		}
 		if (handled) {
-			dispatchChangeEvent(type);
+			dispatchChangeAction(type);
 		}
 
 	}
 
-	protected void handleResetItemsEvent() {
+	protected void handleResetItemsAction() {
 		items.clear();
 	}
 
-	protected void handleAddItemEvent(final Map.Entry<K, V> item) {
+	protected void handleAddItemAction(final Map.Entry<K, V> item) {
 		items.put(item.getKey(), item.getValue());
 	}
 
-	protected void handleRemoveItemEvent(final Map.Entry<K, V> item) {
+	protected void handleRemoveItemAction(final Map.Entry<K, V> item) {
 		items.remove(item.getKey());
 	}
 
-	protected void handleUpdateItemEvent(final Map.Entry<K, V> item) {
+	protected void handleUpdateItemAction(final Map.Entry<K, V> item) {
 		items.put(item.getKey(), item.getValue());
 	}
 
-	protected void handleLoadItemsEvent(final Object data) {
+	protected void handleLoadItemsAction(final Object data) {
 		items.clear();
 		if (data instanceof Map) {
 			items.putAll((Map<K, V>) data);

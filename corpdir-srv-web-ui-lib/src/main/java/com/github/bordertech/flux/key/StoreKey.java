@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.key;
 
 /**
- * Key used to identify stores and their events.
+ * Key used to identify stores and their actions.
  *
  * @author Jonathan Austin
  * @since 1.0.0

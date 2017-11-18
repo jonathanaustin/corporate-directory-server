@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.toolbar;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.common.AppMenuItem;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;

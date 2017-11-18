@@ -1,10 +1,11 @@
 package com.github.bordertech.flux.dispatcher;
 
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.key.EventKey;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.StoreKey;
 
 /**
@@ -15,8 +16,8 @@ import com.github.bordertech.flux.key.StoreKey;
 public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
-	public final void dispatch(final Event event) {
-		DispatcherUtil.dispatch(event, getDispatcherModel());
+	public final void dispatch(final Action action) {
+		DispatcherUtil.dispatch(action, getDispatcherModel());
 	}
 
 	@Override
@@ -25,15 +26,15 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	}
 
 	@Override
-	public final String registerListener(final EventKey matcher, final Listener listener) {
+	public final String registerListener(final ActionKey matcher, final Listener listener) {
 		ListenerWrapper wrapper = new ListenerWrapper(matcher, listener);
-		dispatch(new DefaultEvent(DispatcherEventType.REGISTER_LISTENER, wrapper));
+		dispatch(new DefaultAction(DispatcherActionType.REGISTER_LISTENER, wrapper));
 		return wrapper.getRegisterId();
 	}
 
 	@Override
 	public final void unregisterListener(final String registerId) {
-		dispatch(new DefaultEvent(DispatcherEventType.UNREGISTER_LISTENER, registerId));
+		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_LISTENER, registerId));
 	}
 
 	@Override
@@ -44,12 +45,12 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public void registerStore(final Store store) {
-		dispatch(new DefaultEvent(DispatcherEventType.REGISTER_STORE, store));
+		dispatch(new DefaultAction(DispatcherActionType.REGISTER_STORE, store));
 	}
 
 	@Override
 	public void unregisterStore(final StoreKey storeKey) {
-		dispatch(new DefaultEvent(DispatcherEventType.UNREGISTER_STORE, storeKey));
+		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_STORE, storeKey));
 	}
 
 	@Override
@@ -58,38 +59,38 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	}
 
 	protected void doConfigModel(final DispatcherModel model) {
-		// Register the dispatcher events
-		for (DispatcherEventType eventType : DispatcherEventType.values()) {
-			DispatcherUtil.registerDispatcherListener(eventType, model, new Listener<Event>() {
+		// Register the dispatcher actions
+		for (DispatcherActionType actionType : DispatcherActionType.values()) {
+			DispatcherUtil.registerDispatcherListener(actionType, model, new Listener<Action>() {
 				@Override
-				public void handleEvent(final Event event) {
-					doHandleDispatcherEvent(event);
+				public void handleAction(final Action action) {
+					doHandleDispatcherAction(action);
 				}
 			});
 		}
 	}
 
-	protected void doHandleDispatcherEvent(final Event event) {
-		DispatcherEventType type = (DispatcherEventType) event.getKey().getType();
+	protected void doHandleDispatcherAction(final Action action) {
+		DispatcherActionType type = (DispatcherActionType) action.getKey().getType();
 		switch (type) {
 			case REGISTER_LISTENER:
-				ListenerWrapper wrapper = (ListenerWrapper) event.getData();
+				ListenerWrapper wrapper = (ListenerWrapper) action.getData();
 				doHandleRegisterListener(wrapper);
 				break;
 			case UNREGISTER_LISTENER:
-				String registerId = (String) event.getData();
+				String registerId = (String) action.getData();
 				doHandleUnregisterListener(registerId);
 				break;
 			case REGISTER_STORE:
-				Store store = (Store) event.getData();
+				Store store = (Store) action.getData();
 				doHandleRegisterStore(store);
 				break;
 			case UNREGISTER_STORE:
-				StoreKey storeKey = (StoreKey) event.getData();
+				StoreKey storeKey = (StoreKey) action.getData();
 				doHandleUnregisterStore(storeKey);
 				break;
 			default:
-				throw new IllegalStateException("Dispatcher event type [" + type + "] not handled.");
+				throw new IllegalStateException("Dispatcher action type [" + type + "] not handled.");
 		}
 	}
 

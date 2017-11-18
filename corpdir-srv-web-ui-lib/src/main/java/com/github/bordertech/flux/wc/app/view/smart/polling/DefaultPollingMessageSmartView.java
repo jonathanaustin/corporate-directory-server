@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;

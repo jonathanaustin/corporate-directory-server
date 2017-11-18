@@ -1,13 +1,13 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
-import com.github.bordertech.flux.Event;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.app.event.RetrieveActionType;
-import com.github.bordertech.flux.app.event.RetrieveEvent;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
-import com.github.bordertech.flux.app.event.base.RetrieveBaseEventType;
-import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.app.action.RetrieveAction;
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
+import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
@@ -30,29 +30,29 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public ServiceStatus getEventStatus(final RetrieveEventType type, final Object criteria) {
+	public ServiceStatus getActionStatus(final RetrieveActionType type, final Object criteria) {
 		checkAsyncResult(type, criteria);
 		String key = getResultCacheKey(type, criteria);
 		return ServiceUtil.getServiceStatus(key);
 	}
 
 	@Override
-	public boolean isEventDone(final RetrieveEventType type, final Object criteria) {
-		ServiceStatus status = getEventStatus(type, criteria);
+	public boolean isActionDone(final RetrieveActionType type, final Object criteria) {
+		ServiceStatus status = getActionStatus(type, criteria);
 		return status == ServiceStatus.COMPLETE || status == ServiceStatus.ERROR;
 	}
 
 	@Override
-	public Object getEventResult(final RetrieveEventType type, final Object criteria) {
+	public Object getActionResult(final RetrieveActionType type, final Object criteria) {
 
 		// Check if have result
 		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
 		if (holder == null) {
-			if (getEventStatus(type, criteria) == ServiceStatus.PROCESSING) {
+			if (getActionStatus(type, criteria) == ServiceStatus.PROCESSING) {
 				throw new IllegalStateException("Item is still being retrieved.");
 			}
 			// Call SYNC (ie retrieve immediately)
-			holder = handleCallAction(type, criteria, false);
+			holder = handleServiceCallAction(type, criteria, false);
 		}
 
 		if (holder.isException()) {
@@ -69,41 +69,41 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	@Override
 	public void registerListeners() {
 		// Retrieve Listeners
-		for (RetrieveBaseEventType type : RetrieveBaseEventType.values()) {
+		for (RetrieveBaseActionType type : RetrieveBaseActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
-				public void handleEvent(final Event event) {
-					handleRetrieveBaseEvents((RetrieveEvent) event);
+				public void handleAction(final Action action) {
+					handleRetrieveBaseActions((RetrieveAction) action);
 				}
 			};
 			registerListener(type, listener);
 		}
 		// Action Listeners
-		for (ModifyBaseEventType type : ModifyBaseEventType.values()) {
+		for (ModifyBaseActionType type : ModifyBaseActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
-				public void handleEvent(final Event event) {
-					handleModifyBaseEvents(event);
+				public void handleAction(final Action action) {
+					handleModifyBaseActions(action);
 				}
 			};
 			registerListener(type, listener);
 		}
 	}
 
-	protected void handleModifyBaseEvents(final Event event) {
-		ModifyBaseEventType type = (ModifyBaseEventType) event.getKey().getType();
+	protected void handleModifyBaseActions(final Action action) {
+		ModifyBaseActionType type = (ModifyBaseActionType) action.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case CREATE:
-				handleCreateEvent(event);
+				handleCreateAction(action);
 				changed = true;
 				break;
 			case UPDATE:
-				handleUpdateEvent(event);
+				handleUpdateAction(action);
 				changed = true;
 				break;
 			case DELETE:
-				handleDeleteEvent(event);
+				handleDeleteAction(action);
 				changed = true;
 				break;
 
@@ -111,49 +111,49 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 				changed = false;
 		}
 		if (changed) {
-			dispatchChangeEvent(type);
+			dispatchChangeAction(type);
 		}
 	}
 
-	protected void handleCreateEvent(final Event event) {
+	protected void handleCreateAction(final Action action) {
 		// Create Action
 	}
 
-	protected void handleUpdateEvent(final Event event) {
+	protected void handleUpdateAction(final Action action) {
 		// Update action
 	}
 
-	protected void handleDeleteEvent(final Event event) {
+	protected void handleDeleteAction(final Action action) {
 		// Delete action
 	}
 
-	protected void handleRetrieveBaseEvents(final RetrieveEvent event) {
-		RetrieveBaseEventType type = (RetrieveBaseEventType) event.getKey().getType();
-		RetrieveActionType action = event.getActionType();
+	protected void handleRetrieveBaseActions(final RetrieveAction action) {
+		RetrieveBaseActionType type = (RetrieveBaseActionType) action.getKey().getType();
+		RetrieveCallType callType = action.getCallType();
 		boolean changed = false;
-		switch (action) {
+		switch (callType) {
 			case CALL_SYNC:
-				handleCallAction(type, event.getData(), false);
+				handleServiceCallAction(type, action.getData(), false);
 				changed = true;
 				break;
 			case CALL_ASYNC:
-				handleCallAction(type, event.getData(), true);
+				handleServiceCallAction(type, action.getData(), true);
 				break;
 			case ASYNC_ERROR:
-				handleAsyncErrorAction(type, (ResultHolder) event.getData());
+				handleAsyncErrorAction(type, (ResultHolder) action.getData());
 				changed = true;
 				break;
 			case ASYNC_OK:
-				handleAsyncOKAction(type, (ResultHolder) event.getData());
+				handleAsyncOKAction(type, (ResultHolder) action.getData());
 				changed = true;
 				break;
 
 			case REFRESH_SYNC:
-				handleRefreshAction(type, event.getData(), false);
+				handleRefreshAction(type, action.getData(), false);
 				changed = true;
 				break;
 			case REFRESH_ASYNC:
-				handleRefreshAction(type, event.getData(), true);
+				handleRefreshAction(type, action.getData(), true);
 				changed = true;
 				break;
 
@@ -161,11 +161,11 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 				changed = false;
 		}
 		if (changed) {
-			dispatchChangeEvent(type);
+			dispatchChangeAction(type);
 		}
 	}
 
-	protected ResultHolder<?, ?> handleCallAction(final RetrieveEventType type, final Object criteria, final boolean async) {
+	protected ResultHolder<?, ?> handleServiceCallAction(final RetrieveActionType type, final Object criteria, final boolean async) {
 		String key = getResultCacheKey(type, criteria);
 		ServiceAction action = new ServiceAction() {
 			@Override
@@ -181,69 +181,69 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		}
 	}
 
-	protected void handleAsyncOKAction(final RetrieveEventType type, final ResultHolder<?, ?> holder) {
+	protected void handleAsyncOKAction(final RetrieveActionType type, final ResultHolder<?, ?> holder) {
 		// OK
 	}
 
-	protected void handleAsyncErrorAction(final RetrieveEventType type, final ResultHolder<?, ?> holder) {
+	protected void handleAsyncErrorAction(final RetrieveActionType type, final ResultHolder<?, ?> holder) {
 		// ERROR
 	}
 
-	protected void handleRefreshAction(final RetrieveEventType type, final Object criteria, final boolean async) {
+	protected void handleRefreshAction(final RetrieveActionType type, final Object criteria, final boolean async) {
 		clearResultHolder(type, criteria);
-		handleCallAction(type, criteria, async);
+		handleServiceCallAction(type, criteria, async);
 	}
 
-	protected String getResultCacheKey(final RetrieveEventType type, final Object criteria) {
+	protected String getResultCacheKey(final RetrieveActionType type, final Object criteria) {
 		String typeDesc = type.toString();
 		String suffix = criteria == null ? "" : criteria.toString();
 		return getKey().toString() + "-" + typeDesc + "-" + suffix;
 	}
 
-	protected ResultHolder<?, ?> getResultHolder(final RetrieveEventType type, final Object criteria) {
+	protected ResultHolder<?, ?> getResultHolder(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		return ServiceUtil.getResultHolder(key);
 	}
 
-	protected void setResultHolder(final RetrieveEventType type, final ResultHolder<?, ?> resultHolder) {
+	protected void setResultHolder(final RetrieveActionType type, final ResultHolder<?, ?> resultHolder) {
 		String key = getResultCacheKey(type, resultHolder.getMetaData());
 		ServiceUtil.setResultHolder(key, resultHolder);
 	}
 
-	protected void clearResultHolder(final RetrieveEventType type, final Object criteria) {
+	protected void clearResultHolder(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		ServiceUtil.clearResult(key);
 	}
 
-	protected void checkAsyncResult(final RetrieveEventType type, final Object criteria) {
+	protected void checkAsyncResult(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
-			RetrieveActionType action = resultHolder.isException() ? RetrieveActionType.ASYNC_ERROR : RetrieveActionType.ASYNC_OK;
-			dispatchResultEvent(type, action, resultHolder);
+			RetrieveCallType action = resultHolder.isException() ? RetrieveCallType.ASYNC_ERROR : RetrieveCallType.ASYNC_OK;
+			dispatchResultAction(type, action, resultHolder);
 		}
 	}
 
 	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
+	 * Helper method to dispatch an action for this view with the view qualifier automatically added.
 	 *
-	 * @param eventType the event type
-	 * @param action the retrieve action
-	 * @param result the event data
+	 * @param actionType the action type
+	 * @param callType the retrieve action
+	 * @param result the action data
 	 */
-	protected void dispatchResultEvent(final RetrieveEventType eventType, final RetrieveActionType action, final ResultHolder<?, ?> result) {
+	protected void dispatchResultAction(final RetrieveActionType actionType, final RetrieveCallType callType, final ResultHolder<?, ?> result) {
 		String qualifier = getKey().getQualifier();
-		DefaultEvent event = new RetrieveEvent(eventType, qualifier, result, action);
-		getDispatcher().dispatch(event);
+		DefaultAction action = new RetrieveAction(actionType, qualifier, result, callType);
+		getDispatcher().dispatch(action);
 	}
 
 	/**
 	 *
-	 * @param type the event type
+	 * @param type the action type
 	 * @param criteria the criteria
 	 * @return the result
 	 */
-	protected abstract Object doRetrieveServiceCall(final RetrieveEventType type, final Object criteria);
+	protected abstract Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria);
 
 }

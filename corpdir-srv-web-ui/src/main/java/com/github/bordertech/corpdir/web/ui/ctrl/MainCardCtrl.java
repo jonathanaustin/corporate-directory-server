@@ -5,9 +5,9 @@ import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.corpdir.web.ui.view.MainCardView;
 import com.github.bordertech.corpdir.web.ui.view.MainToolbarView;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.store.DefaultStore;
+import com.github.bordertech.flux.Action;
 
 /**
  * Main Card Controller.
@@ -24,7 +24,7 @@ public class MainCardCtrl extends DefaultStore {
 		// SHOW CARD EVENT
 		registerListener(CardEventType.SHOW, new Listener() {
 			@Override
-			public void handleEvent(final Event event) {
+			public void handleEvent(final Action event) {
 				handleShowCard((CardType) event.getData());
 			}
 		});
@@ -32,7 +32,7 @@ public class MainCardCtrl extends DefaultStore {
 		// RESET CARD
 		registerListener(CardEventType.RESET, new Listener() {
 			@Override
-			public void handleEvent(final Event event) {
+			public void handleEvent(final Action event) {
 				handleResetCard((CardType) event.getData());
 			}
 		});

@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.app.view.smart.form;
 
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;

@@ -1,7 +1,5 @@
 package com.github.bordertech.flux.view;
 
-import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.key.EventType;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
@@ -139,7 +137,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 			}
 		} else {
 			// Add to AJAX Control for each event type (if it has been registered)
-			for (EventType type : eventTypes) {
+			for (ViewEventType type : eventTypes) {
 				Set<AppAjaxControl> ctrls = map.get(type);
 				if (ctrls != null) {
 					for (AppAjaxControl ctrl : ctrls) {

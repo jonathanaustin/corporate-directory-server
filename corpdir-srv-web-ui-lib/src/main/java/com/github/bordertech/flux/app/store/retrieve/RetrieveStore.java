@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.app.store.retrieve;
 
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
+import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 
 /**
@@ -11,10 +11,10 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
  */
 public interface RetrieveStore extends Store {
 
-	ServiceStatus getEventStatus(final RetrieveEventType type, final Object criteria);
+	ServiceStatus getActionStatus(final RetrieveActionType type, final Object criteria);
 
-	boolean isEventDone(final RetrieveEventType type, final Object criteria);
+	boolean isActionDone(final RetrieveActionType type, final Object criteria);
 
-	Object getEventResult(final RetrieveEventType type, final Object criteria);
+	Object getActionResult(final RetrieveActionType type, final Object criteria);
 
 }

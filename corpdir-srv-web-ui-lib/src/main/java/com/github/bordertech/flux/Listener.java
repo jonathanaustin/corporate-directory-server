@@ -3,13 +3,13 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
- * @param <T> the event type
+ * @param <T> the action type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface Listener<T extends Event> extends Serializable {
+public interface Listener<T extends Action> extends Serializable {
 
-	void handleEvent(final T event);
+	void handleAction(final T action);
 
 }

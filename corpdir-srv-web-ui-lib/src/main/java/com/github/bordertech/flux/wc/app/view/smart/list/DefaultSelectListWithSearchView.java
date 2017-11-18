@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.list;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;

@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event;
 
-import com.github.bordertech.flux.event.ViewEventType;
+import com.github.bordertech.flux.view.ViewEventType;
 
 /**
  * Toolbar view events.

@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.dispatcher;
 
-import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.key.EventKey;
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -19,10 +19,10 @@ import java.util.Queue;
  */
 public class DefaultDispatcherModel implements DispatcherModel {
 
-	// Listeners that have EventType and Qualifier
-	private final Map<EventKey, List<ListenerWrapper>> listenersByKey = new HashMap<>();
-	// Listeners that only have a match to EventType
-	private final Map<EventType, List<ListenerWrapper>> listenersByType = new HashMap<>();
+	// Listeners that have ActionType and Qualifier
+	private final Map<ActionKey, List<ListenerWrapper>> listenersByKey = new HashMap<>();
+	// Listeners that only have a match to ActionType
+	private final Map<ActionType, List<ListenerWrapper>> listenersByType = new HashMap<>();
 	// Listeners that only match to the qualifier
 	private final Map<String, List<ListenerWrapper>> listenersByQualifiers = new HashMap<>();
 	// Listeners by ID
@@ -31,16 +31,16 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	// Stores that have StoreType and Qualifier
 	private final Map<StoreKey, Store> storesByKey = new HashMap<>();
 
-	private final Queue<Event> queuedEvents = new ArrayDeque<>();
+	private final Queue<Action> queuedActions = new ArrayDeque<>();
 	private boolean dispatching;
 
 	@Override
-	public Map<EventKey, List<ListenerWrapper>> getListenersByKey() {
+	public Map<ActionKey, List<ListenerWrapper>> getListenersByKey() {
 		return listenersByKey;
 	}
 
 	@Override
-	public Map<EventType, List<ListenerWrapper>> getListenersByType() {
+	public Map<ActionType, List<ListenerWrapper>> getListenersByType() {
 		return listenersByType;
 	}
 
@@ -55,8 +55,8 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	}
 
 	@Override
-	public Queue<Event> getQueuedEvents() {
-		return queuedEvents;
+	public Queue<Action> getQueuedActions() {
+		return queuedActions;
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public class DefaultDispatcherModel implements DispatcherModel {
 		this.dispatching = dispatching;
 	}
 
-	public boolean hasQueuedEvents() {
-		return !queuedEvents.isEmpty();
+	public boolean hasQueuedActions() {
+		return !queuedActions.isEmpty();
 	}
 
 	@Override

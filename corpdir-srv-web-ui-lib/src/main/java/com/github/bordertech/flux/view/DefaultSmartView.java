@@ -1,19 +1,18 @@
 package com.github.bordertech.flux.view;
 
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.Event;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.app.event.RetrieveActionType;
-import com.github.bordertech.flux.app.event.RetrieveEvent;
-import com.github.bordertech.flux.app.event.RetrieveEventType;
-import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.action.StoreActionType;
+import com.github.bordertech.flux.action.base.StateBaseActionType;
+import com.github.bordertech.flux.app.action.RetrieveAction;
+import com.github.bordertech.flux.app.action.RetrieveActionType;
+import com.github.bordertech.flux.app.action.RetrieveCallType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
-import com.github.bordertech.flux.event.StoreEventType;
-import com.github.bordertech.flux.event.ViewEventType;
-import com.github.bordertech.flux.event.base.StateBaseEventType;
-import com.github.bordertech.flux.key.EventKey;
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.wcomponents.WComponent;
@@ -228,7 +227,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	 *
 	 * @param eventType the event type
 	 */
-	protected void dispatchEvent(final StoreEventType eventType) {
+	protected void dispatchEvent(final StoreActionType eventType) {
 		dispatchEvent(eventType, null);
 	}
 
@@ -238,9 +237,9 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	 * @param eventType the event type
 	 * @param data the event data
 	 */
-	protected void dispatchEvent(final StoreEventType eventType, final Object data) {
+	protected void dispatchEvent(final StoreActionType eventType, final Object data) {
 		String qualifier = getFullQualifier();
-		DefaultEvent event = new DefaultEvent(new EventKey(eventType, qualifier), data);
+		DefaultAction event = new DefaultAction(new ActionKey(eventType, qualifier), data);
 		dispatchEvent(event);
 	}
 
@@ -252,30 +251,30 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	 * @param data the event data
 	 * @param action the retrieve action
 	 */
-	protected void dispatchRetrieveEvent(final StoreKey storeKey, final RetrieveEventType eventType, final Object data, final RetrieveActionType action) {
-		DefaultEvent event = new RetrieveEvent(eventType, storeKey.getQualifier(), data, action);
+	protected void dispatchRetrieveEvent(final StoreKey storeKey, final RetrieveActionType eventType, final Object data, final RetrieveCallType action) {
+		DefaultAction event = new RetrieveAction(eventType, storeKey.getQualifier(), data, action);
 		dispatchEvent(event);
 	}
 
-	protected void dispatchEvent(final Event event) {
+	protected void dispatchEvent(final Action event) {
 		getDispatcher().dispatch(event);
 	}
 
-	protected void handleStoreChangedEvent(final StoreKey storeKey, final Event event) {
+	protected void handleStoreChangedEvent(final StoreKey storeKey, final Action event) {
 	}
 
 	protected void registerStoreChangeListener(final StoreKey storeKey) {
 		Listener listener = new Listener() {
 			@Override
-			public void handleEvent(final Event event) {
+			public void handleAction(final Action event) {
 				handleStoreChangedEvent(storeKey, event);
 			}
 		};
-		registerListener(StateBaseEventType.STORE_CHANGED, storeKey.getQualifier(), listener);
+		registerListener(StateBaseActionType.STORE_CHANGED, storeKey.getQualifier(), listener);
 	}
 
-	protected void registerListener(final EventType eventType, final String qualifier, final Listener listener) {
-		String id = getDispatcher().registerListener(new EventKey(eventType, qualifier), listener);
+	protected void registerListener(final ActionType eventType, final String qualifier, final Listener listener) {
+		String id = getDispatcher().registerListener(new ActionKey(eventType, qualifier), listener);
 		SmartViewModel model = getOrCreateComponentModel();
 		if (model.registeredIds == null) {
 			model.registeredIds = new HashSet<>();

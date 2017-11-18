@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.dispatcher;
 
-import com.github.bordertech.flux.Event;
-import com.github.bordertech.flux.key.EventKey;
-import com.github.bordertech.flux.key.EventType;
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.key.StoreKey;
 import java.util.List;
 import java.util.Map;
@@ -16,11 +16,11 @@ import java.util.Queue;
  */
 public interface DispatcherModel {
 
-	// Listeners that have EventType and Qualifier
-	Map<EventKey, List<ListenerWrapper>> getListenersByKey();
+	// Listeners that have ActionType and Qualifier
+	Map<ActionKey, List<ListenerWrapper>> getListenersByKey();
 
-	// Listeners that only have a match to EventType
-	Map<EventType, List<ListenerWrapper>> getListenersByType();
+	// Listeners that only have a match to ActionType
+	Map<ActionType, List<ListenerWrapper>> getListenersByType();
 
 	// Listeners that only match to the qualifier
 	Map<String, List<ListenerWrapper>> getListenersByQualifiers();
@@ -28,7 +28,7 @@ public interface DispatcherModel {
 	// Listeners by ID
 	Map<String, ListenerWrapper> getListenersById();
 
-	Queue<Event> getQueuedEvents();
+	Queue<Action> getQueuedActions();
 
 	boolean isDispatching();
 

@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.event.ViewEventType;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.view.SmartView;
+import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.SelectableView;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;

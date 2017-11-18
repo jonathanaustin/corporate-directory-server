@@ -3,7 +3,7 @@ package com.github.bordertech.flux.key;
 import java.io.Serializable;
 
 /**
- * Key used to identify flux components and events.
+ * Key used to identify flux components and actions.
  *
  * @param <T> the key type
  *

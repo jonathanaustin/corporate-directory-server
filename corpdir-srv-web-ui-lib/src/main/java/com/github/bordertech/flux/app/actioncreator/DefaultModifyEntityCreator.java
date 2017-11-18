@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.app.actioncreator;
 
+import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudApi;
-import com.github.bordertech.flux.app.event.base.ModifyBaseEventType;
 import com.github.bordertech.flux.key.CreatorKey;
 
 /**
- * Modify event creator used by views.
+ * Modify action creator used by views.
  *
  * @author jonathan
  * @param <T> the entity type
@@ -23,21 +23,21 @@ public class DefaultModifyEntityCreator<T, D extends CrudApi<T>> extends Abstrac
 	@Override
 	public T create(final T entity) {
 		T created = getDataApi().create(entity);
-		dispatchModifyEvent(ModifyBaseEventType.CREATE, created);
+		dispatchModifyAction(ModifyBaseActionType.CREATE, created);
 		return created;
 	}
 
 	@Override
 	public T update(final T entity) {
 		T updated = getDataApi().update(entity);
-		dispatchModifyEvent(ModifyBaseEventType.UPDATE, updated);
+		dispatchModifyAction(ModifyBaseActionType.UPDATE, updated);
 		return updated;
 	}
 
 	@Override
 	public void delete(final T entity) {
 		getDataApi().delete(entity);
-		dispatchModifyEvent(ModifyBaseEventType.DELETE, entity);
+		dispatchModifyAction(ModifyBaseActionType.DELETE, entity);
 	}
 
 	@Override

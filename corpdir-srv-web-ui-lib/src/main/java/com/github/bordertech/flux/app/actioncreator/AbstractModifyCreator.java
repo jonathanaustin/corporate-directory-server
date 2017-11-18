@@ -1,14 +1,14 @@
 package com.github.bordertech.flux.app.actioncreator;
 
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.app.event.ModifyEventType;
-import com.github.bordertech.flux.dispatcher.DefaultEvent;
+import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.app.action.ModifyActionType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
+import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.CreatorKey;
-import com.github.bordertech.flux.key.EventKey;
 
 /**
- * Modify event creator used by views.
+ * Modify action creator used by views.
  *
  * @author jonathan
  */
@@ -29,9 +29,9 @@ public class AbstractModifyCreator implements ModifyCreator {
 		return getKey().getQualifier();
 	}
 
-	protected void dispatchModifyEvent(final ModifyEventType eventType, final Object entity) {
-		DefaultEvent event = new DefaultEvent(new EventKey(eventType, getQualifier()), entity);
-		getDispatcher().dispatch(event);
+	protected void dispatchModifyAction(final ModifyActionType actionType, final Object entity) {
+		DefaultAction action = new DefaultAction(new ActionKey(actionType, getQualifier()), entity);
+		getDispatcher().dispatch(action);
 	}
 
 	protected final Dispatcher getDispatcher() {
