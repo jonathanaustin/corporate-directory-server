@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.key.ActionKey;
@@ -107,6 +108,18 @@ public class DispatcherUtil {
 		if (store != null) {
 			store.unregisterListeners();
 		}
+	}
+
+	public static ActionCreator getActionCreator(final String creatorKey, final DispatcherModel model) {
+		return model.getActionCreatorsByKey().get(creatorKey);
+	}
+
+	public static void handleRegisterActionCreator(final ActionCreator creator, final DispatcherModel model) {
+		model.getActionCreatorsByKey().put(creator.getKey(), creator);
+	}
+
+	public static void handleUnregisterActionCreator(final String creatorKey, final DispatcherModel model) {
+		model.getActionCreatorsByKey().remove(creatorKey);
 	}
 
 	private static void processQueue(final DispatcherModel model) {

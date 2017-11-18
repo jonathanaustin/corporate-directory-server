@@ -60,17 +60,17 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public void registerActionCreator(final ActionCreator creator) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		dispatch(new DefaultAction(DispatcherActionType.REGISTER_CREATOR, creator));
 	}
 
 	@Override
-	public void unregisterActionCreator(final String key) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	public void unregisterActionCreator(final String creatorKey) {
+		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_CREATOR, creatorKey));
 	}
 
 	@Override
-	public ActionCreator getActionCreator(final String key) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	public ActionCreator getActionCreator(final String creatorKey) {
+		return DispatcherUtil.getActionCreator(creatorKey, getDispatcherModel());
 	}
 
 	protected void doConfigModel(final DispatcherModel model) {
@@ -90,39 +90,31 @@ public abstract class AbstractDispatcher implements Dispatcher {
 		switch (type) {
 			case REGISTER_LISTENER:
 				ListenerWrapper wrapper = (ListenerWrapper) action.getData();
-				doHandleRegisterListener(wrapper);
+				DispatcherUtil.handleRegisterListener(wrapper, getDispatcherModel());
 				break;
 			case UNREGISTER_LISTENER:
 				String registerId = (String) action.getData();
-				doHandleUnregisterListener(registerId);
+				DispatcherUtil.handleUnregisterListener(registerId, getDispatcherModel());
 				break;
 			case REGISTER_STORE:
 				Store store = (Store) action.getData();
-				doHandleRegisterStore(store);
+				DispatcherUtil.handleRegisterStore(store, getDispatcherModel());
 				break;
 			case UNREGISTER_STORE:
 				String storeKey = (String) action.getData();
-				doHandleUnregisterStore(storeKey);
+				DispatcherUtil.handleUnregisterStore(storeKey, getDispatcherModel());
+				break;
+			case REGISTER_CREATOR:
+				ActionCreator creator = (ActionCreator) action.getData();
+				DispatcherUtil.handleRegisterActionCreator(creator, getDispatcherModel());
+				break;
+			case UNREGISTER_CREATOR:
+				String creatorKey = (String) action.getData();
+				DispatcherUtil.handleUnregisterActionCreator(creatorKey, getDispatcherModel());
 				break;
 			default:
 				throw new IllegalStateException("Dispatcher action type [" + type + "] not handled.");
 		}
-	}
-
-	protected void doHandleRegisterListener(final ListenerWrapper wrapper) {
-		DispatcherUtil.handleRegisterListener(wrapper, getDispatcherModel());
-	}
-
-	protected void doHandleUnregisterListener(final String registerId) {
-		DispatcherUtil.handleUnregisterListener(registerId, getDispatcherModel());
-	}
-
-	protected void doHandleRegisterStore(final Store store) {
-		DispatcherUtil.handleRegisterStore(store, getDispatcherModel());
-	}
-
-	protected void doHandleUnregisterStore(final String storeKey) {
-		DispatcherUtil.handleUnregisterStore(storeKey, getDispatcherModel());
 	}
 
 	protected abstract DispatcherModel getDispatcherModel();

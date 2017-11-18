@@ -23,14 +23,14 @@ public interface Dispatcher extends Serializable {
 
 	void registerStore(final Store store);
 
-	void unregisterStore(final String key);
+	void unregisterStore(final String storeKey);
 
-	Store getStore(final String key);
+	Store getStore(final String storeKey);
 
 	void registerActionCreator(final ActionCreator creator);
 
-	void unregisterActionCreator(final String key);
+	void unregisterActionCreator(final String creatorKey);
 
-	ActionCreator getActionCreator(final String key);
+	ActionCreator getActionCreator(final String creatorKey);
 
 }
