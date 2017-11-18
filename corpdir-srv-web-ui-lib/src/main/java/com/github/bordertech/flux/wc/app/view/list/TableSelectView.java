@@ -33,6 +33,7 @@ public class TableSelectView<T> extends AbstractListSingleSelectView<T> {
 		TableBeanModel model = new TableBeanModel<>(columns);
 		TableBeanModel.configTable(table);
 		table.setTableModel(model);
+		// FIXME JA - Not sure why select mode as is using button to "select"
 		table.setSelectMode(WTable.SelectMode.SINGLE);
 	}
 

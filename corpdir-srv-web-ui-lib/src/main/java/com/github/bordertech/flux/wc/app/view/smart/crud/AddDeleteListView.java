@@ -148,8 +148,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	protected void handleDeleteEvent() {
 		T item = selectView.getSelectedItem();
 		if (item != null) {
-			// FIXME JA - Remove ITEM
-//			dispatchEvent(CollectionEventType.REMOVE_ITEM, item);
+			selectView.removeItem(item);
 		}
 		addRemToolbar.resetView();
 	}
@@ -164,7 +163,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		List<T> beans = selectView.getViewBean();
 		if (beans == null || !beans.contains(item)) {
 			// Add Items
-//			dispatchEvent(CollectionEventType.ADD_ITEM, item);
+			selectView.addItem(item);
 		}
 		addRemToolbar.resetView();
 		dialogView.resetView();

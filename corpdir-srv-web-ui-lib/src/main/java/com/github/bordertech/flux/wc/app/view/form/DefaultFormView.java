@@ -4,6 +4,7 @@ import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
@@ -82,7 +83,7 @@ public class DefaultFormView<T> extends DefaultDumbView<T> implements FormView<T
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(FormBaseViewEvent.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormOutcomeBaseViewEvent.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {

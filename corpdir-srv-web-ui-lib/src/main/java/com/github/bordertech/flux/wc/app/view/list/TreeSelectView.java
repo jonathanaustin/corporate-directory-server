@@ -1,11 +1,13 @@
 package com.github.bordertech.flux.wc.app.view.list;
 
+import com.github.bordertech.flux.app.store.retrieve.RetrieveTreeStore;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.common.AppTreeItemModel;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WTree;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -54,21 +56,21 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		return tree;
 	}
 
-	// FIXME JA
-//	@Override
-//	public void removeItem(final T item) {
-//		List<T> items = getItems();
-//		// Check if on root items
-//		if (items.contains(item)) {
-//			items.remove(item);
-//		}
-//		refreshItems(items);
-//	}
-//
-//	@Override
-//	public void updateItem(final T item) {
-//		// Do Nothing (as gets complicated with parent and child relationships changing
-//	}
+	@Override
+	public void removeItem(final T item) {
+		List<T> items = getItems();
+		// Check if on root items
+		if (items.contains(item)) {
+			items.remove(item);
+		}
+		refreshItems(items);
+	}
+
+	@Override
+	public void updateItem(final T item) {
+		// Do Nothing (as gets complicated with parent and child relationships changing
+	}
+
 	@Override
 	public void clearSelected() {
 		super.clearSelected();
@@ -80,10 +82,10 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	) {
 		super.initViewContent(request);
 		List<T> beans = getViewBean();
-//		if (beans != null && !beans.isEmpty()) {
-//			TreeItemModel model = new AppTreeItemModel<>(beans, getTreeModelKey());
-//			tree.setTreeModel(model);
-//		}
+		if (beans != null && !beans.isEmpty()) {
+			TreeItemModel model = new AppTreeItemModel<>(beans, getRetrieveTreeStore());
+			tree.setTreeModel(model);
+		}
 	}
 
 	protected void handleSelectedItem() {
@@ -117,15 +119,14 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		return (AppTreeItemModel) tree.getTreeModel();
 	}
 
-//	@Override
-//	public void setTreeModelKey(final String key) {
-//		getOrCreateComponentModel().treeModelKey = key;
-//	}
-//
-//	@Override
-//	public String getTreeModelKey() {
-//		return getComponentModel().treeModelKey;
-//	}
+	public void setRetrieveTreeStore(final RetrieveTreeStore treeStore) {
+		getOrCreateComponentModel().retrieveTreeStore = treeStore;
+	}
+
+	public RetrieveTreeStore getRetrieveTreeStore() {
+		return getComponentModel().retrieveTreeStore;
+	}
+
 	@Override
 	protected TreeSelectModel<T> newComponentModel() {
 		return new TreeSelectModel();
@@ -146,7 +147,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	 */
 	public static class TreeSelectModel<T> extends SelectModel<T> {
 
-		private String treeModelKey;
+		private RetrieveTreeStore<T> retrieveTreeStore;
 
 	}
 

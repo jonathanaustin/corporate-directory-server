@@ -7,6 +7,7 @@ import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.form.DefaultFormView;
@@ -78,6 +79,8 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof FormBaseViewEvent) {
 			handleFormBaseEvents((FormBaseViewEvent) event, data);
+		} else if (event instanceof FormOutcomeBaseViewEvent) {
+			handleFormOutcomeBaseEvents((FormOutcomeBaseViewEvent) event, data);
 		} else if (event instanceof ToolbarBaseViewEvent) {
 			handleToolbarBaseEvents((ToolbarBaseViewEvent) event, data);
 		}
@@ -89,18 +92,11 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	protected void handleFormBaseEvents(final FormBaseViewEvent type, final Object data) {
-		switch (type) {
-			case ENTITY_MODE_CHANGED:
-			case LOAD_OK:
-				FormEventUtil.handleSyncToolbar(this);
-				break;
-			case LOAD:
-				FormEventUtil.doLoad(this, (T) data, FormMode.VIEW);
-				break;
-			case LOAD_NEW:
-				FormEventUtil.doLoad(this, (T) data, FormMode.ADD);
-				break;
-		}
+		FormEventUtil.handleFormBaseEvents(this, type, data);
+	}
+
+	protected void handleFormOutcomeBaseEvents(final FormOutcomeBaseViewEvent type, final Object data) {
+		FormEventUtil.handleFormOutcomeBaseEvents(this, type, data);
 	}
 
 	protected void handleToolbarBaseEvents(final ToolbarBaseViewEvent type, final Object data) {
