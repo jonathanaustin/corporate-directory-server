@@ -1,9 +1,15 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
-import com.github.bordertech.corpdir.web.ui.event.CardType;
+import com.github.bordertech.flux.ActionCreator;
+import com.github.bordertech.flux.Dispatcher;
+import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.crud.actioncreator.DefaultCrudActionCreatorFactory;
+import com.github.bordertech.flux.crud.actioncreator.DefaultCrudStoreFactory;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
 
 /**
@@ -28,6 +34,26 @@ public class MainAppView extends DefaultMessageSmartView {
 	public String getCardTitle() {
 		CardType card = cardView.getCurrentType();
 		return card == null ? "" : card.getDesc();
+	}
+
+	@Override
+	protected void initViewContent(Request request) {
+		super.initViewContent(request);
+		// Register Stores and Action Creators (for this user session)
+		Dispatcher dispatcher = getDispatcher();
+		for (DataApiType api : DataApiType.values()) {
+			String key = api.getKey();
+			// Action Creator
+			if (api.isActionCreator()) {
+				ActionCreator creator = DefaultCrudActionCreatorFactory.getInstance(key, key);
+				dispatcher.registerActionCreator(creator);
+			}
+			// Store
+			if (api.isStore()) {
+				Store store = DefaultCrudStoreFactory.getInstance(key, key);
+				dispatcher.registerStore(store);
+			}
+		}
 	}
 
 	@Override

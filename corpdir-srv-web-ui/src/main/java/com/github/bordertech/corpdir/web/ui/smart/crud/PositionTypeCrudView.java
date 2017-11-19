@@ -12,8 +12,6 @@ public class PositionTypeCrudView extends DefaultCrudSmartView {
 
 	public PositionTypeCrudView() {
 		super("PT", "Position Type", new BasicApiKeyPanel("PL"));
-//		setSearchModelKey("positiontype.search");
-//		setActionModelKey("positiontype.action");
 	}
 
 }

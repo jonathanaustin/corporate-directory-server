@@ -1,8 +1,9 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
-import com.github.bordertech.corpdir.web.ui.event.CardType;
 import com.github.bordertech.flux.view.CardManagerView;
 import com.github.bordertech.flux.view.SmartView;
+import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,13 @@ public class MainCardManagerView extends CardManagerView {
 			SmartView view = card.createCardViewInstance();
 			view.setQualifier("M-E" + idx++);
 			view.setQualifierContext(true);
+			if (view instanceof FormSmartView) {
+				CrudSmartView form = (CrudSmartView) view;
+				String key = card.getApiType().getKey();
+				form.setEntityActionCreatorKey(key);
+				form.setEntityStoreKey(key);
+				form.setSearchStoreKey(key);
+			}
 			setupCard(card, view);
 		}
 		// Default

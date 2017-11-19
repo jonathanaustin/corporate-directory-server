@@ -13,10 +13,6 @@ public class LocationCrudView extends DefaultCrudSmartView {
 
 	public LocationCrudView() {
 		super("LOC", "Location", new LocationPanel("PL"), new TreeSelectView("SEL"));
-//		setSearchModelKey("location.tree");
-//		setActionModelKey("location.action");
-//		TreeSelectView view = (TreeSelectView) getSelectView();
-//		view.setTreeModelKey("location.tree");
 	}
 
 }

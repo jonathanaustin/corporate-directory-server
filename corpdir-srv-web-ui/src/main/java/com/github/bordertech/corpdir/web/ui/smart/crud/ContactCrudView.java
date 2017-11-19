@@ -12,8 +12,6 @@ public class ContactCrudView extends DefaultCrudSmartView {
 
 	public ContactCrudView() {
 		super("CT", "Contact", new ContactPanel("PL"));
-//		setSearchModelKey("contact.search");
-//		setActionModelKey("contact.action");
 	}
 
 }

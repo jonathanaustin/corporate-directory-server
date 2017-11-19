@@ -12,8 +12,6 @@ public class OrgUnitCrudView extends DefaultCrudSmartView {
 
 	public OrgUnitCrudView() {
 		super("OU", "Org Unit", new OrgUnitPanel("PL"));
-//		setSearchModelKey("orgunit.search");
-//		setActionModelKey("orgunit.action");
 	}
 
 }

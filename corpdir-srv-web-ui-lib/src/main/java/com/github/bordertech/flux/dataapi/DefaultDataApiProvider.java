@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Default data api provider.
  * <p>
- * Will look for the implementation of the data api with parameter "wc.data.api.impl." + key.
+ * Will look for the implementation of the data api with parameter "wc.flux.dataapi.impl." + key.
  * </p>
  *
  * @author Jonathan Austin
@@ -18,7 +18,7 @@ public class DefaultDataApiProvider implements DataApiProvider {
 
 	private static final Map<String, DataApi> DATA_APIS = new HashMap<>();
 
-	private static final String DATA_API_KEY_PREFIX = "wc.data.api.impl.";
+	private static final String DATA_API_KEY_PREFIX = "wc.flux.dataapi.impl.";
 
 	@Override
 	public DataApi getDataApi(final String key) {

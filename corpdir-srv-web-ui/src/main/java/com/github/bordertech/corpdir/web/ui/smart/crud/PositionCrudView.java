@@ -12,8 +12,6 @@ public class PositionCrudView extends DefaultCrudSmartView {
 
 	public PositionCrudView() {
 		super("POS", "Position", new PositionPanel("PL"));
-//		setSearchModelKey("position.search");
-//		setActionModelKey("position.action");
 	}
 
 }

@@ -1,6 +1,7 @@
-package com.github.bordertech.corpdir.web.ui.event;
+package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.corpdir.web.ui.smart.crud.ContactCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.LocationCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;
@@ -15,24 +16,26 @@ import com.github.bordertech.flux.view.SmartView;
  * @author jonathan
  */
 public enum CardType {
-	POSITION_CARD("Position", false, PositionCrudView.class, IconConstants.POSITION_IMAGE),
-	ORG_UNIT_CARD("Org Unit", false, OrgUnitCrudView.class, IconConstants.ORG_UNIT_IMAGE),
-	LOCATION_CARD("Location", true, LocationCrudView.class, null),
-	POSITION_TYPE_CARD("Position Type", true, PositionTypeCrudView.class, null),
-	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null),
-	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE);
+	POSITION_CARD("Position", false, PositionCrudView.class, IconConstants.POSITION_IMAGE, DataApiType.POSITION),
+	ORG_UNIT_CARD("Org Unit", false, OrgUnitCrudView.class, IconConstants.ORG_UNIT_IMAGE, DataApiType.ORG_UNIT),
+	LOCATION_CARD("Location", true, LocationCrudView.class, null, DataApiType.LOCATION),
+	POSITION_TYPE_CARD("Position Type", true, PositionTypeCrudView.class, null, DataApiType.POSITION_TYPE),
+	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null, DataApiType.UNIT_TYPE),
+	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT);
 
-	CardType(final String desc, final boolean system, final Class<? extends SmartView> clazz, final String imageUrl) {
+	CardType(final String desc, final boolean system, final Class<? extends SmartView> clazz, final String imageUrl, final DataApiType apiType) {
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
 		this.imageUrl = imageUrl;
+		this.apiType = apiType;
 	}
 
 	final String desc;
 	final boolean system;
 	final Class<? extends SmartView> clazz;
 	final String imageUrl;
+	final DataApiType apiType;
 
 	public String getDesc() {
 		return desc;
@@ -48,6 +51,10 @@ public enum CardType {
 
 	public String getImageUrl() {
 		return imageUrl;
+	}
+
+	public DataApiType getApiType() {
+		return apiType;
 	}
 
 	public SmartView createCardViewInstance() {

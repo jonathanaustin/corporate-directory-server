@@ -12,8 +12,6 @@ public class UnitTypeCrudView extends DefaultCrudSmartView {
 
 	public UnitTypeCrudView() {
 		super("UT", "Unit Type", new BasicApiKeyPanel("PL"));
-//		setSearchModelKey("unittype.search");
-//		setActionModelKey("unittype.action");
 	}
 
 }
