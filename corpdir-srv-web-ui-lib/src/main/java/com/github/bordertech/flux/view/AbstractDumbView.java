@@ -280,21 +280,32 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		SmartView parent = null;
 		// Check if this is a smart view and is not in "dumb mode". Dumb mode delegates to the parent.
-		if (this instanceof SmartView) {
-			SmartView smart = (SmartView) this;
-			boolean pass = smart.isDumbMode() && (smart.isPassAllEvents() || smart.getPassThroughs().contains(eventType));
-			if (!pass) {
-				parent = (SmartView) this;
-			}
+		SmartView view = findSmartViewEventHandler(this, eventType);
+		if (view != null) {
+			view.handleViewEvent(getViewId(), eventType, data);
 		}
-		if (parent == null) {
-			parent = findParentViewContainer();
+	}
+
+	protected SmartView findSmartViewEventHandler(final WComponent component, final ViewEventType eventType) {
+		SmartView smart;
+		if (component instanceof SmartView) {
+			smart = (SmartView) this;
+		} else {
+			smart = findParentViewContainer();
 		}
-		if (parent != null) {
-			parent.handleViewEvent(getViewId(), eventType, data);
+		if (component == null) {
+			return null;
 		}
+		// Check if this Smart View will process this event
+		boolean pass = smart.isDumbMode() && (smart.isPassAllEvents() || smart.getPassThroughs().contains(eventType));
+		if (!pass) {
+			return smart;
+		}
+		// Try next parent
+		SmartView parent = findParentViewContainer();
+		return findSmartViewEventHandler(parent, eventType);
+
 	}
 
 	protected SmartView findParentViewContainer() {

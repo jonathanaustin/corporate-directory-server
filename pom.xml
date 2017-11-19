@@ -112,12 +112,12 @@
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-bundle</artifactId>
-				<version>1.4.7</version>
+				<version>1.4.16</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-lde</artifactId>
-				<version>1.4.7</version>
+				<version>1.4.16</version>
 			</dependency>
 
 			<!-- Servlet API -->

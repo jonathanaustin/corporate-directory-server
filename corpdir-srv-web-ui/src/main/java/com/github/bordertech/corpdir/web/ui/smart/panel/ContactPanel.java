@@ -18,7 +18,7 @@ import com.github.bordertech.wcomponents.WLabel;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC-I", "LOC");
+	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC", "LOCQ");
 	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
 // TODO

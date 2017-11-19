@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements PollingSmartView<T> {
 
-	private final PollingView pollingView = new DefaultPollingView<>("vw-poll");
+	private final PollingView pollingView = new DefaultPollingView<>("vw_poll");
 
 	public DefaultPollingSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);

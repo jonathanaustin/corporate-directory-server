@@ -19,7 +19,7 @@ import java.util.Objects;
  */
 public class LocationPanel extends BasicApiKeyPanel<Location> {
 
-	private final PollingDropdownOptionsView<String, Location> drpParent = new PollingDropdownOptionsView<>("PAR-I", "PAR");
+	private final PollingDropdownOptionsView<String, Location> drpParent = new PollingDropdownOptionsView<>("PAR", "PARQ");
 	private final PollingMultiSelectPairOptionsView<String, Location> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
 	/**

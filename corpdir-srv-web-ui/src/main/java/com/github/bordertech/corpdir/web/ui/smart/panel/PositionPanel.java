@@ -20,11 +20,11 @@ import java.util.Objects;
  */
 public class PositionPanel extends BasicApiKeyPanel<Position> {
 
-	private final PollingDropdownOptionsView<String, Position> drpParent = new PollingDropdownOptionsView<>("PAR-I", "PAR");
+	private final PollingDropdownOptionsView<String, Position> drpParent = new PollingDropdownOptionsView<>("PAR", "PARQ");
 	private final PollingMultiSelectPairOptionsView<String, Position> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
-	private final PollingDropdownOptionsView<String, PositionType> drpUnitType = new PollingDropdownOptionsView<>("UT-I", "UT");
-	private final PollingDropdownOptionsView<String, OrgUnit> drpOwnerOU = new PollingDropdownOptionsView<>("BOU-I", "BOU");
+	private final PollingDropdownOptionsView<String, PositionType> drpUnitType = new PollingDropdownOptionsView<>("UT", "UTQ");
+	private final PollingDropdownOptionsView<String, OrgUnit> drpOwnerOU = new PollingDropdownOptionsView<>("BOU", "BOUQ");
 	private final PollingMultiSelectPairOptionsView<String, OrgUnit> multiOUs = new PollingMultiSelectPairOptionsView<>("MOU");
 	private final PollingMultiSelectPairOptionsView<String, Contact> multiContact = new PollingMultiSelectPairOptionsView<>("CON");
 

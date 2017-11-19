@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpdateable {
 
-	private final DefaultDumbView dialogView = new DefaultDumbView("vw-dialog") {
+	private final DefaultDumbView dialogView = new DefaultDumbView("vw_dialog") {
 		@Override
 		public void setContentVisible(final boolean visible) {
 			super.setContentVisible(visible);
@@ -43,10 +43,10 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	};
 	private final WDiv dialogContent = new WDiv();
 	private final WDialog dialog = new WDialog(dialogContent);
-	private final AddDeleteButtonBarView addRemToolbar = new AddDeleteButtonBarView("vw-toolbar");
+	private final AddDeleteButtonBarView addRemToolbar = new AddDeleteButtonBarView("vw_toolbar");
 
 	// Add Select Button BAR to Bottom of Dialog View
-	private final ApplyButtonBarView findSelBar = new ApplyButtonBarView("vw-select");
+	private final ApplyButtonBarView findSelBar = new ApplyButtonBarView("vw_select");
 	private final SelectSingleView<T> selectView;
 	private final SelectableView<T> findView;
 

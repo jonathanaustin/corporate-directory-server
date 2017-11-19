@@ -14,7 +14,7 @@ public enum DataApiType {
 	POSITION_TYPE("positiontype"),
 	UNIT_TYPE("unittype"),
 	CONTACT("contact"),
-	CONTACT_POSTION("contact-position", true, false);
+	CONTACT_POSTION("contact-positions", true, false);
 
 	DataApiType(final String key) {
 		this(key, true, true);

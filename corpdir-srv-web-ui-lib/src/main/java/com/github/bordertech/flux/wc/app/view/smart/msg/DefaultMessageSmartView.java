@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.WMessages;
  */
 public class DefaultMessageSmartView<T> extends DefaultSmartView<T> implements MessageSmartView<T> {
 
-	private final MessageView messageView = new DefaultMessageView("vw-messages");
+	private final MessageView messageView = new DefaultMessageView("vw_msgs");
 
 	public DefaultMessageSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);

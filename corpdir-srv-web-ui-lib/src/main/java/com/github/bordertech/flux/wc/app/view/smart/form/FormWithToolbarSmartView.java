@@ -27,11 +27,11 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	private final FormToolbarView toolbarView;
 
 	public FormWithToolbarSmartView(final String viewId) {
-		this(viewId, new DefaultFormView<T>("vw-entity"));
+		this(viewId, new DefaultFormView<T>("vw_entity"));
 	}
 
 	public FormWithToolbarSmartView(final String viewId, final FormView<T> formView) {
-		this(viewId, formView, new DefaultFormToolbarView("vw-toolbar"));
+		this(viewId, formView, new DefaultFormToolbarView("vw_toolbar"));
 	}
 
 	public FormWithToolbarSmartView(final String viewId, final FormView<T> formView, final FormToolbarView toolbarView) {

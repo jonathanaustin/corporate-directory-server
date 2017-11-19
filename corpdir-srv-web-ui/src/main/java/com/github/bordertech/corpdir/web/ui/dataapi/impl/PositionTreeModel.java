@@ -8,9 +8,9 @@ import com.github.bordertech.corpdir.web.ui.dataapi.DefaultModelTreeVersionServi
  *
  * @author jonathan
  */
-public class PostionTreeModel extends DefaultModelTreeVersionService<Position, PositionService> {
+public class PositionTreeModel extends DefaultModelTreeVersionService<Position, PositionService> {
 
-	public PostionTreeModel() {
+	public PositionTreeModel() {
 		super(Position.class, PositionService.class);
 	}
 

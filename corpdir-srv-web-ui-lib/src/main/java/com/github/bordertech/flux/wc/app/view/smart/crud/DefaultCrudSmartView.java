@@ -27,6 +27,7 @@ import com.github.bordertech.flux.wc.app.view.event.base.FormBaseOutcomeEventTyp
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
@@ -45,13 +46,13 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	private final SearchView<S> searchView;
 	private final SelectSingleView<T> selectView;
-	private final PollingView pollingView = new DefaultPollingView<>("vw-poll");
-	private final ToolbarView searchToolbar = new DefaultToolbarView("vw-toolbar-1");
-	private final MessageView searchMessages = new DefaultMessageView("vw-crit-msg");
+	private final PollingView pollingView = new DefaultPollingView<>("vw_poll");
+	private final ToolbarView searchToolbar = new DefaultToolbarView("vw_toolbar_1");
+	private final MessageView searchMessages = new DefaultMessageView("vw_crit_msg");
 	// Form Details
-	private final DefaultSmartView formHolder = new DefaultSmartView("vw-form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
-	private final MessageView formMessages = new DefaultMessageView("vw-form-msg");
-	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw-form-toolbar");
+	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
+	private final MessageView formMessages = new DefaultMessageView("vw_form_msg");
+	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw_form_toolbar");
 	private final FormView<T> formView;
 
 	public DefaultCrudSmartView(final String viewId, final String title, final WComponent panel) {
@@ -66,9 +67,9 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		super(viewId, "wclib/hbs/layout/combo-ent-crud.hbs");
 
 		// Setup Defaults
-		searchView = criteriaView2 == null ? (SearchView<S>) new SearchTextView("vw-crit") : criteriaView2;
-		selectView = selectView2 == null ? (SelectSingleView) new MenuSelectView("vw-list") : selectView2;
-		formView = formView2 == null ? new DefaultFormView<T>("vw-form") : formView2;
+		searchView = criteriaView2 == null ? (SearchView<S>) new SearchTextView("vw_crit") : criteriaView2;
+		selectView = selectView2 == null ? (SelectSingleView) new MenuSelectView("vw_list") : selectView2;
+		formView = formView2 == null ? new DefaultFormView<T>("vw_form") : formView2;
 		if (panel != null) {
 			formView.getFormHolder().add(panel);
 		}
@@ -102,15 +103,21 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-		super.handleViewEvent(viewId, event, data);
 
-		// Handle the Form and Form Toolbar Events
-		if (isView(viewId, formView) || isView(viewId, formToolbarView)) {
-			FormEventUtil.handleFormEvents(this, viewId, event, data);
-			if (event instanceof FormBaseOutcomeEventType) {
-				handleFormOutcomeEvents((FormBaseOutcomeEventType) event, (T) data);
+		// Pick the correct RESET Event
+		if (isEvent(ToolbarBaseEventType.RESET, event)) {
+			if (isView(viewId, formToolbarView)) {
+				FormEventUtil.handleFormEvents(this, viewId, event, data);
+			} else {
+				super.handleViewEvent(viewId, event, data);
 			}
 			return;
+		}
+
+		// Handle the Form and Form Toolbar Events
+		FormEventUtil.handleFormEvents(this, viewId, event, data);
+		if (event instanceof FormBaseOutcomeEventType) {
+			handleFormOutcomeEvents((FormBaseOutcomeEventType) event, (T) data);
 		}
 
 		// Search Validating
@@ -122,7 +129,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.reset();
 			// Do ASYNC Search Action
-			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.ASYNC_OK);
+			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
 			// Start Polling
 			pollingView.reset();
 			pollingView.doStartPolling();
@@ -163,6 +170,11 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			case ADD_OK:
 				dispatchMessageReset();
 				selectView.clearSelected();
+				formHolder.setContentVisible(true);
+				break;
+
+			case LOAD_OK:
+				formHolder.setContentVisible(true);
 				break;
 
 			case CREATE_OK:
@@ -243,7 +255,9 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public void resetFormViews() {
-		formHolder.reset();
+		formMessages.reset();
+		formToolbarView.reset();
+		formView.reset();
 	}
 
 	protected S getCriteria() {

@@ -19,11 +19,11 @@ import com.github.bordertech.wcomponents.WTemplate;
  */
 public class MainAppView extends DefaultMessageSmartView {
 
-	private final MainCardManagerView cardView = new MainCardManagerView("MC");
-	private final MainToolbarView toolbar = new MainToolbarView("MT");
+	private final MainCardManagerView cardView = new MainCardManagerView("MNC");
+	private final MainToolbarView toolbar = new MainToolbarView("MNT");
 
 	public MainAppView() {
-		super("MN", "wclib/hbs/layout/combo-app-main.hbs");
+		super("MNV", "wclib/hbs/layout/combo-app-main.hbs");
 		cardView.addHtmlClass("wc-margin-all-lg");
 
 		WTemplate content = getContent();

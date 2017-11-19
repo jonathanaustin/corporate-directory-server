@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.AbstractWSingleSelectList;
 public class PollingDropdownOptionsView<S, T> extends DefaultPollingInputOptionsView<S, T> implements SingleSelectOptionsView<T> {
 
 	public PollingDropdownOptionsView(final String viewId, final String qualifier) {
-		super(viewId, new DropdownOptionsView<T>("vw-select"));
+		super(viewId, new DropdownOptionsView<T>("vw_select"));
 	}
 
 	@Override

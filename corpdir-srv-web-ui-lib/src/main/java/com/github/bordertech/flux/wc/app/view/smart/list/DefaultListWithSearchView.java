@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> {
 
 	// Toolbar - Defaults to just the Reset Button and Reset Event is handled AUTO
-	private final ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar");
+	private final ToolbarView toolbarView = new DefaultToolbarView("vw_toolbar");
 
 	private final SearchView<S> searchView;
 
