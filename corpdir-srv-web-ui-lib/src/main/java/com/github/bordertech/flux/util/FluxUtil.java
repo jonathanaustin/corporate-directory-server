@@ -6,11 +6,11 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.StoreActionType;
-import com.github.bordertech.flux.app.action.RetrieveAction;
-import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.CallType;
-import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
-import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
+import com.github.bordertech.flux.crud.action.CallType;
+import com.github.bordertech.flux.crud.action.RetrieveAction;
+import com.github.bordertech.flux.crud.action.RetrieveActionType;
+import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.store.retrieve.RetrieveStore;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 
 /**

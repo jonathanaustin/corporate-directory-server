@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.wc.app.common;
 
+import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.List;
 import java.util.Objects;
-import com.github.bordertech.flux.app.store.retrieve.EntityTreeStore;
 
 /**
  * Tree Model that retrieves it data via a RetrieveTreeApi.

@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.smart;
 
-import com.github.bordertech.flux.app.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
+import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
 import com.github.bordertech.flux.wc.app.view.smart.consumer.SearchStoreConsumer;
-import com.github.bordertech.flux.app.actioncreator.EntityTreeActionCreator;
 
 /**
  * Crud SMART view with a TREE Entity.

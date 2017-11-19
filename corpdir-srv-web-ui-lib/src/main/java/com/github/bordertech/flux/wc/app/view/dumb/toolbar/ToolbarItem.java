@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
-import java.io.Serializable;
 import com.github.bordertech.flux.wc.app.view.event.ToolbarEventType;
+import java.io.Serializable;
 
 /**
  *

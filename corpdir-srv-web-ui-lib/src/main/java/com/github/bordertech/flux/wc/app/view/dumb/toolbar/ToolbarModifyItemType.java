@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.ToolbarEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 
 /**
  *

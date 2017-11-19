@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.consumer;
 
-import com.github.bordertech.flux.app.store.retrieve.SearchStore;
+import com.github.bordertech.flux.crud.store.retrieve.SearchStore;
 
 /**
  * SearchStore Consumer.

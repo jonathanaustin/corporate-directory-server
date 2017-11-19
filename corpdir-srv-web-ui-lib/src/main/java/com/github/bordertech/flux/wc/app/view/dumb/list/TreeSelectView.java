@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.dumb.list;
 
+import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.common.AppTreeItemModel;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
@@ -12,7 +13,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import com.github.bordertech.flux.app.store.retrieve.EntityTreeStore;
 
 /**
  * Single select tree view.

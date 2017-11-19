@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.CallType;
-import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.action.CallType;
+import com.github.bordertech.flux.crud.action.RetrieveActionType;
+import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
