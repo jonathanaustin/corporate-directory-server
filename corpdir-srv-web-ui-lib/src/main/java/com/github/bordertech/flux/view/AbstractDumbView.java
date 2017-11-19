@@ -3,7 +3,7 @@ package com.github.bordertech.flux.view;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
-import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
@@ -223,11 +223,11 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	}
 
 	protected void dispatchMessageReset() {
-		dispatchViewEvent(MessageBaseViewEvent.RESET);
+		dispatchViewEvent(MessageBaseEventType.RESET);
 	}
 
 	protected void dispatchValidationMessages(final List<Diagnostic> diags) {
-		dispatchViewEvent(MessageBaseViewEvent.RESET, diags);
+		dispatchViewEvent(MessageBaseEventType.RESET, diags);
 	}
 
 	protected void dispatchMessageSuccess(final String msg) {
@@ -247,19 +247,19 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 	}
 
 	protected void dispatchMessageSuccess(final List<String> msgs) {
-		dispatchViewEvent(MessageBaseViewEvent.SUCCESS, msgs);
+		dispatchViewEvent(MessageBaseEventType.SUCCESS, msgs);
 	}
 
 	protected void dispatchMessageWarning(final List<String> msgs) {
-		dispatchViewEvent(MessageBaseViewEvent.WARN, msgs);
+		dispatchViewEvent(MessageBaseEventType.WARN, msgs);
 	}
 
 	protected void dispatchMessageError(final List<String> msgs) {
-		dispatchViewEvent(MessageBaseViewEvent.ERROR, msgs);
+		dispatchViewEvent(MessageBaseEventType.ERROR, msgs);
 	}
 
 	protected void dispatchMessageInfo(final List<String> msgs) {
-		dispatchViewEvent(MessageBaseViewEvent.INFO, msgs);
+		dispatchViewEvent(MessageBaseEventType.INFO, msgs);
 	}
 
 	/**

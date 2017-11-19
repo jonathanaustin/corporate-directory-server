@@ -4,7 +4,7 @@ import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.dumb.polling.DefaultPollingView;
-import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.smart.PollingSmartView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
@@ -35,12 +35,12 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
-		if (event instanceof PollingBaseViewEvent) {
-			handlePollingBaseEvents((PollingBaseViewEvent) event, data);
+		if (event instanceof PollingBaseEventType) {
+			handlePollingBaseEvents((PollingBaseEventType) event, data);
 		}
 	}
 
-	protected void handlePollingBaseEvents(final PollingBaseViewEvent type, final Object data) {
+	protected void handlePollingBaseEvents(final PollingBaseEventType type, final Object data) {
 
 		switch (type) {
 			case START_AUTO:
@@ -61,7 +61,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 
 	}
 
-	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
+	protected void handlePollingStartEvent(final PollingBaseEventType type) {
 	}
 
 	protected void handlePollingStartedEvent() {

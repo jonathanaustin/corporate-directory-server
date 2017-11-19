@@ -4,6 +4,7 @@ import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.key.ActionKey;
 
 /**
+ * Retrieve Action holds the Call Type details.
  *
  * @author jonathan
  */

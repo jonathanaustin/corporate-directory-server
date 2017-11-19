@@ -3,10 +3,10 @@ package com.github.bordertech.flux.wc.app.view.event.util;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormView;
-import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseOutcomeEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 
 /**
@@ -20,16 +20,16 @@ public class FormEventUtil {
 	}
 
 	public static <T> void handleFormEvents(final FormSmartView<T> view, final String viewId, final ViewEventType event, final Object data) {
-		if (event instanceof FormBaseViewEvent) {
-			handleFormBaseEvents(view, (FormBaseViewEvent) event, data);
-		} else if (event instanceof FormOutcomeBaseViewEvent) {
-			handleFormOutcomeBaseEvents(view, (FormOutcomeBaseViewEvent) event, data);
-		} else if (event instanceof ToolbarBaseViewEvent) {
-			handleToolbarBaseEvents(view, (ToolbarBaseViewEvent) event, data);
+		if (event instanceof FormBaseEventType) {
+			handleFormBaseEvents(view, (FormBaseEventType) event, data);
+		} else if (event instanceof FormBaseOutcomeEventType) {
+			handleFormOutcomeBaseEvents(view, (FormBaseOutcomeEventType) event, data);
+		} else if (event instanceof ToolbarBaseEventType) {
+			handleToolbarBaseEvents(view, (ToolbarBaseEventType) event, data);
 		}
 	}
 
-	public static <T> void handleFormBaseEvents(final FormSmartView<T> view, final FormBaseViewEvent type, final Object data) {
+	public static <T> void handleFormBaseEvents(final FormSmartView<T> view, final FormBaseEventType type, final Object data) {
 		switch (type) {
 			case ENTITY_MODE_CHANGED:
 				handleSyncToolbar(view);
@@ -44,7 +44,7 @@ public class FormEventUtil {
 
 	}
 
-	public static <T> void handleFormOutcomeBaseEvents(final FormSmartView<T> view, final FormOutcomeBaseViewEvent type, final Object data) {
+	public static <T> void handleFormOutcomeBaseEvents(final FormSmartView<T> view, final FormBaseOutcomeEventType type, final Object data) {
 
 		// Always sync the toolbar
 		handleSyncToolbar(view);
@@ -92,10 +92,10 @@ public class FormEventUtil {
 	public static <T> void doLoad(final FormSmartView<T> view, final T entity, final FormMode mode) {
 		view.resetFormViews();
 		view.getFormView().loadEntity(entity, mode);
-		view.getFormView().dispatchViewEvent(FormBaseViewEvent.ENTITY_MODE_CHANGED);
+		view.getFormView().dispatchViewEvent(FormBaseEventType.ENTITY_MODE_CHANGED);
 	}
 
-	public static <T> void handleToolbarBaseEvents(final FormSmartView<T> view, final ToolbarBaseViewEvent type, final Object data) {
+	public static <T> void handleToolbarBaseEvents(final FormSmartView<T> view, final ToolbarBaseEventType type, final Object data) {
 
 		switch (type) {
 			// CRUD Actions
@@ -134,10 +134,10 @@ public class FormEventUtil {
 		view.resetFormViews();
 		try {
 			T bean = view.getEntityActionCreator().createInstance();
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.ADD_OK);
-			dispatchViewEvent(view, FormBaseViewEvent.LOAD_NEW, bean);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_OK);
+			dispatchViewEvent(view, FormBaseEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.ADD_ERROR, e);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_ERROR, e);
 		}
 	}
 
@@ -162,10 +162,10 @@ public class FormEventUtil {
 			// Reload from the store
 			bean = view.getEntityStore().fetch(bean);
 			view.resetFormViews();
-			dispatchViewEvent(view, create ? FormOutcomeBaseViewEvent.CREATE_OK : FormOutcomeBaseViewEvent.UPDATE_OK, bean);
-			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
+			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_OK : FormBaseOutcomeEventType.UPDATE_OK, bean);
+			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
 		} catch (Exception e) {
-			dispatchViewEvent(view, create ? FormOutcomeBaseViewEvent.CREATE_ERROR : FormOutcomeBaseViewEvent.UPDATE_ERROR, e);
+			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_ERROR : FormBaseOutcomeEventType.UPDATE_ERROR, e);
 		}
 	}
 
@@ -178,22 +178,22 @@ public class FormEventUtil {
 		try {
 			view.getEntityActionCreator().delete(bean);
 			view.resetFormViews();
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.DELETE_OK);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_OK);
 		} catch (Exception e) {
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.DELETE_ERROR, e);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_ERROR, e);
 		}
 	}
 
 	public static <T> void handleToolbarCancelEvent(final FormSmartView<T> view) {
 		FormView<T> form = view.getFormView();
-		dispatchViewEvent(view, MessageBaseViewEvent.RESET);
+		dispatchViewEvent(view, MessageBaseEventType.RESET);
 		if (form.getFormMode() == FormMode.EDIT) {
 			T bean = form.getViewBean();
-			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
+			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
 			return;
 		}
 		// Do a BACK
-		dispatchViewEvent(view, ToolbarBaseViewEvent.BACK);
+		dispatchViewEvent(view, ToolbarBaseEventType.BACK);
 	}
 
 	public static <T> void handleToolbarEditEvent(final FormSmartView<T> view) {
@@ -202,7 +202,7 @@ public class FormEventUtil {
 			return;
 		}
 		form.setFormMode(FormMode.EDIT);
-		dispatchViewEvent(view, FormBaseViewEvent.ENTITY_MODE_CHANGED);
+		dispatchViewEvent(view, FormBaseEventType.ENTITY_MODE_CHANGED);
 	}
 
 	public static <T> void handleToolbarRefreshEvent(final FormSmartView<T> view) {
@@ -214,10 +214,10 @@ public class FormEventUtil {
 		try {
 			// Get Bean from the Store
 			bean = view.getEntityStore().fetch(bean);
-			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.REFRESH_OK);
+			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK);
 		} catch (Exception e) {
-			dispatchViewEvent(view, FormOutcomeBaseViewEvent.REFRESH_ERROR, e);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_ERROR, e);
 		}
 	}
 
@@ -239,11 +239,11 @@ public class FormEventUtil {
 	}
 
 	private static void dispatchErrorMessage(final FormSmartView view, final String msg) {
-		view.dispatchViewEvent(MessageBaseViewEvent.ERROR, msg);
+		view.dispatchViewEvent(MessageBaseEventType.ERROR, msg);
 	}
 
 	private static void dispatchSuccessMessage(final FormSmartView view, final String msg) {
-		view.dispatchViewEvent(MessageBaseViewEvent.SUCCESS, msg);
+		view.dispatchViewEvent(MessageBaseEventType.SUCCESS, msg);
 	}
 
 }

@@ -3,7 +3,7 @@ package com.github.bordertech.flux.app.store.retrieve;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.base.ModifyTreeBaseActionType;
+import com.github.bordertech.flux.app.action.base.EntityTreeActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.dataapi.CrudTreeApi;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class DefaultTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntityStore<T, D> implements TreeStore<T> {
+public class DefaultTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntityStore<T, D> implements EntityTreeStore<T> {
 
 	public DefaultTreeStore(final String storeKey, final D api) {
 		super(storeKey, api);
@@ -26,7 +26,7 @@ public class DefaultTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntity
 	public void registerListeners() {
 
 		// Action Listeners
-		for (ModifyTreeBaseActionType type : ModifyTreeBaseActionType.values()) {
+		for (EntityTreeActionType type : EntityTreeActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleAction(final Action action) {
@@ -83,7 +83,7 @@ public class DefaultTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntity
 	}
 
 	protected void handleModifyTreeBaseActions(final Action action) {
-		ModifyTreeBaseActionType type = (ModifyTreeBaseActionType) action.getKey().getType();
+		EntityTreeActionType type = (EntityTreeActionType) action.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case ADD_CHILD:

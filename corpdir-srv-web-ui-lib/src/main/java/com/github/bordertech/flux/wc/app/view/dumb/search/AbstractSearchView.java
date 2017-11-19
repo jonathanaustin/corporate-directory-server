@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.search;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.SearchView;
-import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
@@ -38,8 +38,8 @@ public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchV
 		searchButton.setRenderAsLink(true);
 
 		getContent().add(ajax);
-		registerEventAjaxControl(SearchBaseViewEvent.SEARCH_VALIDATING, ajax);
-		registerEventAjaxControl(SearchBaseViewEvent.SEARCH, ajax);
+		registerEventAjaxControl(SearchBaseEventType.SEARCH_VALIDATING, ajax);
+		registerEventAjaxControl(SearchBaseEventType.SEARCH, ajax);
 	}
 
 	public final WButton getSearchButton() {
@@ -58,7 +58,7 @@ public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchV
 	 * Dispatch the search event.
 	 */
 	protected void doDispatchStartSearchEvent() {
-		dispatchViewEvent(SearchBaseViewEvent.SEARCH_VALIDATING);
+		dispatchViewEvent(SearchBaseEventType.SEARCH_VALIDATING);
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchV
 	 */
 	protected void doDispatchSearchEvent() {
 		T criteria = getViewBean();
-		dispatchViewEvent(SearchBaseViewEvent.SEARCH, criteria);
+		dispatchViewEvent(SearchBaseEventType.SEARCH, criteria);
 	}
 
 }

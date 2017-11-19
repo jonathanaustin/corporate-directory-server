@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.wc.app.view.smart.form;
 
-import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.EntityStore;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -13,6 +12,7 @@ import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.flux.app.actioncreator.EntityActionCreator;
 
 /**
  * Form View with a Toolbar View.
@@ -62,7 +62,7 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public ModifyEntityCreator<T> getEntityActionCreator() {
+	public EntityActionCreator<T> getEntityActionCreator() {
 		return FluxUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 

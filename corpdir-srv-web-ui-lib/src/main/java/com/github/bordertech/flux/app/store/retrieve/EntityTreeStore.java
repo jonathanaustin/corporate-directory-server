@@ -9,7 +9,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the entity type
  */
-public interface TreeStore<T> extends EntityStore<T> {
+public interface EntityTreeStore<T> extends EntityStore<T> {
 
 	boolean hasChildren(final T item);
 

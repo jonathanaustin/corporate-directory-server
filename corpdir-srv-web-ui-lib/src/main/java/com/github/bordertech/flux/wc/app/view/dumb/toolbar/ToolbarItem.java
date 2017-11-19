@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.app.view.event.ToolbarViewEvent;
 import java.io.Serializable;
+import com.github.bordertech.flux.wc.app.view.event.ToolbarEventType;
 
 /**
  *
@@ -13,6 +13,6 @@ public interface ToolbarItem extends Serializable {
 
 	String getImageUrl();
 
-	ToolbarViewEvent getEventType();
+	ToolbarEventType getEventType();
 
 }

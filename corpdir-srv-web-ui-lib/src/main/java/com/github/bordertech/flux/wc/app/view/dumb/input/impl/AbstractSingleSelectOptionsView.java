@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.dumb.input.impl;
 
 import com.github.bordertech.flux.wc.app.view.dumb.input.SingleSelectOptionsView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 
 /**
  *
@@ -18,9 +18,9 @@ public abstract class AbstractSingleSelectOptionsView<T> extends AbstractInputOp
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedOption();
 		if (bean == null) {
-			dispatchViewEvent(SelectableBaseViewEvent.UNSELECT);
+			dispatchViewEvent(SelectBaseEventType.UNSELECT);
 		} else {
-			dispatchViewEvent(SelectableBaseViewEvent.SELECT, bean);
+			dispatchViewEvent(SelectBaseEventType.SELECT, bean);
 		}
 	}
 

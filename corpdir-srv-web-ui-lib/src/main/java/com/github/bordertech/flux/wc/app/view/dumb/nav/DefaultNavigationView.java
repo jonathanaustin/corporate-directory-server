@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.nav;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.NavigationView;
-import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;
@@ -241,10 +241,10 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 		nextButton.setAccessKey('C');
 		lastButton.setAccessKey('V');
 
-		registerEventAjaxControl(NavigationBaseViewEvent.FIRST, firstAjax);
-		registerEventAjaxControl(NavigationBaseViewEvent.PREV, prevAjax);
-		registerEventAjaxControl(NavigationBaseViewEvent.NEXT, nextAjax);
-		registerEventAjaxControl(NavigationBaseViewEvent.LAST, lastAjax);
+		registerEventAjaxControl(NavigationBaseEventType.FIRST, firstAjax);
+		registerEventAjaxControl(NavigationBaseEventType.PREV, prevAjax);
+		registerEventAjaxControl(NavigationBaseEventType.NEXT, nextAjax);
+		registerEventAjaxControl(NavigationBaseEventType.LAST, lastAjax);
 	}
 
 	/**
@@ -362,7 +362,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	protected void doHandleFirst() {
 		setCurrentIdx(0);
 		nextButton.setFocussed();
-		doDispatchNavigationEvent(NavigationBaseViewEvent.FIRST);
+		doDispatchNavigationEvent(NavigationBaseEventType.FIRST);
 	}
 
 	/**
@@ -375,7 +375,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 		if (prevButton.isDisabled()) {
 			nextButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationBaseViewEvent.PREV);
+		doDispatchNavigationEvent(NavigationBaseEventType.PREV);
 	}
 
 	/**
@@ -388,7 +388,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 		if (nextButton.isDisabled()) {
 			prevButton.setFocussed();
 		}
-		doDispatchNavigationEvent(NavigationBaseViewEvent.NEXT);
+		doDispatchNavigationEvent(NavigationBaseEventType.NEXT);
 	}
 
 	/**
@@ -398,7 +398,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 		int idx = getSize() - 1;
 		setCurrentIdx(idx);
 		prevButton.setFocussed();
-		doDispatchNavigationEvent(NavigationBaseViewEvent.LAST);
+		doDispatchNavigationEvent(NavigationBaseEventType.LAST);
 	}
 
 	/**
@@ -406,7 +406,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	 *
 	 * @param navEvent the navigation action that caused the change of index
 	 */
-	protected void doDispatchNavigationEvent(final NavigationBaseViewEvent navEvent) {
+	protected void doDispatchNavigationEvent(final NavigationBaseEventType navEvent) {
 		dispatchViewEvent(navEvent, getCurrentIdx());
 	}
 

@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
 import com.github.bordertech.flux.app.action.CallType;
-import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
 import com.github.bordertech.flux.app.store.retrieve.EntityStore;
 import com.github.bordertech.flux.app.store.retrieve.SearchStore;
 import com.github.bordertech.flux.util.FluxUtil;
@@ -22,17 +21,18 @@ import com.github.bordertech.flux.wc.app.view.dumb.search.SearchTextView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ToolbarModifyItemType;
-import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseOutcomeEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
+import com.github.bordertech.flux.app.actioncreator.EntityActionCreator;
 
 /**
  * Default CRUD view.
@@ -107,19 +107,19 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 		// Handle the Form and Form Toolbar Events
 		if (isView(viewId, formView) || isView(viewId, formToolbarView)) {
 			FormEventUtil.handleFormEvents(this, viewId, event, data);
-			if (event instanceof FormOutcomeBaseViewEvent) {
-				handleFormOutcomeEvents((FormOutcomeBaseViewEvent) event, (T) data);
+			if (event instanceof FormBaseOutcomeEventType) {
+				handleFormOutcomeEvents((FormBaseOutcomeEventType) event, (T) data);
 			}
 			return;
 		}
 
 		// Search Validating
-		if (isEvent(SearchBaseViewEvent.SEARCH_VALIDATING, event)) {
+		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
 			selectView.reset();
 			pollingView.reset();
 
 			// Search
-		} else if (isEvent(SearchBaseViewEvent.SEARCH, event)) {
+		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.reset();
 			// Do ASYNC Search Action
 			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.ASYNC_OK);
@@ -128,7 +128,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 			pollingView.doStartPolling();
 
 			// POLLING
-		} else if (isEvent(PollingBaseViewEvent.CHECK_STATUS, event)) {
+		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
 			boolean done = FluxUtil.isSearchActionDone(getEntityStoreKey(), getCriteria());
 			if (done) {
@@ -145,10 +145,10 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 			}
 
 			// SELECT
-		} else if (isEvent(SelectableBaseViewEvent.SELECT, event)) {
+		} else if (isEvent(SelectBaseEventType.SELECT, event)) {
 			formHolder.reset();
 			formHolder.setContentVisible(true);
-			dispatchViewEvent(FormBaseViewEvent.LOAD, (T) data);
+			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
 		}
 	}
 
@@ -158,7 +158,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 	 * @param type
 	 * @param entity
 	 */
-	protected void handleFormOutcomeEvents(final FormOutcomeBaseViewEvent type, final T entity) {
+	protected void handleFormOutcomeEvents(final FormBaseOutcomeEventType type, final T entity) {
 		switch (type) {
 			case ADD_OK:
 				dispatchMessageReset();
@@ -197,7 +197,7 @@ public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements
 	}
 
 	@Override
-	public ModifyEntityCreator<T> getEntityActionCreator() {
+	public EntityActionCreator<T> getEntityActionCreator() {
 		return FluxUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 

@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.List;
 import java.util.Objects;
-import com.github.bordertech.flux.app.store.retrieve.TreeStore;
+import com.github.bordertech.flux.app.store.retrieve.EntityTreeStore;
 
 /**
  * Tree Model that retrieves it data via a RetrieveTreeApi.
@@ -18,9 +18,9 @@ public class AppTreeItemModel<K, T> extends AbstractTreeItemModel {
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final TreeStore<T> model;
+	private final EntityTreeStore<T> model;
 
-	public AppTreeItemModel(final List<T> rootItems, final TreeStore<T> model) {
+	public AppTreeItemModel(final List<T> rootItems, final EntityTreeStore<T> model) {
 		this.rootItems = rootItems;
 		this.model = model;
 	}

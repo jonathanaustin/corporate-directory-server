@@ -9,8 +9,8 @@ import com.github.bordertech.flux.wc.app.view.SelectableView;
 import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.AddDeleteButtonBarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ApplyButtonBarView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WDiv;
@@ -60,7 +60,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		if (findView instanceof SmartView) {
 			SmartView smart = (SmartView) findView;
 			smart.setDumbMode(true);
-			smart.addPassThrough(ToolbarBaseViewEvent.APPLY);
+			smart.addPassThrough(ToolbarBaseEventType.APPLY);
 		}
 
 		// Bean Property
@@ -108,25 +108,25 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 
 		// Select View Events
 		if (isView(viewId, selectView)) {
-			if (isEvent(event, SelectableBaseViewEvent.SELECT)) {
+			if (isEvent(event, SelectBaseEventType.SELECT)) {
 				handleSelectEvent();
 			}
-			if (isEvent(event, SelectableBaseViewEvent.UNSELECT)) {
+			if (isEvent(event, SelectBaseEventType.UNSELECT)) {
 				handleUnselectEvent();
 			}
-			if (isEvent(event, ToolbarBaseViewEvent.DELETE)) {
+			if (isEvent(event, ToolbarBaseEventType.DELETE)) {
 				handleDeleteEvent();
 			}
-			if (isEvent(event, ToolbarBaseViewEvent.ADD)) {
+			if (isEvent(event, ToolbarBaseEventType.ADD)) {
 				handleAddEvent();
 			}
 
 			// Find View Events
 		} else if (isView(viewId, findView)) {
-			if (isEvent(event, SelectableBaseViewEvent.SELECT)) {
+			if (isEvent(event, SelectBaseEventType.SELECT)) {
 				handleFindSelect((T) data);
 			}
-			if (isEvent(event, ToolbarBaseViewEvent.APPLY)) {
+			if (isEvent(event, ToolbarBaseEventType.APPLY)) {
 				handleFindSelectedItemEvent((T) data);
 			}
 		}

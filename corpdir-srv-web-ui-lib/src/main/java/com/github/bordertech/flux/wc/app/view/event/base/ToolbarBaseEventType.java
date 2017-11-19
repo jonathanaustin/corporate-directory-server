@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event.base;
 
-import com.github.bordertech.flux.wc.app.view.event.ToolbarViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.ToolbarEventType;
 
 /**
  * Toolbar view base events.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.app.view.event.ToolbarViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum ToolbarBaseViewEvent implements ToolbarViewEvent {
+public enum ToolbarBaseEventType implements ToolbarEventType {
 	ADD,
 	EDIT,
 	DELETE,

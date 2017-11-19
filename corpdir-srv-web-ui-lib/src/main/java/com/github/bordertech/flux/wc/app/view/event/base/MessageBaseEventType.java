@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event.base;
 
-import com.github.bordertech.flux.wc.app.view.event.MessageViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.MessageEventType;
 
 /**
  * Message view base events.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.app.view.event.MessageViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum MessageBaseViewEvent implements MessageViewEvent {
+public enum MessageBaseEventType implements MessageEventType {
 	SUCCESS,
 	WARN,
 	ERROR,

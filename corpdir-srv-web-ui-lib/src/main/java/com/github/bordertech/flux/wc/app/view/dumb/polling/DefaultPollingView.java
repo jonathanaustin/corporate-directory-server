@@ -3,8 +3,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.polling;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
-import com.github.bordertech.flux.wc.app.view.event.PollingViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
@@ -12,6 +11,7 @@ import com.github.bordertech.wcomponents.lib.polling.PollingPanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
+import com.github.bordertech.flux.wc.app.view.event.PollingEventType;
 
 /**
  * Default polling view.
@@ -26,38 +26,38 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		@Override
 		protected void handleInitContent(final Request request) {
 			if (getStartType() == PollingStartType.AUTOMATIC) {
-				doDispatchPollingEvent(PollingBaseViewEvent.START_AUTO);
+				doDispatchPollingEvent(PollingBaseEventType.START_AUTO);
 			}
 			super.handleInitContent(request);
 		}
 
 		@Override
 		protected void handleStartButton() {
-			doDispatchPollingEvent(PollingBaseViewEvent.START_BUTTON);
+			doDispatchPollingEvent(PollingBaseEventType.START_BUTTON);
 			super.handleStartButton();
 		}
 
 		@Override
 		protected void handleRetryButton() {
-			doDispatchPollingEvent(PollingBaseViewEvent.START_RETRY);
+			doDispatchPollingEvent(PollingBaseEventType.START_RETRY);
 			super.handleRetryButton();
 		}
 
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
-			doDispatchPollingEvent(PollingBaseViewEvent.STARTED);
+			doDispatchPollingEvent(PollingBaseEventType.STARTED);
 		}
 
 		@Override
 		protected void handleStoppedPolling() {
 			super.handleStoppedPolling();
-			doDispatchPollingEvent(PollingBaseViewEvent.STOPPED);
+			doDispatchPollingEvent(PollingBaseEventType.STOPPED);
 		}
 
 		@Override
 		protected boolean checkForStopPolling() {
-			doDispatchPollingEvent(PollingBaseViewEvent.CHECK_STATUS);
+			doDispatchPollingEvent(PollingBaseEventType.CHECK_STATUS);
 			return super.checkForStopPolling();
 		}
 
@@ -126,7 +126,7 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		pollingPanel.setPollingText(text);
 	}
 
-	protected void doDispatchPollingEvent(final PollingViewEvent pollingEvent) {
+	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
 		dispatchViewEvent(pollingEvent);
 	}
 

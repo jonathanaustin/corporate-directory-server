@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event.base;
 
-import com.github.bordertech.flux.wc.app.view.event.FormViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.FormEventType;
 
 /**
  * Retrieve outcome view base events.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.app.view.event.FormViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum RetrieveOutcomeBaseViewEvent implements FormViewEvent {
+public enum RetrieveOutcomeBaseEventType implements FormEventType {
 	RETRIEVE_OK,
 	RETRIEVE_ERROR
 }

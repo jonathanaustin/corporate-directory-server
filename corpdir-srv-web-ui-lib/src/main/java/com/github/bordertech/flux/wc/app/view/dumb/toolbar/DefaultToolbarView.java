@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
 import com.github.bordertech.flux.view.ViewUtil;
 import com.github.bordertech.flux.wc.app.common.AppMenuItem;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
@@ -15,21 +15,21 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class DefaultToolbarView<T> extends AbstractMenuToolbarView<T> {
 
-	private final WMenuItem itemBack = new AppMenuItem("Back", ToolbarBaseViewEvent.BACK) {
+	private final WMenuItem itemBack = new AppMenuItem("Back", ToolbarBaseEventType.BACK) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarNavigationItemType.BACK);
 		}
 	};
 
-	private final WMenuItem itemAdd = new AppMenuItem("Add", ToolbarBaseViewEvent.ADD) {
+	private final WMenuItem itemAdd = new AppMenuItem("Add", ToolbarBaseEventType.ADD) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.ADD);
 		}
 	};
 
-	private final WMenuItem itemReset = new AppMenuItem("Reset", ToolbarBaseViewEvent.RESET) {
+	private final WMenuItem itemReset = new AppMenuItem("Reset", ToolbarBaseEventType.RESET) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarNavigationItemType.RESET);

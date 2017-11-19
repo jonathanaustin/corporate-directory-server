@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import com.github.bordertech.flux.app.store.retrieve.TreeStore;
+import com.github.bordertech.flux.app.store.retrieve.EntityTreeStore;
 
 /**
  * Single select tree view.
@@ -119,11 +119,11 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		return (AppTreeItemModel) tree.getTreeModel();
 	}
 
-	public void setRetrieveTreeStore(final TreeStore treeStore) {
+	public void setRetrieveTreeStore(final EntityTreeStore treeStore) {
 		getOrCreateComponentModel().retrieveTreeStore = treeStore;
 	}
 
-	public TreeStore getRetrieveTreeStore() {
+	public EntityTreeStore getRetrieveTreeStore() {
 		return getComponentModel().retrieveTreeStore;
 	}
 
@@ -147,7 +147,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	 */
 	public static class TreeSelectModel<T> extends SelectModel<T> {
 
-		private TreeStore<T> retrieveTreeStore;
+		private EntityTreeStore<T> retrieveTreeStore;
 
 	}
 

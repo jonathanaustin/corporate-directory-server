@@ -1,26 +1,26 @@
 package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.app.view.event.ToolbarViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.ToolbarEventType;
 
 /**
  *
  * @author jonathan
  */
 public enum ToolbarModifyItemType implements ToolbarItem {
-	ADD("Add", ToolbarBaseViewEvent.ADD),
-	EDIT("Edit", ToolbarBaseViewEvent.EDIT),
-	UPDATE("Update", ToolbarBaseViewEvent.UPDATE),
-	CREATE("Create", ToolbarBaseViewEvent.CREATE),
-	CANCEL("Cancel", ToolbarBaseViewEvent.CANCEL),
-	DELETE("Delete", ToolbarBaseViewEvent.DELETE),
-	REFRESH("Refresh", ToolbarBaseViewEvent.REFRESH);
+	ADD("Add", ToolbarBaseEventType.ADD),
+	EDIT("Edit", ToolbarBaseEventType.EDIT),
+	UPDATE("Update", ToolbarBaseEventType.UPDATE),
+	CREATE("Create", ToolbarBaseEventType.CREATE),
+	CANCEL("Cancel", ToolbarBaseEventType.CANCEL),
+	DELETE("Delete", ToolbarBaseEventType.DELETE),
+	REFRESH("Refresh", ToolbarBaseEventType.REFRESH);
 
-	ToolbarModifyItemType(final String desc, final ToolbarViewEvent eventType) {
+	ToolbarModifyItemType(final String desc, final ToolbarEventType eventType) {
 		this(desc, eventType, null);
 	}
 
-	ToolbarModifyItemType(final String desc, final ToolbarViewEvent eventType, final String imageUrl) {
+	ToolbarModifyItemType(final String desc, final ToolbarEventType eventType, final String imageUrl) {
 		this.desc = desc;
 		this.eventType = eventType;
 		this.imageUrl = imageUrl;
@@ -28,7 +28,7 @@ public enum ToolbarModifyItemType implements ToolbarItem {
 
 	final String desc;
 	final String imageUrl;
-	final ToolbarViewEvent eventType;
+	final ToolbarEventType eventType;
 
 	@Override
 	public String getDesc() {
@@ -41,7 +41,7 @@ public enum ToolbarModifyItemType implements ToolbarItem {
 	}
 
 	@Override
-	public ToolbarViewEvent getEventType() {
+	public ToolbarEventType getEventType() {
 		return eventType;
 	}
 }

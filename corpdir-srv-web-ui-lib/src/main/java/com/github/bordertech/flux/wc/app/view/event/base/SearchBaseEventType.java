@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event.base;
 
-import com.github.bordertech.flux.wc.app.view.event.SearchViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.SearchEventType;
 
 /**
  * Search view base events.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.app.view.event.SearchViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum SearchBaseViewEvent implements SearchViewEvent {
+public enum SearchBaseEventType implements SearchEventType {
 	SEARCH,
 	SEARCH_VALIDATING
 }

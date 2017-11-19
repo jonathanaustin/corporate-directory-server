@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.event.base;
 
-import com.github.bordertech.flux.wc.app.view.event.SelectableViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.SelectEventType;
 
 /**
  * Selectable view base events.
@@ -8,7 +8,7 @@ import com.github.bordertech.flux.wc.app.view.event.SelectableViewEvent;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum SelectableBaseViewEvent implements SelectableViewEvent {
+public enum SelectBaseEventType implements SelectEventType {
 	SELECT,
 	UNSELECT
 }

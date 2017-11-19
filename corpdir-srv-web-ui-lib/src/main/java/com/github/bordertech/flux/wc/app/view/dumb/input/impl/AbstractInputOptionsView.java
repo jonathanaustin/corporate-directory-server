@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.input.impl;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
@@ -142,8 +142,8 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	protected abstract void doDispatchSelectEvent();
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(SelectableBaseViewEvent.UNSELECT, ctrl);
-		registerEventAjaxControl(SelectableBaseViewEvent.SELECT, ctrl);
+		registerEventAjaxControl(SelectBaseEventType.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectBaseEventType.SELECT, ctrl);
 	}
 
 	@Override

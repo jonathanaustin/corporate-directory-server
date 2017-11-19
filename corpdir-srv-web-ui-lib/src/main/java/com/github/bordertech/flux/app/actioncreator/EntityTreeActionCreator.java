@@ -6,13 +6,9 @@ package com.github.bordertech.flux.app.actioncreator;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface ModifyEntityCreator<T> extends ModifyCreator {
+public interface EntityTreeActionCreator<T> extends EntityActionCreator<T> {
 
-	T create(final T entity);
+	T addChild(final T parent, final T child);
 
-	T update(final T entity);
-
-	void delete(final T entity);
-
-	T createInstance();
+	T removeChild(final T parent, final T child);
 }

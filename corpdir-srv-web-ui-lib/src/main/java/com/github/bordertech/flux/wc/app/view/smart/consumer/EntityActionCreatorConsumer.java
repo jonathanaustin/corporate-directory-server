@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.consumer;
 
-import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
+import com.github.bordertech.flux.app.actioncreator.EntityActionCreator;
 
 /**
  * Entity Action Creator Consumer.
@@ -13,5 +13,5 @@ public interface EntityActionCreatorConsumer<T> {
 
 	String getEntityActionCreatorKey();
 
-	ModifyEntityCreator<T> getEntityActionCreator();
+	EntityActionCreator<T> getEntityActionCreator();
 }

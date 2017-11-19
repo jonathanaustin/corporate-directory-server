@@ -5,8 +5,8 @@ import com.github.bordertech.flux.app.action.CallType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 
 /**
@@ -26,12 +26,12 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
-		if (event instanceof RetrieveOutcomeBaseViewEvent) {
-			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseViewEvent) event, data);
+		if (event instanceof RetrieveOutcomeBaseEventType) {
+			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseEventType) event, data);
 		}
 	}
 
-	protected void handleRetrieveOutcomeBaseEvents(final RetrieveOutcomeBaseViewEvent type, final Object data) {
+	protected void handleRetrieveOutcomeBaseEvents(final RetrieveOutcomeBaseEventType type, final Object data) {
 		switch (type) {
 			case RETRIEVE_OK:
 				handleRetrieveOKEvent((R) data);
@@ -49,7 +49,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	@Override
-	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
+	protected void handlePollingStartEvent(final PollingBaseEventType type) {
 		FluxUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), CallType.CALL_ASYNC);
 	}
 
@@ -66,9 +66,9 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		resetContent();
 		try {
 			R result = (R) FluxUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
-			dispatchViewEvent(RetrieveOutcomeBaseViewEvent.RETRIEVE_OK, result);
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
 		} catch (Exception e) {
-			dispatchViewEvent(RetrieveOutcomeBaseViewEvent.RETRIEVE_ERROR, e);
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
 		}
 	}
 

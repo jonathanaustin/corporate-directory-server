@@ -14,5 +14,5 @@ public interface MessageSmartView<T> extends SmartView<T>, MessageView<T> {
 	 *
 	 * @return the message view
 	 */
-	MessageView getMessageView();
+	MessageView<T> getMessageView();
 }

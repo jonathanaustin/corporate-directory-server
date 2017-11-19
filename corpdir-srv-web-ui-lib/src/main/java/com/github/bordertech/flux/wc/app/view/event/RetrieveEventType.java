@@ -3,10 +3,10 @@ package com.github.bordertech.flux.wc.app.view.event;
 import com.github.bordertech.flux.view.ViewEventType;
 
 /**
- * Selectable view events.
+ * Retrieve view events.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface SelectableViewEvent extends ViewEventType {
+public interface RetrieveEventType extends ViewEventType {
 }

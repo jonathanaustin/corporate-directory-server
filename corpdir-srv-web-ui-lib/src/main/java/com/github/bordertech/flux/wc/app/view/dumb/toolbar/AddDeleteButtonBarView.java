@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
@@ -55,13 +55,13 @@ public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements For
 		btnAdd.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchViewEvent(ToolbarBaseViewEvent.ADD);
+				dispatchViewEvent(ToolbarBaseEventType.ADD);
 			}
 		});
 		btnDelete.setAction(new Action() {
 			@Override
 			public void execute(ActionEvent event) {
-				dispatchViewEvent(ToolbarBaseViewEvent.DELETE);
+				dispatchViewEvent(ToolbarBaseEventType.DELETE);
 			}
 		});
 
@@ -75,8 +75,8 @@ public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements For
 		// Defaults
 		btnDelete.setVisible(false);
 
-		registerEventAjaxControl(ToolbarBaseViewEvent.ADD, ajaxAdd);
-		registerEventAjaxControl(ToolbarBaseViewEvent.DELETE, ajaxDelete);
+		registerEventAjaxControl(ToolbarBaseEventType.ADD, ajaxAdd);
+		registerEventAjaxControl(ToolbarBaseEventType.DELETE, ajaxDelete);
 	}
 
 	public void showRemoveButton(final boolean show) {

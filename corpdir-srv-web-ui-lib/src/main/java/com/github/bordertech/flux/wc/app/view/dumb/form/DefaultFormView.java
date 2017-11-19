@@ -3,8 +3,8 @@ package com.github.bordertech.flux.wc.app.view.dumb.form;
 import com.github.bordertech.flux.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.flux.wc.app.view.FormView;
-import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
@@ -83,11 +83,11 @@ public class DefaultFormView<T> extends DefaultDumbView<T> implements FormView<T
 	}
 
 	protected void doDispatchLoadOKEvent() {
-		dispatchViewEvent(FormOutcomeBaseViewEvent.LOAD_OK, getViewBean());
+		dispatchViewEvent(FormBaseOutcomeEventType.LOAD_OK, getViewBean());
 	}
 
 	protected void doDispatchChangeModeEvent() {
-		dispatchViewEvent(FormBaseViewEvent.ENTITY_MODE_CHANGED, getFormMode());
+		dispatchViewEvent(FormBaseEventType.ENTITY_MODE_CHANGED, getFormMode());
 	}
 
 	@Override

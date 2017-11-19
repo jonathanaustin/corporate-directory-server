@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.dumb.input.impl;
 
 import com.github.bordertech.flux.wc.app.view.dumb.input.MultiSelectOptionsView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,9 +69,9 @@ public abstract class AbstractMultiSelectOptionsView<T> extends AbstractInputOpt
 	protected void doDispatchSelectEvent() {
 		List<T> beans = getSelectedOptions();
 		if (beans == null) {
-			dispatchViewEvent(SelectableBaseViewEvent.UNSELECT);
+			dispatchViewEvent(SelectBaseEventType.UNSELECT);
 		} else {
-			dispatchViewEvent(SelectableBaseViewEvent.SELECT, beans);
+			dispatchViewEvent(SelectBaseEventType.SELECT, beans);
 		}
 	}
 

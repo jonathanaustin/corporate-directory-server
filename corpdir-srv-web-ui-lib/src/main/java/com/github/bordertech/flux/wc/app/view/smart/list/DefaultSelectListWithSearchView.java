@@ -4,7 +4,7 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 
 /**
  * Select view with a search view.
@@ -22,12 +22,12 @@ public class DefaultSelectListWithSearchView<S, T> extends DefaultListWithSearch
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
-		if (event instanceof SelectableBaseViewEvent) {
-			handleSelectableBaseEvents((SelectableBaseViewEvent) event, data);
+		if (event instanceof SelectBaseEventType) {
+			handleSelectableBaseEvents((SelectBaseEventType) event, data);
 		}
 	}
 
-	protected void handleSelectableBaseEvents(final SelectableBaseViewEvent type, final Object data) {
+	protected void handleSelectableBaseEvents(final SelectBaseEventType type, final Object data) {
 		switch (type) {
 			case SELECT:
 				handleSelectEvent((T) data);

@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.list;
 
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
-import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 
 /**
  * Default single select list view.
@@ -41,15 +41,15 @@ public class AbstractListSingleSelectView<T> extends AbstractListSelectableView<
 	protected void doDispatchSelectEvent() {
 		T bean = getSelectedItem();
 		if (bean == null) {
-			dispatchViewEvent(SelectableBaseViewEvent.UNSELECT);
+			dispatchViewEvent(SelectBaseEventType.UNSELECT);
 		} else {
-			dispatchViewEvent(SelectableBaseViewEvent.SELECT, bean);
+			dispatchViewEvent(SelectBaseEventType.SELECT, bean);
 		}
 	}
 
 	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
-		registerEventAjaxControl(SelectableBaseViewEvent.UNSELECT, ctrl);
-		registerEventAjaxControl(SelectableBaseViewEvent.SELECT, ctrl);
+		registerEventAjaxControl(SelectBaseEventType.UNSELECT, ctrl);
+		registerEventAjaxControl(SelectBaseEventType.SELECT, ctrl);
 	}
 
 	@Override

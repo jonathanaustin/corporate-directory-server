@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.app.view.dumb.toolbar;
 
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
@@ -33,7 +33,7 @@ public class ApplyButtonBarView<T> extends AbstractToolbarView<T> implements Too
 		btnApply.setAction(new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				dispatchViewEvent(ToolbarBaseViewEvent.APPLY, event.getActionObject());
+				dispatchViewEvent(ToolbarBaseEventType.APPLY, event.getActionObject());
 			}
 		});
 	}

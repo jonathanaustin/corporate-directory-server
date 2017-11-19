@@ -5,7 +5,7 @@ import com.github.bordertech.flux.wc.app.view.ListView;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
-import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
+import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 
 /**
  * Collection View with a Search View.
@@ -45,12 +45,12 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
-		if (event instanceof SearchBaseViewEvent) {
-			handleSearchBaseEvents((SearchBaseViewEvent) event, data);
+		if (event instanceof SearchBaseEventType) {
+			handleSearchBaseEvents((SearchBaseEventType) event, data);
 		}
 	}
 
-	protected void handleSearchBaseEvents(final SearchBaseViewEvent type, final Object data) {
+	protected void handleSearchBaseEvents(final SearchBaseEventType type, final Object data) {
 		switch (type) {
 			case SEARCH:
 				handleSearchEvent((S) data);

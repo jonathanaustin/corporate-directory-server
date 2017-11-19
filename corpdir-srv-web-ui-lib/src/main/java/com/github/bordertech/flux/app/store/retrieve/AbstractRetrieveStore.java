@@ -6,7 +6,7 @@ import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.app.action.RetrieveAction;
 import com.github.bordertech.flux.app.action.RetrieveActionType;
 import com.github.bordertech.flux.app.action.CallType;
-import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
+import com.github.bordertech.flux.app.action.base.EntityActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
@@ -78,7 +78,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			registerListener(type, listener);
 		}
 		// Action Listeners
-		for (ModifyBaseActionType type : ModifyBaseActionType.values()) {
+		for (EntityActionType type : EntityActionType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleAction(final Action action) {
@@ -90,7 +90,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	protected void handleModifyBaseActions(final Action action) {
-		ModifyBaseActionType type = (ModifyBaseActionType) action.getKey().getType();
+		EntityActionType type = (EntityActionType) action.getKey().getType();
 		boolean changed = false;
 		switch (type) {
 			case CREATE:
