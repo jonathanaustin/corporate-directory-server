@@ -87,7 +87,7 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public final FormToolbarView getToolbarView() {
+	public final FormToolbarView getFormToolbarView() {
 		return toolbarView;
 	}
 

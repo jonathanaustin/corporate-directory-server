@@ -46,13 +46,13 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 
 	private final SearchView<S> searchView;
 	private final SelectSingleView<T> selectView;
-	private final PollingView<List<T>> pollingView = new DefaultPollingView<>("vw-poll");
-	private final ToolbarView toolbarView = new DefaultToolbarView("vw-toolbar-1");
+	private final PollingView pollingView = new DefaultPollingView<>("vw-poll");
+	private final ToolbarView searchToolbar = new DefaultToolbarView("vw-toolbar-1");
 	private final MessageView searchMessages = new DefaultMessageView("vw-crit-msg");
 	// Form Details
 	private final DefaultSmartView formHolder = new DefaultSmartView("vw-form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
 	private final MessageView formMessages = new DefaultMessageView("vw-form-msg");
-	private final FormToolbarView formToolbarView = new DefaultFormToolbarView("vw-form-toolbar");
+	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw-form-toolbar");
 	private final FormView<T> formView;
 
 	public DefaultCrudView(final String viewId, final String title, final WComponent panel) {
@@ -81,7 +81,7 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 		formHolder.addComponentToTemplate("vw-form-view", formView);
 
 		// Add views
-		addComponentToTemplate("vw-toolbar-1", toolbarView);
+		addComponentToTemplate("vw-toolbar-1", searchToolbar);
 		addComponentToTemplate("vw-crit-msg", searchMessages);
 		addComponentToTemplate("vw-crit", searchView);
 		addComponentToTemplate("vw-poll", pollingView);
@@ -92,7 +92,7 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 		getContent().addParameter("vw-title", title);
 
 		// Toolbar Defaults
-		toolbarView.addToolbarItem(ToolbarModifyItemType.ADD);
+		searchToolbar.addToolbarItem(ToolbarModifyItemType.ADD);
 
 		// Default visibility
 		selectView.setContentVisible(false);
@@ -101,71 +101,64 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 		setQualifierContext(true);
 	}
 
-	protected S getCriteria() {
-		return searchView.getViewBean();
-	}
-
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
-		// Handle the Form Events
+
+		// Handle the Form and Form Toolbar Events
 		if (isView(viewId, formView) || isView(viewId, formToolbarView)) {
 			FormEventUtil.handleFormEvents(this, viewId, event, data);
-		} else if (event instanceof SearchBaseViewEvent) {
-			handleSearchBaseEvents((SearchBaseViewEvent) event, data);
-		} else if (event instanceof PollingBaseViewEvent) {
-			handlePollingBaseEvents((PollingBaseViewEvent) event, data);
-		} else if (event instanceof SelectableBaseViewEvent) {
-			handleSelectableBaseEvents((SelectableBaseViewEvent) event, data);
+			if (event instanceof FormOutcomeBaseViewEvent) {
+				handleFormOutcomeEvents((FormOutcomeBaseViewEvent) event, (T) data);
+			}
+			return;
 		}
 
-	}
+		// Search Validating
+		if (isEvent(SearchBaseViewEvent.SEARCH_VALIDATING, event)) {
+			selectView.reset();
+			pollingView.reset();
 
-	protected void handleSearchBaseEvents(final SearchBaseViewEvent type, final Object data) {
-		switch (type) {
-			case SEARCH:
-				selectView.reset();
-				// Do ASYNC Search Action
-				FluxUtil.dispatchSearchAction(getRetrieveEntityStoreKey(), getCriteria(), RetrieveCallType.ASYNC_OK);
-				// Start Polling
-				pollingView.reset();
-				pollingView.doStartPolling();
-				break;
-			case SEARCH_VALIDATING:
-				selectView.reset();
-				pollingView.reset();
-				break;
-		}
-	}
+			// Search
+		} else if (isEvent(SearchBaseViewEvent.SEARCH, event)) {
+			selectView.reset();
+			// Do ASYNC Search Action
+			FluxUtil.dispatchSearchAction(getRetrieveEntityStoreKey(), getCriteria(), RetrieveCallType.ASYNC_OK);
+			// Start Polling
+			pollingView.reset();
+			pollingView.doStartPolling();
 
-	protected void handlePollingBaseEvents(final PollingBaseViewEvent type, final Object data) {
-		switch (type) {
-			case CHECK_STATUS:
-				boolean done = FluxUtil.isSearchActionDone(getRetrieveEntityStoreKey(), getCriteria());
-				if (done) {
-					// Stop polling
-					pollingView.setPollingStatus(PollingStatus.STOPPED);
-					// Handle the result
-					try {
-						List<T> result = FluxUtil.getSearchActionResult(getRetrieveEntityStoreKey(), getCriteria());
-						selectView.setItems(result);
-						selectView.setContentVisible(true);
-					} catch (Exception e) {
-						dispatchMessageError("Error loading details. " + e.getMessage());
-					}
+			// POLLING
+		} else if (isEvent(PollingBaseViewEvent.CHECK_STATUS, event)) {
+			// Check if action is done
+			boolean done = FluxUtil.isSearchActionDone(getRetrieveEntityStoreKey(), getCriteria());
+			if (done) {
+				// Stop polling
+				pollingView.setPollingStatus(PollingStatus.STOPPED);
+				// Handle the result
+				try {
+					List<T> result = FluxUtil.getSearchActionResult(getRetrieveEntityStoreKey(), getCriteria());
+					selectView.setItems(result);
+					selectView.setContentVisible(true);
+				} catch (Exception e) {
+					dispatchMessageError("Error loading details. " + e.getMessage());
 				}
-				break;
+			}
+
+			// SELECT
+		} else if (isEvent(SelectableBaseViewEvent.SELECT, event)) {
+			formHolder.reset();
+			formHolder.setContentVisible(true);
+			dispatchViewEvent(FormBaseViewEvent.LOAD, (T) data);
 		}
 	}
 
-	protected void handleSelectableBaseEvents(final SelectableBaseViewEvent type, final Object data) {
-		switch (type) {
-			case SELECT:
-				dispatchViewEvent(FormBaseViewEvent.LOAD, (T) data);
-				break;
-		}
-	}
-
+	/**
+	 * Extra config for the FORM Outcome events.
+	 *
+	 * @param type
+	 * @param entity
+	 */
 	protected void handleFormOutcomeEvents(final FormOutcomeBaseViewEvent type, final T entity) {
 		switch (type) {
 			case ADD_OK:
@@ -177,13 +170,13 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 				selectView.addItem(entity);
 				selectView.setContentVisible(true);
 				selectView.setSelectedItem(entity);
-				doReloadForm(entity);
 				break;
+
 			case UPDATE_OK:
 			case REFRESH_OK:
 				selectView.updateItem(entity);
-				doReloadForm(entity);
 				break;
+
 			case DELETE_OK:
 				selectView.removeItem(entity);
 				if (selectView.getViewBean().isEmpty()) {
@@ -191,21 +184,7 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 				}
 				formHolder.setContentVisible(false);
 				break;
-
-			case DELETE_ERROR:
-			case REFRESH_ERROR:
-			case UPDATE_ERROR:
-			case ADD_ERROR:
-			case CREATE_ERROR:
-			case LOAD_ERROR:
-			case LOAD_OK:
-				break;
 		}
-
-	}
-
-	protected void doReloadForm(final T entity) {
-		dispatchViewEvent(FormBaseViewEvent.LOAD);
 	}
 
 	@Override
@@ -244,7 +223,7 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 	}
 
 	@Override
-	public FormToolbarView<T> getToolbarView() {
+	public FormToolbarView<T> getFormToolbarView() {
 		return formToolbarView;
 	}
 
@@ -253,25 +232,53 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 		formHolder.reset();
 	}
 
-	@Override
-	protected SmartFormModel newComponentModel() {
-		return new SmartFormModel();
+	protected S getCriteria() {
+		return searchView.getViewBean();
+	}
+
+	protected SearchView<S> getSearchView() {
+		return searchView;
+	}
+
+	protected PollingView getPollingView() {
+		return pollingView;
+	}
+
+	protected ToolbarView getSearchToolbar() {
+		return searchToolbar;
+	}
+
+	protected MessageView getSearchMessages() {
+		return searchMessages;
+	}
+
+	protected DefaultSmartView getFormHolder() {
+		return formHolder;
+	}
+
+	protected MessageView getFormMessages() {
+		return formMessages;
 	}
 
 	@Override
-	protected SmartFormModel getComponentModel() {
-		return (SmartFormModel) super.getComponentModel();
+	protected CrudFormModel newComponentModel() {
+		return new CrudFormModel();
 	}
 
 	@Override
-	protected SmartFormModel getOrCreateComponentModel() {
-		return (SmartFormModel) super.getOrCreateComponentModel();
+	protected CrudFormModel getComponentModel() {
+		return (CrudFormModel) super.getComponentModel();
+	}
+
+	@Override
+	protected CrudFormModel getOrCreateComponentModel() {
+		return (CrudFormModel) super.getOrCreateComponentModel();
 	}
 
 	/**
 	 * Holds the extrinsic state information of the edit view.
 	 */
-	public static class SmartFormModel extends SmartViewModel {
+	public static class CrudFormModel extends SmartViewModel {
 
 		private String entityStoreKey;
 

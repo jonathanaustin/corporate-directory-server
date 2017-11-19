@@ -85,8 +85,8 @@ public class FormEventUtil {
 	}
 
 	public static <T> void handleSyncToolbar(final FormSmartView<T> view) {
-		view.getToolbarView().setFormMode(view.getFormView().getFormMode());
-		view.getToolbarView().setFormReady(view.getFormView().isLoaded());
+		view.getFormToolbarView().setFormMode(view.getFormView().getFormMode());
+		view.getFormToolbarView().setFormReady(view.getFormView().isLoaded());
 	}
 
 	public static <T> void doLoad(final FormSmartView<T> view, final T entity, final FormMode mode) {

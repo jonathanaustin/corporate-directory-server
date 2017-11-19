@@ -27,7 +27,7 @@ public interface FormSmartView<T> extends SmartView<T> {
 
 	FormView<T> getFormView();
 
-	FormToolbarView<T> getToolbarView();
+	FormToolbarView<T> getFormToolbarView();
 
 	void resetFormViews();
 }
