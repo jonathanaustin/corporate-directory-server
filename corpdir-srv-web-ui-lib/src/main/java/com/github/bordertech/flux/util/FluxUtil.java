@@ -8,7 +8,7 @@ import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.StoreActionType;
 import com.github.bordertech.flux.app.action.RetrieveAction;
 import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.CallType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.app.store.retrieve.RetrieveStore;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
@@ -41,7 +41,7 @@ public class FluxUtil {
 	 * @param data the action data
 	 * @param callType the call type
 	 */
-	public static void dispatchFetchAction(final String storeKey, final Object data, final RetrieveCallType callType) {
+	public static void dispatchFetchAction(final String storeKey, final Object data, final CallType callType) {
 		dispatchRetrieveAction(storeKey, RetrieveBaseActionType.FETCH, data, callType);
 	}
 
@@ -52,7 +52,7 @@ public class FluxUtil {
 	 * @param data the action data
 	 * @param callType the call type
 	 */
-	public static void dispatchSearchAction(final String storeKey, final Object data, final RetrieveCallType callType) {
+	public static void dispatchSearchAction(final String storeKey, final Object data, final CallType callType) {
 		dispatchRetrieveAction(storeKey, RetrieveBaseActionType.SEARCH, data, callType);
 	}
 
@@ -64,7 +64,7 @@ public class FluxUtil {
 	 * @param data the action data
 	 * @param callType the retrieve call type
 	 */
-	public static void dispatchRetrieveAction(final String storeKey, final RetrieveActionType actionType, final Object data, final RetrieveCallType callType) {
+	public static void dispatchRetrieveAction(final String storeKey, final RetrieveActionType actionType, final Object data, final CallType callType) {
 		DefaultAction event = new RetrieveAction(actionType, storeKey, data, callType);
 		dispatchAction(event);
 	}

@@ -10,7 +10,7 @@ import com.github.bordertech.flux.DataApi;
  */
 public interface CrudApi<T> extends DataApi {
 
-	T refresh(final T entity);
+	T retrieve(final T entity);
 
 	T create(final T entity);
 

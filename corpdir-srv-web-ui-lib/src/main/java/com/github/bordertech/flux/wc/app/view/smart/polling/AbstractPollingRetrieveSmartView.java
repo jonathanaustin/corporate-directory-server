@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
 import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.CallType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -50,7 +50,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseViewEvent type) {
-		FluxUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), RetrieveCallType.CALL_ASYNC);
+		FluxUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), CallType.CALL_ASYNC);
 	}
 
 	@Override

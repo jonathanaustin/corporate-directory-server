@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.form;
 
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
-import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
+import com.github.bordertech.flux.app.store.retrieve.EntityStore;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
@@ -67,18 +67,18 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public String getRetrieveEntityStoreKey() {
+	public String getEntityStoreKey() {
 		return getComponentModel().entityStoreKey;
 	}
 
 	@Override
-	public void setRetrieveEntityStoreKey(final String entityStoreKey) {
+	public void setEntityStoreKey(final String entityStoreKey) {
 		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
-	public RetrieveEntityStore<T> getRetrieveEntityStore() {
-		return FluxUtil.getStore(getRetrieveEntityStoreKey());
+	public EntityStore<T> getEntityStore() {
+		return FluxUtil.getStore(getEntityStoreKey());
 	}
 
 	@Override

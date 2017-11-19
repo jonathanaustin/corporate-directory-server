@@ -10,7 +10,7 @@ import java.util.List;
  * @param <S> the search criteria
  * @param <T> the item type
  */
-public interface RetrieveSearchStore<S, T> extends RetrieveStore {
+public interface SearchStore<S, T> extends RetrieveStore {
 
 	List<T> search(final S criteria);
 

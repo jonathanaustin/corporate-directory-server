@@ -5,7 +5,7 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.app.action.RetrieveAction;
 import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.CallType;
 import com.github.bordertech.flux.app.action.base.ModifyBaseActionType;
 import com.github.bordertech.flux.app.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
@@ -128,7 +128,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 
 	protected void handleRetrieveBaseActions(final RetrieveAction action) {
 		RetrieveBaseActionType type = (RetrieveBaseActionType) action.getKey().getType();
-		RetrieveCallType callType = action.getCallType();
+		CallType callType = action.getCallType();
 		boolean changed = false;
 		switch (callType) {
 			case CALL_SYNC:
@@ -219,7 +219,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
-			RetrieveCallType action = resultHolder.isException() ? RetrieveCallType.ASYNC_ERROR : RetrieveCallType.ASYNC_OK;
+			CallType action = resultHolder.isException() ? CallType.ASYNC_ERROR : CallType.ASYNC_OK;
 			dispatchResultAction(type, action, resultHolder);
 		}
 	}
@@ -231,7 +231,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	 * @param callType the retrieve action
 	 * @param result the action data
 	 */
-	protected void dispatchResultAction(final RetrieveActionType actionType, final RetrieveCallType callType, final ResultHolder<?, ?> result) {
+	protected void dispatchResultAction(final RetrieveActionType actionType, final CallType callType, final ResultHolder<?, ?> result) {
 		String qualifier = getKey();
 		DefaultAction action = new RetrieveAction(actionType, qualifier, result, callType);
 		getDispatcher().dispatch(action);

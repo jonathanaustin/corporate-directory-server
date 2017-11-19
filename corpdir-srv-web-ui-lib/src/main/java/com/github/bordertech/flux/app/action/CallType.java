@@ -6,7 +6,7 @@ package com.github.bordertech.flux.app.action;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum RetrieveCallType {
+public enum CallType {
 	CALL_SYNC,
 	CALL_ASYNC,
 	ASYNC_OK,

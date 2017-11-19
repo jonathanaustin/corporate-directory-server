@@ -12,9 +12,9 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends AbstractRetrieveDataApiStore<D> implements RetrieveEntityStore<T> {
+public class DefaultEntityStore<T, D extends CrudApi<T>> extends AbstractRetrieveDataApiStore<D> implements EntityStore<T> {
 
-	public DefaultRetrieveEntityStore(final String storeKey, final D api) {
+	public DefaultEntityStore(final String storeKey, final D api) {
 		super(storeKey, api);
 	}
 
@@ -37,7 +37,7 @@ public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends Abstrac
 	@Override
 	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveBaseActionType.SEARCH)) {
-			return getDataApi().refresh((T) criteria);
+			return getDataApi().retrieve((T) criteria);
 		}
 		throw new IllegalStateException("ACtion not supported [" + type + "].");
 	}

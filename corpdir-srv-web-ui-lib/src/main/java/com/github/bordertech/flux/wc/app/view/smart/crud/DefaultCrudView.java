@@ -1,8 +1,9 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.app.action.RetrieveCallType;
+import com.github.bordertech.flux.app.action.CallType;
 import com.github.bordertech.flux.app.actioncreator.ModifyEntityCreator;
-import com.github.bordertech.flux.app.store.retrieve.RetrieveEntityStore;
+import com.github.bordertech.flux.app.store.retrieve.EntityStore;
+import com.github.bordertech.flux.app.store.retrieve.SearchStore;
 import com.github.bordertech.flux.util.FluxUtil;
 import com.github.bordertech.flux.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -27,7 +28,7 @@ import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectableBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
-import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
+import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -39,10 +40,8 @@ import java.util.List;
  * @author jonathan
  * @param <S> the criteria type
  * @param <T> the entity type
- * @param <M> the modify entity action creator type
- * @param <R> the retrieve entity store type
  */
-public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends RetrieveEntityStore<T>> extends DefaultMessageSmartView<T> implements FormSmartView<T> {
+public class DefaultCrudView<S, T> extends DefaultMessageSmartView<T> implements CrudSmartView<S, T> {
 
 	private final SearchView<S> searchView;
 	private final SelectSingleView<T> selectView;
@@ -123,7 +122,7 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 		} else if (isEvent(SearchBaseViewEvent.SEARCH, event)) {
 			selectView.reset();
 			// Do ASYNC Search Action
-			FluxUtil.dispatchSearchAction(getRetrieveEntityStoreKey(), getCriteria(), RetrieveCallType.ASYNC_OK);
+			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.ASYNC_OK);
 			// Start Polling
 			pollingView.reset();
 			pollingView.doStartPolling();
@@ -131,13 +130,13 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 			// POLLING
 		} else if (isEvent(PollingBaseViewEvent.CHECK_STATUS, event)) {
 			// Check if action is done
-			boolean done = FluxUtil.isSearchActionDone(getRetrieveEntityStoreKey(), getCriteria());
+			boolean done = FluxUtil.isSearchActionDone(getEntityStoreKey(), getCriteria());
 			if (done) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
 				try {
-					List<T> result = FluxUtil.getSearchActionResult(getRetrieveEntityStoreKey(), getCriteria());
+					List<T> result = FluxUtil.getSearchActionResult(getEntityStoreKey(), getCriteria());
 					selectView.setItems(result);
 					selectView.setContentVisible(true);
 				} catch (Exception e) {
@@ -198,23 +197,38 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 	}
 
 	@Override
-	public M getEntityActionCreator() {
+	public ModifyEntityCreator<T> getEntityActionCreator() {
 		return FluxUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 
 	@Override
-	public String getRetrieveEntityStoreKey() {
+	public String getEntityStoreKey() {
 		return getComponentModel().entityStoreKey;
 	}
 
 	@Override
-	public void setRetrieveEntityStoreKey(final String entityStoreKey) {
+	public void setEntityStoreKey(final String entityStoreKey) {
 		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
-	public R getRetrieveEntityStore() {
-		return FluxUtil.getStore(getRetrieveEntityStoreKey());
+	public EntityStore<T> getEntityStore() {
+		return FluxUtil.getStore(getEntityStoreKey());
+	}
+
+	@Override
+	public void setSearchStoreKey(final String searchStoreKey) {
+		getOrCreateComponentModel().searchStoreKey = searchStoreKey;
+	}
+
+	@Override
+	public String getSearchStoreKey() {
+		return getComponentModel().searchStoreKey;
+	}
+
+	@Override
+	public SearchStore<S, T> getSearchStore() {
+		return FluxUtil.getStore(getSearchStoreKey());
 	}
 
 	@Override
@@ -279,6 +293,8 @@ public class DefaultCrudView<S, T, M extends ModifyEntityCreator<T>, R extends R
 	 * Holds the extrinsic state information of the edit view.
 	 */
 	public static class CrudFormModel extends SmartViewModel {
+
+		private String searchStoreKey;
 
 		private String entityStoreKey;
 

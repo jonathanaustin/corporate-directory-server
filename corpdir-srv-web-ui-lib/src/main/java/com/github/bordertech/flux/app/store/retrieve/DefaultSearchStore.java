@@ -17,9 +17,9 @@ import java.util.Objects;
  * @since 1.0.0
  *
  */
-public class DefaultRetrieveSearchStore<S, T, D extends SearchApi<S, T>> extends AbstractRetrieveDataApiStore<D> implements RetrieveSearchStore<S, T> {
+public class DefaultSearchStore<S, T, D extends SearchApi<S, T>> extends AbstractRetrieveDataApiStore<D> implements SearchStore<S, T> {
 
-	public DefaultRetrieveSearchStore(final String storeKey, final D api) {
+	public DefaultSearchStore(final String storeKey, final D api) {
 		super(storeKey, api);
 	}
 

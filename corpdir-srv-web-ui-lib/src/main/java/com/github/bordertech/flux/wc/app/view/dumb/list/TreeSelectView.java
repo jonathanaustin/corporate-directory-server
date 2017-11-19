@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.wc.app.view.dumb.list;
 
-import com.github.bordertech.flux.app.store.retrieve.RetrieveTreeStore;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.common.AppTreeItemModel;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
@@ -13,6 +12,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import com.github.bordertech.flux.app.store.retrieve.TreeStore;
 
 /**
  * Single select tree view.
@@ -119,11 +119,11 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		return (AppTreeItemModel) tree.getTreeModel();
 	}
 
-	public void setRetrieveTreeStore(final RetrieveTreeStore treeStore) {
+	public void setRetrieveTreeStore(final TreeStore treeStore) {
 		getOrCreateComponentModel().retrieveTreeStore = treeStore;
 	}
 
-	public RetrieveTreeStore getRetrieveTreeStore() {
+	public TreeStore getRetrieveTreeStore() {
 		return getComponentModel().retrieveTreeStore;
 	}
 
@@ -147,7 +147,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	 */
 	public static class TreeSelectModel<T> extends SelectModel<T> {
 
-		private RetrieveTreeStore<T> retrieveTreeStore;
+		private TreeStore<T> retrieveTreeStore;
 
 	}
 

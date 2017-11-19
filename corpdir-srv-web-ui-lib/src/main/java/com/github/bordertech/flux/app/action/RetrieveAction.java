@@ -9,14 +9,14 @@ import com.github.bordertech.flux.key.ActionKey;
  */
 public class RetrieveAction extends DefaultAction {
 
-	private final RetrieveCallType callType;
+	private final CallType callType;
 
-	public RetrieveAction(final RetrieveActionType actionType, final String qualifier, final Object data, final RetrieveCallType callType) {
+	public RetrieveAction(final RetrieveActionType actionType, final String qualifier, final Object data, final CallType callType) {
 		super(new ActionKey(actionType, qualifier), data);
 		this.callType = callType;
 	}
 
-	public RetrieveCallType getCallType() {
+	public CallType getCallType() {
 		return callType;
 	}
 }

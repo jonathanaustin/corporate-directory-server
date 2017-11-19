@@ -8,7 +8,7 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
  * @author jonathan
  * @param <T> the entity type
  */
-public interface RetrieveEntityStore<T> extends RetrieveStore {
+public interface EntityStore<T> extends RetrieveStore {
 
 	T fetch(final T entity);
 

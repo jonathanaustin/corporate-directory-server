@@ -16,9 +16,9 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class DefaultRetrieveTreeStore<T, D extends CrudTreeApi<T>> extends DefaultRetrieveEntityStore<T, D> implements RetrieveTreeStore<T> {
+public class DefaultTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntityStore<T, D> implements TreeStore<T> {
 
-	public DefaultRetrieveTreeStore(final String storeKey, final D api) {
+	public DefaultTreeStore(final String storeKey, final D api) {
 		super(storeKey, api);
 	}
 

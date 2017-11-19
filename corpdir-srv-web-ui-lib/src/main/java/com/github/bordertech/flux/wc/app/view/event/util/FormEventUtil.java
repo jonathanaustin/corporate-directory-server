@@ -160,7 +160,7 @@ public class FormEventUtil {
 				bean = view.getEntityActionCreator().update(bean);
 			}
 			// Reload from the store
-			bean = view.getRetrieveEntityStore().fetch(bean);
+			bean = view.getEntityStore().fetch(bean);
 			view.resetFormViews();
 			dispatchViewEvent(view, create ? FormOutcomeBaseViewEvent.CREATE_OK : FormOutcomeBaseViewEvent.UPDATE_OK, bean);
 			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
@@ -213,7 +213,7 @@ public class FormEventUtil {
 		T bean = form.getViewBean();
 		try {
 			// Get Bean from the Store
-			bean = view.getRetrieveEntityStore().fetch(bean);
+			bean = view.getEntityStore().fetch(bean);
 			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
 			dispatchViewEvent(view, FormOutcomeBaseViewEvent.REFRESH_OK);
 		} catch (Exception e) {
