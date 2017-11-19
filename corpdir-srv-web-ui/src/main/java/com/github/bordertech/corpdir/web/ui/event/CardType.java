@@ -1,13 +1,13 @@
 package com.github.bordertech.corpdir.web.ui.event;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
-import com.github.bordertech.corpdir.web.ui.view.ContactCrudView;
-import com.github.bordertech.corpdir.web.ui.view.LocationCrudView;
-import com.github.bordertech.corpdir.web.ui.view.OrgUnitCrudView;
-import com.github.bordertech.corpdir.web.ui.view.PositionCrudView;
-import com.github.bordertech.corpdir.web.ui.view.PositionTypeCrudView;
-import com.github.bordertech.corpdir.web.ui.view.UnitTypeCrudView;
-import com.github.bordertech.flux.view.DumbView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.ContactCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.LocationCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.PositionCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.PositionTypeCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.UnitTypeCrudView;
+import com.github.bordertech.flux.view.SmartView;
 
 /**
  * Cards.
@@ -22,7 +22,7 @@ public enum CardType {
 	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null),
 	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE);
 
-	CardType(final String desc, final boolean system, final Class<? extends DumbView> clazz, final String imageUrl) {
+	CardType(final String desc, final boolean system, final Class<? extends SmartView> clazz, final String imageUrl) {
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
@@ -31,7 +31,7 @@ public enum CardType {
 
 	final String desc;
 	final boolean system;
-	final Class<? extends DumbView> clazz;
+	final Class<? extends SmartView> clazz;
 	final String imageUrl;
 
 	public String getDesc() {
@@ -42,7 +42,7 @@ public enum CardType {
 		return system;
 	}
 
-	public Class<? extends DumbView> getClazz() {
+	public Class<? extends SmartView> getClazz() {
 		return clazz;
 	}
 
@@ -50,9 +50,9 @@ public enum CardType {
 		return imageUrl;
 	}
 
-	public DumbView createCardViewInstance() {
+	public SmartView createCardViewInstance() {
 		try {
-			return (DumbView) getClazz().newInstance();
+			return (SmartView) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

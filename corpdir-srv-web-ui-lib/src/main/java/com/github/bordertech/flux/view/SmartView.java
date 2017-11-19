@@ -103,4 +103,7 @@ public interface SmartView<T> extends DumbView<T> {
 
 	Set<ViewEventType> getPassThroughs();
 
+	void setPassAllEvents(final boolean passAllEvents);
+
+	boolean isPassAllEvents();
 }

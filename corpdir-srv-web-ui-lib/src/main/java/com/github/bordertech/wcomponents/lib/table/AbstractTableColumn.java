@@ -20,7 +20,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	/**
 	 * Column comparator.
 	 */
-	private final Comparator<V> comparator;
+	private final Comparator comparator;
 
 	/**
 	 * Column id.
@@ -58,7 +58,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param label the column label
 	 * @param comparator the column comparator
 	 */
-	public AbstractTableColumn(final String label, final Comparator<V> comparator) {
+	public AbstractTableColumn(final String label, final Comparator comparator) {
 		this(null, label, new WText(), comparator);
 	}
 
@@ -75,7 +75,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param renderer the column renderer
 	 * @param comparator the column comparator
 	 */
-	public AbstractTableColumn(final String label, final WComponent renderer, final Comparator<V> comparator) {
+	public AbstractTableColumn(final String label, final WComponent renderer, final Comparator comparator) {
 		this(null, label, renderer, comparator);
 	}
 
@@ -86,7 +86,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param comparator the column comparator
 	 */
 	public AbstractTableColumn(final String columnId, final String label, final WComponent renderer,
-			final Comparator<V> comparator) {
+			final Comparator comparator) {
 		checkComparator(comparator);
 		this.columnId = columnId == null ? UUID.randomUUID().toString() : columnId;
 		this.columnLabel = label;
@@ -102,7 +102,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * @param comparator the column comparator
 	 */
 	public AbstractTableColumn(final String columnId, final String label,
-			final Class<? extends WComponent> rendererClass, final Comparator<V> comparator) {
+			final Class<? extends WComponent> rendererClass, final Comparator comparator) {
 		checkComparator(comparator);
 		this.columnId = columnId == null ? UUID.randomUUID().toString() : columnId;
 		this.columnLabel = label;
@@ -111,7 +111,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		this.rendererClass = rendererClass;
 	}
 
-	private void checkComparator(final Comparator<V> comparator) {
+	private void checkComparator(final Comparator comparator) {
 		if (comparator != null && !(comparator instanceof Serializable)) {
 			throw new IllegalArgumentException("Comparator must implement serializable");
 		}
@@ -121,7 +121,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Comparator<V> getComparator() {
+	public Comparator getComparator() {
 		return comparator;
 	}
 

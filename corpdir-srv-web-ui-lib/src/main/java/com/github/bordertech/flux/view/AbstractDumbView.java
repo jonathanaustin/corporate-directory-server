@@ -284,7 +284,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements DumbView<
 		// Check if this is a smart view and is not in "dumb mode". Dumb mode delegates to the parent.
 		if (this instanceof SmartView) {
 			SmartView smart = (SmartView) this;
-			boolean pass = smart.isDumbMode() && smart.getPassThroughs().contains(eventType);
+			boolean pass = smart.isDumbMode() && (smart.isPassAllEvents() || smart.getPassThroughs().contains(eventType));
 			if (!pass) {
 				parent = (SmartView) this;
 			}

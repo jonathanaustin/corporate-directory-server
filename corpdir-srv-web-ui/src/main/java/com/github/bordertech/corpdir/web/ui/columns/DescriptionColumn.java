@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.columns;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.wcomponents.lib.table.AbstractTableColumn;
-import org.hibernate.internal.util.compare.ComparableComparator;
+import com.github.bordertech.wcomponents.util.ComparableComparator;
 
 /**
  * Description table column.
@@ -13,7 +13,7 @@ import org.hibernate.internal.util.compare.ComparableComparator;
 public class DescriptionColumn<T extends ApiKeyIdObject> extends AbstractTableColumn<String, T> {
 
 	public DescriptionColumn() {
-		super("Description", new ComparableComparator<String>());
+		super("Description", new ComparableComparator());
 	}
 
 	@Override

@@ -127,6 +127,16 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 	}
 
 	@Override
+	public void setPassAllEvents(boolean passAllEvents) {
+		getOrCreateComponentModel().passAllEvents = passAllEvents;
+	}
+
+	@Override
+	public boolean isPassAllEvents() {
+		return getComponentModel().passAllEvents;
+	}
+
+	@Override
 	public void addPassThrough(final ViewEventType type) {
 		SmartViewModel model = getOrCreateComponentModel();
 		if (model.passThroughs == null) {
@@ -314,5 +324,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		private boolean dumbMode;
 
 		private Set<ViewEventType> passThroughs;
+
+		private boolean passAllEvents;
 	}
 }
