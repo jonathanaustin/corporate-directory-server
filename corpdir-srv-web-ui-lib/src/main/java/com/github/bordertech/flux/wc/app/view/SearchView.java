@@ -4,12 +4,14 @@ import com.github.bordertech.flux.view.DumbView;
 
 /**
  * Search View.
+ * <p>
+ * The view bean holds the search criteria.</p>
  *
  * @author Jonathan Austin
- * @param <S> the search type
+ * @param <T> the criteria type
  * @since 1.0.0
  *
  */
-public interface SearchView<S> extends DumbView<S> {
+public interface SearchView<T> extends DumbView<T> {
 
 }

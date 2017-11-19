@@ -9,7 +9,7 @@ import com.github.bordertech.flux.app.action.RetrieveActionType;
  * @since 1.0.0
  */
 public enum RetrieveBaseActionType implements RetrieveActionType {
-	RETRIEVE,
+	FETCH,
 	SEARCH,
 	CHILDREN,
 	ROOT

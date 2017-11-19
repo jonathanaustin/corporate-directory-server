@@ -40,7 +40,7 @@ public class DefaultRetrieveSearchStore<S, T, D extends SearchApi<S, T>> extends
 
 	@Override
 	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
-		if (Objects.equals(type, RetrieveBaseActionType.RETRIEVE)) {
+		if (Objects.equals(type, RetrieveBaseActionType.FETCH)) {
 			return getDataApi().search((S) criteria);
 		}
 		throw new IllegalStateException("Action not supported [" + type + "].");

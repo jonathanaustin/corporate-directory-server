@@ -3,12 +3,7 @@ package com.github.bordertech.flux.view;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.action.DefaultAction;
-import com.github.bordertech.flux.action.StoreActionType;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
-import com.github.bordertech.flux.app.action.RetrieveAction;
-import com.github.bordertech.flux.app.action.RetrieveActionType;
-import com.github.bordertech.flux.app.action.RetrieveCallType;
 import com.github.bordertech.flux.dispatcher.DispatcherFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
 import com.github.bordertech.flux.key.ActionKey;
@@ -221,59 +216,21 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		return DispatcherFactory.getInstance();
 	}
 
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 */
-	protected void dispatchEvent(final StoreActionType eventType) {
-		dispatchEvent(eventType, null);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param eventType the event type
-	 * @param data the event data
-	 */
-	protected void dispatchEvent(final StoreActionType eventType, final Object data) {
-		String qualifier = getFullQualifier();
-		DefaultAction event = new DefaultAction(new ActionKey(eventType, qualifier), data);
-		dispatchEvent(event);
-	}
-
-	/**
-	 * Helper method to dispatch an event for this view with the view qualifier automatically added.
-	 *
-	 * @param storeKey the target store
-	 * @param eventType the retrieve event type
-	 * @param data the event data
-	 * @param action the retrieve action
-	 */
-	protected void dispatchRetrieveEvent(final String storeKey, final RetrieveActionType eventType, final Object data, final RetrieveCallType action) {
-		DefaultAction event = new RetrieveAction(eventType, storeKey, data, action);
-		dispatchEvent(event);
-	}
-
-	protected void dispatchEvent(final Action event) {
-		getDispatcher().dispatch(event);
-	}
-
-	protected void handleStoreChangedEvent(final String storeKey, final Action event) {
+	protected void handleStoreChangedAction(final String storeKey, final Action action) {
 	}
 
 	protected void registerStoreChangeListener(final String storeKey) {
 		Listener listener = new Listener() {
 			@Override
-			public void handleAction(final Action event) {
-				handleStoreChangedEvent(storeKey, event);
+			public void handleAction(final Action action) {
+				handleStoreChangedAction(storeKey, action);
 			}
 		};
 		registerListener(StateBaseActionType.STORE_CHANGED, storeKey, listener);
 	}
 
-	protected void registerListener(final ActionType eventType, final String qualifier, final Listener listener) {
-		String id = getDispatcher().registerListener(new ActionKey(eventType, qualifier), listener);
+	protected void registerListener(final ActionType actionType, final String qualifier, final Listener listener) {
+		String id = getDispatcher().registerListener(new ActionKey(actionType, qualifier), listener);
 		SmartViewModel model = getOrCreateComponentModel();
 		if (model.registeredIds == null) {
 			model.registeredIds = new HashSet<>();
@@ -357,6 +314,5 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements S
 		private boolean dumbMode;
 
 		private Set<ViewEventType> passThroughs;
-
 	}
 }

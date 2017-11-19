@@ -19,6 +19,16 @@ public class FormEventUtil {
 	private FormEventUtil() {
 	}
 
+	public static <T> void handleFormEvents(final FormSmartView<T> view, final String viewId, final ViewEventType event, final Object data) {
+		if (event instanceof FormBaseViewEvent) {
+			handleFormBaseEvents(view, (FormBaseViewEvent) event, data);
+		} else if (event instanceof FormOutcomeBaseViewEvent) {
+			handleFormOutcomeBaseEvents(view, (FormOutcomeBaseViewEvent) event, data);
+		} else if (event instanceof ToolbarBaseViewEvent) {
+			handleToolbarBaseEvents(view, (ToolbarBaseViewEvent) event, data);
+		}
+	}
+
 	public static <T> void handleFormBaseEvents(final FormSmartView<T> view, final FormBaseViewEvent type, final Object data) {
 		switch (type) {
 			case ENTITY_MODE_CHANGED:
@@ -123,7 +133,7 @@ public class FormEventUtil {
 	public static <T> void handleToolbarAddEvent(final FormSmartView<T> view) {
 		view.resetFormViews();
 		try {
-			T bean = view.getEntityCreator().createInstance();
+			T bean = view.getEntityActionCreator().createInstance();
 			dispatchViewEvent(view, FormOutcomeBaseViewEvent.ADD_OK);
 			dispatchViewEvent(view, FormBaseViewEvent.LOAD_NEW, bean);
 		} catch (Exception e) {
@@ -145,12 +155,12 @@ public class FormEventUtil {
 			form.updateViewBean();
 			T bean = form.getViewBean();
 			if (create) {
-				bean = view.getEntityCreator().create(bean);
+				bean = view.getEntityActionCreator().create(bean);
 			} else {
-				bean = view.getEntityCreator().update(bean);
+				bean = view.getEntityActionCreator().update(bean);
 			}
 			// Reload from the store
-			bean = view.getEntityStore().retrieve(bean);
+			bean = view.getRetrieveEntityStore().fetch(bean);
 			view.resetFormViews();
 			dispatchViewEvent(view, create ? FormOutcomeBaseViewEvent.CREATE_OK : FormOutcomeBaseViewEvent.UPDATE_OK, bean);
 			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
@@ -166,7 +176,7 @@ public class FormEventUtil {
 		}
 		T bean = form.getViewBean();
 		try {
-			view.getEntityCreator().delete(bean);
+			view.getEntityActionCreator().delete(bean);
 			view.resetFormViews();
 			dispatchViewEvent(view, FormOutcomeBaseViewEvent.DELETE_OK);
 		} catch (Exception e) {
@@ -203,7 +213,7 @@ public class FormEventUtil {
 		T bean = form.getViewBean();
 		try {
 			// Get Bean from the Store
-			bean = view.getEntityStore().retrieve(bean);
+			bean = view.getRetrieveEntityStore().fetch(bean);
 			dispatchViewEvent(view, FormBaseViewEvent.LOAD, bean);
 			dispatchViewEvent(view, FormOutcomeBaseViewEvent.REFRESH_OK);
 		} catch (Exception e) {

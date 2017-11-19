@@ -12,12 +12,12 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class MessageBaseEventUtil {
+public class MessageEventUtil {
 
-	private MessageBaseEventUtil() {
+	private MessageEventUtil() {
 	}
 
-	public static void handleMessageEvent(final MessageView view, final MessageBaseViewEvent event, final Object data) {
+	public static void handleMessageBaseViewEvents(final MessageView view, final MessageBaseViewEvent event, final Object data) {
 
 		WMessages messages = view.getMessages();
 

@@ -4,7 +4,7 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.MessageView;
 import com.github.bordertech.flux.wc.app.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.util.MessageBaseEventUtil;
+import com.github.bordertech.flux.wc.app.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.MessageSmartView;
 import com.github.bordertech.wcomponents.WMessages;
 
@@ -43,6 +43,6 @@ public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T
 	}
 
 	protected void handleMesssageEvent(final String viewId, final MessageBaseViewEvent event, final Object data) {
-		MessageBaseEventUtil.handleMessageEvent(getMessageView(), event, data);
+		MessageEventUtil.handleMessageBaseViewEvents(getMessageView(), event, data);
 	}
 }

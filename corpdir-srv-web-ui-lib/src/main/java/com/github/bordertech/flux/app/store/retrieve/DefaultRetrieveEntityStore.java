@@ -19,19 +19,19 @@ public class DefaultRetrieveEntityStore<T, D extends CrudApi<T>> extends Abstrac
 	}
 
 	@Override
-	public ServiceStatus getRetrieveStatus(final T key) {
-		return getActionStatus(RetrieveBaseActionType.RETRIEVE, key);
+	public ServiceStatus getFetchStatus(final T key) {
+		return getActionStatus(RetrieveBaseActionType.FETCH, key);
 	}
 
 	@Override
-	public boolean isRetrieveDone(final T key) {
-		return isActionDone(RetrieveBaseActionType.RETRIEVE, key);
+	public boolean isFetchDone(final T key) {
+		return isActionDone(RetrieveBaseActionType.FETCH, key);
 	}
 
 	@Override
-	public T retrieve(final T key) {
+	public T fetch(final T key) {
 		// Retrieve and RetrieveAsync get treated the same
-		return (T) getActionResult(RetrieveBaseActionType.RETRIEVE, key);
+		return (T) getActionResult(RetrieveBaseActionType.FETCH, key);
 	}
 
 	@Override

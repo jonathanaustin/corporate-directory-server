@@ -10,9 +10,9 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
  */
 public interface RetrieveEntityStore<T> extends RetrieveStore {
 
-	T retrieve(final T entity);
+	T fetch(final T entity);
 
-	ServiceStatus getRetrieveStatus(final T entity);
+	ServiceStatus getFetchStatus(final T entity);
 
-	boolean isRetrieveDone(final T entity);
+	boolean isFetchDone(final T entity);
 }

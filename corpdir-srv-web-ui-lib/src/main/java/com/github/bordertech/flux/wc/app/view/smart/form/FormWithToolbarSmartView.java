@@ -9,9 +9,6 @@ import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.dumb.form.DefaultFormView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultFormToolbarView;
-import com.github.bordertech.flux.wc.app.view.event.base.FormBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.FormOutcomeBaseViewEvent;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseViewEvent;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
@@ -48,33 +45,40 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public String getEntityCreatorKey() {
+	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		// Handle the Form Events
+		FormEventUtil.handleFormEvents(this, viewId, event, data);
+	}
+
+	@Override
+	public String getEntityActionCreatorKey() {
 		return getComponentModel().entityCreatorKey;
 	}
 
 	@Override
-	public void setEntityCreatorKey(final String entityCreatorKey) {
+	public void setEntityActionCreatorKey(final String entityCreatorKey) {
 		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
 	}
 
 	@Override
-	public ModifyEntityCreator<T> getEntityCreator() {
-		return FluxUtil.getActionCreator(getEntityCreatorKey());
+	public ModifyEntityCreator<T> getEntityActionCreator() {
+		return FluxUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 
 	@Override
-	public String getEntityStoreKey() {
+	public String getRetrieveEntityStoreKey() {
 		return getComponentModel().entityStoreKey;
 	}
 
 	@Override
-	public void setEntityStoreKey(final String entityStoreKey) {
+	public void setRetrieveEntityStoreKey(final String entityStoreKey) {
 		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
-	public RetrieveEntityStore<T> getEntityStore() {
-		return FluxUtil.getStore(getEntityStoreKey());
+	public RetrieveEntityStore<T> getRetrieveEntityStore() {
+		return FluxUtil.getStore(getRetrieveEntityStoreKey());
 	}
 
 	@Override
@@ -88,32 +92,8 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-		super.handleViewEvent(viewId, event, data);
-		if (event instanceof FormBaseViewEvent) {
-			handleFormBaseEvents((FormBaseViewEvent) event, data);
-		} else if (event instanceof FormOutcomeBaseViewEvent) {
-			handleFormOutcomeBaseEvents((FormOutcomeBaseViewEvent) event, data);
-		} else if (event instanceof ToolbarBaseViewEvent) {
-			handleToolbarBaseEvents((ToolbarBaseViewEvent) event, data);
-		}
-	}
-
-	@Override
 	public void resetFormViews() {
 		reset();
-	}
-
-	protected void handleFormBaseEvents(final FormBaseViewEvent type, final Object data) {
-		FormEventUtil.handleFormBaseEvents(this, type, data);
-	}
-
-	protected void handleFormOutcomeBaseEvents(final FormOutcomeBaseViewEvent type, final Object data) {
-		FormEventUtil.handleFormOutcomeBaseEvents(this, type, data);
-	}
-
-	protected void handleToolbarBaseEvents(final ToolbarBaseViewEvent type, final Object data) {
-		FormEventUtil.handleToolbarBaseEvents(this, type, data);
 	}
 
 	@Override
