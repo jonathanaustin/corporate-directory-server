@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.dumb.nav;
 
-import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.NavigationView;
 import com.github.bordertech.flux.wc.app.view.event.base.NavigationBaseEventType;

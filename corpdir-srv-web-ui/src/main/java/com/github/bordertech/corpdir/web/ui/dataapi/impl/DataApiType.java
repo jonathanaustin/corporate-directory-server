@@ -14,28 +14,46 @@ public enum DataApiType {
 	POSITION_TYPE("positiontype"),
 	UNIT_TYPE("unittype"),
 	CONTACT("contact"),
-	CONTACT_POSTION("contact-positions", true, false);
+	CONTACT_POSTION("contact-positions", false, true, false);
 
 	DataApiType(final String key) {
-		this(key, true, true);
+		this(key, true, true, true);
 	}
 
-	DataApiType(final String key, final boolean store, final boolean actionCreator) {
+	DataApiType(final String key, final boolean entityStore, final boolean searchStore, final boolean actionCreator) {
 		this.key = key;
-		this.store = store;
+		this.entityStore = entityStore;
+		this.searchStore = searchStore;
 		this.actionCreator = actionCreator;
 	}
 
 	final String key;
-	boolean store;
+	boolean entityStore;
+	boolean searchStore;
 	boolean actionCreator;
 
 	public String getKey() {
 		return key;
 	}
 
-	public boolean isStore() {
-		return store;
+	public String getEntityStoreKey() {
+		return "e-" + key;
+	}
+
+	public String getSearchStoreKey() {
+		return "s-" + key;
+	}
+
+	public String getActionCreatorKey() {
+		return "a-" + key;
+	}
+
+	public boolean isEntityStore() {
+		return entityStore;
+	}
+
+	public boolean isSearchStore() {
+		return searchStore;
 	}
 
 	public boolean isActionCreator() {

@@ -1,11 +1,12 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
-import com.github.bordertech.flux.view.CardManagerView;
-import com.github.bordertech.flux.view.SmartView;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
+import com.github.bordertech.flux.wc.view.CardManagerView;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
 import java.util.HashMap;
 import java.util.Map;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 
 /**
  * The Card Manager that creates all the Cards via the Card Types.
@@ -19,15 +20,15 @@ public class MainCardManagerView extends CardManagerView {
 
 		int idx = 1;
 		for (CardType card : CardType.values()) {
-			SmartView view = card.createCardViewInstance();
+			FluxSmartView view = card.createCardViewInstance();
 			view.setQualifier("M-E" + idx++);
 			view.setQualifierContext(true);
 			if (view instanceof FormSmartView) {
 				CrudSmartView form = (CrudSmartView) view;
-				String key = card.getApiType().getKey();
-				form.setEntityActionCreatorKey(key);
-				form.setEntityStoreKey(key);
-				form.setSearchStoreKey(key);
+				DataApiType api = card.getApiType();
+				form.setEntityActionCreatorKey(api.getActionCreatorKey());
+				form.setEntityStoreKey(api.getEntityStoreKey());
+				form.setSearchStoreKey(api.getSearchStoreKey());
 			}
 			setupCard(card, view);
 		}
@@ -35,12 +36,12 @@ public class MainCardManagerView extends CardManagerView {
 		showCard(CardType.CONTACT_CARD);
 	}
 
-	private void setupCard(final CardType type, final SmartView view) {
+	private void setupCard(final CardType type, final FluxSmartView view) {
 		addCardByType(type, view);
 	}
 
 	public final void showCard(final CardType card) {
-		SmartView view = getCardByType(card);
+		FluxSmartView view = getCardByType(card);
 		if (view != null) {
 			setCurrentCard(view);
 			getOrCreateComponentModel().current = card;
@@ -48,7 +49,7 @@ public class MainCardManagerView extends CardManagerView {
 	}
 
 	public void resetCard(final CardType card) {
-		SmartView view = getCardByType(card);
+		FluxSmartView view = getCardByType(card);
 		if (view != null) {
 			view.reset();
 		}
@@ -58,7 +59,7 @@ public class MainCardManagerView extends CardManagerView {
 		return getComponentModel().current;
 	}
 
-	protected final void addCardByType(final CardType card, final SmartView view) {
+	protected final void addCardByType(final CardType card, final FluxSmartView view) {
 		// Add to Mgr
 		addCard(view);
 		// App to Map by type
@@ -69,7 +70,7 @@ public class MainCardManagerView extends CardManagerView {
 		model.cards.put(card, view);
 	}
 
-	protected final SmartView getCardByType(final CardType card) {
+	protected final FluxSmartView getCardByType(final CardType card) {
 		MainCardModel model = getComponentModel();
 		if (model.cards != null) {
 			return model.cards.get(card);
@@ -97,7 +98,7 @@ public class MainCardManagerView extends CardManagerView {
 	 */
 	public static class MainCardModel extends SmartViewModel {
 
-		private Map<CardType, SmartView> cards;
+		private Map<CardType, FluxSmartView> cards;
 
 		private CardType current;
 	}

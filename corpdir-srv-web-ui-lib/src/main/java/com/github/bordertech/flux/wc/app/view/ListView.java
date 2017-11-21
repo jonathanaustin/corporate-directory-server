@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
 import java.util.List;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * List view.
@@ -11,7 +11,7 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public interface ListView<T> extends DumbView<List<T>> {
+public interface ListView<T> extends FluxDumbView<List<T>> {
 
 	void setItems(final List<T> items);
 

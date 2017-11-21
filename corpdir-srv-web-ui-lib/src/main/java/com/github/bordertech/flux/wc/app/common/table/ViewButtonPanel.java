@@ -1,13 +1,13 @@
 package com.github.bordertech.flux.wc.app.common.table;
 
-import com.github.bordertech.flux.view.DumbView;
-import com.github.bordertech.flux.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Panel with a Button that can be used in a table column.
@@ -36,7 +36,7 @@ public class ViewButtonPanel extends WDiv {
 	}
 
 	protected void doDefaultAction() {
-		DumbView view = ViewUtil.findParentView(this);
+		FluxDumbView view = ViewUtil.findParentView(this);
 		if (view != null) {
 			view.dispatchViewEvent(SelectBaseEventType.SELECT, getBean());
 		}

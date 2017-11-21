@@ -35,7 +35,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		protected void preparePaintComponent(final Request request) {
 			super.preparePaintComponent(request);
 			if (!isInitialised()) {
-				handleInitContent(request);
+				handleInitPollingPanel(request);
 				setInitialised(true);
 			}
 		}
@@ -195,7 +195,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		return holder;
 	}
 
-	protected void handleInitContent(final Request request) {
+	protected void handleInitPollingPanel(final Request request) {
 		getStartButton().setVisible(getStartType() == PollingStartType.BUTTON);
 		// AUTO Start Polling
 		if (getStartType() == PollingStartType.AUTOMATIC) {

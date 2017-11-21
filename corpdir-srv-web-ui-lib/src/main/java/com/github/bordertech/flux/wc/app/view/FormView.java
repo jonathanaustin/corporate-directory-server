@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.flux.wc.app.mode.FormMode;
 import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Form view.
@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WContainer;
  * @since 1.0.0
  *
  */
-public interface FormView<T> extends DumbView<T> {
+public interface FormView<T> extends FluxDumbView<T> {
 
 	/**
 	 * @return the form mode

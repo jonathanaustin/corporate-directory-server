@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.app.view.smart.input;
 
-import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.polling.AbstractPollingRetrieveSmartView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import java.util.List;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Polling View and Input Options View.
@@ -45,7 +45,7 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 	}
 
 	@Override
-	public void configAjax(final DumbView view) {
+	public void configAjax(final FluxDumbView view) {
 		view.addEventAjaxTarget(this);
 	}
 

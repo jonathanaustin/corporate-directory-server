@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Navigation menu.
@@ -9,7 +9,7 @@ import com.github.bordertech.flux.view.DumbView;
  * @since 1.0.0
  *
  */
-public interface NavigationView<T> extends DumbView<T> {
+public interface NavigationView<T> extends FluxDumbView<T> {
 
 	int getCurrentIdx();
 

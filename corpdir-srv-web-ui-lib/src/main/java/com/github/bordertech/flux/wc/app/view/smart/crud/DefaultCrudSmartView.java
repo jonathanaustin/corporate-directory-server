@@ -5,7 +5,7 @@ import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.retrieve.EntityStore;
 import com.github.bordertech.flux.crud.store.retrieve.SearchStore;
 import com.github.bordertech.flux.util.FluxUtil;
-import com.github.bordertech.flux.view.DefaultSmartView;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
@@ -24,11 +24,13 @@ import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ToolbarModifyItemType;
 import com.github.bordertech.flux.wc.app.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.FormBaseOutcomeEventType;
+import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
+import com.github.bordertech.flux.wc.app.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WComponent;
@@ -75,6 +77,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		}
 
 		// Form Holder
+		formHolder.setDumbMode(true);
+		formHolder.setPassAllEvents(true);
 		formHolder.addHtmlClass("wc-panel-type-box");
 		formHolder.addComponentToTemplate("vw-form-toolbar", formToolbarView);
 		formHolder.addComponentToTemplate("vw-form-msg", formMessages);
@@ -97,20 +101,29 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		// Default visibility
 		selectView.setContentVisible(false);
 		formHolder.setContentVisible(false);
-
 		setQualifierContext(true);
 	}
 
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 
-		// Pick the correct RESET Event
-		if (isEvent(ToolbarBaseEventType.RESET, event)) {
-			if (isView(viewId, formToolbarView)) {
-				FormEventUtil.handleFormEvents(this, viewId, event, data);
-			} else {
-				super.handleViewEvent(viewId, event, data);
+		// Message events
+		if (isView(viewId, formToolbarView) || isView(viewId, formView)) {
+			if (event instanceof MessageBaseEventType) {
+				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
+				return;
 			}
+			if (isEvent(ToolbarBaseEventType.RESET, event)) {
+				resetFormViews();
+				return;
+			}
+		}
+
+		super.handleViewEvent(viewId, event, data);
+
+		// Top Messages
+		if (event instanceof MessageBaseEventType) {
+			MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
 			return;
 		}
 
@@ -122,28 +135,28 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 		// Search Validating
 		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
-			selectView.reset();
-			pollingView.reset();
+			selectView.resetView();
+			pollingView.resetView();
 
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
-			selectView.reset();
+			selectView.resetView();
 			// Do ASYNC Search Action
 			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
 			// Start Polling
-			pollingView.reset();
+			pollingView.resetView();
 			pollingView.doStartPolling();
 
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			boolean done = FluxUtil.isSearchActionDone(getEntityStoreKey(), getCriteria());
+			boolean done = FluxUtil.isSearchActionDone(getSearchStoreKey(), getCriteria());
 			if (done) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
 				try {
-					List<T> result = FluxUtil.getSearchActionResult(getEntityStoreKey(), getCriteria());
+					List<T> result = FluxUtil.getSearchActionResult(getSearchStoreKey(), getCriteria());
 					selectView.setItems(result);
 					selectView.setContentVisible(true);
 				} catch (Exception e) {
@@ -153,9 +166,18 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 			// SELECT
 		} else if (isEvent(SelectBaseEventType.SELECT, event)) {
-			formHolder.reset();
+			formHolder.resetView();
 			formHolder.setContentVisible(true);
 			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
+		}
+	}
+
+	@Override
+	protected void handleResetEvent(final String viewId) {
+		if (isView(viewId, formToolbarView)) {
+			resetFormViews();
+		} else {
+			super.handleResetEvent(viewId);
 		}
 	}
 
@@ -255,9 +277,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public void resetFormViews() {
-		formMessages.reset();
-		formToolbarView.reset();
-		formView.reset();
+		formHolder.resetContent();
 	}
 
 	protected S getCriteria() {

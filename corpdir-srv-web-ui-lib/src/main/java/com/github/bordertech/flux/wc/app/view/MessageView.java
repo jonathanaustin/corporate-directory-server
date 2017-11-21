@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.wcomponents.MessageContainer;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Message view.
@@ -11,6 +11,6 @@ import com.github.bordertech.wcomponents.MessageContainer;
  * @since 1.0.0
  *
  */
-public interface MessageView<T> extends DumbView<T>, MessageContainer {
+public interface MessageView<T> extends FluxDumbView<T>, MessageContainer {
 
 }

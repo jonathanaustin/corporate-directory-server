@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.dumb.polling;
 
-import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.event.PollingEventType;
@@ -24,11 +24,11 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	private final PollingPanel pollingPanel = new PollingPanel() {
 
 		@Override
-		protected void handleInitContent(final Request request) {
+		protected void handleInitPollingPanel(final Request request) {
 			if (getStartType() == PollingStartType.AUTOMATIC) {
 				doDispatchPollingEvent(PollingBaseEventType.START_AUTO);
 			}
-			super.handleInitContent(request);
+			super.handleInitPollingPanel(request);
 		}
 
 		@Override
@@ -67,7 +67,6 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		super(viewId);
 		getContent().add(pollingPanel);
 		// Default visibility
-		setContentVisible(false);
 		addAjaxTarget(this);
 	}
 

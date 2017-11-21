@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.dumb.list;
 
-import com.github.bordertech.flux.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.view.ListView;
 import java.util.Collections;
 import java.util.List;

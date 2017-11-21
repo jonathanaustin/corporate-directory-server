@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionTypeCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.UnitTypeCrudView;
-import com.github.bordertech.flux.view.SmartView;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 
 /**
  * Cards.
@@ -23,7 +23,7 @@ public enum CardType {
 	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null, DataApiType.UNIT_TYPE),
 	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT);
 
-	CardType(final String desc, final boolean system, final Class<? extends SmartView> clazz, final String imageUrl, final DataApiType apiType) {
+	CardType(final String desc, final boolean system, final Class<? extends FluxSmartView> clazz, final String imageUrl, final DataApiType apiType) {
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
@@ -33,7 +33,7 @@ public enum CardType {
 
 	final String desc;
 	final boolean system;
-	final Class<? extends SmartView> clazz;
+	final Class<? extends FluxSmartView> clazz;
 	final String imageUrl;
 	final DataApiType apiType;
 
@@ -45,7 +45,7 @@ public enum CardType {
 		return system;
 	}
 
-	public Class<? extends SmartView> getClazz() {
+	public Class<? extends FluxSmartView> getClazz() {
 		return clazz;
 	}
 
@@ -57,9 +57,9 @@ public enum CardType {
 		return apiType;
 	}
 
-	public SmartView createCardViewInstance() {
+	public FluxSmartView createCardViewInstance() {
 		try {
-			return (SmartView) getClazz().newInstance();
+			return (FluxSmartView) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

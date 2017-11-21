@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Search View.
@@ -12,6 +12,6 @@ import com.github.bordertech.flux.view.DumbView;
  * @since 1.0.0
  *
  */
-public interface SearchView<T> extends DumbView<T> {
+public interface SearchView<T> extends FluxDumbView<T> {
 
 }

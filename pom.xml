@@ -138,6 +138,8 @@
 		<module>corpdir-srv-jpa</module>
 		<module>corpdir-srv-web-api</module>
 		<module>corpdir-srv-web-api-bundle</module>
+		<module>corpdir-srv-taskmanager</module>
+		<module>corpdir-srv-flux</module>
 		<module>corpdir-srv-web-ui-lib</module>
 		<module>corpdir-srv-web-ui</module>
 		<module>corpdir-srv-lde</module>

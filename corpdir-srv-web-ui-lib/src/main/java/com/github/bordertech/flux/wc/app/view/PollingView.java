@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.wcomponents.lib.polling.Pollable;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Polling View.
@@ -10,6 +10,6 @@ import com.github.bordertech.wcomponents.lib.polling.Pollable;
  * @since 1.0.0
  *
  */
-public interface PollingView<T> extends DumbView<T>, Pollable {
+public interface PollingView<T> extends FluxDumbView<T>, Pollable {
 
 }

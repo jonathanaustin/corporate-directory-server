@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view;
 
-import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ToolbarItem;
 import java.util.Set;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Toolbar view.
@@ -12,7 +12,7 @@ import java.util.Set;
  * @since 1.0.0
  *
  */
-public interface ToolbarView<T> extends DumbView<T> {
+public interface ToolbarView<T> extends FluxDumbView<T> {
 
 	void addToolbarItem(final ToolbarItem... types);
 

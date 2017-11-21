@@ -1,8 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.view.DefaultDumbView;
-import com.github.bordertech.flux.view.DefaultSmartView;
-import com.github.bordertech.flux.view.SmartView;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.SelectableView;
@@ -17,6 +16,7 @@ import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.util.FormUtil;
 import java.io.Serializable;
 import java.util.List;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 
 /**
  * ADD and REMOVE Toolbar.
@@ -57,8 +57,8 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		this.findView = findView;
 
 		// Put the find view into dumb mode so we get the SELECT event
-		if (findView instanceof SmartView) {
-			SmartView smart = (SmartView) findView;
+		if (findView instanceof FluxSmartView) {
+			FluxSmartView smart = (FluxSmartView) findView;
 			smart.setDumbMode(true);
 			smart.addPassThrough(ToolbarBaseEventType.APPLY);
 		}

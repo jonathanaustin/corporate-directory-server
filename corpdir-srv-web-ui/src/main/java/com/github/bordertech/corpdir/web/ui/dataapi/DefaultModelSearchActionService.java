@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicService;
-import com.github.bordertech.corpdir.web.ui.util.LocatorUtil;
+import com.github.bordertech.corpdir.web.ui.config.LocatorUtil;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
 import java.util.List;
