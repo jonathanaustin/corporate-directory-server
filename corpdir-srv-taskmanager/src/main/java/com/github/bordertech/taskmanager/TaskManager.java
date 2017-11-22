@@ -1,16 +1,12 @@
 package com.github.bordertech.taskmanager;
 
 import java.util.concurrent.RejectedExecutionException;
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 /**
  * Task Manager interface.
  *
  * @author Jonathan Austin
  */
-@Named
-@Singleton
 public interface TaskManager {
 
 	/**

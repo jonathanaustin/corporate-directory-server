@@ -1,6 +1,6 @@
 package com.github.bordertech.taskmanager.servlet;
 
-import com.github.bordertech.locator.BindingFactory;
+import com.github.bordertech.locator.LocatorConfigUtil;
 import com.github.bordertech.taskmanager.TaskManager;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -13,7 +13,7 @@ import javax.servlet.ServletContextListener;
  */
 public class TaskContextListener implements ServletContextListener {
 
-	private static TaskManager TASK_MANAGER = BindingFactory.newInstance(TaskManager.class);
+	private final static TaskManager TASK_MANAGER = LocatorConfigUtil.getService(TaskManager.class);
 
 	/**
 	 * {@inheritDoc}

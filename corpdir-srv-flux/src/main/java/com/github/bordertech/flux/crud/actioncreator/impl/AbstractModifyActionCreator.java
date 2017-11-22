@@ -4,7 +4,7 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.crud.action.ModifyActionType;
 import com.github.bordertech.flux.crud.actioncreator.ModifyActionCreator;
-import com.github.bordertech.flux.factory.DispatcherFactory;
+import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 
 /**
@@ -31,7 +31,7 @@ public abstract class AbstractModifyActionCreator implements ModifyActionCreator
 	}
 
 	protected final Dispatcher getDispatcher() {
-		return DispatcherFactory.getInstance();
+		return FluxFactory.getDispatcher();
 	}
 
 }

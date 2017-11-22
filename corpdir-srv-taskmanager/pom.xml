@@ -20,7 +20,7 @@
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- Injection interface. JSR 330 -->
 		<dependency>
 			<groupId>javax.inject</groupId>
@@ -38,7 +38,6 @@
 		<dependency>
 			<groupId>javax.cache</groupId>
 			<artifactId>cache-api</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 
 		<!-- Servlet Interface (Used for Context Listener) -->
@@ -51,7 +50,6 @@
 		<dependency>
 			<groupId>commons-configuration</groupId>
 			<artifactId>commons-configuration</artifactId>
-			<version>1.4</version>
 		</dependency>
 
 	</dependencies>

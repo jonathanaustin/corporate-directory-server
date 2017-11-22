@@ -11,4 +11,6 @@ public interface LocatorConfig extends Serializable {
 
 	void configBinding();
 
+	Object getService(final Class service);
+
 }

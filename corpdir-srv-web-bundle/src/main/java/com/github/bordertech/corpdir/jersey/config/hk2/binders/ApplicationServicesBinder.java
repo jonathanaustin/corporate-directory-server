@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.jersey.config;
+package com.github.bordertech.corpdir.jersey.config.hk2.binders;
 
 import com.github.bordertech.corpdir.api.v1.ContactService;
 import com.github.bordertech.corpdir.api.v1.LocationService;
@@ -17,7 +17,7 @@ import com.github.bordertech.corpdir.jpa.v1.api.VersionCtrlServiceImpl;
 import javax.inject.Singleton;
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-public class ApplicationBinder extends AbstractBinder {
+public class ApplicationServicesBinder extends AbstractBinder {
 
 	@Override
 	protected void configure() {

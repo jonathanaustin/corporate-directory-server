@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.app.view.dumb.polling;
 
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.event.PollingEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;

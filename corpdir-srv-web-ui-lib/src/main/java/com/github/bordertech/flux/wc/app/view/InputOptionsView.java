@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.app.view;
 
 import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateable;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Form input from options view. The view bean is the input value.

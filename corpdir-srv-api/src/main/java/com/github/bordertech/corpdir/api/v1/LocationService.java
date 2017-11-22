@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
-import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
+import com.github.bordertech.corpdir.api.v1.model.Location;
 
 /**
  * Location Service Interface.

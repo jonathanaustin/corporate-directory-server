@@ -5,7 +5,7 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.dispatcher.DispatcherUtil;
-import com.github.bordertech.flux.factory.DispatcherFactory;
+import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -224,7 +224,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	protected final Dispatcher getDispatcher() {
-		return DispatcherFactory.getInstance();
+		return FluxFactory.getDispatcher();
 	}
 
 	protected void handleStoreChangedAction(final String storeKey, final Action action) {

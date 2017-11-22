@@ -5,8 +5,7 @@ import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.crud.factory.DefaultCrudActionCreatorFactory;
-import com.github.bordertech.flux.crud.factory.DefaultCrudStoreFactory;
+import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.Request;
@@ -45,17 +44,17 @@ public class MainAppView extends DefaultMessageSmartView {
 			// Action Creator
 			DataApiType api = card.getApiType();
 			if (api.isActionCreator()) {
-				ActionCreator creator = DefaultCrudActionCreatorFactory.getInstance(api.getActionCreatorKey(), api.getKey());
+				ActionCreator creator = FluxFactory.getActionCreator(api.getActionCreatorKey(), api.getKey());
 				dispatcher.registerActionCreator(creator);
 			}
 			// Store
 			if (api.isEntityStore()) {
-				Store store = DefaultCrudStoreFactory.getInstance(api.getEntityStoreKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getEntityStoreKey(), api.getKey());
 				dispatcher.registerStore(store);
 			}
 			// Store
 			if (api.isSearchStore()) {
-				Store store = DefaultCrudStoreFactory.getInstance(api.getSearchStoreKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getSearchStoreKey(), api.getKey());
 				dispatcher.registerStore(store);
 			}
 		}

@@ -5,7 +5,7 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
-import com.github.bordertech.flux.factory.DispatcherFactory;
+import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
 import java.util.HashSet;
@@ -51,7 +51,7 @@ public class DefaultStore implements Store {
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return DispatcherFactory.getInstance();
+		return FluxFactory.getDispatcher();
 	}
 
 	/**

@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>corpdir-srv-web-api-bundle</name>
-	<artifactId>corpdir-srv-web-api-bundle</artifactId>
+	<name>corpdir-srv-web-bundle</name>
+	<artifactId>corpdir-srv-web-bundle</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.corpdir</groupId>
@@ -19,6 +19,11 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>com.github.bordertech.corpdir</groupId>
+			<artifactId>corpdir-srv-web-ui</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-srv-web-api</artifactId>
@@ -57,11 +62,18 @@
 			<artifactId>slf4j-log4j12</artifactId>
 		</dependency>
 
+		<!-- Swagger. -->
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
-			<version>1.5.12</version>
 		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 
 	</dependencies>
 

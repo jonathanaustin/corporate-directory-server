@@ -4,8 +4,8 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.ContactService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.web.ui.dataapi.SearchVersionKey;
-import com.github.bordertech.corpdir.web.ui.config.LocatorUtil;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
+import com.github.bordertech.locator.LocatorConfigUtil;
 import java.util.List;
 
 /**
@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class ContactPositionsModel implements SearchApi<SearchVersionKey, Position> {
 
-	private static final ContactService SERVICE = LocatorUtil.getService(ContactService.class);
+	private static final ContactService SERVICE = LocatorConfigUtil.getService(ContactService.class);
 
 	@Override
 	public List<Position> search(final SearchVersionKey criteria) {

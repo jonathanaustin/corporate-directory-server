@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.app.view.dumb.input.impl;
 
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;

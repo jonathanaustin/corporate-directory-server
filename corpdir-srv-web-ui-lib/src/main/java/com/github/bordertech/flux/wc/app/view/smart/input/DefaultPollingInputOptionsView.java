@@ -2,9 +2,9 @@ package com.github.bordertech.flux.wc.app.view.smart.input;
 
 import com.github.bordertech.flux.wc.app.view.InputOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.polling.AbstractPollingRetrieveSmartView;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import java.util.List;
-import com.github.bordertech.flux.wc.view.FluxDumbView;
 
 /**
  * Polling View and Input Options View.

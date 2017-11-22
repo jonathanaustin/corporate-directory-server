@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import javax.persistence.Embeddable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
+import javax.persistence.Embeddable;
 
 /**
  * Address details.

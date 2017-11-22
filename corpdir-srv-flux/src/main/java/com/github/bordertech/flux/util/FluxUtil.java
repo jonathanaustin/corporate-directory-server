@@ -11,7 +11,7 @@ import com.github.bordertech.flux.crud.action.RetrieveAction;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.crud.store.retrieve.RetrieveStore;
-import com.github.bordertech.flux.factory.DispatcherFactory;
+import com.github.bordertech.flux.factory.FluxFactory;
 
 /**
  *
@@ -19,11 +19,21 @@ import com.github.bordertech.flux.factory.DispatcherFactory;
  */
 public class FluxUtil {
 
+//    @Inject
+//    private static Iterable<Store> allStores;
+//    public static List<Store> getAllBooks() {
+//        List<Store> retVal = new ArrayList<Store>();
+//
+//        for (Store store : allStores) {
+//            retVal.add(store);
+//        }
+//        return retVal;
+//    }
 	private FluxUtil() {
 	}
 
 	public static Dispatcher getDispatcher() {
-		return DispatcherFactory.getInstance();
+		return FluxFactory.getDispatcher();
 	}
 
 	public static <T extends ActionCreator> T getActionCreator(final String key) {

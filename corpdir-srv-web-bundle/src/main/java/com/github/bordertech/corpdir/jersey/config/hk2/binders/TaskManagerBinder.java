@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.config;
+package com.github.bordertech.corpdir.jersey.config.hk2.binders;
 
 import com.github.bordertech.taskmanager.FutureCache;
 import com.github.bordertech.taskmanager.TaskManager;

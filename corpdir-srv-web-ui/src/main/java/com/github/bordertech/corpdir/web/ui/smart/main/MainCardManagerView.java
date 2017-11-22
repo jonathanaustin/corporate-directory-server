@@ -1,12 +1,12 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
-import com.github.bordertech.flux.wc.view.CardManagerView;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
+import com.github.bordertech.flux.wc.view.CardManagerView;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 import java.util.HashMap;
 import java.util.Map;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
 
 /**
  * The Card Manager that creates all the Cards via the Card Types.

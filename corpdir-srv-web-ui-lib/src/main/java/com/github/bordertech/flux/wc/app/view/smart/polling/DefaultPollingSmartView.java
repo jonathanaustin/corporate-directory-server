@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.PollingView;
 import com.github.bordertech.flux.wc.app.view.dumb.polling.DefaultPollingView;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.smart.PollingSmartView;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;

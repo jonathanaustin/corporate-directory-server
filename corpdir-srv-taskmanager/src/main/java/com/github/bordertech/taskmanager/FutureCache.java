@@ -1,8 +1,6 @@
 package com.github.bordertech.taskmanager;
 
 import java.util.concurrent.Future;
-import javax.inject.Named;
-import javax.inject.Singleton;
 
 /**
  * Provide a caching mechanism for the future.
@@ -14,8 +12,6 @@ import javax.inject.Singleton;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-@Named
-@Singleton
 public interface FutureCache<T> {
 
 	/**
