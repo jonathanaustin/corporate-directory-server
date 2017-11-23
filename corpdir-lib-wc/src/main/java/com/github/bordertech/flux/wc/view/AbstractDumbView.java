@@ -64,14 +64,16 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 
 	@Override
 	public boolean isContentVisible() {
-		return getComponentModel().contentVisible;
+		return getContent().isVisible();
+//		return getComponentModel().contentVisible;
 	}
 
 	@Override
 	public void setContentVisible(final boolean visible) {
-		if (isContentVisible() != visible) {
-			getOrCreateComponentModel().contentVisible = visible;
-		}
+		getContent().setVisible(visible);
+//		if (isContentVisible() != visible) {
+//			getOrCreateComponentModel().contentVisible = visible;
+//		}
 	}
 
 	@Override
@@ -336,8 +338,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	 */
 	public static class ViewModel extends TemplateModel {
 
-		private boolean contentVisible = true;
-
+//		private boolean contentVisible = true;
 		private Map<ViewEventType, Set<AppAjaxControl>> ajaxControls;
 
 	}

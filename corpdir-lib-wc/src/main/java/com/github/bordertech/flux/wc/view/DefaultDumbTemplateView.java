@@ -27,10 +27,10 @@ public class DefaultDumbTemplateView<T> extends AbstractDumbView<T> {
 			}
 		}
 
-		@Override
-		public boolean isVisible() {
-			return isContentVisible();
-		}
+//		@Override
+//		public boolean isVisible() {
+//			return isContentVisible();
+//		}
 	};
 
 	public DefaultDumbTemplateView(final String viewId, final String templateName) {

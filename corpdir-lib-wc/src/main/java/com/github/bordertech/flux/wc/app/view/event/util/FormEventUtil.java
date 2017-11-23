@@ -136,7 +136,7 @@ public class FormEventUtil {
 		view.resetFormViews();
 		try {
 			T bean = view.getEntityActionCreator().createInstance();
-			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_OK);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_OK, bean);
 			dispatchViewEvent(view, FormBaseEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_ERROR, e);
@@ -180,7 +180,7 @@ public class FormEventUtil {
 		try {
 			view.getEntityActionCreator().delete(bean);
 			view.resetFormViews();
-			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_OK);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_OK, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_ERROR, e);
 		}
@@ -195,6 +195,7 @@ public class FormEventUtil {
 			return;
 		}
 		// Do a BACK
+		view.resetFormViews();
 		dispatchViewEvent(view, ToolbarBaseEventType.BACK);
 	}
 
@@ -217,7 +218,7 @@ public class FormEventUtil {
 			// Get Bean from the Store
 			bean = view.getEntityStore().fetch(bean);
 			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
-			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK);
+			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_ERROR, e);
 		}

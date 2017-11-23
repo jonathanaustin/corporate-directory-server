@@ -27,7 +27,6 @@ import com.github.bordertech.flux.wc.app.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
-import com.github.bordertech.flux.wc.app.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.app.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
@@ -109,25 +108,16 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	@Override
 	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 
-		// Message events
-		if (isView(viewId, formToolbarView) || isView(viewId, formView)) {
-			if (event instanceof MessageBaseEventType) {
-				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
-				return;
-			}
-			if (isEvent(ToolbarBaseEventType.RESET, event)) {
-				resetFormViews();
-				return;
-			}
-		}
-
-		super.handleViewEvent(viewId, event, data);
-
-		// Top Messages
+		// Message Events
 		if (event instanceof MessageBaseEventType) {
-			MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
+			if (isView(viewId, formToolbarView) && formHolder.isContentVisible()) {
+				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
+			} else {
+				MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
+			}
 			return;
 		}
+		super.handleViewEvent(viewId, event, data);
 
 		// Handle the Form and Form Toolbar Events
 		FormEventUtil.handleFormEvents(this, viewId, event, data);
@@ -139,7 +129,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
 			selectView.resetView();
 			pollingView.resetView();
-
+			resetFormViews();
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.resetView();
@@ -161,6 +151,9 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 					List<T> result = StoreUtil.getSearchActionResult(getSearchStoreKey(), getCriteria());
 					selectView.setItems(result);
 					selectView.setContentVisible(true);
+					if (result == null || result.isEmpty()) {
+						dispatchMessageInfo("No records found.");
+					}
 				} catch (Exception e) {
 					dispatchMessageError("Error loading details. " + e.getMessage());
 				}

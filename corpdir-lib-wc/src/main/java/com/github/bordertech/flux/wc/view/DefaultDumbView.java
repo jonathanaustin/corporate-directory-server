@@ -26,10 +26,10 @@ public class DefaultDumbView<T> extends AbstractDumbView<T> {
 			}
 		}
 
-		@Override
-		public boolean isVisible() {
-			return isContentVisible();
-		}
+//		@Override
+//		public boolean isVisible() {
+//			return isContentVisible();
+//		}
 	};
 
 	public DefaultDumbView(final String viewId) {
