@@ -13,7 +13,7 @@ import com.github.bordertech.flux.crud.store.retrieve.DefaultEntityStore;
 import com.github.bordertech.flux.crud.store.retrieve.DefaultEntityTreeStore;
 import com.github.bordertech.flux.crud.store.retrieve.DefaultSearchStore;
 import com.github.bordertech.locator.BindingFactory;
-import com.github.bordertech.locator.LocatorConfigUtil;
+import com.github.bordertech.locator.LocatorUtil;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +26,7 @@ public final class FluxFactory {
 
 	private static final Map<String, DataApi> DATA_APIS = new HashMap<>();
 
-	private static Dispatcher DISPATCHER = LocatorConfigUtil.getService(Dispatcher.class);
+	private static Dispatcher DISPATCHER = LocatorUtil.getService(Dispatcher.class);
 	private static final Map<String, ActionCreator> CREATORS = new HashMap<>();
 
 	private FluxFactory() {

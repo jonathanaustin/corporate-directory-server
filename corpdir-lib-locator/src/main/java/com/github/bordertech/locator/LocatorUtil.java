@@ -6,14 +6,18 @@ package com.github.bordertech.locator;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class LocatorConfigUtil {
+public class LocatorUtil {
 
 	// Use a very basic factory to load the CDI provider
 	private static final LocatorConfig CONFIG = BindingFactory.newInstance(LocatorConfig.class);
 
 	private static boolean configured;
 
-	private LocatorConfigUtil() {
+	private LocatorUtil() {
+	}
+
+	public static LocatorConfig getInstance() {
+		return CONFIG;
 	}
 
 	public static void configure() {

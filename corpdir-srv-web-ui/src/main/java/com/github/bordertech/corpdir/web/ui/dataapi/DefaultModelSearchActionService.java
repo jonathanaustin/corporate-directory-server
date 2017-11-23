@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
-import com.github.bordertech.locator.LocatorConfigUtil;
+import com.github.bordertech.locator.LocatorUtil;
 import java.util.List;
 
 /**
@@ -23,7 +23,7 @@ public class DefaultModelSearchActionService<T extends ApiKeyIdObject, B extends
 
 	public DefaultModelSearchActionService(final Class<T> apiClass, final Class<? extends B> serviceClass) {
 		this.apiClass = apiClass;
-		this.service = LocatorConfigUtil.getService(serviceClass);
+		this.service = LocatorUtil.getService(serviceClass);
 	}
 
 	protected final B getService() {

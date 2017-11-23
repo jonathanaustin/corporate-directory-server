@@ -156,6 +156,7 @@
 		<module>corpdir-lib-locator</module>
 		<module>corpdir-lib-taskmanager</module>
 		<module>corpdir-lib-flux</module>
+		<module>corpdir-lib-wc</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>
@@ -164,7 +165,6 @@
 		<module>corpdir-srv-web-bundle</module>
 		<module>corpdir-srv-lde</module>
 		<module>corpdir-srv-web-war</module>
-		<module>corpdir-lib-wc</module>
 	</modules>
 
 </project>

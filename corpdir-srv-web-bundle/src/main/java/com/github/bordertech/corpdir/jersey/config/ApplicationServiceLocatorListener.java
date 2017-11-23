@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jersey.config;
 
-import com.github.bordertech.locator.LocatorConfigUtil;
+import com.github.bordertech.locator.LocatorUtil;
 import org.glassfish.hk2.api.ServiceLocator;
 import org.glassfish.jersey.server.spi.Container;
 import org.glassfish.jersey.server.spi.ContainerLifecycleListener;
@@ -23,7 +23,7 @@ public class ApplicationServiceLocatorListener implements ContainerLifecycleList
 
 	public void onStartup(Container container) {
 		serviceLocator = container.getApplicationHandler().getServiceLocator();
-		LocatorConfigUtil.configure();
+		LocatorUtil.configure();
 	}
 
 	public void onReload(Container container) {/*...*/
