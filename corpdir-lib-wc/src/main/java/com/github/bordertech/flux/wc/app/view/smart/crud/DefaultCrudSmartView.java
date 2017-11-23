@@ -4,7 +4,7 @@ import com.github.bordertech.flux.crud.action.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.retrieve.EntityStore;
 import com.github.bordertech.flux.crud.store.retrieve.SearchStore;
-import com.github.bordertech.flux.util.FluxUtil;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;
 import com.github.bordertech.flux.wc.app.view.FormView;
@@ -142,7 +142,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.resetView();
 			// Do ASYNC Search Action
-			FluxUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
+			StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
 			// Start Polling
 			pollingView.resetView();
 			pollingView.doStartPolling();
@@ -150,13 +150,13 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			boolean done = FluxUtil.isSearchActionDone(getSearchStoreKey(), getCriteria());
+			boolean done = StoreUtil.isSearchActionDone(getSearchStoreKey(), getCriteria());
 			if (done) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
 				try {
-					List<T> result = FluxUtil.getSearchActionResult(getSearchStoreKey(), getCriteria());
+					List<T> result = StoreUtil.getSearchActionResult(getSearchStoreKey(), getCriteria());
 					selectView.setItems(result);
 					selectView.setContentVisible(true);
 				} catch (Exception e) {
@@ -232,7 +232,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public EntityActionCreator<T> getEntityActionCreator() {
-		return FluxUtil.getActionCreator(getEntityActionCreatorKey());
+		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 
 	@Override
@@ -247,7 +247,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public EntityStore<T> getEntityStore() {
-		return FluxUtil.getStore(getEntityStoreKey());
+		return StoreUtil.getStore(getEntityStoreKey());
 	}
 
 	@Override
@@ -262,7 +262,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	@Override
 	public SearchStore<S, T> getSearchStore() {
-		return FluxUtil.getStore(getSearchStoreKey());
+		return StoreUtil.getStore(getSearchStoreKey());
 	}
 
 	@Override

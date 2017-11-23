@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.util;
+package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.ActionCreator;
@@ -17,7 +17,7 @@ import com.github.bordertech.flux.factory.FluxFactory;
  *
  * @author jonathan
  */
-public class FluxUtil {
+public class StoreUtil {
 
 //    @Inject
 //    private static Iterable<Store> allStores;
@@ -29,7 +29,7 @@ public class FluxUtil {
 //        }
 //        return retVal;
 //    }
-	private FluxUtil() {
+	private StoreUtil() {
 	}
 
 	public static Dispatcher getDispatcher() {

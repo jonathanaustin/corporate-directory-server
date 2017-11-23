@@ -18,8 +18,8 @@ public class ApplicationConfig extends ResourceConfig {
 		register(AuthContainerRequestFilter.class, Priorities.AUTHENTICATION);
 		register(CorsResponseFilter.class);
 		register(RolesAllowedDynamicFeature.class);
-		// Listener to get the SerrviceLocator Used by Jersey
 		register(new ApplicationServicesBinder());
+		// Listener to get the ServiceLocator Used by Jersey
 		register(new ApplicationServiceLocatorListener());
 		packages(true, "com.github.bordertech.corpdir.web.api.resource");
 	}

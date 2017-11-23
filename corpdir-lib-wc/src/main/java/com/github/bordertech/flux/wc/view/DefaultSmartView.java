@@ -4,7 +4,7 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
-import com.github.bordertech.flux.dispatcher.DispatcherUtil;
+import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
@@ -113,7 +113,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 
 	@Override
 	public final void setQualifier(final String qualifier) {
-		DispatcherUtil.validateQualifier(qualifier);
+		DispatcherModelUtil.validateQualifier(qualifier);
 		getOrCreateComponentModel().qualifier = qualifier;
 	}
 

@@ -17,7 +17,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public final void dispatch(final Action action) {
-		DispatcherUtil.dispatch(action, getDispatcherModel());
+		DispatcherModelUtil.dispatch(action, getDispatcherModel());
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public Listener getListener(final String registerId) {
-		ListenerWrapper wrapper = DispatcherUtil.getListener(registerId, getDispatcherModel());
+		ListenerWrapper wrapper = DispatcherModelUtil.getListener(registerId, getDispatcherModel());
 		return wrapper == null ? null : wrapper.getListener();
 	}
 
@@ -55,7 +55,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public Store getStore(final String storeKey) {
-		return DispatcherUtil.getStore(storeKey, getDispatcherModel());
+		return DispatcherModelUtil.getStore(storeKey, getDispatcherModel());
 	}
 
 	@Override
@@ -70,13 +70,13 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public ActionCreator getActionCreator(final String creatorKey) {
-		return DispatcherUtil.getActionCreator(creatorKey, getDispatcherModel());
+		return DispatcherModelUtil.getActionCreator(creatorKey, getDispatcherModel());
 	}
 
 	protected void doConfigModel(final DispatcherModel model) {
 		// Register the dispatcher actions
 		for (DispatcherActionType actionType : DispatcherActionType.values()) {
-			DispatcherUtil.registerDispatcherListener(actionType, model, new Listener<Action>() {
+			DispatcherModelUtil.registerDispatcherListener(actionType, model, new Listener<Action>() {
 				@Override
 				public void handleAction(final Action action) {
 					doHandleDispatcherAction(action);
@@ -90,27 +90,27 @@ public abstract class AbstractDispatcher implements Dispatcher {
 		switch (type) {
 			case REGISTER_LISTENER:
 				ListenerWrapper wrapper = (ListenerWrapper) action.getData();
-				DispatcherUtil.handleRegisterListener(wrapper, getDispatcherModel());
+				DispatcherModelUtil.handleRegisterListener(wrapper, getDispatcherModel());
 				break;
 			case UNREGISTER_LISTENER:
 				String registerId = (String) action.getData();
-				DispatcherUtil.handleUnregisterListener(registerId, getDispatcherModel());
+				DispatcherModelUtil.handleUnregisterListener(registerId, getDispatcherModel());
 				break;
 			case REGISTER_STORE:
 				Store store = (Store) action.getData();
-				DispatcherUtil.handleRegisterStore(store, getDispatcherModel());
+				DispatcherModelUtil.handleRegisterStore(store, getDispatcherModel());
 				break;
 			case UNREGISTER_STORE:
 				String storeKey = (String) action.getData();
-				DispatcherUtil.handleUnregisterStore(storeKey, getDispatcherModel());
+				DispatcherModelUtil.handleUnregisterStore(storeKey, getDispatcherModel());
 				break;
 			case REGISTER_CREATOR:
 				ActionCreator creator = (ActionCreator) action.getData();
-				DispatcherUtil.handleRegisterActionCreator(creator, getDispatcherModel());
+				DispatcherModelUtil.handleRegisterActionCreator(creator, getDispatcherModel());
 				break;
 			case UNREGISTER_CREATOR:
 				String creatorKey = (String) action.getData();
-				DispatcherUtil.handleUnregisterActionCreator(creatorKey, getDispatcherModel());
+				DispatcherModelUtil.handleUnregisterActionCreator(creatorKey, getDispatcherModel());
 				break;
 			default:
 				throw new IllegalStateException("Dispatcher action type [" + type + "] not handled.");

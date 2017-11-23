@@ -3,7 +3,7 @@ package com.github.bordertech.flux.wc.app.view.smart.polling;
 import com.github.bordertech.flux.crud.action.CallType;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
-import com.github.bordertech.flux.util.FluxUtil;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseEventType;
@@ -50,12 +50,12 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseEventType type) {
-		FluxUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), CallType.CALL_ASYNC);
+		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), CallType.CALL_ASYNC);
 	}
 
 	@Override
 	protected void handlePollingCheckStatusEvent() {
-		boolean done = FluxUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
+		boolean done = StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
 		if (done) {
 			setPollingStatus(PollingStatus.STOPPED);
 			handleStoreResult();
@@ -65,7 +65,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	protected void handleStoreResult() {
 		resetContent();
 		try {
-			R result = (R) FluxUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
+			R result = (R) StoreUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
 			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
 		} catch (Exception e) {
 			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);

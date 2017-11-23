@@ -18,7 +18,7 @@ import java.util.regex.Pattern;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DispatcherUtil {
+public class DispatcherModelUtil {
 
 	/**
 	 * A qualifier must start with a letter and followed by letters, digits or dash.
@@ -27,7 +27,7 @@ public class DispatcherUtil {
 
 	private static final Pattern QUALIFIER_PATTERN = Pattern.compile(QUALIFIER_VALIDATION_PATTERN);
 
-	private DispatcherUtil() {
+	private DispatcherModelUtil() {
 	}
 
 	public static boolean validateQualifier(final String qualifier) {

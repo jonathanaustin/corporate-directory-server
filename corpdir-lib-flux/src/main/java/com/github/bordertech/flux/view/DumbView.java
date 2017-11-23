@@ -3,7 +3,7 @@ package com.github.bordertech.flux.view;
 import java.io.Serializable;
 
 /**
- * View.
+ * Dumb View that is only responsible for presentation and generating view events.
  *
  * @param <T> the view bean
  * @author Jonathan Austin

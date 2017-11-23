@@ -26,7 +26,7 @@ public final class FluxFactory {
 
 	private static final Map<String, DataApi> DATA_APIS = new HashMap<>();
 
-	private static Dispatcher DISPATCHER = LocatorUtil.getService(Dispatcher.class);
+	private static final Dispatcher DISPATCHER = LocatorUtil.getService(Dispatcher.class);
 	private static final Map<String, ActionCreator> CREATORS = new HashMap<>();
 
 	private FluxFactory() {

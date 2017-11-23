@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Smart View.
+ * Smart View that processes view events from its dumb view children.
  *
  * @author Jonathan Austin
  * @since 1.0.0
