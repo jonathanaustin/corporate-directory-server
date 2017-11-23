@@ -24,6 +24,7 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 
 		setBeanProperty(".");
 		setSearchAncestors(true);
+		setAjaxContext(true);
 
 		// Add views to holder
 		addComponentToTemplate("vw-options", optionsView);

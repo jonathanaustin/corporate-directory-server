@@ -6,6 +6,7 @@ import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.crud.action.CallType;
 import com.github.bordertech.flux.crud.action.RetrieveAction;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
+import com.github.bordertech.flux.crud.action.base.AsyncOutcomeBaseActionType;
 import com.github.bordertech.flux.crud.action.base.EntityActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
@@ -81,6 +82,17 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			String id = registerListener(type, listener);
 			ids.add(id);
 		}
+		// Async Outcome Listeners
+		for (AsyncOutcomeBaseActionType type : AsyncOutcomeBaseActionType.values()) {
+			Listener listener = new Listener() {
+				@Override
+				public void handleAction(final Action action) {
+					handleAsyncOutcomeBaseActions((RetrieveAction) action);
+				}
+			};
+			String id = registerListener(type, listener);
+			ids.add(id);
+		}
 		// Action Listeners
 		for (EntityActionType type : EntityActionType.values()) {
 			Listener listener = new Listener() {
@@ -96,40 +108,6 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	protected void handleModifyBaseActions(final Action action) {
-		EntityActionType type = (EntityActionType) action.getKey().getType();
-		boolean changed = false;
-		switch (type) {
-			case CREATE:
-				handleCreateAction(action);
-				changed = true;
-				break;
-			case UPDATE:
-				handleUpdateAction(action);
-				changed = true;
-				break;
-			case DELETE:
-				handleDeleteAction(action);
-				changed = true;
-				break;
-
-			default:
-				changed = false;
-		}
-		if (changed) {
-			dispatchChangeAction(type);
-		}
-	}
-
-	protected void handleCreateAction(final Action action) {
-		// Create Action
-	}
-
-	protected void handleUpdateAction(final Action action) {
-		// Update action
-	}
-
-	protected void handleDeleteAction(final Action action) {
-		// Delete action
 	}
 
 	protected void handleRetrieveBaseActions(final RetrieveAction action) {
@@ -144,15 +122,6 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			case CALL_ASYNC:
 				handleServiceCallAction(type, action.getData(), true);
 				break;
-			case ASYNC_ERROR:
-				handleAsyncErrorAction(type, (ResultHolder) action.getData());
-				changed = true;
-				break;
-			case ASYNC_OK:
-				handleAsyncOKAction(type, (ResultHolder) action.getData());
-				changed = true;
-				break;
-
 			case REFRESH_SYNC:
 				handleRefreshAction(type, action.getData(), false);
 				changed = true;
@@ -186,6 +155,26 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		}
 	}
 
+	protected void handleAsyncOutcomeBaseActions(final RetrieveAction action) {
+		AsyncOutcomeBaseActionType type = (AsyncOutcomeBaseActionType) action.getKey().getType();
+		boolean changed = false;
+		switch (type) {
+			case ASYNC_ERROR:
+				handleAsyncErrorAction(type, (ResultHolder) action.getData());
+				changed = true;
+				break;
+			case ASYNC_OK:
+				handleAsyncOKAction(type, (ResultHolder) action.getData());
+				changed = true;
+				break;
+			default:
+				changed = false;
+		}
+		if (changed) {
+			dispatchChangeAction(type);
+		}
+	}
+
 	protected void handleAsyncOKAction(final RetrieveActionType type, final ResultHolder<?, ?> holder) {
 		// OK
 	}
@@ -202,17 +191,12 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	protected String getResultCacheKey(final RetrieveActionType type, final Object criteria) {
 		String typeDesc = type.toString();
 		String suffix = criteria == null ? "" : criteria.toString();
-		return getKey().toString() + "-" + typeDesc + "-" + suffix;
+		return getKey() + "-" + typeDesc + "-" + suffix;
 	}
 
 	protected ResultHolder<?, ?> getResultHolder(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		return ServiceUtil.getResultHolder(key);
-	}
-
-	protected void setResultHolder(final RetrieveActionType type, final ResultHolder<?, ?> resultHolder) {
-		String key = getResultCacheKey(type, resultHolder.getMetaData());
-		ServiceUtil.setResultHolder(key, resultHolder);
 	}
 
 	protected void clearResultHolder(final RetrieveActionType type, final Object criteria) {
@@ -225,8 +209,11 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
-			CallType action = resultHolder.isException() ? CallType.ASYNC_ERROR : CallType.ASYNC_OK;
-			dispatchResultAction(type, action, resultHolder);
+			if (resultHolder.isException()) {
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, null, resultHolder);
+			} else {
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, null, resultHolder);
+			}
 		}
 	}
 

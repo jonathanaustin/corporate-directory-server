@@ -66,6 +66,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 		// Bean Property
 		setBeanProperty(".");
 		setSearchAncestors(false);
+		setAjaxContext(true);
 
 		dialogView.getContent().add(dialog);
 		dialog.setMode(WDialog.MODAL);

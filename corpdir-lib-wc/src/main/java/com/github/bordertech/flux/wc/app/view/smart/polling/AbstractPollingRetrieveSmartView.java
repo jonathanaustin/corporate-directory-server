@@ -50,7 +50,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingStartEvent(final PollingBaseEventType type) {
-		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), CallType.CALL_ASYNC);
+		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), getStoreCallType());
 	}
 
 	@Override
@@ -59,11 +59,11 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		if (done) {
 			setPollingStatus(PollingStatus.STOPPED);
 			handleStoreResult();
+			resetContent();
 		}
 	}
 
 	protected void handleStoreResult() {
-		resetContent();
 		try {
 			R result = (R) StoreUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
 			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
@@ -73,11 +73,19 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {
-		getOrCreateComponentModel().retrieveType = retrieveType;
+		getOrCreateComponentModel().retrieveType = retrieveType == null ? RetrieveBaseActionType.FETCH : retrieveType;
 	}
 
 	public RetrieveActionType getStoreRetrieveType() {
 		return getComponentModel().retrieveType;
+	}
+
+	public void setStoreCallType(final CallType callType) {
+		getOrCreateComponentModel().callType = callType == null ? CallType.CALL_ASYNC : callType;
+	}
+
+	public CallType getStoreCallType() {
+		return getComponentModel().callType;
 	}
 
 	public void setStoreKey(final String storeKey) {
@@ -117,6 +125,8 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	public static class PollingStoreModel<S> extends SmartViewModel {
 
 		private RetrieveActionType retrieveType = RetrieveBaseActionType.FETCH;
+
+		private CallType callType = CallType.CALL_ASYNC;
 
 		private String storeKey;
 

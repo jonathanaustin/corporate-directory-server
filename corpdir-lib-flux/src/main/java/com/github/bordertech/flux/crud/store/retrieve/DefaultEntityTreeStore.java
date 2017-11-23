@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * @param <T> the item type
@@ -92,14 +93,10 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 		boolean changed = false;
 		switch (type) {
 			case ADD_CHILD:
-				handleAddChildAction(action);
-				changed = true;
-				break;
 			case REMOVE_CHILD:
-				handleRemoveChildAction(action);
+				handleUpdateParentChildActions((Pair<T, T>) action.getData());
 				changed = true;
 				break;
-
 			default:
 				changed = false;
 		}
@@ -108,12 +105,11 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 		}
 	}
 
-	protected void handleAddChildAction(final Action action) {
-		// Create Action
-	}
-
-	protected void handleRemoveChildAction(final Action action) {
-		// Update action
+	protected void handleUpdateParentChildActions(final Pair<T, T> pair) {
+		// Parent
+		handleCreateUpdateAction(pair.getLeft());
+		// Child
+		handleCreateUpdateAction(pair.getRight());
 	}
 
 	@Override

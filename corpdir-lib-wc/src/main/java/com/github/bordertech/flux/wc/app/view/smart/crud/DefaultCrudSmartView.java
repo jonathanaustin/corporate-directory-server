@@ -68,6 +68,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	public DefaultCrudSmartView(final String viewId, final String title, final SearchView<S> criteriaView2, final SelectSingleView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super(viewId, "wclib/hbs/layout/combo-ent-crud.hbs");
 
+		setAjaxContext(true);
+
 		// Setup Defaults
 		searchView = criteriaView2 == null ? (SearchView<S>) new SearchTextView("vw_crit") : criteriaView2;
 		selectView = selectView2 == null ? (SelectSingleView) new MenuSelectView("vw_list") : selectView2;
