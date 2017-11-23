@@ -2,6 +2,7 @@ package com.github.bordertech.flux;
 
 import com.github.bordertech.flux.key.ActionType;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Store the current state for views.
@@ -17,14 +18,9 @@ public interface Store extends Serializable {
 	String getKey();
 
 	/**
-	 * Register the action listeners.
+	 * Register the store listeners.
 	 */
-	void registerListeners();
-
-	/**
-	 * Unregister the action listeners.
-	 */
-	void unregisterListeners();
+	Set<String> registerListeners();
 
 	/**
 	 * Dispatch the change action.

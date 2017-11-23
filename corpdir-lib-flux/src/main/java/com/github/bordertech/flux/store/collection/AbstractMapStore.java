@@ -5,8 +5,9 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Map store.
@@ -17,16 +18,15 @@ import java.util.Map;
  * @since 1.0.0
  *
  */
-public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V> {
+public abstract class AbstractMapStore<K, V> extends DefaultStore implements MapStore<K, V> {
 
-	private final Map<K, V> items = new HashMap<>();
-
-	public DefaultMapStore(final String storeKey) {
+	public AbstractMapStore(final String storeKey) {
 		super(storeKey);
 	}
 
 	@Override
-	public void registerListeners() {
+	public Set<String> registerListeners() {
+		Set<String> ids = new HashSet<>();
 		// Collection Listeners
 		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -35,13 +35,15 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 					handleListActions(action);
 				}
 			};
-			registerListener(type, listener);
+			String id = registerListener(type, listener);
+			ids.add(id);
 		}
+		return ids;
 	}
 
 	@Override
 	public V getValue(final K key) {
-		return items.get(key);
+		return getMap().get(key);
 	}
 
 	protected void handleListActions(final Action action) {
@@ -74,30 +76,30 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 	}
 
 	protected void handleResetItemsAction() {
-		items.clear();
+		getMap().clear();
 	}
 
 	protected void handleAddItemAction(final Map.Entry<K, V> item) {
-		items.put(item.getKey(), item.getValue());
+		getMap().put(item.getKey(), item.getValue());
 	}
 
 	protected void handleRemoveItemAction(final Map.Entry<K, V> item) {
-		items.remove(item.getKey());
+		getMap().remove(item.getKey());
 	}
 
 	protected void handleUpdateItemAction(final Map.Entry<K, V> item) {
-		items.put(item.getKey(), item.getValue());
+		getMap().put(item.getKey(), item.getValue());
 	}
 
 	protected void handleLoadItemsAction(final Object data) {
-		items.clear();
+		getMap().clear();
 		if (data instanceof Map) {
-			items.putAll((Map<K, V>) data);
+			getMap().putAll((Map<K, V>) data);
 		} else if (data instanceof Collection) {
 			for (Object item : (Collection) data) {
 				if (item instanceof Map.Entry) {
 					Map.Entry<K, V> entry = (Map.Entry) item;
-					items.put(entry.getKey(), entry.getValue());
+					getMap().put(entry.getKey(), entry.getValue());
 				}
 			}
 		} else if (data instanceof Object[]) {
@@ -105,7 +107,7 @@ public class DefaultMapStore<K, V> extends DefaultStore implements MapStore<K, V
 			for (Object item : entries) {
 				if (item instanceof Map.Entry) {
 					Map.Entry<K, V> entry = (Map.Entry) item;
-					items.put(entry.getKey(), entry.getValue());
+					getMap().put(entry.getKey(), entry.getValue());
 				}
 			}
 		}

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 /**
  * Holds the dispatcher state.
@@ -29,6 +30,7 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	private final Map<String, ListenerWrapper> listenersById = new HashMap<>();
 
 	private final Map<String, Store> storesByKey = new HashMap<>();
+	private final Map<String, Set<String>> storeRegisteredIds = new HashMap<>();
 	private final Map<String, ActionCreator> creatorsByKey = new HashMap<>();
 
 	private final Queue<Action> queuedActions = new ArrayDeque<>();
@@ -76,6 +78,11 @@ public class DefaultDispatcherModel implements DispatcherModel {
 	@Override
 	public Map<String, Store> getStoresByKey() {
 		return storesByKey;
+	}
+
+	@Override
+	public Map<String, Set<String>> getStoreRegisteredIds() {
+		return storeRegisteredIds;
 	}
 
 	@Override

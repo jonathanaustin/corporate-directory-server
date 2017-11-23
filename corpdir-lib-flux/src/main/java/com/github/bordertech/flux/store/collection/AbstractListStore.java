@@ -4,11 +4,10 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * List store.
@@ -18,21 +17,15 @@ import java.util.List;
  * @since 1.0.0
  *
  */
-public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
+public abstract class AbstractListStore<T> extends DefaultStore implements ListStore<T> {
 
-	private final List<T> items = new ArrayList<>();
-
-	public DefaultListStore(final String storeKey) {
+	public AbstractListStore(final String storeKey) {
 		super(storeKey);
 	}
 
 	@Override
-	public List<T> getItems() {
-		return Collections.unmodifiableList(items);
-	}
-
-	@Override
-	public void registerListeners() {
+	public Set<String> registerListeners() {
+		Set<String> ids = new HashSet<>();
 		// LIST Listeners
 		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -41,8 +34,10 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 					handleListActions(action);
 				}
 			};
-			registerListener(type, listener);
+			String id = registerListener(type, listener);
+			ids.add(id);
 		}
+		return ids;
 	}
 
 	protected void handleListActions(final Action action) {
@@ -75,33 +70,34 @@ public class DefaultListStore<T> extends DefaultStore implements ListStore<T> {
 	}
 
 	protected void handleResetItemsAction() {
-		items.clear();
+		getItems().clear();
 	}
 
 	protected void handleAddItemAction(final T item) {
-		items.add(item);
+		getItems().add(item);
 	}
 
 	protected void handleRemoveItemAction(final T item) {
-		items.remove(item);
+		getItems().remove(item);
 	}
 
 	protected void handleUpdateItemAction(final T item) {
-		int idx = items.indexOf(item);
+		int idx = getItems().indexOf(item);
 		if (idx > -1) {
-			items.remove(item);
-			items.add(idx, item);
+			getItems().remove(item);
+			getItems().add(idx, item);
 		} else {
-			items.add(item);
+			getItems().add(item);
 		}
 	}
 
 	protected void handleLoadItemsAction(final Object data) {
-		items.clear();
+		getItems().clear();
 		if (data instanceof Collection) {
-			items.addAll((Collection) data);
+			getItems().addAll((Collection) data);
 		} else if (data instanceof Object[]) {
-			items.addAll(Arrays.asList((T[]) data));
+			getItems().addAll(Arrays.asList((T[]) data));
 		}
 	}
+
 }

@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -107,13 +108,23 @@ public class DispatcherUtil {
 		handleUnregisterStore(store.getKey(), model);
 		// Register the store
 		model.getStoresByKey().put(store.getKey(), store);
-		store.registerListeners();
+		// Register the store listeners
+		Set<String> ids = store.registerListeners();
+		if (ids != null && !ids.isEmpty()) {
+			model.getStoreRegisteredIds().put(store.getKey(), ids);
+		}
 	}
 
 	public static void handleUnregisterStore(final String storeKey, final DispatcherModel model) {
 		Store store = model.getStoresByKey().remove(storeKey);
 		if (store != null) {
-			store.unregisterListeners();
+			// Unregister the Store Listeners
+			Set<String> ids = model.getStoreRegisteredIds().remove(storeKey);
+			if (ids != null) {
+				for (String id : ids) {
+					handleUnregisterListener(id, model);
+				}
+			}
 		}
 	}
 

@@ -8,7 +8,7 @@ import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -19,7 +19,6 @@ import java.util.Set;
 public class DefaultStore implements Store {
 
 	private final String key;
-	private final Set<String> registeredIds = new HashSet<>();
 
 	public DefaultStore(final String key) {
 		this.key = key;
@@ -31,16 +30,8 @@ public class DefaultStore implements Store {
 	}
 
 	@Override
-	public void registerListeners() {
-		// Do nothing
-	}
-
-	@Override
-	public void unregisterListeners() {
-		Dispatcher dispatcher = getDispatcher();
-		for (String id : registeredIds) {
-			dispatcher.unregisterListener(id);
-		}
+	public Set<String> registerListeners() {
+		return Collections.EMPTY_SET;
 	}
 
 	@Override
@@ -57,12 +48,12 @@ public class DefaultStore implements Store {
 	/**
 	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
 	 *
-	 * @param listener
-	 * @param actionType
+	 * @param listener the listener to register
+	 * @param actionType the action type
+	 * @return the listener id
 	 */
-	protected void registerListener(final ActionType actionType, final Listener listener) {
-		String id = getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
-		registeredIds.add(id);
+	protected String registerListener(final ActionType actionType, final Listener listener) {
+		return getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
 	}
 
 }

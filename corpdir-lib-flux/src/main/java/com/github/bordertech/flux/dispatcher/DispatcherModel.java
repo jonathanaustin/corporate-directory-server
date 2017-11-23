@@ -8,6 +8,7 @@ import com.github.bordertech.flux.key.ActionType;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
+import java.util.Set;
 
 /**
  *
@@ -35,6 +36,8 @@ public interface DispatcherModel {
 	void setDispatching(final boolean disaptching);
 
 	Map<String, Store> getStoresByKey();
+
+	Map<String, Set<String>> getStoreRegisteredIds();
 
 	Map<String, ActionCreator> getActionCreatorsByKey();
 

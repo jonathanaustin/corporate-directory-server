@@ -14,6 +14,8 @@ import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Abstract retrieve store.
@@ -66,7 +68,8 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public void registerListeners() {
+	public Set<String> registerListeners() {
+		Set<String> ids = new HashSet<>();
 		// Retrieve Listeners
 		for (RetrieveBaseActionType type : RetrieveBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -75,7 +78,8 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 					handleRetrieveBaseActions((RetrieveAction) action);
 				}
 			};
-			registerListener(type, listener);
+			String id = registerListener(type, listener);
+			ids.add(id);
 		}
 		// Action Listeners
 		for (EntityActionType type : EntityActionType.values()) {
@@ -85,8 +89,10 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 					handleModifyBaseActions(action);
 				}
 			};
-			registerListener(type, listener);
+			String id = registerListener(type, listener);
+			ids.add(id);
 		}
+		return ids;
 	}
 
 	protected void handleModifyBaseActions(final Action action) {
