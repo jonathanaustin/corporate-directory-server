@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
@@ -19,7 +20,7 @@ import java.util.Objects;
  */
 public class LocationPanel extends BasicApiKeyPanel<Location> {
 
-	private final PollingDropdownOptionsView<String, Location> drpParent = new PollingDropdownOptionsView<>("PAR", "PARQ");
+	private final PollingDropdownOptionsView<String, Location> drpParent = new PollingDropdownOptionsView<>("PAR");
 	private final PollingMultiSelectPairOptionsView<String, Location> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
 	/**
@@ -40,6 +41,7 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
+		drpParent.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
 		// FIXME
 //		drpParent.setRetrieveListModelKey("location.search");
 
@@ -48,10 +50,10 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
+		multiSub.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
 		// FIXME
 //		multiSub.setRetrieveListModelKey("location.search");
-
-		// FIXME: Temporary delays as firing extra AJX Trigger
+		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpParent.getPollingView().setPollingInterval(50);
 		multiSub.getPollingView().setPollingInterval(75);
 
@@ -61,8 +63,8 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		// FIXME
-//		drpParent.startLoad("");
-//		multiSub.startLoad("");
+		drpParent.doManualStart();
+		multiSub.doManualStart();
 	}
 
 	@Override
@@ -73,7 +75,7 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 		// Check parent
 		Location parent = drpParent.getSelectedOption();
 		if (Objects.equals(current, parent)) {
-			diags.add(createErrorDiagnostic(multiSub.getSelectInput(), "Cannot make the location its own parent."));
+			diags.add(createErrorDiagnostic(drpParent.getSelectInput(), "Cannot make the location its own parent."));
 		}
 
 		// Check Sub

@@ -1,9 +1,12 @@
 package com.github.bordertech.flux.wc.app.view.dumb.list;
 
 import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.app.common.AppTreeItemModel;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
+import com.github.bordertech.flux.wc.app.view.smart.CrudTreeSmartView;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
@@ -83,7 +86,17 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		super.initViewContent(request);
 		List<T> beans = getViewBean();
 		if (beans != null && !beans.isEmpty()) {
-			TreeItemModel model = new AppTreeItemModel<>(beans, getRetrieveTreeStore());
+			EntityTreeStore treeStore = getRetrieveTreeStore();
+			if (treeStore == null) {
+				SmartView parent = ViewUtil.findParentSmartView(this);
+				if (parent instanceof CrudTreeSmartView) {
+					treeStore = ((CrudTreeSmartView) parent).getEntityStore();
+				} else {
+					throw new IllegalStateException("No Tree Store available.");
+				}
+			}
+
+			TreeItemModel model = new AppTreeItemModel<>(beans, treeStore);
 			tree.setTreeModel(model);
 		}
 	}

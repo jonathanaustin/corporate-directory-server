@@ -261,20 +261,9 @@ public class PollingPanel extends WDiv implements Pollable {
 		return getComponentModel().serviceStatus;
 	}
 
-	/**
-	 * Start AJAX polling.
-	 */
 	@Override
-	public void doStartPolling() {
-		// Make sure start button is not visible
-		getStartButton().setVisible(false);
-
-		// Start AJAX polling
-		setPollingStatus(PollingStatus.PROCESSING);
-		pollingContainer.reset();
-		pollingContainer.setVisible(true);
-		ajaxPolling.setVisible(true);
-		handleStartedPolling();
+	public void doManualStart() {
+		doStartPolling();
 	}
 
 	@Override
@@ -326,6 +315,21 @@ public class PollingPanel extends WDiv implements Pollable {
 	@Override
 	public void setStartType(final PollingStartType startType) {
 		getOrCreateComponentModel().startType = startType == null ? PollingStartType.MANUAL : startType;
+	}
+
+	/**
+	 * Start AJAX polling.
+	 */
+	protected void doStartPolling() {
+		// Make sure start button is not visible
+		getStartButton().setVisible(false);
+
+		// Start AJAX polling
+		setPollingStatus(PollingStatus.PROCESSING);
+		pollingContainer.reset();
+		pollingContainer.setVisible(true);
+		ajaxPolling.setVisible(true);
+		handleStartedPolling();
 	}
 
 	/**

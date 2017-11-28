@@ -44,6 +44,12 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		}
 
 		@Override
+		public void doManualStart() {
+			doDispatchPollingEvent(PollingBaseEventType.START_MANUAL);
+			super.doManualStart();
+		}
+
+		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
 			doDispatchPollingEvent(PollingBaseEventType.STARTED);
@@ -91,8 +97,8 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
-	public void doStartPolling() {
-		pollingPanel.doStartPolling();
+	public void doManualStart() {
+		pollingPanel.doManualStart();
 	}
 
 	@Override

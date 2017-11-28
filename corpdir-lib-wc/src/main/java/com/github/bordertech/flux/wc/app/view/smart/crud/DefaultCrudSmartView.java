@@ -110,7 +110,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 		// Message Events
 		if (event instanceof MessageBaseEventType) {
-			if (isView(viewId, formToolbarView) && formHolder.isContentVisible()) {
+			if ((isView(viewId, formToolbarView) || isView(viewId, formView)) && formHolder.isContentVisible()) {
 				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
 			} else {
 				MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
@@ -137,7 +137,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
 			// Start Polling
 			pollingView.resetView();
-			pollingView.doStartPolling();
+			pollingView.doManualStart();
 
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
@@ -187,7 +187,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			case ADD_OK:
 				dispatchMessageReset();
 				selectView.clearSelected();
-				formHolder.setContentVisible(true);
+				dispatchViewEvent(FormBaseEventType.LOAD_NEW, entity);
 				break;
 
 			case LOAD_OK:
@@ -198,11 +198,13 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 				selectView.addItem(entity);
 				selectView.setContentVisible(true);
 				selectView.setSelectedItem(entity);
+				dispatchViewEvent(FormBaseEventType.LOAD, entity);
 				break;
 
 			case UPDATE_OK:
 			case REFRESH_OK:
 				selectView.updateItem(entity);
+				dispatchViewEvent(FormBaseEventType.LOAD, entity);
 				break;
 
 			case DELETE_OK:

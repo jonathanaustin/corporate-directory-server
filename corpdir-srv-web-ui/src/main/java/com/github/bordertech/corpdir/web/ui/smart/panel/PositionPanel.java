@@ -4,6 +4,7 @@ import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.Request;
@@ -20,11 +21,11 @@ import java.util.Objects;
  */
 public class PositionPanel extends BasicApiKeyPanel<Position> {
 
-	private final PollingDropdownOptionsView<String, Position> drpParent = new PollingDropdownOptionsView<>("PAR", "PARQ");
+	private final PollingDropdownOptionsView<String, Position> drpParent = new PollingDropdownOptionsView<>("PAR");
 	private final PollingMultiSelectPairOptionsView<String, Position> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
-	private final PollingDropdownOptionsView<String, PositionType> drpUnitType = new PollingDropdownOptionsView<>("UT", "UTQ");
-	private final PollingDropdownOptionsView<String, OrgUnit> drpOwnerOU = new PollingDropdownOptionsView<>("BOU", "BOUQ");
+	private final PollingDropdownOptionsView<String, PositionType> drpUnitType = new PollingDropdownOptionsView<>("UT");
+	private final PollingDropdownOptionsView<String, OrgUnit> drpOwnerOU = new PollingDropdownOptionsView<>("BOU");
 	private final PollingMultiSelectPairOptionsView<String, OrgUnit> multiOUs = new PollingMultiSelectPairOptionsView<>("MOU");
 	private final PollingMultiSelectPairOptionsView<String, Contact> multiContact = new PollingMultiSelectPairOptionsView<>("CON");
 
@@ -41,7 +42,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-// FIXME
+		drpParent.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
 //		drpParent.setRetrieveListModelKey("position.search");
 
 		// Sub Positions
@@ -49,6 +50,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
+		multiSub.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
 // FIXME
 //		multiSub.setRetrieveListModelKey("position.search");
 
@@ -58,6 +60,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
+		drpUnitType.setStoreKey(DataApiType.POSITION_TYPE.getSearchStoreKey());
 // FIXME
 //		drpUnitType.setRetrieveListModelKey("unittype.search");
 
@@ -83,7 +86,6 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		getFormLayout().addField(lbl, multiContact);
 		multiContact.setCodeProperty("id");
 		multiContact.getOptionsView().setBeanProperty("contactIds");
-// FIXME
 //		multiContact.setRetrieveListModelKey("contact.search");
 
 		// FIXME: Temporary delays as firing extra AJX Trigger
@@ -98,12 +100,12 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-//		drpParent.startLoad("");
-//		multiSub.startLoad("");
-//		drpUnitType.startLoad("");
-//		drpOwnerOU.startLoad("");
-//		multiOUs.startLoad("");
-//		multiContact.startLoad("");
+		drpParent.doManualStart();
+		multiSub.doManualStart();
+		drpUnitType.doManualStart();
+		drpOwnerOU.doManualStart();
+		multiOUs.doManualStart();
+		multiContact.doManualStart();
 	}
 
 	@Override

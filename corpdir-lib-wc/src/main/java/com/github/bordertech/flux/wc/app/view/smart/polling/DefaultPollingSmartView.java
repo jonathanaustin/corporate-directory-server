@@ -46,6 +46,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 			case START_AUTO:
 			case START_BUTTON:
 			case START_RETRY:
+			case START_MANUAL:
 				handlePollingStartEvent(type);
 				break;
 			case STARTED:
@@ -84,8 +85,8 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	@Override
-	public void doStartPolling() {
-		pollingView.doStartPolling();
+	public void doManualStart() {
+		pollingView.doManualStart();
 	}
 
 	@Override

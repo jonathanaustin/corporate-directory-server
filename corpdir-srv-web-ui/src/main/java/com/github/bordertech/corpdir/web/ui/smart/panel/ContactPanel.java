@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.web.ui.smart.panel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
@@ -18,7 +19,7 @@ import com.github.bordertech.wcomponents.WLabel;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC", "LOCQ");
+	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
 	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
 // TODO
@@ -49,7 +50,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormLayout().addField(lbl, drpLocation);
 		drpLocation.setIncludeNullOption(true);
 		drpLocation.setCodeProperty("id");
-		drpLocation.getOptionsView().setBeanProperty("locatinoId");
+		drpLocation.getOptionsView().setBeanProperty("locationId");
+		drpLocation.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
 		// FIXME JA
 //		drpLocation.setRetrieveListModelKey("location.search");
 
@@ -58,6 +60,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
+		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
 		// FIXME JA
 //		multiPos.setRetrieveListModelKey("position.search");
 
@@ -67,8 +70,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		// FIXME
-//		drpLocation.startLoad("");
-//		multiPos.startLoad("");
+		drpLocation.doManualStart();
+		multiPos.doManualStart();
 	}
 
 //	private void setupSearch(){

@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.web.ui.smart.panel;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
+import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.app.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.Request;
@@ -19,11 +20,11 @@ import java.util.Objects;
  */
 public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 
-	private final PollingDropdownOptionsView<String, OrgUnit> drpParent = new PollingDropdownOptionsView<>("PAR", "PARQ");
+	private final PollingDropdownOptionsView<String, OrgUnit> drpParent = new PollingDropdownOptionsView<>("PAR");
 	private final PollingMultiSelectPairOptionsView<String, OrgUnit> multiSub = new PollingMultiSelectPairOptionsView<>("SUB");
 
-	private final PollingDropdownOptionsView<String, UnitType> drpUnitType = new PollingDropdownOptionsView<>("UT", "UTQ");
-	private final PollingDropdownOptionsView<String, Position> drpMgrPos = new PollingDropdownOptionsView<>("MP", "MPQ");
+	private final PollingDropdownOptionsView<String, UnitType> drpUnitType = new PollingDropdownOptionsView<>("UT");
+	private final PollingDropdownOptionsView<String, Position> drpMgrPos = new PollingDropdownOptionsView<>("MP");
 	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 
 	/**
@@ -40,6 +41,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
+		drpParent.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
 		// FIXME
 //		drpParent.setRetrieveListModelKey("orgunit.search");
 
@@ -48,6 +50,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
+		multiSub.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
 		// FIXME
 //		multiSub.setRetrieveListModelKey("orgunit.search");
 
@@ -57,6 +60,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
+		drpUnitType.setStoreKey(DataApiType.UNIT_TYPE.getSearchStoreKey());
 		// FIXME
 //		drpUnitType.setRetrieveListModelKey("unittype.search");
 
@@ -66,6 +70,7 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		drpMgrPos.setIncludeNullOption(true);
 		drpMgrPos.setCodeProperty("id");
 		drpMgrPos.getOptionsView().setBeanProperty("managerPosId");
+		drpMgrPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
 		// FIXME
 //		drpMgrPos.setRetrieveListModelKey("position.search");
 
@@ -74,10 +79,11 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
+		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
 		// FIXME
 //		multiPos.setRetrieveListModelKey("position.search");
 
-		// FIXME: Temporary delays as firing extra AJX Trigger
+		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpParent.getPollingView().setPollingInterval(50);
 		multiSub.getPollingView().setPollingInterval(75);
 		drpUnitType.getPollingView().setPollingInterval(100);
@@ -89,11 +95,11 @@ public class OrgUnitPanel extends BasicApiKeyPanel<OrgUnit> {
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		// FIXME
-//		drpParent.startLoad("");
-//		multiSub.startLoad("");
-//		drpUnitType.startLoad("");
-//		drpMgrPos.startLoad("");
-//		multiPos.startLoad("");
+		drpParent.doManualStart();
+		multiSub.doManualStart();
+		drpUnitType.doManualStart();
+		drpMgrPos.doManualStart();
+		multiPos.doManualStart();
 	}
 
 	@Override

@@ -30,7 +30,6 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 		addComponentToTemplate("vw-options", optionsView);
 
 		// Default visibility
-		getPollingView().setContentVisible(false);
 		optionsView.setContentVisible(false);
 	}
 

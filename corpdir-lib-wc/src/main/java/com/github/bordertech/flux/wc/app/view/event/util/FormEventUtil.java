@@ -137,7 +137,6 @@ public class FormEventUtil {
 		try {
 			T bean = view.getEntityActionCreator().createInstance();
 			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_OK, bean);
-			dispatchViewEvent(view, FormBaseEventType.LOAD_NEW, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_ERROR, e);
 		}
@@ -148,7 +147,7 @@ public class FormEventUtil {
 		if (!form.isLoaded()) {
 			return;
 		}
-		// Do Validation
+		// Do Validation (Will dispatch validation error messages view event)
 		if (!form.validateView()) {
 			return;
 		}
@@ -165,7 +164,6 @@ public class FormEventUtil {
 			bean = view.getEntityStore().fetch(bean);
 			view.resetFormViews();
 			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_OK : FormBaseOutcomeEventType.UPDATE_OK, bean);
-			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_ERROR : FormBaseOutcomeEventType.UPDATE_ERROR, e);
 		}
@@ -217,7 +215,6 @@ public class FormEventUtil {
 		try {
 			// Get Bean from the Store
 			bean = view.getEntityStore().fetch(bean);
-			dispatchViewEvent(view, FormBaseEventType.LOAD, bean);
 			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_ERROR, e);
