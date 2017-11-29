@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.app.view.dumb.list;
+package com.github.bordertech.flux.wc.app.view.dumb.select;
 
 import com.github.bordertech.flux.wc.app.common.table.TextBeanColumn;
 import com.github.bordertech.wcomponents.WTable;

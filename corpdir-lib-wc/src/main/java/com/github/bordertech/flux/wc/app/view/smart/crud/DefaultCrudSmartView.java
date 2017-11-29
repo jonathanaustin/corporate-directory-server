@@ -14,10 +14,10 @@ import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.ToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.form.DefaultFormView;
-import com.github.bordertech.flux.wc.app.view.dumb.list.MenuSelectView;
 import com.github.bordertech.flux.wc.app.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.app.view.dumb.polling.DefaultPollingView;
 import com.github.bordertech.flux.wc.app.view.dumb.search.SearchTextView;
+import com.github.bordertech.flux.wc.app.view.dumb.select.MenuSelectView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.app.view.dumb.toolbar.ToolbarModifyItemType;
@@ -133,8 +133,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.resetView();
-			// Do ASYNC Search Action
-			StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
+			doSearchAction();
 			// Start Polling
 			pollingView.resetView();
 			pollingView.doManualStart();
@@ -142,13 +141,12 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			boolean done = StoreUtil.isSearchActionDone(getSearchStoreKey(), getCriteria());
-			if (done) {
+			if (isSearchActionDone()) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
 				try {
-					List<T> result = StoreUtil.getSearchActionResult(getSearchStoreKey(), getCriteria());
+					List<T> result = getSearchActionResult();
 					selectView.setItems(result);
 					selectView.setContentVisible(true);
 					if (result == null || result.isEmpty()) {
@@ -285,6 +283,10 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		return searchView;
 	}
 
+	protected SelectSingleView<T> getSelectView() {
+		return selectView;
+	}
+
 	protected PollingView getPollingView() {
 		return pollingView;
 	}
@@ -303,6 +305,18 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	protected MessageView getFormMessages() {
 		return formMessages;
+	}
+
+	protected void doSearchAction() {
+		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
+	}
+
+	protected boolean isSearchActionDone() {
+		return getSearchStore().isSearchDone(getCriteria());
+	}
+
+	protected List<T> getSearchActionResult() {
+		return getSearchStore().search(getCriteria());
 	}
 
 	@Override

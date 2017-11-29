@@ -1,8 +1,8 @@
-package com.github.bordertech.flux.wc.app.view.smart.list;
+package com.github.bordertech.flux.wc.app.view.smart.select;
 
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
-import com.github.bordertech.flux.wc.app.view.dumb.list.MenuSelectView;
 import com.github.bordertech.flux.wc.app.view.dumb.search.SearchTextView;
+import com.github.bordertech.flux.wc.app.view.dumb.select.MenuSelectView;
 
 /**
  * Select View with a Text Search View.

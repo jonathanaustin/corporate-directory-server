@@ -8,7 +8,6 @@ import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -30,8 +29,8 @@ public class DefaultStore implements Store {
 	}
 
 	@Override
-	public Set<String> registerListeners() {
-		return Collections.EMPTY_SET;
+	public void registerListeners(final Set<String> ids) {
+		// Do nothing
 	}
 
 	@Override

@@ -6,7 +6,6 @@ import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -24,8 +23,8 @@ public abstract class AbstractListStore<T> extends DefaultStore implements ListS
 	}
 
 	@Override
-	public Set<String> registerListeners() {
-		Set<String> ids = new HashSet<>();
+	public void registerListeners(final Set<String> ids) {
+		super.registerListeners(ids);
 		// LIST Listeners
 		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -37,7 +36,6 @@ public abstract class AbstractListStore<T> extends DefaultStore implements ListS
 			String id = registerListener(type, listener);
 			ids.add(id);
 		}
-		return ids;
 	}
 
 	protected void handleListActions(final Action action) {

@@ -8,6 +8,7 @@ import com.github.bordertech.flux.key.ActionKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,8 +110,10 @@ public class DispatcherModelUtil {
 		// Register the store
 		model.getStoresByKey().put(store.getKey(), store);
 		// Register the store listeners
-		Set<String> ids = store.registerListeners();
-		if (ids != null && !ids.isEmpty()) {
+
+		Set<String> ids = new HashSet<>();
+		store.registerListeners(ids);
+		if (!ids.isEmpty()) {
 			model.getStoreRegisteredIds().put(store.getKey(), ids);
 		}
 	}

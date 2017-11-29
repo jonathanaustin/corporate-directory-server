@@ -1,16 +1,11 @@
-package com.github.bordertech.flux.wc.app.view.dumb.list;
+package com.github.bordertech.flux.wc.app.view.dumb.tree;
 
-import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
-import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.wc.app.common.AppAjaxControl;
-import com.github.bordertech.flux.wc.app.common.AppTreeItemModel;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
-import com.github.bordertech.flux.wc.app.view.smart.CrudTreeSmartView;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.app.view.dumb.select.AbstractListSingleSelectView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.TreeItemModel;
 import com.github.bordertech.wcomponents.WTree;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -23,7 +18,7 @@ import java.util.Objects;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
+public class DefaultTreeSelectView<T> extends AbstractListSingleSelectView<T> implements TreeSelectView<T> {
 
 	private final WTree tree = new WTree(WTree.Type.VERTICAL) {
 		@Override
@@ -40,7 +35,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	private final AppAjaxControl ajax = new AppAjaxControl(tree);
 
-	public TreeSelectView(final String viewId) {
+	public DefaultTreeSelectView(final String viewId) {
 		super(viewId);
 		getContent().add(tree);
 		tree.setSelectMode(WTree.SelectMode.SINGLE);
@@ -81,22 +76,10 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	}
 
 	@Override
-	protected void initViewContent(final Request request
-	) {
+	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
-		List<T> beans = getViewBean();
-		if (beans != null && !beans.isEmpty()) {
-			EntityTreeStore treeStore = getRetrieveTreeStore();
-			if (treeStore == null) {
-				SmartView parent = ViewUtil.findParentSmartView(this);
-				if (parent instanceof CrudTreeSmartView) {
-					treeStore = ((CrudTreeSmartView) parent).getEntityStore();
-				} else {
-					throw new IllegalStateException("No Tree Store available.");
-				}
-			}
-
-			TreeItemModel model = new AppTreeItemModel<>(beans, treeStore);
+		TreeViewItemModel model = getTreeItemModel();
+		if (model != null) {
 			tree.setTreeModel(model);
 		}
 	}
@@ -128,16 +111,14 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 		}
 	}
 
-	protected AppTreeItemModel getTreeItemModel() {
-		return (AppTreeItemModel) tree.getTreeModel();
+	@Override
+	public void setTreeItemModel(final TreeViewItemModel treeItemModel) {
+		getOrCreateComponentModel().treeItemModel = treeItemModel;
 	}
 
-	public void setRetrieveTreeStore(final EntityTreeStore treeStore) {
-		getOrCreateComponentModel().retrieveTreeStore = treeStore;
-	}
-
-	public EntityTreeStore getRetrieveTreeStore() {
-		return getComponentModel().retrieveTreeStore;
+	@Override
+	public TreeViewItemModel getTreeItemModel() {
+		return getComponentModel().treeItemModel;
 	}
 
 	@Override
@@ -160,7 +141,7 @@ public class TreeSelectView<T> extends AbstractListSingleSelectView<T> {
 	 */
 	public static class TreeSelectModel<T> extends SelectModel<T> {
 
-		private EntityTreeStore<T> retrieveTreeStore;
+		private TreeViewItemModel<T> treeItemModel;
 
 	}
 

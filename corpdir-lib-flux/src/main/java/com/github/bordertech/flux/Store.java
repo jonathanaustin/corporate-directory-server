@@ -19,8 +19,10 @@ public interface Store extends Serializable {
 
 	/**
 	 * Register the store listeners.
+	 *
+	 * @param ids the set of ids
 	 */
-	Set<String> registerListeners();
+	void registerListeners(final Set<String> ids);
 
 	/**
 	 * Dispatch the change action.

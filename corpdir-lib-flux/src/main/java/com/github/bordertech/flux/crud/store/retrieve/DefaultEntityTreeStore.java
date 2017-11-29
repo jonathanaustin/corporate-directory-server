@@ -7,7 +7,6 @@ import com.github.bordertech.flux.crud.action.base.EntityTreeActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -26,9 +25,8 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	@Override
-	public Set<String> registerListeners() {
-		Set<String> ids = new HashSet<>();
-
+	public void registerListeners(final Set<String> ids) {
+		super.registerListeners(ids);
 		// Action Listeners
 		for (EntityTreeActionType type : EntityTreeActionType.values()) {
 			Listener listener = new Listener() {
@@ -40,7 +38,6 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 			String id = registerListener(type, listener);
 			ids.add(id);
 		}
-		return ids;
 	}
 
 	@Override

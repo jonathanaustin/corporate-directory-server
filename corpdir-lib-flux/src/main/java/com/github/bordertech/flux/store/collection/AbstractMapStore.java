@@ -5,7 +5,6 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.base.ListBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,8 +24,8 @@ public abstract class AbstractMapStore<K, V> extends DefaultStore implements Map
 	}
 
 	@Override
-	public Set<String> registerListeners() {
-		Set<String> ids = new HashSet<>();
+	public void registerListeners(final Set<String> ids) {
+		super.registerListeners(ids);
 		// Collection Listeners
 		for (ListBaseActionType type : ListBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -38,7 +37,6 @@ public abstract class AbstractMapStore<K, V> extends DefaultStore implements Map
 			String id = registerListener(type, listener);
 			ids.add(id);
 		}
-		return ids;
 	}
 
 	@Override

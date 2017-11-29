@@ -1,10 +1,11 @@
-package com.github.bordertech.flux.wc.app.view.smart.list;
+package com.github.bordertech.flux.wc.app.view.smart.select;
 
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SearchView;
 import com.github.bordertech.flux.wc.app.view.SelectSingleView;
 import com.github.bordertech.flux.wc.app.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.app.view.smart.list.DefaultListWithSearchView;
 
 /**
  * Select view with a search view.

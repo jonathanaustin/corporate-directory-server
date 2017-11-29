@@ -72,7 +72,8 @@ public class SearchTextView extends AbstractSearchView<String> {
 	@Override
 	public void updateViewBean() {
 		String value = txtField.getValue();
-		setViewBean(value == null ? "" : value);
+		setViewBean(value);
+//		setViewBean(value == null ? "" : value);
 	}
 
 	protected void doHandleSuggestions() {

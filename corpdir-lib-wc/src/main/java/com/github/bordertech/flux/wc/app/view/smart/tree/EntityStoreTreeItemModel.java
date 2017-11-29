@@ -1,6 +1,7 @@
-package com.github.bordertech.flux.wc.app.common;
+package com.github.bordertech.flux.wc.app.view.smart.tree;
 
 import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.wc.app.view.dumb.tree.TreeViewItemModel;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
@@ -14,19 +15,29 @@ import java.util.Objects;
  * @param <K> the key type
  * @param <T> the item type
  */
-public class AppTreeItemModel<K, T> extends AbstractTreeItemModel {
+public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implements TreeViewItemModel<T> {
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
 	private final EntityTreeStore<T> model;
 
-	public AppTreeItemModel(final List<T> rootItems, final EntityTreeStore<T> model) {
+	public EntityStoreTreeItemModel(final List<T> rootItems, final EntityTreeStore<T> model) {
 		this.rootItems = rootItems;
 		this.model = model;
 	}
 
+	@Override
 	public String getItemId(final T item) {
 		return model.getItemId(item);
+	}
+
+	@Override
+	public T getItem(final List<Integer> row) {
+		T item = getRootItems().get(row.get(0));
+		for (int i = 1; i < row.size(); i++) {
+			item = loadChildren(item).get(row.get(i));
+		}
+		return item;
 	}
 
 	@Override
@@ -63,14 +74,6 @@ public class AppTreeItemModel<K, T> extends AbstractTreeItemModel {
 	public boolean isDisabled(final List<Integer> row) {
 		T item = getItem(row);
 		return Objects.equals(item, EMPTY_ITEM);
-	}
-
-	public T getItem(final List<Integer> row) {
-		T item = getRootItems().get(row.get(0));
-		for (int i = 1; i < row.size(); i++) {
-			item = loadChildren(item).get(row.get(i));
-		}
-		return item;
 	}
 
 	protected List<T> getRootItems() {

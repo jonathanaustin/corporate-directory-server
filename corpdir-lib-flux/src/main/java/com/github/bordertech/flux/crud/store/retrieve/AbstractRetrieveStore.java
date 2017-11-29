@@ -15,7 +15,6 @@ import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -69,8 +68,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public Set<String> registerListeners() {
-		Set<String> ids = new HashSet<>();
+	public void registerListeners(final Set<String> ids) {
 		// Retrieve Listeners
 		for (RetrieveBaseActionType type : RetrieveBaseActionType.values()) {
 			Listener listener = new Listener() {
@@ -104,7 +102,6 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			String id = registerListener(type, listener);
 			ids.add(id);
 		}
-		return ids;
 	}
 
 	protected void handleModifyBaseActions(final Action action) {
@@ -210,9 +207,9 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
 		if (resultHolder != null) {
 			if (resultHolder.isException()) {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, null, resultHolder);
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, resultHolder);
 			} else {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, null, resultHolder);
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, resultHolder);
 			}
 		}
 	}
@@ -221,12 +218,11 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	 * Helper method to dispatch an action for this view with the view qualifier automatically added.
 	 *
 	 * @param actionType the action type
-	 * @param callType the retrieve action
 	 * @param result the action data
 	 */
-	protected void dispatchResultAction(final RetrieveActionType actionType, final CallType callType, final ResultHolder<?, ?> result) {
+	protected void dispatchResultAction(final RetrieveActionType actionType, final ResultHolder<?, ?> result) {
 		String qualifier = getKey();
-		DefaultAction action = new RetrieveAction(actionType, qualifier, result, callType);
+		DefaultAction action = new RetrieveAction(actionType, qualifier, result, null);
 		getDispatcher().dispatch(action);
 	}
 

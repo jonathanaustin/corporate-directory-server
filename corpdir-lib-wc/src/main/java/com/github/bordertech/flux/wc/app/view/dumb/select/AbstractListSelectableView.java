@@ -1,7 +1,8 @@
-package com.github.bordertech.flux.wc.app.view.dumb.list;
+package com.github.bordertech.flux.wc.app.view.dumb.select;
 
 import com.github.bordertech.flux.wc.app.mode.SelectMode;
 import com.github.bordertech.flux.wc.app.view.SelectableView;
+import com.github.bordertech.flux.wc.app.view.dumb.list.AbstractListView;
 
 /**
  * Default single select list view.
