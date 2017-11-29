@@ -151,7 +151,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			ServiceUtil.handleAsyncServiceCall(key, criteria, action);
 			return null;
 		} else {
-			return ServiceUtil.handleServiceCall(key, criteria, action);
+			return ServiceUtil.handleCachedServiceCall(key, criteria, action);
 		}
 	}
 
