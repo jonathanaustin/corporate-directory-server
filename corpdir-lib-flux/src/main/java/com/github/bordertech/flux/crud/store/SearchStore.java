@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store;
 
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
@@ -10,7 +10,7 @@ import java.util.List;
  * @param <S> the search criteria
  * @param <T> the item type
  */
-public interface SearchStore<S, T> extends RetrieveStore {
+public interface SearchStore<S, T> extends RetrieveActionStore {
 
 	List<T> search(final S criteria);
 

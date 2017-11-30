@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.crud.action;
+package com.github.bordertech.flux.crud.action.retrieve;
 
 /**
  * Clarify the call type to take.

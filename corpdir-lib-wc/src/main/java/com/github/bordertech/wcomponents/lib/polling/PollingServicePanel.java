@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.taskmanager.TaskFuture;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
@@ -7,6 +8,7 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDiv;
 import java.io.Serializable;
 import java.util.UUID;
+import javax.cache.Cache;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -172,7 +174,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		clearServiceKey();
 		String key = generateServiceKey();
 		// Start Service action
-		ServiceUtil.handleAsyncServiceCall(key, criteria, getServiceAction());
+		ServiceUtil.handleAsyncServiceCall(getPollingCache(), key, criteria, getServiceAction());
 	}
 
 	/**
@@ -181,7 +183,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	protected void handleStoppedPolling() {
 		String key = getServiceKey();
-		ResultHolder result = ServiceUtil.getResultHolder(key);
+		ResultHolder result = ServiceUtil.getResultHolder(getPollingCache(), key);
 		if (result == null) {
 			throw new IllegalStateException("Result has expired so polling result not available");
 		}
@@ -196,7 +198,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	protected void handleResult(final ResultHolder<S, T> resultHolder) {
 		// Exception message
-		final PollingStatus status;
 		if (resultHolder.isException()) {
 			Exception excp = resultHolder.getException();
 			handleExceptionResult(excp);
@@ -237,7 +238,10 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	@Override
 	protected boolean checkForStopPolling() {
-		return ServiceUtil.checkASyncResult(getServiceKey()) != null;
+		if (ServiceUtil.checkASyncResult(getPollingCache(), getServiceKey()) != null) {
+			setPollingStatus(PollingStatus.STOPPED);
+		}
+		return super.checkForStopPolling();
 	}
 
 	protected String generateServiceKey() {
@@ -253,7 +257,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	protected void clearServiceKey() {
 		String key = getServiceKey();
 		if (key != null) {
-			ServiceUtil.clearResult(key);
+			ServiceUtil.clearResult(getPollingCache(), key);
 			getOrCreateComponentModel().serviceKey = null;
 		}
 	}
@@ -279,6 +283,16 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	public void setServiceAction(final ServiceAction<S, T> serviceAction) {
 		getOrCreateComponentModel().serviceAction = serviceAction;
+	}
+
+	/**
+	 * Use a cache to hold a reference to the future so the user context can be serialized. Future Objects are not
+	 * serializable.
+	 *
+	 * @return the cache instance
+	 */
+	protected synchronized Cache<String, TaskFuture> getPollingCache() {
+		return ServiceUtil.getFutureCache("wc-polling-service-default-future-cache");
 	}
 
 	/**

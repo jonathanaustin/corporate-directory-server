@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store.impl;
 
 import com.github.bordertech.flux.DataApi;
 
@@ -14,8 +14,8 @@ public abstract class AbstractRetrieveDataApiStore<D extends DataApi> extends Ab
 
 	private final D api;
 
-	public AbstractRetrieveDataApiStore(final String storeKey, final D api) {
-		super(storeKey);
+	public AbstractRetrieveDataApiStore(final String storeKey, final String actionCreatorKey, final D api) {
+		super(storeKey, actionCreatorKey);
 		this.api = api;
 	}
 

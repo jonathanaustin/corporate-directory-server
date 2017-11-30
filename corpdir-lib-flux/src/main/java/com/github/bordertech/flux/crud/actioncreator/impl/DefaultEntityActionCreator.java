@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.crud.actioncreator.impl;
 
-import com.github.bordertech.flux.crud.action.base.EntityActionType;
+import com.github.bordertech.flux.crud.action.base.EntityActionBaseType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 
@@ -23,21 +23,21 @@ public class DefaultEntityActionCreator<T, D extends CrudApi<T>> extends Abstrac
 	@Override
 	public T create(final T entity) {
 		T created = getDataApi().create(entity);
-		dispatchModifyAction(EntityActionType.CREATE, created);
+		dispatchModifyAction(EntityActionBaseType.CREATE, created);
 		return created;
 	}
 
 	@Override
 	public T update(final T entity) {
 		T updated = getDataApi().update(entity);
-		dispatchModifyAction(EntityActionType.UPDATE, updated);
+		dispatchModifyAction(EntityActionBaseType.UPDATE, updated);
 		return updated;
 	}
 
 	@Override
 	public void delete(final T entity) {
 		getDataApi().delete(entity);
-		dispatchModifyAction(EntityActionType.DELETE, entity);
+		dispatchModifyAction(EntityActionBaseType.DELETE, entity);
 	}
 
 	@Override

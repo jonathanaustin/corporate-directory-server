@@ -8,7 +8,7 @@ import com.github.bordertech.flux.crud.action.RetrieveActionType;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public enum RetrieveBaseActionType implements RetrieveActionType {
+public enum RetrieveActionBaseType implements RetrieveActionType {
 	FETCH,
 	SEARCH,
 	CHILDREN,

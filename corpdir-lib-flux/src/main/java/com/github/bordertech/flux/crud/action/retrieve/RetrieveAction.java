@@ -1,5 +1,6 @@
-package com.github.bordertech.flux.crud.action;
+package com.github.bordertech.flux.crud.action.retrieve;
 
+import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.key.ActionKey;
 

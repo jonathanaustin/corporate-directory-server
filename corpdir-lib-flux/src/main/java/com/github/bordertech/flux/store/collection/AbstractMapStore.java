@@ -2,7 +2,9 @@ package com.github.bordertech.flux.store.collection;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
+import com.github.bordertech.flux.action.StoreActionType;
 import com.github.bordertech.flux.action.base.ListBaseActionType;
+import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Collection;
 import java.util.Map;
@@ -110,4 +112,16 @@ public abstract class AbstractMapStore<K, V> extends DefaultStore implements Map
 			}
 		}
 	}
+
+	/**
+	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener the listener to register
+	 * @param actionType the action type
+	 * @return the listener id
+	 */
+	protected String registerListener(final StoreActionType actionType, final Listener listener) {
+		return getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
+	}
+
 }

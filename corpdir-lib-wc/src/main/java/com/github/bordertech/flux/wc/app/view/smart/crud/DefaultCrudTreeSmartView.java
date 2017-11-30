@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.crud.action.CallType;
-import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
-import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.wc.app.view.FormView;
 import com.github.bordertech.flux.wc.app.view.SearchView;
@@ -57,7 +57,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	protected void doSearchAction() {
 		if (getCriteria() == null) {
 			// Use Root Items
-			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveBaseActionType.ROOT, null, CallType.REFRESH_ASYNC);
+			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_ASYNC);
 		} else {
 			super.doSearchAction();
 		}
@@ -75,12 +75,10 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	@Override
 	protected List<T> getSearchActionResult() {
 		if (getCriteria() == null) {
-			// Setup the Select View for "Tree" View.
-			List<T> items = getEntityStore().getRootItems();
 			getSelectView().resetView();
 			getSelectView().setUseTree(true);
 			getSelectView().setEntityTreeStoreKey(getEntityStoreKey());
-			return items;
+			return getEntityStore().getRootItems();
 		} else {
 			return super.getSearchActionResult();
 		}
@@ -95,7 +93,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 				case UPDATE_OK:
 					// Refresh Tree
 					// Get Root Items (SYNC)
-					StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveBaseActionType.ROOT, null, CallType.REFRESH_SYNC);
+					StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_SYNC);
 					List<T> items = getEntityStore().getRootItems();
 					getSelectView().resetView();
 					getSelectView().setUseTree(true);

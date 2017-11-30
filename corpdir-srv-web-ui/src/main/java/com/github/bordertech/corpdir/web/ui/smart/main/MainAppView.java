@@ -49,12 +49,12 @@ public class MainAppView extends DefaultMessageSmartView {
 			}
 			// Store
 			if (api.isEntityStore()) {
-				Store store = FluxFactory.getStore(api.getEntityStoreKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getEntityStoreKey(), api.getActionCreatorKey(), api.getKey());
 				dispatcher.registerStore(store);
 			}
 			// Store
 			if (api.isSearchStore()) {
-				Store store = FluxFactory.getStore(api.getSearchStoreKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getSearchStoreKey(), api.getActionCreatorKey(), api.getKey());
 				dispatcher.registerStore(store);
 			}
 		}

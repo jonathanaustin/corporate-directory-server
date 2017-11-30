@@ -27,13 +27,7 @@ public class DefaultModelTreeService<T extends ApiTreeable, B extends BasicTreeS
 	@Override
 	public List<T> search(final String criteria) {
 		try {
-//			DataResponse<List<T>> resp = getService().search(criteria);
-			DataResponse<List<T>> resp;
-			if (criteria == null || criteria.isEmpty()) {
-				resp = getService().getRootItems();
-			} else {
-				resp = getService().search(criteria);
-			}
+			DataResponse<List<T>> resp = getService().search(criteria);
 			return resp.getData();
 		} catch (Exception e) {
 			LOG.error("Error searching items", e);
@@ -69,7 +63,13 @@ public class DefaultModelTreeService<T extends ApiTreeable, B extends BasicTreeS
 
 	@Override
 	public List<T> getRootItems() {
-		return search(null);
+		try {
+			DataResponse<List<T>> resp = getService().getRootItems();
+			return resp.getData();
+		} catch (Exception e) {
+			LOG.error("Error retrieving root items", e);
+			throw new SystemException("Error retrieveing root items. " + e.getMessage(), e);
+		}
 	}
 
 	@Override

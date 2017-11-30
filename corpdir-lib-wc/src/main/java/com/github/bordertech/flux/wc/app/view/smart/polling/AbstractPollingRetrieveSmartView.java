@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.app.view.smart.polling;
 
-import com.github.bordertech.flux.crud.action.CallType;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
-import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.event.base.RetrieveOutcomeBaseEventType;
@@ -71,7 +71,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {
-		getOrCreateComponentModel().retrieveType = retrieveType == null ? RetrieveBaseActionType.FETCH : retrieveType;
+		getOrCreateComponentModel().retrieveType = retrieveType == null ? RetrieveActionBaseType.FETCH : retrieveType;
 	}
 
 	public RetrieveActionType getStoreRetrieveType() {
@@ -122,9 +122,9 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	 */
 	public static class PollingStoreModel<S> extends SmartViewModel {
 
-		private RetrieveActionType retrieveType = RetrieveBaseActionType.SEARCH;
+		private RetrieveActionType retrieveType = RetrieveActionBaseType.SEARCH;
 
-		private CallType callType = CallType.REFRESH_ASYNC;
+		private CallType callType = CallType.CALL_ASYNC;
 
 		private String storeKey;
 

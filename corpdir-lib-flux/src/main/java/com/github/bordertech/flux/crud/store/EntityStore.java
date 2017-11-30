@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store;
 
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 
@@ -8,7 +8,7 @@ import com.github.bordertech.taskmanager.service.ServiceStatus;
  * @author jonathan
  * @param <T> the entity type
  */
-public interface EntityStore<T> extends RetrieveStore {
+public interface EntityStore<T> extends RetrieveActionStore {
 
 	T fetch(final T entity);
 

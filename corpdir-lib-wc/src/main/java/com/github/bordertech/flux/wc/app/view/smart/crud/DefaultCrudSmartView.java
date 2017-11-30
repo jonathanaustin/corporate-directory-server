@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.app.view.smart.crud;
 
-import com.github.bordertech.flux.crud.action.CallType;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
-import com.github.bordertech.flux.crud.store.retrieve.EntityStore;
-import com.github.bordertech.flux.crud.store.retrieve.SearchStore;
+import com.github.bordertech.flux.crud.store.EntityStore;
+import com.github.bordertech.flux.crud.store.SearchStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.app.view.FormToolbarView;

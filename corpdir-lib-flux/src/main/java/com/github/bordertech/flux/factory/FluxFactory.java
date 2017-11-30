@@ -9,9 +9,9 @@ import com.github.bordertech.flux.crud.actioncreator.impl.DefaultEntityTreeActio
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
-import com.github.bordertech.flux.crud.store.retrieve.DefaultEntityStore;
-import com.github.bordertech.flux.crud.store.retrieve.DefaultEntityTreeStore;
-import com.github.bordertech.flux.crud.store.retrieve.DefaultSearchStore;
+import com.github.bordertech.flux.crud.store.impl.DefaultEntityStore;
+import com.github.bordertech.flux.crud.store.impl.DefaultEntityTreeStore;
+import com.github.bordertech.flux.crud.store.impl.DefaultSearchStore;
 import com.github.bordertech.locator.BindingFactory;
 import com.github.bordertech.locator.LocatorUtil;
 import java.util.HashMap;
@@ -66,15 +66,15 @@ public final class FluxFactory {
 		return (T) creator;
 	}
 
-	public static <T extends Store> T getStore(final String storeKey, final String apiKey) {
+	public static <T extends Store> T getStore(final String storeKey, final String actionCreatorKey, final String apiKey) {
 		try {
 			DataApi api = getDataApi(apiKey);
 			if (api instanceof CrudTreeApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityTreeStore(storeKey, (CrudTreeApi) api);
+				return (T) new DefaultEntityTreeStore(storeKey, actionCreatorKey, (CrudTreeApi) api);
 			} else if (api instanceof CrudApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityStore(storeKey, (CrudApi) api);
+				return (T) new DefaultEntityStore(storeKey, actionCreatorKey, (CrudApi) api);
 			} else if (api instanceof SearchApi && storeKey.startsWith("s-")) {
-				return (T) new DefaultSearchStore(storeKey, (SearchApi) api);
+				return (T) new DefaultSearchStore(storeKey, actionCreatorKey, (SearchApi) api);
 			} else {
 				throw new IllegalStateException("Default Stores do not support Data API [" + storeKey + "].");
 			}

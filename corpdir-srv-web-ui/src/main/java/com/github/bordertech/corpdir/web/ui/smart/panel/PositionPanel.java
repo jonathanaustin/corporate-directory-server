@@ -70,6 +70,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpOwnerOU.setIncludeNullOption(true);
 		drpOwnerOU.setCodeProperty("id");
 		drpOwnerOU.getOptionsView().setBeanProperty("ouId");
+		drpOwnerOU.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
 // FIXME
 //		drpOwnerOU.setRetrieveListModelKey("orgunit.search");
 
@@ -78,6 +79,7 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		getFormLayout().addField(lbl, multiOUs);
 		multiOUs.setCodeProperty("id");
 		multiOUs.getOptionsView().setBeanProperty("manageOuIds");
+		multiOUs.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
 // FIXME
 //		multiOUs.setRetrieveListModelKey("orgunit.search");
 
@@ -86,9 +88,10 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		getFormLayout().addField(lbl, multiContact);
 		multiContact.setCodeProperty("id");
 		multiContact.getOptionsView().setBeanProperty("contactIds");
+		multiContact.setStoreKey(DataApiType.CONTACT.getSearchStoreKey());
 //		multiContact.setRetrieveListModelKey("contact.search");
 
-		// FIXME: Temporary delays as firing extra AJX Trigger
+		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpParent.getPollingView().setPollingInterval(50);
 		multiSub.getPollingView().setPollingInterval(75);
 		drpUnitType.getPollingView().setPollingInterval(100);

@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.consumer;
 
-import com.github.bordertech.flux.crud.store.retrieve.EntityStore;
+import com.github.bordertech.flux.crud.store.EntityStore;
 
 /**
  * Entity Store Consumer.

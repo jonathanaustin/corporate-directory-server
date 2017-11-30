@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.crud.actioncreator.impl;
 
-import com.github.bordertech.flux.crud.action.base.EntityTreeActionType;
+import com.github.bordertech.flux.crud.action.base.EntityTreeActionBaseType;
 import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -21,14 +21,14 @@ public class DefaultEntityTreeActionCreator<T, D extends CrudTreeApi<T>> extends
 	@Override
 	public T addChild(final T parent, final T child) {
 		T updated = getDataApi().addChild(parent, child);
-		dispatchModifyAction(EntityTreeActionType.ADD_CHILD, new ImmutablePair<>(parent, child));
+		dispatchModifyAction(EntityTreeActionBaseType.ADD_CHILD, new ImmutablePair<>(parent, child));
 		return updated;
 	}
 
 	@Override
 	public T removeChild(final T parent, final T child) {
 		T updated = getDataApi().removeChild(parent, child);
-		dispatchModifyAction(EntityTreeActionType.REMOVE_CHILD, new ImmutablePair<>(parent, child));
+		dispatchModifyAction(EntityTreeActionBaseType.REMOVE_CHILD, new ImmutablePair<>(parent, child));
 		return updated;
 	}
 

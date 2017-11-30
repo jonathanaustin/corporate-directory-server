@@ -6,12 +6,12 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.StoreActionType;
-import com.github.bordertech.flux.crud.action.CallType;
-import com.github.bordertech.flux.crud.action.RetrieveAction;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
+import com.github.bordertech.flux.crud.action.retrieve.RetrieveAction;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
-import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
-import com.github.bordertech.flux.crud.store.retrieve.RetrieveStore;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.factory.FluxFactory;
+import com.github.bordertech.flux.crud.store.RetrieveActionStore;
 
 /**
  *
@@ -52,7 +52,7 @@ public class StoreUtil {
 	 * @param callType the call type
 	 */
 	public static void dispatchFetchAction(final String storeKey, final Object data, final CallType callType) {
-		dispatchRetrieveAction(storeKey, RetrieveBaseActionType.FETCH, data, callType);
+		dispatchRetrieveAction(storeKey, RetrieveActionBaseType.FETCH, data, callType);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class StoreUtil {
 	 * @param callType the call type
 	 */
 	public static void dispatchSearchAction(final String storeKey, final Object data, final CallType callType) {
-		dispatchRetrieveAction(storeKey, RetrieveBaseActionType.SEARCH, data, callType);
+		dispatchRetrieveAction(storeKey, RetrieveActionBaseType.SEARCH, data, callType);
 	}
 
 	/**
@@ -103,7 +103,7 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static boolean isFetchActionDone(final String storeKey, final Object data) {
-		return isRetrieveStoreActionDone(storeKey, RetrieveBaseActionType.FETCH, data);
+		return isRetrieveStoreActionDone(storeKey, RetrieveActionBaseType.FETCH, data);
 	}
 
 	/**
@@ -114,7 +114,7 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static boolean isSearchActionDone(final String storeKey, final Object data) {
-		return isRetrieveStoreActionDone(storeKey, RetrieveBaseActionType.SEARCH, data);
+		return isRetrieveStoreActionDone(storeKey, RetrieveActionBaseType.SEARCH, data);
 	}
 
 	/**
@@ -126,8 +126,8 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static boolean isRetrieveStoreActionDone(final String storeKey, final RetrieveActionType actionType, final Object data) {
-		RetrieveStore store = getStore(storeKey);
-		return store.isActionDone(actionType, data);
+		RetrieveActionStore store = getStore(storeKey);
+		return store.isAsyncDone(actionType, data);
 	}
 
 	/**
@@ -138,7 +138,7 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static <T> T getFetchActionResult(final String storeKey, final Object data) {
-		return getRetrieveStoreActionResult(storeKey, RetrieveBaseActionType.FETCH, data);
+		return getRetrieveStoreActionResult(storeKey, RetrieveActionBaseType.FETCH, data);
 	}
 
 	/**
@@ -149,7 +149,7 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static <T> T getSearchActionResult(final String storeKey, final Object data) {
-		return getRetrieveStoreActionResult(storeKey, RetrieveBaseActionType.SEARCH, data);
+		return getRetrieveStoreActionResult(storeKey, RetrieveActionBaseType.SEARCH, data);
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class StoreUtil {
 	 * @return true if the store action is done
 	 */
 	public static <T> T getRetrieveStoreActionResult(final String storeKey, final RetrieveActionType actionType, final Object data) {
-		RetrieveStore store = getStore(storeKey);
+		RetrieveActionStore store = getStore(storeKey);
 		return (T) store.getActionResult(actionType, data);
 	}
 

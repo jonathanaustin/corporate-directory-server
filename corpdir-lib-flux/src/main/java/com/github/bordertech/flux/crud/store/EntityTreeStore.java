@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store;
 
 import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;

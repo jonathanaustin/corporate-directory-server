@@ -1,14 +1,16 @@
 package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Dispatcher;
-import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
+import com.github.bordertech.taskmanager.TaskFuture;
+import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.Set;
+import javax.cache.Cache;
 
 /**
  *
@@ -24,7 +26,7 @@ public class DefaultStore implements Store {
 	}
 
 	@Override
-	public String getKey() {
+	public final String getKey() {
 		return key;
 	}
 
@@ -45,14 +47,13 @@ public class DefaultStore implements Store {
 	}
 
 	/**
-	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
+	 * Use a cache to hold a reference to the future so the user context can be serialized. Future Objects are not
+	 * serializable.
 	 *
-	 * @param listener the listener to register
-	 * @param actionType the action type
-	 * @return the listener id
+	 * @return the cache instance
 	 */
-	protected String registerListener(final ActionType actionType, final Listener listener) {
-		return getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
+	protected synchronized Cache<String, TaskFuture> getStoreCache() {
+		return ServiceUtil.getFutureCache("flux-default-" + getKey());
 	}
 
 }

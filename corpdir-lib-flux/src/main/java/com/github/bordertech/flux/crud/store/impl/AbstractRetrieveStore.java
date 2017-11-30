@@ -1,14 +1,17 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store.impl;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.DefaultAction;
-import com.github.bordertech.flux.crud.action.CallType;
-import com.github.bordertech.flux.crud.action.RetrieveAction;
+import com.github.bordertech.flux.crud.action.ModifyActionType;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.AsyncOutcomeBaseActionType;
-import com.github.bordertech.flux.crud.action.base.EntityActionType;
-import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.action.base.EntityActionBaseType;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
+import com.github.bordertech.flux.crud.action.retrieve.RetrieveAction;
+import com.github.bordertech.flux.crud.store.RetrieveActionStore;
+import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
@@ -24,22 +27,37 @@ import java.util.Set;
  * @since 1.0.0
  *
  */
-public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveStore {
+public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveActionStore {
 
-	public AbstractRetrieveStore(final String storeKey) {
+	private final String actionCreatorKey;
+
+	public AbstractRetrieveStore(final String storeKey, final String actionCreatorKey) {
 		super(storeKey);
+		this.actionCreatorKey = actionCreatorKey;
+	}
+
+	public final String getActionCreatorKey() {
+		return actionCreatorKey;
 	}
 
 	@Override
-	public ServiceStatus getActionStatus(final RetrieveActionType type, final Object criteria) {
-		checkAsyncResult(type, criteria);
+	public ServiceStatus getAsyncProgressStatus(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
-		return ServiceUtil.getServiceStatus(key);
+		// Check if async result available
+		ResultHolder resultHolder = ServiceUtil.checkASyncResult(getStoreCache(), key);
+		if (resultHolder != null) {
+			if (resultHolder.isException()) {
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, resultHolder);
+			} else {
+				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, resultHolder);
+			}
+		}
+		return ServiceUtil.getServiceStatus(getStoreCache(), key);
 	}
 
 	@Override
-	public boolean isActionDone(final RetrieveActionType type, final Object criteria) {
-		ServiceStatus status = getActionStatus(type, criteria);
+	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) {
+		ServiceStatus status = getAsyncProgressStatus(type, criteria);
 		return status == ServiceStatus.COMPLETE || status == ServiceStatus.ERROR;
 	}
 
@@ -49,9 +67,6 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		// Check if have result
 		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
 		if (holder == null) {
-			if (getActionStatus(type, criteria) == ServiceStatus.PROCESSING) {
-				throw new IllegalStateException("Item is still being retrieved.");
-			}
 			// Call SYNC (ie retrieve immediately)
 			holder = handleServiceCallAction(type, criteria, false);
 		}
@@ -70,7 +85,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	@Override
 	public void registerListeners(final Set<String> ids) {
 		// Retrieve Listeners
-		for (RetrieveBaseActionType type : RetrieveBaseActionType.values()) {
+		for (RetrieveActionBaseType type : RetrieveActionBaseType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleAction(final Action action) {
@@ -92,23 +107,25 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			ids.add(id);
 		}
 		// Action Listeners
-		for (EntityActionType type : EntityActionType.values()) {
+		for (EntityActionBaseType type : EntityActionBaseType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleAction(final Action action) {
 					handleModifyBaseActions(action);
 				}
 			};
-			String id = registerListener(type, listener);
+			String id = registerActionCreatorListener(type, listener);
 			ids.add(id);
 		}
 	}
 
 	protected void handleModifyBaseActions(final Action action) {
+		// Default to clear cache
+		ServiceUtil.clearCache(getStoreCache());
 	}
 
 	protected void handleRetrieveBaseActions(final RetrieveAction action) {
-		RetrieveBaseActionType type = (RetrieveBaseActionType) action.getKey().getType();
+		RetrieveActionBaseType type = (RetrieveActionBaseType) action.getKey().getType();
 		CallType callType = action.getCallType();
 		boolean changed = false;
 		switch (callType) {
@@ -145,10 +162,10 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 			}
 		};
 		if (async) {
-			ServiceUtil.handleAsyncServiceCall(key, criteria, action);
+			ServiceUtil.handleAsyncServiceCall(getStoreCache(), key, criteria, action);
 			return null;
 		} else {
-			return ServiceUtil.handleCachedServiceCall(key, criteria, action);
+			return ServiceUtil.handleCachedServiceCall(getStoreCache(), key, criteria, action);
 		}
 	}
 
@@ -181,7 +198,9 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	protected void handleRefreshAction(final RetrieveActionType type, final Object criteria, final boolean async) {
-		clearResultHolder(type, criteria);
+		// Clear from the cache
+		String key = getResultCacheKey(type, criteria);
+		ServiceUtil.clearResult(getStoreCache(), key);
 		handleServiceCallAction(type, criteria, async);
 	}
 
@@ -193,25 +212,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 
 	protected ResultHolder<?, ?> getResultHolder(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
-		return ServiceUtil.getResultHolder(key);
-	}
-
-	protected void clearResultHolder(final RetrieveActionType type, final Object criteria) {
-		String key = getResultCacheKey(type, criteria);
-		ServiceUtil.clearResult(key);
-	}
-
-	protected void checkAsyncResult(final RetrieveActionType type, final Object criteria) {
-		String key = getResultCacheKey(type, criteria);
-		// Check if async result available
-		ResultHolder resultHolder = ServiceUtil.checkASyncResult(key);
-		if (resultHolder != null) {
-			if (resultHolder.isException()) {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, resultHolder);
-			} else {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, resultHolder);
-			}
-		}
+		return ServiceUtil.getResultHolder(getStoreCache(), key);
 	}
 
 	/**
@@ -224,6 +225,28 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		String qualifier = getKey();
 		DefaultAction action = new RetrieveAction(actionType, qualifier, result, null);
 		getDispatcher().dispatch(action);
+	}
+
+	/**
+	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener the listener to register
+	 * @param actionType the action type
+	 * @return the listener id
+	 */
+	protected String registerListener(final RetrieveActionType actionType, final Listener listener) {
+		return getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
+	}
+
+	/**
+	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
+	 *
+	 * @param listener the listener to register
+	 * @param actionType the action type
+	 * @return the listener id
+	 */
+	protected String registerActionCreatorListener(final ModifyActionType actionType, final Listener listener) {
+		return getDispatcher().registerListener(new ActionKey(actionType, getActionCreatorKey()), listener);
 	}
 
 	/**

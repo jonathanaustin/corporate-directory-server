@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.consumer;
 
-import com.github.bordertech.flux.crud.store.retrieve.RetrieveStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionStore;
 
 /**
  * Retrieve Store Consumer.
@@ -13,5 +13,5 @@ public interface RetrieveStoreConsumer {
 
 	String getRetrieveStoreKey();
 
-	RetrieveStore getRetrieveStore();
+	RetrieveActionStore getRetrieveStore();
 }

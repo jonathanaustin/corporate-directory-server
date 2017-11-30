@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.app.view.smart;
 
 import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
-import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.wc.app.view.smart.consumer.SearchStoreConsumer;
 
 /**

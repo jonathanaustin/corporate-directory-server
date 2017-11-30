@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.app.view.smart.tree;
 
-import com.github.bordertech.flux.crud.store.retrieve.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.wc.app.view.dumb.tree.TreeViewItemModel;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;

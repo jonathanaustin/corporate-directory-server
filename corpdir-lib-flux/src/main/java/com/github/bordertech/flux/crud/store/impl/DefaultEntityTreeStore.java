@@ -1,16 +1,17 @@
-package com.github.bordertech.flux.crud.store.retrieve;
+package com.github.bordertech.flux.crud.store.impl;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
-import com.github.bordertech.flux.crud.action.base.EntityTreeActionType;
-import com.github.bordertech.flux.crud.action.base.RetrieveBaseActionType;
+import com.github.bordertech.flux.crud.action.base.EntityTreeActionBaseType;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
+import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.taskmanager.service.ServiceStatus;
+import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * @param <T> the item type
@@ -20,22 +21,22 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntityStore<T, D> implements EntityTreeStore<T> {
 
-	public DefaultEntityTreeStore(final String storeKey, final D api) {
-		super(storeKey, api);
+	public DefaultEntityTreeStore(final String storeKey, final String actionCreatorKey, final D api) {
+		super(storeKey, actionCreatorKey, api);
 	}
 
 	@Override
 	public void registerListeners(final Set<String> ids) {
 		super.registerListeners(ids);
 		// Action Listeners
-		for (EntityTreeActionType type : EntityTreeActionType.values()) {
+		for (EntityTreeActionBaseType type : EntityTreeActionBaseType.values()) {
 			Listener listener = new Listener() {
 				@Override
 				public void handleAction(final Action action) {
 					handleModifyTreeBaseActions(action);
 				}
 			};
-			String id = registerListener(type, listener);
+			String id = registerActionCreatorListener(type, listener);
 			ids.add(id);
 		}
 	}
@@ -47,12 +48,12 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 
 	@Override
 	public List<T> getChildren(final T item) {
-		return (List<T>) getActionResult(RetrieveBaseActionType.CHILDREN, item);
+		return (List<T>) getActionResult(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
 	public List<T> getRootItems() {
-		return (List<T>) getActionResult(RetrieveBaseActionType.ROOT, null);
+		return (List<T>) getActionResult(RetrieveActionBaseType.ROOT, null);
 	}
 
 	@Override
@@ -67,54 +68,34 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 
 	@Override
 	public ServiceStatus getChildrenStatus(final T item) {
-		return getActionStatus(RetrieveBaseActionType.CHILDREN, item);
+		return getAsyncProgressStatus(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
 	public boolean isChildrenDone(final T item) {
-		return isActionDone(RetrieveBaseActionType.CHILDREN, item);
+		return isAsyncDone(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
 	public ServiceStatus getRootItemsStatus() {
-		return getActionStatus(RetrieveBaseActionType.ROOT, null);
+		return getAsyncProgressStatus(RetrieveActionBaseType.ROOT, null);
 	}
 
 	@Override
 	public boolean isRootItemsDone() {
-		return isActionDone(RetrieveBaseActionType.ROOT, null);
+		return isAsyncDone(RetrieveActionBaseType.ROOT, null);
 	}
 
 	protected void handleModifyTreeBaseActions(final Action action) {
-		EntityTreeActionType type = (EntityTreeActionType) action.getKey().getType();
-		boolean changed = false;
-		switch (type) {
-			case ADD_CHILD:
-			case REMOVE_CHILD:
-				handleUpdateParentChildActions((Pair<T, T>) action.getData());
-				changed = true;
-				break;
-			default:
-				changed = false;
-		}
-		if (changed) {
-			dispatchChangeAction(type);
-		}
-	}
-
-	protected void handleUpdateParentChildActions(final Pair<T, T> pair) {
-		// Parent
-		handleCreateUpdateAction(pair.getLeft());
-		// Child
-		handleCreateUpdateAction(pair.getRight());
+		ServiceUtil.clearCache(getStoreCache());
 	}
 
 	@Override
 	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
-		if (Objects.equals(type, RetrieveBaseActionType.CHILDREN)) {
+		if (Objects.equals(type, RetrieveActionBaseType.CHILDREN)) {
 			return getDataApi().getChildren((T) criteria);
 		}
-		if (Objects.equals(type, RetrieveBaseActionType.ROOT)) {
+		if (Objects.equals(type, RetrieveActionBaseType.ROOT)) {
 			return getDataApi().getRootItems();
 		}
 		return super.doRetrieveServiceCall(type, criteria);
