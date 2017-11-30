@@ -2,8 +2,8 @@ package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
-import com.github.bordertech.flux.wc.app.common.AppMenuItem;
-import com.github.bordertech.flux.wc.app.view.dumb.toolbar.AbstractMenuToolbarView;
+import com.github.bordertech.flux.wc.common.AppMenuItem;
+import com.github.bordertech.flux.wc.view.dumb.toolbar.AbstractMenuToolbarView;
 import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.MenuSelectContainer;

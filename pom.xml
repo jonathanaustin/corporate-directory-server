@@ -157,6 +157,7 @@
 		<module>corpdir-lib-taskmanager</module>
 		<module>corpdir-lib-flux</module>
 		<module>corpdir-lib-wc</module>
+		<module>corpdir-lib-flux-wc</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>

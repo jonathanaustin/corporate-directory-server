@@ -44,7 +44,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-lib-wc</artifactId>
+			<artifactId>corpdir-lib-flux-wc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<!--		<dependency>

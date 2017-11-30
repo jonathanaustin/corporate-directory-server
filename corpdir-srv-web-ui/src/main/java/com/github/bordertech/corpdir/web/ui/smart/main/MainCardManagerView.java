@@ -1,8 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
-import com.github.bordertech.flux.wc.app.view.smart.CrudSmartView;
-import com.github.bordertech.flux.wc.app.view.smart.FormSmartView;
+import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.view.CardManagerView;
 import com.github.bordertech.flux.wc.view.FluxSmartView;
 import java.util.HashMap;

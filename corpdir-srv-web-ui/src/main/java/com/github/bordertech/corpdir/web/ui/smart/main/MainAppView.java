@@ -7,7 +7,7 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.app.view.smart.msg.DefaultMessageSmartView;
+import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
 

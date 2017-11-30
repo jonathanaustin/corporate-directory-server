@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.panel;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
-import com.github.bordertech.flux.wc.app.view.dumb.form.FormUpdateableView;
+import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateableView;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.WCheckBox;
 import com.github.bordertech.wcomponents.WField;
