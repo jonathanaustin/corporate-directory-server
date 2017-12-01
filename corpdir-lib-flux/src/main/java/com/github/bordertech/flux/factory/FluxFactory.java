@@ -16,6 +16,7 @@ import com.github.bordertech.locator.BindingFactory;
 import com.github.bordertech.locator.LocatorUtil;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -66,15 +67,15 @@ public final class FluxFactory {
 		return (T) creator;
 	}
 
-	public static <T extends Store> T getStore(final String storeKey, final String actionCreatorKey, final String apiKey) {
+	public static <T extends Store> T getStore(final String storeKey, final Set<String> actionCreatorKeys, final String apiKey) {
 		try {
 			DataApi api = getDataApi(apiKey);
 			if (api instanceof CrudTreeApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityTreeStore(storeKey, actionCreatorKey, (CrudTreeApi) api);
+				return (T) new DefaultEntityTreeStore(storeKey, actionCreatorKeys, (CrudTreeApi) api);
 			} else if (api instanceof CrudApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityStore(storeKey, actionCreatorKey, (CrudApi) api);
+				return (T) new DefaultEntityStore(storeKey, actionCreatorKeys, (CrudApi) api);
 			} else if (api instanceof SearchApi && storeKey.startsWith("s-")) {
-				return (T) new DefaultSearchStore(storeKey, actionCreatorKey, (SearchApi) api);
+				return (T) new DefaultSearchStore(storeKey, actionCreatorKeys, (SearchApi) api);
 			} else {
 				throw new IllegalStateException("Default Stores do not support Data API [" + storeKey + "].");
 			}

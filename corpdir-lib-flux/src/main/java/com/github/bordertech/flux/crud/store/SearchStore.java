@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
 
 /**
@@ -13,8 +12,6 @@ import java.util.List;
 public interface SearchStore<S, T> extends RetrieveActionStore {
 
 	List<T> search(final S criteria);
-
-	ServiceStatus getSearchStatus(final S criteria);
 
 	boolean isSearchDone(final S criteria);
 

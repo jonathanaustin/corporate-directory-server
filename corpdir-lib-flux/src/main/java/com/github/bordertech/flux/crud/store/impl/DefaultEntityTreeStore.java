@@ -7,7 +7,6 @@ import com.github.bordertech.flux.crud.action.base.EntityTreeActionBaseType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.taskmanager.service.ServiceStatus;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.List;
 import java.util.Objects;
@@ -21,8 +20,8 @@ import java.util.Set;
  */
 public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends DefaultEntityStore<T, D> implements EntityTreeStore<T> {
 
-	public DefaultEntityTreeStore(final String storeKey, final String actionCreatorKey, final D api) {
-		super(storeKey, actionCreatorKey, api);
+	public DefaultEntityTreeStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
+		super(storeKey, actionCreatorKeys, api);
 	}
 
 	@Override
@@ -36,8 +35,7 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 					handleModifyTreeBaseActions(action);
 				}
 			};
-			String id = registerActionCreatorListener(type, listener);
-			ids.add(id);
+			ids.addAll(registerActionCreatorListeners(type, listener));
 		}
 	}
 
@@ -67,18 +65,8 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	@Override
-	public ServiceStatus getChildrenStatus(final T item) {
-		return getAsyncProgressStatus(RetrieveActionBaseType.CHILDREN, item);
-	}
-
-	@Override
 	public boolean isChildrenDone(final T item) {
 		return isAsyncDone(RetrieveActionBaseType.CHILDREN, item);
-	}
-
-	@Override
-	public ServiceStatus getRootItemsStatus() {
-		return getAsyncProgressStatus(RetrieveActionBaseType.ROOT, null);
 	}
 
 	@Override

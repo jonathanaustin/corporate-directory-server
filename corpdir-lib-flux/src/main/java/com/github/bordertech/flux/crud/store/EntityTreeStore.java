@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.List;
 
 /**
@@ -15,13 +14,9 @@ public interface EntityTreeStore<T> extends EntityStore<T> {
 
 	List<T> getChildren(final T item);
 
-	ServiceStatus getChildrenStatus(final T item);
-
 	boolean isChildrenDone(final T item);
 
 	List<T> getRootItems();
-
-	ServiceStatus getRootItemsStatus();
 
 	boolean isRootItemsDone();
 

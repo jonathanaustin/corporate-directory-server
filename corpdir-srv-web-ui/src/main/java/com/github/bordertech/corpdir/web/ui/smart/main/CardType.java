@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
-import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
 import com.github.bordertech.corpdir.web.ui.smart.crud.ContactCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.LocationCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;

@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.crud.store.impl;
 
 import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.crud.action.ModifyActionType;
@@ -16,8 +17,9 @@ import com.github.bordertech.flux.store.DefaultStore;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
-import com.github.bordertech.taskmanager.service.ServiceStatus;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -29,36 +31,35 @@ import java.util.Set;
  */
 public abstract class AbstractRetrieveStore extends DefaultStore implements RetrieveActionStore {
 
-	private final String actionCreatorKey;
+	private final Set<String> actionCreatorKeys;
 
-	public AbstractRetrieveStore(final String storeKey, final String actionCreatorKey) {
+	public AbstractRetrieveStore(final String storeKey) {
+		this(storeKey, Collections.EMPTY_SET);
+	}
+
+	public AbstractRetrieveStore(final String storeKey, final Set<String> actionCreatorKeys) {
 		super(storeKey);
-		this.actionCreatorKey = actionCreatorKey;
+		this.actionCreatorKeys = actionCreatorKeys;
 	}
 
-	public final String getActionCreatorKey() {
-		return actionCreatorKey;
-	}
-
-	@Override
-	public ServiceStatus getAsyncProgressStatus(final RetrieveActionType type, final Object criteria) {
-		String key = getResultCacheKey(type, criteria);
-		// Check if async result available
-		ResultHolder resultHolder = ServiceUtil.checkASyncResult(getStoreCache(), key);
-		if (resultHolder != null) {
-			if (resultHolder.isException()) {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, resultHolder);
-			} else {
-				dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, resultHolder);
-			}
-		}
-		return ServiceUtil.getServiceStatus(getStoreCache(), key);
+	public final Set<String> getActionCreatorKeys() {
+		return actionCreatorKeys;
 	}
 
 	@Override
 	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) {
-		ServiceStatus status = getAsyncProgressStatus(type, criteria);
-		return status == ServiceStatus.COMPLETE || status == ServiceStatus.ERROR;
+		String key = getResultCacheKey(type, criteria);
+		// Check if async result available
+		ResultHolder resultHolder = ServiceUtil.checkASyncResult(getStoreCache(), key);
+		if (resultHolder == null) {
+			return false;
+		}
+		if (resultHolder.isException()) {
+			dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_ERROR, resultHolder);
+		} else {
+			dispatchResultAction(AsyncOutcomeBaseActionType.ASYNC_OK, resultHolder);
+		}
+		return true;
 	}
 
 	@Override
@@ -114,8 +115,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 					handleModifyBaseActions(action);
 				}
 			};
-			String id = registerActionCreatorListener(type, listener);
-			ids.add(id);
+			ids.addAll(registerActionCreatorListeners(type, listener));
 		}
 	}
 
@@ -239,14 +239,20 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	/**
-	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
+	 * A helper method to register a listener for an Action Creator.
 	 *
 	 * @param listener the listener to register
 	 * @param actionType the action type
 	 * @return the listener id
 	 */
-	protected String registerActionCreatorListener(final ModifyActionType actionType, final Listener listener) {
-		return getDispatcher().registerListener(new ActionKey(actionType, getActionCreatorKey()), listener);
+	protected Set<String> registerActionCreatorListeners(final ModifyActionType actionType, final Listener listener) {
+		Set<String> ids = new HashSet<>();
+		Dispatcher dispatcher = getDispatcher();
+		for (String acKey : getActionCreatorKeys()) {
+			String id = dispatcher.registerListener(new ActionKey(actionType, acKey), listener);
+			ids.add(id);
+		}
+		return ids;
 	}
 
 	/**

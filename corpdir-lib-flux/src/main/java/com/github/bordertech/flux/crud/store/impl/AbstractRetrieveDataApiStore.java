@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.crud.store.impl;
 
 import com.github.bordertech.flux.DataApi;
+import java.util.Set;
 
 /**
  * Abstract search store that uses the data api interface.
@@ -14,8 +15,8 @@ public abstract class AbstractRetrieveDataApiStore<D extends DataApi> extends Ab
 
 	private final D api;
 
-	public AbstractRetrieveDataApiStore(final String storeKey, final String actionCreatorKey, final D api) {
-		super(storeKey, actionCreatorKey);
+	public AbstractRetrieveDataApiStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
+		super(storeKey, actionCreatorKeys);
 		this.api = api;
 	}
 

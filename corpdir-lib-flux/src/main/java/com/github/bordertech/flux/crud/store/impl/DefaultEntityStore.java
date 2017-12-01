@@ -4,8 +4,8 @@ import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.EntityStore;
-import com.github.bordertech.taskmanager.service.ServiceStatus;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Entity Store.
@@ -17,13 +17,8 @@ import java.util.Objects;
  */
 public class DefaultEntityStore<T, D extends CrudApi<T>> extends AbstractRetrieveDataApiStore<D> implements EntityStore<T> {
 
-	public DefaultEntityStore(final String storeKey, final String actionCreatorkey, final D api) {
-		super(storeKey, actionCreatorkey, api);
-	}
-
-	@Override
-	public ServiceStatus getFetchStatus(final T key) {
-		return getAsyncProgressStatus(RetrieveActionBaseType.FETCH, key);
+	public DefaultEntityStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
+		super(storeKey, actionCreatorKeys, api);
 	}
 
 	@Override

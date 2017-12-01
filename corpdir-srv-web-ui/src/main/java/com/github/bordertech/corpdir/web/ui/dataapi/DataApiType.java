@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.dataapi;
 
 /**
  * Data APi Types.

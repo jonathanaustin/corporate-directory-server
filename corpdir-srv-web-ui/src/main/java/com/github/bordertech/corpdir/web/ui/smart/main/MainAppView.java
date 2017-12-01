@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
-import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
@@ -10,6 +10,9 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Main Application View.
@@ -39,6 +42,16 @@ public class MainAppView extends DefaultMessageSmartView {
 	protected void initViewContent(Request request) {
 		super.initViewContent(request);
 		// Register Stores and Action Creators (for this user session)
+		// Linked Entities
+		Set<DataApiType> linkedTypes = new HashSet();
+		linkedTypes.add(DataApiType.CONTACT);
+		linkedTypes.add(DataApiType.POSITION);
+		// Linked Entities Action Creator Keys
+		Set<String> linkedAcKeys = new HashSet<>();
+		for (DataApiType type : linkedTypes) {
+			linkedAcKeys.add(type.getActionCreatorKey());
+		}
+
 		Dispatcher dispatcher = getDispatcher();
 		for (CardType card : CardType.values()) {
 			// Action Creator
@@ -47,14 +60,21 @@ public class MainAppView extends DefaultMessageSmartView {
 				ActionCreator creator = FluxFactory.getActionCreator(api.getActionCreatorKey(), api.getKey());
 				dispatcher.registerActionCreator(creator);
 			}
+
+			Set<String> acKeys;
+			if (linkedTypes.contains(api)) {
+				acKeys = linkedAcKeys;
+			} else {
+				acKeys = new HashSet<>(Arrays.asList(api.getActionCreatorKey()));
+			}
 			// Store
 			if (api.isEntityStore()) {
-				Store store = FluxFactory.getStore(api.getEntityStoreKey(), api.getActionCreatorKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getEntityStoreKey(), acKeys, api.getKey());
 				dispatcher.registerStore(store);
 			}
 			// Store
 			if (api.isSearchStore()) {
-				Store store = FluxFactory.getStore(api.getSearchStoreKey(), api.getActionCreatorKey(), api.getKey());
+				Store store = FluxFactory.getStore(api.getSearchStoreKey(), acKeys, api.getKey());
 				dispatcher.registerStore(store);
 			}
 		}

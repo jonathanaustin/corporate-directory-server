@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
-import com.github.bordertech.corpdir.web.ui.dataapi.impl.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.FormSmartView;
 import com.github.bordertech.flux.wc.view.CardManagerView;
