@@ -19,6 +19,23 @@
 		<wc.qa.skip>true</wc.qa.skip>
 	</properties>
 
+	<!--	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.glassfish.hk2</groupId>
+				<artifactId>hk2-inhabitant-generator</artifactId>
+				<version>2.5.0-b32</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate-inhabitants</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>-->
+
 	<dependencies>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
@@ -27,14 +44,14 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-srv-web-ui-lib</artifactId>
+			<artifactId>corpdir-lib-flux-wc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
+		<!--		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-srv-web-api-bundle</artifactId>
 			<version>${project.version}</version>
-		</dependency>
+		</dependency>-->
 
 		<!-- Injection Interface. -->
 		<dependency>

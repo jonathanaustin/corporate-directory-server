@@ -2,11 +2,11 @@ package com.github.bordertech.corpdir.jpa.v1.api;
 
 import com.github.bordertech.corpdir.api.v1.LocationService;
 import com.github.bordertech.corpdir.api.v1.model.Location;
+import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
 import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicTreeService;
-import javax.inject.Singleton;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import com.github.bordertech.corpdir.jpa.v1.mapper.LocationMapper;
-import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
+import javax.inject.Singleton;
 
 /**
  * Location JPA service implementation.

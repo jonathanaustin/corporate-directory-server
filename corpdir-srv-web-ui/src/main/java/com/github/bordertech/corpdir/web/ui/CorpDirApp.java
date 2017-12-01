@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui;
 
-import com.github.bordertech.corpdir.web.ui.combo.MainComboView;
+import com.github.bordertech.corpdir.web.ui.smart.MainAppView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.util.ConfigLibUtil;
  */
 public class CorpDirApp extends WApplication {
 
-	private final MainComboView mainView = new MainComboView();
+	private final MainAppView mainView = new MainAppView();
 
 	/**
 	 * Construct Application.
@@ -33,10 +33,7 @@ public class CorpDirApp extends WApplication {
 		final WPanel header = new WPanel(WPanel.Type.HEADER);
 		add(header);
 		header.add(new WHeading(HeadingLevel.H1, "Corporate Directory"));
-
 		add(mainView);
-		mainView.setQualifierAndMessageQualifier("MN");
-		mainView.setQualifierAndMessageQualifierContext(true);
 
 		// Footer
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);

@@ -1,11 +1,11 @@
 package com.github.bordertech.corpdir.jpa.util;
 
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 
 /**
  * Criteria helper.

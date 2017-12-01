@@ -1,0 +1,91 @@
+package com.github.bordertech.flux.view;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * Smart View that processes view events from its dumb view children.
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ */
+public interface SmartView<T> extends DumbView<T> {
+
+	/**
+	 * The default qualifier separator character.
+	 */
+	String QUALIFIER_CONTEXT_SEPERATOR = "_";
+
+	/**
+	 * @return true if this view is a qualifier context
+	 */
+	boolean isQualifierContext();
+
+	/**
+	 *
+	 * @param qualifierContext true if this view is a qualifier context
+	 */
+	void setQualifierContext(final boolean qualifierContext);
+
+	/**
+	 * Called by child views.
+	 *
+	 * @param viewId the view id the event originated from
+	 * @param eventType the child view event to handle
+	 * @param data the associated data
+	 */
+	void handleViewEvent(final String viewId, final ViewEventType eventType, final Object data);
+
+	/**
+	 * @return the qualifier to be used on listeners or events (if needed)
+	 */
+	String getQualifier();
+
+	/**
+	 *
+	 * @param qualifier the qualifier to be used on events
+	 */
+	void setQualifier(final String qualifier);
+
+	/**
+	 * @return the context qualifier
+	 */
+	String getFullQualifier();
+
+	/**
+	 * Child views.
+	 *
+	 * @return the list of child views
+	 */
+	List<? extends DumbView> getViews();
+
+	/**
+	 *
+	 * @param viewId the view id to return
+	 * @return the view for the view id
+	 */
+	DumbView getView(final String viewId);
+
+	/**
+	 * This is used when a smart view is being used as a dumb view.
+	 *
+	 * @param dumbMode true if need to pass events for this view to its parent.
+	 */
+	void setDumbMode(final boolean dumbMode);
+
+	/**
+	 *
+	 * @return true if pass events to its parent smart view
+	 */
+	boolean isDumbMode();
+
+	void addPassThrough(final ViewEventType type);
+
+	void removePassThrough(final ViewEventType type);
+
+	Set<ViewEventType> getPassThroughs();
+
+	void setPassAllEvents(final boolean passAllEvents);
+
+	boolean isPassAllEvents();
+}

@@ -1,5 +1,7 @@
 package com.github.bordertech.corpdir.jpa.util;
 
+import com.github.bordertech.corpdir.api.exception.NotFoundException;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -9,9 +11,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
-import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 
 /**
  * NestedSet processing helper.
