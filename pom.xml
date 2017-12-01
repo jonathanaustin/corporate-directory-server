@@ -83,7 +83,7 @@
 				<version>10.12.1.1</version>
 			</dependency>
 
-			<!-- Jersey for REST Implementation -->
+			<!-- Jersey for REST Implementation. 2.26 is Java 8 -->
 			<dependency>
 				<groupId>org.glassfish.jersey.containers</groupId>
 				<!-- if your container implements Servlet API older than 3.0, use "jersey-container-servlet-core"  -->
@@ -94,6 +94,13 @@
 				<groupId>org.glassfish.jersey.media</groupId>
 				<artifactId>jersey-media-json-jackson</artifactId>
 				<version>2.25.1</version>
+			</dependency>
+
+			<!-- Swagger. -->
+			<dependency>
+				<groupId>io.swagger</groupId>
+				<artifactId>swagger-jersey2-jaxrs</artifactId>
+				<version>1.5.12</version>
 			</dependency>
 
 			<!-- slf4j-log4j -->
@@ -112,12 +119,12 @@
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-bundle</artifactId>
-				<version>1.4.7</version>
+				<version>1.4.16</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-lde</artifactId>
-				<version>1.4.7</version>
+				<version>1.4.16</version>
 			</dependency>
 
 			<!-- Servlet API -->
@@ -127,19 +134,36 @@
 				<version>2.5</version>
 			</dependency>
 
+			<!-- Caching API. -->
+			<dependency>
+				<groupId>javax.cache</groupId>
+				<artifactId>cache-api</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<!-- Commons Config. -->
+			<dependency>
+				<groupId>commons-configuration</groupId>
+				<artifactId>commons-configuration</artifactId>
+				<version>1.10</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
 		<module>config-qa-plugins</module>
+		<module>corpdir-lib-locator</module>
+		<module>corpdir-lib-taskmanager</module>
+		<module>corpdir-lib-flux</module>
+		<module>corpdir-lib-wc</module>
+		<module>corpdir-lib-flux-wc</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>
 		<module>corpdir-srv-web-api</module>
-		<module>corpdir-srv-web-api-bundle</module>
-		<module>corpdir-srv-web-ui-lib</module>
 		<module>corpdir-srv-web-ui</module>
+		<module>corpdir-srv-web-bundle</module>
 		<module>corpdir-srv-lde</module>
 		<module>corpdir-srv-web-war</module>
 	</modules>

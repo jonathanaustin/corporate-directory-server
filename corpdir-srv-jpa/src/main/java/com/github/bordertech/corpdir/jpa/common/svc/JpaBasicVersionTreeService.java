@@ -87,7 +87,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
 			U tree = subEntity.getDataVersion(versionId);
-			if(tree != null) {
+			if (tree != null) {
 				if (Objects.equals(tree.getParentItem(), subEntity)) {
 					throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
 				}
