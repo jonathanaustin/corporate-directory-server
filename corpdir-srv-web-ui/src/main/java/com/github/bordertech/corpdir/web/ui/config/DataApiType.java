@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.dataapi;
+package com.github.bordertech.corpdir.web.ui.config;
 
 /**
  * Data APi Types.
@@ -8,20 +8,24 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
  * @author jonathan
  */
 public enum DataApiType {
-	POSITION("position"),
-	ORG_UNIT("orgunit"),
+	POSITION("position", true),
+	ORG_UNIT("orgunit", true),
 	LOCATION("location"),
 	POSITION_TYPE("positiontype"),
 	UNIT_TYPE("unittype"),
-	CONTACT("contact"),
-	CONTACT_POSTION("contact-positions", false, true, false);
+	CONTACT("contact", true);
 
 	DataApiType(final String key) {
-		this(key, true, true, true);
+		this(key, false);
 	}
 
-	DataApiType(final String key, final boolean entityStore, final boolean searchStore, final boolean actionCreator) {
+	DataApiType(final String key, final boolean linked) {
+		this(key, linked, true, true, true);
+	}
+
+	DataApiType(final String key, final boolean linked, final boolean entityStore, final boolean searchStore, final boolean actionCreator) {
 		this.key = key;
+		this.linked = linked;
 		this.entityStore = entityStore;
 		this.searchStore = searchStore;
 		this.actionCreator = actionCreator;
@@ -31,6 +35,7 @@ public enum DataApiType {
 	boolean entityStore;
 	boolean searchStore;
 	boolean actionCreator;
+	boolean linked;
 
 	public String getKey() {
 		return key;
@@ -46,6 +51,10 @@ public enum DataApiType {
 
 	public String getActionCreatorKey() {
 		return "a-" + key;
+	}
+
+	public boolean isLinked() {
+		return linked;
 	}
 
 	public boolean isEntityStore() {

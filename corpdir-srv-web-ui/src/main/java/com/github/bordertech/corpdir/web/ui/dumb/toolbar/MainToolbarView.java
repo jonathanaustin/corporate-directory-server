@@ -1,7 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.smart.main;
+package com.github.bordertech.corpdir.web.ui.dumb.toolbar;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.flux.wc.common.AppMenuItem;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.AbstractMenuToolbarView;
 import com.github.bordertech.flux.wc.view.ViewUtil;

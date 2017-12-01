@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
+import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
 import com.github.bordertech.wcomponents.WDropdown;

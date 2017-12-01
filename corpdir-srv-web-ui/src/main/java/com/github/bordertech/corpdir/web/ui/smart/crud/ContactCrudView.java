@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.crud;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
-import com.github.bordertech.corpdir.web.ui.smart.panel.ContactPanel;
+import com.github.bordertech.corpdir.web.ui.dumb.panel.ContactPanel;
 import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 
 /**

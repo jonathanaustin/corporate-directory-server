@@ -1,5 +1,6 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
+import com.github.bordertech.corpdir.web.ui.dumb.BasicApiPanel;
 import com.github.bordertech.corpdir.api.v1.model.Address;
 
 /**

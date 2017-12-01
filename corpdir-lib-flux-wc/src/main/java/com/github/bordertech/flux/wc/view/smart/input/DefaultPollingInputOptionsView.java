@@ -1,9 +1,10 @@
 package com.github.bordertech.flux.wc.view.smart.input;
 
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
-import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
+import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import java.util.List;
 
 /**
@@ -28,6 +29,9 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 
 		// Add views to holder
 		addComponentToTemplate("vw-options", optionsView);
+
+		// Automatically load
+		setStartType(PollingStartType.AUTOMATIC);
 
 		// Default visibility
 		optionsView.setContentVisible(false);

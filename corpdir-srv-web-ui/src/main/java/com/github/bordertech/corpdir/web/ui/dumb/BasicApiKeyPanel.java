@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 

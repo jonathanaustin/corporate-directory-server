@@ -1,13 +1,13 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
+import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
@@ -98,17 +98,6 @@ public class PositionPanel extends BasicApiKeyPanel<Position> {
 		drpOwnerOU.getPollingView().setPollingInterval(125);
 		multiOUs.getPollingView().setPollingInterval(150);
 		multiContact.getPollingView().setPollingInterval(175);
-	}
-
-	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-		drpParent.doManualStart();
-		multiSub.doManualStart();
-		drpUnitType.doManualStart();
-		drpOwnerOU.doManualStart();
-		multiOUs.doManualStart();
-		multiContact.doManualStart();
 	}
 
 	@Override

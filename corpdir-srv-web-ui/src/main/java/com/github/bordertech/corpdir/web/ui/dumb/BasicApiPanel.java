@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateableView;

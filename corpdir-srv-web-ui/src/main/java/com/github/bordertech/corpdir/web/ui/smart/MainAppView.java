@@ -1,6 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.smart.main;
+package com.github.bordertech.corpdir.web.ui.smart;
 
-import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.dumb.toolbar.MainToolbarView;
+import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
@@ -42,32 +44,30 @@ public class MainAppView extends DefaultMessageSmartView {
 	protected void initViewContent(Request request) {
 		super.initViewContent(request);
 		// Register Stores and Action Creators (for this user session)
-		// Linked Entities
-		Set<DataApiType> linkedTypes = new HashSet();
-		linkedTypes.add(DataApiType.CONTACT);
-		linkedTypes.add(DataApiType.POSITION);
 		// Linked Entities Action Creator Keys
 		Set<String> linkedAcKeys = new HashSet<>();
-		for (DataApiType type : linkedTypes) {
-			linkedAcKeys.add(type.getActionCreatorKey());
+		for (DataApiType type : DataApiType.values()) {
+			if (type.isLinked()) {
+				linkedAcKeys.add(type.getActionCreatorKey());
+			}
 		}
 
 		Dispatcher dispatcher = getDispatcher();
-		for (CardType card : CardType.values()) {
+		for (DataApiType api : DataApiType.values()) {
+
 			// Action Creator
-			DataApiType api = card.getApiType();
 			if (api.isActionCreator()) {
 				ActionCreator creator = FluxFactory.getActionCreator(api.getActionCreatorKey(), api.getKey());
 				dispatcher.registerActionCreator(creator);
 			}
 
+			// Store
 			Set<String> acKeys;
-			if (linkedTypes.contains(api)) {
+			if (api.isLinked()) {
 				acKeys = linkedAcKeys;
 			} else {
 				acKeys = new HashSet<>(Arrays.asList(api.getActionCreatorKey()));
 			}
-			// Store
 			if (api.isEntityStore()) {
 				Store store = FluxFactory.getStore(api.getEntityStoreKey(), acKeys, api.getKey());
 				dispatcher.registerStore(store);

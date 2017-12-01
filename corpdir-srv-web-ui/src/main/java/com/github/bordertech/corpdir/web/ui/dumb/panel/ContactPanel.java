@@ -1,13 +1,13 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.api.v1.model.Position;
-import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
+import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 
@@ -66,62 +66,4 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
 	}
 
-	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-		// FIXME
-		drpLocation.doManualStart();
-		multiPos.doManualStart();
-	}
-
-//	private void setupSearch(){
-//
-//		// Positions
-//		getFormPanel().add(new WHeading(HeadingLevel.H2, "Positions"));
-//
-//		// Setup the select and find view
-//		selectView = new PollingSelectView(new WSingleSelectView());
-//		final SelectWithSearchView findView = new SelectWithSearchTextView() {
-//			@Override
-//			public void configAjax(final View view) {
-//				super.configAjax(view);
-//				// Make the BACK button only have one AJAX Target
-//				if (view == getToolbarView()) {
-//					view.clearEventAjaxTargets(NavigationEventType.BACK);
-//					view.addEventAjaxTarget(selectView, NavigationEventType.BACK);
-//				}
-//			}
-//		};
-//
-//		AddDeleteListView posView = new AddDeleteListView("pos", selectView, findView);
-//		getFormPanel().add(posView);
-//		// Setup dialog
-//		posView.getDialog().setTitle("Search Positions");
-//
-//		// Models
-//		selectView.setRetrieveCollectionModelKey("contact.positions.search");
-//		findView.setRetrieveCollectionModelKey("position.search");
-//
-//		// Use the back button
-//		findView.getToolbarView().addToolbarItem(ToolbarNavigationItem.BACK);
-//	}
-//	@Override
-//	protected void initViewContent(final Request request) {
-//		Contact bean = getViewBean();
-//		// Positions
-//		if (!bean.getPositionIds().isEmpty()) {
-//			dispatchEvent(PollingEventType.START_POLLING, new SearchVersionKey(null, bean.getId()));
-////			selectView.doStartPolling();
-//		}
-//		super.initViewContent(request);
-//	}
-//
-//	@Override
-//	public void updateBeanValue() {
-//		super.updateBeanValue();
-//		Contact bean = getViewBean();
-//		// Positions
-//		List<Position> positions = (List<Position>) selectView.getCollectionView().getBeanValue();
-//		bean.setPositionIds(ApiModelUtil.convertApiObjectsToIds(positions));
-//	}
 }

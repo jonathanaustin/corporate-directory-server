@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui;
 
-import com.github.bordertech.corpdir.web.ui.smart.main.MainAppView;
+import com.github.bordertech.corpdir.web.ui.smart.MainAppView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;

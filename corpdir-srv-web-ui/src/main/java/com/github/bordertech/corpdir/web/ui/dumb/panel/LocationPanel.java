@@ -1,11 +1,11 @@
-package com.github.bordertech.corpdir.web.ui.smart.panel;
+package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.web.ui.dataapi.DataApiType;
+import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
@@ -57,14 +57,6 @@ public class LocationPanel extends BasicApiKeyPanel<Location> {
 		drpParent.getPollingView().setPollingInterval(50);
 		multiSub.getPollingView().setPollingInterval(75);
 
-	}
-
-	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-		// FIXME
-		drpParent.doManualStart();
-		multiSub.doManualStart();
 	}
 
 	@Override
