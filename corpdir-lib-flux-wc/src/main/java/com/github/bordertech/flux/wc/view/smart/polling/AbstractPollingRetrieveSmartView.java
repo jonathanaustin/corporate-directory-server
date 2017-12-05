@@ -26,54 +26,6 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		super(viewId, template, persistent);
 	}
 
-	@Override
-	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-		super.handleViewEvent(viewId, event, data);
-		if (event instanceof RetrieveOutcomeBaseEventType) {
-			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseEventType) event, data);
-		}
-	}
-
-	protected void handleRetrieveOutcomeBaseEvents(final RetrieveOutcomeBaseEventType type, final Object data) {
-		switch (type) {
-			case RETRIEVE_OK:
-				handleRetrieveOKEvent((R) data);
-				break;
-			case RETRIEVE_ERROR:
-				handleRetrieveErrorEvent((Exception) data);
-				break;
-		}
-	}
-
-	protected abstract void handleRetrieveOKEvent(final R result);
-
-	protected void handleRetrieveErrorEvent(final Exception excp) {
-		dispatchMessageError("Error loading details. " + excp.getMessage());
-	}
-
-	@Override
-	protected void handlePollingStartedEvent() {
-		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), getStoreCallType());
-	}
-
-	@Override
-	protected void handlePollingCheckStatusEvent() {
-		boolean done = StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
-		if (done) {
-			setPollingStatus(PollingStatus.STOPPED);
-			handleStoreResult();
-		}
-	}
-
-	protected void handleStoreResult() {
-		try {
-			R result = (R) StoreUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
-		} catch (Exception e) {
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
-		}
-	}
-
 	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {
 		getOrCreateComponentModel().retrieveType = retrieveType == null ? RetrieveActionBaseType.FETCH : retrieveType;
 	}
@@ -106,6 +58,65 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().criteria;
 	}
 
+	public void setUseRetryOnError(final boolean useRetryOnError) {
+		getOrCreateComponentModel().useRetryOnError = useRetryOnError;
+	}
+
+	public boolean isUseRetryOnError() {
+		return getComponentModel().useRetryOnError;
+	}
+
+	@Override
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		super.handleViewEvent(viewId, event, data);
+		if (event instanceof RetrieveOutcomeBaseEventType) {
+			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseEventType) event, data);
+		}
+	}
+
+	protected void handleRetrieveOutcomeBaseEvents(final RetrieveOutcomeBaseEventType type, final Object data) {
+		switch (type) {
+			case RETRIEVE_OK:
+				handleRetrieveOKEvent((R) data);
+				break;
+			case RETRIEVE_ERROR:
+				handleRetrieveErrorEvent((Exception) data);
+				break;
+		}
+	}
+
+	protected abstract void handleRetrieveOKEvent(final R result);
+
+	protected void handleRetrieveErrorEvent(final Exception excp) {
+		dispatchMessageError("Error loading details. " + excp.getMessage());
+		if (isUseRetryOnError()) {
+			doShowRetry();
+		}
+	}
+
+	@Override
+	protected void handlePollingStartedEvent() {
+		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), getStoreCallType());
+	}
+
+	@Override
+	protected void handlePollingCheckStatusEvent() {
+		boolean done = StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
+		if (done) {
+			setPollingStatus(PollingStatus.STOPPED);
+			handleStoreResult();
+		}
+	}
+
+	protected void handleStoreResult() {
+		try {
+			R result = (R) StoreUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
+		} catch (Exception e) {
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
+		}
+	}
+
 	@Override
 	protected PollingStoreModel<S> newComponentModel() {
 		return new PollingStoreModel();
@@ -133,5 +144,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		private String storeKey;
 
 		private S criteria;
+
+		private boolean useRetryOnError = true;
 	}
 }
