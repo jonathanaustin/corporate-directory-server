@@ -11,6 +11,7 @@ import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
+import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.util.ArrayList;
@@ -90,9 +91,13 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 		return Objects.equals(type1, type2);
 	}
 
+	protected boolean isResetEvent(final ViewEventType type) {
+		return Objects.equals(ToolbarBaseEventType.RESET, type);
+	}
+
 	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		// Reset Event
-		if (isEvent(event, ToolbarBaseEventType.RESET)) {
+		if (isResetEvent(event)) {
 			handleResetEvent(viewId);
 		}
 	}
@@ -107,19 +112,32 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 		for (WComponent child : getContent().getTaggedComponents().values()) {
 			if (child instanceof FluxDumbView) {
 				views.add((FluxDumbView) child);
+			} else {
+				// The child view maybe wrapped in another component
+				findChildViews(views, child);
 			}
 		}
 		return Collections.unmodifiableList(views);
 	}
 
+	protected void findChildViews(final List<FluxDumbView> views, final WComponent component) {
+		if (component instanceof FluxDumbView) {
+			views.add((FluxDumbView) component);
+			return;
+		}
+		// Check its children
+		if (component instanceof Container) {
+			for (WComponent child : ((Container) component).getChildren()) {
+				findChildViews(views, child);
+			}
+		}
+	}
+
 	@Override
 	public FluxDumbView getView(final String viewId) {
-		for (WComponent child : getContent().getTaggedComponents().values()) {
-			if (child instanceof FluxDumbView) {
-				FluxDumbView view = (FluxDumbView) child;
-				if (Objects.equals(viewId, view.getViewId())) {
-					return view;
-				}
+		for (FluxDumbView view : getViews()) {
+			if (Objects.equals(viewId, view.getViewId())) {
+				return view;
 			}
 		}
 		return null;
