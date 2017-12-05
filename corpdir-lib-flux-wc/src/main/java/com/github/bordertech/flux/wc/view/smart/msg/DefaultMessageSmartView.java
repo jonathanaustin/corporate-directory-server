@@ -17,10 +17,15 @@ import com.github.bordertech.wcomponents.WMessages;
  */
 public class DefaultMessageSmartView<T> extends DefaultSmartView<T> implements MessageSmartView<T> {
 
-	private final MessageView messageView = new DefaultMessageView("vw_msgs");
+	private final MessageView messageView;
 
 	public DefaultMessageSmartView(final String viewId, final String templateName) {
+		this(viewId, templateName, true);
+	}
+
+	public DefaultMessageSmartView(final String viewId, final String templateName, final boolean persistent) {
 		super(viewId, templateName);
+		messageView = new DefaultMessageView("vw_msgs", persistent);
 		addComponentToTemplate("vw-messages", messageView);
 	}
 

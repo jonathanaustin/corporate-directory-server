@@ -19,7 +19,11 @@ import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultPollingMessageSmartView<T> {
 
 	public AbstractPollingRetrieveSmartView(final String viewId, final String template) {
-		super(viewId, template);
+		this(viewId, template, true);
+	}
+
+	public AbstractPollingRetrieveSmartView(final String viewId, final String template, final boolean persistent) {
+		super(viewId, template, persistent);
 	}
 
 	@Override

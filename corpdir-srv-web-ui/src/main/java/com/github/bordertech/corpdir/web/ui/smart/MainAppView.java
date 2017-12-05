@@ -27,7 +27,7 @@ public class MainAppView extends DefaultMessageSmartView {
 	private final MainToolbarView toolbar = new MainToolbarView("MNT");
 
 	public MainAppView() {
-		super("MNV", "wclib/hbs/layout/combo-app-main.hbs");
+		super("MNV", "wclib/hbs/layout/combo-app-main.hbs", false);
 		cardView.addHtmlClass("wc-margin-all-lg");
 
 		WTemplate content = getContent();
