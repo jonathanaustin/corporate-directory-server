@@ -34,7 +34,7 @@ public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		// Message events
 		if (event instanceof MessageBaseEventType) {

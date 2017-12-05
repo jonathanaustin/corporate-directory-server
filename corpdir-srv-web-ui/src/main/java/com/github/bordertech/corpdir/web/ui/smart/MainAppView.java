@@ -1,8 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.smart;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.dumb.toolbar.MainToolbarView;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dumb.toolbar.MainToolbarView;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
@@ -81,7 +81,7 @@ public class MainAppView extends DefaultMessageSmartView {
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (isEvent(CardEventType.RESET, event)) {
 			handleResetCard((CardType) data);

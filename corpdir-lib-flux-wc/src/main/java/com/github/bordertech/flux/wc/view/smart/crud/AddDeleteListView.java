@@ -1,6 +1,10 @@
 package com.github.bordertech.flux.wc.view.smart.crud;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.util.FormUtil;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.SelectableView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
@@ -8,13 +12,9 @@ import com.github.bordertech.flux.wc.view.dumb.toolbar.AddDeleteButtonBarView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.ApplyButtonBarView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
 import com.github.bordertech.wcomponents.WDiv;
-import com.github.bordertech.flux.wc.util.FormUtil;
 import java.io.Serializable;
 import java.util.List;
 
@@ -104,7 +104,7 @@ public class AddDeleteListView<T> extends DefaultSmartView<T> implements FormUpd
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 
 		// Select View Events

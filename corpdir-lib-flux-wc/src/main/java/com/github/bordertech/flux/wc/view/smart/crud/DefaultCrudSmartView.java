@@ -6,6 +6,7 @@ import com.github.bordertech.flux.crud.store.EntityStore;
 import com.github.bordertech.flux.crud.store.SearchStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
@@ -31,7 +32,6 @@ import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -106,7 +106,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 
 		// Message Events
 		if (event instanceof MessageBaseEventType) {

@@ -43,7 +43,7 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof SearchBaseEventType) {
 			handleSearchBaseEvents((SearchBaseEventType) event, data);

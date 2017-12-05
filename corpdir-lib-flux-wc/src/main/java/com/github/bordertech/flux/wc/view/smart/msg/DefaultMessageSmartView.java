@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.view.smart.msg;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.MessageSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.WMessages;
 
 /**
@@ -35,7 +35,7 @@ public class DefaultMessageSmartView<T> extends DefaultSmartView<T> implements M
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		// Message events
 		if (event instanceof MessageBaseEventType) {

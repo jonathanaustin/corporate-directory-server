@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.AppAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
@@ -19,7 +20,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -65,15 +65,11 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	@Override
 	public boolean isContentVisible() {
 		return getContent().isVisible();
-//		return getComponentModel().contentVisible;
 	}
 
 	@Override
 	public void setContentVisible(final boolean visible) {
 		getContent().setVisible(visible);
-//		if (isContentVisible() != visible) {
-//			getOrCreateComponentModel().contentVisible = visible;
-//		}
 	}
 
 	@Override
@@ -181,14 +177,6 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 		ctrls.add(ajax);
 	}
 
-	protected boolean isView(final String viewId, final FluxDumbView view) {
-		return Objects.equals(viewId, view.getViewId());
-	}
-
-	protected boolean isEvent(final ViewEventType type1, final ViewEventType type2) {
-		return Objects.equals(type1, type2);
-	}
-
 	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
@@ -283,35 +271,15 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		// Check if this is a smart view and is not in "dumb mode". Dumb mode delegates to the parent.
-		FluxSmartView view = findSmartViewEventHandler(this, eventType);
-		if (view != null) {
-			view.handleViewEvent(getViewId(), eventType, data);
-		}
-	}
-
-	protected FluxSmartView findSmartViewEventHandler(final WComponent component, final ViewEventType eventType) {
-		FluxSmartView smart;
-		if (component instanceof FluxSmartView) {
-			smart = (FluxSmartView) component;
+		SmartView view;
+		if (this instanceof SmartView) {
+			view = (SmartView) this;
 		} else {
-			smart = ViewUtil.findParentSmartView(component);
+			view = findParentSmartView();
 		}
-		if (smart == null) {
-			return null;
+		if (view != null) {
+			view.serviceViewEvent(getViewId(), eventType, data);
 		}
-		// Check if this Smart View will process this event
-		boolean pass = smart.isDumbMode() && (smart.isPassAllEvents() || smart.getPassThroughs().contains(eventType));
-		if (!pass) {
-			return smart;
-		}
-		// Try next parent
-		FluxSmartView parent = ViewUtil.findParentSmartView(smart);
-		if (parent == null) {
-			return null;
-		}
-		return findSmartViewEventHandler(parent, eventType);
-
 	}
 
 	protected FluxSmartView findParentSmartView() {

@@ -45,7 +45,7 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		// Handle the Form Events
 		FormEventUtil.handleFormEvents(this, viewId, event, data);

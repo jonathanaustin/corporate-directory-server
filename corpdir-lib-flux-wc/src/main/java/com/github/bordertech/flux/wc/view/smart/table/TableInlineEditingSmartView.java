@@ -61,7 +61,7 @@ public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> im
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (isEvent(event, ToolbarBaseEventType.ADD)) {
 			handleAddEvent();

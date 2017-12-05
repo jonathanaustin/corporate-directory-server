@@ -8,6 +8,7 @@ import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.WComponent;
@@ -66,7 +67,31 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	public void serviceViewEvent(final String viewId, final ViewEventType eventType, final Object data) {
+		// Check if this Smart View will process this event
+		boolean pass = isDumbMode() && (isPassAllEvents() || getPassThroughs().contains(eventType));
+		if (pass) {
+			// Try next parent smart view
+			SmartView parent = findParentSmartView();
+			if (parent != null) {
+				parent.serviceViewEvent(viewId, eventType, data);
+			}
+			return;
+		}
+		// Handle event
+		handleViewEvent(viewId, eventType, data);
+	}
+
+	protected boolean isView(final String viewId, final FluxDumbView view) {
+		return Objects.equals(viewId, view.getViewId());
+	}
+
+	protected boolean isEvent(final ViewEventType type1, final ViewEventType type2) {
+		return Objects.equals(type1, type2);
+	}
+
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		// Reset Event
 		if (isEvent(event, ToolbarBaseEventType.RESET)) {
 			handleResetEvent(viewId);
 		}

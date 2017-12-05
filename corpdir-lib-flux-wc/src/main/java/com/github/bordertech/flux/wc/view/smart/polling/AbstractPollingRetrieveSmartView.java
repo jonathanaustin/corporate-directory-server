@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
-import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
+import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
@@ -23,7 +23,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof RetrieveOutcomeBaseEventType) {
 			handleRetrieveOutcomeBaseEvents((RetrieveOutcomeBaseEventType) event, data);

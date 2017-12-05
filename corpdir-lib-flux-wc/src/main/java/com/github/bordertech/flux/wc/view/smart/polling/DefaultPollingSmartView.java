@@ -1,11 +1,11 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.dumb.polling.DefaultPollingView;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.smart.PollingSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
@@ -33,7 +33,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof PollingBaseEventType) {
 			handlePollingBaseEvents((PollingBaseEventType) event, data);
