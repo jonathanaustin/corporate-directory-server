@@ -30,7 +30,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends JpaBasicVersionService<A, U, P> implements BasicVersionTreeService<A> {
+public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends JpaBasicVersionKeyIdService<A, U, P> implements BasicVersionTreeService<A> {
 
 	@Override
 	public DataResponse<List<A>> getRootItems() {

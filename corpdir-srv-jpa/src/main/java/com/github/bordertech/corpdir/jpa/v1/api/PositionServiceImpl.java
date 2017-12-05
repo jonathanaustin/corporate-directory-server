@@ -131,7 +131,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 	}
 
 	protected ContactEntity getContactEntity(final EntityManager em, final String keyId) {
-		ContactEntity entity = MapperUtil.getEntity(em, keyId, ContactEntity.class);
+		ContactEntity entity = MapperUtil.getEntityByKeyId(em, keyId, ContactEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Contact [" + keyId + "] not found.");
 		}

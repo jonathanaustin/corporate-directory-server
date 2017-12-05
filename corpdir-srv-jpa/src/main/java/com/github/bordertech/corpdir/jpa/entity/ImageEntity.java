@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultIdCustomObject;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -12,7 +12,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Image")
-public class ImageEntity extends DefaultKeyIdObject {
+public class ImageEntity extends DefaultIdCustomObject {
 
 	private String mimeType;
 	private byte[] image;

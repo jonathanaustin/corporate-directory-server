@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicService<A, P> implements BasicTreeService<A> {
+public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicKeyIdService<A, P> implements BasicTreeService<A> {
 
 	@Override
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {

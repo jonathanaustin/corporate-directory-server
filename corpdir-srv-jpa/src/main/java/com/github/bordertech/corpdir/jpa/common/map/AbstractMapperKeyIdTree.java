@@ -80,7 +80,7 @@ public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdObject & ApiTree
 	}
 
 	protected P getEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, getEntityClass());
+		return MapperUtil.getEntityByKeyId(em, keyId, getEntityClass());
 	}
 
 	protected abstract Class<P> getEntityClass();

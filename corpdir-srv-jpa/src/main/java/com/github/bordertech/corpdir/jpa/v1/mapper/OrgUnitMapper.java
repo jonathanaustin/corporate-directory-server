@@ -47,11 +47,11 @@ public class OrgUnitMapper extends AbstractMapperVersionTree<OrgUnit, OrgUnitLin
 	}
 
 	protected UnitTypeEntity getUnitTypeEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, UnitTypeEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, UnitTypeEntity.class);
 	}
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, PositionEntity.class);
 	}
 
 	@Override

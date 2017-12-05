@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
-import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicService;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.UnitTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -25,7 +25,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public class UnitTypeServiceImpl extends JpaBasicService<UnitType, UnitTypeEntity> implements UnitTypeService {
+public class UnitTypeServiceImpl extends JpaBasicKeyIdService<UnitType, UnitTypeEntity> implements UnitTypeService {
 
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
 	private static final UnitTypeMapper UNITTYPE_MAPPER = new UnitTypeMapper();

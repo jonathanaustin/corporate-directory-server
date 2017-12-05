@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicVersionService<T extends ApiVersionable> extends BasicService<T> {
+public interface BasicVersionKeyIdService<T extends ApiVersionable> extends BasicKeyIdService<T> {
 
 	DataResponse<List<T>> search(final Long versionId, final String search);
 

@@ -2,6 +2,7 @@ package com.github.bordertech.corpdir.jpa.util;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistIdObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public final class MapperUtil {
 	 * @param entity the entity
 	 * @return the API id format
 	 */
-	public static String convertEntityIdforApi(final PersistKeyIdObject entity) {
+	public static String convertEntityIdforApi(final PersistIdObject entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -106,10 +107,10 @@ public final class MapperUtil {
 	 * @param rows the list of entity items
 	 * @return the list of converted API business keys
 	 */
-	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistKeyIdObject> rows) {
+	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistIdObject> rows) {
 		List<String> items = new ArrayList<>();
 		if (rows != null) {
-			for (PersistKeyIdObject row : rows) {
+			for (PersistIdObject row : rows) {
 				if (row != null) {
 					items.add(convertEntityIdforApi(row));
 				}
@@ -156,13 +157,12 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+	public static <T extends PersistKeyIdObject> T getEntityByKeyId(final EntityManager em, final String keyId, final Class<T> clazz) {
 		if (keyId == null || keyId.isEmpty()) {
 			return null;
 		}
 		if (isEntityId(keyId)) {
-			Long id = convertApiIdforEntity(keyId);
-			return getEntityById(em, id, clazz);
+			return getEntityByApiId(em, keyId, clazz);
 		} else {
 			return getEntityByBusinessKey(em, keyId, clazz);
 		}
@@ -175,7 +175,22 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistKeyIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
+	public static <T extends PersistIdObject> T getEntityByApiId(final EntityManager em, final String id, final Class<T> clazz) {
+		if (id == null) {
+			return null;
+		}
+		Long longId = convertApiIdforEntity(id);
+		return getEntityById(em, longId, clazz);
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param id the record id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
 		if (id == null) {
 			return null;
 		}

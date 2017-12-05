@@ -76,11 +76,11 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 	}
 
 	protected LocationEntity getLocationEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, LocationEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, LocationEntity.class);
 	}
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, PositionEntity.class);
 	}
 
 	@Override

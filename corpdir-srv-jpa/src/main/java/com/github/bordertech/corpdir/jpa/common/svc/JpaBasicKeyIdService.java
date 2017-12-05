@@ -3,13 +3,13 @@ package com.github.bordertech.corpdir.jpa.common.svc;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
-import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
+import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 
 /**
  * Keyed Entity JPA service implementation.
@@ -20,7 +20,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends AbstractJpaKeyIdService<A, P> implements BasicService<A> {
+public abstract class JpaBasicKeyIdService<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends AbstractJpaKeyIdService<A, P> implements BasicKeyIdService<A> {
 
 	@Override
 	public DataResponse<List<A>> search(final String search) {

@@ -12,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicService<T extends ApiKeyIdObject> {
+public interface BasicKeyIdService<T extends ApiKeyIdObject> {
 
 	DataResponse<List<T>> search(final String search);
 

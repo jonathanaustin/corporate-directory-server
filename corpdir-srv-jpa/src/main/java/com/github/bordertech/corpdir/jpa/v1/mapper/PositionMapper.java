@@ -47,15 +47,15 @@ public class PositionMapper extends AbstractMapperVersionTree<Position, Position
 	}
 
 	protected PositionTypeEntity getPositionTypeEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, PositionTypeEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, PositionTypeEntity.class);
 	}
 
 	protected OrgUnitEntity getOrgUnitEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, OrgUnitEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, OrgUnitEntity.class);
 	}
 
 	protected ContactEntity getContactEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, ContactEntity.class);
+		return MapperUtil.getEntityByKeyId(em, keyId, ContactEntity.class);
 	}
 
 	@Override

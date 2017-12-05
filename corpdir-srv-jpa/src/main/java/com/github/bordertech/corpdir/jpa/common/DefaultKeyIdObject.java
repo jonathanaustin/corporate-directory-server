@@ -9,11 +9,9 @@ import javax.persistence.MappedSuperclass;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultKeyIdObject extends DefaultIdObject implements PersistKeyIdObject {
+public class DefaultKeyIdObject extends DefaultIdCustomObject implements PersistKeyIdObject {
 
 	private String businessKey;
-	private boolean active = true;
-	private boolean custom = true;
 
 	/**
 	 * Default constructor.
@@ -37,42 +35,6 @@ public class DefaultKeyIdObject extends DefaultIdObject implements PersistKeyIdO
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
-	}
-
-	/**
-	 *
-	 * @return true if active record
-	 */
-	@Override
-	public boolean isActive() {
-		return active;
-	}
-
-	/**
-	 *
-	 * @param active true if active record
-	 */
-	@Override
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	/**
-	 *
-	 * @return true if custom record
-	 */
-	@Override
-	public boolean isCustom() {
-		return custom;
-	}
-
-	/**
-	 *
-	 * @param custom true if custom record
-	 */
-	@Override
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 }

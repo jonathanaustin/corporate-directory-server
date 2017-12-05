@@ -64,7 +64,7 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 	}
 
 	protected P getEntity(final EntityManager em, final String keyId) {
-		P entity = MapperUtil.getEntity(em, keyId, getEntityClass());
+		P entity = MapperUtil.getEntityByKeyId(em, keyId, getEntityClass());
 		if (entity == null) {
 			throw new NotFoundException("Entity [" + keyId + "] not found.");
 		}

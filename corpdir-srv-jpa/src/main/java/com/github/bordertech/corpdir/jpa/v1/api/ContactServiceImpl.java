@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
-import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionService;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
@@ -31,7 +31,7 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactLinksEntity, ContactEntity> implements ContactService {
+public class ContactServiceImpl extends JpaBasicVersionKeyIdService<Contact, ContactLinksEntity, ContactEntity> implements ContactService {
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
@@ -68,7 +68,7 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 	}
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		PositionEntity entity = MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		PositionEntity entity = MapperUtil.getEntityByKeyId(em, keyId, PositionEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Position [" + keyId + "] not found.");
 		}
@@ -236,7 +236,7 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 	}
 
 	protected ChannelEntity getChannelEntity(final EntityManager em, final String keyId) {
-		ChannelEntity entity = MapperUtil.getEntity(em, keyId, ChannelEntity.class);
+		ChannelEntity entity = MapperUtil.getEntityByApiId(em, keyId, ChannelEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Entity [" + keyId + "] not found.");
 		}

@@ -98,7 +98,7 @@ public abstract class AbstractMapperVersion<A extends ApiVersionable, U extends 
 	}
 
 	protected P getEntity(final EntityManager em, final String keyId) {
-		return MapperUtil.getEntity(em, keyId, getEntityClass());
+		return MapperUtil.getEntityByKeyId(em, keyId, getEntityClass());
 	}
 
 	protected VersionCtrlEntity getVersionCtrl(final EntityManager em, final Long versionId) {

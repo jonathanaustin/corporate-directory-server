@@ -2,11 +2,11 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
-import com.github.bordertech.corpdir.api.service.BasicService;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
 import com.github.bordertech.locator.LocatorUtil;
 import java.util.List;
+import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 
 /**
  * API Search and Action Model.
@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class DefaultModelSearchActionService<T extends ApiKeyIdObject, B extends BasicService<T>> implements SearchApi<String, T>, CrudApi<T> {
+public class DefaultModelSearchActionService<T extends ApiKeyIdObject, B extends BasicKeyIdService<T>> implements SearchApi<String, T>, CrudApi<T> {
 
 	private final Class<T> apiClass;
 	private final B service;

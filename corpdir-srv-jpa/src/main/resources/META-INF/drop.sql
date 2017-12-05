@@ -14,8 +14,6 @@ alter table OrgUnit drop constraint UK_OrgUnit_Business_Key;
 alter table Location drop constraint UK_Location_Business_Key;
 alter table Contact drop constraint UK_Contact_Business_Key;
 alter table UnitType drop constraint UK_UnitType_Business_Key;
-alter table Channel drop constraint UK_Channel_Business_Key;
-alter table Image drop constraint UK_Image_Business_Key;
 /** Unique channel id*/
 alter table Contact_Channel drop constraint UK_Contact_Channel;
 

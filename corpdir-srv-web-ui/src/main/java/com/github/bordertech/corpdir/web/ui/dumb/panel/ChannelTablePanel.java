@@ -29,18 +29,6 @@ public class ChannelTablePanel extends DefaultDumbView<List<Channel>> {
 
 		// Setup table columns
 		List<TableColumn<?, Channel>> cols = new ArrayList<>();
-		// Business Key
-		cols.add(new AbstractTableEditableColumn<String, Channel>("Key") {
-			@Override
-			public String getValue(final Channel bean) {
-				return bean.getBusinessKey();
-			}
-
-			@Override
-			public void setValue(final Channel bean, final String value) {
-				bean.setBusinessKey(value);
-			}
-		});
 		// Type
 		cols.add(new AbstractTableEditableColumn<ChannelTypeEnum, Channel>("Type", new WDropdown(ChannelTypeEnum.values())) {
 			@Override

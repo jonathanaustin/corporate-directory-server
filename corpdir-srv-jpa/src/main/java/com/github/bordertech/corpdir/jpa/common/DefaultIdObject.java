@@ -10,7 +10,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Version;
 
 /**
- * Default persistent keyed object.
+ * Default persistent object with an ID.
  *
  * @author jonathan
  */

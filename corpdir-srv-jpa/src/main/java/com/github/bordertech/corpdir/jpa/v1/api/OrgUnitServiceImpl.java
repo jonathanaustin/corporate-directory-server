@@ -138,7 +138,7 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	 * @return the position entity
 	 */
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		PositionEntity entity = MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		PositionEntity entity = MapperUtil.getEntityByKeyId(em, keyId, PositionEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Position [" + keyId + "] not found.");
 		}
