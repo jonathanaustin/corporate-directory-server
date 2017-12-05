@@ -14,9 +14,9 @@ import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 /**
  * Table with row edit actions.
@@ -24,7 +24,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class RowActionPanel<T> extends WDiv {
+public class RowActionPanel<T> extends WDiv implements RowActionable {
 
 	private static final String EDIT_ROWS_ATTR_KEY = "wc-edit-rows";
 
@@ -32,21 +32,21 @@ public class RowActionPanel<T> extends WDiv {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
-			return isAllowEdit() && !isEditRow(key);
+			return isAllowEdit() && getRowModeKey(key) == RowMode.READ;
 		}
 	};
 	private final WButton cancelButton = new WButton("Cancel") {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
-			return isEditRow(key);
+			return getRowModeKey(key) == RowMode.EDIT;
 		}
 	};
 	private final WConfirmationButton deleteButton = new WConfirmationButton("Delete") {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
-			return isAllowEdit() && !isEditRow(key);
+			return isAllowEdit() && getRowModeKey(key) != RowMode.EDIT;
 		}
 	};
 
@@ -114,6 +114,14 @@ public class RowActionPanel<T> extends WDiv {
 	}
 
 	@Override
+	public RowMode getRowMode(final Object rowKey) {
+		if (!isAllowEdit()) {
+			return RowMode.READ;
+		}
+		return getRowModeKey(rowKey);
+	}
+
+	@Override
 	protected void preparePaintComponent(final Request request) {
 		super.preparePaintComponent(request);
 		if (!isInitialised()) {
@@ -135,22 +143,27 @@ public class RowActionPanel<T> extends WDiv {
 	/**
 	 * @param rowKey row key to include in edits.
 	 */
-	protected void addEditRow(final Object rowKey) {
+	@Override
+	public void addRowModeKey(final Object rowKey, final RowMode mode) {
+		if (mode == null) {
+			throw new IllegalArgumentException("Row mode cannot be null.");
+		}
 		WTable table = getTable();
-		HashSet<Object> editRows = (HashSet<Object>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
+		HashMap<Object, RowMode> editRows = (HashMap<Object, RowMode>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
 		if (editRows == null) {
-			editRows = new HashSet<>();
+			editRows = new HashMap<>();
 			table.setAttribute(EDIT_ROWS_ATTR_KEY, editRows);
 		}
-		editRows.add(rowKey);
+		editRows.put(rowKey, mode);
 	}
 
 	/**
 	 * @param rowKey the row key to remove from the edits.
 	 */
-	protected void removeEditRow(final Object rowKey) {
+	@Override
+	public void removeRowModeKey(final Object rowKey) {
 		WTable table = getTable();
-		Set<Object> editRows = (Set<Object>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
+		HashMap<Object, RowMode> editRows = (HashMap<Object, RowMode>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
 		if (editRows != null) {
 			editRows.remove(rowKey);
 		}
@@ -160,21 +173,25 @@ public class RowActionPanel<T> extends WDiv {
 	 * @param key the row key to test
 	 * @return true if row key is being edited
 	 */
-	protected boolean isEditRow(final Object key) {
+	protected RowMode getRowModeKey(final Object key) {
 		WTable table = getTable();
-		Set<Object> editRows = (Set<Object>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
-		return editRows != null && editRows.contains(key);
+		Map<Object, RowMode> editRows = (Map<Object, RowMode>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
+		if (editRows == null) {
+			return RowMode.READ;
+		}
+		RowMode mode = editRows.get(key);
+		return mode == null ? RowMode.READ : mode;
 	}
 
 	protected void handleEditButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
-		addEditRow(key);
+		addRowModeKey(key, RowMode.EDIT);
 	}
 
 	protected void handleDeleteButtonAction() {
 		WTable table = getTable();
 		Object key = TableUtil.getCurrentRowKey();
-		removeEditRow(key);
+		removeRowModeKey(key);
 		T bean = (T) getBean();
 		List<T> beans = (List<T>) table.getBean();
 		beans.remove(bean);
@@ -183,7 +200,7 @@ public class RowActionPanel<T> extends WDiv {
 
 	protected void handleCancelButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
-		removeEditRow(key);
+		removeRowModeKey(key);
 		for (AjaxTarget target : getColumnAjaxTargets()) {
 			target.reset();
 		}

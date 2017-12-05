@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.lib.table.DefaultTableColumn;
 import com.github.bordertech.wcomponents.lib.table.TableBeanModel;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
 import com.github.bordertech.wcomponents.lib.table.edit.RowActionPanel;
+import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,6 +103,11 @@ public class TableInlineEditingView<T> extends AbstractListView<T> implements Fo
 	public void addItem(final T item) {
 		super.addItem(item);
 		table.handleDataChanged();
+		TableBeanModel model = (TableBeanModel) table.getTableModel();
+		if (model.getActionColumn() != null) {
+			Object key = model.getBeanKey(item);
+			model.getActionColumn().addRowModeKey(key, RowMode.ADD);
+		}
 	}
 
 	@Override

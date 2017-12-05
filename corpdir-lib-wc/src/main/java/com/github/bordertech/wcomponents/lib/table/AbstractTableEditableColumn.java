@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import java.util.Comparator;
 
 /**
- * Default table column that returns the row bean as the column bean.
+ * Editable column that default to a TextField instead of a WText.
  *
  * @author jonathan
  */
@@ -41,6 +41,7 @@ public abstract class AbstractTableEditableColumn<V, T> extends AbstractTableCol
 	public AbstractTableEditableColumn(final String columnId, final String label, final WComponent renderer,
 			final Comparator comparator) {
 		super(columnId, label, renderer, comparator);
+		// Set editable to true
 		setEditable(true);
 	}
 

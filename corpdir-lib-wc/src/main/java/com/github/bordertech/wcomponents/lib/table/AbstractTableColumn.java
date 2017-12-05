@@ -10,6 +10,10 @@ import java.util.UUID;
 
 /**
  * Table column details.
+ * <p>
+ * This class is not thread safe as it has class level members that are not final. If these need to be updated per user,
+ * then a new instance needs to be created per user session.
+ * <p>
  *
  * @param <V> the columns value type
  * @param <T> the row bean type
@@ -42,8 +46,8 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * Column is editable.
 	 */
 	private boolean editable;
-
 	private int width;
+
 	private WTableColumn.Alignment alignment;
 
 	/**

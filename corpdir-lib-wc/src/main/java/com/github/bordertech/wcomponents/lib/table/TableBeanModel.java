@@ -3,6 +3,8 @@ package com.github.bordertech.wcomponents.lib.table;
 import com.github.bordertech.wcomponents.AbstractBeanBoundTableModel;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
+import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
+import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -26,11 +28,25 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	private final List<U> columns;
 
+	private final RowActionable actionColumn;
+
 	/**
 	 * @param columns the columns for this table
 	 */
 	public TableBeanModel(final List<U> columns) {
 		this.columns = columns;
+		RowActionable actionCol = null;
+		for (U column : columns) {
+			if (column.getRenderer() instanceof RowActionable) {
+				actionCol = (RowActionable) column.getRenderer();
+				break;
+			}
+		}
+		this.actionColumn = actionCol;
+	}
+
+	public final RowActionable getActionColumn() {
+		return actionColumn;
 	}
 
 	/**
@@ -78,7 +94,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	@Override
 	public boolean isCellEditable(final List<Integer> row, final int col) {
 		TableColumn column = getColumn(col);
-		return column.isEditable();
+		return column.isEditable() && isRowEdittable(getRowKey(row));
 	}
 
 	/**
@@ -95,7 +111,8 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
-		return getRowBean(row);
+		T bean = getRowBean(row);
+		return getBeanKey(bean);
 	}
 
 	/**
@@ -109,6 +126,16 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 			return null;
 		}
 		return sort(comp, col, ascending);
+	}
+
+	/**
+	 * Determine the bean identifier. Defaults to the bean itself.
+	 *
+	 * @param bean the bean
+	 * @return the bean identifier
+	 */
+	public Object getBeanKey(final T bean) {
+		return bean;
 	}
 
 	/**
@@ -187,6 +214,11 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	public void setSelectable(final boolean selectable) {
 		this.selectable = selectable;
+	}
+
+	protected boolean isRowEdittable(final Object key) {
+		// Default to true if no action column provided
+		return actionColumn == null ? true : actionColumn.getRowMode(key) != RowMode.READ;
 	}
 
 }

@@ -24,11 +24,6 @@ import javax.persistence.criteria.Root;
 public final class MapperUtil {
 
 	/**
-	 * ID prefix for API.
-	 */
-	private static final String ID_PREFIX = "_";
-
-	/**
 	 * Private constructor to prevent instantiation.
 	 */
 	private MapperUtil() {
@@ -59,7 +54,7 @@ public final class MapperUtil {
 		if (id == null) {
 			return null;
 		}
-		String convert = ID_PREFIX + String.valueOf(id);
+		String convert = ApiIdObject.ID_PREFIX + String.valueOf(id);
 		return convert;
 	}
 
@@ -82,14 +77,26 @@ public final class MapperUtil {
 
 	/**
 	 *
+	 * @param testId the id to test if its an API temporary ID
+	 * @return true if a temporary id
+	 */
+	public static boolean isTempId(final String testId) {
+		if (testId == null || testId.startsWith(ApiIdObject.TEMP_NEW_ID_PREFIX)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *
 	 * @param testId the id to test if its an API format entity ID
 	 * @return true if an entity ID
 	 */
 	public static boolean isEntityId(final String testId) {
-		if (testId == null || !testId.startsWith(ID_PREFIX)) {
+		if (testId == null || !testId.startsWith(ApiIdObject.ID_PREFIX)) {
 			return false;
 		}
-		String regex = "^" + Pattern.quote(ID_PREFIX) + "\\d+$";
+		String regex = "^" + Pattern.quote(ApiIdObject.ID_PREFIX) + "\\d+$";
 		return testId.matches(regex);
 	}
 
@@ -214,7 +221,7 @@ public final class MapperUtil {
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("Business Key must be provided.");
 		}
-		if (key.startsWith(ID_PREFIX)) {
+		if (key.startsWith(ApiIdObject.ID_PREFIX)) {
 			throw new IllegalArgumentException("Business Key cannot start with a reserved character.");
 		}
 		T other = getEntityByBusinessKey(em, key, entityClass);
