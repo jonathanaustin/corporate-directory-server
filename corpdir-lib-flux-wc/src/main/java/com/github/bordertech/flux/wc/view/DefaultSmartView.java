@@ -28,6 +28,10 @@ import java.util.Set;
  */
 public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements FluxSmartView<T> {
 
+	public DefaultSmartView(final String viewId) {
+		this(viewId, "wclib/hbs/layout/default-view.hbs");
+	}
+
 	public DefaultSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
 		setNamingContext(true);

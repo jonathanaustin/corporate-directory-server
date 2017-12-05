@@ -8,8 +8,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
+import com.github.bordertech.wcomponents.WebUtilities;
 
 /**
  * Contact detail Form.
@@ -19,8 +21,7 @@ import com.github.bordertech.wcomponents.WLabel;
  */
 public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
-	private final PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
-	private final PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
+	private final ChannelTablePanel channelPanel = new ChannelTablePanel("CHNL");
 
 // TODO
 //	private boolean hasImage;
@@ -40,30 +41,48 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		addTextField("Description", "description", true);
 		addCheckBox("Active", "active", false);
 
+		// Channels
+		getFormPanel().add(new WHeading(HeadingLevel.H2, "Channels"));
+		getFormPanel().add(channelPanel);
+
+		// Address
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
 		AddressPanel addressPanel = new AddressPanel("ADDR");
 		addressPanel.setBeanProperty("address");
 		getFormPanel().add(addressPanel);
 
 		// Location
+		PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
 		WLabel lbl = new WLabel("Location", drpLocation.getSelectInput());
 		getFormLayout().addField(lbl, drpLocation);
 		drpLocation.setIncludeNullOption(true);
 		drpLocation.setCodeProperty("id");
 		drpLocation.getOptionsView().setBeanProperty("locationId");
 		drpLocation.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
-		// FIXME JA
-//		drpLocation.setRetrieveListModelKey("location.search");
 
 		// Assigned Positions
+		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
 		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
-		// FIXME JA
-//		multiPos.setRetrieveListModelKey("position.search");
 
+	}
+
+	@Override
+	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
+		Contact contact = getViewBean();
+		channelPanel.setViewBean(contact.getChannels());
+	}
+
+	@Override
+	public void updateBeanValue() {
+		super.updateBeanValue();
+		Contact contact = getViewBean();
+		WebUtilities.updateBeanValue(channelPanel);
+		contact.setChannels(channelPanel.getViewBean());
 	}
 
 }

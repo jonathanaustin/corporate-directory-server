@@ -96,4 +96,22 @@ public class MenuSelectView<T> extends AbstractListSingleSelectView<T> {
 		menu.setSelectedMenuItem(null);
 	}
 
+	@Override
+	public void addItem(final T item) {
+		super.addItem(item);
+		refreshItems(getItems());
+	}
+
+	@Override
+	public void removeItem(final T entity) {
+		super.removeItem(entity);
+		refreshItems(getItems());
+	}
+
+	@Override
+	public void updateItem(final T item) {
+		super.updateItem(item);
+		refreshItems(getItems());
+	}
+
 }

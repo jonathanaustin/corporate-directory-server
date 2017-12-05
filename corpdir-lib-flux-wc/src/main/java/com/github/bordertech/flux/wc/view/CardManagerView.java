@@ -15,7 +15,7 @@ public class CardManagerView<T> extends DefaultSmartView<T> {
 	private final AppCardManager<FluxDumbView> mgr = new AppCardManager();
 
 	public CardManagerView(final String viewId) {
-		super(viewId, "wclib/hbs/layout/default-view.hbs");
+		super(viewId);
 		setNamingContext(false);
 		setSearchAncestors(true);
 		setDumbMode(true);

@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.jpa.util;
 
+import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.exception.ServiceException;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
@@ -69,6 +70,9 @@ public final class MapperUtil {
 	 */
 	public static Long convertApiIdforEntity(final String id) {
 		if (id == null) {
+			return null;
+		}
+		if (id.startsWith(ApiIdObject.TEMP_NEW_ID_PREFIX)) {
 			return null;
 		}
 		String value = id.substring(1);

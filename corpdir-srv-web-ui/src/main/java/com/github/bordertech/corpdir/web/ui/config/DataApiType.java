@@ -13,7 +13,8 @@ public enum DataApiType {
 	LOCATION("location"),
 	POSITION_TYPE("positiontype"),
 	UNIT_TYPE("unittype"),
-	CONTACT("contact", true);
+	CONTACT("contact", true),
+	CHANNEL("channel", false, false, false, true);
 
 	DataApiType(final String key) {
 		this(key, false);
