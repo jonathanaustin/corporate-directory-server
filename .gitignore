@@ -36,3 +36,11 @@ local_app.properties
 
 
 *.log
+
+## Eclipse specific
+.classpath
+.settings
+**/target/*
+.recommenders/*
+.project
+.metadata/*
