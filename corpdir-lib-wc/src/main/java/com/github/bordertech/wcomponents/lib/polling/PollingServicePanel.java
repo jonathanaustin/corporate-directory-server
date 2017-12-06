@@ -120,7 +120,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	public void doStartPolling() {
 		// Check not started
-		if (getPollingStatus() != PollingStatus.STOPPED) {
+		if (getPollingStatus() == PollingStatus.PROCESSING) {
 			return;
 		}
 

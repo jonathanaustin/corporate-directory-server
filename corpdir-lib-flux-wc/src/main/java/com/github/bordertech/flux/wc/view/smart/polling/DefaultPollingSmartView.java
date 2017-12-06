@@ -55,6 +55,9 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 			case STOPPED:
 				handlePollingStoppedEvent();
 				break;
+			case TIMEOUT:
+				handlePollingTimeoutEvent();
+				break;
 			case CHECK_STATUS:
 				handlePollingCheckStatusEvent();
 				break;
@@ -69,6 +72,9 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	protected void handlePollingStoppedEvent() {
+	}
+
+	protected void handlePollingTimeoutEvent() {
 	}
 
 	protected void handlePollingCheckStatusEvent() {
@@ -152,6 +158,26 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	@Override
 	public void doShowRetry() {
 		pollingView.doShowRetry();
+	}
+
+	@Override
+	public void setPollingTimeout(final int pollingTimeout) {
+		pollingView.setPollingTimeout(pollingTimeout);
+	}
+
+	@Override
+	public int getPollingTimeout() {
+		return pollingView.getPollingTimeout();
+	}
+
+	@Override
+	public void setUseRetryOnError(boolean useRetryOnError) {
+		pollingView.setUseRetryOnError(useRetryOnError);
+	}
+
+	@Override
+	public boolean isUseRetryOnError() {
+		return pollingView.isUseRetryOnError();
 	}
 
 }

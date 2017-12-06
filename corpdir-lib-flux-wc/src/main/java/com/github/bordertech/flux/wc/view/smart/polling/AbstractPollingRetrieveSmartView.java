@@ -7,6 +7,7 @@ import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
  * Abstract Polling Smart View that retrieves data from a store.
@@ -56,14 +57,6 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	public S getStoreCriteria() {
 		return getComponentModel().criteria;
-	}
-
-	public void setUseRetryOnError(final boolean useRetryOnError) {
-		getOrCreateComponentModel().useRetryOnError = useRetryOnError;
-	}
-
-	public boolean isUseRetryOnError() {
-		return getComponentModel().useRetryOnError;
 	}
 
 	@Override
@@ -118,6 +111,12 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	@Override
+	protected void handlePollingTimeoutEvent() {
+		super.handlePollingTimeoutEvent();
+		dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, new SystemException("Polling timeout"));
+	}
+
+	@Override
 	protected PollingStoreModel<S> newComponentModel() {
 		return new PollingStoreModel();
 	}
@@ -144,7 +143,5 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		private String storeKey;
 
 		private S criteria;
-
-		private boolean useRetryOnError = true;
 	}
 }

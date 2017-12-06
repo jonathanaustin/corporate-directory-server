@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.view.dumb.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.event.PollingEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
@@ -52,6 +52,7 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
+			dispatchMessageReset();
 			doDispatchPollingEvent(PollingBaseEventType.STARTED);
 		}
 
@@ -59,6 +60,15 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		protected void handleStoppedPolling() {
 			super.handleStoppedPolling();
 			doDispatchPollingEvent(PollingBaseEventType.STOPPED);
+		}
+
+		@Override
+		protected void handleTimeoutPolling() {
+			dispatchMessageError("Polling timeout.");
+			doDispatchPollingEvent(PollingBaseEventType.TIMEOUT);
+			if (isUseRetryOnError()) {
+				doShowRetry();
+			}
 		}
 
 		@Override
@@ -168,6 +178,26 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	@Override
 	public void setStartType(final PollingStartType startType) {
 		pollingPanel.setStartType(startType);
+	}
+
+	@Override
+	public void setPollingTimeout(final int pollingTimeout) {
+		pollingPanel.setPollingTimeout(pollingTimeout);
+	}
+
+	@Override
+	public int getPollingTimeout() {
+		return pollingPanel.getPollingTimeout();
+	}
+
+	@Override
+	public void setUseRetryOnError(boolean useRetryOnError) {
+		pollingPanel.setUseRetryOnError(useRetryOnError);
+	}
+
+	@Override
+	public boolean isUseRetryOnError() {
+		return pollingPanel.isUseRetryOnError();
 	}
 
 }
