@@ -8,10 +8,8 @@ import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
-import com.github.bordertech.wcomponents.WebUtilities;
 
 /**
  * Contact detail Form.
@@ -44,6 +42,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		// Channels
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Channels"));
 		getFormPanel().add(channelPanel);
+		channelPanel.setBeanProperty("channels");
+		channelPanel.setSearchAncestors(true);
 
 		// Address
 		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
@@ -67,22 +67,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
 		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
-
-	}
-
-	@Override
-	protected void initViewContent(final Request request) {
-		super.initViewContent(request);
-		Contact contact = getViewBean();
-		channelPanel.setViewBean(contact.getChannels());
-	}
-
-	@Override
-	public void updateBeanValue() {
-		super.updateBeanValue();
-		Contact contact = getViewBean();
-		WebUtilities.updateBeanValue(channelPanel);
-		contact.setChannels(channelPanel.getViewBean());
 	}
 
 }

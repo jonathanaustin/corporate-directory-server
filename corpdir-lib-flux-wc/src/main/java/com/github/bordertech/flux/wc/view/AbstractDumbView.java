@@ -111,12 +111,24 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 
 	@Override
 	public T getViewBean() {
-		return (T) getBean();
+		return (T) getBeanValue();
 	}
 
 	@Override
 	public void setViewBean(final T viewBean) {
-		setBean(viewBean);
+		setBeanValue(viewBean);
+	}
+
+	@Override
+	public void setBeanValue(final Object value) {
+		// FIXME This method and logic should eventually be included in WComponents
+		String beanProperty = getBeanProperty();
+		if (beanProperty == null || ".".equals(beanProperty)) {
+			setBean(value);
+		} else {
+			doUpdateBeanValue(value);
+		}
+		removeBeanFromScratchMap();
 	}
 
 	@Override

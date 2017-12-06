@@ -31,6 +31,14 @@ public interface FluxDumbView<T> extends DumbView<T>, AjaxTarget, SubordinateTar
 	void setSearchAncestors(final boolean searchAncestors);
 
 	/**
+	 * This method is here until it is added to BeanBound. It acts similar to setBean but takes into account the bean
+	 * property if it is set.
+	 *
+	 * @param value the bean value
+	 */
+	void setBeanValue(final Object value);
+
+	/**
 	 *
 	 * @param target the AJAX target to add
 	 * @param eventType the event the target is for
