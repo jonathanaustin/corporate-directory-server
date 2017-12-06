@@ -8,6 +8,8 @@ import com.github.bordertech.flux.wc.view.dumb.table.TableInlineEditingView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
+import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
+import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
 import java.util.List;
 
 /**
@@ -16,7 +18,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> implements EntityActionCreatorConsumer<T> {
+public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> implements EntityActionCreatorConsumer<T>, RowActionable {
 
 	private final TableInlineEditingView tableView;
 
@@ -59,6 +61,36 @@ public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> im
 	@Override
 	public EntityActionCreator<T> getEntityActionCreator() {
 		return (EntityActionCreator<T>) getDispatcher().getActionCreator(getEntityActionCreatorKey());
+	}
+
+	@Override
+	public RowMode getCurrentRowMode() {
+		return tableView.getCurrentRowMode();
+	}
+
+	@Override
+	public RowMode getRowMode(final Object rowKey) {
+		return tableView.getRowMode(rowKey);
+	}
+
+	@Override
+	public void addRowModeKey(final Object rowKey, final RowMode mode) {
+		tableView.addRowModeKey(rowKey, mode);
+	}
+
+	@Override
+	public void removeRowModeKey(final Object rowKey) {
+		tableView.removeRowModeKey(rowKey);
+	}
+
+	@Override
+	public RowMode getRowModeKey(final Object rowKey) {
+		return tableView.getRowModeKey(rowKey);
+	}
+
+	@Override
+	public void clearRowModeKeys() {
+		tableView.clearRowModeKeys();
 	}
 
 	@Override

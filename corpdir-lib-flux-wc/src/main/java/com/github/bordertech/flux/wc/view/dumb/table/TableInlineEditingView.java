@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.lib.table.DefaultTableColumn;
 import com.github.bordertech.wcomponents.lib.table.TableBeanModel;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
 import com.github.bordertech.wcomponents.lib.table.edit.RowActionPanel;
+import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
 import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TableInlineEditingView<T> extends AbstractListView<T> implements FormUpdateable {
+public class TableInlineEditingView<T> extends AbstractListView<T> implements FormUpdateable, RowActionable {
 
 	private final WTable table = new WTable();
 
@@ -97,17 +98,15 @@ public class TableInlineEditingView<T> extends AbstractListView<T> implements Fo
 	@Override
 	public void doMakeFormReadonly(final boolean readonly) {
 		table.setEditable(!readonly);
+		clearRowModeKeys();
 	}
 
 	@Override
 	public void addItem(final T item) {
 		super.addItem(item);
 		table.handleDataChanged();
-		TableBeanModel model = (TableBeanModel) table.getTableModel();
-		if (model.getActionColumn() != null) {
-			Object key = model.getBeanKey(item);
-			model.getActionColumn().addRowModeKey(key, RowMode.ADD);
-		}
+		Object key = getBeanKey(item);
+		addRowModeKey(key, RowMode.ADD);
 	}
 
 	@Override
@@ -120,6 +119,67 @@ public class TableInlineEditingView<T> extends AbstractListView<T> implements Fo
 	public void updateItem(final T item) {
 		super.updateItem(item);
 		table.handleDataChanged();
+	}
+
+	@Override
+	public RowMode getCurrentRowMode() {
+		RowActionable col = getActionColumn();
+		if (col == null) {
+			return RowMode.READ;
+		}
+		return col.getCurrentRowMode();
+	}
+
+	@Override
+	public RowMode getRowMode(final Object rowKey) {
+		RowActionable col = getActionColumn();
+		if (col == null) {
+			return RowMode.READ;
+		}
+		return col.getRowMode(rowKey);
+	}
+
+	@Override
+	public void addRowModeKey(final Object rowKey, final RowMode mode) {
+		RowActionable col = getActionColumn();
+		if (col != null) {
+			col.addRowModeKey(rowKey, mode);
+		}
+	}
+
+	@Override
+	public void removeRowModeKey(final Object rowKey) {
+		RowActionable col = getActionColumn();
+		if (col != null) {
+			col.removeRowModeKey(rowKey);
+		}
+	}
+
+	@Override
+	public RowMode getRowModeKey(final Object rowKey) {
+		RowActionable col = getActionColumn();
+		if (col == null) {
+			return RowMode.READ;
+		}
+		return col.getRowModeKey(rowKey);
+	}
+
+	@Override
+	public void clearRowModeKeys() {
+		RowActionable col = getActionColumn();
+		if (col != null) {
+			col.clearRowModeKeys();
+		}
+	}
+
+	protected RowActionable getActionColumn() {
+		TableBeanModel model = (TableBeanModel) table.getTableModel();
+		return model.getActionColumn();
+	}
+
+	protected Object getBeanKey(final T bean) {
+		TableBeanModel model = (TableBeanModel) table.getTableModel();
+		return model.getBeanKey(bean);
 	}
 
 }

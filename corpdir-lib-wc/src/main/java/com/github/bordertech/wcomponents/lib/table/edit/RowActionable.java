@@ -10,7 +10,12 @@ import java.io.Serializable;
 public interface RowActionable extends Serializable {
 
 	/**
-	 * @param rowKey the row key to check
+	 * @return the current row mode
+	 */
+	RowMode getCurrentRowMode();
+
+	/**
+	 * @param rowKey the row key to check and considers if the table is editable
 	 * @return the row mode
 	 */
 	RowMode getRowMode(final Object rowKey);
@@ -25,5 +30,16 @@ public interface RowActionable extends Serializable {
 	 * @param rowKey remove the following key to the row modes
 	 */
 	void removeRowModeKey(final Object rowKey);
+
+	/**
+	 * @param rowKey the row key to check
+	 * @return the row mode
+	 */
+	RowMode getRowModeKey(final Object rowKey);
+
+	/**
+	 * Clear all the row mode keys.
+	 */
+	void clearRowModeKeys();
 
 }

@@ -7,7 +7,6 @@ import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -73,26 +72,22 @@ public abstract class AbstractMapperVersion<A extends ApiVersionable, U extends 
 
 	@Override
 	public List<A> convertEntitiesToApis(final EntityManager em, final Collection<P> rows, final Long versionId) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
-
 		List<A> items = new ArrayList<>();
-		for (P row : rows) {
-			items.add(convertEntityToApi(em, row, versionId));
+		if (rows != null) {
+			for (P row : rows) {
+				items.add(convertEntityToApi(em, row, versionId));
+			}
 		}
 		return items;
 	}
 
 	@Override
 	public List<P> convertApisToEntities(final EntityManager em, final Collection<A> rows, final Long versionId) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
-
 		List<P> items = new ArrayList<>();
-		for (A row : rows) {
-			items.add(convertApiToEntity(em, row, versionId));
+		if (rows != null) {
+			for (A row : rows) {
+				items.add(convertApiToEntity(em, row, versionId));
+			}
 		}
 		return items;
 	}

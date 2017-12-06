@@ -16,7 +16,7 @@ import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -62,7 +62,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			PositionLinksEntity links = entity.getDataVersion(versionId);
 			List<Contact> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = CONTACT_MAPPER.convertEntitiesToApis(em, links.getContacts(), versionId);
 			}
@@ -120,7 +120,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			PositionLinksEntity links = entity.getDataVersion(versionId);
 			List<OrgUnit> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = ORGUNIT_MAPPER.convertEntitiesToApis(em, links.getManageOrgUnits(), versionId);
 			}

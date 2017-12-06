@@ -19,7 +19,6 @@ import com.github.bordertech.corpdir.jpa.v1.mapper.ChannelMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -98,7 +97,7 @@ public class ContactServiceImpl extends JpaBasicVersionKeyIdService<Contact, Con
 			ContactLinksEntity links = entity.getDataVersion(versionId);
 			List<Position> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
 			}

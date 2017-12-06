@@ -6,7 +6,6 @@ import com.github.bordertech.corpdir.jpa.common.feature.PersistIdObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -285,7 +284,7 @@ public final class MapperUtil {
 	public static List<String> keysRemoved(final Collection<String> origKeys, final Collection<String> newKeys) {
 		// All Keys new (ie none removed)
 		if (origKeys == null || origKeys.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<>();
 		}
 		// All keys removed
 		if (newKeys == null || newKeys.isEmpty()) {
@@ -307,7 +306,7 @@ public final class MapperUtil {
 	public static List<String> keysAdded(final Collection<String> origKeys, final Collection<String> newKeys) {
 		// No Keys added
 		if (newKeys == null || newKeys.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<>();
 		}
 		// All Keys new (ie all added)
 		if (origKeys == null || origKeys.isEmpty()) {

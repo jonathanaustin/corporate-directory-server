@@ -114,30 +114,20 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 	}
 
 	@Override
+	public RowMode getCurrentRowMode() {
+		Object key = TableUtil.getCurrentRowKey();
+		if (key == null) {
+			return RowMode.READ;
+		}
+		return getRowMode(key);
+	}
+
+	@Override
 	public RowMode getRowMode(final Object rowKey) {
 		if (!isAllowEdit()) {
 			return RowMode.READ;
 		}
 		return getRowModeKey(rowKey);
-	}
-
-	@Override
-	protected void preparePaintComponent(final Request request) {
-		super.preparePaintComponent(request);
-		if (!isInitialised()) {
-			setupColumnAjaxTargets();
-			setInitialised(true);
-		}
-	}
-
-	/**
-	 * Setup the row action AJAX targets (ie each column)
-	 */
-	protected void setupColumnAjaxTargets() {
-		WTable table = getTable();
-		editAjax.addTargets(getColumnAjaxTargets());
-		cancelAjax.addTargets(getColumnAjaxTargets());
-		deleteButton.setAjaxTarget(table);
 	}
 
 	/**
@@ -173,7 +163,8 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 	 * @param key the row key to test
 	 * @return true if row key is being edited
 	 */
-	protected RowMode getRowModeKey(final Object key) {
+	@Override
+	public RowMode getRowModeKey(final Object key) {
 		WTable table = getTable();
 		Map<Object, RowMode> editRows = (Map<Object, RowMode>) table.getAttribute(EDIT_ROWS_ATTR_KEY);
 		if (editRows == null) {
@@ -181,6 +172,31 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 		RowMode mode = editRows.get(key);
 		return mode == null ? RowMode.READ : mode;
+	}
+
+	@Override
+	public void clearRowModeKeys() {
+		WTable table = getTable();
+		table.setAttribute(EDIT_ROWS_ATTR_KEY, null);
+	}
+
+	@Override
+	protected void preparePaintComponent(final Request request) {
+		super.preparePaintComponent(request);
+		if (!isInitialised()) {
+			setupColumnAjaxTargets();
+			setInitialised(true);
+		}
+	}
+
+	/**
+	 * Setup the row action AJAX targets (ie each column)
+	 */
+	protected void setupColumnAjaxTargets() {
+		WTable table = getTable();
+		editAjax.addTargets(getColumnAjaxTargets());
+		cancelAjax.addTargets(getColumnAjaxTargets());
+		deleteButton.setAjaxTarget(table);
 	}
 
 	protected void handleEditButtonAction() {
