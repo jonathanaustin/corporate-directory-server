@@ -37,10 +37,29 @@ local_app.properties
 
 *.log
 
-## Eclipse specific
-.classpath
-.settings
-**/target/*
-.recommenders/*
+# Created by https://www.gitignore.io/api/eclipse
+
+### Eclipse ###
+
+.metadata
+bin/
+tmp/
+*.tmp
+local.properties
+.settings/
+.recommenders
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# Code Recommenders
+.recommenders/
+
+### Eclipse Patch ###
+# Eclipse Core
 .project
-.metadata/*
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# End of https://www.gitignore.io/api/eclipse
