@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTemplate;
@@ -26,18 +27,13 @@ public class DefaultDumbTemplateView<T> extends AbstractDumbView<T> {
 				setInitialised(true);
 			}
 		}
-
-//		@Override
-//		public boolean isVisible() {
-//			return isContentVisible();
-//		}
 	};
 
 	public DefaultDumbTemplateView(final String viewId, final String templateName) {
 		super(viewId);
 		content.setTemplateName(templateName);
 		content.setEngineName(TemplateRendererFactory.TemplateEngine.HANDLEBARS);
-		addTaggedComponent("vw-content", content);
+		addTaggedComponent(TemplateConstants.TAG_VW_CONTENT, content);
 	}
 
 	@Override

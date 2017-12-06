@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.dumb.polling.DefaultPollingView;
@@ -24,7 +25,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 
 	public DefaultPollingSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
-		addComponentToTemplate("vw-poll", pollingView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingView);
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package com.github.bordertech.flux.wc.view;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
@@ -35,7 +36,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	private final String viewId;
 
 	public AbstractDumbView(final String viewId) {
-		this(viewId, "wclib/hbs/layout/default-view.hbs");
+		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
 	}
 
 	public AbstractDumbView(final String viewId, final String templateName) {
@@ -192,9 +193,9 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	}
 
 	protected void setupTemplateParameters() {
-		addParameter("vw-id", getId());
-		addParameter("vw-class", getHtmlClass());
-		addParameter("vw-hidden", isHidden() ? "hidden=\"true\"" : "");
+		addParameter(TemplateConstants.PARAM_ID, getId());
+		addParameter(TemplateConstants.PARAM_CLASS, getHtmlClass());
+		addParameter(TemplateConstants.PARAM_HIDDEN, isHidden() ? "hidden=\"true\"" : "");
 	}
 
 	protected void initViewContent(final Request request) {

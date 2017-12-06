@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.view.dumb.nav;
 
 import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.NavigationView;
 import com.github.bordertech.flux.wc.view.event.base.NavigationBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;
@@ -24,6 +24,7 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
  */
 public class DefaultNavigationView<T> extends DefaultDumbView<T> implements NavigationView<T> {
 
+	// FIXME icons
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
 	private static final String NAV_NEXT_BUTTON_DISABLED_IMAGE = "/icons/next-button-disabled.png";

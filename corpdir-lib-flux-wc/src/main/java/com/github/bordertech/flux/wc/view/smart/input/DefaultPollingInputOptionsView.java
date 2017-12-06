@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view.smart.input;
 
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
@@ -19,7 +20,7 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 	private final InputOptionsView<T> optionsView;
 
 	public DefaultPollingInputOptionsView(final String viewId, final InputOptionsView<T> optionsView) {
-		super(viewId, "wclib/hbs/layout/combo-input-select.hbs");
+		super(viewId, TemplateConstants.TEMPLATE_INPUT_SELECT);
 
 		this.optionsView = optionsView;
 
@@ -28,7 +29,7 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 		setAjaxContext(true);
 
 		// Add views to holder
-		addComponentToTemplate("vw-options", optionsView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_OPTIONS, optionsView);
 
 		// Automatically load
 		setStartType(PollingStartType.AUTOMATIC);

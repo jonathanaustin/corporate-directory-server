@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.msg;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.msg.DefaultMessageView;
@@ -26,7 +27,7 @@ public class DefaultMessageSmartView<T> extends DefaultSmartView<T> implements M
 	public DefaultMessageSmartView(final String viewId, final String templateName, final boolean persistent) {
 		super(viewId, templateName);
 		messageView = new DefaultMessageView("vw_msgs", persistent);
-		addComponentToTemplate("vw-messages", messageView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_MESSAGES, messageView);
 	}
 
 	@Override

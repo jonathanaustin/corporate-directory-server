@@ -2,6 +2,7 @@ package com.github.bordertech.flux.wc.view.smart.table;
 
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.table.TableInlineEditingView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
@@ -38,7 +39,7 @@ public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> im
 		// Use the bean on the smart view
 		tableView.setBeanProperty(".");
 		tableView.setSearchAncestors(true);
-		addComponentToTemplate("vw-content", tableView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CONTENT, tableView);
 	}
 
 	public final TableInlineEditingView<T> getTableView() {

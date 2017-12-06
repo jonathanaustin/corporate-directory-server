@@ -10,6 +10,7 @@ import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.WComponent;
@@ -31,7 +32,7 @@ import java.util.Set;
 public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements FluxSmartView<T> {
 
 	public DefaultSmartView(final String viewId) {
-		this(viewId, "wclib/hbs/layout/default-view.hbs");
+		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
 	}
 
 	public DefaultSmartView(final String viewId, final String templateName) {

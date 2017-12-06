@@ -6,6 +6,7 @@ import com.github.bordertech.flux.crud.store.EntityStore;
 import com.github.bordertech.flux.crud.store.SearchStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
@@ -51,7 +52,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	private final ToolbarView searchToolbar = new DefaultToolbarView("vw_toolbar_1");
 	private final MessageView searchMessages = new DefaultMessageView("vw_crit_msg");
 	// Form Details
-	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
+	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", TemplateConstants.TEMPLATE_ENT_CRUD_FORM);
 	private final MessageView formMessages = new DefaultMessageView("vw_form_msg");
 	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw_form_toolbar");
 	private final FormView<T> formView;
@@ -65,7 +66,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	public DefaultCrudSmartView(final String viewId, final String title, final SearchView<S> criteriaView2, final SelectSingleView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
-		super(viewId, "wclib/hbs/layout/combo-ent-crud.hbs", false);
+		super(viewId, TemplateConstants.TEMPLATE_ENT_CRUD, false);
 
 		setAjaxContext(true);
 
@@ -81,20 +82,20 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		formHolder.setDumbMode(true);
 		formHolder.setPassAllEvents(true);
 		formHolder.addHtmlClass("wc-panel-type-box");
-		formHolder.addComponentToTemplate("vw-form-toolbar", formToolbarView);
-		formHolder.addComponentToTemplate("vw-form-msg", formMessages);
-		formHolder.addComponentToTemplate("vw-form-view", formView);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_TOOLBAR, formToolbarView);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_MSG, formMessages);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_VIEW, formView);
 
 		// Add views
-		addComponentToTemplate("vw-toolbar-1", searchToolbar);
-		addComponentToTemplate("vw-crit-msg", searchMessages);
-		addComponentToTemplate("vw-crit", searchView);
-		addComponentToTemplate("vw-poll", pollingView);
-		addComponentToTemplate("vw-list", selectView);
-		addComponentToTemplate("vw-form", formHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR_TOP, searchToolbar);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT_MSG, searchMessages);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT, searchView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, selectView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_FORM, formHolder);
 
 		// Title
-		getContent().addParameter("vw-title", title);
+		getContent().addParameter(TemplateConstants.PARAM_TITLE, title);
 
 		// Toolbar Defaults
 		searchToolbar.addToolbarItem(ToolbarModifyItemType.ADD);

@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.list;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.ListView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
@@ -26,7 +27,7 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 
 		// Views
 		this.searchView = searchView;
-		addComponentToTemplate("vw-toolbar", toolbarView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR, toolbarView);
 
 		// Default visibility
 		listView.setContentVisible(false);

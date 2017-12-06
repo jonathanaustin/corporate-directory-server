@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
@@ -25,7 +26,7 @@ public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T
 	public DefaultPollingMessageSmartView(final String viewId, final String templateName, final boolean persistent) {
 		super(viewId, templateName);
 		messageView = new DefaultMessageView("vw_msgs", persistent);
-		addComponentToTemplate("vw-messages", messageView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_MESSAGES, messageView);
 	}
 
 	@Override

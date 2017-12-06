@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.wc.common.AppCardManager;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,7 +21,7 @@ public class CardManagerView<T> extends DefaultSmartView<T> {
 		setSearchAncestors(true);
 		setDumbMode(true);
 		setPassAllEvents(true);
-		getContent().addTaggedComponent("vw-content", mgr);
+		getContent().addTaggedComponent(TemplateConstants.TAG_VW_CONTENT, mgr);
 	}
 
 	public List<FluxDumbView> getViews() {
