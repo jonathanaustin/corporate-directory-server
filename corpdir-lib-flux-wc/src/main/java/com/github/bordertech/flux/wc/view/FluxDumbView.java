@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.view.DumbView;
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.BeanBound;
 import com.github.bordertech.wcomponents.SubordinateTarget;
@@ -51,7 +51,7 @@ public interface FluxDumbView<T> extends DumbView<T>, AjaxTarget, SubordinateTar
 	 * @param type the event type
 	 * @param ajax the AJAX control
 	 */
-	void registerEventAjaxControl(final ViewEventType type, final AppAjaxControl ajax);
+	void registerEventAjaxControl(final ViewEventType type, final FluxAjaxControl ajax);
 
 	/**
 	 * Clear the AJAX targets for an event type.

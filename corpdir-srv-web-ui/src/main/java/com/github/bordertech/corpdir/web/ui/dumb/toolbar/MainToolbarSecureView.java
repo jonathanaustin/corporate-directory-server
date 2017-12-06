@@ -2,7 +2,6 @@ package com.github.bordertech.corpdir.web.ui.dumb.toolbar;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.wc.common.FluxMenuItem;
 import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.AbstractMenuToolbarView;
@@ -11,6 +10,7 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
+import com.github.bordertech.wcomponents.lib.security.MenuItemSecurePath;
 import java.util.Objects;
 
 /**
@@ -18,11 +18,11 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class MainToolbarView extends AbstractMenuToolbarView {
+public class MainToolbarSecureView extends AbstractMenuToolbarView {
 
 	private final WMenu menu = getMenu();
 
-	public MainToolbarView(final String viewId) {
+	public MainToolbarSecureView(final String viewId) {
 		super(viewId);
 		// Setup Menu Items
 		WSubMenu subMenu = new WSubMenu("System");
@@ -33,7 +33,8 @@ public class MainToolbarView extends AbstractMenuToolbarView {
 		subMenu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 
 		for (CardType card : CardType.values()) {
-			WMenuItem item = new FluxMenuItem(card.getDesc(), CardEventType.SHOW, card);
+//			WMenuItem item = new FluxMenuItem(card.getDesc(), CardEventType.SHOW, card);
+			WMenuItem item = new MenuItemSecurePath(card.getDesc(), card.getPath());
 			item.setToolTip(card.getDesc());
 			if (card.getImageUrl() != null) {
 				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel());
@@ -49,7 +50,6 @@ public class MainToolbarView extends AbstractMenuToolbarView {
 
 		//Default
 		setCurrentCard(CardType.CONTACT_CARD);
-
 	}
 
 	public final void setCurrentCard(final CardType current) {
@@ -61,8 +61,12 @@ public class MainToolbarView extends AbstractMenuToolbarView {
 					break;
 				}
 			}
-
 		}
+	}
+
+	@Override
+	protected void setupMenuAjax() {
+		// No AJAX as navigating via URL
 	}
 
 }

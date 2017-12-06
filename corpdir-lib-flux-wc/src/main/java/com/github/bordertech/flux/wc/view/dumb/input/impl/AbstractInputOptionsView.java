@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.input.impl;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
@@ -126,7 +126,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	protected void setupInputAjax() {
 		// Add AJAX COntrol for Select Input
 		if (getSelectInput() instanceof AjaxTrigger) {
-			AppAjaxControl ajax = new AppAjaxControl((AjaxTrigger) getSelectInput());
+			FluxAjaxControl ajax = new FluxAjaxControl((AjaxTrigger) getSelectInput());
 			getContent().add(ajax);
 			registerSelectUnselectAjaxControl(ajax);
 		}
@@ -141,7 +141,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 
 	protected abstract void doDispatchSelectEvent();
 
-	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
+	protected void registerSelectUnselectAjaxControl(final FluxAjaxControl ctrl) {
 		registerEventAjaxControl(SelectBaseEventType.UNSELECT, ctrl);
 		registerEventAjaxControl(SelectBaseEventType.SELECT, ctrl);
 	}

@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
@@ -134,14 +134,14 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	@Override
 	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventTypes) {
 		// Add the targets to the registered AJAX Controls
-		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		Map<ViewEventType, Set<FluxAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
 		if (eventTypes.length == 0) {
 			// Add to all registered AJAX Controls
-			for (Set<AppAjaxControl> ctrls : map.values()) {
-				for (AppAjaxControl ctrl : ctrls) {
+			for (Set<FluxAjaxControl> ctrls : map.values()) {
+				for (FluxAjaxControl ctrl : ctrls) {
 					if (!ctrl.getTargets().contains(target)) {
 						ctrl.addTarget(target);
 					}
@@ -150,9 +150,9 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 		} else {
 			// Add to AJAX Control for each event type (if it has been registered)
 			for (ViewEventType type : eventTypes) {
-				Set<AppAjaxControl> ctrls = map.get(type);
+				Set<FluxAjaxControl> ctrls = map.get(type);
 				if (ctrls != null) {
-					for (AppAjaxControl ctrl : ctrls) {
+					for (FluxAjaxControl ctrl : ctrls) {
 						if (!ctrl.getTargets().contains(target)) {
 							ctrl.addTarget(target);
 						}
@@ -164,25 +164,25 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 
 	@Override
 	public void clearEventAjaxTargets(final ViewEventType type) {
-		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		Map<ViewEventType, Set<FluxAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
-		Set<AppAjaxControl> ctrls = map.get(type);
+		Set<FluxAjaxControl> ctrls = map.get(type);
 		if (ctrls != null) {
-			for (AppAjaxControl ctrl : ctrls) {
+			for (FluxAjaxControl ctrl : ctrls) {
 				ctrl.removeAllTargets();
 			}
 		}
 	}
 
 	@Override
-	public void registerEventAjaxControl(final ViewEventType type, final AppAjaxControl ajax) {
+	public void registerEventAjaxControl(final ViewEventType type, final FluxAjaxControl ajax) {
 		ViewModel model = getOrCreateComponentModel();
 		if (model.ajaxControls == null) {
 			model.ajaxControls = new HashMap<>();
 		}
-		Set<AppAjaxControl> ctrls = model.ajaxControls.get(type);
+		Set<FluxAjaxControl> ctrls = model.ajaxControls.get(type);
 		if (ctrls == null) {
 			ctrls = new HashSet<>();
 			model.ajaxControls.put(type, ctrls);
@@ -193,7 +193,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
-	protected Map<ViewEventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
+	protected Map<ViewEventType, Set<FluxAjaxControl>> getRegisteredEventAjaxControls() {
 		ViewModel model = getComponentModel();
 		return model.ajaxControls == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.ajaxControls);
 	}
@@ -320,7 +320,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	public static class ViewModel extends TemplateModel {
 
 //		private boolean contentVisible = true;
-		private Map<ViewEventType, Set<AppAjaxControl>> ajaxControls;
+		private Map<ViewEventType, Set<FluxAjaxControl>> ajaxControls;
 
 	}
 

@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.search;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
@@ -21,7 +21,7 @@ public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchV
 
 	private final WButton searchButton = new WButton("Search");
 
-	private final AppAjaxControl ajax = new AppAjaxControl(searchButton);
+	private final FluxAjaxControl ajax = new FluxAjaxControl(searchButton);
 
 	public AbstractSearchView(final String viewId) {
 		super(viewId);

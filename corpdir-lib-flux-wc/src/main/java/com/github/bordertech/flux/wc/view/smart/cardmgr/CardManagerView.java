@@ -1,7 +1,9 @@
-package com.github.bordertech.flux.wc.view;
+package com.github.bordertech.flux.wc.view.smart.cardmgr;
 
-import com.github.bordertech.flux.wc.common.AppCardManager;
+import com.github.bordertech.flux.wc.common.FluxCardManager;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.wc.view.FluxDumbView;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +15,7 @@ import java.util.Objects;
  */
 public class CardManagerView<T> extends DefaultSmartView<T> {
 
-	private final AppCardManager<FluxDumbView> mgr = new AppCardManager();
+	private final FluxCardManager<FluxDumbView> mgr = new FluxCardManager();
 
 	public CardManagerView(final String viewId) {
 		super(viewId);
@@ -24,10 +26,12 @@ public class CardManagerView<T> extends DefaultSmartView<T> {
 		getContent().addTaggedComponent(TemplateConstants.TAG_VW_CONTENT, mgr);
 	}
 
+	@Override
 	public List<FluxDumbView> getViews() {
 		return (List<FluxDumbView>) mgr.getCards();
 	}
 
+	@Override
 	public FluxDumbView getView(final String viewId) {
 		for (FluxDumbView view : mgr.getCards()) {
 			if (Objects.equals(viewId, view.getViewId())) {
@@ -37,22 +41,22 @@ public class CardManagerView<T> extends DefaultSmartView<T> {
 		return null;
 	}
 
-	public void addCard(final FluxSmartView card) {
+	public void addCard(final FluxDumbView card) {
 		if (!getViews().contains(card)) {
 			mgr.add(card);
 		}
 	}
 
-	public boolean isCurrentCard(final FluxSmartView card) {
+	public boolean isCurrentCard(final FluxDumbView card) {
 		return Objects.equals(card, getCurrentCard());
 	}
 
-	public void setCurrentCard(FluxSmartView card) {
+	public void setCurrentCard(final FluxDumbView card) {
 		mgr.makeVisible(card);
 	}
 
-	public FluxSmartView getCurrentCard() {
-		return (FluxSmartView) mgr.getVisible();
+	public FluxDumbView getCurrentCard() {
+		return (FluxDumbView) mgr.getVisible();
 	}
 
 }

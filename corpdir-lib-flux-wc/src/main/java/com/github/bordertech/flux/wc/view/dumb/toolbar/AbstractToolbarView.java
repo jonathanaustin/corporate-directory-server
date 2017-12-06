@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
@@ -75,7 +75,7 @@ public class AbstractToolbarView<T> extends DefaultDumbView<T> implements Toolba
 	}
 
 	protected void setupAjaxControl(final ViewEventType type, final AjaxTrigger trigger) {
-		AppAjaxControl ctrl = new AppAjaxControl(trigger, this);
+		FluxAjaxControl ctrl = new FluxAjaxControl(trigger, this);
 		getAjaxPanel().add(ctrl);
 		registerEventAjaxControl(type, ctrl);
 	}

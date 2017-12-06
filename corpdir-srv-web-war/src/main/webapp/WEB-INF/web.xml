@@ -72,6 +72,12 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 	<servlet-mapping>
 		<servlet-name>WebUI</servlet-name>
 		<url-pattern>/admin</url-pattern>
+		<url-pattern>/adminorgunit</url-pattern>
+		<url-pattern>/adminposition</url-pattern>
+		<url-pattern>/admincontact</url-pattern>
+		<url-pattern>/adminlocation</url-pattern>
+		<url-pattern>/adminorgunittype</url-pattern>
+		<url-pattern>/adminpositiontype</url-pattern>
 	</servlet-mapping>
 
 	<!-- Theme Servlet -->

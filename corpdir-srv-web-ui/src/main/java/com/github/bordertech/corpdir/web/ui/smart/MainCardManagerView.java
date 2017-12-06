@@ -2,10 +2,10 @@ package com.github.bordertech.corpdir.web.ui.smart;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.FormSmartView;
-import com.github.bordertech.flux.wc.view.CardManagerView;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
+import com.github.bordertech.flux.wc.view.smart.cardmgr.SecureCardManagerView;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  *
  * @author jonathan
  */
-public class MainCardManagerView extends CardManagerView {
+public class MainCardManagerView extends SecureCardManagerView {
 
 	public MainCardManagerView(final String viewId) {
 		super(viewId);
@@ -62,7 +62,7 @@ public class MainCardManagerView extends CardManagerView {
 
 	protected final void addCardByType(final CardType card, final FluxSmartView view) {
 		// Add to Mgr
-		addCard(view);
+		addCard(view, card.getPath());
 		// App to Map by type
 		MainCardModel model = getOrCreateComponentModel();
 		if (model.cards == null) {

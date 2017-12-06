@@ -13,13 +13,13 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class AppAjaxControl extends WAjaxControl {
+public class FluxAjaxControl extends WAjaxControl {
 
-	public AppAjaxControl(final AjaxTrigger trigger) {
+	public FluxAjaxControl(final AjaxTrigger trigger) {
 		super(trigger);
 	}
 
-	public AppAjaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
+	public FluxAjaxControl(final AjaxTrigger trigger, final AjaxTarget target) {
 		super(trigger);
 		addTarget(target);
 	}

@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
@@ -22,8 +22,8 @@ public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements For
 	private final WButton btnAdd = new WButton("Add");
 	private final WButton btnDelete = new WButton("Remove");
 
-	private final AppAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
-	private final AppAjaxControl ajaxDelete = new AppAjaxControl(btnDelete);
+	private final FluxAjaxControl ajaxAdd = new FluxAjaxControl(btnAdd);
+	private final FluxAjaxControl ajaxDelete = new FluxAjaxControl(btnDelete);
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override

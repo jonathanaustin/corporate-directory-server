@@ -8,16 +8,16 @@ import com.github.bordertech.wcomponents.WMenuItem;
  *
  * @author jonathan
  */
-public class AppMenuItem extends WMenuItem {
+public class FluxMenuItem extends WMenuItem {
 
 	private final ViewEventType event;
 	private final Object data;
 
-	public AppMenuItem(final String text, final ViewEventType event) {
+	public FluxMenuItem(final String text, final ViewEventType event) {
 		this(text, event, null);
 	}
 
-	public AppMenuItem(final String text, final ViewEventType event, final Object data) {
+	public FluxMenuItem(final String text, final ViewEventType event, final Object data) {
 		super(text);
 		this.event = event;
 		this.data = data;

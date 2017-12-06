@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class AppCardManager<T extends WComponent> extends WCardManager {
+public class FluxCardManager<T extends WComponent> extends WCardManager {
 
 	public List<T> getCards() {
 		return (List<T>) getCardContainer().getChildren();
