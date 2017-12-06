@@ -2,8 +2,7 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiTreeablePanel;
-import com.github.bordertech.wcomponents.HeadingLevel;
-import com.github.bordertech.wcomponents.WHeading;
+import com.github.bordertech.wcomponents.WCollapsible;
 
 /**
  * Location detail Form.
@@ -21,9 +20,11 @@ public class LocationPanel extends BasicApiTreeablePanel<Location> {
 	public LocationPanel(final String viewId) {
 		super("Location", viewId);
 
-		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
+		// Address
 		AddressPanel addressPanel = new AddressPanel("ADDR");
 		addressPanel.setBeanProperty("address");
-		getFormPanel().add(addressPanel);
+		WCollapsible addrColl = new WCollapsible(addressPanel, "Addresss", WCollapsible.CollapsibleMode.CLIENT);
+		getFormPanel().add(addrColl);
+
 	}
 }

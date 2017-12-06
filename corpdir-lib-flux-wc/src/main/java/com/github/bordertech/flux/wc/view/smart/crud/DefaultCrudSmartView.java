@@ -33,6 +33,7 @@ import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -104,6 +105,82 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		selectView.setContentVisible(false);
 		formHolder.setContentVisible(false);
 		setQualifierContext(true);
+	}
+
+	public boolean isAutoSearch() {
+		return getComponentModel().autoSearch;
+	}
+
+	public void setAutoSearch(final boolean autoSearch) {
+		getOrCreateComponentModel().autoSearch = autoSearch;
+	}
+
+	@Override
+	public String getEntityActionCreatorKey() {
+		return getComponentModel().entityCreatorKey;
+	}
+
+	@Override
+	public void setEntityActionCreatorKey(final String entityCreatorKey) {
+		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
+	}
+
+	@Override
+	public EntityActionCreator<T> getEntityActionCreator() {
+		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
+	}
+
+	@Override
+	public String getEntityStoreKey() {
+		return getComponentModel().entityStoreKey;
+	}
+
+	@Override
+	public void setEntityStoreKey(final String entityStoreKey) {
+		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
+	}
+
+	@Override
+	public EntityStore<T> getEntityStore() {
+		return StoreUtil.getStore(getEntityStoreKey());
+	}
+
+	@Override
+	public void setSearchStoreKey(final String searchStoreKey) {
+		getOrCreateComponentModel().searchStoreKey = searchStoreKey;
+	}
+
+	@Override
+	public String getSearchStoreKey() {
+		return getComponentModel().searchStoreKey;
+	}
+
+	@Override
+	public SearchStore<S, T> getSearchStore() {
+		return StoreUtil.getStore(getSearchStoreKey());
+	}
+
+	@Override
+	public FormView<T> getFormView() {
+		return formView;
+	}
+
+	@Override
+	public FormToolbarView<T> getFormToolbarView() {
+		return formToolbarView;
+	}
+
+	@Override
+	public void resetFormViews() {
+		formHolder.resetContent();
+	}
+
+	@Override
+	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
+		if (isAutoSearch()) {
+			dispatchViewEvent(SearchBaseEventType.SEARCH);
+		}
 	}
 
 	@Override
@@ -216,66 +293,6 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		}
 	}
 
-	@Override
-	public String getEntityActionCreatorKey() {
-		return getComponentModel().entityCreatorKey;
-	}
-
-	@Override
-	public void setEntityActionCreatorKey(final String entityCreatorKey) {
-		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
-	}
-
-	@Override
-	public EntityActionCreator<T> getEntityActionCreator() {
-		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
-	}
-
-	@Override
-	public String getEntityStoreKey() {
-		return getComponentModel().entityStoreKey;
-	}
-
-	@Override
-	public void setEntityStoreKey(final String entityStoreKey) {
-		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
-	}
-
-	@Override
-	public EntityStore<T> getEntityStore() {
-		return StoreUtil.getStore(getEntityStoreKey());
-	}
-
-	@Override
-	public void setSearchStoreKey(final String searchStoreKey) {
-		getOrCreateComponentModel().searchStoreKey = searchStoreKey;
-	}
-
-	@Override
-	public String getSearchStoreKey() {
-		return getComponentModel().searchStoreKey;
-	}
-
-	@Override
-	public SearchStore<S, T> getSearchStore() {
-		return StoreUtil.getStore(getSearchStoreKey());
-	}
-
-	@Override
-	public FormView<T> getFormView() {
-		return formView;
-	}
-
-	@Override
-	public FormToolbarView<T> getFormToolbarView() {
-		return formToolbarView;
-	}
-
-	@Override
-	public void resetFormViews() {
-		formHolder.resetContent();
-	}
-
 	protected S getCriteria() {
 		return searchView.getViewBean();
 	}
@@ -345,6 +362,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		private String entityStoreKey;
 
 		private String entityCreatorKey;
+
+		private boolean autoSearch = true;
 	}
 
 }

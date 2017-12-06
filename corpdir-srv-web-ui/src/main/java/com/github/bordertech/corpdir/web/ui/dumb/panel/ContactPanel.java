@@ -8,6 +8,7 @@ import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
+import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLabel;
 
@@ -45,12 +46,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		channelPanel.setBeanProperty("channels");
 		channelPanel.setSearchAncestors(true);
 
-		// Address
-		getFormPanel().add(new WHeading(HeadingLevel.H2, "Address"));
-		AddressPanel addressPanel = new AddressPanel("ADDR");
-		addressPanel.setBeanProperty("address");
-		getFormPanel().add(addressPanel);
-
 		// Location
 		PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
 		WLabel lbl = new WLabel("Location", drpLocation.getSelectInput());
@@ -67,6 +62,13 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
 		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
+
+		// Address
+		AddressPanel addressPanel = new AddressPanel("ADDR");
+		addressPanel.setBeanProperty("address");
+		WCollapsible addrColl = new WCollapsible(addressPanel, "Addresss", WCollapsible.CollapsibleMode.CLIENT);
+		getFormPanel().add(addrColl);
+
 	}
 
 }
