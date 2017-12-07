@@ -7,6 +7,8 @@ import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.servlet.WLibServlet;
+import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.google.common.base.Objects;
@@ -16,11 +18,16 @@ import java.util.Map;
 
 /**
  * Secure Card Manager and Path.
+ * <p>
+ * Use {@link WLibServlet} to setup the {@link EnvironmentHelper}.
+ * </p>
  *
  * @author Jonathan Austin
  * @param <T> the card type
  */
 public class SecureCardManager<T extends WComponent> extends WCardManager {
+
+	private static final String SERVLET_PATH = Config.getInstance().getString("wclib.secure.cardmgr.servlet.path", "/");
 
 	@Override
 	public void handleRequest(final Request request) {
@@ -39,17 +46,20 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 		uic.invokeLater(new Runnable() {
 			@Override
 			public void run() {
-				String currentPath = env.getPostPath();
-				String currentScreenPath = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+				String currentScreenPath = getCurrentScreenPath(env.getPostPath());
 				AppPath destinationPath = getPathForCard(getVisible());
 				if (destinationPath != null
 						&& destinationPath.getPath() != null
 						&& !Util.equals(currentScreenPath, destinationPath.getPath())) {
-					String url = EnvironmentHelper.prefixBaseUrl("/admin/" + destinationPath.getPath());
+					String url = getRedirectUrl(destinationPath);
 					forward(url);
 				}
 			}
 		});
+	}
+
+	protected String getRedirectUrl(final AppPath path) {
+		return EnvironmentHelper.prefixBaseUrl(SERVLET_PATH + path.getPath());
 	}
 
 	public void setSecureMode(final boolean secureMode) {
@@ -123,10 +133,9 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 		final Environment env = uic.getEnvironment();
 
 		// Make sure that the correct card is visible based on the URL.
-		String path = env.getPostPath();
-		String screenPath = path.substring(path.lastIndexOf('/') + 1);
+		String currentScreenPath = getCurrentScreenPath(env.getPostPath());
 		// Match Path to Card
-		WComponent screen = getCardForScreenPath(screenPath);
+		WComponent screen = getCardForScreenPath(currentScreenPath);
 		if (screen != null && getVisible() != screen) {
 			super.makeVisible(screen);
 		}
@@ -149,6 +158,12 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 
 	protected void handleAccessError() {
 		throw new SystemException("You don't have access to this system.");
+	}
+
+	protected String getCurrentScreenPath(final String postPath) {
+		int idx = postPath.lastIndexOf(SERVLET_PATH) + SERVLET_PATH.length();
+		String currentScreenPath = postPath.substring(idx);
+		return currentScreenPath;
 	}
 
 	/**

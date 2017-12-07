@@ -20,17 +20,8 @@ public final class EnvironmentHelper {
 		return env == null ? "" : env.getBaseUrl();
 	}
 
-	public static String getWServletPath() {
-		Environment env = THREAD_LOCAL_ENVIRONMENT.get();
-		return env == null ? "" : env.getWServletPath();
-	}
-
 	public static String prefixBaseUrl(final String relativeUrl) {
 		return prefixUrl(getBaseUrl(), relativeUrl);
-	}
-
-	public static String prefixWServletPath(final String relativeUrl) {
-		return prefixUrl(getWServletPath(), relativeUrl);
 	}
 
 	private static String prefixUrl(final String prefix, final String relativeUrl) {
