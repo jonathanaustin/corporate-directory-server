@@ -2,11 +2,13 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
-import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
-import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
+import com.github.bordertech.corpdir.web.ui.dumb.input.DropdownEntityLinkView;
+import com.github.bordertech.corpdir.web.ui.dumb.input.MultiSelectPairEntityLinkView;
+import com.github.bordertech.flux.wc.view.smart.input.DefaultPollingMultiSelectOptionsView;
+import com.github.bordertech.flux.wc.view.smart.input.DefaultPollingSingleSelectOptionsView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WCollapsible;
 import com.github.bordertech.wcomponents.WHeading;
@@ -47,7 +49,9 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		channelPanel.setSearchAncestors(true);
 
 		// Location
-		PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
+//		PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
+		DropdownEntityLinkView<Location> locView = new DropdownEntityLinkView<>("LOCL", CardType.LOCATION_CARD);
+		DefaultPollingSingleSelectOptionsView<String, Location> drpLocation = new DefaultPollingSingleSelectOptionsView("LOC", locView);
 		WLabel lbl = new WLabel("Location", drpLocation.getSelectInput());
 		getFormLayout().addField(lbl, drpLocation);
 		drpLocation.setIncludeNullOption(true);
@@ -56,7 +60,9 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		drpLocation.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
 
 		// Assigned Positions
-		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
+//		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
+		MultiSelectPairEntityLinkView posView = new MultiSelectPairEntityLinkView("POSL", CardType.POSITION_CARD);
+		DefaultPollingMultiSelectOptionsView multiPos = new DefaultPollingMultiSelectOptionsView("POS", posView);
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");

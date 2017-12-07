@@ -8,7 +8,6 @@ import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
 import com.github.bordertech.wcomponents.lib.servlet.WLibServlet;
-import com.github.bordertech.wcomponents.util.Config;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.google.common.base.Objects;
@@ -26,8 +25,6 @@ import java.util.Map;
  * @param <T> the card type
  */
 public class SecureCardManager<T extends WComponent> extends WCardManager {
-
-	private static final String SERVLET_PATH = Config.getInstance().getString("wclib.secure.cardmgr.servlet.path", "/");
 
 	@Override
 	public void handleRequest(final Request request) {
@@ -59,7 +56,8 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 	}
 
 	protected String getRedirectUrl(final AppPath path) {
-		return EnvironmentHelper.prefixBaseUrl(SERVLET_PATH + path.getPath());
+		String servletPath = EnvironmentHelper.getSecureServletPath();
+		return EnvironmentHelper.prefixBaseUrl(servletPath + path.getPath());
 	}
 
 	public void setSecureMode(final boolean secureMode) {
@@ -161,7 +159,8 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 	}
 
 	protected String getCurrentScreenPath(final String postPath) {
-		int idx = postPath.lastIndexOf(SERVLET_PATH) + SERVLET_PATH.length();
+		String servletPath = EnvironmentHelper.getSecureServletPath();
+		int idx = postPath.lastIndexOf(servletPath) + servletPath.length();
 		String currentScreenPath = postPath.substring(idx);
 		return currentScreenPath;
 	}

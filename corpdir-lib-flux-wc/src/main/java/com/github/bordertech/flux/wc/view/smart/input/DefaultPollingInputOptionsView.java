@@ -128,4 +128,14 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 		return optionsView.isIncludeNullOption();
 	}
 
+	@Override
+	public void setUseReadonlyPanel(final boolean useReadonlyPanel) {
+		optionsView.setUseReadonlyPanel(useReadonlyPanel);
+	}
+
+	@Override
+	public boolean isUseReadonlyPanel() {
+		return optionsView.isUseReadonlyPanel();
+	}
+
 }

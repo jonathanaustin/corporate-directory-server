@@ -1,12 +1,14 @@
 package com.github.bordertech.flux.wc.view.dumb.input.impl;
 
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WContainer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,16 +23,41 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> implements InputOptionsView<T> {
 
-	public AbstractInputOptionsView(final String viewId) {
-		super(viewId);
-		setBeanProperty(".");
-		setSearchAncestors(true);
-	}
-
 	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractInputOptionsView.class);
+
+	private final WContainer inputContainer = new WContainer() {
+		@Override
+		public boolean isVisible() {
+			return !isUseReadonlyPanel() || (isUseReadonlyPanel() && !getSelectInput().isReadOnly());
+		}
+	};
+	private final WContainer readonlyContainer = new WContainer() {
+		@Override
+		public boolean isVisible() {
+			return isUseReadonlyPanel() && getSelectInput().isReadOnly();
+		}
+
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			if (!isInitialised()) {
+				initReadonlyContainer();
+				setInitialised(true);
+			}
+		}
+
+	};
+
+	public AbstractInputOptionsView(final String viewId) {
+		super(viewId);
+		getContent().add(inputContainer);
+		getContent().add(readonlyContainer);
+		setBeanProperty(".");
+		setSearchAncestors(true);
+	}
 
 	@Override
 	public void doMakeFormReadonly(final boolean readonly) {
@@ -83,6 +110,27 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	@Override
 	public String getCodeProperty() {
 		return getComponentModel().codeProperty;
+	}
+
+	@Override
+	public void setUseReadonlyPanel(final boolean useReadonlyPanel) {
+		getOrCreateComponentModel().useReadonlyPanel = useReadonlyPanel;
+	}
+
+	@Override
+	public boolean isUseReadonlyPanel() {
+		return getComponentModel().useReadonlyPanel;
+	}
+
+	protected final WContainer getInputContainer() {
+		return inputContainer;
+	}
+
+	protected final WContainer getReadonlyContainer() {
+		return readonlyContainer;
+	}
+
+	protected void initReadonlyContainer() {
 	}
 
 	protected boolean isBoundByCode() {
@@ -169,6 +217,8 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 		private String codeProperty;
 
 		private boolean includeNullOption;
+
+		private boolean useReadonlyPanel;
 	}
 
 }

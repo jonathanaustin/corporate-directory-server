@@ -20,6 +20,20 @@ public class WLibLink extends WLink {
 		super(text, url);
 	}
 
+	public void setUrl(final String url, final boolean relativeBaseUrl) {
+		super.setUrl(url);
+		setRelativeBaseUrl(relativeBaseUrl);
+	}
+
+	@Override
+	public String getUrl() {
+		String url = super.getUrl();
+		if (url != null && isRelativeBaseUrl()) {
+			return EnvironmentHelper.prefixBaseUrl(url);
+		}
+		return url;
+	}
+
 	public void setImageUrl(final String imageUrl, final boolean relativeBaseUrl) {
 		super.setImageUrl(imageUrl);
 		setRelativeBaseUrl(relativeBaseUrl);
@@ -28,7 +42,7 @@ public class WLibLink extends WLink {
 	@Override
 	public String getImageUrl() {
 		String url = super.getImageUrl();
-		if (url != null && isRelativeBaseUrl()) {
+		if (url != null && isImageRelativeBaseUrl()) {
 			return EnvironmentHelper.prefixBaseUrl(url);
 		}
 		return url;
@@ -40,6 +54,15 @@ public class WLibLink extends WLink {
 
 	public boolean isRelativeBaseUrl() {
 		Boolean flag = (Boolean) getAttribute("wc_relative");
+		return flag == null ? false : flag;
+	}
+
+	public void setImageRelativeBaseUrl(final boolean relativeBaseUrl) {
+		setAttribute("wc_relative_img", relativeBaseUrl);
+	}
+
+	public boolean isImageRelativeBaseUrl() {
+		Boolean flag = (Boolean) getAttribute("wc_relative_img");
 		return flag == null ? false : flag;
 	}
 
