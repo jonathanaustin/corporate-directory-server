@@ -5,6 +5,7 @@ import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
+import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import java.util.List;
 
@@ -129,13 +130,23 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 	}
 
 	@Override
-	public void setUseReadonlyPanel(final boolean useReadonlyPanel) {
-		optionsView.setUseReadonlyPanel(useReadonlyPanel);
+	public void setUseReadonlyContainer(final boolean useReadonlyPanel) {
+		optionsView.setUseReadonlyContainer(useReadonlyPanel);
 	}
 
 	@Override
-	public boolean isUseReadonlyPanel() {
-		return optionsView.isUseReadonlyPanel();
+	public boolean isUseReadonlyContainer() {
+		return optionsView.isUseReadonlyContainer();
+	}
+
+	@Override
+	public WDiv getReadonlyContainer() {
+		return optionsView.getReadonlyContainer();
+	}
+
+	@Override
+	public WDiv getInputContainer() {
+		return optionsView.getInputContainer();
 	}
 
 }

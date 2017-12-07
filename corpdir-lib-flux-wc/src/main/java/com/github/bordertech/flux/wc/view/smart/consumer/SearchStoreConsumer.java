@@ -7,7 +7,7 @@ import com.github.bordertech.flux.crud.store.SearchStore;
  *
  * @author jonathan
  */
-public interface SearchStoreConsumer<S, T> {
+public interface SearchStoreConsumer<S, T> extends StoreConsumer {
 
 	void setSearchStoreKey(final String storeKey);
 

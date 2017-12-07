@@ -12,7 +12,12 @@ import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
+import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.EntityStoreConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.RetrieveStoreConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.SearchStoreConsumer;
 import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.util.ArrayList;
@@ -82,6 +87,12 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 		}
 		// Handle event
 		handleViewEvent(viewId, eventType, data);
+	}
+
+	@Override
+	protected void initViewContent(Request request) {
+		super.initViewContent(request);
+		registerStoreConsumerListeners();
 	}
 
 	protected boolean isView(final String viewId, final FluxDumbView view) {
@@ -275,10 +286,26 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 		return FluxFactory.getDispatcher();
 	}
 
-	protected void handleStoreChangedAction(final String storeKey, final Action action) {
+	protected void registerStoreConsumerListeners() {
+		if (this instanceof EntityActionCreatorConsumer) {
+			String key = ((EntityActionCreatorConsumer) this).getEntityActionCreatorKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof EntityStoreConsumer) {
+			String key = ((EntityStoreConsumer) this).getEntityStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof RetrieveStoreConsumer) {
+			String key = ((RetrieveStoreConsumer) this).getRetrieveStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof SearchStoreConsumer) {
+			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
 	}
 
-	protected void registerStoreChangeListener(final String storeKey) {
+	protected void registerStoreKeyChangeListener(final String storeKey) {
 		Listener listener = new Listener() {
 			@Override
 			public void handleAction(final Action action) {
@@ -286,6 +313,9 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 			}
 		};
 		registerListener(StateBaseActionType.STORE_CHANGED, storeKey, listener);
+	}
+
+	protected void handleStoreChangedAction(final String storeKey, final Action action) {
 	}
 
 	protected void registerListener(final ActionType actionType, final String qualifier, final Listener listener) {

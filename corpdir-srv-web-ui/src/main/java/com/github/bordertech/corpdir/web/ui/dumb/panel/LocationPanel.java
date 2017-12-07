@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiTreeablePanel;
 import com.github.bordertech.wcomponents.WCollapsible;
 
@@ -18,7 +19,7 @@ public class LocationPanel extends BasicApiTreeablePanel<Location> {
 	 * @param viewId the viewId
 	 */
 	public LocationPanel(final String viewId) {
-		super("Location", viewId);
+		super("Location", viewId, CardType.LOCATION_CARD);
 
 		// Address
 		AddressPanel addressPanel = new AddressPanel("ADDR");

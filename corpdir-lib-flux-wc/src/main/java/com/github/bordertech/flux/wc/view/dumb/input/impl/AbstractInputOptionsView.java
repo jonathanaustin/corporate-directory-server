@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WContainer;
+import com.github.bordertech.wcomponents.WDiv;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,16 +28,16 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractInputOptionsView.class);
 
-	private final WContainer inputContainer = new WContainer() {
+	private final WDiv inputContainer = new WDiv() {
 		@Override
 		public boolean isVisible() {
-			return !isUseReadonlyPanel() || (isUseReadonlyPanel() && !getSelectInput().isReadOnly());
+			return !isUseReadonlyContainer() || (isUseReadonlyContainer() && !getSelectInput().isReadOnly());
 		}
 	};
-	private final WContainer readonlyContainer = new WContainer() {
+	private final WDiv readonlyContainer = new WDiv() {
 		@Override
 		public boolean isVisible() {
-			return isUseReadonlyPanel() && getSelectInput().isReadOnly();
+			return isUseReadonlyContainer() && getSelectInput().isReadOnly();
 		}
 
 		@Override
@@ -57,6 +57,8 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 		getContent().add(readonlyContainer);
 		setBeanProperty(".");
 		setSearchAncestors(true);
+		readonlyContainer.setBeanProperty(".");
+		readonlyContainer.setSearchAncestors(false);
 	}
 
 	@Override
@@ -113,24 +115,28 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	}
 
 	@Override
-	public void setUseReadonlyPanel(final boolean useReadonlyPanel) {
+	public void setUseReadonlyContainer(final boolean useReadonlyPanel) {
 		getOrCreateComponentModel().useReadonlyPanel = useReadonlyPanel;
 	}
 
 	@Override
-	public boolean isUseReadonlyPanel() {
+	public boolean isUseReadonlyContainer() {
 		return getComponentModel().useReadonlyPanel;
 	}
 
-	protected final WContainer getInputContainer() {
+	@Override
+	public final WDiv getInputContainer() {
 		return inputContainer;
 	}
 
-	protected final WContainer getReadonlyContainer() {
+	@Override
+	public final WDiv getReadonlyContainer() {
 		return readonlyContainer;
 	}
 
 	protected void initReadonlyContainer() {
+		// Set the bean as the selected options
+		readonlyContainer.setBean(getSelectInput().getValue());
 	}
 
 	protected boolean isBoundByCode() {

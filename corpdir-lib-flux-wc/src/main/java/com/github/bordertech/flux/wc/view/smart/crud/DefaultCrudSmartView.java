@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view.smart.crud;
 
+import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.EntityStore;
@@ -7,6 +8,7 @@ import com.github.bordertech.flux.crud.store.SearchStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.mode.FormMode;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
@@ -29,6 +31,7 @@ import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
@@ -36,6 +39,7 @@ import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.google.common.base.Objects;
 import java.util.List;
 
 /**
@@ -180,6 +184,16 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		super.initViewContent(request);
 		if (isAutoSearch()) {
 			dispatchViewEvent(SearchBaseEventType.SEARCH);
+		}
+	}
+
+	@Override
+	protected void handleStoreChangedAction(final String storeKey, final Action action) {
+		super.handleStoreChangedAction(storeKey, action);
+		String key = getEntityActionCreatorKey();
+		if (Objects.equal(key, storeKey) && formHolder.isContentVisible() && formView.getFormMode() == FormMode.VIEW) {
+			// Do a refresh
+			dispatchViewEvent(ToolbarBaseEventType.REFRESH);
 		}
 	}
 

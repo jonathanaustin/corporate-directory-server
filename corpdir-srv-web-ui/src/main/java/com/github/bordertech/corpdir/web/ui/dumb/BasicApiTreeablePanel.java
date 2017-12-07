@@ -1,7 +1,9 @@
 package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.dumb.input.EntityLink;
+import com.github.bordertech.corpdir.web.ui.dumb.input.EntityLinkRepeater;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.WLabel;
@@ -28,8 +30,9 @@ public class BasicApiTreeablePanel<T extends ApiTreeable> extends BasicApiKeyPan
 	 *
 	 * @param desc the entity description
 	 * @param viewId the viewId
+	 * @param card the card type this panel is used on
 	 */
-	public BasicApiTreeablePanel(final String desc, final String viewId) {
+	public BasicApiTreeablePanel(final String desc, final String viewId, final CardType card) {
 		super(viewId);
 		this.desc = desc;
 
@@ -39,14 +42,20 @@ public class BasicApiTreeablePanel<T extends ApiTreeable> extends BasicApiKeyPan
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-		drpParent.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
+		drpParent.setStoreKey(card.getApiType().getSearchStoreKey());
 
 		// Sub Items
 		lbl = new WLabel("Sub " + desc, multiSub.getSelectInput());
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
-		multiSub.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
+		multiSub.setStoreKey(card.getApiType().getSearchStoreKey());
+
+		// Set up readonly container
+		drpParent.getReadonlyContainer().add(new EntityLink(card));
+		drpParent.setUseReadonlyContainer(true);
+		multiSub.getReadonlyContainer().add(new EntityLinkRepeater(card));
+		multiSub.setUseReadonlyContainer(true);
 
 		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpParent.getPollingView().setPollingInterval(50);
