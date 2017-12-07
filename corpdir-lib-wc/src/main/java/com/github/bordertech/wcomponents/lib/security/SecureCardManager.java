@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.google.common.base.Objects;
@@ -44,7 +45,8 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 				if (destinationPath != null
 						&& destinationPath.getPath() != null
 						&& !Util.equals(currentScreenPath, destinationPath.getPath())) {
-					forward(destinationPath.getPath());
+					String url = EnvironmentHelper.prefixBaseUrl("/admin/" + destinationPath.getPath());
+					forward(url);
 				}
 			}
 		});

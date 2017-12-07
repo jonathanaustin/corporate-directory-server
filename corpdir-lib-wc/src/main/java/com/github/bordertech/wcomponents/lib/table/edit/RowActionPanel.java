@@ -5,12 +5,11 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WConfirmationButton;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.ArrayList;
@@ -28,21 +27,21 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 
 	private static final String EDIT_ROWS_ATTR_KEY = "wc-edit-rows";
 
-	private final WButton editButton = new WButton("Edit") {
+	private final WLibButton editButton = new WLibButton("Edit") {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
 			return isAllowEdit() && getRowModeKey(key) == RowMode.READ;
 		}
 	};
-	private final WButton cancelButton = new WButton("Cancel") {
+	private final WLibButton cancelButton = new WLibButton("Cancel") {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
 			return getRowModeKey(key) == RowMode.EDIT;
 		}
 	};
-	private final WConfirmationButton deleteButton = new WConfirmationButton("Delete") {
+	private final WLibButton deleteButton = new WLibButton("Delete") {
 		@Override
 		public boolean isVisible() {
 			Object key = TableUtil.getCurrentRowKey();
@@ -71,7 +70,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		add(buttonPanel);
 
 		// Edit button
-		editButton.setImageUrl(IconConstants.EDIT_IMAGE);
+		editButton.setImageUrl(IconConstants.EDIT_IMAGE, true);
 		editButton.setRenderAsLink(true);
 		editButton.setToolTip("Edit");
 		editButton.setAction(new Action() {
@@ -82,7 +81,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		});
 
 		// Cancel Button
-		cancelButton.setImageUrl(IconConstants.CANCEL_IMAGE);
+		cancelButton.setImageUrl(IconConstants.CANCEL_IMAGE, true);
 		cancelButton.setRenderAsLink(true);
 		cancelButton.setToolTip("Cancel");
 		cancelButton.setAction(new Action() {
@@ -94,7 +93,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 
 		// Delete Button
 		deleteButton.setMessage("Do you want to delete row?");
-		deleteButton.setImageUrl(IconConstants.REMOVE_IMAGE);
+		deleteButton.setImageUrl(IconConstants.REMOVE_IMAGE, true);
 		deleteButton.setRenderAsLink(true);
 		deleteButton.setToolTip("Delete");
 		deleteButton.setAction(new Action() {

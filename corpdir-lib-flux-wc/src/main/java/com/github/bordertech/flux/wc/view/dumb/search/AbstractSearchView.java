@@ -1,12 +1,13 @@
 package com.github.bordertech.flux.wc.view.dumb.search;
 
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -19,7 +20,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchView<T> {
 
-	private final WButton searchButton = new WButton("Search");
+	private final WLibButton searchButton = new WLibButton("Search");
 
 	private final FluxAjaxControl ajax = new FluxAjaxControl(searchButton);
 
@@ -34,7 +35,7 @@ public class AbstractSearchView<T> extends DefaultDumbView<T> implements SearchV
 				}
 			}
 		});
-		searchButton.setImageUrl(IconConstants.SEARCH_IMAGE);
+		searchButton.setImageUrl(IconConstants.SEARCH_IMAGE, true);
 		searchButton.setRenderAsLink(true);
 
 		getContent().add(ajax);

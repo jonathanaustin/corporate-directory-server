@@ -2,9 +2,9 @@ package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
 import com.github.bordertech.flux.wc.common.FluxMenuItem;
 import com.github.bordertech.flux.wc.mode.FormMode;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
@@ -101,12 +101,12 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		itemDelete.setMessage("Please confirm the delete action.");
 
 		// Images
-		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemEdit);
-		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemUpdate);
-		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemCreate);
-		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemCancel);
-		ViewUtil.addImageToMenuItem(IconConstants.REMOVE_IMAGE, itemDelete);
-		ViewUtil.addImageToMenuItem(IconConstants.REFRESH_IMAGE, itemRefresh);
+		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemEdit, true);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemUpdate, true);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemCreate, true);
+		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemCancel, true);
+		ViewUtil.addImageToMenuItem(IconConstants.REMOVE_IMAGE, itemDelete, true);
+		ViewUtil.addImageToMenuItem(IconConstants.REFRESH_IMAGE, itemRefresh, true);
 
 		// Clear Defaults
 		clearToolbarItems();

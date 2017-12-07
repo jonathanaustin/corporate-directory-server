@@ -1,12 +1,12 @@
 package com.github.bordertech.wcomponents.lib.security;
 
-import com.github.bordertech.wcomponents.WMenuItem;
+import com.github.bordertech.wcomponents.lib.common.WLibMenuItem;
 
 /**
  *
  * @author jonathan
  */
-public class MenuItemSecurePath extends WMenuItem {
+public class MenuItemSecurePath extends WLibMenuItem {
 
 	private final AppPath appPath;
 

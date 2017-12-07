@@ -4,6 +4,7 @@ import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWcLibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
+import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
 
 /**
  *
@@ -22,7 +23,8 @@ public class ConfigLibUtil {
 	public static void configApplication(final WApplication app) {
 
 		// CSS
-		app.addCssUrl("wclib/css/lib/cssgrid@0.0.4.css");
+		String url = EnvironmentHelper.prefixBaseUrl("wclib/css/lib/cssgrid@0.0.4.css");
+		app.addCssUrl(url);
 
 		// Javascript - Allow requireJS to load wclib js libraries
 		TemplateWContent registerWclib = new TemplateWContent(new TemplateRegisterWcLibJsResource(), "reg");

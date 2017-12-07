@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.srv.lde;
 
+import com.github.bordertech.wcomponents.util.Config;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.Configuration;
 import org.eclipse.jetty.webapp.WebAppContext;
@@ -22,7 +23,9 @@ public class LdeLauncher {
 		WebAppContext context = new WebAppContext();
 		context.setResourceBase("../corpdir-srv-web-war/src/main/webapp");
 
-		context.setContextPath("/");
+		String contextPath = Config.getInstance().getString("corpdir.lde.context.path", "/");
+
+		context.setContextPath(contextPath);
 		context.setParentLoaderPriority(true);
 
 		// Override the config to use the custom Meta-Inf Config to pick up the wclib-lib resources)

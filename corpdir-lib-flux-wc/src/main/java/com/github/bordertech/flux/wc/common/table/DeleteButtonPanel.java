@@ -6,6 +6,7 @@ import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -15,11 +16,11 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class DeleteButtonPanel extends WDiv {
 
-	private final WButton button = new WButton("Delete");
+	private final WLibButton button = new WLibButton("Delete");
 
 	public DeleteButtonPanel() {
 		add(button);
-		button.setImageUrl(IconConstants.REMOVE_IMAGE);
+		button.setImageUrl(IconConstants.REMOVE_IMAGE, true);
 		button.setRenderAsLink(false);
 		button.setToolTip("Delete");
 		button.setMessage("Do you want to remove this item?");

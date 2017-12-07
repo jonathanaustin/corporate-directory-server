@@ -26,7 +26,7 @@ public class MainToolbarSecureView extends AbstractMenuToolbarView {
 		super(viewId);
 		// Setup Menu Items
 		WSubMenu subMenu = new WSubMenu("System");
-		ViewUtil.addImageToLabelBody(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel());
+		ViewUtil.addImageToLabelBody(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel(), true);
 		subMenu.setToolTip("System");
 
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
@@ -37,7 +37,7 @@ public class MainToolbarSecureView extends AbstractMenuToolbarView {
 			WMenuItem item = new MenuItemSecurePath(card.getDesc(), card.getPath());
 			item.setToolTip(card.getDesc());
 			if (card.getImageUrl() != null) {
-				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel());
+				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel(), true);
 			}
 			if (card.isSystem()) {
 				subMenu.add(item);

@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
 import com.github.bordertech.flux.wc.common.FluxMenuItem;
-import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
@@ -45,9 +45,9 @@ public class DefaultToolbarView<T> extends AbstractMenuToolbarView<T> {
 		menu.addHtmlClass("wc-neg-margin");
 
 		// Images
-		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemBack);
-		ViewUtil.addImageToMenuItem(IconConstants.ADD_IMAGE, itemAdd);
-		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset);
+		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemBack, true);
+		ViewUtil.addImageToMenuItem(IconConstants.ADD_IMAGE, itemAdd, true);
+		ViewUtil.addImageToMenuItem(IconConstants.UNDO_IMAGE, itemReset, true);
 
 		// Default to use RESET
 		addToolbarItem(ToolbarNavigationItemType.RESET);

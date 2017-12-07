@@ -26,7 +26,7 @@ public class MainToolbarView extends AbstractMenuToolbarView {
 		super(viewId);
 		// Setup Menu Items
 		WSubMenu subMenu = new WSubMenu("System");
-		ViewUtil.addImageToLabelBody(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel());
+		ViewUtil.addImageToLabelBody(IconConstants.SETTING_IMAGE, subMenu.getDecoratedLabel(), true);
 		subMenu.setToolTip("System");
 
 		menu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
@@ -36,7 +36,7 @@ public class MainToolbarView extends AbstractMenuToolbarView {
 			WMenuItem item = new FluxMenuItem(card.getDesc(), CardEventType.SHOW, card);
 			item.setToolTip(card.getDesc());
 			if (card.getImageUrl() != null) {
-				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel());
+				ViewUtil.addImageToLabelBody(card.getImageUrl(), item.getDecoratedLabel(), true);
 			}
 			if (card.isSystem()) {
 				subMenu.add(item);

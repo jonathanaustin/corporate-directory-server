@@ -23,7 +23,7 @@ public enum CardType {
 	CONTACT_CARD("contact", "Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT);
 
 	CardType(final String path, final String desc, final boolean system, final Class<? extends FluxSmartView> clazz, final String imageUrl, final DataApiType apiType) {
-		this.path = "admin" + path;
+		this.path = path;
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
