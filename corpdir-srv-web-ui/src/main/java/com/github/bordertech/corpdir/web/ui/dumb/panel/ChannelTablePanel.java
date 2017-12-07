@@ -131,6 +131,7 @@ public class ChannelTablePanel extends DefaultDumbView<List<Channel>> {
 		tableView.setBeanProperty(".");
 		tableView.setSearchAncestors(true);
 		tableView.setEntityActionCreatorKey(DataApiType.CHANNEL.getActionCreatorKey());
+		tableView.getTableView().getAddButton().setText("Add channel");
 		getContent().add(tableView);
 	}
 

@@ -8,6 +8,8 @@ import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTable.SortMode;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
+import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.lib.table.DefaultTableColumn;
 import com.github.bordertech.wcomponents.lib.table.TableBeanModel;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
@@ -27,7 +29,7 @@ public class TableInlineEditingView<T> extends AbstractListView<T> implements Fo
 
 	private final WTable table = new WTable();
 
-	private final WButton addButton = new WButton("Add") {
+	private final WLibButton addButton = new WLibButton("Add") {
 		@Override
 		public boolean isVisible() {
 			return table.isEditable();
@@ -77,6 +79,8 @@ public class TableInlineEditingView<T> extends AbstractListView<T> implements Fo
 				handleAddButtonAction();
 			}
 		});
+		addButton.setImageUrl(IconConstants.ADD_IMAGE, true);
+		addButton.setImagePosition(WButton.ImagePosition.WEST);
 		table.addAction(addButton);
 
 		// Add AJAX
