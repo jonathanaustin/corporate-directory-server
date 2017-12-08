@@ -11,12 +11,13 @@ import com.github.bordertech.flux.crud.action.base.EntityActionBaseType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.action.retrieve.RetrieveAction;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.crud.store.RetrieveActionStore;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.store.DefaultStore;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.Collections;
 import java.util.HashSet;
@@ -47,7 +48,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) {
+	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) throws AsyncException {
 		String key = getResultCacheKey(type, criteria);
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(getStoreCache(), key);
@@ -63,23 +64,34 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public Object getActionResult(final RetrieveActionType type, final Object criteria) {
+	public Object getActionResultCacheOnly(final RetrieveActionType type, final Object criteria) throws RetrieveActionException {
+		// Check if have cached result
+		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
+		if (holder == null) {
+			return null;
+		}
+		return extractResult(holder);
+	}
 
-		// Check if have result
+	@Override
+	public Object getActionResult(final RetrieveActionType type, final Object criteria) throws RetrieveActionException {
+		// Check if have cached result
 		ResultHolder<?, ?> holder = getResultHolder(type, criteria);
 		if (holder == null) {
 			// Call SYNC (ie retrieve immediately)
-			holder = handleServiceCallAction(type, criteria, false);
+			holder = handleServiceCallSyncAction(type, criteria);
 		}
+		return extractResult(holder);
+	}
 
+	protected Object extractResult(final ResultHolder<?, ?> holder) throws RetrieveActionException {
 		if (holder.isException()) {
 			Exception excp = holder.getException();
-			if (excp instanceof ServiceException) {
-				throw (ServiceException) excp;
+			if (excp instanceof RetrieveActionException) {
+				throw (RetrieveActionException) excp;
 			}
-			throw new ServiceException(excp.getMessage(), excp);
+			throw new RetrieveActionException(excp.getMessage(), excp);
 		}
-
 		return holder.getResult();
 	}
 
@@ -130,21 +142,15 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		boolean changed = false;
 		switch (callType) {
 			case CALL_SYNC:
-				handleServiceCallAction(type, action.getData(), false);
-				changed = true;
-				break;
-			case CALL_ASYNC:
-				handleServiceCallAction(type, action.getData(), true);
-				break;
 			case REFRESH_SYNC:
-				handleRefreshAction(type, action.getData(), false);
-				changed = true;
-				break;
-			case REFRESH_ASYNC:
-				handleRefreshAction(type, action.getData(), true);
+				handleServiceCallSyncAction(type, action.getData());
 				changed = true;
 				break;
 
+			case CALL_ASYNC:
+			case REFRESH_ASYNC:
+				handleServiceCallASyncAction(type, action.getData());
+				break;
 			default:
 				changed = false;
 		}
@@ -153,20 +159,26 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		}
 	}
 
-	protected ResultHolder<?, ?> handleServiceCallAction(final RetrieveActionType type, final Object criteria, final boolean async) {
+	protected ResultHolder handleServiceCallSyncAction(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		ServiceAction action = new ServiceAction() {
 			@Override
 			public Object service(final Object criteria) {
-				return doRetrieveServiceCall(type, criteria);
+				return doRetrieveDataApiCall(type, criteria);
 			}
 		};
-		if (async) {
-			ServiceUtil.handleAsyncServiceCall(getStoreCache(), key, criteria, action);
-			return null;
-		} else {
-			return ServiceUtil.handleCachedServiceCall(getStoreCache(), key, criteria, action);
-		}
+		return ServiceUtil.handleCachedServiceCall(getStoreCache(), key, criteria, action);
+	}
+
+	protected void handleServiceCallASyncAction(final RetrieveActionType type, final Object criteria) {
+		String key = getResultCacheKey(type, criteria);
+		ServiceAction action = new ServiceAction() {
+			@Override
+			public Object service(final Object criteria) {
+				return doRetrieveDataApiCall(type, criteria);
+			}
+		};
+		ServiceUtil.handleAsyncServiceCall(getStoreCache(), key, criteria, action);
 	}
 
 	protected void handleAsyncOutcomeBaseActions(final RetrieveAction action) {
@@ -201,7 +213,11 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 		// Clear from the cache
 		String key = getResultCacheKey(type, criteria);
 		ServiceUtil.clearResult(getStoreCache(), key);
-		handleServiceCallAction(type, criteria, async);
+		if (async) {
+			handleServiceCallASyncAction(type, criteria);
+		} else {
+			handleServiceCallSyncAction(type, criteria);
+		}
 	}
 
 	protected String getResultCacheKey(final RetrieveActionType type, final Object criteria) {
@@ -261,6 +277,6 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	 * @param criteria the criteria
 	 * @return the result
 	 */
-	protected abstract Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria);
+	protected abstract Object doRetrieveDataApiCall(final RetrieveActionType type, final Object criteria);
 
 }

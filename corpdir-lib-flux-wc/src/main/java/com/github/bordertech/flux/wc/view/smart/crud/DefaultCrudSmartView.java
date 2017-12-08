@@ -4,6 +4,7 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.EntityStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.crud.store.SearchStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -36,6 +37,7 @@ import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -225,7 +227,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
 			selectView.resetView();
-			doSearchAction();
+			doDispatchSearchAction();
 			// Start Polling
 			pollingView.resetView();
 			pollingView.doManualStart();
@@ -233,7 +235,15 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			if (isSearchActionDone()) {
+			boolean done;
+			try {
+				done = isSearchActionDone();
+			} catch (AsyncException e) {
+				dispatchMessageError("Error processing async service. " + e.getMessage());
+				pollingView.setPollingStatus(PollingStatus.STOPPED);
+				return;
+			}
+			if (done) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
@@ -285,6 +295,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 				break;
 
 			case CREATE_OK:
+				resetFormViews();
 				selectView.addItem(entity);
 				selectView.setContentVisible(true);
 				selectView.setSelectedItem(entity);
@@ -293,6 +304,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 			case UPDATE_OK:
 			case REFRESH_OK:
+				resetFormViews();
 				selectView.updateItem(entity);
 				dispatchViewEvent(FormBaseEventType.LOAD, entity);
 				break;
@@ -339,15 +351,15 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		return formMessages;
 	}
 
-	protected void doSearchAction() {
+	protected void doDispatchSearchAction() {
 		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
-	protected boolean isSearchActionDone() {
+	protected boolean isSearchActionDone() throws AsyncException {
 		return getSearchStore().isSearchDone(getCriteria());
 	}
 
-	protected List<T> getSearchActionResult() {
+	protected List<T> getSearchActionResult() throws RetrieveActionException {
 		return getSearchStore().search(getCriteria());
 	}
 

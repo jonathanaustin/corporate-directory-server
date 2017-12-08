@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.jpa.util;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
-import com.github.bordertech.corpdir.api.exception.ServiceException;
+import com.github.bordertech.corpdir.api.exception.ServiceApiException;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistIdObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
@@ -240,7 +240,7 @@ public final class MapperUtil {
 		}
 		T other = getEntityByBusinessKey(em, key, entityClass);
 		if (other != null) {
-			throw new ServiceException("Business key [" + key + "] already in use.");
+			throw new ServiceApiException("Business key [" + key + "] already in use.");
 		}
 	}
 

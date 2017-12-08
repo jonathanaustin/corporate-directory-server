@@ -181,4 +181,14 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 		return pollingView.isUseRetryOnError();
 	}
 
+	@Override
+	public void setContineStart(final boolean start) {
+		pollingView.setContineStart(start);
+	}
+
+	@Override
+	public boolean isContinueStart() {
+		return pollingView.isContinueStart();
+	}
+
 }

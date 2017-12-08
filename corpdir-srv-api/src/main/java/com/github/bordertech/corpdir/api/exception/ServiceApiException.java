@@ -6,14 +6,14 @@ package com.github.bordertech.corpdir.api.exception;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class ServiceException extends RuntimeException {
+public class ServiceApiException extends RuntimeException {
 
 	private final int code;
 
 	/**
 	 * @param message the exception message
 	 */
-	public ServiceException(final String message) {
+	public ServiceApiException(final String message) {
 		this(message, -1);
 	}
 
@@ -21,7 +21,7 @@ public class ServiceException extends RuntimeException {
 	 * @param message the exception message
 	 * @param original the original exception
 	 */
-	public ServiceException(final String message, final Throwable original) {
+	public ServiceApiException(final String message, final Throwable original) {
 		this(message, original, -1);
 	}
 
@@ -29,7 +29,7 @@ public class ServiceException extends RuntimeException {
 	 * @param message the exception message
 	 * @param code the status code
 	 */
-	public ServiceException(final String message, final int code) {
+	public ServiceApiException(final String message, final int code) {
 		super(message);
 		this.code = code;
 	}
@@ -39,7 +39,7 @@ public class ServiceException extends RuntimeException {
 	 * @param original the original exception
 	 * @param code the status code
 	 */
-	public ServiceException(final String message, final Throwable original, final int code) {
+	public ServiceApiException(final String message, final Throwable original, final int code) {
 		super(message, original);
 		this.code = code;
 	}

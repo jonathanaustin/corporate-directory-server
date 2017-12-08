@@ -50,6 +50,13 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		}
 
 		@Override
+		protected void doStartPolling() {
+			if (isContinueStart()) {
+				super.doStartPolling();
+			}
+		}
+
+		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
 			dispatchMessageReset();
@@ -90,6 +97,22 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventType) {
 		super.addEventAjaxTarget(target, eventType);
 		addAjaxTarget((AjaxTarget) target);
+	}
+
+	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
+		dispatchViewEvent(pollingEvent);
+	}
+
+	@Override
+	public boolean isContinueStart() {
+		Boolean flag = (Boolean) pollingPanel.getAttribute("wc-cont");
+		return flag == null ? true : flag;
+	}
+
+	@Override
+	public void setContineStart(final boolean start) {
+		// Store the state on the polling panel. So it gets reset at the same time as the polling panel.
+		pollingPanel.setAttribute("wc-cont", start);
 	}
 
 	public final PollingPanel getPollingPanel() {
@@ -139,10 +162,6 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	@Override
 	public void setPollingText(final String text) {
 		pollingPanel.setPollingText(text);
-	}
-
-	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
-		dispatchViewEvent(pollingEvent);
 	}
 
 	@Override

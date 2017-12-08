@@ -3,9 +3,12 @@ package com.github.bordertech.flux.wc.view.smart.polling;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
+import com.github.bordertech.flux.crud.store.RetrieveActionStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -88,16 +91,37 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	}
 
 	@Override
+	protected void handlePollingStartEvent(final PollingBaseEventType type) {
+		super.handlePollingStartEvent(type);
+		// Check if result is already in the cache (dont need to poll)
+		RetrieveActionStore store = (RetrieveActionStore) getDispatcher().getStore(getStoreKey());
+		try {
+			Object result = store.getActionResultCacheOnly(getStoreRetrieveType(), getStoreCriteria());
+			if (result != null) {
+				dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
+				setContineStart(false);
+			}
+		} catch (Exception e) {
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
+			setContineStart(false);
+		}
+	}
+
+	@Override
 	protected void handlePollingStartedEvent() {
 		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), getStoreCallType());
 	}
 
 	@Override
 	protected void handlePollingCheckStatusEvent() {
-		boolean done = StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
-		if (done) {
+		try {
+			if (StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria())) {
+				setPollingStatus(PollingStatus.STOPPED);
+				handleStoreResult();
+			}
+		} catch (AsyncException e) {
 			setPollingStatus(PollingStatus.STOPPED);
-			handleStoreResult();
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
 		}
 	}
 

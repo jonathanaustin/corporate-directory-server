@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.api.servlet;
 
 import com.github.bordertech.corpdir.api.exception.NotFoundException;
-import com.github.bordertech.corpdir.api.exception.ServiceException;
+import com.github.bordertech.corpdir.api.exception.ServiceApiException;
 import com.github.bordertech.corpdir.api.response.ErrorDetail;
 import com.github.bordertech.corpdir.api.response.ErrorResponse;
 import javax.ws.rs.core.Response;
@@ -33,8 +33,8 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
 	protected ErrorDetail createErrorDetail(final Throwable excp) {
 		// Default to Internal Error
 		int status = Response.Status.INTERNAL_SERVER_ERROR.getStatusCode();
-		if (excp instanceof ServiceException) {
-			Response.Status respStatus = Response.Status.fromStatusCode(((ServiceException) excp).getCode());
+		if (excp instanceof ServiceApiException) {
+			Response.Status respStatus = Response.Status.fromStatusCode(((ServiceApiException) excp).getCode());
 			if (respStatus != null) {
 				status = respStatus.getStatusCode();
 			}

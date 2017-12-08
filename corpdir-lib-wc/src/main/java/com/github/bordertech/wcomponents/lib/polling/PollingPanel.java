@@ -107,7 +107,6 @@ public class PollingPanel extends WDiv implements Pollable {
 				doStoppedPollingPanelReload();
 			}
 		}
-
 	};
 
 	/**

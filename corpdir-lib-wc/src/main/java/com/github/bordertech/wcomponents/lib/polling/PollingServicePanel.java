@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
 import com.github.bordertech.taskmanager.TaskFuture;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
@@ -238,7 +239,15 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	@Override
 	protected boolean checkForStopPolling() {
-		if (ServiceUtil.checkASyncResult(getPollingCache(), getServiceKey()) != null) {
+		String key = getServiceKey();
+		try {
+			if (ServiceUtil.checkASyncResult(getPollingCache(), key) != null) {
+				setPollingStatus(PollingStatus.STOPPED);
+			}
+		} catch (AsyncException e) {
+			// Put Exception in the CACHE so it can be retrieved after it stops polling (Will be cleared straight away).
+			ResultHolder result = new ResultHolder(key, e);
+			ServiceUtil.setResultHolder(getPollingCache(), key, result);
 			setPollingStatus(PollingStatus.STOPPED);
 		}
 		return super.checkForStopPolling();

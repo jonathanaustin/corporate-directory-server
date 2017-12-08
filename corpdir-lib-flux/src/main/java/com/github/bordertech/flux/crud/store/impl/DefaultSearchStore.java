@@ -3,7 +3,9 @@ package com.github.bordertech.flux.crud.store.impl;
 import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.SearchApi;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.crud.store.SearchStore;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,17 +27,17 @@ public class DefaultSearchStore<S, T, D extends SearchApi<S, T>> extends Abstrac
 	}
 
 	@Override
-	public boolean isSearchDone(final S criteria) {
+	public boolean isSearchDone(final S criteria) throws AsyncException {
 		return isAsyncDone(RetrieveActionBaseType.SEARCH, criteria);
 	}
 
 	@Override
-	public List<T> search(final S criteria) {
+	public List<T> search(final S criteria) throws RetrieveActionException {
 		return (List<T>) getActionResult(RetrieveActionBaseType.SEARCH, criteria);
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+	protected Object doRetrieveDataApiCall(final RetrieveActionType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveActionBaseType.SEARCH)) {
 			return getDataApi().search((S) criteria);
 		}
