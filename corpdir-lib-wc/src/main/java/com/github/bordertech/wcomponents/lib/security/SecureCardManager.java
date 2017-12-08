@@ -146,7 +146,7 @@ public class SecureCardManager<T extends WComponent> extends WCardManager {
 		getVisible().setVisible(true);
 		if (isSecureMode()) {
 			AppPath path = getCurrentPath();
-			boolean allowed = AppManagerFactory.getInstance().userAccessToPath(path);
+			boolean allowed = AppSecurityManagerFactory.getInstance().userAccessToPath(path);
 			if (!allowed) {
 				getVisible().setVisible(false);
 				handleAccessError();

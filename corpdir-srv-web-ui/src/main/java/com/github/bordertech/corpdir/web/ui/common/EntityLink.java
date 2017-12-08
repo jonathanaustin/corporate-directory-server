@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.dumb.input;
+package com.github.bordertech.corpdir.web.ui.common;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.config.CardType;

@@ -7,7 +7,7 @@ import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
  *
  * @author jonathan
  */
-public interface EntityActionCreatorConsumer<T> extends StoreConsumer {
+public interface EntityActionCreatorConsumer<T> extends ActionCreatorConsumer {
 
 	void setEntityActionCreatorKey(final String creatorKey);
 

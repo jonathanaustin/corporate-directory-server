@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.view.smart;
 
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
 import com.github.bordertech.flux.wc.view.smart.consumer.EntityStoreConsumer;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
 
 /**
  * Smart form view with an Entity Creator and Retrieve Store.

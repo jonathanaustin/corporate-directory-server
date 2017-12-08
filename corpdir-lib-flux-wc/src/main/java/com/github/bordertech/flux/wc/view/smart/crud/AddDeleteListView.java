@@ -2,13 +2,13 @@ package com.github.bordertech.flux.wc.view.smart.crud;
 
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
-import com.github.bordertech.flux.wc.util.FormUtil;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.SelectableView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
+import com.github.bordertech.flux.wc.view.dumb.form.FormUtil;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.AddDeleteButtonBarView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.ApplyButtonBarView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;

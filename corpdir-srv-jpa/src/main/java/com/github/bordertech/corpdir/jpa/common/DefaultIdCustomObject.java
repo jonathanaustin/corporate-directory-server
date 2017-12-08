@@ -1,8 +1,8 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import javax.persistence.MappedSuperclass;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistActivable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistCustomable;
+import javax.persistence.MappedSuperclass;
 
 /**
  * Default persistent keyed object with custom and active flags.

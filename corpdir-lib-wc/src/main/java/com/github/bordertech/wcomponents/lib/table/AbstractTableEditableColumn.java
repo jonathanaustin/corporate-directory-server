@@ -5,7 +5,7 @@ import com.github.bordertech.wcomponents.WTextField;
 import java.util.Comparator;
 
 /**
- * Editable column that default to a TextField instead of a WText.
+ * Editable column that defaults to a TextField instead of a WText.
  *
  * @author jonathan
  */

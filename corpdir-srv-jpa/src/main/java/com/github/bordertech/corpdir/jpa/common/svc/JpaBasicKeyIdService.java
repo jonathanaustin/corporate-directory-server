@@ -3,13 +3,13 @@ package com.github.bordertech.corpdir.jpa.common.svc;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
-import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 
 /**
  * Keyed Entity JPA service implementation.

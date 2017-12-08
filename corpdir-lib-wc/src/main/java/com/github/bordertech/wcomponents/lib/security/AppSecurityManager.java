@@ -8,7 +8,7 @@ import java.util.Set;
  *
  * @author Jonathan Austin
  */
-public interface AppManager extends Serializable {
+public interface AppSecurityManager extends Serializable {
 
 	Set<AppRole> getUserRoles();
 

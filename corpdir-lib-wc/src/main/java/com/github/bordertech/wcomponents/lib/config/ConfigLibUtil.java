@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.util;
+package com.github.bordertech.wcomponents.lib.config;
 
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;

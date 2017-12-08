@@ -1,9 +1,9 @@
 package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
+import com.github.bordertech.corpdir.web.ui.common.EntityLink;
+import com.github.bordertech.corpdir.web.ui.common.EntityLinkRepeater;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.dumb.input.EntityLink;
-import com.github.bordertech.corpdir.web.ui.dumb.input.EntityLinkRepeater;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.WLabel;

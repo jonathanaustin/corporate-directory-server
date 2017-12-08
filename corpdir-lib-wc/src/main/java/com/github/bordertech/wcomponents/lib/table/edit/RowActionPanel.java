@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Table with row edit actions.
+ * Table column renderer that allows row edit actions.
  *
  * @author Jonathan Austin
  * @since 1.0.0

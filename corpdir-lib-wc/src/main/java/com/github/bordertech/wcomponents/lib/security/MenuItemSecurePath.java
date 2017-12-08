@@ -40,7 +40,7 @@ public class MenuItemSecurePath extends WLibMenuItem {
 		if (!isSecureMode()) {
 			return true;
 		}
-		return AppManagerFactory.getInstance().userAccessToPath(appPath);
+		return AppSecurityManagerFactory.getInstance().userAccessToPath(appPath);
 	}
 
 	@Override

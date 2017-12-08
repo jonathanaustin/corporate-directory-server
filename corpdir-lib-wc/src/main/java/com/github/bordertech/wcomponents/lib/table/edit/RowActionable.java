@@ -5,7 +5,8 @@ import java.io.Serializable;
 /**
  * Marks the column used to hold the row actions.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface RowActionable extends Serializable {
 

@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.common.svc;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
@@ -11,7 +12,6 @@ import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaQuery;
-import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
 
 /**
  * Keyed Entity JPA service implementation.

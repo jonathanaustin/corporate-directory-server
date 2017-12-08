@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Setup the {@link EnvironmentHelper} and derive the theme path using the base URL.
+ * Setup the {@link EnvironmentHelper} and derive the theme path using the base URL so the the theme servlet will work
+ * with any app context.
  *
  * @author Jonathan Austin
  */

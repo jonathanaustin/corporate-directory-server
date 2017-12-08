@@ -1,12 +1,12 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
-import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
-import javax.persistence.EntityManager;
 import com.github.bordertech.corpdir.api.common.ApiActivable;
 import com.github.bordertech.corpdir.api.common.ApiCustomable;
+import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistActivable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistCustomable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
+import javax.persistence.EntityManager;
 
 /**
  * Map {@link ApiKeyIdObject} and {@link PersistKeyIdObject}.

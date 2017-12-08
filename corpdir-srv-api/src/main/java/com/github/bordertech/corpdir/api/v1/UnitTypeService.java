@@ -1,10 +1,10 @@
 package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import java.util.List;
-import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 
 /**
  * Organisation Unit Type Service Interface.

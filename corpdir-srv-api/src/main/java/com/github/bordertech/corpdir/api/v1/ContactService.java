@@ -2,9 +2,9 @@ package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
 import com.github.bordertech.corpdir.api.v1.func.PositionFunctions;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
-import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
 
 /**
  * Contact Service Interface.

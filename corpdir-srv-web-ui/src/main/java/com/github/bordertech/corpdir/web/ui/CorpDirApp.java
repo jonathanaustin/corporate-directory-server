@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.util.ConfigLibUtil;
+import com.github.bordertech.wcomponents.lib.config.ConfigLibUtil;
 
 /**
  * Corporate Directory Admin UI.
