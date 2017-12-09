@@ -26,12 +26,12 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 	 * @param viewId the viewId
 	 */
 	public OrgUnitPanel(final String viewId) {
-		super("OrgUnit", viewId, CardType.ORG_UNIT_CARD);
+		super("OrgUnit", viewId, CardType.ORG_UNIT);
 
 		// Unit Type
 		PollingDropdownOptionsView<String, UnitType> drpUnitType = new PollingDropdownOptionsView<>("UT");
 		drpUnitType.setUseReadonlyContainer(true);
-		drpUnitType.getReadonlyContainer().add(new EntityLink(CardType.UNIT_TYPE_CARD));
+		drpUnitType.getReadonlyContainer().add(new EntityLink(CardType.UNIT_TYPE));
 		WLabel lbl = new WLabel("Unit Type", drpUnitType.getSelectInput());
 		getFormLayout().addField(lbl, drpUnitType);
 		drpUnitType.setIncludeNullOption(true);
@@ -42,7 +42,7 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 		// Manager Position
 		PollingDropdownOptionsView<String, Position> drpMgrPos = new PollingDropdownOptionsView<>("MP");
 		drpMgrPos.setUseReadonlyContainer(true);
-		drpMgrPos.getReadonlyContainer().add(new EntityLink(CardType.POSITION_CARD));
+		drpMgrPos.getReadonlyContainer().add(new EntityLink(CardType.POSITION));
 		lbl = new WLabel("Manager Position", drpMgrPos.getSelectInput());
 		getFormLayout().addField(lbl, drpMgrPos);
 		drpMgrPos.setIncludeNullOption(true);
@@ -53,7 +53,7 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 		// Positions in Org Unit
 		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 		multiPos.setUseReadonlyContainer(true);
-		multiPos.getReadonlyContainer().add(new EntityLinkRepeater(CardType.POSITION_CARD));
+		multiPos.getReadonlyContainer().add(new EntityLinkRepeater(CardType.POSITION));
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");

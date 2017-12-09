@@ -33,7 +33,7 @@ public class MainCardManagerView extends DefaultSecureCardManagerView<Object, Se
 			setupCard(card, view);
 		}
 		// Default
-		showCard(CardType.CONTACT_CARD);
+		showCard(CardType.CONTACT);
 	}
 
 	private void setupCard(final CardType type, final SecureCardView view) {

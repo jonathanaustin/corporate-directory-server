@@ -32,7 +32,14 @@ public abstract class AbstractJpaKeyIdService<A extends ApiKeyIdObject, P extend
 
 		// Search
 		if (search != null && !search.isEmpty()) {
-			qry.where(CriteriaUtil.createSearchTextCriteria(cb, from, search));
+			if (MapperUtil.isEntityId(search)) {
+				// ID Search
+				Long id = MapperUtil.convertApiIdforEntity(search);
+				qry.where(CriteriaUtil.createSearchIDCriteria(cb, from, id));
+			} else {
+				// Text Search
+				qry.where(CriteriaUtil.createSearchTextCriteria(cb, from, search));
+			}
 		}
 
 		// Order by

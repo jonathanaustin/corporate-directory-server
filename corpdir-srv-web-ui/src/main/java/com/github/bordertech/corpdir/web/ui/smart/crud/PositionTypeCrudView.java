@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
  *
  * @author jonathan
  */
-public class PositionTypeCrudView extends AppSecureCrudView<String, PositionType> {
+public class PositionTypeCrudView extends AppSecureCrudView<PositionType> {
 
 	public PositionTypeCrudView() {
-		super(CardType.POSITION_TYPE_CARD, "PT", "Position Type", new BasicApiKeyPanel("PL"));
+		super(CardType.POSITION_TYPE, "PT", "Position Type", new BasicApiKeyPanel("PL"));
 	}
 
 }

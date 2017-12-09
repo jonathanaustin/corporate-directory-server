@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.panel.OrgUnitPanel;
  *
  * @author jonathan
  */
-public class OrgUnitCrudView extends AppSecureCrudTreeView<String, OrgUnit> {
+public class OrgUnitCrudView extends AppSecureCrudTreeView<OrgUnit> {
 
 	public OrgUnitCrudView() {
-		super(CardType.ORG_UNIT_CARD, "OU", "Org Unit", new OrgUnitPanel("PL"));
+		super(CardType.ORG_UNIT, "OU", "Org Unit", new OrgUnitPanel("PL"));
 	}
 
 }

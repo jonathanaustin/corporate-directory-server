@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.panel.LocationPanel;
  *
  * @author jonathan
  */
-public class LocationCrudView extends AppSecureCrudTreeView<String, Location> {
+public class LocationCrudView extends AppSecureCrudTreeView<Location> {
 
 	public LocationCrudView() {
-		super(CardType.LOCATION_CARD, "LOC", "Location", new LocationPanel("PL"));
+		super(CardType.LOCATION, "LOC", "Location", new LocationPanel("PL"));
 	}
 
 }

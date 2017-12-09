@@ -19,7 +19,7 @@ public class LocationPanel extends BasicApiTreeablePanel<Location> {
 	 * @param viewId the viewId
 	 */
 	public LocationPanel(final String viewId) {
-		super("Location", viewId, CardType.LOCATION_CARD);
+		super("Location", viewId, CardType.LOCATION);
 
 		// Address
 		AddressPanel addressPanel = new AddressPanel("ADDR");

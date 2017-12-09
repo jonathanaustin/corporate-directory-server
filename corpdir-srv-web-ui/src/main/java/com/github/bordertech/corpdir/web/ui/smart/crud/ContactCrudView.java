@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.panel.ContactPanel;
  *
  * @author jonathan
  */
-public class ContactCrudView extends AppSecureCrudView<String, Contact> {
+public class ContactCrudView extends AppSecureCrudView<Contact> {
 
 	public ContactCrudView() {
-		super(CardType.CONTACT_CARD, "CT", "Contact", new ContactPanel("PL"));
+		super(CardType.CONTACT, "CT", "Contact", new ContactPanel("PL"));
 	}
 
 }

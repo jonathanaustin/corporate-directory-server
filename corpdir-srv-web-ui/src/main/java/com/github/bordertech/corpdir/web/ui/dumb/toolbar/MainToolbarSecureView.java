@@ -49,7 +49,7 @@ public class MainToolbarSecureView extends AbstractMenuToolbarView {
 		menu.add(subMenu);
 
 		//Default
-		setCurrentCard(CardType.CONTACT_CARD);
+		setCurrentCard(CardType.CONTACT);
 	}
 
 	public final void setCurrentCard(final CardType current) {

@@ -22,6 +22,11 @@ public final class CriteriaUtil {
 		// prevent instatiation
 	}
 
+	public static <T extends PersistKeyIdObject> Predicate createSearchIDCriteria(final CriteriaBuilder cb, final Root<T> root, final Long id) {
+		Predicate p1 = cb.equal(root.<Long>get("id"), id);
+		return p1;
+	}
+
 	/**
 	 *
 	 * @param <T> the entity type

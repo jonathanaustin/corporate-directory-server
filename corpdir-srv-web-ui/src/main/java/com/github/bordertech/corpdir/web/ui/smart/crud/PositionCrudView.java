@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.panel.PositionPanel;
  *
  * @author jonathan
  */
-public class PositionCrudView extends AppSecureCrudTreeView<String, Position> {
+public class PositionCrudView extends AppSecureCrudTreeView<Position> {
 
 	public PositionCrudView() {
-		super(CardType.POSITION_CARD, "POS", "Position", new PositionPanel("PL"));
+		super(CardType.POSITION, "POS", "Position", new PositionPanel("PL"));
 	}
 
 }

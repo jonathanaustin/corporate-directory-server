@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.crud;
 
 import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.EntityStore;
@@ -226,12 +227,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			resetFormViews();
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
-			selectView.resetView();
-			doDispatchSearchAction();
-			// Start Polling
-			pollingView.resetView();
-			pollingView.doManualStart();
-
+			handleSearchEvent();
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
@@ -249,13 +245,9 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 				// Handle the result
 				try {
 					List<T> result = getSearchActionResult();
-					selectView.setItems(result);
-					selectView.setContentVisible(true);
-					if (result == null || result.isEmpty()) {
-						dispatchMessageInfo("No records found.");
-					}
+					handleSearchResult(result);
 				} catch (Exception e) {
-					dispatchMessageError("Error loading details. " + e.getMessage());
+					handleSearchException(e);
 				}
 			}
 
@@ -264,6 +256,23 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			formHolder.resetView();
 			formHolder.setContentVisible(true);
 			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
+		}
+	}
+
+	protected void handleSearchException(final Exception e) {
+		dispatchMessageError("Error loading details. " + e.getMessage());
+	}
+
+	protected void handleSearchResult(final List<T> items) {
+		selectView.setItems(items);
+		selectView.setContentVisible(true);
+		if (items == null || items.isEmpty()) {
+			dispatchMessageInfo("No records found.");
+		} else if (items.size() == 1) {
+			// Select the first
+			T item = items.get(0);
+			selectView.setSelectedItem(item);
+			dispatchViewEvent(SelectBaseEventType.SELECT, item);
 		}
 	}
 
@@ -351,8 +360,28 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		return formMessages;
 	}
 
+	protected void handleSearchEvent() {
+		selectView.resetView();
+		// Check cached result
+		try {
+			List<T> result = getSearchActionResult();
+			if (result != null) {
+				handleSearchResult(result);
+				return;
+			}
+		} catch (Exception e) {
+			handleSearchException(e);
+			return;
+		}
+		doDispatchSearchAction();
+		// Start Polling
+		pollingView.resetView();
+		pollingView.doManualStart();
+	}
+
 	protected void doDispatchSearchAction() {
-		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
+		// Start Search
+		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
 	}
 
 	protected boolean isSearchActionDone() throws AsyncException {
@@ -360,7 +389,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	protected List<T> getSearchActionResult() throws RetrieveActionException {
-		return getSearchStore().search(getCriteria());
+		// Just get from the cache
+		return (List<T>) getSearchStore().getActionResultCacheOnly(RetrieveActionBaseType.SEARCH, getCriteria());
 	}
 
 	@Override
@@ -376,6 +406,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	@Override
 	protected CrudFormModel getOrCreateComponentModel() {
 		return (CrudFormModel) super.getOrCreateComponentModel();
+
 	}
 
 	/**

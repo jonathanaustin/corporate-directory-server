@@ -9,10 +9,10 @@ import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
  *
  * @author jonathan
  */
-public class UnitTypeCrudView extends AppSecureCrudView<String, UnitType> {
+public class UnitTypeCrudView extends AppSecureCrudView<UnitType> {
 
 	public UnitTypeCrudView() {
-		super(CardType.UNIT_TYPE_CARD, "UT", "Unit Type", new BasicApiKeyPanel("PL"));
+		super(CardType.UNIT_TYPE, "UT", "Unit Type", new BasicApiKeyPanel("PL"));
 	}
 
 }

@@ -29,7 +29,9 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 	public void handleRequest(final Request request) {
 		super.handleRequest(request);
 
-		checkUrlPath(request);
+		if ("GET".equals(request.getMethod())) {
+			checkUrlPath(request);
+		}
 		checkAccess();
 
 		// Get environment details
@@ -42,11 +44,13 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		uic.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				// Check path
 				String currentScreenPath = getCurrentScreenPath(env.getPostPath());
 				AppPath destinationPath = getCurrentCard().getAppPath();
 				if (destinationPath != null
 						&& destinationPath.getPath() != null
 						&& !Util.equals(currentScreenPath, destinationPath.getPath())) {
+					// Path has changed
 					String url = getRedirectUrl(destinationPath);
 					forward(url);
 				}
@@ -166,10 +170,16 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		String currentScreenPath = getCurrentScreenPath(env.getPostPath());
 		// Match Path to Card
 		T screen = getSecureCard(currentScreenPath);
-		if (screen != null && getVisible() != screen) {
-			super.makeVisible(screen);
-			// Call Setup
-			screen.handleCardRequest(request);
+		if (screen != null) {
+			if (getVisible() == screen) {
+				// Check if request changed
+				screen.handleCheckCardRequest(request);
+			} else {
+				// Switch to this card
+				setCurrentCard(screen);
+				// Call Setup
+				screen.handleShowCardRequest(request);
+			}
 		}
 	}
 

@@ -52,7 +52,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		// Location
 		PollingDropdownOptionsView<String, Location> drpLocation = new PollingDropdownOptionsView("LOC");
 		drpLocation.setUseReadonlyContainer(true);
-		drpLocation.getReadonlyContainer().add(new EntityLink(CardType.LOCATION_CARD));
+		drpLocation.getReadonlyContainer().add(new EntityLink(CardType.LOCATION));
 		WLabel lbl = new WLabel("Location", drpLocation.getSelectInput());
 		getFormLayout().addField(lbl, drpLocation);
 		drpLocation.setIncludeNullOption(true);
@@ -63,7 +63,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		// Assigned Positions
 		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
 		multiPos.setUseReadonlyContainer(true);
-		multiPos.getReadonlyContainer().add(new EntityLinkRepeater(CardType.POSITION_CARD));
+		multiPos.getReadonlyContainer().add(new EntityLinkRepeater(CardType.POSITION));
 		lbl = new WLabel("Assigned positions", multiPos.getSelectInput());
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
