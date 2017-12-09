@@ -2,29 +2,28 @@ package com.github.bordertech.corpdir.web.ui.smart;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
-import com.github.bordertech.flux.wc.view.smart.FormSmartView;
-import com.github.bordertech.flux.wc.view.smart.cardmgr.SecureCardManagerView;
+import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardManagerView;
 import java.util.HashMap;
 import java.util.Map;
+import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 
 /**
  * The Card Manager that creates all the Cards via the Card Types.
  *
  * @author jonathan
  */
-public class MainCardManagerView extends SecureCardManagerView {
+public class MainCardManagerView extends DefaultSecureCardManagerView<Object, SecureCardView> {
 
 	public MainCardManagerView(final String viewId) {
 		super(viewId);
 
 		int idx = 1;
 		for (CardType card : CardType.values()) {
-			FluxSmartView view = card.createCardViewInstance();
+			SecureCardView view = card.createCardViewInstance();
 			view.setQualifier("M-E" + idx++);
 			view.setQualifierContext(true);
-			if (view instanceof FormSmartView) {
+			if (view instanceof CrudSmartView) {
 				CrudSmartView form = (CrudSmartView) view;
 				DataApiType api = card.getApiType();
 				form.setEntityActionCreatorKey(api.getActionCreatorKey());
@@ -37,20 +36,20 @@ public class MainCardManagerView extends SecureCardManagerView {
 		showCard(CardType.CONTACT_CARD);
 	}
 
-	private void setupCard(final CardType type, final FluxSmartView view) {
+	private void setupCard(final CardType type, final SecureCardView view) {
 		addCardByType(type, view);
 	}
 
-	public final void showCard(final CardType card) {
-		FluxSmartView view = getCardByType(card);
+	public final void showCard(final CardType type) {
+		SecureCardView view = getCardByType(type);
 		if (view != null) {
 			setCurrentCard(view);
-			getOrCreateComponentModel().current = card;
+			getOrCreateComponentModel().current = type;
 		}
 	}
 
-	public void resetCard(final CardType card) {
-		FluxSmartView view = getCardByType(card);
+	public void resetCard(final CardType type) {
+		SecureCardView view = getCardByType(type);
 		if (view != null) {
 			view.reset();
 		}
@@ -60,18 +59,18 @@ public class MainCardManagerView extends SecureCardManagerView {
 		return getComponentModel().current;
 	}
 
-	protected final void addCardByType(final CardType card, final FluxSmartView view) {
+	protected final void addCardByType(final CardType type, final SecureCardView view) {
 		// Add to Mgr
-		addCard(view, card.getPath());
+		addSecureCard(view);
 		// App to Map by type
 		MainCardModel model = getOrCreateComponentModel();
 		if (model.cards == null) {
 			model.cards = new HashMap<>();
 		}
-		model.cards.put(card, view);
+		model.cards.put(type, view);
 	}
 
-	protected final FluxSmartView getCardByType(final CardType card) {
+	protected final SecureCardView getCardByType(final CardType card) {
 		MainCardModel model = getComponentModel();
 		if (model.cards != null) {
 			return model.cards.get(card);
@@ -99,7 +98,7 @@ public class MainCardManagerView extends SecureCardManagerView {
 	 */
 	public static class MainCardModel extends SmartViewModel {
 
-		private Map<CardType, FluxSmartView> cards;
+		private Map<CardType, SecureCardView> cards;
 
 		private CardType current;
 	}

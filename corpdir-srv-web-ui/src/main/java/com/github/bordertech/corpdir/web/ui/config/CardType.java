@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionTypeCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.UnitTypeCrudView;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
+import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 
 /**
  * Cards.
@@ -22,7 +22,7 @@ public enum CardType {
 	UNIT_TYPE_CARD("orgunittype", "Unit Type", true, UnitTypeCrudView.class, null, DataApiType.UNIT_TYPE),
 	CONTACT_CARD("contact", "Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT);
 
-	CardType(final String path, final String desc, final boolean system, final Class<? extends FluxSmartView> clazz, final String imageUrl, final DataApiType apiType) {
+	CardType(final String path, final String desc, final boolean system, final Class<? extends SecureCardView> clazz, final String imageUrl, final DataApiType apiType) {
 		this.path = path;
 		this.desc = desc;
 		this.system = system;
@@ -34,7 +34,7 @@ public enum CardType {
 	final String path;
 	final String desc;
 	final boolean system;
-	final Class<? extends FluxSmartView> clazz;
+	final Class<? extends SecureCardView> clazz;
 	final String imageUrl;
 	final DataApiType apiType;
 
@@ -50,7 +50,7 @@ public enum CardType {
 		return system;
 	}
 
-	public Class<? extends FluxSmartView> getClazz() {
+	public Class<? extends SecureCardView> getClazz() {
 		return clazz;
 	}
 
@@ -62,9 +62,9 @@ public enum CardType {
 		return apiType;
 	}
 
-	public FluxSmartView createCardViewInstance() {
+	public SecureCardView createCardViewInstance() {
 		try {
-			return (FluxSmartView) getClazz().newInstance();
+			return (SecureCardView) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

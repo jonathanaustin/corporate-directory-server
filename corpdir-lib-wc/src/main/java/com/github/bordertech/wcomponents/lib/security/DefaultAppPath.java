@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.lib.security;
 
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  *
@@ -17,6 +19,11 @@ public class DefaultAppPath implements AppPath {
 	@Override
 	public String getPath() {
 		return path;
+	}
+
+	@Override
+	public Set<AppRole> getAppRoles() {
+		return Collections.EMPTY_SET;
 	}
 
 	@Override

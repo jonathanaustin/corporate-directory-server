@@ -119,7 +119,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	@Override
-	public List<FluxDumbView> getViews() {
+	public List<? extends FluxDumbView> getViews() {
 		List<FluxDumbView> views = new ArrayList<>();
 		for (WComponent child : getContent().getTaggedComponents().values()) {
 			if (child instanceof FluxDumbView) {
