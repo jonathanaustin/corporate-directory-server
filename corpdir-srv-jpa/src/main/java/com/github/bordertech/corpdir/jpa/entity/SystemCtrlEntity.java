@@ -1,9 +1,8 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultIdObject;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -15,20 +14,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "SystemCtrl")
-public class SystemCtrlEntity implements PersistObject {
-
-	@Id
-	private Integer id;
+public class SystemCtrlEntity extends DefaultIdObject {
 
 	/**
 	 * Default constructor.
 	 */
 	public SystemCtrlEntity() {
-		this.id = 1;
-	}
-
-	public Integer getId() {
-		return id;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)

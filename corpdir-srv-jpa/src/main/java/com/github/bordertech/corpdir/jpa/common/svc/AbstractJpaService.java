@@ -24,15 +24,17 @@ public abstract class AbstractJpaService<A extends ApiIdObject, P extends Persis
 	static {
 		// Create a version record (if needed)
 		EntityManager em = EmfUtil.getEMF().createEntityManager();
-		SystemCtrlEntity ctrl = em.find(SystemCtrlEntity.class, 1, LockModeType.NONE);
+		SystemCtrlEntity ctrl = em.find(SystemCtrlEntity.class, Long.valueOf(1), LockModeType.NONE);
 		if (ctrl == null) {
 			try {
 				// Create first version
 				em.getTransaction().begin();
 				VersionCtrlEntity vers = new VersionCtrlEntity(Long.valueOf(1));
+				vers.setDescription("Initial");
 				em.persist(vers);
 				ctrl = new SystemCtrlEntity();
 				ctrl.setCurrentVersion(vers);
+				ctrl.setDescription("System");
 				em.persist(ctrl);
 				em.getTransaction().commit();
 			} finally {
@@ -50,7 +52,7 @@ public abstract class AbstractJpaService<A extends ApiIdObject, P extends Persis
 	}
 
 	protected Long getCurrentVersionId() {
-		SystemCtrlEntity ctrl = getEntityManager().find(SystemCtrlEntity.class, 1, LockModeType.NONE);
+		SystemCtrlEntity ctrl = getEntityManager().find(SystemCtrlEntity.class, Long.valueOf(1), LockModeType.NONE);
 		if (ctrl == null) {
 			throw new IllegalStateException("No System Control Record Available.");
 		}
