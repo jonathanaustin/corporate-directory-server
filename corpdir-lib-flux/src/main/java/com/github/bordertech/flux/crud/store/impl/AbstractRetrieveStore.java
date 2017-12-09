@@ -133,7 +133,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 
 	protected void handleModifyBaseActions(final Action action) {
 		// Default to clear cache
-		ServiceUtil.clearCache(getStoreCache());
+		getStoreCache().clear();
 	}
 
 	protected void handleRetrieveBaseActions(final RetrieveAction action) {
@@ -212,7 +212,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	protected void handleRefreshAction(final RetrieveActionType type, final Object criteria, final boolean async) {
 		// Clear from the cache
 		String key = getResultCacheKey(type, criteria);
-		ServiceUtil.clearResult(getStoreCache(), key);
+		getStoreCache().remove(key);
 		if (async) {
 			handleServiceCallASyncAction(type, criteria);
 		} else {
@@ -228,7 +228,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 
 	protected ResultHolder<?, ?> getResultHolder(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
-		return ServiceUtil.getResultHolder(getStoreCache(), key);
+		return getStoreCache().get(key);
 	}
 
 	/**

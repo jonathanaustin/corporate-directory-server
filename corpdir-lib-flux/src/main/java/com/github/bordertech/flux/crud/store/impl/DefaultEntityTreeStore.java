@@ -9,7 +9,6 @@ import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.taskmanager.service.AsyncException;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -77,7 +76,7 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	protected void handleModifyTreeBaseActions(final Action action) {
-		ServiceUtil.clearCache(getStoreCache());
+		getStoreCache().clear();
 	}
 
 	@Override

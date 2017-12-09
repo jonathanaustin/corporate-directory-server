@@ -1,6 +1,5 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.taskmanager.TaskFuture;
 import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
@@ -184,7 +183,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	protected void handleStoppedPolling() {
 		String key = getServiceKey();
-		ResultHolder result = ServiceUtil.getResultHolder(getPollingCache(), key);
+		ResultHolder result = getPollingCache().get(key);
 		if (result == null) {
 			throw new IllegalStateException("Result has expired so polling result not available");
 		}
@@ -247,7 +246,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		} catch (AsyncException e) {
 			// Put Exception in the CACHE so it can be retrieved after it stops polling (Will be cleared straight away).
 			ResultHolder result = new ResultHolder(key, e);
-			ServiceUtil.setResultHolder(getPollingCache(), key, result);
+			getPollingCache().put(key, result);
 			setPollingStatus(PollingStatus.STOPPED);
 		}
 		return super.checkForStopPolling();
@@ -266,7 +265,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	protected void clearServiceKey() {
 		String key = getServiceKey();
 		if (key != null) {
-			ServiceUtil.clearResult(getPollingCache(), key);
+			getPollingCache().remove(key);
 			getOrCreateComponentModel().serviceKey = null;
 		}
 	}
@@ -300,8 +299,8 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 *
 	 * @return the cache instance
 	 */
-	protected synchronized Cache<String, TaskFuture> getPollingCache() {
-		return ServiceUtil.getFutureCache("wc-polling-service-default-future-cache");
+	protected synchronized Cache<String, ResultHolder> getPollingCache() {
+		return ServiceUtil.getResultHolderCache("wc-polling-service-default-future-cache");
 	}
 
 	/**
