@@ -31,6 +31,10 @@ public final class EnvironmentHelper {
 		return env == null ? "" : env.getBaseUrl();
 	}
 
+	public static String prefixBaseUrl(final String relativeUrl) {
+		return prefixUrl(getBaseUrl(), relativeUrl);
+	}
+
 	/**
 	 * Get the path of the secure servlet.
 	 * <p>
@@ -40,10 +44,6 @@ public final class EnvironmentHelper {
 	 * @param relativeUrl the relative url
 	 * @return the secure servlet path at which this web application is hosted.
 	 */
-	public static String prefixBaseUrl(final String relativeUrl) {
-		return prefixUrl(getBaseUrl(), relativeUrl);
-	}
-
 	public static String getSecureServletPath() {
 		return SECURE_SERVLET_PATH;
 	}
@@ -53,11 +53,11 @@ public final class EnvironmentHelper {
 	}
 
 	private static String prefixUrl(final String prefix, final String relativeUrl) {
+		if (prefix == null) {
+			throw new IllegalArgumentException("Prefix cannot be null");
+		}
 		if (relativeUrl == null) {
 			throw new IllegalArgumentException("Relative URL cannot be null");
-		}
-		if (prefix == null || prefix.isEmpty()) {
-			return relativeUrl;
 		}
 
 		boolean prefixHas = prefix.endsWith("/");

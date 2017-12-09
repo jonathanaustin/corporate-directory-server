@@ -66,6 +66,17 @@ public class WLibServlet extends WServlet {
 
 			return env;
 		}
+
+		@Override
+		protected String getBaseUrl(final HttpServletRequest request) {
+			String results = request.getContextPath();
+			// Make sure to strip any trailing slash
+			if (results.endsWith("/")) {
+				return results.substring(0, results.length() - 1);
+			}
+			return results;
+		}
+
 	}
 
 	/**
@@ -89,6 +100,23 @@ public class WLibServlet extends WServlet {
 			}
 			return url;
 		}
+
+		@Override
+		public String getBaseUrl() {
+			String basePath = super.getBaseUrl();
+//			String[] parts = basePath.split("://");
+//			if (parts.length > 1) {
+//				int pos = parts[1].indexOf("/");
+//				if (pos >= 0) {
+//					basePath = parts[1].substring(pos);
+//				} else {
+//					basePath = "";
+//				}
+//				return basePath;
+//			}
+			return basePath;
+		}
+
 	}
 
 }

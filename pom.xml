@@ -100,7 +100,7 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-jersey2-jaxrs</artifactId>
-				<version>1.5.12</version>
+				<version>1.5.17</version>
 			</dependency>
 
 			<!-- slf4j-log4j -->
@@ -158,6 +158,7 @@
 		<module>corpdir-lib-flux</module>
 		<module>corpdir-lib-wc</module>
 		<module>corpdir-lib-flux-wc</module>
+		<module>corpdir-lib-swagger</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>

@@ -43,9 +43,9 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
-	<!-- Swagger Servlet -->
+	<!-- Swagger Config Servlet -->
 	<servlet>
-		<!-- This does not need a servlet mapping, it configures swagger. -->
+		<!--	 This does not need a servlet mapping, it configures swagger -->.
 		<servlet-name>Jersey2Config</servlet-name>
 		<servlet-class>io.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
 		<init-param>

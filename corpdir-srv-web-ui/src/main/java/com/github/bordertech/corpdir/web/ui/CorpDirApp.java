@@ -4,11 +4,14 @@ import com.github.bordertech.corpdir.web.ui.smart.MainAppView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WDefinitionList;
 import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.common.WLibLink;
 import com.github.bordertech.wcomponents.lib.config.ConfigLibUtil;
+import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
 
 /**
  * Corporate Directory Admin UI.
@@ -39,7 +42,28 @@ public class CorpDirApp extends WApplication {
 		final WPanel footer = new WPanel(WPanel.Type.FOOTER);
 		add(footer);
 
-		footer.add(new WLink("icon source", "https://icons8.com"));
+		// ICONS8
+		WLink icons8 = new WLink("icon source", "https://icons8.com");
+
+		// Swagger link
+		WLibLink swagger = new WLibLink("swagger api", "swagger-ui/index.html?url=") {
+			@Override
+			public String getUrl() {
+				String url = super.getUrl();
+				String suffix = EnvironmentHelper.prefixBaseUrl("api/swagger");
+				return url + suffix;
+			}
+		};
+		swagger.setRelativeBaseUrl(true);
+
+		// Github
+		WLibLink github = new WLibLink("github", "https://github.com/BorderTech/corporate-directory-server");
+//		github.setImageUrl("wclib/icons/github/GitHub-Mark-32px.png");
+//		github.setImageRelativeBaseUrl(true);
+
+		WDefinitionList links = new WDefinitionList(WDefinitionList.Type.FLAT);
+		links.addTerm("info", icons8, swagger, github);
+		footer.add(links);
 	}
 
 	/**
