@@ -71,7 +71,7 @@ public class SystemCtrlResource implements SystemCtrlService {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
 	public BasicResponse delete(@PathParam("key") final String keyId) {
-		throw new UnsupportedOperationException("Delete not supported");
+		throw new UnsupportedOperationException("Delete not supported.");
 	}
 
 	@GET

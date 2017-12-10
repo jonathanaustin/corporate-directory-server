@@ -33,7 +33,6 @@ public class MainToolbarSecureView extends AbstractMenuToolbarView {
 		subMenu.setSelectionMode(MenuSelectContainer.SelectionMode.SINGLE);
 
 		for (CardType card : CardType.values()) {
-//			WMenuItem item = new FluxMenuItem(card.getDesc(), CardEventType.SHOW, card);
 			WMenuItem item = new MenuItemSecurePath(card.getDesc(), card.getPath());
 			item.setToolTip(card.getDesc());
 			if (card.getImageUrl() != null) {

@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
 import com.github.bordertech.corpdir.jpa.common.DefaultIdObject;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -22,7 +23,7 @@ public class SystemCtrlEntity extends DefaultIdObject {
 	public SystemCtrlEntity() {
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	private VersionCtrlEntity versionCtrl;
 
 	public void setCurrentVersion(final VersionCtrlEntity versionCtrl) {

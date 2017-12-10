@@ -27,7 +27,6 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 
 // TODO
 //	private boolean hasImage;
-//	private List<Channel> channels;
 	/**
 	 * Construct basic contact panel.
 	 *

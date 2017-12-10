@@ -14,6 +14,8 @@ public enum DataApiType {
 	POSITION_TYPE("positiontype"),
 	UNIT_TYPE("unittype"),
 	CONTACT("contact", true),
+	VERSION_CTRL("versionctrl", true),
+	SYSTEM_CTRL("systemctrl", true),
 	CHANNEL("channel", false, false, false, true);
 
 	DataApiType(final String key) {

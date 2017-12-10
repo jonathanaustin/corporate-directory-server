@@ -1,5 +1,6 @@
 package com.github.bordertech.corpdir.jpa.v1.api;
 
+import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.SystemCtrlService;
 import com.github.bordertech.corpdir.api.v1.model.SystemCtrl;
@@ -87,6 +88,16 @@ public class SystemCtrlServiceImpl extends JpaBasicIdService<SystemCtrl, SystemC
 		em.persist(ctrl);
 		em.getTransaction().commit();
 		return ctrl;
+	}
+
+	@Override
+	public BasicResponse delete(final String id) {
+		throw new UnsupportedOperationException("Delete not supported.");
+	}
+
+	@Override
+	public DataResponse<SystemCtrl> create(final SystemCtrl apiObject) {
+		throw new UnsupportedOperationException("Create not supported. Record auto generated.");
 	}
 
 	@Override
