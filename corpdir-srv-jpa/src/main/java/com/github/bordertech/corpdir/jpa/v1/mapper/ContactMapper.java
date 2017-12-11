@@ -8,7 +8,7 @@ import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.LocationEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
+import com.github.bordertech.corpdir.jpa.entity.version.ContactVersionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
  *
  * @author jonathan
  */
-public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEntity, ContactEntity> {
+public class ContactMapper extends AbstractMapperVersion<Contact, ContactVersionEntity, ContactEntity> {
 
 	private static final AddressMapper ADDRESS_MAPPER = new AddressMapper();
 	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
@@ -92,7 +92,7 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 	protected void handleVersionDataApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final VersionCtrlEntity ctrl) {
 
 		// Get the links version for this entity
-		ContactLinksEntity links = to.getOrCreateDataVersion(ctrl);
+		ContactVersionEntity links = to.getOrCreateVersion(ctrl);
 
 		// Positions
 		List<String> origIds = MapperUtil.convertEntitiesToApiKeys(links.getPositions());
@@ -101,12 +101,12 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 			// Removed
 			for (String id : MapperUtil.keysRemoved(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				pos.getOrCreateDataVersion(ctrl).removeContact(to);
+				pos.getOrCreateVersion(ctrl).removeContact(to);
 			}
 			// Added
 			for (String id : MapperUtil.keysAdded(origIds, newIds)) {
 				PositionEntity pos = getPositionEntity(em, id);
-				pos.getOrCreateDataVersion(ctrl).addContact(to);
+				pos.getOrCreateVersion(ctrl).addContact(to);
 			}
 		}
 	}
@@ -114,7 +114,7 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactLinksEn
 	@Override
 	protected void handleVersionDataEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Long versionId) {
 		// Get the tree version for this entity
-		ContactLinksEntity links = from.getDataVersion(versionId);
+		ContactVersionEntity links = from.getVersion(versionId);
 		if (links != null) {
 			to.setPositionIds(MapperUtil.convertEntitiesToApiKeys(links.getPositions()));
 		}

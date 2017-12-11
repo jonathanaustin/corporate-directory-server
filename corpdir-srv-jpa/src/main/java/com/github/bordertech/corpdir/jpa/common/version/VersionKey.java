@@ -1,24 +1,24 @@
-package com.github.bordertech.corpdir.jpa.common.feature;
+package com.github.bordertech.corpdir.jpa.common.version;
 
 import java.io.Serializable;
 import java.util.Objects;
 import javax.persistence.Embeddable;
 
 /**
- * Keyed API Object with a Version.
+ * API Object with a Version.
  *
  * @author jonathan
  */
 @Embeddable
-public class VersionIdKey implements Serializable {
+public class VersionKey implements Serializable {
 
 	private Long versionId;
 	private Long id;
 
-	public VersionIdKey() {
+	public VersionKey() {
 	}
 
-	public VersionIdKey(final Long versionId, final Long id) {
+	public VersionKey(final Long versionId, final Long id) {
 		this.versionId = versionId;
 		this.id = id;
 	}
@@ -58,7 +58,7 @@ public class VersionIdKey implements Serializable {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final VersionIdKey other = (VersionIdKey) obj;
+		final VersionKey other = (VersionKey) obj;
 		if (!Objects.equals(this.versionId, other.versionId)) {
 			return false;
 		}

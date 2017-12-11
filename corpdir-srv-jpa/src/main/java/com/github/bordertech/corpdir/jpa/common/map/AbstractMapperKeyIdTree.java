@@ -3,10 +3,10 @@ package com.github.bordertech.corpdir.jpa.common.map;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 
 /**
  * Map ApiTreeObject to a PersistentTreeObject.
@@ -15,7 +15,7 @@ import javax.persistence.EntityManager;
  * @param <P> the Persistent tree
  * @author jonathan
  */
-public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdObject & ApiTreeable, P extends PersistTreeable<P> & PersistKeyIdObject> extends AbstractMapperKeyId<A, P> {
+public abstract class AbstractMapperKeyIdTree<A extends ApiKeyIdObject & ApiTreeable, P extends PersistKeyIdTree<P> & PersistKeyIdObject> extends AbstractMapperKeyId<A, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {

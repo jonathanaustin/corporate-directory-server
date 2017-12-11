@@ -1,13 +1,9 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
-import java.util.Set;
-import javax.persistence.CascadeType;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdObject;
+import com.github.bordertech.corpdir.jpa.entity.version.OrgUnitVersionEntity;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -18,10 +14,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinksEntity> {
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<OrgUnitLinksEntity> dataVersions;
+public class OrgUnitEntity extends DefaultVersionableKeyIdObject<OrgUnitEntity, OrgUnitVersionEntity> {
 
 	@ManyToOne
 	private UnitTypeEntity type;
@@ -57,23 +50,8 @@ public class OrgUnitEntity extends DefaultKeyIdVersionObject<OrgUnitLinksEntity>
 	}
 
 	@Override
-	public OrgUnitLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
-		OrgUnitLinksEntity links = getDataVersion(ctrl.getId());
-		if (links == null) {
-			links = new OrgUnitLinksEntity(ctrl, this);
-			addDataVersion(links);
-		}
-		return links;
-	}
-
-	@Override
-	public Set<OrgUnitLinksEntity> getDataVersions() {
-		return dataVersions;
-	}
-
-	@Override
-	public void setDataVersions(final Set<OrgUnitLinksEntity> dataVersions) {
-		this.dataVersions = dataVersions;
+	public OrgUnitVersionEntity createVersion(final VersionCtrlEntity ctrl) {
+		return new OrgUnitVersionEntity(ctrl, this);
 	}
 
 }

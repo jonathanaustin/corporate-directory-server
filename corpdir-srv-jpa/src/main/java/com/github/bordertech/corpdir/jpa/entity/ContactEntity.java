@@ -1,13 +1,14 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdObject;
+import com.github.bordertech.corpdir.jpa.entity.version.ContactVersionEntity;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -21,12 +22,10 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Contact")
-public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity> {
+public class ContactEntity extends DefaultVersionableKeyIdObject<ContactEntity, ContactVersionEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<ContactLinksEntity> dataVersions;
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "contact_id")
 	private Set<ChannelEntity> channels;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -132,6 +131,9 @@ public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity>
 	 * @return the channels
 	 */
 	public Set<ChannelEntity> getChannels() {
+		if (channels == null) {
+			channels = new HashSet<>();
+		}
 		return channels;
 	}
 
@@ -171,23 +173,8 @@ public class ContactEntity extends DefaultKeyIdVersionObject<ContactLinksEntity>
 	}
 
 	@Override
-	public ContactLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
-		ContactLinksEntity links = getDataVersion(ctrl.getId());
-		if (links == null) {
-			links = new ContactLinksEntity(ctrl, this);
-			addDataVersion(links);
-		}
-		return links;
-	}
-
-	@Override
-	public Set<ContactLinksEntity> getDataVersions() {
-		return dataVersions;
-	}
-
-	@Override
-	public void setDataVersions(final Set<ContactLinksEntity> dataVersions) {
-		this.dataVersions = dataVersions;
+	public ContactVersionEntity createVersion(final VersionCtrlEntity ctrl) {
+		return new ContactVersionEntity(ctrl, this);
 	}
 
 }

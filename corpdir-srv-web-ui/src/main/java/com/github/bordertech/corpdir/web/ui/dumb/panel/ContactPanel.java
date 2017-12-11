@@ -38,8 +38,8 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		addTextField("Business key", "businessKey", true);
 		addTextField("First name", "firstName", true);
 		addTextField("Last name", "lastName", true);
-		addTextField("Company", "companyTitle", false);
 		addTextField("Description", "description", true);
+		addTextField("Company", "companyTitle", false);
 		addCheckBox("Active", "active", false);
 
 		// Channels

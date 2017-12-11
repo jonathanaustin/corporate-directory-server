@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.common;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
+import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDiv;
@@ -55,9 +56,16 @@ public class EntityLink<T extends ApiIdObject> extends WDiv {
 		String url = WebUtilities.getPath(path, params);
 		// Setup link (base url flag)
 		link.setUrl(url, true);
-		link.setText(bean.getDescription());
+		link.setText(getLabelText(bean));
 		link.setOpenNewWindow(false);
 		link.setVisible(true);
+	}
+
+	protected String getLabelText(final T bean) {
+		if (bean instanceof ApiKeyIdObject) {
+			return bean.getDescription() + "[" + ((ApiKeyIdObject) bean).getBusinessKey() + "]";
+		}
+		return bean.getDescription();
 	}
 
 }

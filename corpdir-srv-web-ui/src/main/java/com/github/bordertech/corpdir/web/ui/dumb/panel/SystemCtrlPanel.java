@@ -28,14 +28,13 @@ public class SystemCtrlPanel extends BasicApiIdPanel<SystemCtrl> {
 		// Current Version
 		PollingDropdownOptionsView<String, VersionCtrl> drpVersion = new PollingDropdownOptionsView("VERS");
 		drpVersion.setUseReadonlyContainer(true);
-		drpVersion.getReadonlyContainer().add(new EntityLink(CardType.LOCATION));
+		drpVersion.getReadonlyContainer().add(new EntityLink(CardType.VERSION_CTRL));
 		WLabel lbl = new WLabel("Current version", drpVersion.getSelectInput());
 		getFormLayout().addField(lbl, drpVersion);
 		drpVersion.setIncludeNullOption(true);
 		drpVersion.setCodeProperty("id");
 		drpVersion.getOptionsView().setBeanProperty("currentVersionId");
 		drpVersion.setStoreKey(DataApiType.VERSION_CTRL.getSearchStoreKey());
-
 	}
 
 }

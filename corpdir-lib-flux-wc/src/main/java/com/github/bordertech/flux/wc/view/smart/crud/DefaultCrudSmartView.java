@@ -381,7 +381,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 
 	protected void doDispatchSearchAction() {
 		// Start Search
-		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.CALL_ASYNC);
+		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
 	protected boolean isSearchActionDone() throws AsyncException {

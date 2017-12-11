@@ -1,10 +1,10 @@
-package com.github.bordertech.corpdir.jpa.common;
+package com.github.bordertech.corpdir.jpa.common.version;
 
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
-import com.github.bordertech.corpdir.jpa.common.feature.VersionIdKey;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -15,14 +15,13 @@ import javax.persistence.Version;
  * Default versionable data holder.
  *
  * @author jonathan
- * @param <U> the versionable data type
  * @param <T> the version data owner type
  */
 @MappedSuperclass
-public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T>, T extends PersistVersionData<U>> implements PersistVersionable<U, T> {
+public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemVersion<T>> implements ItemVersion<T> {
 
 	@EmbeddedId
-	private VersionIdKey versionIdKey;
+	private VersionKey versionIdKey;
 
 	private String description;
 
@@ -40,7 +39,7 @@ public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T
 	/**
 	 * Default constructor.
 	 */
-	protected DefaultVersionableObject() {
+	protected DefaultItemVersion() {
 		// Default constructor
 	}
 
@@ -48,8 +47,8 @@ public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T
 	 * @param versionCtrl the version ctrl item
 	 * @param item the owner item
 	 */
-	public DefaultVersionableObject(final VersionCtrlEntity versionCtrl, final T item) {
-		this.versionIdKey = new VersionIdKey(versionCtrl.getId(), item.getId());
+	public DefaultItemVersion(final VersionCtrlEntity versionCtrl, final T item) {
+		this.versionIdKey = new VersionKey(versionCtrl.getId(), item.getId());
 		this.versionCtrl = versionCtrl;
 		this.item = item;
 	}
@@ -75,7 +74,7 @@ public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T
 	}
 
 	@Override
-	public VersionIdKey getVersionIdKey() {
+	public VersionKey getVersionKey() {
 		return versionIdKey;
 	}
 
@@ -97,6 +96,16 @@ public abstract class DefaultVersionableObject<U extends PersistVersionable<U, T
 	@Override
 	public void setTimestamp(final Timestamp version) {
 		this.version = version;
+	}
+
+	public static <V extends ItemVersion<T>, T extends PersistVersionableKeyId<T, V>> Set<T> extractItems(final Set<V> items) {
+		Set<T> children = new HashSet<>();
+		if (items != null) {
+			for (V child : items) {
+				children.add(child.getItem());
+			}
+		}
+		return children;
 	}
 
 }

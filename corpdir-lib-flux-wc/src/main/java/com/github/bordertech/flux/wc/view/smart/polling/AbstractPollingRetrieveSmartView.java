@@ -162,7 +162,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 		private RetrieveActionType retrieveType = RetrieveActionBaseType.SEARCH;
 
-		private CallType callType = CallType.CALL_ASYNC;
+		private CallType callType = CallType.REFRESH_ASYNC;
 
 		private String storeKey;
 

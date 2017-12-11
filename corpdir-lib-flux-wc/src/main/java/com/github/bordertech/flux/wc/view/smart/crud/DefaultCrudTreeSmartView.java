@@ -59,7 +59,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	protected void doDispatchSearchAction() {
 		if (getCriteria() == null) {
 			// Use Root Items
-			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.CALL_ASYNC);
+			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_ASYNC);
 		} else {
 			super.doDispatchSearchAction();
 		}

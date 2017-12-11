@@ -4,9 +4,9 @@ import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
+import com.github.bordertech.corpdir.jpa.common.version.ItemVersion;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.util.List;
 import javax.inject.Singleton;
@@ -23,7 +23,7 @@ import javax.persistence.criteria.CriteriaQuery;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionKeyIdService<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> extends AbstractJpaKeyIdService<A, P> implements BasicVersionKeyIdService<A> {
+public abstract class JpaBasicVersionKeyIdService<A extends ApiVersionable, U extends ItemVersion<P>, P extends PersistVersionableKeyId<P, U>> extends AbstractJpaKeyIdService<A, P> implements BasicVersionKeyIdService<A> {
 
 	@Override
 	public DataResponse<List<A>> search(final String search) {

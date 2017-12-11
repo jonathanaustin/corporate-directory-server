@@ -1,6 +1,6 @@
-package com.github.bordertech.corpdir.jpa.entity.links;
+package com.github.bordertech.corpdir.jpa.entity.version;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultVersionableTreeObject;
+import com.github.bordertech.corpdir.jpa.common.version.DefaultItemTreeVersion;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
@@ -10,9 +10,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -23,21 +22,21 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PositionLinks")
-public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLinksEntity, PositionEntity> {
+public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity, PositionVersionEntity> {
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private Set<OrgUnitEntity> manageOrgUnits;
+	private Set<OrgUnitVersionEntity> manageOrgUnits;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private OrgUnitEntity orgUnit;
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	private OrgUnitVersionEntity orgUnit;
 
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private Set<ContactEntity> contacts;
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+	private Set<ContactVersionEntity> contacts;
 
-	public PositionLinksEntity() {
+	public PositionVersionEntity() {
 	}
 
-	public PositionLinksEntity(final VersionCtrlEntity versionCtrl, final PositionEntity position) {
+	public PositionVersionEntity(final VersionCtrlEntity versionCtrl, final PositionEntity position) {
 		super(versionCtrl, position);
 	}
 
@@ -46,7 +45,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @return the contacts in this position
 	 */
 	public Set<ContactEntity> getContacts() {
-		return contacts;
+		return extractItems(contacts);
 	}
 
 	/**
@@ -55,16 +54,14 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @param contact the contact to add
 	 */
 	public void addContact(final ContactEntity contact) {
+		ContactVersionEntity vers = contact.getOrCreateVersion(getVersionCtrl());
 		if (contacts == null) {
-			contacts = new HashSet<>();
+			contacts.add(vers);
 		}
-		contacts.add(contact);
-		contact.getOrCreateDataVersion(getVersionCtrl()).addPosition(getItem());
 		// Bi-Directional - Add the Position to the Contact
-		ContactLinksEntity conLinks = contact.getOrCreateDataVersion(getVersionCtrl());
 		// To stop a circular call only add if not already there
-		if (!conLinks.getPositions().contains(getItem())) {
-			conLinks.addPosition(getItem());
+		if (!vers.getPositions().contains(getItem())) {
+			vers.addPosition(getItem());
 		}
 	}
 
@@ -74,14 +71,14 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @param contact the contact to remove
 	 */
 	public void removeContact(final ContactEntity contact) {
+		ContactVersionEntity vers = contact.getOrCreateVersion(getVersionCtrl());
 		if (contacts != null) {
-			contacts.remove(contact);
+			contacts.remove(vers);
 		}
 		// Bi-Directional - Remove the Position from the Contact
-		ContactLinksEntity conLinks = contact.getOrCreateDataVersion(getVersionCtrl());
 		// To stop a circular call only remove if already there
-		if (conLinks.getPositions().contains(getItem())) {
-			conLinks.removePosition(getItem());
+		if (vers.getPositions().contains(getItem())) {
+			vers.removePosition(getItem());
 		}
 	}
 
@@ -90,7 +87,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @return the org units this position manages
 	 */
 	public Set<OrgUnitEntity> getManageOrgUnits() {
-		return manageOrgUnits;
+		return extractItems(manageOrgUnits);
 	}
 
 	/**
@@ -99,11 +96,12 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @param orgUnit the org unit to add
 	 */
 	public void addManageOrgUnit(final OrgUnitEntity orgUnit) {
+		OrgUnitVersionEntity vers = orgUnit.getOrCreateVersion(getVersionCtrl());
 		if (manageOrgUnits == null) {
 			manageOrgUnits = new HashSet<>();
 		}
-		manageOrgUnits.add(orgUnit);
-		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(getItem());
+		manageOrgUnits.add(vers);
+		vers.setManagerPosition(getItem());
 	}
 
 	/**
@@ -112,10 +110,11 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @param orgUnit the org unit to remove
 	 */
 	public void removeManageOrgUnit(final OrgUnitEntity orgUnit) {
+		OrgUnitVersionEntity vers = orgUnit.getOrCreateVersion(getVersionCtrl());
 		if (manageOrgUnits != null) {
-			manageOrgUnits.remove(orgUnit);
+			manageOrgUnits.remove(vers);
 		}
-		orgUnit.getOrCreateDataVersion(getVersionCtrl()).setManagerPosition(null);
+		vers.setManagerPosition(null);
 	}
 
 	/**
@@ -123,7 +122,7 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @return the org unit this position belongs to
 	 */
 	public OrgUnitEntity getOrgUnit() {
-		return orgUnit;
+		return orgUnit == null ? null : orgUnit.getItem();
 	}
 
 	/**
@@ -131,6 +130,10 @@ public class PositionLinksEntity extends DefaultVersionableTreeObject<PositionLi
 	 * @param orgUnit the org unit this position belongs to
 	 */
 	public void setOrgUnit(final OrgUnitEntity orgUnit) {
-		this.orgUnit = orgUnit;
+		if (orgUnit == null) {
+			this.orgUnit = null;
+			return;
+		}
+		this.orgUnit = orgUnit.getOrCreateVersion(getVersionCtrl());
 	}
 }
