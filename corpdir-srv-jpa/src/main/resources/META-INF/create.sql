@@ -150,22 +150,25 @@ primary key (id)
 create table OrgUnitLinks (
 description varchar(255),
 version timestamp,
+-- Owner OU
 item_id bigint not null,
 versionCtrl_id bigint not null,
+-- Parent OU
 parentVersionItem_item_id bigint,
 parentVersionItem_versionCtrl_id bigint,
+-- Manager Position
 managerPosition_item_id bigint,
 managerPosition_versionCtrl_id bigint,
 primary key (item_id, versionCtrl_id));
 
-/** The Positions Mangaged by an ORG UNIT */
-create table OrgUnitLinks_PositionLinks (
-OrgUnitVersionEntity_item_id bigint not null,
-OrgUnitVersionEntity_versionCtrl_id bigint not null,
-positions_item_id bigint not null,
-positions_versionCtrl_id bigint not null,
-primary key (OrgUnitVersionEntity_item_id, OrgUnitVersionEntity_versionCtrl_id, positions_item_id, positions_versionCtrl_id)
-);
+-- /** The Positions Mangaged by an ORG UNIT */
+-- create table OrgUnitLinks_PositionLinks (
+-- OrgUnitVersionEntity_item_id bigint not null,
+-- OrgUnitVersionEntity_versionCtrl_id bigint not null,
+-- positions_item_id bigint not null,
+-- positions_versionCtrl_id bigint not null,
+-- primary key (OrgUnitVersionEntity_item_id, OrgUnitVersionEntity_versionCtrl_id, positions_item_id, positions_versionCtrl_id)
+-- );
 
 
 ------------
@@ -176,10 +179,13 @@ primary key (OrgUnitVersionEntity_item_id, OrgUnitVersionEntity_versionCtrl_id, 
 create table PositionLinks (
 description varchar(255),
 version timestamp,
+-- Owning item
 item_id bigint not null,
 versionCtrl_id bigint not null,
+-- Parent Position
 parentVersionItem_item_id bigint,
 parentVersionItem_versionCtrl_id bigint,
+-- Managed by OU
 orgUnit_item_id bigint,
 orgUnit_versionCtrl_id bigint,
 primary key (item_id, versionCtrl_id));
@@ -193,7 +199,7 @@ contacts_versionCtrl_id bigint not null,
 primary key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id, contacts_item_id, contacts_versionCtrl_id)
 );
 
-/** Org Units managed by this position */
+/** Org Units assigned to this position. */
 create table PositionLinks_OrgUnitLinks (
 PositionVersionEntity_item_id bigint not null,
 PositionVersionEntity_versionCtrl_id bigint not null,
@@ -214,13 +220,13 @@ versionCtrl_id bigint not null,
 primary key (item_id, versionCtrl_id)
 );
 
-/** Positions assigned to this Contact. */
-create table ContactLinks_PositionLinks (
-ContactVersionEntity_item_id bigint not null,
-ContactVersionEntity_versionCtrl_id bigint not null,
-positions_item_id bigint not null,
-positions_versionCtrl_id bigint not null,
-primary key (ContactVersionEntity_item_id, ContactVersionEntity_versionCtrl_id, positions_item_id, positions_versionCtrl_id));
+-- /** Positions assigned to this Contact. */
+-- create table ContactLinks_PositionLinks (
+-- ContactVersionEntity_item_id bigint not null,
+-- ContactVersionEntity_versionCtrl_id bigint not null,
+-- positions_item_id bigint not null,
+-- positions_versionCtrl_id bigint not null,
+-- primary key (ContactVersionEntity_item_id, ContactVersionEntity_versionCtrl_id, positions_item_id, positions_versionCtrl_id));
 
 -------------
 -- Foreign Keys.
@@ -234,30 +240,38 @@ alter table SystemCtrl add constraint CHECK_SystemCtrl_ID check(id = 1);
 alter table Location add constraint FK_Location_to_Location foreign key (parentId) references Location;
 -- OrgUnit
 alter table OrgUnit add constraint FK_OrgUnit_to_UnitType foreign key (type_id) references UnitType;
-alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_OrgUnit foreign key (item_id) references OrgUnit;
-alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_VersionCtrl foreign key (versionCtrl_id) references VersionCtrl;
-alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_OrgUnitLinks foreign key (parentVersionItem_item_id, parentVersionItem_versionCtrl_id) references OrgUnitLinks;
-alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_PositionLinks foreign key (managerPosition_item_id, managerPosition_versionCtrl_id) references PositionLinks;
-alter table OrgUnitLinks_PositionLinks add constraint FK_OrgUnitLinks_PositionLinks_to_PositionLinks foreign key (positions_item_id, positions_versionCtrl_id) references PositionLinks;
-alter table OrgUnitLinks_PositionLinks add constraint FK_OrgUnitLinks_PositionLinks_to_OrgUnitLinks foreign key (OrgUnitVersionEntity_item_id, OrgUnitVersionEntity_versionCtrl_id) references OrgUnitLinks;
 -- Position
 alter table Position add constraint FK_Position_to_PositionType foreign key (type_id) references PositionType;
-alter table PositionLinks add constraint FK_PositionLinks_to_Position foreign key (item_id) references Position;
-alter table PositionLinks add constraint FK_PositionLinks_to_VersionCtrl foreign key (versionCtrl_id) references VersionCtrl;
-alter table PositionLinks add constraint FK_PositionLinks_to_PositionLinks foreign key (parentVersionItem_item_id, parentVersionItem_versionCtrl_id) references PositionLinks;
-alter table PositionLinks add constraint FK_PositionLinks_to_OrgUnitlinks foreign key (orgUnit_item_id, orgUnit_versionCtrl_id) references OrgUnitLinks;
-alter table PositionLinks_ContactLinks add constraint FK_PositionLinks_ContactLinks_to_ContactLinks foreign key (contacts_item_id, contacts_versionCtrl_id) references ContactLinks;
-alter table PositionLinks_ContactLinks add constraint FK_PositionLinks_ContactLinks_to_PositionLinks foreign key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id) references PositionLinks;
-alter table PositionLinks_OrgUnitLinks add constraint FK_PositionLinks_OrgUnitLinks_to_OrgUnitLinks foreign key (manageOrgUnits_item_id, manageOrgUnits_versionCtrl_id) references OrgUnitLinks;
-alter table PositionLinks_OrgUnitLinks add constraint FK_PositionLinks_OrgUnitLinks_to_PositionLinks foreign key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id) references PositionLinks;
 -- Contact
 alter table Contact add constraint FK_Contact_to_Location foreign key (location_id) references Location;
 alter table Contact add constraint FK_Contact_to_Image foreign key (image_id) references Image;
 alter table Channel add constraint FK_Channel_to_Contact foreign key (contact_id) references Contact;
+-- Version Owners (ie item_id)
+alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_OrgUnit foreign key (item_id) references OrgUnit;
+alter table PositionLinks add constraint FK_PositionLinks_to_Position foreign key (item_id) references Position;
 alter table ContactLinks  add constraint FK_ContactLinks_to_Contact foreign key (item_id) references Contact;
+-- Version Ctrl
+alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_VersionCtrl foreign key (versionCtrl_id) references VersionCtrl;
+alter table PositionLinks add constraint FK_PositionLinks_to_VersionCtrl foreign key (versionCtrl_id) references VersionCtrl;
 alter table ContactLinks  add constraint FK_ContactLinks_to_VersionCtrl foreign key (versionCtrl_id) references VersionCtrl;
-alter table ContactLinks_PositionLinks add constraint FK_ContactLinks_PositionLinks_to_PositionLinks foreign key (positions_item_id, positions_versionCtrl_id) references PositionLinks;
-alter table ContactLinks_PositionLinks add constraint FK_ContactLinks_PositionLinks_to_ContactLinks foreign key (ContactVersionEntity_item_id, ContactVersionEntity_versionCtrl_id) references ContactLinks;
+-- Org Tree
+alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_OrgUnitLinks foreign key (parentVersionItem_item_id, parentVersionItem_versionCtrl_id) references OrgUnitLinks;
+-- Position Tree
+alter table PositionLinks add constraint FK_PositionLinks_to_PositionLinks foreign key (parentVersionItem_item_id, parentVersionItem_versionCtrl_id) references PositionLinks;
+-- Org Units Managed by a Position
+alter table OrgUnitLinks  add constraint FK_OrgUnitLinks_to_PositionLinks foreign key (managerPosition_item_id, managerPosition_versionCtrl_id) references PositionLinks;
+alter table PositionLinks add constraint FK_PositionLinks_to_OrgUnitlinks foreign key (orgUnit_item_id, orgUnit_versionCtrl_id) references OrgUnitLinks;
+-- Positions assigned to an OrgUnit (Many to Many)
+alter table PositionLinks_OrgUnitLinks add constraint FK_PositionLinks_OrgUnitLinks_to_OrgUnitLinks foreign key (manageOrgUnits_item_id, manageOrgUnits_versionCtrl_id) references OrgUnitLinks;
+alter table PositionLinks_OrgUnitLinks add constraint FK_PositionLinks_OrgUnitLinks_to_PositionLinks foreign key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id) references PositionLinks;
+-- Contacts assigned to a Position (Many to Many)
+alter table PositionLinks_ContactLinks add constraint FK_PositionLinks_ContactLinks_to_ContactLinks foreign key (contacts_item_id, contacts_versionCtrl_id) references ContactLinks;
+alter table PositionLinks_ContactLinks add constraint FK_PositionLinks_ContactLinks_to_PositionLinks foreign key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id) references PositionLinks;
+
+-- alter table ContactLinks_PositionLinks add constraint FK_ContactLinks_PositionLinks_to_PositionLinks foreign key (positions_item_id, positions_versionCtrl_id) references PositionLinks;
+-- alter table ContactLinks_PositionLinks add constraint FK_ContactLinks_PositionLinks_to_ContactLinks foreign key (ContactVersionEntity_item_id, ContactVersionEntity_versionCtrl_id) references ContactLinks;
+-- alter table OrgUnitLinks_PositionLinks add constraint FK_OrgUnitLinks_PositionLinks_to_PositionLinks foreign key (positions_item_id, positions_versionCtrl_id) references PositionLinks;
+-- alter table OrgUnitLinks_PositionLinks add constraint FK_OrgUnitLinks_PositionLinks_to_OrgUnitLinks foreign key (OrgUnitVersionEntity_item_id, OrgUnitVersionEntity_versionCtrl_id) references OrgUnitLinks;
 
 /** Business Keys*/
 alter table PositionType add constraint UK_PositionType_Business_Key unique (businessKey);

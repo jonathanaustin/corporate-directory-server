@@ -9,6 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -23,11 +25,21 @@ import javax.persistence.Table;
 @Table(name = "OrgUnitLinks")
 public class OrgUnitVersionEntity extends DefaultItemTreeVersion<OrgUnitEntity, OrgUnitVersionEntity> {
 
+	/**
+	 * Position assigned as the manager.
+	 */
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private PositionVersionEntity managerPosition;
+	@JoinColumns({
+		@JoinColumn(referencedColumnName = "item_id", name = "managerPosition_item_id")
+		, @JoinColumn(referencedColumnName = "versionCtrl_id", name = "managerPosition_versionCtrl_id")
+	})
+	private PositionVersionEntity managerPositionVersion;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-	private Set<PositionVersionEntity> positions;
+	/**
+	 * Positions owned by this org unit.
+	 */
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "orgUnitVersion", cascade = CascadeType.MERGE)
+	private Set<PositionVersionEntity> positionVersions;
 
 	public OrgUnitVersionEntity() {
 	}
@@ -41,20 +53,21 @@ public class OrgUnitVersionEntity extends DefaultItemTreeVersion<OrgUnitEntity, 
 	 * @return the manager position for this org unit
 	 */
 	public PositionEntity getManagerPosition() {
-		return managerPosition == null ? null : managerPosition.getItem();
+		PositionVersionEntity vers = getManagerPositionVersion();
+		return vers == null ? null : vers.getItem();
 	}
 
 	/**
 	 *
-	 * @param managerPosition the manager position for this org unit
+	 * @param mgrPosition the manager position for this org unit
 	 */
-	public void setManagerPosition(final PositionEntity managerPosition) {
-		if (managerPosition == null) {
-			this.managerPosition = null;
+	public void setManagerPosition(final PositionEntity mgrPosition) {
+		if (mgrPosition == null) {
+			managerPositionVersion = null;
 			return;
 		}
-		PositionVersionEntity vers = managerPosition.getOrCreateVersion(getVersionCtrl());
-		this.managerPosition = vers;
+		PositionVersionEntity vers = mgrPosition.getOrCreateVersion(getVersionCtrl());
+		managerPositionVersion = vers;
 		// Bi-Directional
 		if (!vers.getManageOrgUnits().contains(getItem())) {
 			vers.addManageOrgUnit(getItem());
@@ -66,7 +79,7 @@ public class OrgUnitVersionEntity extends DefaultItemTreeVersion<OrgUnitEntity, 
 	 * @return the positions belonging to this unit
 	 */
 	public Set<PositionEntity> getPositions() {
-		return extractItems(positions);
+		return extractItems(getPositionVersions());
 	}
 
 	/**
@@ -79,11 +92,8 @@ public class OrgUnitVersionEntity extends DefaultItemTreeVersion<OrgUnitEntity, 
 			return;
 		}
 		// Add position
-		if (positions == null) {
-			positions = new HashSet<>();
-		}
 		PositionVersionEntity vers = position.getOrCreateVersion(getVersionCtrl());
-		positions.add(vers);
+		getPositionVersions().add(vers);
 		// Bi-Directional
 		vers.setOrgUnit(getItem());
 	}
@@ -100,11 +110,20 @@ public class OrgUnitVersionEntity extends DefaultItemTreeVersion<OrgUnitEntity, 
 		}
 		// Remove position
 		PositionVersionEntity vers = position.getOrCreateVersion(getVersionCtrl());
-		if (positions != null) {
-			positions.remove(vers);
-		}
+		getPositionVersions().remove(vers);
 		// Bi-Directional
 		vers.setOrgUnit(null);
+	}
+
+	public PositionVersionEntity getManagerPositionVersion() {
+		return managerPositionVersion;
+	}
+
+	public Set<PositionVersionEntity> getPositionVersions() {
+		if (positionVersions == null) {
+			positionVersions = new HashSet<>();
+		}
+		return positionVersions;
 	}
 
 }

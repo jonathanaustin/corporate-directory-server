@@ -16,6 +16,7 @@ import javax.persistence.Version;
  *
  * @author jonathan
  * @param <T> the version data owner type
+ * @param <V> the version data type
  */
 @MappedSuperclass
 public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemVersion<T>> implements ItemVersion<T> {

@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -14,13 +16,17 @@ import javax.persistence.OneToMany;
  * Default versionable data holder with tree structure.
  *
  * @param <T> the version data owner type
+ * @param <V> the version data type
  * @author jonathan
  */
 @MappedSuperclass
 public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemTreeVersion<T>> extends DefaultItemVersion<T, V> implements ItemTreeVersion<T> {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
-//	@JoinColumn(name = "parentId")
+	@JoinColumns({
+		@JoinColumn(referencedColumnName = "item_id", name = "parent_item_id")
+		, @JoinColumn(referencedColumnName = "versionCtrl_id", name = "parent_versionCtrl_id")
+	})
 	private V parentVersionItem;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentVersionItem", cascade = CascadeType.MERGE)
@@ -39,7 +45,8 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 
 	@Override
 	public T getParentItem() {
-		return parentVersionItem == null ? null : parentVersionItem.getItem();
+		V vers = getParentVersionItem();
+		return vers == null ? null : vers.getItem();
 	}
 
 	@Override
@@ -51,14 +58,15 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 		}
 		V vers = item.getOrCreateVersion(getVersionCtrl());
 		parentVersionItem = vers;
-		if (!vers.getChildrenItems().contains(item)) {
-			vers.addChildItem(item);
+		// To stop a circular call only add if not there
+		if (!vers.getChildrenItems().contains(getItem())) {
+			vers.addChildItem(getItem());
 		}
 	}
 
 	@Override
 	public Set<T> getChildrenItems() {
-		return extractItems(childVersionItems);
+		return extractItems(getChildVersionItems());
 	}
 
 	@Override
@@ -67,15 +75,8 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 			return;
 		}
 		// Add Child
-		if (childVersionItems == null) {
-			childVersionItems = new HashSet<>();
-		}
 		V vers = item.getOrCreateVersion(getVersionCtrl());
-
-		// To stop a circular call only remove if there
-		if (!childVersionItems.contains(vers)) {
-			childVersionItems.add(vers);
-		}
+		getChildVersionItems().add(vers);
 		// Bi-Directional
 		vers.setParentItem(getItem());
 	}
@@ -87,11 +88,19 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 		}
 		// Remove Child
 		V vers = item.getOrCreateVersion(getVersionCtrl());
-		if (childVersionItems != null) {
-			childVersionItems.remove(vers);
-		}
+		getChildVersionItems().remove(vers);
 		// Bi-Directional
 		vers.setParentItem(null);
 	}
 
+	protected V getParentVersionItem() {
+		return parentVersionItem;
+	}
+
+	protected Set<V> getChildVersionItems() {
+		if (childVersionItems == null) {
+			childVersionItems = new HashSet<>();
+		}
+		return childVersionItems;
+	}
 }

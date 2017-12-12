@@ -9,7 +9,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -22,8 +23,12 @@ import javax.persistence.Table;
 @Table(name = "ContactLinks")
 public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, ContactVersionEntity> {
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	private Set<PositionVersionEntity> positions;
+	/**
+	 * Positions assigned to this contact.
+	 */
+	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+	@JoinTable(name = "ContactLinks_PositionLinks")
+	private Set<PositionVersionEntity> positionVersions;
 
 	public ContactVersionEntity() {
 	}
@@ -37,7 +42,7 @@ public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, Cont
 	 * @return the positions
 	 */
 	public Set<PositionEntity> getPositions() {
-		return extractItems(positions);
+		return extractItems(getPositionVersions());
 	}
 
 	/**
@@ -48,11 +53,8 @@ public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, Cont
 			return;
 		}
 		// Add position
-		if (positions == null) {
-			positions = new HashSet<>();
-		}
 		PositionVersionEntity vers = position.getOrCreateVersion(getVersionCtrl());
-		positions.add(vers);
+		getPositionVersions().add(vers);
 		// Bi-Directional
 		// To stop a circular call only add if not already there
 		if (!vers.getContacts().contains(getItem())) {
@@ -69,13 +71,19 @@ public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, Cont
 		}
 		// Remove position
 		PositionVersionEntity vers = position.getOrCreateVersion(getVersionCtrl());
-		if (positions != null) {
-			positions.remove(vers);
-		}
+		getPositionVersions().remove(vers);
 		// Bi-Directional - Remove the Contact from the Position
 		// To stop a circular call only remove if there
 		if (vers.getContacts().contains(getItem())) {
 			vers.removeContact(getItem());
 		}
 	}
+
+	public Set<PositionVersionEntity> getPositionVersions() {
+		if (positionVersions == null) {
+			positionVersions = new HashSet<>();
+		}
+		return positionVersions;
+	}
+
 }

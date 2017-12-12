@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
  *
  * @author Jonathan Austin
  * @param <T> the persist type
+ * @param <V> the version data type
  * @since 1.0.0
  */
 @MappedSuperclass
