@@ -17,12 +17,12 @@ public interface BasicIdService<T extends ApiIdObject> extends Serializable {
 
 	DataResponse<List<T>> search(final String search);
 
-	DataResponse<T> retrieve(final String keyId);
+	DataResponse<T> retrieve(final String id);
 
 	DataResponse<T> create(final T apiObject);
 
-	DataResponse<T> update(final String keyId, final T apiObject);
+	DataResponse<T> update(final String id, final T apiObject);
 
-	BasicResponse delete(final String keyId);
+	BasicResponse delete(final String id);
 
 }

@@ -184,7 +184,7 @@ orgUnit_item_id bigint,
 orgUnit_versionCtrl_id bigint,
 primary key (item_id, versionCtrl_id));
 
-/** PositionLinks to ContactLinks. */
+/** Contacts assigned to a Position. */
 create table PositionLinks_ContactLinks (
 PositionVersionEntity_item_id bigint not null,
 PositionVersionEntity_versionCtrl_id bigint not null,
@@ -193,6 +193,7 @@ contacts_versionCtrl_id bigint not null,
 primary key (PositionVersionEntity_item_id, PositionVersionEntity_versionCtrl_id, contacts_item_id, contacts_versionCtrl_id)
 );
 
+/** Org Units managed by this position */
 create table PositionLinks_OrgUnitLinks (
 PositionVersionEntity_item_id bigint not null,
 PositionVersionEntity_versionCtrl_id bigint not null,
@@ -213,7 +214,7 @@ versionCtrl_id bigint not null,
 primary key (item_id, versionCtrl_id)
 );
 
-/** ContactLinks to Position*/
+/** Positions assigned to this Contact. */
 create table ContactLinks_PositionLinks (
 ContactVersionEntity_item_id bigint not null,
 ContactVersionEntity_versionCtrl_id bigint not null,

@@ -48,31 +48,3 @@ insert into OrgUnit(businessKey, description, custom, active, type_id) values ('
 insert into OrgUnit(businessKey, description, custom, active, type_id) values ('SEC2-1-1', 'Section 2-1-1', true, true,(select id from UnitType where businessKey='SEC'));
 insert into OrgUnit(businessKey, description, custom, active, type_id) values ('UNIT2-1-1-1', 'Unit 2-1-1-1', true, true,(select id from UnitType where businessKey='UNIT'));
 
-/** Org Unit Version Record. */
-insert into  OrgUnitLinks (OrgUnitEntity_id, dataVersions_item_id, dataVersions_versionCtrl_id, dataVersions_versionCtrl_id) values ('D', 'Department', true, true,(select id from UnitType where businessKey='DEPT'));
-
-/** Org Unit versioned data. */
-create table OrgUnit_OrgUnitLinks (
-OrgUnitEntity_id bigint not null,
-dataVersions_item_id bigint not null,
-dataVersions_versionCtrl_id bigint not null,
-primary key (OrgUnitEntity_id, dataVersions_item_id, dataVersions_versionCtrl_id)
-);
-
-create table OrgUnitLinks (
-description varchar(255),
-version timestamp,
-item_id bigint not null,
-versionCtrl_id bigint not null,
-parentItem_id bigint,
-managerPosition_id bigint,
-primary key (item_id, versionCtrl_id)
-);
-/** OrgUnit Tree Relationship */
-create table OrgUnitLinks_OrgUnit (
-OrgUnitLinksEntity_item_id bigint not null,
-OrgUnitLinksEntity_versionCtrl_id bigint not null,
-childrenItems_id bigint not null,
-primary key (OrgUnitLinksEntity_item_id, OrgUnitLinksEntity_versionCtrl_id, childrenItems_id)
-);
-

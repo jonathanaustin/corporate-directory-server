@@ -19,30 +19,8 @@ import javax.persistence.LockModeType;
  * @since 1.0.0
  */
 @Singleton
-public abstract class AbstractJpaService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
+public abstract class AbstractJpaBaseService<A extends ApiIdObject, P extends PersistIdObject> implements Serializable {
 
-//	static {
-//		// Create a version record (if needed)
-//		EntityManager em = EmfUtil.getEMF().createEntityManager();
-//		SystemCtrlEntity ctrl = em.find(SystemCtrlEntity.class, Long.valueOf(1), LockModeType.NONE);
-//		if (ctrl == null) {
-//			try {
-//				// Create first version
-//				em.getTransaction().begin();
-//				VersionCtrlEntity vers = new VersionCtrlEntity(Long.valueOf(1));
-//				vers.setDescription("Initial");
-//				em.persist(vers);
-//				ctrl = new SystemCtrlEntity();
-//				ctrl.setCurrentVersion(vers);
-//				ctrl.setDescription("System");
-//				em.persist(ctrl);
-//				em.getTransaction().commit();
-//			} finally {
-//				em.close();
-//			}
-//		}
-//
-//	}
 	/**
 	 * @return the entity manager
 	 */

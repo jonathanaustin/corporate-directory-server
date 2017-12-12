@@ -44,9 +44,16 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 
 	@Override
 	public void setParentItem(final T item) {
-		this.parentVersionItem = item.getOrCreateVersion(getVersionCtrl());
 		// Bi Directional
-		parentVersionItem.addChildItem(item);
+		if (item == null) {
+			parentVersionItem = null;
+			return;
+		}
+		V vers = item.getOrCreateVersion(getVersionCtrl());
+		parentVersionItem = vers;
+		if (!vers.getChildrenItems().contains(item)) {
+			vers.addChildItem(item);
+		}
 	}
 
 	@Override
@@ -56,29 +63,35 @@ public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V e
 
 	@Override
 	public void addChildItem(final T item) {
+		if (item == null) {
+			return;
+		}
+		// Add Child
 		if (childVersionItems == null) {
 			childVersionItems = new HashSet<>();
 		}
 		V vers = item.getOrCreateVersion(getVersionCtrl());
-		childVersionItems.add(vers);
+
+		// To stop a circular call only remove if there
+		if (!childVersionItems.contains(vers)) {
+			childVersionItems.add(vers);
+		}
 		// Bi-Directional
 		vers.setParentItem(getItem());
 	}
 
 	@Override
 	public void removeChildItem(final T item) {
-
-		if (childVersionItems != null) {
-			for (V vers : childVersionItems) {
-				if (item == vers.getItem()) {
-					childVersionItems.remove(vers);
-					// Bi-Directional
-					vers.setParentItem(null);
-					break;
-				}
-			}
+		if (item == null) {
+			return;
 		}
-
+		// Remove Child
+		V vers = item.getOrCreateVersion(getVersionCtrl());
+		if (childVersionItems != null) {
+			childVersionItems.remove(vers);
+		}
+		// Bi-Directional
+		vers.setParentItem(null);
 	}
 
 }

@@ -44,6 +44,10 @@ public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, Cont
 	 * @param position the position to add
 	 */
 	public void addPosition(final PositionEntity position) {
+		if (position == null) {
+			return;
+		}
+		// Add position
 		if (positions == null) {
 			positions = new HashSet<>();
 		}
@@ -60,6 +64,10 @@ public class ContactVersionEntity extends DefaultItemVersion<ContactEntity, Cont
 	 * @param position the position to remove
 	 */
 	public void removePosition(final PositionEntity position) {
+		if (position == null) {
+			return;
+		}
+		// Remove position
 		PositionVersionEntity vers = position.getOrCreateVersion(getVersionCtrl());
 		if (positions != null) {
 			positions.remove(vers);

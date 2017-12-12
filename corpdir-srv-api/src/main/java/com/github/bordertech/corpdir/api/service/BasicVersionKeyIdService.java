@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import java.util.List;
 
 /**
- * Basic service for keyed API object.
+ * Basic service for keyed API object that have version data.
  *
  * @param <T> the keyed API object
  * @author Jonathan Austin

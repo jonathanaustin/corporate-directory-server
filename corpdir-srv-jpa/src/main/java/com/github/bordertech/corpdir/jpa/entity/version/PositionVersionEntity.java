@@ -54,6 +54,10 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 	 * @param contact the contact to add
 	 */
 	public void addContact(final ContactEntity contact) {
+		if (contact == null) {
+			return;
+		}
+		// Add contact
 		ContactVersionEntity vers = contact.getOrCreateVersion(getVersionCtrl());
 		if (contacts == null) {
 			contacts.add(vers);
@@ -71,6 +75,10 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 	 * @param contact the contact to remove
 	 */
 	public void removeContact(final ContactEntity contact) {
+		if (contact == null) {
+			return;
+		}
+		// Remove contact
 		ContactVersionEntity vers = contact.getOrCreateVersion(getVersionCtrl());
 		if (contacts != null) {
 			contacts.remove(vers);
@@ -96,11 +104,16 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 	 * @param orgUnit the org unit to add
 	 */
 	public void addManageOrgUnit(final OrgUnitEntity orgUnit) {
+		if (orgUnit == null) {
+			return;
+		}
+		// Add Managed Org Unit
 		OrgUnitVersionEntity vers = orgUnit.getOrCreateVersion(getVersionCtrl());
 		if (manageOrgUnits == null) {
 			manageOrgUnits = new HashSet<>();
 		}
 		manageOrgUnits.add(vers);
+		// Bi-Directional
 		vers.setManagerPosition(getItem());
 	}
 
@@ -110,10 +123,15 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 	 * @param orgUnit the org unit to remove
 	 */
 	public void removeManageOrgUnit(final OrgUnitEntity orgUnit) {
+		if (orgUnit == null) {
+			return;
+		}
+		// Remove Managed Org Unit
 		OrgUnitVersionEntity vers = orgUnit.getOrCreateVersion(getVersionCtrl());
 		if (manageOrgUnits != null) {
 			manageOrgUnits.remove(vers);
 		}
+		// Bi-Directional
 		vers.setManagerPosition(null);
 	}
 
@@ -134,6 +152,9 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 			this.orgUnit = null;
 			return;
 		}
-		this.orgUnit = orgUnit.getOrCreateVersion(getVersionCtrl());
+		OrgUnitVersionEntity vers = orgUnit.getOrCreateVersion(getVersionCtrl());
+		this.orgUnit = vers;
+		// Bi-Directional
+		vers.setManagerPosition(getItem());
 	}
 }

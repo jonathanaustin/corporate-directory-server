@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class AbstractJpaIdService<A extends ApiIdObject, P extends PersistIdObject> extends AbstractJpaService<A, P> {
+public abstract class AbstractJpaIdService<A extends ApiIdObject, P extends PersistIdObject> extends AbstractJpaBaseService<A, P> {
 
 	protected CriteriaQuery<P> handleSearchCriteria(final EntityManager em, final String search) {
 		CriteriaBuilder cb = em.getCriteriaBuilder();
