@@ -12,6 +12,23 @@
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>config-qa-plugins/pom.xml</relativePath>
 	</parent>
+	
+	<profiles>
+		<profile>
+			<id>openshift</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<warName>corpdir</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<packaging>pom</packaging>
 
