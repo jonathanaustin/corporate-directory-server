@@ -15,26 +15,20 @@ alter table OrgUnitLinks  drop constraint FK_OrgUnitLinks_to_OrgUnit;
 alter table OrgUnitLinks  drop constraint FK_OrgUnitLinks_to_VersionCtrl;
 alter table OrgUnitLinks  drop constraint FK_OrgUnitLinks_to_OrgUnitLinks;
 alter table OrgUnitLinks  drop constraint FK_OrgUnitLinks_to_PositionLinks;
-alter table OrgUnitLinks_PositionLinks drop constraint FK_OrgUnitLinks_PositionLinks_to_PositionLinks;
-alter table OrgUnitLinks_PositionLinks drop constraint FK_OrgUnitLinks_PositionLinks_to_OrgUnitLinks;
 -- Position
 alter table Position drop constraint FK_Position_to_PositionType;
 alter table PositionLinks drop constraint FK_PositionLinks_to_Position;
 alter table PositionLinks drop constraint FK_PositionLinks_to_VersionCtrl;
 alter table PositionLinks drop constraint FK_PositionLinks_to_PositionLinks;
 alter table PositionLinks drop constraint FK_PositionLinks_to_OrgUnitlinks;
-alter table PositionLinks_ContactLinks drop constraint FK_PositionLinks_ContactLinks_to_ContactLinks;
-alter table PositionLinks_ContactLinks drop constraint FK_PositionLinks_ContactLinks_to_PositionLinks;
-alter table PositionLinks_OrgUnitLinks drop constraint FK_PositionLinks_OrgUnitLinks_to_OrgUnitLinks;
-alter table PositionLinks_OrgUnitLinks drop constraint FK_PositionLinks_OrgUnitLinks_to_PositionLinks;
 -- Contact
 alter table Contact drop constraint FK_Contact_to_Location;
 alter table Contact drop constraint FK_Contact_to_Image;
 alter table Channel drop constraint FK_Channel_to_Contact;
 alter table ContactLinks  drop constraint FK_ContactLinks_to_Contact;
 alter table ContactLinks  drop constraint FK_ContactLinks_to_VersionCtrl;
-alter table ContactLinks_PositionLinks drop constraint FK_ContactLinks_PositionLinks_to_PositionLinks;
-alter table ContactLinks_PositionLinks drop constraint FK_ContactLinks_PositionLinks_to_ContactLinks;
+alter table ContactLinks_PositionLinks drop constraint FK_PositionLinks_ContactLinks_to_ContactLinks;
+alter table ContactLinks_PositionLinks drop constraint FK_PositionLinks_ContactLinks_to_PositionLinks;
 
 /** Business Keys*/
 alter table PositionType drop constraint UK_PositionType_Business_Key;
@@ -53,12 +47,9 @@ drop table Location;
 
 drop table OrgUnit;
 drop table OrgUnitLinks;
-drop table OrgUnitLinks_PositionLinks;
 
 drop table Position;
 drop table PositionLinks;
-drop table PositionLinks_ContactLinks;
-drop table PositionLinks_OrgUnitLinks;
 
 drop table Image;
 drop table Channel;

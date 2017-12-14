@@ -7,9 +7,10 @@ import java.util.Set;
  * Versionable data with a tree structure.
  *
  * @param <T> the version data owner type
+ * @param <V> the verison data type
  * @author jonathan
  */
-public interface ItemTreeVersion<T extends PersistVersionableKeyId> extends ItemVersion<T> {
+public interface ItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemTreeVersion<T, V>> extends ItemVersion<T> {
 
 	void setParentItem(final T parentItem);
 

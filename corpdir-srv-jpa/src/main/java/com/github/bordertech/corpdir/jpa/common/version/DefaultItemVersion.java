@@ -22,7 +22,7 @@ import javax.persistence.Version;
 public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemVersion<T>> implements ItemVersion<T> {
 
 	@EmbeddedId
-	private VersionKey versionIdKey;
+	private VersionKey versionKey;
 
 	private String description;
 
@@ -49,7 +49,7 @@ public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V exten
 	 * @param item the owner item
 	 */
 	public DefaultItemVersion(final VersionCtrlEntity versionCtrl, final T item) {
-		this.versionIdKey = new VersionKey(versionCtrl.getId(), item.getId());
+		this.versionKey = new VersionKey(versionCtrl.getId(), item.getId());
 		this.versionCtrl = versionCtrl;
 		this.item = item;
 	}
@@ -61,12 +61,12 @@ public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V exten
 
 	@Override
 	public Long getId() {
-		return versionIdKey == null ? null : versionIdKey.getId();
+		return versionKey == null ? null : versionKey.getId();
 	}
 
 	@Override
 	public Long getVersionId() {
-		return versionIdKey == null ? null : versionIdKey.getVersionId();
+		return versionKey == null ? null : versionKey.getVersionId();
 	}
 
 	@Override
@@ -76,7 +76,7 @@ public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V exten
 
 	@Override
 	public VersionKey getVersionKey() {
-		return versionIdKey;
+		return versionKey;
 	}
 
 	@Override

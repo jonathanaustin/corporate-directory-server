@@ -63,7 +63,7 @@ public class EntityLink<T extends ApiIdObject> extends WDiv {
 
 	protected String getLabelText(final T bean) {
 		if (bean instanceof ApiKeyIdObject) {
-			return bean.getDescription() + "[" + ((ApiKeyIdObject) bean).getBusinessKey() + "]";
+			return bean.getDescription() + " [" + ((ApiKeyIdObject) bean).getBusinessKey() + "]";
 		}
 		return bean.getDescription();
 	}

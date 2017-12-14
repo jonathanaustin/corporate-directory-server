@@ -9,8 +9,9 @@ import java.util.Set;
  *
  * @author jonathan
  * @param <T> the persistent type
+ * @param <V> the version type
  */
-public interface PersistVersionableKeyId<T extends PersistVersionableKeyId, V extends ItemVersion<T>> extends PersistKeyIdObject {
+public interface PersistVersionableKeyId<T extends PersistVersionableKeyId<T, V>, V extends ItemVersion<T>> extends PersistKeyIdObject {
 
 	Set<V> getVersions();
 

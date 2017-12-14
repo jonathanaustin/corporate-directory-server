@@ -20,7 +20,7 @@ import javax.persistence.OneToMany;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemTreeVersion<T>> extends DefaultItemVersion<T, V> implements ItemTreeVersion<T> {
+public class DefaultItemTreeVersion<T extends PersistVersionableKeyId<T, V>, V extends ItemTreeVersion<T, V>> extends DefaultItemVersion<T, V> implements ItemTreeVersion<T, V> {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumns({

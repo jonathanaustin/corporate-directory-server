@@ -1,9 +1,15 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdTreeObject;
 import com.github.bordertech.corpdir.jpa.entity.version.PositionVersionEntity;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,7 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends DefaultVersionableKeyIdObject<PositionEntity, PositionVersionEntity> {
+public class PositionEntity extends DefaultVersionableKeyIdTreeObject<PositionEntity, PositionVersionEntity> {
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
+	private Set<PositionVersionEntity> versions;
 
 	@ManyToOne
 	private PositionTypeEntity type;
@@ -52,6 +62,14 @@ public class PositionEntity extends DefaultVersionableKeyIdObject<PositionEntity
 	@Override
 	public PositionVersionEntity createVersion(final VersionCtrlEntity ctrl) {
 		return new PositionVersionEntity(ctrl, this);
+	}
+
+	@Override
+	public Set<PositionVersionEntity> getVersions() {
+		if (versions == null) {
+			versions = new HashSet<>();
+		}
+		return versions;
 	}
 
 }

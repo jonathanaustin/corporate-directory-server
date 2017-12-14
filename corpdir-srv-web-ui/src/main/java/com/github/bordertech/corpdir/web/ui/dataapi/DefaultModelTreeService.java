@@ -53,7 +53,7 @@ public class DefaultModelTreeService<T extends ApiTreeable, B extends BasicTreeS
 
 	@Override
 	public String getItemLabel(final T entity) {
-		return entity.getDescription() + "[" + entity.getBusinessKey() + "]";
+		return entity.getDescription() + " [" + entity.getBusinessKey() + "]";
 	}
 
 	@Override

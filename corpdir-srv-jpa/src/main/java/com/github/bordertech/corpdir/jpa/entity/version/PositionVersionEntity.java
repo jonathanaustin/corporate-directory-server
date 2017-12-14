@@ -38,8 +38,8 @@ public class PositionVersionEntity extends DefaultItemTreeVersion<PositionEntity
 	 */
 	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 	@JoinColumns({
-		@JoinColumn(referencedColumnName = "item_id", name = "orgUnitVersion_item_id")
-		, @JoinColumn(referencedColumnName = "versionCtrl_id", name = "orgUnitVersion_versionCtrl_id")
+		@JoinColumn(referencedColumnName = "item_id", name = "ownerOrgUnit_item_id")
+		, @JoinColumn(referencedColumnName = "versionCtrl_id", name = "ownerOrgUnit_versionCtrl_id")
 	})
 	private OrgUnitVersionEntity orgUnitVersion;
 

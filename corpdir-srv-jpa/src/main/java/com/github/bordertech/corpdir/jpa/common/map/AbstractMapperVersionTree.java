@@ -17,7 +17,7 @@ import javax.persistence.EntityManager;
  * @param <P> the tree entity
  * @author jonathan
  */
-public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTreeable, U extends ItemTreeVersion<P>, P extends PersistVersionableKeyId<P, U>> extends AbstractMapperVersion<A, U, P> {
+public abstract class AbstractMapperVersionTree<A extends ApiVersionable & ApiTreeable, U extends ItemTreeVersion<P, U>, P extends PersistVersionableKeyId<P, U>> extends AbstractMapperVersion<A, U, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to, final Long versionId) {

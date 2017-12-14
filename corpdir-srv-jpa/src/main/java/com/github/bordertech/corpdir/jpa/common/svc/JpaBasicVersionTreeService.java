@@ -7,7 +7,6 @@ import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
 import com.github.bordertech.corpdir.jpa.common.version.ItemTreeVersion;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.entity.version.OrgUnitVersionEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.Collections;
 import java.util.List;
@@ -18,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -30,7 +30,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends ItemTreeVersion<P>, P extends PersistVersionableKeyId<P, U>> extends JpaBasicVersionKeyIdService<A, U, P> implements BasicVersionTreeService<A> {
+public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends ItemTreeVersion<P, U>, P extends PersistVersionableKeyId<P, U>> extends JpaBasicVersionKeyIdService<A, U, P> implements BasicVersionTreeService<A> {
 
 	@Override
 	public DataResponse<List<A>> getRootItems() {
@@ -165,10 +165,10 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 		Root<P> from = qry.from(getEntityClass());
 
 		// Has No Parent or has no version join
-		Join<OrgUnitVersionEntity, P> join = from.join("versions", JoinType.LEFT);
-//		Predicate p1 = cb.equal(join.get("versionIdKey").get("versionId"), versionId);
-//		Predicate p2 = cb.isNull(join.get("parentItem"));
-//		qry.where(cb.and(p1, p2));
+		Join<P, U> join = from.join("versions", JoinType.LEFT);
+		Predicate p1 = cb.equal(join.get("versionKey").get("versionId"), versionId);
+		Predicate p2 = cb.isNull(join.get("parentVersionItem"));
+		qry.where(cb.and(p1, p2));
 		qry.select(from);
 		// Order by
 		qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));

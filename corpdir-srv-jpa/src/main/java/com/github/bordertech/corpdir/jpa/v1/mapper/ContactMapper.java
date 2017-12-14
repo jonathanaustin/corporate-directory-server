@@ -26,6 +26,8 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactVersion
 	@Override
 	public void copyApiToEntity(final EntityManager em, final Contact from, final ContactEntity to, final Long versionId) {
 		super.copyApiToEntity(em, from, to, versionId);
+		// Overide description
+		to.setDescription(from.getFirstName() + " " + from.getLastName());
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());
@@ -54,6 +56,7 @@ public class ContactMapper extends AbstractMapperVersion<Contact, ContactVersion
 	@Override
 	public void copyEntityToApi(final EntityManager em, final ContactEntity from, final Contact to, final Long versionId) {
 		super.copyEntityToApi(em, from, to, versionId);
+		to.setDescription(from.getFirstName() + " " + from.getLastName());
 		to.setCompanyTitle(from.getCompanyTitle());
 		to.setFirstName(from.getFirstName());
 		to.setLastName(from.getLastName());

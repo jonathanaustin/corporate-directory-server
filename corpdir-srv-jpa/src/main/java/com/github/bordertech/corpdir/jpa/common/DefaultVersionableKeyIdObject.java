@@ -3,14 +3,9 @@ package com.github.bordertech.corpdir.jpa.common;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
 import com.github.bordertech.corpdir.jpa.common.version.ItemVersion;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
 
 /**
  * Default keyed object with version data.
@@ -21,11 +16,7 @@ import javax.persistence.OneToMany;
  * @since 1.0.0
  */
 @MappedSuperclass
-public class DefaultVersionableKeyIdObject<T extends PersistVersionableKeyId, V extends ItemVersion<T>> extends DefaultKeyIdObject implements PersistVersionableKeyId<T, V> {
-
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "item_id")
-	private Set<V> versions;
+public abstract class DefaultVersionableKeyIdObject<T extends PersistVersionableKeyId<T, V>, V extends ItemVersion<T>> extends DefaultKeyIdObject implements PersistVersionableKeyId<T, V> {
 
 	private String businessKey;
 
@@ -82,14 +73,6 @@ public class DefaultVersionableKeyIdObject<T extends PersistVersionableKeyId, V 
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
-	}
-
-	@Override
-	public Set<V> getVersions() {
-		if (versions == null) {
-			versions = new HashSet<>();
-		}
-		return versions;
 	}
 
 	@Override

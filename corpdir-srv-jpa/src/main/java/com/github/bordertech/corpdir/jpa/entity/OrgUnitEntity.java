@@ -1,9 +1,15 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdTreeObject;
 import com.github.bordertech.corpdir.jpa.entity.version.OrgUnitVersionEntity;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -14,7 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "OrgUnit")
-public class OrgUnitEntity extends DefaultVersionableKeyIdObject<OrgUnitEntity, OrgUnitVersionEntity> {
+public class OrgUnitEntity extends DefaultVersionableKeyIdTreeObject<OrgUnitEntity, OrgUnitVersionEntity> {
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
+	private Set<OrgUnitVersionEntity> versions;
 
 	@ManyToOne
 	private UnitTypeEntity type;
@@ -52,6 +62,14 @@ public class OrgUnitEntity extends DefaultVersionableKeyIdObject<OrgUnitEntity, 
 	@Override
 	public OrgUnitVersionEntity createVersion(final VersionCtrlEntity ctrl) {
 		return new OrgUnitVersionEntity(ctrl, this);
+	}
+
+	@Override
+	public Set<OrgUnitVersionEntity> getVersions() {
+		if (versions == null) {
+			versions = new HashSet<>();
+		}
+		return versions;
 	}
 
 }

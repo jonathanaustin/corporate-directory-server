@@ -25,6 +25,10 @@ import javax.persistence.Table;
 public class ContactEntity extends DefaultVersionableKeyIdObject<ContactEntity, ContactVersionEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id")
+	private Set<ContactVersionEntity> versions;
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "contact_id")
 	private Set<ChannelEntity> channels;
 
@@ -175,6 +179,14 @@ public class ContactEntity extends DefaultVersionableKeyIdObject<ContactEntity, 
 	@Override
 	public ContactVersionEntity createVersion(final VersionCtrlEntity ctrl) {
 		return new ContactVersionEntity(ctrl, this);
+	}
+
+	@Override
+	public Set<ContactVersionEntity> getVersions() {
+		if (versions == null) {
+			versions = new HashSet<>();
+		}
+		return versions;
 	}
 
 }
