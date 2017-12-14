@@ -51,7 +51,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	}
 
 	@Override
-	protected ListOrTreeSelectView<T> getSelectView() {
+	public ListOrTreeSelectView<T> getSelectView() {
 		return (ListOrTreeSelectView) super.getSelectView();
 	}
 

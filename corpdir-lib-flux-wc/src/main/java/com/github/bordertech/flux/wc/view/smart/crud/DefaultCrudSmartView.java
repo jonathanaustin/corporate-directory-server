@@ -183,6 +183,41 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	@Override
+	public S getCriteria() {
+		return searchView.getViewBean();
+	}
+
+	@Override
+	public SearchView<S> getSearchView() {
+		return searchView;
+	}
+
+	@Override
+	public SelectSingleView<T> getSelectView() {
+		return selectView;
+	}
+
+	@Override
+	public ToolbarView getSearchToolbar() {
+		return searchToolbar;
+	}
+
+	@Override
+	public MessageView getSearchMessages() {
+		return searchMessages;
+	}
+
+	@Override
+	public DefaultSmartView getFormHolder() {
+		return formHolder;
+	}
+
+	@Override
+	public MessageView getFormMessages() {
+		return formMessages;
+	}
+
+	@Override
 	protected void initViewContent(final Request request) {
 		super.initViewContent(request);
 		if (isAutoSearch()) {
@@ -328,36 +363,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		}
 	}
 
-	protected S getCriteria() {
-		return searchView.getViewBean();
-	}
-
-	protected SearchView<S> getSearchView() {
-		return searchView;
-	}
-
-	protected SelectSingleView<T> getSelectView() {
-		return selectView;
-	}
-
 	protected PollingView getPollingView() {
 		return pollingView;
-	}
-
-	protected ToolbarView getSearchToolbar() {
-		return searchToolbar;
-	}
-
-	protected MessageView getSearchMessages() {
-		return searchMessages;
-	}
-
-	protected DefaultSmartView getFormHolder() {
-		return formHolder;
-	}
-
-	protected MessageView getFormMessages() {
-		return formMessages;
 	}
 
 	protected void handleSearchEvent() {
