@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.select;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.mode.SelectMode;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
@@ -67,7 +67,7 @@ public class MenuSelectView<T> extends AbstractListSingleSelectView<T> {
 				}
 			});
 			menu.add(item);
-			AppAjaxControl ctrl = new AppAjaxControl(item, this);
+			FluxAjaxControl ctrl = new FluxAjaxControl(item, this);
 			ajaxPanel.add(ctrl);
 			registerSelectUnselectAjaxControl(ctrl);
 		}
@@ -94,6 +94,24 @@ public class MenuSelectView<T> extends AbstractListSingleSelectView<T> {
 			}
 		}
 		menu.setSelectedMenuItem(null);
+	}
+
+	@Override
+	public void addItem(final T item) {
+		super.addItem(item);
+		refreshItems(getItems());
+	}
+
+	@Override
+	public void removeItem(final T entity) {
+		super.removeItem(entity);
+		refreshItems(getItems());
+	}
+
+	@Override
+	public void updateItem(final T item) {
+		super.updateItem(item);
+		refreshItems(getItems());
 	}
 
 }

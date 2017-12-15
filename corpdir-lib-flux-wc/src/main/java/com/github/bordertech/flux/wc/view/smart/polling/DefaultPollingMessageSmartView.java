@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.msg.DefaultMessageView;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
@@ -16,11 +17,16 @@ import com.github.bordertech.wcomponents.WMessages;
  */
 public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T> implements MessageSmartView<T> {
 
-	private final MessageView messageView = new DefaultMessageView("vw_msgs");
+	private final MessageView messageView;
 
 	public DefaultPollingMessageSmartView(final String viewId, final String templateName) {
+		this(viewId, templateName, true);
+	}
+
+	public DefaultPollingMessageSmartView(final String viewId, final String templateName, final boolean persistent) {
 		super(viewId, templateName);
-		addComponentToTemplate("vw-messages", messageView);
+		messageView = new DefaultMessageView("vw_msgs", persistent);
+		addComponentToTemplate(TemplateConstants.TAG_VW_MESSAGES, messageView);
 	}
 
 	@Override
@@ -34,7 +40,7 @@ public class DefaultPollingMessageSmartView<T> extends DefaultPollingSmartView<T
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		// Message events
 		if (event instanceof MessageBaseEventType) {

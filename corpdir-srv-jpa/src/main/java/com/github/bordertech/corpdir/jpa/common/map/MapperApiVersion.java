@@ -1,21 +1,21 @@
 package com.github.bordertech.corpdir.jpa.common.map;
 
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
+import com.github.bordertech.corpdir.jpa.common.version.ItemVersion;
 import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link ApiVersionable} and {@link PersistVersionable}.
+ * Map {@link ApiVersionable} and {@link ItemVersion}.
  *
  * @author jonathan
  * @param <A> the API object
  * @param <U> the version data type
  * @param <P> the Entity object
  */
-public interface MapperApiVersion<A extends ApiVersionable, U extends PersistVersionable<U, P>, P extends PersistVersionData<U>> {
+public interface MapperApiVersion<A extends ApiVersionable, U extends ItemVersion<P>, P extends PersistVersionableKeyId<P, U>> {
 
 	/**
 	 *

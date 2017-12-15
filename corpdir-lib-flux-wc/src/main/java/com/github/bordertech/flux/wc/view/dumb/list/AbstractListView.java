@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.view.dumb.list;
 
-import com.github.bordertech.flux.wc.view.dumb.ListView;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.dumb.ListView;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Basic list view.
@@ -22,7 +22,14 @@ public class AbstractListView<T> extends DefaultDumbView<List<T>> implements Lis
 	@Override
 	public List<T> getItems() {
 		List<T> current = getViewBean();
-		return current == null ? Collections.EMPTY_LIST : Collections.unmodifiableList(current);
+		if (current == null) {
+			current = new ArrayList();
+			if (getBeanProperty() != null && !Objects.equals(getBeanProperty(), ".")) {
+				throw new IllegalStateException("Setting a bean value when a bean property has been specified.");
+			}
+			setViewBean(current);
+		}
+		return current;
 	}
 
 	@Override
@@ -42,9 +49,10 @@ public class AbstractListView<T> extends DefaultDumbView<List<T>> implements Lis
 	public void addItem(final T item) {
 		List<T> items = getItems();
 		if (!items.contains(item)) {
-			items = new ArrayList<>(items);
 			items.add(item);
-			refreshItems(items);
+//			items = new ArrayList<>(items);
+//			items.add(item);
+//			refreshItems(items);
 		}
 	}
 
@@ -52,20 +60,24 @@ public class AbstractListView<T> extends DefaultDumbView<List<T>> implements Lis
 	public void removeItem(final T item) {
 		List<T> items = getItems();
 		if (items.contains(item)) {
-			items = new ArrayList<>(items);
 			items.remove(item);
-			refreshItems(items);
+//			items = new ArrayList<>(items);
+//			items.remove(item);
+//			refreshItems(items);
 		}
 	}
 
 	@Override
 	public void updateItem(final T item) {
 		List<T> items = getItems();
-		if (items.contains(item)) {
-			items = new ArrayList<>(items);
+		int idx = items.indexOf(item);
+		if (idx > -1) {
 			items.remove(item);
-			items.add(item);
-			refreshItems(items);
+			items.add(idx, item);
+//			items = new ArrayList<>(items);
+//			items.remove(item);
+//			items.add(item);
+//			refreshItems(items);
 		}
 	}
 }

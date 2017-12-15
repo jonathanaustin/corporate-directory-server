@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.tree;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.mode.SelectMode;
 import com.github.bordertech.flux.wc.view.dumb.select.AbstractListSingleSelectView;
 import com.github.bordertech.wcomponents.Action;
@@ -33,7 +33,7 @@ public class DefaultTreeSelectView<T> extends AbstractListSingleSelectView<T> im
 		}
 	};
 
-	private final AppAjaxControl ajax = new AppAjaxControl(tree);
+	private final FluxAjaxControl ajax = new FluxAjaxControl(tree);
 
 	public DefaultTreeSelectView(final String viewId) {
 		super(viewId);

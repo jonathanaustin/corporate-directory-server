@@ -2,9 +2,8 @@ package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
+import com.github.bordertech.corpdir.api.service.BasicIdService;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
-import java.io.Serializable;
-import java.util.List;
 
 /**
  * Version Control Service Interface.
@@ -12,38 +11,18 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface VersionCtrlService extends Serializable {
+public interface VersionCtrlService extends BasicIdService<VersionCtrl> {
 
 	/**
-	 * @return the current version details
-	 */
-	DataResponse<List<VersionCtrl>> retrieveVersions();
-
-	/**
-	 * @return the current version details
-	 */
-	DataResponse<Long> getCurrentVersion();
-
-	/**
-	 * @param versionId
-	 * @return the current version details
-	 */
-	DataResponse<Long> setCurrentVersion(final Long versionId);
-
-	/**
+	 * Short hand create function.
+	 *
 	 * @param description the version description
 	 * @return a new version id
 	 */
 	DataResponse<Long> createVersion(final String description);
 
 	/**
-	 *
-	 * @param versionId the version id to delete (cannot be the current version)
-	 * @return basic response if successful or error occurred
-	 */
-	BasicResponse deleteVersion(final Long versionId);
-
-	/**
+	 * Copy a version.
 	 *
 	 * @param fromId copy from version id
 	 * @param toId copy to version id

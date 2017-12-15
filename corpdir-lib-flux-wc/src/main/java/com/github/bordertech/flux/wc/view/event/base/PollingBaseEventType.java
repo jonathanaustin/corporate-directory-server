@@ -12,6 +12,7 @@ public enum PollingBaseEventType implements PollingEventType {
 	STARTED,
 	CHECK_STATUS,
 	STOPPED,
+	TIMEOUT,
 	START_MANUAL,
 	START_RETRY,
 	START_BUTTON,

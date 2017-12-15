@@ -1,6 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.wc.view.dumb.tree.TreeViewItemModel;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -67,7 +68,11 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public boolean hasChildren(final List<Integer> row) {
 		T item = getItem(row);
-		return model.hasChildren(item);
+		try {
+			return model.hasChildren(item);
+		} catch (RetrieveActionException e) {
+			throw new SystemException("Could not retrieve child count. " + e.getMessage(), e);
+		}
 	}
 
 	@Override
@@ -84,7 +89,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 		try {
 			return model.getChildren(item);
 		} catch (Exception e) {
-			throw new SystemException("COuld not load child items. " + e.getMessage(), e);
+			throw new SystemException("Could not load child items. " + e.getMessage(), e);
 		}
 	}
 

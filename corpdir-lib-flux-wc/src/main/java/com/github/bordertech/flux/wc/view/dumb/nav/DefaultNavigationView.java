@@ -1,9 +1,9 @@
 package com.github.bordertech.flux.wc.view.dumb.nav;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.NavigationView;
 import com.github.bordertech.flux.wc.view.event.base.NavigationBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Headers;
@@ -24,6 +24,7 @@ import com.github.bordertech.wcomponents.layout.ColumnLayout;
  */
 public class DefaultNavigationView<T> extends DefaultDumbView<T> implements NavigationView<T> {
 
+	// FIXME icons
 	private static final String NAV_FIRST_BUTTON_DISABLED_IMAGE = "/icons/first-button-disabled.png";
 	private static final String NAV_FIRST_BUTTON_IMAGE = "/icons/first-button.png";
 	private static final String NAV_NEXT_BUTTON_DISABLED_IMAGE = "/icons/next-button-disabled.png";
@@ -109,7 +110,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	/**
 	 * First button AJAX control.
 	 */
-	private final AppAjaxControl firstAjax = new AppAjaxControl(firstButton) {
+	private final FluxAjaxControl firstAjax = new FluxAjaxControl(firstButton) {
 		@Override
 		public boolean isVisible() {
 			return !firstButton.isDisabled();
@@ -119,7 +120,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	/**
 	 * Previous button AJAX control.
 	 */
-	private final AppAjaxControl prevAjax = new AppAjaxControl(prevButton) {
+	private final FluxAjaxControl prevAjax = new FluxAjaxControl(prevButton) {
 		@Override
 		public boolean isVisible() {
 			return !prevButton.isDisabled();
@@ -129,7 +130,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	/**
 	 * Next button AJAX control.
 	 */
-	private final AppAjaxControl nextAjax = new AppAjaxControl(nextButton) {
+	private final FluxAjaxControl nextAjax = new FluxAjaxControl(nextButton) {
 		@Override
 		public boolean isVisible() {
 			return !nextButton.isDisabled();
@@ -139,7 +140,7 @@ public class DefaultNavigationView<T> extends DefaultDumbView<T> implements Navi
 	/**
 	 * Last button AJAX control.
 	 */
-	private final AppAjaxControl lastAjax = new AppAjaxControl(lastButton) {
+	private final FluxAjaxControl lastAjax = new FluxAjaxControl(lastButton) {
 		@Override
 		public boolean isVisible() {
 			return !lastButton.isDisabled();

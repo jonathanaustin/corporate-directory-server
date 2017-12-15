@@ -14,7 +14,7 @@ public class MultiSelectPairOptionsView<T> extends AbstractMultiSelectOptionsVie
 
 	public MultiSelectPairOptionsView(final String viewId) {
 		super(viewId);
-		getContent().add(multi);
+		getInputContainer().add(multi);
 		multi.setBeanProperty(".");
 		setupInputAjax();
 	}

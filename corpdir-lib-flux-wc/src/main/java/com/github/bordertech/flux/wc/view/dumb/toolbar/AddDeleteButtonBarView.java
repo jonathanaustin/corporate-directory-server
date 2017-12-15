@@ -1,14 +1,14 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
-import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WContainer;
 import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -19,11 +19,11 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements FormUpdateable {
 
-	private final WButton btnAdd = new WButton("Add");
-	private final WButton btnDelete = new WButton("Remove");
+	private final WLibButton btnAdd = new WLibButton("Add");
+	private final WLibButton btnDelete = new WLibButton("Remove");
 
-	private final AppAjaxControl ajaxAdd = new AppAjaxControl(btnAdd);
-	private final AppAjaxControl ajaxDelete = new AppAjaxControl(btnDelete);
+	private final FluxAjaxControl ajaxAdd = new FluxAjaxControl(btnAdd);
+	private final FluxAjaxControl ajaxDelete = new FluxAjaxControl(btnDelete);
 
 	private final WDiv ajaxPanel = new WDiv() {
 		@Override
@@ -41,12 +41,12 @@ public class AddDeleteButtonBarView<T> extends DefaultDumbView<T> implements For
 		content.add(btnDelete);
 
 		// Add details
-		btnAdd.setImageUrl(IconConstants.EDIT_IMAGE);
+		btnAdd.setImageUrl(IconConstants.EDIT_IMAGE, true);
 		btnAdd.setRenderAsLink(false);
 		btnAdd.setToolTip("Add");
 
 		// Delete details
-		btnDelete.setImageUrl(IconConstants.REMOVE_IMAGE);
+		btnDelete.setImageUrl(IconConstants.REMOVE_IMAGE, true);
 		btnDelete.setRenderAsLink(false);
 		btnDelete.setMessage("Do you want to remove this item?");
 		btnDelete.setToolTip("Delete");

@@ -5,18 +5,10 @@ package com.github.bordertech.corpdir.jpa.common.feature;
  *
  * @author jonathan
  */
-public interface PersistKeyIdObject extends PersistIdObject {
+public interface PersistKeyIdObject extends PersistIdObject, PersistActivable, PersistCustomable {
 
 	String getBusinessKey();
 
 	void setBusinessKey(final String businessKey);
-
-	boolean isActive();
-
-	void setActive(final boolean active);
-
-	boolean isCustom();
-
-	void setCustom(final boolean custom);
 
 }

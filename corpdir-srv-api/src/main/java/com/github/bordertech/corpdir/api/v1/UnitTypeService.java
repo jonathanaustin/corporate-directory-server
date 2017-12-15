@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.api.v1;
 
 import com.github.bordertech.corpdir.api.response.DataResponse;
-import com.github.bordertech.corpdir.api.service.BasicService;
+import com.github.bordertech.corpdir.api.service.BasicKeyIdService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface UnitTypeService extends BasicService<UnitType> {
+public interface UnitTypeService extends BasicKeyIdService<UnitType> {
 
 	DataResponse<List<OrgUnit>> getOrgUnits(final String keyId);
 

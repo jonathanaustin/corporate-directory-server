@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.form;
 
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
-import com.github.bordertech.flux.wc.util.FormUtil;
 
 /**
  * Default updateable view that can be used as a child a of a from view.

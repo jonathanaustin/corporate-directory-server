@@ -39,6 +39,11 @@ public enum ChannelTypeEnum {
 		return value;
 	}
 
+	@Override
+	public String toString() {
+		return value;
+	}
+
 	/**
 	 *
 	 * @param value the type value

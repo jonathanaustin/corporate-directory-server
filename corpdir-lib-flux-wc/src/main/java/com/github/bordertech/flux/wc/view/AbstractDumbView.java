@@ -1,7 +1,9 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
@@ -19,7 +21,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -35,7 +36,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	private final String viewId;
 
 	public AbstractDumbView(final String viewId) {
-		this(viewId, "wclib/hbs/layout/default-view.hbs");
+		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
 	}
 
 	public AbstractDumbView(final String viewId, final String templateName) {
@@ -65,15 +66,11 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	@Override
 	public boolean isContentVisible() {
 		return getContent().isVisible();
-//		return getComponentModel().contentVisible;
 	}
 
 	@Override
 	public void setContentVisible(final boolean visible) {
 		getContent().setVisible(visible);
-//		if (isContentVisible() != visible) {
-//			getOrCreateComponentModel().contentVisible = visible;
-//		}
 	}
 
 	@Override
@@ -114,25 +111,37 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 
 	@Override
 	public T getViewBean() {
-		return (T) getBean();
+		return (T) getBeanValue();
 	}
 
 	@Override
 	public void setViewBean(final T viewBean) {
-		setBean(viewBean);
+		setBeanValue(viewBean);
+	}
+
+	@Override
+	public void setBeanValue(final Object value) {
+		// FIXME This method and logic should eventually be included in WComponents
+		String beanProperty = getBeanProperty();
+		if (beanProperty == null || ".".equals(beanProperty)) {
+			setBean(value);
+		} else {
+			doUpdateBeanValue(value);
+		}
+		removeBeanFromScratchMap();
 	}
 
 	@Override
 	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventTypes) {
 		// Add the targets to the registered AJAX Controls
-		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		Map<ViewEventType, Set<FluxAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
 		if (eventTypes.length == 0) {
 			// Add to all registered AJAX Controls
-			for (Set<AppAjaxControl> ctrls : map.values()) {
-				for (AppAjaxControl ctrl : ctrls) {
+			for (Set<FluxAjaxControl> ctrls : map.values()) {
+				for (FluxAjaxControl ctrl : ctrls) {
 					if (!ctrl.getTargets().contains(target)) {
 						ctrl.addTarget(target);
 					}
@@ -141,9 +150,9 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 		} else {
 			// Add to AJAX Control for each event type (if it has been registered)
 			for (ViewEventType type : eventTypes) {
-				Set<AppAjaxControl> ctrls = map.get(type);
+				Set<FluxAjaxControl> ctrls = map.get(type);
 				if (ctrls != null) {
-					for (AppAjaxControl ctrl : ctrls) {
+					for (FluxAjaxControl ctrl : ctrls) {
 						if (!ctrl.getTargets().contains(target)) {
 							ctrl.addTarget(target);
 						}
@@ -155,25 +164,25 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 
 	@Override
 	public void clearEventAjaxTargets(final ViewEventType type) {
-		Map<ViewEventType, Set<AppAjaxControl>> map = getRegisteredEventAjaxControls();
+		Map<ViewEventType, Set<FluxAjaxControl>> map = getRegisteredEventAjaxControls();
 		if (map.isEmpty()) {
 			return;
 		}
-		Set<AppAjaxControl> ctrls = map.get(type);
+		Set<FluxAjaxControl> ctrls = map.get(type);
 		if (ctrls != null) {
-			for (AppAjaxControl ctrl : ctrls) {
+			for (FluxAjaxControl ctrl : ctrls) {
 				ctrl.removeAllTargets();
 			}
 		}
 	}
 
 	@Override
-	public void registerEventAjaxControl(final ViewEventType type, final AppAjaxControl ajax) {
+	public void registerEventAjaxControl(final ViewEventType type, final FluxAjaxControl ajax) {
 		ViewModel model = getOrCreateComponentModel();
 		if (model.ajaxControls == null) {
 			model.ajaxControls = new HashMap<>();
 		}
-		Set<AppAjaxControl> ctrls = model.ajaxControls.get(type);
+		Set<FluxAjaxControl> ctrls = model.ajaxControls.get(type);
 		if (ctrls == null) {
 			ctrls = new HashSet<>();
 			model.ajaxControls.put(type, ctrls);
@@ -181,18 +190,10 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 		ctrls.add(ajax);
 	}
 
-	protected boolean isView(final String viewId, final FluxDumbView view) {
-		return Objects.equals(viewId, view.getViewId());
-	}
-
-	protected boolean isEvent(final ViewEventType type1, final ViewEventType type2) {
-		return Objects.equals(type1, type2);
-	}
-
 	protected void customValidation(final List<Diagnostic> diags) {
 	}
 
-	protected Map<ViewEventType, Set<AppAjaxControl>> getRegisteredEventAjaxControls() {
+	protected Map<ViewEventType, Set<FluxAjaxControl>> getRegisteredEventAjaxControls() {
 		ViewModel model = getComponentModel();
 		return model.ajaxControls == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(model.ajaxControls);
 	}
@@ -204,9 +205,9 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	}
 
 	protected void setupTemplateParameters() {
-		addParameter("vw-id", getId());
-		addParameter("vw-class", getHtmlClass());
-		addParameter("vw-hidden", isHidden() ? "hidden=\"true\"" : "");
+		addParameter(TemplateConstants.PARAM_ID, getId());
+		addParameter(TemplateConstants.PARAM_CLASS, getHtmlClass());
+		addParameter(TemplateConstants.PARAM_HIDDEN, isHidden() ? "hidden=\"true\"" : "");
 	}
 
 	protected void initViewContent(final Request request) {
@@ -283,35 +284,15 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	 */
 	@Override
 	public void dispatchViewEvent(final ViewEventType eventType, final Object data) {
-		// Check if this is a smart view and is not in "dumb mode". Dumb mode delegates to the parent.
-		FluxSmartView view = findSmartViewEventHandler(this, eventType);
-		if (view != null) {
-			view.handleViewEvent(getViewId(), eventType, data);
-		}
-	}
-
-	protected FluxSmartView findSmartViewEventHandler(final WComponent component, final ViewEventType eventType) {
-		FluxSmartView smart;
-		if (component instanceof FluxSmartView) {
-			smart = (FluxSmartView) component;
+		SmartView view;
+		if (this instanceof SmartView) {
+			view = (SmartView) this;
 		} else {
-			smart = ViewUtil.findParentSmartView(component);
+			view = findParentSmartView();
 		}
-		if (smart == null) {
-			return null;
+		if (view != null) {
+			view.serviceViewEvent(getViewId(), eventType, data);
 		}
-		// Check if this Smart View will process this event
-		boolean pass = smart.isDumbMode() && (smart.isPassAllEvents() || smart.getPassThroughs().contains(eventType));
-		if (!pass) {
-			return smart;
-		}
-		// Try next parent
-		FluxSmartView parent = ViewUtil.findParentSmartView(smart);
-		if (parent == null) {
-			return null;
-		}
-		return findSmartViewEventHandler(parent, eventType);
-
 	}
 
 	protected FluxSmartView findParentSmartView() {
@@ -339,7 +320,7 @@ public abstract class AbstractDumbView<T> extends WTemplate implements FluxDumbV
 	public static class ViewModel extends TemplateModel {
 
 //		private boolean contentVisible = true;
-		private Map<ViewEventType, Set<AppAjaxControl>> ajaxControls;
+		private Map<ViewEventType, Set<FluxAjaxControl>> ajaxControls;
 
 	}
 

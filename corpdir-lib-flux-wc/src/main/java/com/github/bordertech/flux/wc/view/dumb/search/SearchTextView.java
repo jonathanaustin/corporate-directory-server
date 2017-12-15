@@ -39,6 +39,7 @@ public class SearchTextView extends AbstractSearchView<String> {
 		panel.add(layout);
 
 		txtField.setMandatory(mandatory);
+		txtField.setBeanProperty(".");
 
 		WContainer container = new WContainer();
 		container.add(txtField);
@@ -71,9 +72,9 @@ public class SearchTextView extends AbstractSearchView<String> {
 
 	@Override
 	public void updateViewBean() {
+		// Because the bean values are "." we have to manually set the value.
 		String value = txtField.getValue();
 		setViewBean(value);
-//		setViewBean(value == null ? "" : value);
 	}
 
 	protected void doHandleSuggestions() {

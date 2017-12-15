@@ -2,10 +2,10 @@ package com.github.bordertech.flux.wc.view;
 
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
-import com.github.bordertech.wcomponents.WImage;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.common.WLibImage;
 
 /**
  * Utility methods useful when working with Views.
@@ -46,9 +46,10 @@ public final class ViewUtil {
 	 *
 	 * @param resourceUrl The path to the image.
 	 * @param item The menu item into which the image will be injected.
+	 * @param baseUrl true if a relative base URL
 	 */
-	public static void addImageToMenuItem(final String resourceUrl, final WMenuItem item) {
-		addImageToLabelHead(resourceUrl, item.getDecoratedLabel());
+	public static void addImageToMenuItem(final String resourceUrl, final WMenuItem item, final boolean baseUrl) {
+		addImageToLabelHead(resourceUrl, item.getDecoratedLabel(), baseUrl);
 	}
 
 	/**
@@ -56,10 +57,11 @@ public final class ViewUtil {
 	 *
 	 * @param resourceUrl The path to the image.
 	 * @param label The label into which the image will be injected.
+	 * @param baseUrl true if a relative base URL
 	 */
-	public static void addImageToLabelHead(final String resourceUrl, final WDecoratedLabel label) {
-		WImage image = new WImage();
-		image.setImageUrl(resourceUrl);
+	public static void addImageToLabelHead(final String resourceUrl, final WDecoratedLabel label, final boolean baseUrl) {
+		WLibImage image = new WLibImage();
+		image.setImageUrl(resourceUrl, baseUrl);
 		label.setHead(image);
 	}
 
@@ -68,11 +70,12 @@ public final class ViewUtil {
 	 *
 	 * @param resourceUrl The path to the image.
 	 * @param label The label into which the image will be injected.
+	 * @param baseUrl true if a relative base URL
 	 */
-	public static void addImageToLabelBody(final String resourceUrl, final WDecoratedLabel label) {
+	public static void addImageToLabelBody(final String resourceUrl, final WDecoratedLabel label, final boolean baseUrl) {
 		WComponent labelBody = label.getBody();
-		WImage image = new WImage();
-		image.setImageUrl(resourceUrl);
+		WLibImage image = new WLibImage();
+		image.setImageUrl(resourceUrl, baseUrl);
 		if (labelBody instanceof WText) {
 			String bodyText;
 			// For accessibility reasons we must not lose the text that describes this label.

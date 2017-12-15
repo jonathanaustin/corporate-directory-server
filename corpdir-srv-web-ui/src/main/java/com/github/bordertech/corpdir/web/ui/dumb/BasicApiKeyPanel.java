@@ -28,10 +28,11 @@ public class BasicApiKeyPanel<T extends ApiKeyIdObject> extends BasicApiIdPanel<
 	 * @param addFields add the default fields
 	 */
 	public BasicApiKeyPanel(final String viewId, final boolean addFields) {
-		super(viewId, addFields);
+		super(viewId, false);
 		// Form Defaults
 		if (addFields) {
 			addTextField("Business key", "businessKey", true);
+			addTextField("Description", "description", true);
 			addCheckBox("Active", "active", false);
 		}
 

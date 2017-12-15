@@ -3,6 +3,7 @@ package com.github.bordertech.flux.wc.view.smart.tree;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.SelectMode;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.select.MenuSelectView;
@@ -30,14 +31,14 @@ public class DefaultListOrTreeSmartView<T> extends DefaultMessageSmartView<List<
 	}
 
 	public DefaultListOrTreeSmartView(final String viewId, final SelectSingleView<T> listView, final TreeSelectView<T> treeView) {
-		super(viewId, "wclib/hbs/layout/combo-list-tree.hbs");
+		super(viewId, TemplateConstants.TEMPLATE_LIST_TREE);
 
 		// Views
 		this.listView = listView;
 		this.treeView = treeView;
 
-		addComponentToTemplate("vw-list", listView);
-		addComponentToTemplate("vw-tree", treeView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, listView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_TREE, treeView);
 
 		// Defualt visibility
 		listView.setVisible(false);
@@ -64,7 +65,7 @@ public class DefaultListOrTreeSmartView<T> extends DefaultMessageSmartView<List<
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 	}
 

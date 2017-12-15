@@ -8,8 +8,16 @@ import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
+import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
+import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.EntityStoreConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.RetrieveStoreConsumer;
+import com.github.bordertech.flux.wc.view.smart.consumer.SearchStoreConsumer;
+import com.github.bordertech.wcomponents.Container;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WebUtilities;
 import java.util.ArrayList;
@@ -27,6 +35,10 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements FluxSmartView<T> {
+
+	public DefaultSmartView(final String viewId) {
+		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
+	}
 
 	public DefaultSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
@@ -62,8 +74,42 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-		if (isEvent(event, ToolbarBaseEventType.RESET)) {
+	public void serviceViewEvent(final String viewId, final ViewEventType eventType, final Object data) {
+		// Check if this Smart View will process this event
+		boolean pass = isDumbMode() && (isPassAllEvents() || getPassThroughs().contains(eventType));
+		if (pass) {
+			// Try next parent smart view
+			SmartView parent = findParentSmartView();
+			if (parent != null) {
+				parent.serviceViewEvent(viewId, eventType, data);
+			}
+			return;
+		}
+		// Handle event
+		handleViewEvent(viewId, eventType, data);
+	}
+
+	@Override
+	protected void initViewContent(Request request) {
+		super.initViewContent(request);
+		registerStoreConsumerListeners();
+	}
+
+	protected boolean isView(final String viewId, final FluxDumbView view) {
+		return Objects.equals(viewId, view.getViewId());
+	}
+
+	protected boolean isEvent(final ViewEventType type1, final ViewEventType type2) {
+		return Objects.equals(type1, type2);
+	}
+
+	protected boolean isResetEvent(final ViewEventType type) {
+		return Objects.equals(ToolbarBaseEventType.RESET, type);
+	}
+
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+		// Reset Event
+		if (isResetEvent(event)) {
 			handleResetEvent(viewId);
 		}
 	}
@@ -73,24 +119,37 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	@Override
-	public List<FluxDumbView> getViews() {
+	public List<? extends FluxDumbView> getViews() {
 		List<FluxDumbView> views = new ArrayList<>();
 		for (WComponent child : getContent().getTaggedComponents().values()) {
 			if (child instanceof FluxDumbView) {
 				views.add((FluxDumbView) child);
+			} else {
+				// The child view maybe wrapped in another component
+				findChildViews(views, child);
 			}
 		}
 		return Collections.unmodifiableList(views);
 	}
 
+	protected void findChildViews(final List<FluxDumbView> views, final WComponent component) {
+		if (component instanceof FluxDumbView) {
+			views.add((FluxDumbView) component);
+			return;
+		}
+		// Check its children
+		if (component instanceof Container) {
+			for (WComponent child : ((Container) component).getChildren()) {
+				findChildViews(views, child);
+			}
+		}
+	}
+
 	@Override
 	public FluxDumbView getView(final String viewId) {
-		for (WComponent child : getContent().getTaggedComponents().values()) {
-			if (child instanceof FluxDumbView) {
-				FluxDumbView view = (FluxDumbView) child;
-				if (Objects.equals(viewId, view.getViewId())) {
-					return view;
-				}
+		for (FluxDumbView view : getViews()) {
+			if (Objects.equals(viewId, view.getViewId())) {
+				return view;
 			}
 		}
 		return null;
@@ -227,10 +286,26 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 		return FluxFactory.getDispatcher();
 	}
 
-	protected void handleStoreChangedAction(final String storeKey, final Action action) {
+	protected void registerStoreConsumerListeners() {
+		if (this instanceof EntityActionCreatorConsumer) {
+			String key = ((EntityActionCreatorConsumer) this).getEntityActionCreatorKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof EntityStoreConsumer) {
+			String key = ((EntityStoreConsumer) this).getEntityStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof RetrieveStoreConsumer) {
+			String key = ((RetrieveStoreConsumer) this).getRetrieveStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
+		if (this instanceof SearchStoreConsumer) {
+			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
+			registerStoreKeyChangeListener(key);
+		}
 	}
 
-	protected void registerStoreChangeListener(final String storeKey) {
+	protected void registerStoreKeyChangeListener(final String storeKey) {
 		Listener listener = new Listener() {
 			@Override
 			public void handleAction(final Action action) {
@@ -238,6 +313,9 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 			}
 		};
 		registerListener(StateBaseActionType.STORE_CHANGED, storeKey, listener);
+	}
+
+	protected void handleStoreChangedAction(final String storeKey, final Action action) {
 	}
 
 	protected void registerListener(final ActionType actionType, final String qualifier, final Listener listener) {

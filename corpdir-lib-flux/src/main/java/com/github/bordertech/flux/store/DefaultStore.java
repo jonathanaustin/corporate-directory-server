@@ -7,7 +7,7 @@ import com.github.bordertech.flux.action.base.StateBaseActionType;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.taskmanager.TaskFuture;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.Set;
 import javax.cache.Cache;
@@ -52,8 +52,8 @@ public class DefaultStore implements Store {
 	 *
 	 * @return the cache instance
 	 */
-	protected synchronized Cache<String, TaskFuture> getStoreCache() {
-		return ServiceUtil.getFutureCache("flux-default-" + getKey());
+	protected synchronized Cache<String, ResultHolder> getStoreCache() {
+		return ServiceUtil.getResultHolderCache("flux-default-" + getKey());
 	}
 
 }

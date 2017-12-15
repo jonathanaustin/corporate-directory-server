@@ -1,10 +1,10 @@
 package com.github.bordertech.wcomponents.lib.table;
 
 import com.github.bordertech.wcomponents.AbstractBeanBoundTableModel;
-import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WTableColumn;
-import com.github.bordertech.wcomponents.util.SystemException;
+import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
+import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,11 +28,25 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	private final List<U> columns;
 
+	private final RowActionable actionColumn;
+
 	/**
 	 * @param columns the columns for this table
 	 */
 	public TableBeanModel(final List<U> columns) {
 		this.columns = columns;
+		RowActionable actionCol = null;
+		for (U column : columns) {
+			if (column.getRenderer() instanceof RowActionable) {
+				actionCol = (RowActionable) column.getRenderer();
+				break;
+			}
+		}
+		this.actionColumn = actionCol;
+	}
+
+	public final RowActionable getActionColumn() {
+		return actionColumn;
 	}
 
 	/**
@@ -42,11 +56,20 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	public Object getValueAt(final List<Integer> row, final int col) {
 		// Get the bean for the row
 		T bean = getRowBean(row);
-
-		// Get the value for the column
+		// Get the column
 		TableColumn<?, T> column = getColumns().get(col);
-
+		// Return the value for the column
 		return column.getValue(bean);
+	}
+
+	@Override
+	public void setValueAt(final Object value, final List<Integer> row, final int col) {
+		// Get the bean for the row
+		T bean = getRowBean(row);
+		// Get the column
+		TableColumn column = getColumns().get(col);
+		// Update the value
+		column.setValue(bean, value);
 	}
 
 	/**
@@ -71,7 +94,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	@Override
 	public boolean isCellEditable(final List<Integer> row, final int col) {
 		TableColumn column = getColumn(col);
-		return column.isEditable();
+		return column.isEditable() && isRowEdittable(getRowKey(row));
 	}
 
 	/**
@@ -88,7 +111,8 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
-		return getRowBean(row);
+		T bean = getRowBean(row);
+		return getBeanKey(bean);
 	}
 
 	/**
@@ -102,6 +126,16 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 			return null;
 		}
 		return sort(comp, col, ascending);
+	}
+
+	/**
+	 * Determine the bean identifier. Defaults to the bean itself.
+	 *
+	 * @param bean the bean
+	 * @return the bean identifier
+	 */
+	public Object getBeanKey(final T bean) {
+		return bean;
 	}
 
 	/**
@@ -156,32 +190,10 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 * @param table the table to configure
 	 */
 	public static void configTable(final WTable table) {
-		configTable(table, false);
-	}
-
-	/**
-	 * Helper method to add the columns to the table.
-	 *
-	 * @param table the table to configure
-	 * @param instance true if create instance of render class on table column
-	 */
-	public static void configTable(final WTable table, final boolean instance) {
 		TableBeanModel<?, ?> beanModel = (TableBeanModel<?, ?>) table.getTableModel();
 		for (TableColumn<?, ?> col : beanModel.getColumns()) {
 			// Create column
-			WTableColumn tblCol;
-			if (col.getRenderer() != null) {
-				tblCol = new WTableColumn(col.getColumnLabel(), col.getRenderer());
-			} else if (instance) {
-				try {
-					WComponent rendererComponent = col.getRendererClass().newInstance();
-					tblCol = new WTableColumn(col.getColumnLabel(), rendererComponent);
-				} catch (Exception e) {
-					throw new SystemException("Could not create table column for " + col.getColumnId(), e);
-				}
-			} else {
-				tblCol = new WTableColumn(col.getColumnLabel(), col.getRendererClass());
-			}
+			WTableColumn tblCol = new WTableColumn(col.getColumnLabel(), col.getRenderer());
 			table.addColumn(tblCol);
 		}
 	}
@@ -202,6 +214,11 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	public void setSelectable(final boolean selectable) {
 		this.selectable = selectable;
+	}
+
+	protected boolean isRowEdittable(final Object key) {
+		// Default to true if no action column provided
+		return actionColumn == null ? true : actionColumn.getRowMode(key) != RowMode.READ;
 	}
 
 }

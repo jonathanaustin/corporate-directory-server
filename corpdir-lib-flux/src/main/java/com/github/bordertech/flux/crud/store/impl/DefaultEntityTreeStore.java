@@ -7,7 +7,8 @@ import com.github.bordertech.flux.crud.action.base.EntityTreeActionBaseType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -40,17 +41,17 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	@Override
-	public boolean hasChildren(final T item) {
+	public boolean hasChildren(final T item) throws RetrieveActionException {
 		return getDataApi().hasChildren(item);
 	}
 
 	@Override
-	public List<T> getChildren(final T item) {
+	public List<T> getChildren(final T item) throws RetrieveActionException {
 		return (List<T>) getActionResult(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
-	public List<T> getRootItems() {
+	public List<T> getRootItems() throws RetrieveActionException {
 		return (List<T>) getActionResult(RetrieveActionBaseType.ROOT, null);
 	}
 
@@ -65,28 +66,28 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	@Override
-	public boolean isChildrenDone(final T item) {
+	public boolean isChildrenDone(final T item) throws AsyncException {
 		return isAsyncDone(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
-	public boolean isRootItemsDone() {
+	public boolean isRootItemsDone() throws AsyncException {
 		return isAsyncDone(RetrieveActionBaseType.ROOT, null);
 	}
 
 	protected void handleModifyTreeBaseActions(final Action action) {
-		ServiceUtil.clearCache(getStoreCache());
+		getStoreCache().clear();
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+	protected Object doRetrieveDataApiCall(final RetrieveActionType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveActionBaseType.CHILDREN)) {
 			return getDataApi().getChildren((T) criteria);
 		}
 		if (Objects.equals(type, RetrieveActionBaseType.ROOT)) {
 			return getDataApi().getRootItems();
 		}
-		return super.doRetrieveServiceCall(type, criteria);
+		return super.doRetrieveDataApiCall(type, criteria);
 	}
 
 }
