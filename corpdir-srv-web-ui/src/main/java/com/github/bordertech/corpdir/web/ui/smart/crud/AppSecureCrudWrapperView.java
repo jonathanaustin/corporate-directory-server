@@ -73,7 +73,7 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	protected S getRequestCriteria(final Request request) {
-		return null;
+		return (S) request.getParameter("id");
 	}
 
 	@Override
