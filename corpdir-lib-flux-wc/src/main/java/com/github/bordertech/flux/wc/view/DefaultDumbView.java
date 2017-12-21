@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 
@@ -25,16 +26,11 @@ public class DefaultDumbView<T> extends AbstractDumbView<T> {
 				setInitialised(true);
 			}
 		}
-
-//		@Override
-//		public boolean isVisible() {
-//			return isContentVisible();
-//		}
 	};
 
 	public DefaultDumbView(final String viewId) {
 		super(viewId);
-		addTaggedComponent("vw-content", content);
+		addTaggedComponent(TemplateConstants.TAG_VW_CONTENT, content);
 	}
 
 	@Override

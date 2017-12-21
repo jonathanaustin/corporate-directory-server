@@ -4,18 +4,21 @@ import com.github.bordertech.corpdir.api.exception.NotFoundException;
 import com.github.bordertech.corpdir.api.response.BasicResponse;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.ContactService;
+import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApiVersion;
-import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionService;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionKeyIdService;
+import com.github.bordertech.corpdir.jpa.entity.ChannelEntity;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity;
+import com.github.bordertech.corpdir.jpa.entity.version.ContactVersionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
+import com.github.bordertech.corpdir.jpa.v1.mapper.ChannelMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -27,10 +30,11 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactLinksEntity, ContactEntity> implements ContactService {
+public class ContactServiceImpl extends JpaBasicVersionKeyIdService<Contact, ContactVersionEntity, ContactEntity> implements ContactService {
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();
+	private static final ChannelMapper CHANNEL_MAPPER = new ChannelMapper();
 
 	@Override
 	public DataResponse<byte[]> getImage(final String keyId) {
@@ -63,7 +67,7 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 	}
 
 	protected PositionEntity getPositionEntity(final EntityManager em, final String keyId) {
-		PositionEntity entity = MapperUtil.getEntity(em, keyId, PositionEntity.class);
+		PositionEntity entity = MapperUtil.getEntityByKeyId(em, keyId, PositionEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Position [" + keyId + "] not found.");
 		}
@@ -90,10 +94,10 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 		EntityManager em = getEntityManager();
 		try {
 			ContactEntity entity = getEntity(em, keyId);
-			ContactLinksEntity links = entity.getDataVersion(versionId);
+			ContactVersionEntity links = entity.getVersion(versionId);
 			List<Position> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = POSITION_MAPPER.convertEntitiesToApis(em, links.getPositions(), versionId);
 			}
@@ -115,7 +119,7 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 			// Get Version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Add the position to Contact
-			contact.getOrCreateDataVersion(ctrl).addPosition(position);
+			contact.getOrCreateVersion(ctrl).addPosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, contact, versionId);
 		} finally {
@@ -135,7 +139,7 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 			// Get Version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the position
-			contact.getOrCreateDataVersion(ctrl).removePosition(position);
+			contact.getOrCreateVersion(ctrl).removePosition(position);
 			em.getTransaction().commit();
 			return buildResponse(em, contact, versionId);
 		} finally {
@@ -149,8 +153,93 @@ public class ContactServiceImpl extends JpaBasicVersionService<Contact, ContactL
 	}
 
 	@Override
-	protected MapperApiVersion<Contact, ContactLinksEntity, ContactEntity> getMapper() {
+	protected MapperApiVersion<Contact, ContactVersionEntity, ContactEntity> getMapper() {
 		return CONTACT_MAPPER;
+	}
+
+	@Override
+	public DataResponse<Contact> create(final Contact apiContact) {
+		EntityManager em = getEntityManager();
+		try {
+			Long versionId = apiContact.getVersionId();
+			// Add the current version id (if not set)
+			if (versionId == null) {
+				versionId = getCurrentVersionId();
+				apiContact.setVersionId(versionId);
+			}
+			handleCreateVerify(em, apiContact);
+			em.getTransaction().begin();
+			// Handle the channels first
+			List<Channel> apiChannels = apiContact.getChannels();
+			List<ChannelEntity> entityChannels = new ArrayList<>();
+			for (Channel channel : apiChannels) {
+				ChannelEntity entityChannel = CHANNEL_MAPPER.convertApiToEntity(em, channel);
+				em.persist(entityChannel);
+				entityChannels.add(entityChannel);
+			}
+			// Handle the Contact Entity
+			apiContact.setChannels(null);
+			ContactEntity entityContact = getMapper().convertApiToEntity(em, apiContact, versionId);
+			// Add the Channel Entities to the Contact Entity
+			for (ChannelEntity channel : entityChannels) {
+				entityContact.addChannel(channel);
+			}
+			em.persist(entityContact);
+			em.getTransaction().commit();
+			return buildResponse(em, entityContact, versionId);
+		} finally {
+			em.close();
+		}
+	}
+
+	@Override
+	public DataResponse<Contact> update(final String keyId, final Contact apiContact) {
+		EntityManager em = getEntityManager();
+		try {
+			em.getTransaction().begin();
+			ContactEntity entityContact = getEntity(em, keyId);
+			handleUpdateVerify(em, apiContact, entityContact);
+			Long versionId = apiContact.getVersionId();
+
+			// Handle the channels first (Delete Channel should be handled by CASCADES)
+			List<Channel> apiChannels = apiContact.getChannels();
+			List<ChannelEntity> entityChannels = new ArrayList<>();
+			for (Channel channel : apiChannels) {
+				String channelId = channel.getId();
+				if (MapperUtil.isTempId(channelId)) {
+					// Persist
+					ChannelEntity entityChannel = CHANNEL_MAPPER.convertApiToEntity(em, channel);
+					em.persist(entityChannel);
+					entityChannels.add(entityChannel);
+				} else {
+					// Merge
+					ChannelEntity entityChannel = getChannelEntity(em, channelId);
+					CHANNEL_MAPPER.copyApiToEntity(em, channel, entityChannel);
+					em.merge(entityChannel);
+					entityChannels.add(entityChannel);
+				}
+			}
+			// Handle the Contact Entity
+			apiContact.setChannels(null);
+			getMapper().copyApiToEntity(em, apiContact, entityContact, versionId);
+			// Add the Channel Entities to the Contact Entity
+			for (ChannelEntity channel : entityChannels) {
+				entityContact.addChannel(channel);
+			}
+			em.merge(entityContact);
+			em.getTransaction().commit();
+			return buildResponse(em, entityContact, versionId);
+		} finally {
+			em.close();
+		}
+	}
+
+	protected ChannelEntity getChannelEntity(final EntityManager em, final String keyId) {
+		ChannelEntity entity = MapperUtil.getEntityByApiId(em, keyId, ChannelEntity.class);
+		if (entity == null) {
+			throw new NotFoundException("Entity [" + keyId + "] not found.");
+		}
+		return entity;
 	}
 
 }

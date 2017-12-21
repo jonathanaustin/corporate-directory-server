@@ -15,6 +15,7 @@ import com.github.bordertech.wcomponents.WProgressBar;
 import com.github.bordertech.wcomponents.WText;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,10 +104,9 @@ public class PollingPanel extends WDiv implements Pollable {
 			super.handleRequest(request);
 			// Check if Polling
 			if (isPollingTrigger() && checkForStopPolling()) {
-				doPanelReload();
+				doStoppedPollingPanelReload();
 			}
 		}
-
 	};
 
 	/**
@@ -119,7 +119,11 @@ public class PollingPanel extends WDiv implements Pollable {
 			// Reloading
 			if (AjaxHelper.isCurrentAjaxTrigger(this)) {
 				pollingContainer.reset();
-				handleStoppedPolling();
+				if (getPollingStatus() == PollingStatus.STOPPED) {
+					handleStoppedPolling();
+				} else if (getPollingStatus() == PollingStatus.TIMEOUT) {
+					handleTimeoutPolling();
+				}
 			}
 		}
 	};
@@ -195,21 +199,20 @@ public class PollingPanel extends WDiv implements Pollable {
 		return holder;
 	}
 
-	protected void handleInitPollingPanel(final Request request) {
-		getStartButton().setVisible(getStartType() == PollingStartType.BUTTON);
-		// AUTO Start Polling
-		if (getStartType() == PollingStartType.AUTOMATIC) {
-			doStartPolling();
-		}
+	/**
+	 * @return the retry button.
+	 */
+	@Override
+	public WButton getRetryButton() {
+		return retryButton;
 	}
 
-	protected void handleStartButton() {
-		doStartPolling();
-		startButton.setVisible(false);
-	}
-
-	protected void handleRetryButton() {
-		doRetry();
+	/**
+	 * @return the start button
+	 */
+	@Override
+	public WButton getStartButton() {
+		return startButton;
 	}
 
 	/**
@@ -317,6 +320,68 @@ public class PollingPanel extends WDiv implements Pollable {
 		getOrCreateComponentModel().startType = startType == null ? PollingStartType.MANUAL : startType;
 	}
 
+	@Override
+	public int getPollingTimeout() {
+		return getComponentModel().pollingTimeout;
+	}
+
+	@Override
+	public void setPollingTimeout(final int pollingTimeout) {
+		getOrCreateComponentModel().pollingTimeout = pollingTimeout > 0 ? pollingTimeout : 0;
+	}
+
+	@Override
+	public void setUseRetryOnError(final boolean useRetryOnError) {
+		getOrCreateComponentModel().useRetryOnError = useRetryOnError;
+	}
+
+	@Override
+	public boolean isUseRetryOnError() {
+		return getComponentModel().useRetryOnError;
+	}
+
+	protected Date getPollingStartTime() {
+		return getComponentModel().pollingStartTime;
+	}
+
+	protected void setPollingStartTime() {
+		getOrCreateComponentModel().pollingStartTime = new Date();
+	}
+
+	protected void clearPollingStartTime() {
+		getOrCreateComponentModel().pollingStartTime = null;
+	}
+
+	protected boolean checkPollingTimeout() {
+		int timeout = getPollingTimeout();
+		if (timeout <= 0) {
+			return false;
+		}
+		Date start = getPollingStartTime();
+		if (start == null) {
+			return false;
+		}
+		long sofar = new Date().getTime() - start.getTime();
+		return sofar > timeout * 1000;
+	}
+
+	protected void handleInitPollingPanel(final Request request) {
+		getStartButton().setVisible(getStartType() == PollingStartType.BUTTON);
+		// AUTO Start Polling
+		if (getStartType() == PollingStartType.AUTOMATIC) {
+			doStartPolling();
+		}
+	}
+
+	protected void handleStartButton() {
+		doStartPolling();
+		startButton.setVisible(false);
+	}
+
+	protected void handleRetryButton() {
+		doRetry();
+	}
+
 	/**
 	 * Start AJAX polling.
 	 */
@@ -326,17 +391,18 @@ public class PollingPanel extends WDiv implements Pollable {
 
 		// Start AJAX polling
 		setPollingStatus(PollingStatus.PROCESSING);
+		messages.reset();
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
+		setPollingStartTime();
 		handleStartedPolling();
 	}
 
 	/**
-	 * Do AJAX Reload.
+	 * Do AJAX Reload as polling stopped.
 	 */
-	protected void doPanelReload() {
-		boolean alreadyPolling = isPolling();
+	protected void doStoppedPollingPanelReload() {
 		pollingContainer.reset();
 		List<AjaxTarget> targets = getAjaxTargets();
 		if (targets != null && !targets.isEmpty()) {
@@ -344,9 +410,7 @@ public class PollingPanel extends WDiv implements Pollable {
 		}
 		pollingContainer.setVisible(true);
 		ajaxReload.setVisible(true);
-		if (!alreadyPolling) {
-			handleStartedPolling();
-		}
+		clearPollingStartTime();
 	}
 
 	/**
@@ -369,27 +433,14 @@ public class PollingPanel extends WDiv implements Pollable {
 	}
 
 	/**
-	 * @return the retry button.
-	 */
-	@Override
-	public WButton getRetryButton() {
-		return retryButton;
-	}
-
-	/**
-	 * @return the start button
-	 */
-	@Override
-	public WButton getStartButton() {
-		return startButton;
-	}
-
-	/**
 	 *
 	 * @return true if need to stop polling
 	 */
 	protected boolean checkForStopPolling() {
 		PollingStatus status = getPollingStatus();
+		if (status == PollingStatus.PROCESSING && checkPollingTimeout()) {
+			setPollingStatus(PollingStatus.TIMEOUT);
+		}
 		return status != PollingStatus.PROCESSING;
 	}
 
@@ -405,6 +456,16 @@ public class PollingPanel extends WDiv implements Pollable {
 	 */
 	protected void handleStoppedPolling() {
 		// Do Nothing
+	}
+
+	/**
+	 * Handle a polling timeout.
+	 */
+	protected void handleTimeoutPolling() {
+		handleErrorMessage("Polling timedout");
+		if (isUseRetryOnError()) {
+			doShowRetry();
+		}
 	}
 
 	/**
@@ -493,6 +554,18 @@ public class PollingPanel extends WDiv implements Pollable {
 		 * Start type.
 		 */
 		private PollingStartType startType = PollingStartType.MANUAL;
+
+		/**
+		 * Polling timeout in seconds.
+		 */
+		private int pollingTimeout = DEFAULT_POLLING_TIMEOUT;
+
+		/**
+		 * Time polling started.
+		 */
+		private Date pollingStartTime;
+
+		private boolean useRetryOnError = true;
 
 	}
 

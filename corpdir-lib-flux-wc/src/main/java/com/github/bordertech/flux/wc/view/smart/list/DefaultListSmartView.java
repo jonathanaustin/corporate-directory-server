@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view.smart.list;
 
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.ListView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
 import java.util.List;
@@ -16,10 +17,10 @@ public class DefaultListSmartView<S, T> extends AbstractPollingRetrieveSmartView
 	private final ListView<T> listView;
 
 	public DefaultListSmartView(final String viewId, final ListView<T> listView) {
-		super(viewId, "wclib/hbs/layout/combo-list-crit.hbs");
+		super(viewId, TemplateConstants.TEMPLATE_LIST_CRIT);
 		// Add to Template
 		this.listView = listView;
-		addComponentToTemplate("vw-list", listView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, listView);
 	}
 
 	public ListView<T> getListView() {

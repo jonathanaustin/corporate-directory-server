@@ -4,6 +4,7 @@ import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
@@ -12,6 +13,7 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.smart.CrudTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.DefaultListOrTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.ListOrTreeSelectView;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
@@ -49,22 +51,22 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	}
 
 	@Override
-	protected ListOrTreeSelectView<T> getSelectView() {
+	public ListOrTreeSelectView<T> getSelectView() {
 		return (ListOrTreeSelectView) super.getSelectView();
 	}
 
 	@Override
-	protected void doSearchAction() {
+	protected void doDispatchSearchAction() {
 		if (getCriteria() == null) {
 			// Use Root Items
 			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_ASYNC);
 		} else {
-			super.doSearchAction();
+			super.doDispatchSearchAction();
 		}
 	}
 
 	@Override
-	protected boolean isSearchActionDone() {
+	protected boolean isSearchActionDone() throws AsyncException {
 		if (getCriteria() == null) {
 			return getEntityStore().isRootItemsDone();
 		} else {
@@ -73,7 +75,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	}
 
 	@Override
-	protected List<T> getSearchActionResult() {
+	protected List<T> getSearchActionResult() throws RetrieveActionException {
 		if (getCriteria() == null) {
 			getSelectView().resetView();
 			getSelectView().setUseTree(true);
@@ -94,8 +96,14 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 					// Refresh Tree
 					// Get Root Items (SYNC)
 					StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_SYNC);
-					List<T> items = getEntityStore().getRootItems();
 					getSelectView().resetView();
+					List<T> items;
+					try {
+						items = getEntityStore().getRootItems();
+					} catch (RetrieveActionException e) {
+						dispatchMessageError("Error refreshing items. " + e.getMessage());
+						return;
+					}
 					getSelectView().setUseTree(true);
 					getSelectView().setEntityTreeStoreKey(getEntityStoreKey());
 					getSelectView().setContentVisible(true);

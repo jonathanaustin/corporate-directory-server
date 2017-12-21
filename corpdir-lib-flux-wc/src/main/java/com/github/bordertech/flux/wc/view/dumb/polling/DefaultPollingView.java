@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.view.dumb.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.event.PollingEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
@@ -50,8 +50,16 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		}
 
 		@Override
+		protected void doStartPolling() {
+			if (isContinueStart()) {
+				super.doStartPolling();
+			}
+		}
+
+		@Override
 		protected void handleStartedPolling() {
 			super.handleStartedPolling();
+			dispatchMessageReset();
 			doDispatchPollingEvent(PollingBaseEventType.STARTED);
 		}
 
@@ -59,6 +67,15 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		protected void handleStoppedPolling() {
 			super.handleStoppedPolling();
 			doDispatchPollingEvent(PollingBaseEventType.STOPPED);
+		}
+
+		@Override
+		protected void handleTimeoutPolling() {
+			dispatchMessageError("Polling timeout.");
+			doDispatchPollingEvent(PollingBaseEventType.TIMEOUT);
+			if (isUseRetryOnError()) {
+				doShowRetry();
+			}
 		}
 
 		@Override
@@ -80,6 +97,22 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	public void addEventAjaxTarget(final AjaxTarget target, final ViewEventType... eventType) {
 		super.addEventAjaxTarget(target, eventType);
 		addAjaxTarget((AjaxTarget) target);
+	}
+
+	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
+		dispatchViewEvent(pollingEvent);
+	}
+
+	@Override
+	public boolean isContinueStart() {
+		Boolean flag = (Boolean) pollingPanel.getAttribute("wc-cont");
+		return flag == null ? true : flag;
+	}
+
+	@Override
+	public void setContineStart(final boolean start) {
+		// Store the state on the polling panel. So it gets reset at the same time as the polling panel.
+		pollingPanel.setAttribute("wc-cont", start);
 	}
 
 	public final PollingPanel getPollingPanel() {
@@ -131,10 +164,6 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 		pollingPanel.setPollingText(text);
 	}
 
-	protected void doDispatchPollingEvent(final PollingEventType pollingEvent) {
-		dispatchViewEvent(pollingEvent);
-	}
-
 	@Override
 	public void doShowRetry() {
 		pollingPanel.doShowRetry();
@@ -168,6 +197,26 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	@Override
 	public void setStartType(final PollingStartType startType) {
 		pollingPanel.setStartType(startType);
+	}
+
+	@Override
+	public void setPollingTimeout(final int pollingTimeout) {
+		pollingPanel.setPollingTimeout(pollingTimeout);
+	}
+
+	@Override
+	public int getPollingTimeout() {
+		return pollingPanel.getPollingTimeout();
+	}
+
+	@Override
+	public void setUseRetryOnError(boolean useRetryOnError) {
+		pollingPanel.setUseRetryOnError(useRetryOnError);
+	}
+
+	@Override
+	public boolean isUseRetryOnError() {
+		return pollingPanel.isUseRetryOnError();
 	}
 
 }

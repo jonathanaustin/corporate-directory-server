@@ -5,7 +5,7 @@ import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
 import com.github.bordertech.corpdir.jpa.common.map.MapperApi;
-import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicService;
+import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicKeyIdService;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionTypeEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
@@ -25,7 +25,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public class PositionTypeServiceImpl extends JpaBasicService<PositionType, PositionTypeEntity> implements PositionTypeService {
+public class PositionTypeServiceImpl extends JpaBasicKeyIdService<PositionType, PositionTypeEntity> implements PositionTypeService {
 
 	private static final PositionTypeMapper POSITIONTYPE_MAPPER = new PositionTypeMapper();
 	private static final PositionMapper POSITION_MAPPER = new PositionMapper();

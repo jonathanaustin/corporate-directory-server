@@ -11,22 +11,18 @@ import javax.persistence.EntityManager;
  * @param <P> the keyed persistent object
  * @author jonathan
  */
-public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends AbstractMapperId<A, P> {
+public abstract class AbstractMapperKeyId<A extends ApiKeyIdObject, P extends PersistKeyIdObject> extends AbstractMapperIdCustom<A, P> {
 
 	@Override
 	public void copyApiToEntity(final EntityManager em, final A from, final P to) {
 		super.copyApiToEntity(em, from, to);
 		to.setBusinessKey(from.getBusinessKey());
-		to.setCustom(from.isCustom());
-		to.setActive(from.isActive());
 	}
 
 	@Override
 	public void copyEntityToApi(final EntityManager em, final P from, final A to) {
 		super.copyEntityToApi(em, from, to);
 		to.setBusinessKey(from.getBusinessKey());
-		to.setCustom(from.isCustom());
-		to.setActive(from.isActive());
 	}
 
 }

@@ -30,7 +30,7 @@
 					<!-- Optional, defaults to ${project.build.directory}/derby-->
 					<derbyHome>${project.build.directory}/derby</derbyHome>
 					<!-- Optional, defaults to 1527 -->
-					<port>1527</port>
+					<port>1528</port>
 					<!-- Optional, the username to use when authenticating.-->
 					<username>derby</username>
 					<!-- Optional, the password to use when authenticating.-->
@@ -72,13 +72,13 @@
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-lde</artifactId>
 		</dependency>
+
 		<!-- Derby DB for JPA -->
-		<!--
-		<dependency>
+		<!--		<dependency>
 			<groupId>org.apache.derby</groupId>
 			<artifactId>derbyclient</artifactId>
-		</dependency>
-		-->
+		</dependency>-->
+
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>

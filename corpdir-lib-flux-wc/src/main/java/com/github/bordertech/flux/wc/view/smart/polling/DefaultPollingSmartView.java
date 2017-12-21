@@ -1,11 +1,12 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.dumb.polling.DefaultPollingView;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.smart.PollingSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
@@ -24,7 +25,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 
 	public DefaultPollingSmartView(final String viewId, final String templateName) {
 		super(viewId, templateName);
-		addComponentToTemplate("vw-poll", pollingView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingView);
 	}
 
 	@Override
@@ -33,7 +34,7 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof PollingBaseEventType) {
 			handlePollingBaseEvents((PollingBaseEventType) event, data);
@@ -55,6 +56,9 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 			case STOPPED:
 				handlePollingStoppedEvent();
 				break;
+			case TIMEOUT:
+				handlePollingTimeoutEvent();
+				break;
 			case CHECK_STATUS:
 				handlePollingCheckStatusEvent();
 				break;
@@ -69,6 +73,9 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	protected void handlePollingStoppedEvent() {
+	}
+
+	protected void handlePollingTimeoutEvent() {
 	}
 
 	protected void handlePollingCheckStatusEvent() {
@@ -152,6 +159,36 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	@Override
 	public void doShowRetry() {
 		pollingView.doShowRetry();
+	}
+
+	@Override
+	public void setPollingTimeout(final int pollingTimeout) {
+		pollingView.setPollingTimeout(pollingTimeout);
+	}
+
+	@Override
+	public int getPollingTimeout() {
+		return pollingView.getPollingTimeout();
+	}
+
+	@Override
+	public void setUseRetryOnError(boolean useRetryOnError) {
+		pollingView.setUseRetryOnError(useRetryOnError);
+	}
+
+	@Override
+	public boolean isUseRetryOnError() {
+		return pollingView.isUseRetryOnError();
+	}
+
+	@Override
+	public void setContineStart(final boolean start) {
+		pollingView.setContineStart(start);
+	}
+
+	@Override
+	public boolean isContinueStart() {
+		return pollingView.isContinueStart();
 	}
 
 }

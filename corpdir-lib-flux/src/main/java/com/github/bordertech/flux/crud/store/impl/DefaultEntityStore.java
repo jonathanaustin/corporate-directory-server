@@ -4,6 +4,8 @@ import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.EntityStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.Objects;
 import java.util.Set;
 
@@ -22,18 +24,18 @@ public class DefaultEntityStore<T, D extends CrudApi<T>> extends AbstractRetriev
 	}
 
 	@Override
-	public boolean isFetchDone(final T key) {
+	public boolean isFetchDone(final T key) throws AsyncException {
 		return isAsyncDone(RetrieveActionBaseType.FETCH, key);
 	}
 
 	@Override
-	public T fetch(final T key) {
+	public T fetch(final T key) throws RetrieveActionException {
 		// Retrieve and RetrieveAsync get treated the same
 		return (T) getActionResult(RetrieveActionBaseType.FETCH, key);
 	}
 
 	@Override
-	protected Object doRetrieveServiceCall(final RetrieveActionType type, final Object criteria) {
+	protected Object doRetrieveDataApiCall(final RetrieveActionType type, final Object criteria) {
 		if (Objects.equals(type, RetrieveActionBaseType.FETCH)) {
 			return getDataApi().retrieve((T) criteria);
 		}

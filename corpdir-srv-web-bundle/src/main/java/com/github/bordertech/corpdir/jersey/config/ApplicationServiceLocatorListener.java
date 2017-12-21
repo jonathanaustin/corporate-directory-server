@@ -26,10 +26,12 @@ public class ApplicationServiceLocatorListener implements ContainerLifecycleList
 		LocatorUtil.configure();
 	}
 
-	public void onReload(Container container) {/*...*/
+	@Override
+	public void onReload(final Container container) {/*...*/
 	}
 
-	public void onShutdown(Container container) {/*...*/
+	@Override
+	public void onShutdown(final Container container) {/*...*/
 	}
 
 }

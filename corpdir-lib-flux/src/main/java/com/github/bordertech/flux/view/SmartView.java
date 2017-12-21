@@ -34,7 +34,7 @@ public interface SmartView<T> extends DumbView<T> {
 	 * @param eventType the child view event to handle
 	 * @param data the associated data
 	 */
-	void handleViewEvent(final String viewId, final ViewEventType eventType, final Object data);
+	void serviceViewEvent(final String viewId, final ViewEventType eventType, final Object data);
 
 	/**
 	 * @return the qualifier to be used on listeners or events (if needed)

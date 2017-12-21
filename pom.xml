@@ -12,6 +12,23 @@
 		<version>1.0.0-SNAPSHOT</version>
 		<relativePath>config-qa-plugins/pom.xml</relativePath>
 	</parent>
+	
+	<profiles>
+		<profile>
+			<id>openshift</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<warName>corpdir</warName>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 	<packaging>pom</packaging>
 
@@ -100,7 +117,7 @@
 			<dependency>
 				<groupId>io.swagger</groupId>
 				<artifactId>swagger-jersey2-jaxrs</artifactId>
-				<version>1.5.12</version>
+				<version>1.5.17</version>
 			</dependency>
 
 			<!-- slf4j-log4j -->
@@ -158,6 +175,7 @@
 		<module>corpdir-lib-flux</module>
 		<module>corpdir-lib-wc</module>
 		<module>corpdir-lib-flux-wc</module>
+		<module>corpdir-lib-swagger</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>
 		<module>corpdir-srv-jpa</module>

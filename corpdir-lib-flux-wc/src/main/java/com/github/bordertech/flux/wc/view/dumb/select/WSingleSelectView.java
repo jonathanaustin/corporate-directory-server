@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.select;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.Request;
@@ -42,7 +42,7 @@ public class WSingleSelectView<T> extends AbstractListSingleSelectView<T> {
 
 	};
 
-	private final AppAjaxControl ajax = new AppAjaxControl(select);
+	private final FluxAjaxControl ajax = new FluxAjaxControl(select);
 
 	public WSingleSelectView(final String viewId) {
 		super(viewId);

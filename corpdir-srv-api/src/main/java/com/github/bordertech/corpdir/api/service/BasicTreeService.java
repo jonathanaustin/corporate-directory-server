@@ -11,7 +11,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicTreeService<T extends ApiTreeable> extends BasicService<T> {
+public interface BasicTreeService<T extends ApiTreeable> extends BasicKeyIdService<T> {
 
 	DataResponse<List<T>> getSubs(final String keyId);
 

@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.table;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTableColumn;
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -18,6 +19,12 @@ public interface TableColumn<V, T> extends Serializable {
 	 * @return the value for this column
 	 */
 	V getValue(final T bean);
+
+	/**
+	 * @param bean the row bean
+	 * @param value the new value
+	 */
+	void setValue(final T bean, final V value);
 
 	/**
 	 * @return the column comparator
@@ -40,12 +47,17 @@ public interface TableColumn<V, T> extends Serializable {
 	String getColumnLabel();
 
 	/**
-	 * @return the renderer for the column.
-	 */
-	Class<? extends WComponent> getRendererClass();
-
-	/**
 	 * @return an instance of the renderer
 	 */
 	WComponent getRenderer();
+
+	/**
+	 * @return the column width
+	 */
+	int getWidth();
+
+	/**
+	 * @return the column alignment
+	 */
+	WTableColumn.Alignment getAlignment();
 }

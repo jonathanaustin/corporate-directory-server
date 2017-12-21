@@ -1,12 +1,14 @@
 package com.github.bordertech.flux.wc.view.dumb.input.impl;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.AjaxTrigger;
+import com.github.bordertech.wcomponents.Request;
+import com.github.bordertech.wcomponents.WDiv;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -21,16 +23,43 @@ import org.apache.commons.logging.LogFactory;
  */
 public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> implements InputOptionsView<T> {
 
-	public AbstractInputOptionsView(final String viewId) {
-		super(viewId);
-		setBeanProperty(".");
-		setSearchAncestors(true);
-	}
-
 	/**
 	 * The logger instance for this class.
 	 */
 	private static final Log LOG = LogFactory.getLog(AbstractInputOptionsView.class);
+
+	private final WDiv inputContainer = new WDiv() {
+		@Override
+		public boolean isVisible() {
+			return !isUseReadonlyContainer() || (isUseReadonlyContainer() && !getSelectInput().isReadOnly());
+		}
+	};
+	private final WDiv readonlyContainer = new WDiv() {
+		@Override
+		public boolean isVisible() {
+			return isUseReadonlyContainer() && getSelectInput().isReadOnly();
+		}
+
+		@Override
+		protected void preparePaintComponent(final Request request) {
+			super.preparePaintComponent(request);
+			if (!isInitialised()) {
+				initReadonlyContainer();
+				setInitialised(true);
+			}
+		}
+
+	};
+
+	public AbstractInputOptionsView(final String viewId) {
+		super(viewId);
+		getContent().add(inputContainer);
+		getContent().add(readonlyContainer);
+		setBeanProperty(".");
+		setSearchAncestors(true);
+		readonlyContainer.setBeanProperty(".");
+		readonlyContainer.setSearchAncestors(false);
+	}
 
 	@Override
 	public void doMakeFormReadonly(final boolean readonly) {
@@ -85,6 +114,31 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 		return getComponentModel().codeProperty;
 	}
 
+	@Override
+	public void setUseReadonlyContainer(final boolean useReadonlyPanel) {
+		getOrCreateComponentModel().useReadonlyPanel = useReadonlyPanel;
+	}
+
+	@Override
+	public boolean isUseReadonlyContainer() {
+		return getComponentModel().useReadonlyPanel;
+	}
+
+	@Override
+	public final WDiv getInputContainer() {
+		return inputContainer;
+	}
+
+	@Override
+	public final WDiv getReadonlyContainer() {
+		return readonlyContainer;
+	}
+
+	protected void initReadonlyContainer() {
+		// Set the bean as the selected options
+		readonlyContainer.setBean(getSelectInput().getValue());
+	}
+
 	protected boolean isBoundByCode() {
 		return getCodeProperty() != null;
 	}
@@ -126,7 +180,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 	protected void setupInputAjax() {
 		// Add AJAX COntrol for Select Input
 		if (getSelectInput() instanceof AjaxTrigger) {
-			AppAjaxControl ajax = new AppAjaxControl((AjaxTrigger) getSelectInput());
+			FluxAjaxControl ajax = new FluxAjaxControl((AjaxTrigger) getSelectInput());
 			getContent().add(ajax);
 			registerSelectUnselectAjaxControl(ajax);
 		}
@@ -141,7 +195,7 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 
 	protected abstract void doDispatchSelectEvent();
 
-	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
+	protected void registerSelectUnselectAjaxControl(final FluxAjaxControl ctrl) {
 		registerEventAjaxControl(SelectBaseEventType.UNSELECT, ctrl);
 		registerEventAjaxControl(SelectBaseEventType.SELECT, ctrl);
 	}
@@ -169,6 +223,8 @@ public abstract class AbstractInputOptionsView<T> extends DefaultDumbView<T> imp
 		private String codeProperty;
 
 		private boolean includeNullOption;
+
+		private boolean useReadonlyPanel;
 	}
 
 }

@@ -21,7 +21,7 @@ public class DefaultSelectListWithSearchView<S, T> extends DefaultListWithSearch
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (event instanceof SelectBaseEventType) {
 			handleSelectableBaseEvents((SelectBaseEventType) event, data);

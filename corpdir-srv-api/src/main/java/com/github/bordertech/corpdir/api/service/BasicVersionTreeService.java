@@ -12,7 +12,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface BasicVersionTreeService<T extends ApiTreeable & ApiVersionable> extends BasicVersionService<T>, BasicTreeService<T> {
+public interface BasicVersionTreeService<T extends ApiTreeable & ApiVersionable> extends BasicVersionKeyIdService<T>, BasicTreeService<T> {
 
 	DataResponse<List<T>> getSubs(final Long versionId, final String keyId);
 

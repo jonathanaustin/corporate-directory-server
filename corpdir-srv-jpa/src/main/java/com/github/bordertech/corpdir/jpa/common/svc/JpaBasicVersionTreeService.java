@@ -4,10 +4,9 @@ import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionData;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableTree;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
+import com.github.bordertech.corpdir.jpa.common.version.ItemTreeVersion;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -30,7 +30,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends PersistVersionableTree<U, P>, P extends PersistVersionData<U>> extends JpaBasicVersionService<A, U, P> implements BasicVersionTreeService<A> {
+public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVersionable, U extends ItemTreeVersion<P, U>, P extends PersistVersionableKeyId<P, U>> extends JpaBasicVersionKeyIdService<A, U, P> implements BasicVersionTreeService<A> {
 
 	@Override
 	public DataResponse<List<A>> getRootItems() {
@@ -57,7 +57,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 		EntityManager em = getEntityManager();
 		try {
 			P entity = getEntity(em, keyId);
-			PersistVersionableTree tree = entity.getDataVersion(versionId);
+			ItemTreeVersion tree = entity.getVersion(versionId);
 			List<A> list;
 			if (tree == null) {
 				list = Collections.emptyList();
@@ -86,18 +86,18 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			// Get version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove subEntity from its OLD parent (if it had one)
-			U tree = subEntity.getDataVersion(versionId);
+			U tree = subEntity.getVersion(versionId);
 			if (tree != null) {
 				if (Objects.equals(tree.getParentItem(), subEntity)) {
 					throw new IllegalArgumentException("A entity cannot be a child and parent of the same entity.");
 				}
 				P oldParent = tree.getParentItem();
 				if (oldParent != null) {
-					oldParent.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+					oldParent.getOrCreateVersion(ctrl).removeChildItem(subEntity);
 				}
 			}
 			// Add Child to the new parent
-			entity.getOrCreateDataVersion(ctrl).addChildItem(subEntity);
+			entity.getOrCreateVersion(ctrl).addChildItem(subEntity);
 			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
@@ -121,7 +121,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 			// Get the version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove the sub entity
-			entity.getOrCreateDataVersion(ctrl).removeChildItem(subEntity);
+			entity.getOrCreateVersion(ctrl).removeChildItem(subEntity);
 			em.merge(entity);
 			em.getTransaction().commit();
 			return buildResponse(em, entity, versionId);
@@ -164,9 +164,10 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 		// Search (has null parent on the version data)
 		Root<P> from = qry.from(getEntityClass());
 
-		Join<OrgUnitLinksEntity, P> join = from.join("dataVersions");
-		Predicate p1 = cb.equal(join.get("versionIdKey").get("versionId"), versionId);
-		Predicate p2 = cb.isNull(join.get("parentItem"));
+		// Has No Parent or has no version join
+		Join<P, U> join = from.join("versions", JoinType.LEFT);
+		Predicate p1 = cb.equal(join.get("versionKey").get("versionId"), versionId);
+		Predicate p2 = cb.isNull(join.get("parentVersionItem"));
 		qry.where(cb.and(p1, p2));
 		qry.select(from);
 		// Order by

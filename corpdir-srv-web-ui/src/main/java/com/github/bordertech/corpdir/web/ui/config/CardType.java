@@ -6,8 +6,10 @@ import com.github.bordertech.corpdir.web.ui.smart.crud.LocationCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.OrgUnitCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.PositionTypeCrudView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.SystemCtrlCrudView;
 import com.github.bordertech.corpdir.web.ui.smart.crud.UnitTypeCrudView;
-import com.github.bordertech.flux.wc.view.FluxSmartView;
+import com.github.bordertech.corpdir.web.ui.smart.crud.VersionCtrlCrudView;
+import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 
 /**
  * Cards.
@@ -15,14 +17,18 @@ import com.github.bordertech.flux.wc.view.FluxSmartView;
  * @author jonathan
  */
 public enum CardType {
-	POSITION_CARD("Position", false, PositionCrudView.class, IconConstants.POSITION_IMAGE, DataApiType.POSITION),
-	ORG_UNIT_CARD("Org Unit", false, OrgUnitCrudView.class, IconConstants.ORG_UNIT_IMAGE, DataApiType.ORG_UNIT),
-	LOCATION_CARD("Location", true, LocationCrudView.class, null, DataApiType.LOCATION),
-	POSITION_TYPE_CARD("Position Type", true, PositionTypeCrudView.class, null, DataApiType.POSITION_TYPE),
-	UNIT_TYPE_CARD("Unit Type", true, UnitTypeCrudView.class, null, DataApiType.UNIT_TYPE),
-	CONTACT_CARD("Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT);
+	POSITION("position", "Position", false, PositionCrudView.class, IconConstants.POSITION_IMAGE, DataApiType.POSITION),
+	ORG_UNIT("orgunit", "Org Unit", false, OrgUnitCrudView.class, IconConstants.ORG_UNIT_IMAGE, DataApiType.ORG_UNIT),
+	LOCATION("location", "Location", true, LocationCrudView.class, null, DataApiType.LOCATION),
+	POSITION_TYPE("positiontype", "Position Type", true, PositionTypeCrudView.class, null, DataApiType.POSITION_TYPE),
+	CONTACT("contact", "Contact", false, ContactCrudView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT),
+	// System
+	UNIT_TYPE("orgunittype", "Unit Type", true, UnitTypeCrudView.class, null, DataApiType.UNIT_TYPE),
+	VERSION_CTRL("version", "Version Ctrl", true, VersionCtrlCrudView.class, null, DataApiType.VERSION_CTRL),
+	SYSTEM_CTRL("system", "System Ctrl", true, SystemCtrlCrudView.class, null, DataApiType.SYSTEM_CTRL);
 
-	CardType(final String desc, final boolean system, final Class<? extends FluxSmartView> clazz, final String imageUrl, final DataApiType apiType) {
+	CardType(final String path, final String desc, final boolean system, final Class<? extends SecureCardView> clazz, final String imageUrl, final DataApiType apiType) {
+		this.path = path;
 		this.desc = desc;
 		this.system = system;
 		this.clazz = clazz;
@@ -30,11 +36,16 @@ public enum CardType {
 		this.apiType = apiType;
 	}
 
+	final String path;
 	final String desc;
 	final boolean system;
-	final Class<? extends FluxSmartView> clazz;
+	final Class<? extends SecureCardView> clazz;
 	final String imageUrl;
 	final DataApiType apiType;
+
+	public String getPath() {
+		return path;
+	}
 
 	public String getDesc() {
 		return desc;
@@ -44,7 +55,7 @@ public enum CardType {
 		return system;
 	}
 
-	public Class<? extends FluxSmartView> getClazz() {
+	public Class<? extends SecureCardView> getClazz() {
 		return clazz;
 	}
 
@@ -56,9 +67,9 @@ public enum CardType {
 		return apiType;
 	}
 
-	public FluxSmartView createCardViewInstance() {
+	public SecureCardView createCardViewInstance() {
 		try {
-			return (FluxSmartView) getClazz().newInstance();
+			return (SecureCardView) getClazz().newInstance();
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create view class. " + e.getMessage(), e);
 		}

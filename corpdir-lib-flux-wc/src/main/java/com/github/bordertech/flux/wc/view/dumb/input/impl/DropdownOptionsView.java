@@ -14,7 +14,7 @@ public class DropdownOptionsView<T> extends AbstractSingleSelectOptionsView<T> {
 
 	public DropdownOptionsView(final String viewId) {
 		super(viewId);
-		getContent().add(dropdown);
+		getInputContainer().add(dropdown);
 		dropdown.setBeanProperty(".");
 		setupInputAjax();
 	}

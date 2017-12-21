@@ -1,8 +1,9 @@
 package com.github.bordertech.flux.wc.view.dumb;
 
-import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.FluxDumbView;
+import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
+import com.github.bordertech.wcomponents.WDiv;
 import java.util.List;
 
 /**
@@ -32,5 +33,13 @@ public interface InputOptionsView<T> extends FluxDumbView<T>, FormUpdateable {
 	void setIncludeNullOption(final boolean includeNullOption);
 
 	boolean isIncludeNullOption();
+
+	void setUseReadonlyContainer(final boolean useReadonlyPanel);
+
+	boolean isUseReadonlyContainer();
+
+	WDiv getReadonlyContainer();
+
+	WDiv getInputContainer();
 
 }

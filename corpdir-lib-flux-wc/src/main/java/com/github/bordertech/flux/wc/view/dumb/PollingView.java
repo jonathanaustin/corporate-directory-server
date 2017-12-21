@@ -12,4 +12,8 @@ import com.github.bordertech.wcomponents.lib.polling.Pollable;
  */
 public interface PollingView<T> extends FluxDumbView<T>, Pollable {
 
+	void setContineStart(final boolean start);
+
+	boolean isContinueStart();
+
 }

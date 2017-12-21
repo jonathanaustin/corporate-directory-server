@@ -14,6 +14,11 @@ import java.util.List;
 public interface Pollable extends WComponent {
 
 	/**
+	 * Default polling timeout of 120 seconds.
+	 */
+	static final int DEFAULT_POLLING_TIMEOUT = 120;
+
+	/**
 	 * The AJAX targets that will be refreshed when the polling is complete.
 	 *
 	 * @return the extra AJAX targets
@@ -98,5 +103,29 @@ public interface Pollable extends WComponent {
 	 * @param startType the start type
 	 */
 	void setStartType(final PollingStartType startType);
+
+	/**
+	 *
+	 * @return the polling timeout interval (in seconds) or 0 for no timeout.
+	 */
+	int getPollingTimeout();
+
+	/**
+	 *
+	 * @param pollingTimeout the polling timeout in seconds or 0 for no timeout
+	 */
+	void setPollingTimeout(final int pollingTimeout);
+
+	/**
+	 *
+	 * @param useRetryOnError true if display retry button on error
+	 */
+	void setUseRetryOnError(final boolean useRetryOnError);
+
+	/**
+	 *
+	 * @return true if display retry button on error
+	 */
+	boolean isUseRetryOnError();
 
 }

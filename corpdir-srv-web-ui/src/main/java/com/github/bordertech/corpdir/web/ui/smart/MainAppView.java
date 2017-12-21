@@ -1,14 +1,15 @@
 package com.github.bordertech.corpdir.web.ui.smart;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.dumb.toolbar.MainToolbarView;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.dumb.toolbar.MainToolbarSecureView;
 import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WTemplate;
@@ -24,15 +25,15 @@ import java.util.Set;
 public class MainAppView extends DefaultMessageSmartView {
 
 	private final MainCardManagerView cardView = new MainCardManagerView("MNC");
-	private final MainToolbarView toolbar = new MainToolbarView("MNT");
+	private final MainToolbarSecureView toolbar = new MainToolbarSecureView("MNT");
 
 	public MainAppView() {
-		super("MNV", "wclib/hbs/layout/combo-app-main.hbs");
+		super("MNV", TemplateConstants.TEMPLATE_APP_MAIN, false);
 		cardView.addHtmlClass("wc-margin-all-lg");
 
 		WTemplate content = getContent();
-		content.addTaggedComponent("vw-toolbar", toolbar);
-		content.addTaggedComponent("vw-main", cardView);
+		content.addTaggedComponent(TemplateConstants.TAG_VW_TOOLBAR, toolbar);
+		content.addTaggedComponent(TemplateConstants.TAG_VW_MAIN, cardView);
 	}
 
 	public String getCardTitle() {
@@ -81,7 +82,7 @@ public class MainAppView extends DefaultMessageSmartView {
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		if (isEvent(CardEventType.RESET, event)) {
 			handleResetCard((CardType) data);

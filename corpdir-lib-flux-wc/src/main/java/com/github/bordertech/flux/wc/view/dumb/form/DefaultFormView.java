@@ -1,13 +1,12 @@
 package com.github.bordertech.flux.wc.view.dumb.form;
 
 import com.github.bordertech.flux.wc.mode.FormMode;
+import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
-import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.flux.wc.util.FormUtil;
 
 /**
  * Default form view.

@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
 import com.github.bordertech.flux.view.ViewEventType;
-import com.github.bordertech.flux.wc.common.AppMenuItem;
+import com.github.bordertech.flux.wc.common.FluxMenuItem;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.MenuItem;
@@ -40,15 +40,15 @@ public class AbstractMenuToolbarView<T> extends AbstractToolbarView<T> {
 		Action action = new Action() {
 			@Override
 			public void execute(final ActionEvent event) {
-				AppMenuItem item = (AppMenuItem) event.getSource();
+				FluxMenuItem item = (FluxMenuItem) event.getSource();
 				doDispatchToolbarEvent(item.getItemEvent(), item.getItemData());
 			}
 		};
 
 		// Add Action and AJAX control for each menu item and EVENT
 		for (MenuItem menuItem : menu.getMenuItems(true)) {
-			if (menuItem instanceof AppMenuItem) {
-				AppMenuItem item = (AppMenuItem) menuItem;
+			if (menuItem instanceof FluxMenuItem) {
+				FluxMenuItem item = (FluxMenuItem) menuItem;
 				item.setAction(action);
 				setupAjaxControl(item.getItemEvent(), item);
 			}

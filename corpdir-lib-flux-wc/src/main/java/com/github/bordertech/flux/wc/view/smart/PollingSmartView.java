@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart;
 
-import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.FluxSmartView;
+import com.github.bordertech.flux.wc.view.dumb.PollingView;
 
 /**
  * Smart view that is a Message Container.
