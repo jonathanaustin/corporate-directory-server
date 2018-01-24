@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<name>corpdir-lib-wc</name>
-	<artifactId>corpdir-lib-wc</artifactId>
+	<name>corpdir-lib-didums-hk2</name>
+	<artifactId>corpdir-lib-didums-hk2</artifactId>
 
 	<parent>
 		<groupId>com.github.bordertech.corpdir</groupId>
@@ -20,33 +20,23 @@
 	</properties>
 
 	<dependencies>
-		<!-- Flux. -->
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-lib-flux</artifactId>
+			<artifactId>corpdir-lib-didums</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 
-		<!-- WComponents -->
 		<dependency>
-			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-bundle</artifactId>
+			<groupId>org.glassfish.hk2</groupId>
+			<artifactId>hk2</artifactId>
+			<version>2.5.0-b32</version>
 		</dependency>
 
-		<!-- Servlet Interface. -->
+		<!-- Commons config brings in servlet.api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- Injection interface. JSR 330 -->
-		<dependency>
-			<groupId>javax.inject</groupId>
-			<artifactId>javax.inject</artifactId>
-			<scope>provided</scope>
-		</dependency>
-
 	</dependencies>
-
 </project>

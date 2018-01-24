@@ -1,5 +1,7 @@
 package com.github.bordertech.flux.factory;
 
+import com.github.bordertech.didums.Didums;
+import com.github.bordertech.didums.Factory;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.DataApi;
 import com.github.bordertech.flux.Dispatcher;
@@ -12,8 +14,6 @@ import com.github.bordertech.flux.crud.dataapi.SearchApi;
 import com.github.bordertech.flux.crud.store.impl.DefaultEntityStore;
 import com.github.bordertech.flux.crud.store.impl.DefaultEntityTreeStore;
 import com.github.bordertech.flux.crud.store.impl.DefaultSearchStore;
-import com.github.bordertech.locator.BindingFactory;
-import com.github.bordertech.locator.LocatorUtil;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +27,7 @@ public final class FluxFactory {
 
 	private static final Map<String, DataApi> DATA_APIS = new HashMap<>();
 
-	private static final Dispatcher DISPATCHER = LocatorUtil.getService(Dispatcher.class);
+	private static final Dispatcher DISPATCHER = Didums.getService(Dispatcher.class);
 	private static final Map<String, ActionCreator> CREATORS = new HashMap<>();
 
 	private FluxFactory() {
@@ -42,7 +42,7 @@ public final class FluxFactory {
 		if (model != null) {
 			return model;
 		}
-		model = BindingFactory.newInstance("dataapi." + key);
+		model = Factory.newInstance("dataapi." + key);
 		DATA_APIS.put(key, model);
 		return model;
 	}

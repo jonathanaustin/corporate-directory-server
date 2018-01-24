@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.security;
 
-import com.github.bordertech.locator.LocatorUtil;
+import com.github.bordertech.didums.Didums;
 
 /**
  * AppManager factory.
@@ -9,7 +9,7 @@ import com.github.bordertech.locator.LocatorUtil;
  */
 public class AppSecurityManagerFactory {
 
-	private static final AppSecurityManager INSTANCE = LocatorUtil.getService(AppSecurityManager.class);
+	private static final AppSecurityManager INSTANCE = Didums.getService(AppSecurityManager.class);
 
 	private AppSecurityManagerFactory() {
 	}
