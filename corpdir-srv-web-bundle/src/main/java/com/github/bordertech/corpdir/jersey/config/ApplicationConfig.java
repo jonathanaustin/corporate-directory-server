@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.jersey.config;
 
-import com.github.bordertech.corpdir.jersey.config.hk2.binders.ApplicationServicesBinder;
+import com.github.bordertech.corpdir.jersey.config.hk2.ApplicationServiceLocatorListener;
+import com.github.bordertech.corpdir.jersey.config.hk2.ApplicationServicesBinder;
 import com.github.bordertech.corpdir.web.api.servlet.AuthContainerRequestFilter;
 import com.github.bordertech.corpdir.web.api.servlet.CorsResponseFilter;
 import javax.ws.rs.Priorities;

@@ -25,13 +25,13 @@
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-lib-flux</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 		<!-- WComponents -->
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-lib-wc</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<!-- Servlet Interface. -->
