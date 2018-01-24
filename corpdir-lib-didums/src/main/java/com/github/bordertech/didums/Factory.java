@@ -1,6 +1,8 @@
 package com.github.bordertech.didums;
 
 import com.github.bordertech.config.Config;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -19,34 +21,10 @@ public class Factory {
 	private Factory() {
 	}
 
-	/**
-	 * Given an interface, instantiate a class implementing that interface.
-	 *
-	 * The classname to instantiate is obtained by looking in the runtime {@link Config configuration}, under the
-	 * bordertech.factory.impl.&lt;interface name&gt; key.
-	 *
-	 * @param <T> the interface type.
-	 * @param contract the interface to instantiate an implementation for.
-	 * @return an Object which implements the given interface.
-	 * @throws FactoryException if no implementing class is registered in the {@link Config configuration}.
-	 */
 	public static <T> T newInstance(final Class<T> contract) {
-		return newInstance(contract.getName(), null);
+		return newInstance(contract, null);
 	}
 
-	/**
-	 * Given an interface, instantiate a class implementing that interface.
-	 *
-	 * The classname to instantiate is obtained by looking in the runtime {@link Config configuration}, under the
-	 * bordertech.factory.impl.&lt;interface name&gt; key.
-	 *
-	 * @param <T> the interface type.
-	 * @param <U> the concrete default class
-	 * @param contract the interface to instantiate an implementation for.
-	 * @param defaultImpl the optional default implementation
-	 * @return an Object which implements the given interface.
-	 * @throws FactoryException if no implementing class is registered in the {@link Config configuration}.
-	 */
 	public static <T, U extends T> T newInstance(final Class<T> contract, final Class<U> defaultImpl) {
 		return newInstance(contract.getName(), defaultImpl);
 	}
@@ -57,12 +35,9 @@ public class Factory {
 	}
 
 	public static <T> T newInstance(final String key, final Class<T> defaultImpl) {
-		// Load implementation class name from the properties file
-		String classname = getImplementationClassName(key);
-
-		// Find class
+		String implClassName = getImplClassName(key);
 		Class<T> clazz;
-		if (classname == null) {
+		if (implClassName == null) {
 			if (defaultImpl == null) {
 				String paramKey = getParamKey(key);
 				LOG.fatal("There needs to be a parameter defined for " + paramKey);
@@ -70,32 +45,53 @@ public class Factory {
 			}
 			clazz = defaultImpl;
 		} else {
-			try {
-				clazz = (Class<T>) Class.forName(classname.trim());
-			} catch (ClassNotFoundException e) {
-				throw new FactoryException("Class [" + classname + "] not found.", e);
-			}
+			clazz = findClass(implClassName);
 		}
+		return createInstance(clazz);
+	}
 
-		// Create Instance
-		try {
-			return clazz.newInstance();
-		} catch (IllegalAccessException | InstantiationException e) {
-			throw new FactoryException("Failed to instantiate object of class " + classname, e);
+	public static <T> List<T> newMultiInstances(final Class<T> contract) {
+		String[] classNames = getMultiImplClassName(contract.getName());
+		List<T> impls = new ArrayList<>();
+		for (String className : classNames) {
+			Class<T> clazz = findClass(className);
+			impls.add(createInstance(clazz));
 		}
+		return impls;
 	}
 
 	public static boolean hasImplementation(final Class contract) {
 		return hasImplementation(contract.getName());
-
 	}
 
 	public static boolean hasImplementation(final String key) {
-		return getImplementationClassName(key) != null;
+		return getImplClassName(key) != null;
 	}
 
-	private static String getImplementationClassName(final String key) {
-		return Config.getInstance().getString(getParamKey(key));
+	private static <T> Class<T> findClass(final String className) {
+		try {
+			return (Class<T>) Class.forName(className.trim());
+		} catch (ClassNotFoundException e) {
+			throw new FactoryException("Class [" + className + "] not found.", e);
+		}
+	}
+
+	private static <T> T createInstance(final Class<T> clazz) {
+		try {
+			return clazz.newInstance();
+		} catch (IllegalAccessException | InstantiationException e) {
+			throw new FactoryException("Failed to instantiate object of class " + clazz.getName(), e);
+		}
+	}
+
+	private static String getImplClassName(final String key) {
+		String paramKey = getParamKey(key);
+		return Config.getInstance().getString(paramKey);
+	}
+
+	private static String[] getMultiImplClassName(final String key) {
+		String paramKey = getParamKey(key);
+		return Config.getInstance().getStringArray(paramKey);
 	}
 
 	private static String getParamKey(final String key) {

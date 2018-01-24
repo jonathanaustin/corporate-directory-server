@@ -1,6 +1,7 @@
 package com.github.bordertech.didums;
 
 import java.lang.annotation.Annotation;
+import java.util.List;
 
 /**
  * DI Helper.
@@ -14,8 +15,8 @@ public class Didums {
 
 	static {
 		PROVIDER = Factory.newInstance(DidumsProvider.class, DefaultDidumsProvider.class);
-		if (Factory.hasImplementation(DidumsBinder.class)) {
-			DidumsBinder binder = Factory.newInstance(DidumsBinder.class);
+		List<DidumsBinder> binders = Factory.newMultiInstances(DidumsBinder.class);
+		for (DidumsBinder binder : binders) {
 			binder.configBindings(PROVIDER);
 		}
 	}
