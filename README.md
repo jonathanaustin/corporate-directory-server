@@ -1,6 +1,9 @@
 # Corporate Directory Server
 Administer your corporate structure and contact details.
 
+## Status
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee22a2d561da4403bdd407dc02698f5c)](https://www.codacy.com/app/BorderTech/corporate-directory-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bordertech/corporate-directory-server&amp;utm_campaign=Badge_Grade)
+
 ## Live Demo
 A live [demo](http://bordertech-corpdir.herokuapp.com/admin) is available.
 
