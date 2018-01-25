@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.jpa.common.svc;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +12,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 
 /**
  * Tree Entity service.

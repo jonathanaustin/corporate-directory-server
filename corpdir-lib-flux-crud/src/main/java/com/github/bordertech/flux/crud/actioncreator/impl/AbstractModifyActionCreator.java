@@ -4,7 +4,7 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.crud.action.ModifyActionType;
 import com.github.bordertech.flux.crud.actioncreator.ModifyActionCreator;
-import com.github.bordertech.flux.factory.FluxFactory;
+import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 
 /**

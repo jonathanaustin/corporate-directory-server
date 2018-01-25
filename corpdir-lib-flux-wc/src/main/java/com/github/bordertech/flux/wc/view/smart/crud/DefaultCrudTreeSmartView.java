@@ -5,7 +5,7 @@ import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityTreeActionCreator;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.crud.store.RetrieveActionException;
-import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;

@@ -7,7 +7,7 @@ import com.github.bordertech.corpdir.web.ui.event.CardEventType;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.factory.FluxFactory;
+import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;

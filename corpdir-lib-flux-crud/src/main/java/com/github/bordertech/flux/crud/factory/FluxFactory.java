@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.factory;
+package com.github.bordertech.flux.crud.factory;
 
 import com.github.bordertech.didums.Didums;
 import com.github.bordertech.didums.Factory;
