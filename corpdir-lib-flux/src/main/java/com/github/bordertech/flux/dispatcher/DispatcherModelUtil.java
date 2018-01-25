@@ -4,6 +4,7 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.action.DispatcherActionType;
 import com.github.bordertech.flux.key.ActionKey;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
+ * DispatcherModel helper class.
  *
  * @author Jonathan Austin
  * @since 1.0.0

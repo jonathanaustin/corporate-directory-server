@@ -3,7 +3,7 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
- * Provides the action creator interface to handle change store actions.
+ * Action Creators are collections of methods that are called to send actions to the Dispatcher.
  *
  * @author Jonathan Austin
  * @since 1.0.0

@@ -3,6 +3,8 @@ package com.github.bordertech.flux;
 import java.io.Serializable;
 
 /**
+ * Listeners are the callback used by the dispatcher when it receives a matching action.
+ *
  * @param <T> the action type
  *
  * @author Jonathan Austin

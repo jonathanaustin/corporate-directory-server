@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * Action key.
+ * Action key combines an Action Type and an optional qualifier.
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -17,7 +17,7 @@ public class ActionKey implements Serializable {
 	public ActionKey(final ActionType type) {
 		this(type, null);
 	}
-	
+
 	public ActionKey(final ActionType type, final String qualifier) {
 		if (type == null) {
 			throw new IllegalArgumentException("Key Type must be provided.");

@@ -13,6 +13,7 @@ import java.util.Set;
 import javax.cache.Cache;
 
 /**
+ * Default Store.
  *
  * @author Jonathan Austin
  * @since 1.0.0
