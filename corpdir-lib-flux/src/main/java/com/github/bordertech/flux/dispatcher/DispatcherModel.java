@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 
 /**
+ * Holds the dispatcher state.
  *
  * @author Jonathan Austin
  * @since 1.0.0

@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 /**
+ * Wrapper used by the Dispatcher to uniquely identify a registered listener.
  *
  * @author Jonathan Austin
  * @since 1.0.0
