@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.SelectMode;

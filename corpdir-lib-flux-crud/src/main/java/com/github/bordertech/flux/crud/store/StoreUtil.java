@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.crud.store;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.ActionCreator;
@@ -10,9 +10,7 @@ import com.github.bordertech.flux.crud.action.RetrieveActionType;
 import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.action.retrieve.RetrieveAction;
-import com.github.bordertech.flux.crud.store.RetrieveActionException;
-import com.github.bordertech.flux.crud.store.RetrieveActionStore;
-import com.github.bordertech.flux.factory.FluxFactory;
+import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.taskmanager.service.AsyncException;
 
 /**

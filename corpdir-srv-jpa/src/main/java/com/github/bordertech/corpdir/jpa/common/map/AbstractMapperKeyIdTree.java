@@ -3,10 +3,10 @@ package com.github.bordertech.corpdir.jpa.common.map;
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import java.util.List;
 import javax.persistence.EntityManager;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 
 /**
  * Map ApiTreeObject to a PersistentTreeObject.

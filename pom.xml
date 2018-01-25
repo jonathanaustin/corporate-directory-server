@@ -177,6 +177,7 @@
 		<module>corpdir-lib-flux</module>
 		<module>corpdir-lib-wc</module>
 		<module>corpdir-lib-flux-wc</module>
+		<module>corpdir-lib-flux-crud</module>
 		<module>corpdir-lib-swagger</module>
 		<module>corpdir-srv-sec</module>
 		<module>corpdir-srv-api</module>

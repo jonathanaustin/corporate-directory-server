@@ -4,9 +4,9 @@ import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardManagerView;
+import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 import java.util.HashMap;
 import java.util.Map;
-import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 
 /**
  * The Card Manager that creates all the Cards via the Card Types.
