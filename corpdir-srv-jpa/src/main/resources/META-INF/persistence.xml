@@ -12,8 +12,8 @@
     <class>com.github.bordertech.corpdir.jpa.entity.OrgUnitEntity</class>
     <class>com.github.bordertech.corpdir.jpa.entity.SystemCtrlEntity</class>
     <class>com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity</class>
-    <class>com.github.bordertech.corpdir.jpa.entity.links.OrgUnitLinksEntity</class>
-    <class>com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity</class>
-    <class>com.github.bordertech.corpdir.jpa.entity.links.ContactLinksEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.version.ContactVersionEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.version.OrgUnitVersionEntity</class>
+    <class>com.github.bordertech.corpdir.jpa.entity.version.PositionVersionEntity</class>
   </persistence-unit>
 </persistence>

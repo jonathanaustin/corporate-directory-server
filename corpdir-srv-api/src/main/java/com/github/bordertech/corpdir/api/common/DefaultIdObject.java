@@ -52,7 +52,7 @@ public class DefaultIdObject implements ApiIdObject {
 
 	@Override
 	public String toString() {
-		return getId();
+		return getDescription();
 	}
 
 	@Override

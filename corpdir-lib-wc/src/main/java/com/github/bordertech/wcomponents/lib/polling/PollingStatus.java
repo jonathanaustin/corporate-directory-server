@@ -14,6 +14,9 @@ public enum PollingStatus {
 	/**
 	 * Service action started.
 	 */
-	PROCESSING
-
+	PROCESSING,
+	/**
+	 * Polling timed out.
+	 */
+	TIMEOUT
 }

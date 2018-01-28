@@ -7,7 +7,7 @@ import com.github.bordertech.flux.crud.store.EntityStore;
  *
  * @author jonathan
  */
-public interface EntityStoreConsumer<T> {
+public interface EntityStoreConsumer<T> extends ActionCreatorConsumer {
 
 	void setEntityStoreKey(final String storeKey);
 

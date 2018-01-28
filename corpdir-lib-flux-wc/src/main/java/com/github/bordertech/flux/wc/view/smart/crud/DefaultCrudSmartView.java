@@ -1,11 +1,17 @@
 package com.github.bordertech.flux.wc.view.smart.crud;
 
+import com.github.bordertech.flux.Action;
+import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.EntityStore;
+import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.crud.store.SearchStore;
-import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.mode.FormMode;
+import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
@@ -27,13 +33,16 @@ import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
+import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.taskmanager.service.AsyncException;
+import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.google.common.base.Objects;
 import java.util.List;
 
 /**
@@ -51,7 +60,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	private final ToolbarView searchToolbar = new DefaultToolbarView("vw_toolbar_1");
 	private final MessageView searchMessages = new DefaultMessageView("vw_crit_msg");
 	// Form Details
-	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", "wclib/hbs/layout/combo-ent-crud-form.hbs");
+	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", TemplateConstants.TEMPLATE_ENT_CRUD_FORM);
 	private final MessageView formMessages = new DefaultMessageView("vw_form_msg");
 	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw_form_toolbar");
 	private final FormView<T> formView;
@@ -65,7 +74,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	public DefaultCrudSmartView(final String viewId, final String title, final SearchView<S> criteriaView2, final SelectSingleView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
-		super(viewId, "wclib/hbs/layout/combo-ent-crud.hbs");
+		super(viewId, TemplateConstants.TEMPLATE_ENT_CRUD, false);
 
 		setAjaxContext(true);
 
@@ -81,20 +90,20 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		formHolder.setDumbMode(true);
 		formHolder.setPassAllEvents(true);
 		formHolder.addHtmlClass("wc-panel-type-box");
-		formHolder.addComponentToTemplate("vw-form-toolbar", formToolbarView);
-		formHolder.addComponentToTemplate("vw-form-msg", formMessages);
-		formHolder.addComponentToTemplate("vw-form-view", formView);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_TOOLBAR, formToolbarView);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_MSG, formMessages);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_VIEW, formView);
 
 		// Add views
-		addComponentToTemplate("vw-toolbar-1", searchToolbar);
-		addComponentToTemplate("vw-crit-msg", searchMessages);
-		addComponentToTemplate("vw-crit", searchView);
-		addComponentToTemplate("vw-poll", pollingView);
-		addComponentToTemplate("vw-list", selectView);
-		addComponentToTemplate("vw-form", formHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR_TOP, searchToolbar);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT_MSG, searchMessages);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT, searchView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, selectView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_FORM, formHolder);
 
 		// Title
-		getContent().addParameter("vw-title", title);
+		getContent().addParameter(TemplateConstants.PARAM_TITLE, title);
 
 		// Toolbar Defaults
 		searchToolbar.addToolbarItem(ToolbarModifyItemType.ADD);
@@ -105,114 +114,12 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		setQualifierContext(true);
 	}
 
-	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
-
-		// Message Events
-		if (event instanceof MessageBaseEventType) {
-			if ((isView(viewId, formToolbarView) || isView(viewId, formView)) && formHolder.isContentVisible()) {
-				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
-			} else {
-				MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
-			}
-			return;
-		}
-		super.handleViewEvent(viewId, event, data);
-
-		// Handle the Form and Form Toolbar Events
-		FormEventUtil.handleFormEvents(this, viewId, event, data);
-		if (event instanceof FormBaseOutcomeEventType) {
-			handleFormOutcomeEvents((FormBaseOutcomeEventType) event, (T) data);
-		}
-
-		// Search Validating
-		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
-			selectView.resetView();
-			pollingView.resetView();
-			resetFormViews();
-			// Search
-		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
-			selectView.resetView();
-			doSearchAction();
-			// Start Polling
-			pollingView.resetView();
-			pollingView.doManualStart();
-
-			// POLLING
-		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
-			// Check if action is done
-			if (isSearchActionDone()) {
-				// Stop polling
-				pollingView.setPollingStatus(PollingStatus.STOPPED);
-				// Handle the result
-				try {
-					List<T> result = getSearchActionResult();
-					selectView.setItems(result);
-					selectView.setContentVisible(true);
-					if (result == null || result.isEmpty()) {
-						dispatchMessageInfo("No records found.");
-					}
-				} catch (Exception e) {
-					dispatchMessageError("Error loading details. " + e.getMessage());
-				}
-			}
-
-			// SELECT
-		} else if (isEvent(SelectBaseEventType.SELECT, event)) {
-			formHolder.resetView();
-			formHolder.setContentVisible(true);
-			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
-		}
+	public boolean isAutoSearch() {
+		return getComponentModel().autoSearch;
 	}
 
-	@Override
-	protected void handleResetEvent(final String viewId) {
-		if (isView(viewId, formToolbarView)) {
-			resetFormViews();
-		} else {
-			super.handleResetEvent(viewId);
-		}
-	}
-
-	/**
-	 * Extra config for the FORM Outcome events.
-	 *
-	 * @param type
-	 * @param entity
-	 */
-	protected void handleFormOutcomeEvents(final FormBaseOutcomeEventType type, final T entity) {
-		switch (type) {
-			case ADD_OK:
-				dispatchMessageReset();
-				selectView.clearSelected();
-				dispatchViewEvent(FormBaseEventType.LOAD_NEW, entity);
-				break;
-
-			case LOAD_OK:
-				formHolder.setContentVisible(true);
-				break;
-
-			case CREATE_OK:
-				selectView.addItem(entity);
-				selectView.setContentVisible(true);
-				selectView.setSelectedItem(entity);
-				dispatchViewEvent(FormBaseEventType.LOAD, entity);
-				break;
-
-			case UPDATE_OK:
-			case REFRESH_OK:
-				selectView.updateItem(entity);
-				dispatchViewEvent(FormBaseEventType.LOAD, entity);
-				break;
-
-			case DELETE_OK:
-				selectView.removeItem(entity);
-				if (selectView.getViewBean().isEmpty()) {
-					selectView.setContentVisible(false);
-				}
-				formHolder.setContentVisible(false);
-				break;
-		}
+	public void setAutoSearch(final boolean autoSearch) {
+		getOrCreateComponentModel().autoSearch = autoSearch;
 	}
 
 	@Override
@@ -275,48 +182,222 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		formHolder.resetContent();
 	}
 
-	protected S getCriteria() {
+	@Override
+	public S getCriteria() {
 		return searchView.getViewBean();
 	}
 
-	protected SearchView<S> getSearchView() {
+	@Override
+	public SearchView<S> getSearchView() {
 		return searchView;
 	}
 
-	protected SelectSingleView<T> getSelectView() {
+	@Override
+	public SelectSingleView<T> getSelectView() {
 		return selectView;
+	}
+
+	@Override
+	public ToolbarView getSearchToolbar() {
+		return searchToolbar;
+	}
+
+	@Override
+	public MessageView getSearchMessages() {
+		return searchMessages;
+	}
+
+	@Override
+	public DefaultSmartView getFormHolder() {
+		return formHolder;
+	}
+
+	@Override
+	public MessageView getFormMessages() {
+		return formMessages;
+	}
+
+	@Override
+	protected void initViewContent(final Request request) {
+		super.initViewContent(request);
+		if (isAutoSearch()) {
+			dispatchViewEvent(SearchBaseEventType.SEARCH);
+		}
+	}
+
+	@Override
+	protected void handleStoreChangedAction(final String storeKey, final Action action) {
+		super.handleStoreChangedAction(storeKey, action);
+		String key = getEntityActionCreatorKey();
+		if (Objects.equal(key, storeKey) && formHolder.isContentVisible() && formView.getFormMode() == FormMode.VIEW) {
+			// Do a refresh
+			dispatchViewEvent(ToolbarBaseEventType.REFRESH);
+		}
+	}
+
+	@Override
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+
+		// Message Events
+		if (event instanceof MessageBaseEventType) {
+			if ((isView(viewId, formToolbarView) || isView(viewId, formView)) && formHolder.isContentVisible()) {
+				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
+			} else {
+				MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
+			}
+			return;
+		}
+		super.handleViewEvent(viewId, event, data);
+
+		// Handle the Form and Form Toolbar Events
+		FormEventUtil.handleFormEvents(this, viewId, event, data);
+		if (event instanceof FormBaseOutcomeEventType) {
+			handleFormOutcomeEvents((FormBaseOutcomeEventType) event, (T) data);
+		}
+
+		// Search Validating
+		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
+			selectView.resetView();
+			pollingView.resetView();
+			resetFormViews();
+			// Search
+		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
+			handleSearchEvent();
+			// POLLING
+		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
+			// Check if action is done
+			boolean done;
+			try {
+				done = isSearchActionDone();
+			} catch (AsyncException e) {
+				dispatchMessageError("Error processing async service. " + e.getMessage());
+				pollingView.setPollingStatus(PollingStatus.STOPPED);
+				return;
+			}
+			if (done) {
+				// Stop polling
+				pollingView.setPollingStatus(PollingStatus.STOPPED);
+				// Handle the result
+				try {
+					List<T> result = getSearchActionResult();
+					handleSearchResult(result);
+				} catch (Exception e) {
+					handleSearchException(e);
+				}
+			}
+
+			// SELECT
+		} else if (isEvent(SelectBaseEventType.SELECT, event)) {
+			formHolder.resetView();
+			formHolder.setContentVisible(true);
+			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
+		}
+	}
+
+	protected void handleSearchException(final Exception e) {
+		dispatchMessageError("Error loading details. " + e.getMessage());
+	}
+
+	protected void handleSearchResult(final List<T> items) {
+		selectView.setItems(items);
+		selectView.setContentVisible(true);
+		if (items == null || items.isEmpty()) {
+			dispatchMessageInfo("No records found.");
+		} else if (items.size() == 1) {
+			// Select the first
+			T item = items.get(0);
+			selectView.setSelectedItem(item);
+			dispatchViewEvent(SelectBaseEventType.SELECT, item);
+		}
+	}
+
+	@Override
+	protected void handleResetEvent(final String viewId) {
+		if (isView(viewId, formToolbarView)) {
+			resetFormViews();
+		} else {
+			super.handleResetEvent(viewId);
+		}
+	}
+
+	/**
+	 * Extra config for the FORM Outcome events.
+	 *
+	 * @param type
+	 * @param entity
+	 */
+	protected void handleFormOutcomeEvents(final FormBaseOutcomeEventType type, final T entity) {
+		switch (type) {
+			case ADD_OK:
+				dispatchMessageReset();
+				selectView.clearSelected();
+				dispatchViewEvent(FormBaseEventType.LOAD_NEW, entity);
+				break;
+
+			case LOAD_OK:
+				formHolder.setContentVisible(true);
+				break;
+
+			case CREATE_OK:
+				resetFormViews();
+				selectView.addItem(entity);
+				selectView.setContentVisible(true);
+				selectView.setSelectedItem(entity);
+				dispatchViewEvent(FormBaseEventType.LOAD, entity);
+				break;
+
+			case UPDATE_OK:
+			case REFRESH_OK:
+				resetFormViews();
+				selectView.updateItem(entity);
+				dispatchViewEvent(FormBaseEventType.LOAD, entity);
+				break;
+
+			case DELETE_OK:
+				selectView.removeItem(entity);
+				if (selectView.getViewBean().isEmpty()) {
+					selectView.setContentVisible(false);
+				}
+				formHolder.setContentVisible(false);
+				break;
+		}
 	}
 
 	protected PollingView getPollingView() {
 		return pollingView;
 	}
 
-	protected ToolbarView getSearchToolbar() {
-		return searchToolbar;
+	protected void handleSearchEvent() {
+		selectView.resetView();
+		// Check cached result
+		try {
+			List<T> result = getSearchActionResult();
+			if (result != null) {
+				handleSearchResult(result);
+				return;
+			}
+		} catch (Exception e) {
+			handleSearchException(e);
+			return;
+		}
+		doDispatchSearchAction();
+		// Start Polling
+		pollingView.resetView();
+		pollingView.doManualStart();
 	}
 
-	protected MessageView getSearchMessages() {
-		return searchMessages;
-	}
-
-	protected DefaultSmartView getFormHolder() {
-		return formHolder;
-	}
-
-	protected MessageView getFormMessages() {
-		return formMessages;
-	}
-
-	protected void doSearchAction() {
+	protected void doDispatchSearchAction() {
+		// Start Search
 		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
-	protected boolean isSearchActionDone() {
+	protected boolean isSearchActionDone() throws AsyncException {
 		return getSearchStore().isSearchDone(getCriteria());
 	}
 
-	protected List<T> getSearchActionResult() {
-		return getSearchStore().search(getCriteria());
+	protected List<T> getSearchActionResult() throws RetrieveActionException {
+		// Just get from the cache
+		return (List<T>) getSearchStore().getActionResultCacheOnly(RetrieveActionBaseType.SEARCH, getCriteria());
 	}
 
 	@Override
@@ -332,6 +413,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	@Override
 	protected CrudFormModel getOrCreateComponentModel() {
 		return (CrudFormModel) super.getOrCreateComponentModel();
+
 	}
 
 	/**
@@ -344,6 +426,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		private String entityStoreKey;
 
 		private String entityCreatorKey;
+
+		private boolean autoSearch = true;
 	}
 
 }

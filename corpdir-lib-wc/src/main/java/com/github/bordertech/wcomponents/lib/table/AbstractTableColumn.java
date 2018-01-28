@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.table;
 
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WTableColumn;
 import com.github.bordertech.wcomponents.WText;
 import java.io.Serializable;
 import java.util.Comparator;
@@ -9,6 +10,10 @@ import java.util.UUID;
 
 /**
  * Table column details.
+ * <p>
+ * This class is not thread safe as it has class level members that are not final. If these need to be updated per user,
+ * then a new instance needs to be created per user session.
+ * <p>
  *
  * @param <V> the columns value type
  * @param <T> the row bean type
@@ -33,11 +38,6 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	private final String columnLabel;
 
 	/**
-	 * Renderer class.
-	 */
-	private final Class<? extends WComponent> rendererClass;
-
-	/**
 	 * Renderer instance.
 	 */
 	private final WComponent renderer;
@@ -46,6 +46,9 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * Column is editable.
 	 */
 	private boolean editable;
+	private int width;
+
+	private WTableColumn.Alignment alignment;
 
 	/**
 	 * @param label the column label
@@ -92,101 +95,75 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		this.columnLabel = label;
 		this.comparator = comparator;
 		this.renderer = renderer;
-		this.rendererClass = null;
 	}
 
-	/**
-	 * @param columnId the column id
-	 * @param label the column label
-	 * @param rendererClass the column renderer class
-	 * @param comparator the column comparator
-	 */
-	public AbstractTableColumn(final String columnId, final String label,
-			final Class<? extends WComponent> rendererClass, final Comparator comparator) {
-		checkComparator(comparator);
-		this.columnId = columnId == null ? UUID.randomUUID().toString() : columnId;
-		this.columnLabel = label;
-		this.comparator = comparator;
-		this.renderer = null;
-		this.rendererClass = rendererClass;
-	}
-
-	private void checkComparator(final Comparator comparator) {
+	protected final void checkComparator(final Comparator comparator) {
 		if (comparator != null && !(comparator instanceof Serializable)) {
 			throw new IllegalArgumentException("Comparator must implement serializable");
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Comparator getComparator() {
 		return comparator;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getColumnId() {
 		return columnId;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getColumnLabel() {
 		return columnLabel;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public WComponent getRenderer() {
 		return renderer;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Class<? extends WComponent> getRendererClass() {
-		return rendererClass;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isEditable() {
 		return editable;
 	}
 
-	/**
-	 * @param editable true if editable
-	 */
 	public void setEditable(final boolean editable) {
 		this.editable = editable;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean equals(final Object obj) {
 		return (obj instanceof AbstractTableColumn)
 				&& Objects.equals(columnId, ((AbstractTableColumn) obj).getColumnId());
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int hashCode() {
 		return columnId.hashCode();
+	}
+
+	@Override
+	public int getWidth() {
+		return width;
+	}
+
+	public void setWidth(int width) {
+		this.width = width;
+	}
+
+	@Override
+	public WTableColumn.Alignment getAlignment() {
+		return alignment;
+	}
+
+	public void setAlignment(WTableColumn.Alignment align) {
+		this.alignment = align;
+	}
+
+	@Override
+	public void setValue(final T bean, final V value) {
+		// NOP
 	}
 
 }

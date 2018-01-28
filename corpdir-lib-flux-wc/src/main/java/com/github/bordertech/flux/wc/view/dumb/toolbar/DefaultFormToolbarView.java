@@ -1,10 +1,10 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.common.AppMenuItem;
+import com.github.bordertech.flux.wc.common.FluxMenuItem;
 import com.github.bordertech.flux.wc.mode.FormMode;
+import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.ViewUtil;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
@@ -17,7 +17,7 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements FormToolbarView<T> {
 
-	private final WMenuItem itemEdit = new AppMenuItem("Edit", ToolbarBaseEventType.EDIT) {
+	private final WMenuItem itemEdit = new FluxMenuItem("Edit", ToolbarBaseEventType.EDIT) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.EDIT) && isFormReady() && !isDisabled();
@@ -30,7 +30,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemCancel = new AppMenuItem("Cancel", ToolbarBaseEventType.CANCEL) {
+	private final WMenuItem itemCancel = new FluxMenuItem("Cancel", ToolbarBaseEventType.CANCEL) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.CANCEL) && isFormReady() && !isDisabled();
@@ -48,21 +48,21 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemUpdate = new AppMenuItem("Save", ToolbarBaseEventType.UPDATE) {
+	private final WMenuItem itemUpdate = new FluxMenuItem("Save", ToolbarBaseEventType.UPDATE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.UPDATE) && getFormMode() == FormMode.EDIT;
 		}
 	};
 
-	private final WMenuItem itemCreate = new AppMenuItem("Save", ToolbarBaseEventType.CREATE) {
+	private final WMenuItem itemCreate = new FluxMenuItem("Save", ToolbarBaseEventType.CREATE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.CREATE) && getFormMode() == FormMode.ADD;
 		}
 	};
 
-	private final WMenuItem itemDelete = new AppMenuItem("Delete", ToolbarBaseEventType.DELETE) {
+	private final WMenuItem itemDelete = new FluxMenuItem("Delete", ToolbarBaseEventType.DELETE) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.DELETE) && isFormReady() && !isDisabled();
@@ -75,7 +75,7 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		}
 	};
 
-	private final WMenuItem itemRefresh = new AppMenuItem("Refresh", ToolbarBaseEventType.REFRESH) {
+	private final WMenuItem itemRefresh = new FluxMenuItem("Refresh", ToolbarBaseEventType.REFRESH) {
 		@Override
 		public boolean isVisible() {
 			return isUseToolbarItem(ToolbarModifyItemType.REFRESH) && isFormReady() && !isDisabled();
@@ -101,12 +101,12 @@ public class DefaultFormToolbarView<T> extends DefaultToolbarView<T> implements 
 		itemDelete.setMessage("Please confirm the delete action.");
 
 		// Images
-		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemEdit);
-		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemUpdate);
-		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemCreate);
-		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemCancel);
-		ViewUtil.addImageToMenuItem(IconConstants.REMOVE_IMAGE, itemDelete);
-		ViewUtil.addImageToMenuItem(IconConstants.REFRESH_IMAGE, itemRefresh);
+		ViewUtil.addImageToMenuItem(IconConstants.EDIT_IMAGE, itemEdit, true);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemUpdate, true);
+		ViewUtil.addImageToMenuItem(IconConstants.SAVE_IMAGE, itemCreate, true);
+		ViewUtil.addImageToMenuItem(IconConstants.CANCEL_IMAGE, itemCancel, true);
+		ViewUtil.addImageToMenuItem(IconConstants.REMOVE_IMAGE, itemDelete, true);
+		ViewUtil.addImageToMenuItem(IconConstants.REFRESH_IMAGE, itemRefresh, true);
 
 		// Clear Defaults
 		clearToolbarItems();

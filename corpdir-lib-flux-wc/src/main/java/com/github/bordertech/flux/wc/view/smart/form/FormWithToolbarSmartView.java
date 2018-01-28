@@ -2,8 +2,9 @@ package com.github.bordertech.flux.wc.view.smart.form;
 
 import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
 import com.github.bordertech.flux.crud.store.EntityStore;
-import com.github.bordertech.flux.store.StoreUtil;
+import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.FormMode;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
@@ -35,17 +36,17 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	public FormWithToolbarSmartView(final String viewId, final FormView<T> formView, final FormToolbarView toolbarView) {
-		super(viewId, "wclib/hbs/layout/combo-ent-toolbar.hbs");
+		super(viewId, TemplateConstants.TEMPLATE_ENT_TOOLBAR);
 		// Views
 		this.formView = formView;
 		this.toolbarView = toolbarView;
 
-		addComponentToTemplate("vw-toolbar", toolbarView);
-		addComponentToTemplate("vw-form", formView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR, toolbarView);
+		addComponentToTemplate(TemplateConstants.TAG_VW_FORM, formView);
 	}
 
 	@Override
-	public void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
+	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
 		// Handle the Form Events
 		FormEventUtil.handleFormEvents(this, viewId, event, data);

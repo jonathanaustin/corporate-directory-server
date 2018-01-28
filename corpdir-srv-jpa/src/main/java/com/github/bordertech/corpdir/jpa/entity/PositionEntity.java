@@ -1,11 +1,13 @@
 package com.github.bordertech.corpdir.jpa.entity;
 
-import com.github.bordertech.corpdir.jpa.common.DefaultKeyIdVersionObject;
-import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
+import com.github.bordertech.corpdir.jpa.common.DefaultVersionableKeyIdTreeObject;
+import com.github.bordertech.corpdir.jpa.entity.version.PositionVersionEntity;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -18,10 +20,11 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "Position")
-public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinksEntity> {
+public class PositionEntity extends DefaultVersionableKeyIdTreeObject<PositionEntity, PositionVersionEntity> {
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	private Set<PositionLinksEntity> dataVersions;
+	@JoinColumn(name = "item_id")
+	private Set<PositionVersionEntity> versions;
 
 	@ManyToOne
 	private PositionTypeEntity type;
@@ -57,23 +60,16 @@ public class PositionEntity extends DefaultKeyIdVersionObject<PositionLinksEntit
 	}
 
 	@Override
-	public PositionLinksEntity getOrCreateDataVersion(final VersionCtrlEntity ctrl) {
-		PositionLinksEntity links = getDataVersion(ctrl.getId());
-		if (links == null) {
-			links = new PositionLinksEntity(ctrl, this);
-			addDataVersion(links);
+	public PositionVersionEntity createVersion(final VersionCtrlEntity ctrl) {
+		return new PositionVersionEntity(ctrl, this);
+	}
+
+	@Override
+	public Set<PositionVersionEntity> getVersions() {
+		if (versions == null) {
+			versions = new HashSet<>();
 		}
-		return links;
-	}
-
-	@Override
-	public Set<PositionLinksEntity> getDataVersions() {
-		return dataVersions;
-	}
-
-	@Override
-	public void setDataVersions(final Set<PositionLinksEntity> dataVersions) {
-		this.dataVersions = dataVersions;
+		return versions;
 	}
 
 }

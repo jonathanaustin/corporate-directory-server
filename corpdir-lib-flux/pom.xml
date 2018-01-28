@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-lib-taskmanager</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>

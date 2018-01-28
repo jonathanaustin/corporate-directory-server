@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Action;
@@ -22,7 +22,7 @@ public class ApplyButtonBarView<T> extends AbstractToolbarView<T> implements Too
 	private final WPanel panel = new WPanel(WPanel.Type.FEATURE);
 
 	private final WButton btnApply = new WButton("Apply");
-	private final WAjaxControl ajax = new AppAjaxControl(btnApply);
+	private final WAjaxControl ajax = new FluxAjaxControl(btnApply);
 
 	public ApplyButtonBarView(final String viewId) {
 		super(viewId);

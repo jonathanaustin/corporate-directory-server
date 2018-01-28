@@ -4,7 +4,11 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Smart View that processes view events from its dumb view children.
+ *
+ * Smart views are the controllers of Dumb Views.
+ * <p>
+ * Smart Views interact with ActionCreators and Stores. They control and pass data to their child dumb views.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -34,7 +38,7 @@ public interface SmartView<T> extends DumbView<T> {
 	 * @param eventType the child view event to handle
 	 * @param data the associated data
 	 */
-	void handleViewEvent(final String viewId, final ViewEventType eventType, final Object data);
+	void serviceViewEvent(final String viewId, final ViewEventType eventType, final Object data);
 
 	/**
 	 * @return the qualifier to be used on listeners or events (if needed)
@@ -79,13 +83,36 @@ public interface SmartView<T> extends DumbView<T> {
 	 */
 	boolean isDumbMode();
 
+	/**
+	 * Pass an event to the parent smart view to process.
+	 *
+	 * @param type the event type to pass through
+	 */
 	void addPassThrough(final ViewEventType type);
 
+	/**
+	 * Remove an event type pass through.
+	 *
+	 * @param type the event type
+	 */
 	void removePassThrough(final ViewEventType type);
 
+	/**
+	 *
+	 * @return the events this smart view should pass to its parent smart view
+	 */
 	Set<ViewEventType> getPassThroughs();
 
+	/**
+	 * Helper method to set if a smart view should send all its events to its parent smart view.
+	 *
+	 * @param passAllEvents true if pass all events to the parent smart view
+	 */
 	void setPassAllEvents(final boolean passAllEvents);
 
+	/**
+	 *
+	 * @return true if pass all events to the parent smart view
+	 */
 	boolean isPassAllEvents();
 }

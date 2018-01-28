@@ -36,41 +36,49 @@ public class VersionCtrlResource implements VersionCtrlService {
 	}
 
 	@GET
-	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<List<VersionCtrl>> retrieveVersions() {
-		return impl.retrieveVersions();
+	public DataResponse<List<VersionCtrl>> search(@QueryParam("search") final String search) {
+		return impl.search(search);
 	}
 
 	@GET
+	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<Long> getCurrentVersion() {
-		return impl.getCurrentVersion();
-	}
-
-	@PUT
-	@Path("/{vers}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Override
-	public DataResponse<Long> setCurrentVersion(@PathParam("vers") final Long versionId) {
-		return impl.setCurrentVersion(versionId);
+	public DataResponse<VersionCtrl> retrieve(@PathParam("key") final String keyId) {
+		return impl.retrieve(keyId);
 	}
 
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public DataResponse<Long> createVersion(@QueryParam("description") final String description) {
-		return impl.createVersion(description);
+	public DataResponse<VersionCtrl> create(final VersionCtrl type) {
+		return impl.create(type);
+	}
+
+	@PUT
+	@Path("/{key}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public DataResponse<VersionCtrl> update(@PathParam("key") final String keyId, final VersionCtrl type) {
+		return impl.update(keyId, type);
 	}
 
 	@DELETE
-	@Path("/{vers}")
+	@Path("/{key}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Override
-	public BasicResponse deleteVersion(@PathParam("vers") final Long versionId) {
-		return impl.deleteVersion(versionId);
+	public BasicResponse delete(@PathParam("key") final String keyId) {
+		return impl.delete(keyId);
+	}
+
+	@POST
+	@Path("/create")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Override
+	public DataResponse<Long> createVersion(@QueryParam("description") final String description) {
+		return impl.createVersion(description);
 	}
 
 	@PUT

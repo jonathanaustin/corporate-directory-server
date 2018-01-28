@@ -8,6 +8,7 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.smart.FormSmartView;
+import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
  * Process form events.
@@ -151,18 +152,18 @@ public class FormEventUtil {
 		if (!form.validateView()) {
 			return;
 		}
+		form.updateViewBean();
+		T bean = form.getViewBean();
 		// Do Save
 		try {
-			form.updateViewBean();
-			T bean = form.getViewBean();
 			if (create) {
 				bean = view.getEntityActionCreator().create(bean);
 			} else {
 				bean = view.getEntityActionCreator().update(bean);
 			}
-			// Reload from the store
-			bean = view.getEntityStore().fetch(bean);
-			view.resetFormViews();
+			if (bean == null) {
+				throw new SystemException("An updated item was not returned from the action service.");
+			}
 			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_OK : FormBaseOutcomeEventType.UPDATE_OK, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, create ? FormBaseOutcomeEventType.CREATE_ERROR : FormBaseOutcomeEventType.UPDATE_ERROR, e);

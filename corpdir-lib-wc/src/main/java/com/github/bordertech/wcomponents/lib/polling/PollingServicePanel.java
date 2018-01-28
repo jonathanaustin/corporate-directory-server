@@ -1,6 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.taskmanager.TaskFuture;
+import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
@@ -120,7 +120,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	public void doStartPolling() {
 		// Check not started
-		if (getPollingStatus() != PollingStatus.STOPPED) {
+		if (getPollingStatus() == PollingStatus.PROCESSING) {
 			return;
 		}
 
@@ -183,7 +183,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	@Override
 	protected void handleStoppedPolling() {
 		String key = getServiceKey();
-		ResultHolder result = ServiceUtil.getResultHolder(getPollingCache(), key);
+		ResultHolder result = getPollingCache().get(key);
 		if (result == null) {
 			throw new IllegalStateException("Result has expired so polling result not available");
 		}
@@ -238,7 +238,15 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 */
 	@Override
 	protected boolean checkForStopPolling() {
-		if (ServiceUtil.checkASyncResult(getPollingCache(), getServiceKey()) != null) {
+		String key = getServiceKey();
+		try {
+			if (ServiceUtil.checkASyncResult(getPollingCache(), key) != null) {
+				setPollingStatus(PollingStatus.STOPPED);
+			}
+		} catch (AsyncException e) {
+			// Put Exception in the CACHE so it can be retrieved after it stops polling (Will be cleared straight away).
+			ResultHolder result = new ResultHolder(key, e);
+			getPollingCache().put(key, result);
 			setPollingStatus(PollingStatus.STOPPED);
 		}
 		return super.checkForStopPolling();
@@ -257,7 +265,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	protected void clearServiceKey() {
 		String key = getServiceKey();
 		if (key != null) {
-			ServiceUtil.clearResult(getPollingCache(), key);
+			getPollingCache().remove(key);
 			getOrCreateComponentModel().serviceKey = null;
 		}
 	}
@@ -291,8 +299,8 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 *
 	 * @return the cache instance
 	 */
-	protected synchronized Cache<String, TaskFuture> getPollingCache() {
-		return ServiceUtil.getFutureCache("wc-polling-service-default-future-cache");
+	protected synchronized Cache<String, ResultHolder> getPollingCache() {
+		return ServiceUtil.getResultHolderCache("wc-polling-service-default-future-cache");
 	}
 
 	/**

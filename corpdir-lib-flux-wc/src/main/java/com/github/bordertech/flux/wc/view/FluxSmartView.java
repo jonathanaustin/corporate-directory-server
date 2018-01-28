@@ -17,7 +17,7 @@ public interface FluxSmartView<T> extends FluxDumbView<T>, SmartView<T> {
 	 * @return the list of child views
 	 */
 	@Override
-	List<FluxDumbView> getViews();
+	List<? extends FluxDumbView> getViews();
 
 	/**
 	 *

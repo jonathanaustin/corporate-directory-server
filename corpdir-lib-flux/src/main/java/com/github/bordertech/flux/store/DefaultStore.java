@@ -1,23 +1,26 @@
 package com.github.bordertech.flux.store;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.base.StateBaseActionType;
-import com.github.bordertech.flux.factory.FluxFactory;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.key.ActionType;
-import com.github.bordertech.taskmanager.TaskFuture;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import java.util.Set;
 import javax.cache.Cache;
 
 /**
+ * Default Store.
  *
  * @author Jonathan Austin
  * @since 1.0.0
  */
 public class DefaultStore implements Store {
+
+	private static final Dispatcher DISPATCHER = Didums.getService(Dispatcher.class);
 
 	private final String key;
 
@@ -43,7 +46,7 @@ public class DefaultStore implements Store {
 
 	@Override
 	public final Dispatcher getDispatcher() {
-		return FluxFactory.getDispatcher();
+		return DISPATCHER;
 	}
 
 	/**
@@ -52,8 +55,8 @@ public class DefaultStore implements Store {
 	 *
 	 * @return the cache instance
 	 */
-	protected synchronized Cache<String, TaskFuture> getStoreCache() {
-		return ServiceUtil.getFutureCache("flux-default-" + getKey());
+	protected synchronized Cache<String, ResultHolder> getStoreCache() {
+		return ServiceUtil.getResultHolderCache("flux-default-" + getKey());
 	}
 
 }

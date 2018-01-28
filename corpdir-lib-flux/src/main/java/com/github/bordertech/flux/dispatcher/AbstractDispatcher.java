@@ -6,9 +6,14 @@ import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.DefaultAction;
+import com.github.bordertech.flux.action.DispatcherActionType;
 import com.github.bordertech.flux.key.ActionKey;
 
 /**
+ * Partial implementation of Dispatcher.
+ * <p>
+ * Concrete implementations need to provide how the dispatcher model state is held.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0

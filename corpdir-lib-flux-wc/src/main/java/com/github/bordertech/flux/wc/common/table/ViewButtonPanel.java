@@ -1,12 +1,13 @@
 package com.github.bordertech.flux.wc.common.table;
 
-import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WLibButton;
 import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
@@ -16,11 +17,11 @@ import com.github.bordertech.wcomponents.lib.icons.IconConstants;
  */
 public class ViewButtonPanel extends WDiv {
 
-	private final WButton button = new WButton("View");
+	private final WLibButton button = new WLibButton("View");
 
 	public ViewButtonPanel() {
 		add(button);
-		button.setImageUrl(IconConstants.VIEW_IMAGE);
+		button.setImageUrl(IconConstants.VIEW_IMAGE, true);
 		button.setRenderAsLink(false);
 		button.setAction(new Action() {
 			@Override

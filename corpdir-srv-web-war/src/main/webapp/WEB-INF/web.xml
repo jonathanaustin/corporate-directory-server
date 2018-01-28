@@ -43,18 +43,25 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
-	<!-- Swagger Servlet -->
+	<!-- Swagger Config Servlet -->
 	<servlet>
-		<!-- This does not need a servlet mapping, it configures swagger. -->
+		<!--	 This does not need a servlet mapping, it configures swagger -->.
 		<servlet-name>Jersey2Config</servlet-name>
-		<servlet-class>io.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>
+		<!--<servlet-class>io.swagger.jersey.config.JerseyJaxrsConfig</servlet-class>-->
+		<servlet-class>com.github.bordertech.swagger.SwaggerServlet</servlet-class>
 		<init-param>
 			<param-name>api.version</param-name>
 			<param-value>1.0.0</param-value><!-- Our API version. -->
 		</init-param>
 		<init-param>
-			<param-name>swagger.api.basepath</param-name>
-			<param-value>http://localhost:8080/api</param-value><!-- Our service root. -->
+			<!-- HOST NAME. Real pain swagger wants to use a FULL Path. -->
+			<param-name>api.host</param-name>
+			<!--<param-value>bordertech-corpdir.herokuapp.com</param-value>-->
+			<param-value>localhost:8080</param-value>
+		</init-param>
+		<init-param>
+			<param-name>api.basepath</param-name>
+			<param-value>api</param-value>
 		</init-param>
 		<init-param>
 			<param-name>scan.all.resources</param-name>
@@ -71,7 +78,7 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>WebUI</servlet-name>
-		<url-pattern>/admin</url-pattern>
+		<url-pattern>/admin/*</url-pattern>
 	</servlet-mapping>
 
 	<!-- Theme Servlet -->
@@ -84,7 +91,6 @@ see implementation details http://jersey.java.net/nonav/documentation/latest/jax
 		<servlet-name>Theme</servlet-name>
 		<url-pattern>/theme/*</url-pattern>
 	</servlet-mapping>
-
 
 	<filter>
 		<filter-name>userSetup</filter-name>

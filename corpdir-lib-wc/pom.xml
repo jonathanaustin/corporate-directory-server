@@ -20,17 +20,17 @@
 	</properties>
 
 	<dependencies>
+		<!-- Flux. -->
+		<dependency>
+			<groupId>com.github.bordertech.corpdir</groupId>
+			<artifactId>corpdir-lib-flux</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
 		<!-- WComponents -->
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
 			<artifactId>wcomponents-bundle</artifactId>
-		</dependency>
-		<!-- Flux. -->
-		<dependency>
-			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-lib-flux</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 
 		<!-- Servlet Interface. -->

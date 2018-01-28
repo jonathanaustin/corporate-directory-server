@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.jpa.common;
 
-import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -17,11 +17,12 @@ import javax.persistence.OneToMany;
  * @author jonathan
  */
 @MappedSuperclass
-public class DefaultKeyIdTreeObject<T extends PersistTreeable> extends DefaultKeyIdObject implements PersistTreeable<T> {
+public class DefaultKeyIdTreeObject<T extends PersistKeyIdTree> extends DefaultKeyIdObject implements PersistKeyIdTree<T> {
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "parentId")
 	private T parent;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parent", cascade = CascadeType.MERGE)
 	private Set<T> children;
 
@@ -60,6 +61,7 @@ public class DefaultKeyIdTreeObject<T extends PersistTreeable> extends DefaultKe
 			children = new HashSet<>();
 		}
 		children.add(child);
+		// Bi-Directional
 		child.setParent(this);
 	}
 
@@ -68,6 +70,7 @@ public class DefaultKeyIdTreeObject<T extends PersistTreeable> extends DefaultKe
 		if (children != null) {
 			children.remove(child);
 		}
+		// Bi-Directional
 		child.setParent(null);
 	}
 

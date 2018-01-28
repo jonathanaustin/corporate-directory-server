@@ -1,13 +1,20 @@
 package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiObject;
+import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
+import com.github.bordertech.flux.wc.view.dumb.PollingView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateableView;
+import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Input;
 import com.github.bordertech.wcomponents.WCheckBox;
+import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
+import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.validation.Diagnostic;
+import java.util.List;
 
 /**
  * Basic API Form View.
@@ -97,6 +104,33 @@ public class BasicApiPanel<T extends ApiObject> extends FormUpdateableView<T> {
 	@Override
 	public T getBeanValue() {
 		return (T) super.getBeanValue();
+	}
+
+	@Override
+	protected void validateComponent(final List<Diagnostic> diags) {
+		super.validateComponent(diags);
+		checkPollingInputs(diags, this);
+	}
+
+	protected void checkPollingInputs(final List<Diagnostic> diags, final WComponent component) {
+		if (!component.isVisible()) {
+			return;
+		}
+		// Check a polling options view has loaded correctly
+		if (component instanceof PollingView && component instanceof InputOptionsView) {
+			PollingView polling = (PollingView) component;
+			if (polling.getPollingStatus() != PollingStatus.STOPPED) {
+				Input input = ((InputOptionsView) component).getSelectInput();
+				String lbl = input.getLabel() == null ? "" : input.getLabel().getText() + " ";
+				diags.add(createErrorDiagnostic(input, "The " + lbl + "options have not been loaded."));
+			}
+			return;
+		}
+		if (component instanceof Container) {
+			for (WComponent child : ((Container) component).getChildren()) {
+				checkPollingInputs(diags, child);
+			}
+		}
 	}
 
 }

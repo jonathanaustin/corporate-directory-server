@@ -16,3 +16,7 @@
 span[class="wc-labelbody wc_dlbl_seg"] {
 	width: auto !important;
 }
+
+section > header > h1 {
+	vertical-align: middle;
+}

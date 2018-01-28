@@ -7,7 +7,7 @@ import com.github.bordertech.flux.crud.store.RetrieveActionStore;
  *
  * @author jonathan
  */
-public interface RetrieveStoreConsumer {
+public interface RetrieveStoreConsumer extends StoreConsumer {
 
 	void setRetrieveStoreKey(final String storeKey);
 

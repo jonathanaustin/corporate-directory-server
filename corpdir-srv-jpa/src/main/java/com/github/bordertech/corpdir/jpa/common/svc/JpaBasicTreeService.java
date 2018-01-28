@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.jpa.common.svc;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
-import com.github.bordertech.corpdir.jpa.common.feature.PersistTreeable;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdTree;
 import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.List;
 import java.util.Objects;
@@ -22,7 +22,7 @@ import javax.persistence.criteria.Root;
  * @since 1.0.0
  */
 @Singleton
-public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistTreeable<P>> extends JpaBasicService<A, P> implements BasicTreeService<A> {
+public abstract class JpaBasicTreeService<A extends ApiTreeable, P extends PersistKeyIdTree<P>> extends JpaBasicKeyIdService<A, P> implements BasicTreeService<A> {
 
 	@Override
 	protected void handleUpdateVerify(final EntityManager em, final A api, final P entity) {

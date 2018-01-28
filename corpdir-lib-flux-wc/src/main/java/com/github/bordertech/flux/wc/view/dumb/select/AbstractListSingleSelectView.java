@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.select;
 
-import com.github.bordertech.flux.wc.common.AppAjaxControl;
+import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 
@@ -47,7 +47,7 @@ public class AbstractListSingleSelectView<T> extends AbstractListSelectableView<
 		}
 	}
 
-	protected void registerSelectUnselectAjaxControl(final AppAjaxControl ctrl) {
+	protected void registerSelectUnselectAjaxControl(final FluxAjaxControl ctrl) {
 		registerEventAjaxControl(SelectBaseEventType.UNSELECT, ctrl);
 		registerEventAjaxControl(SelectBaseEventType.SELECT, ctrl);
 	}

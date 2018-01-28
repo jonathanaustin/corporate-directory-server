@@ -7,11 +7,9 @@ import java.util.Objects;
  *
  * @author jonathan
  */
-public class DefaultKeyIdObject extends DefaultIdObject implements ApiKeyIdObject {
+public class DefaultKeyIdObject extends DefaultIdCustomObject implements ApiKeyIdObject {
 
 	private String businessKey;
-	private boolean active = true;
-	private boolean custom = true;
 
 	protected DefaultKeyIdObject() {
 	}
@@ -28,26 +26,6 @@ public class DefaultKeyIdObject extends DefaultIdObject implements ApiKeyIdObjec
 	@Override
 	public void setBusinessKey(final String businessKey) {
 		this.businessKey = businessKey;
-	}
-
-	@Override
-	public boolean isActive() {
-		return active;
-	}
-
-	@Override
-	public void setActive(final boolean active) {
-		this.active = active;
-	}
-
-	@Override
-	public boolean isCustom() {
-		return custom;
-	}
-
-	@Override
-	public void setCustom(final boolean custom) {
-		this.custom = custom;
 	}
 
 	@Override

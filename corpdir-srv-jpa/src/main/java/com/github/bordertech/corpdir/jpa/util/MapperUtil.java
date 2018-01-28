@@ -1,10 +1,11 @@
 package com.github.bordertech.corpdir.jpa.util;
 
-import com.github.bordertech.corpdir.api.exception.ServiceException;
+import com.github.bordertech.corpdir.api.common.ApiIdObject;
+import com.github.bordertech.corpdir.api.exception.ServiceApiException;
+import com.github.bordertech.corpdir.jpa.common.feature.PersistIdObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistKeyIdObject;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -23,11 +24,6 @@ import javax.persistence.criteria.Root;
 public final class MapperUtil {
 
 	/**
-	 * ID prefix for API.
-	 */
-	private static final String ID_PREFIX = "_";
-
-	/**
 	 * Private constructor to prevent instantiation.
 	 */
 	private MapperUtil() {
@@ -39,7 +35,7 @@ public final class MapperUtil {
 	 * @param entity the entity
 	 * @return the API id format
 	 */
-	public static String convertEntityIdforApi(final PersistKeyIdObject entity) {
+	public static String convertEntityIdforApi(final PersistIdObject entity) {
 		if (entity == null) {
 			return null;
 		}
@@ -58,7 +54,7 @@ public final class MapperUtil {
 		if (id == null) {
 			return null;
 		}
-		String convert = ID_PREFIX + String.valueOf(id);
+		String convert = ApiIdObject.ID_PREFIX + String.valueOf(id);
 		return convert;
 	}
 
@@ -71,9 +67,24 @@ public final class MapperUtil {
 		if (id == null) {
 			return null;
 		}
+		if (id.startsWith(ApiIdObject.TEMP_NEW_ID_PREFIX)) {
+			return null;
+		}
 		String value = id.substring(1);
 		Long convert = Long.valueOf(value);
 		return convert;
+	}
+
+	/**
+	 *
+	 * @param testId the id to test if its an API temporary ID
+	 * @return true if a temporary id
+	 */
+	public static boolean isTempId(final String testId) {
+		if (testId == null || testId.startsWith(ApiIdObject.TEMP_NEW_ID_PREFIX)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -82,10 +93,10 @@ public final class MapperUtil {
 	 * @return true if an entity ID
 	 */
 	public static boolean isEntityId(final String testId) {
-		if (testId == null || !testId.startsWith(ID_PREFIX)) {
+		if (testId == null || !testId.startsWith(ApiIdObject.ID_PREFIX)) {
 			return false;
 		}
-		String regex = "^" + Pattern.quote(ID_PREFIX) + "\\d+$";
+		String regex = "^" + Pattern.quote(ApiIdObject.ID_PREFIX) + "\\d+$";
 		return testId.matches(regex);
 	}
 
@@ -95,10 +106,10 @@ public final class MapperUtil {
 	 * @param rows the list of entity items
 	 * @return the list of converted API business keys
 	 */
-	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistKeyIdObject> rows) {
+	public static List<String> convertEntitiesToApiKeys(final Collection<? extends PersistIdObject> rows) {
 		List<String> items = new ArrayList<>();
 		if (rows != null) {
-			for (PersistKeyIdObject row : rows) {
+			for (PersistIdObject row : rows) {
 				if (row != null) {
 					items.add(convertEntityIdforApi(row));
 				}
@@ -145,13 +156,12 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistKeyIdObject> T getEntity(final EntityManager em, final String keyId, final Class<T> clazz) {
+	public static <T extends PersistKeyIdObject> T getEntityByKeyId(final EntityManager em, final String keyId, final Class<T> clazz) {
 		if (keyId == null || keyId.isEmpty()) {
 			return null;
 		}
 		if (isEntityId(keyId)) {
-			Long id = convertApiIdforEntity(keyId);
-			return getEntityById(em, id, clazz);
+			return getEntityByApiId(em, keyId, clazz);
 		} else {
 			return getEntityByBusinessKey(em, keyId, clazz);
 		}
@@ -164,7 +174,22 @@ public final class MapperUtil {
 	 * @param <T> the entity
 	 * @return the entity
 	 */
-	public static <T extends PersistKeyIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
+	public static <T extends PersistIdObject> T getEntityByApiId(final EntityManager em, final String id, final Class<T> clazz) {
+		if (id == null) {
+			return null;
+		}
+		Long longId = convertApiIdforEntity(id);
+		return getEntityById(em, longId, clazz);
+	}
+
+	/**
+	 * @param em the entity manager
+	 * @param id the record id
+	 * @param clazz the entity class
+	 * @param <T> the entity
+	 * @return the entity
+	 */
+	public static <T extends PersistIdObject> T getEntityById(final EntityManager em, final Long id, final Class<T> clazz) {
 		if (id == null) {
 			return null;
 		}
@@ -210,12 +235,12 @@ public final class MapperUtil {
 		if (key == null || key.isEmpty()) {
 			throw new IllegalArgumentException("Business Key must be provided.");
 		}
-		if (key.startsWith(ID_PREFIX)) {
+		if (key.startsWith(ApiIdObject.ID_PREFIX)) {
 			throw new IllegalArgumentException("Business Key cannot start with a reserved character.");
 		}
 		T other = getEntityByBusinessKey(em, key, entityClass);
 		if (other != null) {
-			throw new ServiceException("Business key [" + key + "] already in use.");
+			throw new ServiceApiException("Business key [" + key + "] already in use.");
 		}
 	}
 
@@ -259,7 +284,7 @@ public final class MapperUtil {
 	public static List<String> keysRemoved(final Collection<String> origKeys, final Collection<String> newKeys) {
 		// All Keys new (ie none removed)
 		if (origKeys == null || origKeys.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<>();
 		}
 		// All keys removed
 		if (newKeys == null || newKeys.isEmpty()) {
@@ -281,7 +306,7 @@ public final class MapperUtil {
 	public static List<String> keysAdded(final Collection<String> origKeys, final Collection<String> newKeys) {
 		// No Keys added
 		if (newKeys == null || newKeys.isEmpty()) {
-			return Collections.EMPTY_LIST;
+			return new ArrayList<>();
 		}
 		// All Keys new (ie all added)
 		if (origKeys == null || origKeys.isEmpty()) {

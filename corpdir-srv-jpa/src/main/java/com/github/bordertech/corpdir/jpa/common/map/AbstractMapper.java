@@ -4,7 +4,6 @@ import com.github.bordertech.corpdir.api.common.ApiObject;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistObject;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.EntityManager;
 
@@ -39,26 +38,22 @@ public abstract class AbstractMapper<A extends ApiObject, P extends PersistObjec
 
 	@Override
 	public List<A> convertEntitiesToApis(final EntityManager em, final Collection<P> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
-
 		List<A> items = new ArrayList<>();
-		for (P row : rows) {
-			items.add(convertEntityToApi(em, row));
+		if (rows != null) {
+			for (P row : rows) {
+				items.add(convertEntityToApi(em, row));
+			}
 		}
 		return items;
 	}
 
 	@Override
 	public List<P> convertApisToEntities(final EntityManager em, final Collection<A> rows) {
-		if (rows == null || rows.isEmpty()) {
-			return Collections.EMPTY_LIST;
-		}
-
 		List<P> items = new ArrayList<>();
-		for (A row : rows) {
-			items.add(convertApiToEntity(em, row));
+		if (rows != null) {
+			for (A row : rows) {
+				items.add(convertApiToEntity(em, row));
+			}
 		}
 		return items;
 	}

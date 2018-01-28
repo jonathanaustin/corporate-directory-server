@@ -11,12 +11,12 @@ import com.github.bordertech.corpdir.jpa.common.svc.JpaBasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.entity.ContactEntity;
 import com.github.bordertech.corpdir.jpa.entity.PositionEntity;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.entity.links.PositionLinksEntity;
+import com.github.bordertech.corpdir.jpa.entity.version.PositionVersionEntity;
 import com.github.bordertech.corpdir.jpa.util.MapperUtil;
 import com.github.bordertech.corpdir.jpa.v1.mapper.ContactMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.OrgUnitMapper;
 import com.github.bordertech.corpdir.jpa.v1.mapper.PositionMapper;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -28,7 +28,7 @@ import javax.persistence.EntityManager;
  * @since 1.0.0
  */
 @Singleton
-public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, PositionLinksEntity, PositionEntity> implements PositionService {
+public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, PositionVersionEntity, PositionEntity> implements PositionService {
 
 	private static final ContactMapper CONTACT_MAPPER = new ContactMapper();
 	private static final OrgUnitMapper ORGUNIT_MAPPER = new OrgUnitMapper();
@@ -59,10 +59,10 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 		EntityManager em = getEntityManager();
 		try {
 			PositionEntity entity = getEntity(em, keyId);
-			PositionLinksEntity links = entity.getDataVersion(versionId);
+			PositionVersionEntity links = entity.getVersion(versionId);
 			List<Contact> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = CONTACT_MAPPER.convertEntitiesToApis(em, links.getContacts(), versionId);
 			}
@@ -84,7 +84,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			// Get Version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Add Contact to the Position
-			position.getOrCreateDataVersion(ctrl).addContact(contact);
+			position.getOrCreateVersion(ctrl).addContact(contact);
 			em.getTransaction().commit();
 			return buildResponse(em, position, versionId);
 		} finally {
@@ -104,7 +104,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 			// Get Version
 			VersionCtrlEntity ctrl = getVersionCtrl(em, versionId);
 			// Remove Contact from the Position
-			position.getOrCreateDataVersion(ctrl).removeContact(contact);
+			position.getOrCreateVersion(ctrl).removeContact(contact);
 			em.getTransaction().commit();
 			return buildResponse(em, position, versionId);
 		} finally {
@@ -117,10 +117,10 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 		EntityManager em = getEntityManager();
 		try {
 			PositionEntity entity = getEntity(em, keyId);
-			PositionLinksEntity links = entity.getDataVersion(versionId);
+			PositionVersionEntity links = entity.getVersion(versionId);
 			List<OrgUnit> list;
 			if (links == null) {
-				list = Collections.EMPTY_LIST;
+				list = new ArrayList<>();
 			} else {
 				list = ORGUNIT_MAPPER.convertEntitiesToApis(em, links.getManageOrgUnits(), versionId);
 			}
@@ -131,7 +131,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 	}
 
 	protected ContactEntity getContactEntity(final EntityManager em, final String keyId) {
-		ContactEntity entity = MapperUtil.getEntity(em, keyId, ContactEntity.class);
+		ContactEntity entity = MapperUtil.getEntityByKeyId(em, keyId, ContactEntity.class);
 		if (entity == null) {
 			throw new NotFoundException("Contact [" + keyId + "] not found.");
 		}
@@ -144,7 +144,7 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 	}
 
 	@Override
-	protected MapperApiVersion<Position, PositionLinksEntity, PositionEntity> getMapper() {
+	protected MapperApiVersion<Position, PositionVersionEntity, PositionEntity> getMapper() {
 		return POSITION_MAPPER;
 	}
 }

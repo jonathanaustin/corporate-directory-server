@@ -9,30 +9,10 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 
-### NetBeans ###
-nbactions-provisional-build.xml
-nbactions-release-profile.xml
-.netbeans_automatic_build
-nbproject/
-build/
-nbbuild/
-dist/
-nbdist/
-nbactions.xml
-nb-configuration.xml
-.nb-gradle/
-
-### OSX - created by https://www.gitignore.io/api/osx ###
-.DS_Store
-.AppleDouble
-.LSOverride
-
-# Icon must end with two \r
-Icon
-
 
 ### WComponents ###
 local_app.properties
 
 
 *.log
+

@@ -5,18 +5,10 @@ package com.github.bordertech.corpdir.api.common;
  *
  * @author jonathan
  */
-public interface ApiKeyIdObject extends ApiIdObject {
+public interface ApiKeyIdObject extends ApiIdObject, ApiActivable, ApiCustomable {
 
 	String getBusinessKey();
 
 	void setBusinessKey(final String businessKey);
-
-	boolean isCustom();
-
-	void setCustom(final boolean custom);
-
-	boolean isActive();
-
-	void setActive(final boolean active);
 
 }

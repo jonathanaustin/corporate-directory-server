@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.crud;
 
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
+import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.panel.OrgUnitPanel;
 import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudTreeSmartView;
 
@@ -9,10 +10,10 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudTreeSmartView;
  *
  * @author jonathan
  */
-public class OrgUnitCrudView extends DefaultCrudTreeSmartView<String, OrgUnit> {
+public class OrgUnitCrudView extends AppSecureCrudWrapperView<String, OrgUnit> {
 
 	public OrgUnitCrudView() {
-		super("OU", "Org Unit", new OrgUnitPanel("PL"));
+		super("OU", CardType.ORG_UNIT, new DefaultCrudTreeSmartView<String, OrgUnit>("SV", "Org Unit", new OrgUnitPanel("PL")));
 	}
 
 }
