@@ -13,7 +13,6 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.smart.CrudTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.DefaultListOrTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.ListOrTreeSelectView;
-import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
@@ -66,7 +65,7 @@ public class DefaultCrudTreeSmartView<S, T> extends DefaultCrudSmartView<S, T> i
 	}
 
 	@Override
-	protected boolean isSearchActionDone() throws AsyncException {
+	protected boolean isSearchActionDone() {
 		if (getCriteria() == null) {
 			return getEntityStore().isRootItemsDone();
 		} else {

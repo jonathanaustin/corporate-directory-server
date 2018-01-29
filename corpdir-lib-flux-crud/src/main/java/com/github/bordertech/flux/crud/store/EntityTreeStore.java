@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.List;
 
 /**
@@ -15,11 +14,11 @@ public interface EntityTreeStore<T> extends EntityStore<T> {
 
 	List<T> getChildren(final T item) throws RetrieveActionException;
 
-	boolean isChildrenDone(final T item) throws AsyncException;
+	boolean isChildrenDone(final T item);
 
 	List<T> getRootItems() throws RetrieveActionException;
 
-	boolean isRootItemsDone() throws AsyncException;
+	boolean isRootItemsDone();
 
 	String getItemLabel(final T item);
 

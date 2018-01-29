@@ -1,7 +1,5 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.taskmanager.service.AsyncException;
-
 /**
  * Store that holds entity values.
  *
@@ -12,5 +10,5 @@ public interface EntityStore<T> extends RetrieveActionStore {
 
 	T fetch(final T entity) throws RetrieveActionException;
 
-	boolean isFetchDone(final T entity) throws AsyncException;
+	boolean isFetchDone(final T entity);
 }

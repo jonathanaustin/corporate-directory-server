@@ -38,7 +38,7 @@ import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
-import com.github.bordertech.taskmanager.service.AsyncException;
+import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -269,7 +269,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 			boolean done;
 			try {
 				done = isSearchActionDone();
-			} catch (AsyncException e) {
+			} catch (ServiceException e) {
 				dispatchMessageError("Error processing async service. " + e.getMessage());
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				return;
@@ -391,7 +391,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
-	protected boolean isSearchActionDone() throws AsyncException {
+	protected boolean isSearchActionDone() {
 		return getSearchStore().isSearchDone(getCriteria());
 	}
 

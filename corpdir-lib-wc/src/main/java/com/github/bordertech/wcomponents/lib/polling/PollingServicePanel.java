@@ -1,8 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDiv;
@@ -157,7 +157,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		getHolder().reset();
 		getStartButton().setVisible(false);
 		setPollingCriteria(criteria);
-		handleResult(new ResultHolder(result));
+		handleResult(new ResultHolder(criteria, result));
 	}
 
 	/**
@@ -197,16 +197,15 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param resultHolder the polling action result
 	 */
 	protected void handleResult(final ResultHolder<S, T> resultHolder) {
-		// Exception message
-		if (resultHolder.isException()) {
-			Exception excp = resultHolder.getException();
-			handleExceptionResult(excp);
-			// Log error
-			LOG.error("Error loading data. " + excp.getMessage());
-		} else {
+		if (resultHolder.isResult()) {
 			// Successful Result
 			T result = resultHolder.getResult();
 			handleSuccessfulResult(result);
+		} else {
+			// Exception message
+			Exception excp = resultHolder.getException();
+			handleExceptionResult(excp);
+			LOG.error("Error loading data. " + excp.getMessage());
 		}
 	}
 
@@ -243,7 +242,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			if (ServiceUtil.checkASyncResult(getPollingCache(), key) != null) {
 				setPollingStatus(PollingStatus.STOPPED);
 			}
-		} catch (AsyncException e) {
+		} catch (ServiceException e) {
 			// Put Exception in the CACHE so it can be retrieved after it stops polling (Will be cleared straight away).
 			ResultHolder result = new ResultHolder(key, e);
 			getPollingCache().put(key, result);

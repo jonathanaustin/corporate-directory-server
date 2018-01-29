@@ -8,7 +8,6 @@ import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.EntityTreeStore;
 import com.github.bordertech.flux.crud.store.RetrieveActionException;
-import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -66,12 +65,12 @@ public class DefaultEntityTreeStore<T, D extends CrudTreeApi<T>> extends Default
 	}
 
 	@Override
-	public boolean isChildrenDone(final T item) throws AsyncException {
+	public boolean isChildrenDone(final T item) {
 		return isAsyncDone(RetrieveActionBaseType.CHILDREN, item);
 	}
 
 	@Override
-	public boolean isRootItemsDone() throws AsyncException {
+	public boolean isRootItemsDone() {
 		return isAsyncDone(RetrieveActionBaseType.ROOT, null);
 	}
 

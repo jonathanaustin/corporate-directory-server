@@ -11,7 +11,6 @@ import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
 import com.github.bordertech.flux.crud.action.retrieve.CallType;
 import com.github.bordertech.flux.crud.action.retrieve.RetrieveAction;
 import com.github.bordertech.flux.crud.factory.FluxFactory;
-import com.github.bordertech.taskmanager.service.AsyncException;
 
 /**
  *
@@ -101,9 +100,8 @@ public class StoreUtil {
 	 * @param storeKey the target store
 	 * @param data the action data
 	 * @return true if the store action is done
-	 * @throws AsyncException exception processing async action
 	 */
-	public static boolean isFetchActionDone(final String storeKey, final Object data) throws AsyncException {
+	public static boolean isFetchActionDone(final String storeKey, final Object data) {
 		return isRetrieveStoreActionDone(storeKey, RetrieveActionBaseType.FETCH, data);
 	}
 
@@ -113,9 +111,8 @@ public class StoreUtil {
 	 * @param storeKey the target store
 	 * @param data the action data
 	 * @return true if the store action is done
-	 * @throws AsyncException exception processing async action
 	 */
-	public static boolean isSearchActionDone(final String storeKey, final Object data) throws AsyncException {
+	public static boolean isSearchActionDone(final String storeKey, final Object data) {
 		return isRetrieveStoreActionDone(storeKey, RetrieveActionBaseType.SEARCH, data);
 	}
 
@@ -126,9 +123,8 @@ public class StoreUtil {
 	 * @param actionType the retrieve action type
 	 * @param data the action data
 	 * @return true if the store action is done
-	 * @throws AsyncException exception processing async action
 	 */
-	public static boolean isRetrieveStoreActionDone(final String storeKey, final RetrieveActionType actionType, final Object data) throws AsyncException {
+	public static boolean isRetrieveStoreActionDone(final String storeKey, final RetrieveActionType actionType, final Object data) {
 		RetrieveActionStore store = getStore(storeKey);
 		return store.isAsyncDone(actionType, data);
 	}

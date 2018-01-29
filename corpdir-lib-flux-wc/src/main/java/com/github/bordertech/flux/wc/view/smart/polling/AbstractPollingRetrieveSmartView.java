@@ -8,7 +8,7 @@ import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
-import com.github.bordertech.taskmanager.service.AsyncException;
+import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -119,7 +119,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 				setPollingStatus(PollingStatus.STOPPED);
 				handleStoreResult();
 			}
-		} catch (AsyncException e) {
+		} catch (ServiceException e) {
 			setPollingStatus(PollingStatus.STOPPED);
 			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
 		}

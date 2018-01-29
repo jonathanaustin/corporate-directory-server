@@ -15,7 +15,6 @@ import com.github.bordertech.flux.crud.store.RetrieveActionException;
 import com.github.bordertech.flux.crud.store.RetrieveActionStore;
 import com.github.bordertech.flux.key.ActionKey;
 import com.github.bordertech.flux.store.DefaultStore;
-import com.github.bordertech.taskmanager.service.AsyncException;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
@@ -48,7 +47,7 @@ public abstract class AbstractRetrieveStore extends DefaultStore implements Retr
 	}
 
 	@Override
-	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) throws AsyncException {
+	public boolean isAsyncDone(final RetrieveActionType type, final Object criteria) {
 		String key = getResultCacheKey(type, criteria);
 		// Check if async result available
 		ResultHolder resultHolder = ServiceUtil.checkASyncResult(getStoreCache(), key);

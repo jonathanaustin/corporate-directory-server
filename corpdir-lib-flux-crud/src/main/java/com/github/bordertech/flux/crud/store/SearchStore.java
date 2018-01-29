@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.taskmanager.service.AsyncException;
 import java.util.List;
 
 /**
@@ -14,6 +13,6 @@ public interface SearchStore<S, T> extends RetrieveActionStore {
 
 	List<T> search(final S criteria) throws RetrieveActionException;
 
-	boolean isSearchDone(final S criteria) throws AsyncException;
+	boolean isSearchDone(final S criteria);
 
 }
