@@ -4,6 +4,7 @@ import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
@@ -147,6 +148,12 @@ public class DefaultPollingInputOptionsView<S, T> extends AbstractPollingRetriev
 	@Override
 	public WDiv getInputContainer() {
 		return optionsView.getInputContainer();
+	}
+
+	@Override
+	protected ResultHolder<S, List<T>> handleRetrieveStoreResult() {
+		// FIXME
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

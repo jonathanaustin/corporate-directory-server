@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 public class UnitTypeCrudView extends AppSecureCrudWrapperView<String, UnitType> {
 
 	public UnitTypeCrudView() {
-		super("UT", CardType.UNIT_TYPE, new DefaultCrudSmartView<String, UnitType>("SV", "Unit Type", new BasicApiKeyPanel("PL")));
+		super("UT", CardType.UNIT_TYPE, new DefaultCrudSmartView<String, String, UnitType>("SV", "Unit Type", new BasicApiKeyPanel("PL")));
 	}
 
 }

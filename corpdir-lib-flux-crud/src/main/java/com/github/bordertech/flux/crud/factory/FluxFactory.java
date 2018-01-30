@@ -6,14 +6,14 @@ import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.DataApi;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.crud.actioncreator.impl.DefaultEntityActionCreator;
-import com.github.bordertech.flux.crud.actioncreator.impl.DefaultEntityTreeActionCreator;
+import com.github.bordertech.flux.crud.actioncreator.DefaultCrudActionCreator;
+import com.github.bordertech.flux.crud.actioncreator.DefaultCrudTreeActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.crud.dataapi.SearchApi;
-import com.github.bordertech.flux.crud.store.impl.DefaultEntityStore;
-import com.github.bordertech.flux.crud.store.impl.DefaultEntityTreeStore;
-import com.github.bordertech.flux.crud.store.impl.DefaultSearchStore;
+import com.github.bordertech.flux.dataapi.SearchApi;
+import com.github.bordertech.flux.crud.store.impl.DefaultCrudStore;
+import com.github.bordertech.flux.crud.store.impl.DefaultCrudTreeStore;
+import com.github.bordertech.flux.store.datapi.DefaultSearchStore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -56,9 +56,9 @@ public final class FluxFactory {
 		try {
 			DataApi api = getDataApi(apiKey);
 			if (api instanceof CrudTreeApi) {
-				creator = new DefaultEntityTreeActionCreator<>(key, (CrudTreeApi) api);
+				creator = new DefaultCrudTreeActionCreator<>(key, (CrudTreeApi) api);
 			} else {
-				creator = new DefaultEntityActionCreator<>(key, (CrudApi) api);
+				creator = new DefaultCrudActionCreator<>(key, (CrudApi) api);
 			}
 		} catch (Exception e) {
 			throw new IllegalStateException("Could not create action creator [" + key + "]." + e.getMessage(), e);
@@ -71,9 +71,9 @@ public final class FluxFactory {
 		try {
 			DataApi api = getDataApi(apiKey);
 			if (api instanceof CrudTreeApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityTreeStore(storeKey, actionCreatorKeys, (CrudTreeApi) api);
+				return (T) new DefaultCrudTreeStore(storeKey, actionCreatorKeys, (CrudTreeApi) api);
 			} else if (api instanceof CrudApi && storeKey.startsWith("e-")) {
-				return (T) new DefaultEntityStore(storeKey, actionCreatorKeys, (CrudApi) api);
+				return (T) new DefaultCrudStore(storeKey, actionCreatorKeys, (CrudApi) api);
 			} else if (api instanceof SearchApi && storeKey.startsWith("s-")) {
 				return (T) new DefaultSearchStore(storeKey, actionCreatorKeys, (SearchApi) api);
 			} else {

@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 public class PositionTypeCrudView extends AppSecureCrudWrapperView<String, PositionType> {
 
 	public PositionTypeCrudView() {
-		super("PT", CardType.POSITION_TYPE, new DefaultCrudSmartView<String, PositionType>("SV", "Position Type", new BasicApiKeyPanel("PL")));
+		super("PT", CardType.POSITION_TYPE, new DefaultCrudSmartView<String, String, PositionType>("SV", "Position Type", new BasicApiKeyPanel("PL")));
 	}
 
 }

@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudTreeSmartView;
 public class OrgUnitCrudView extends AppSecureCrudWrapperView<String, OrgUnit> {
 
 	public OrgUnitCrudView() {
-		super("OU", CardType.ORG_UNIT, new DefaultCrudTreeSmartView<String, OrgUnit>("SV", "Org Unit", new OrgUnitPanel("PL")));
+		super("OU", CardType.ORG_UNIT, new DefaultCrudTreeSmartView<String, String, OrgUnit>("SV", "Org Unit", new OrgUnitPanel("PL")));
 	}
 
 }

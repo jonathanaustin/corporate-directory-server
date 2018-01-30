@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 public class ContactCrudView extends AppSecureCrudWrapperView<String, Contact> {
 
 	public ContactCrudView() {
-		super("CT", CardType.CONTACT, new DefaultCrudSmartView<String, Contact>("SV", "Contact", new ContactPanel("PL")));
+		super("CT", CardType.CONTACT, new DefaultCrudSmartView<String, String, Contact>("SV", "Contact", new ContactPanel("PL")));
 	}
 
 }

@@ -4,7 +4,9 @@ import com.github.bordertech.flux.view.SmartView;
 import java.util.List;
 
 /**
- * WComponents Smart View.
+ * Smart View.
+ *
+ * @param <T> the view bean type
  *
  * @author Jonathan Austin
  * @since 1.0.0

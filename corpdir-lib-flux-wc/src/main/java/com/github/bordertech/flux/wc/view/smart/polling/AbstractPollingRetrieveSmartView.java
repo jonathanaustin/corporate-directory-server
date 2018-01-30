@@ -1,13 +1,10 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
-import com.github.bordertech.flux.crud.action.RetrieveActionType;
-import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
-import com.github.bordertech.flux.crud.action.retrieve.CallType;
-import com.github.bordertech.flux.crud.store.RetrieveActionStore;
-import com.github.bordertech.flux.crud.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
@@ -28,14 +25,6 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	public AbstractPollingRetrieveSmartView(final String viewId, final String template, final boolean persistent) {
 		super(viewId, template, persistent);
-	}
-
-	public void setStoreRetrieveType(final RetrieveActionType retrieveType) {
-		getOrCreateComponentModel().retrieveType = retrieveType == null ? RetrieveActionBaseType.FETCH : retrieveType;
-	}
-
-	public RetrieveActionType getStoreRetrieveType() {
-		return getComponentModel().retrieveType;
 	}
 
 	public void setStoreCallType(final CallType callType) {
@@ -62,6 +51,10 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().criteria;
 	}
 
+	abstract protected void handleRetrieveOKEvent(final R result);
+
+	abstract protected ResultHolder<S, R> handleRetrieveStoreResult();
+
 	@Override
 	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
 		super.handleViewEvent(viewId, event, data);
@@ -81,8 +74,6 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		}
 	}
 
-	protected abstract void handleRetrieveOKEvent(final R result);
-
 	protected void handleRetrieveErrorEvent(final Exception excp) {
 		dispatchMessageError("Error loading details. " + excp.getMessage());
 		if (isUseRetryOnError()) {
@@ -94,30 +85,20 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	protected void handlePollingStartEvent(final PollingBaseEventType type) {
 		super.handlePollingStartEvent(type);
 		// Check if result is already in the cache (dont need to poll)
-		RetrieveActionStore store = (RetrieveActionStore) getDispatcher().getStore(getStoreKey());
-		try {
-			Object result = store.getActionResultCacheOnly(getStoreRetrieveType(), getStoreCriteria());
-			if (result != null) {
-				dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
-				setContineStart(false);
-			}
-		} catch (Exception e) {
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
+		ResultHolder<S, R> resultHolder = handleRetrieveStoreResult();
+		if (resultHolder != null) {
+			handleStoreResult(resultHolder);
 			setContineStart(false);
 		}
 	}
 
 	@Override
-	protected void handlePollingStartedEvent() {
-		StoreUtil.dispatchRetrieveAction(getStoreKey(), getStoreRetrieveType(), getStoreCriteria(), getStoreCallType());
-	}
-
-	@Override
 	protected void handlePollingCheckStatusEvent() {
 		try {
-			if (StoreUtil.isRetrieveStoreActionDone(getStoreKey(), getStoreRetrieveType(), getStoreCriteria())) {
+			ResultHolder<S, R> result = handleRetrieveStoreResult();
+			if (result != null) {
 				setPollingStatus(PollingStatus.STOPPED);
-				handleStoreResult();
+				handleStoreResult(result);
 			}
 		} catch (ServiceException e) {
 			setPollingStatus(PollingStatus.STOPPED);
@@ -125,12 +106,11 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		}
 	}
 
-	protected void handleStoreResult() {
-		try {
-			R result = (R) StoreUtil.getRetrieveStoreActionResult(getStoreKey(), getStoreRetrieveType(), getStoreCriteria());
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, result);
-		} catch (Exception e) {
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
+	protected void handleStoreResult(final ResultHolder resultHolder) {
+		if (resultHolder.isException()) {
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, resultHolder.getException());
+		} else {
+			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_OK, resultHolder.getResult());
 		}
 	}
 
@@ -159,8 +139,6 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	 * Holds the extrinsic state information of the edit view.
 	 */
 	public static class PollingStoreModel<S> extends SmartViewModel {
-
-		private RetrieveActionType retrieveType = RetrieveActionBaseType.SEARCH;
 
 		private CallType callType = CallType.REFRESH_ASYNC;
 

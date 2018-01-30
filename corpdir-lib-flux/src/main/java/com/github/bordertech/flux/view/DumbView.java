@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Dumb View that is only responsible for presentation and generating view events.
  *
  * @param <T> the view bean
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */

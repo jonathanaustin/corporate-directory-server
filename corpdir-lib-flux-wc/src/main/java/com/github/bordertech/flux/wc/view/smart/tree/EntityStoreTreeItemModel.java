@@ -1,8 +1,9 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
-import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.flux.crud.store.RetrieveActionException;
+import com.github.bordertech.flux.crud.store.CrudTreeStore;
 import com.github.bordertech.flux.wc.view.dumb.tree.TreeViewItemModel;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
@@ -20,9 +21,9 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final EntityTreeStore<T> model;
+	private final CrudTreeStore<?, K, T> model;
 
-	public EntityStoreTreeItemModel(final List<T> rootItems, final EntityTreeStore<T> model) {
+	public EntityStoreTreeItemModel(final List<T> rootItems, final CrudTreeStore<?, K, T> model) {
 		this.rootItems = rootItems;
 		this.model = model;
 	}
@@ -68,11 +69,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public boolean hasChildren(final List<Integer> row) {
 		T item = getItem(row);
-		try {
-			return model.hasChildren(item);
-		} catch (RetrieveActionException e) {
-			throw new SystemException("Could not retrieve child count. " + e.getMessage(), e);
-		}
+		return model.hasChildren(item);
 	}
 
 	@Override
@@ -86,9 +83,11 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	}
 
 	protected List<T> loadChildren(final T item) {
-		try {
-			return model.getChildren(item);
-		} catch (Exception e) {
+		ResultHolder<T, List<T>> resultHolder = model.getChildren(item, CallType.CALL_SYNC);
+		if (resultHolder.isResult()) {
+			return resultHolder.getResult();
+		} else {
+			Exception e = resultHolder.getException();
 			throw new SystemException("Could not load child items. " + e.getMessage(), e);
 		}
 	}

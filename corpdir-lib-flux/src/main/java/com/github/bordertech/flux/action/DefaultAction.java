@@ -1,14 +1,13 @@
 package com.github.bordertech.flux.action;
 
 import com.github.bordertech.flux.Action;
-import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.ActionType;
 
 /**
  * Default action that holds the action key and payload.
  *
- * @author Jonathan Austin
  * @param <T> the action payload type
+ *
+ * @author Jonathan Austin
  * @since 1.0.0
  */
 public class DefaultAction<T> implements Action<T> {

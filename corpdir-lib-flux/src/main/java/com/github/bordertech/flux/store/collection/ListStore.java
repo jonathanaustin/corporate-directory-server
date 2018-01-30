@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * Store that holds a list.
  *
- * @author jonathan
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface ListStore<T> extends Store {
 

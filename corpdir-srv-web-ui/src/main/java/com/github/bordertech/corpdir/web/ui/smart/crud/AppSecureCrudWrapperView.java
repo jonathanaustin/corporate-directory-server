@@ -1,9 +1,8 @@
 package com.github.bordertech.corpdir.web.ui.smart.crud;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
-import com.github.bordertech.flux.crud.store.EntityStore;
-import com.github.bordertech.flux.crud.store.SearchStore;
+import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
+import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.ViewUtil;
@@ -13,7 +12,7 @@ import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
-import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WSection;
@@ -24,12 +23,12 @@ import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
  *
  * @author jonathan
  */
-public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> implements CrudSmartView<S, T> {
+public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> implements CrudSearchSmartView<S, String, T> {
 
 	private final WSection wrapper;
-	private final CrudSmartView<S, T> crudView;
+	private final CrudSearchSmartView<S, String, T> crudView;
 
-	public AppSecureCrudWrapperView(final String viewId, CardType cardType, final CrudSmartView<S, T> crudView) {
+	public AppSecureCrudWrapperView(final String viewId, CardType cardType, final CrudSearchSmartView<S, String, T> crudView) {
 		super(viewId, new DefaultAppPath(cardType.getPath()));
 		this.wrapper = new WSection(cardType.getDesc());
 		this.crudView = crudView;
@@ -137,21 +136,6 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public void setSearchStoreKey(String storeKey) {
-		crudView.setSearchStoreKey(storeKey);
-	}
-
-	@Override
-	public String getSearchStoreKey() {
-		return crudView.getSearchStoreKey();
-	}
-
-	@Override
-	public SearchStore<S, T> getSearchStore() {
-		return crudView.getSearchStore();
-	}
-
-	@Override
 	public void setEntityActionCreatorKey(String creatorKey) {
 		crudView.setEntityActionCreatorKey(creatorKey);
 	}
@@ -162,7 +146,7 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public EntityActionCreator<T> getEntityActionCreator() {
+	public CrudActionCreator<T> getEntityActionCreator() {
 		return crudView.getEntityActionCreator();
 	}
 
@@ -177,7 +161,7 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public EntityStore<T> getEntityStore() {
+	public CrudStore<S, String, T> getEntityStore() {
 		return crudView.getEntityStore();
 	}
 

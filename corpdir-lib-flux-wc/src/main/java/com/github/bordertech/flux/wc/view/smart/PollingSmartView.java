@@ -4,9 +4,12 @@ import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;
 
 /**
- * Smart view that is a Message Container.
+ * Smart view that is a POlling View.
  *
- * @author jonathan
+ * @param <T> the view bean type
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface PollingSmartView<T> extends FluxSmartView<T>, PollingView<T> {
 

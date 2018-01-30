@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.wc.view.smart.form;
 
-import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
-import com.github.bordertech.flux.crud.store.EntityStore;
-import com.github.bordertech.flux.crud.store.StoreUtil;
+import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
+import com.github.bordertech.flux.crud.store.CrudStore;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.FormMode;
@@ -11,7 +11,7 @@ import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.DefaultFormView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.DefaultFormToolbarView;
 import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
-import com.github.bordertech.flux.wc.view.smart.FormSmartView;
+import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WContainer;
 
@@ -21,7 +21,7 @@ import com.github.bordertech.wcomponents.WContainer;
  * @author jonathan
  * @param <T> the entity type
  */
-public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> implements FormSmartView<T>, FormView<T> {
+public class FormWithToolbarSmartView<S, K, T> extends DefaultMessageSmartView<T> implements CrudSmartView<S, K, T>, FormView<T> {
 
 	private final FormView<T> formView;
 
@@ -63,7 +63,7 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public EntityActionCreator<T> getEntityActionCreator() {
+	public CrudActionCreator<T> getEntityActionCreator() {
 		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 
@@ -78,7 +78,7 @@ public class FormWithToolbarSmartView<T> extends DefaultMessageSmartView<T> impl
 	}
 
 	@Override
-	public EntityStore<T> getEntityStore() {
+	public CrudStore<S, K, T> getEntityStore() {
 		return StoreUtil.getStore(getEntityStoreKey());
 	}
 

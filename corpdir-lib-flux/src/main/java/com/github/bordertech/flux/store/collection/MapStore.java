@@ -6,9 +6,12 @@ import java.util.Map;
 /**
  * Store that holds key value pairs.
  *
- * @author jonathan
  * @param <K> the key type
  * @param <V> the value type
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
+ *
  */
 public interface MapStore<K, V> extends Store {
 

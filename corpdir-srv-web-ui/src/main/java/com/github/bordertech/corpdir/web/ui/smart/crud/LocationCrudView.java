@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudTreeSmartView;
 public class LocationCrudView extends AppSecureCrudWrapperView<String, Location> {
 
 	public LocationCrudView() {
-		super("LOC", CardType.LOCATION, new DefaultCrudTreeSmartView<String, Location>("SV", "Location", new LocationPanel("PL")));
+		super("LOC", CardType.LOCATION, new DefaultCrudTreeSmartView<String, String, Location>("SV", "Location", new LocationPanel("PL")));
 	}
 
 }

@@ -5,7 +5,6 @@ import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicIdService;
 import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
-import com.github.bordertech.flux.crud.dataapi.SearchApi;
 import java.util.List;
 
 /**
@@ -16,7 +15,7 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class DefaultModelSearchActionService<T extends ApiIdObject, B extends BasicIdService<T>> implements SearchApi<String, T>, CrudApi<T> {
+public class DefaultModelSearchActionService<T extends ApiIdObject, B extends BasicIdService<T>> implements CrudApi<String, String, T> {
 
 	private final Class<T> apiClass;
 	private final B service;
@@ -54,9 +53,14 @@ public class DefaultModelSearchActionService<T extends ApiIdObject, B extends Ba
 	}
 
 	@Override
-	public T retrieve(final T entity) {
-		DataResponse<T> resp = service.retrieve(entity.getId());
+	public T retrieve(final String key) {
+		DataResponse<T> resp = service.retrieve(key);
 		return resp.getData();
+	}
+
+	@Override
+	public String getItemKey(final T item) {
+		return item.getId();
 	}
 
 	@Override

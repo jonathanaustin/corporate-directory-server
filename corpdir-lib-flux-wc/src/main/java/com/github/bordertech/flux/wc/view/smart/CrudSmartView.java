@@ -1,36 +1,26 @@
 package com.github.bordertech.flux.wc.view.smart;
 
-import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.flux.wc.view.dumb.MessageView;
-import com.github.bordertech.flux.wc.view.dumb.SearchView;
-import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
-import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
-import com.github.bordertech.flux.wc.view.smart.consumer.SearchStoreConsumer;
+import com.github.bordertech.flux.crud.view.consumer.CrudActionCreatorConsumer;
+import com.github.bordertech.flux.crud.view.consumer.CrudStoreConsumer;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
+import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
+import com.github.bordertech.flux.wc.view.dumb.FormView;
 
 /**
- * Crud SMART view with a Search Store.
+ * CRUD Smart View.
  *
  * @param <S> the criteria type
+ * @param <K> the form entity key type
  * @param <T> the form entity type
- * @author jonathan
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
-public interface CrudSmartView<S, T> extends FormSmartView<T>, SearchStoreConsumer<S, T> {
+public interface CrudSmartView<S, K, T> extends FluxSmartView<T>, CrudActionCreatorConsumer<T>, CrudStoreConsumer<S, K, T> {
 
-	boolean isAutoSearch();
+	FormView<T> getFormView();
 
-	void setAutoSearch(final boolean autoSearch);
+	FormToolbarView<T> getFormToolbarView();
 
-	S getCriteria();
-
-	SearchView<S> getSearchView();
-
-	SelectSingleView<T> getSelectView();
-
-	ToolbarView getSearchToolbar();
-
-	MessageView getSearchMessages();
-
-	DefaultSmartView getFormHolder();
-
-	MessageView getFormMessages();
+	void resetFormViews();
 }

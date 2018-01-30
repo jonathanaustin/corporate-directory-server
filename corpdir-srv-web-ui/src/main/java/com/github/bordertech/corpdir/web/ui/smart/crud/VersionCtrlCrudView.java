@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 public class VersionCtrlCrudView extends AppSecureCrudWrapperView<String, VersionCtrl> {
 
 	public VersionCtrlCrudView() {
-		super("VC", CardType.VERSION_CTRL, new DefaultCrudSmartView<String, VersionCtrl>("SV", "Version Ctrl", new BasicApiIdPanel("PL")));
+		super("VC", CardType.VERSION_CTRL, new DefaultCrudSmartView<String, String, VersionCtrl>("SV", "Version Ctrl", new BasicApiIdPanel("PL")));
 	}
 
 }

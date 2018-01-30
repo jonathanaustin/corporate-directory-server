@@ -13,7 +13,7 @@ import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
 public class SystemCtrlCrudView extends AppSecureCrudWrapperView<String, SystemCtrl> {
 
 	public SystemCtrlCrudView() {
-		super("SC", CardType.SYSTEM_CTRL, new DefaultCrudSmartView<String, SystemCtrl>("SV", "System Ctrl", new SystemCtrlPanel("PL")));
+		super("SC", CardType.SYSTEM_CTRL, new DefaultCrudSmartView<String, String, SystemCtrl>("SV", "System Ctrl", new SystemCtrlPanel("PL")));
 	}
 
 }

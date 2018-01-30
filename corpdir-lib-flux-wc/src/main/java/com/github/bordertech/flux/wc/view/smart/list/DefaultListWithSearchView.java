@@ -7,6 +7,8 @@ import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
+import java.util.List;
 
 /**
  * Collection View with a Search View.
@@ -15,7 +17,7 @@ import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
  * @param <S> the search type
  * @param <T> the item type
  */
-public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> {
+public class DefaultListWithSearchView<S, T> extends AbstractListSmartView<S, T> {
 
 	// Toolbar - Defaults to just the Reset Button and Reset Event is handled AUTO
 	private final ToolbarView toolbarView = new DefaultToolbarView("vw_toolbar");
@@ -70,6 +72,12 @@ public class DefaultListWithSearchView<S, T> extends DefaultListSmartView<S, T> 
 	protected void handleSearchValidatingEvent() {
 		getListView().reset();
 		getPollingView().reset();
+	}
+
+	@Override
+	protected ResultHolder<S, List<T>> handleRetrieveStoreResult() {
+		// FIXME
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }

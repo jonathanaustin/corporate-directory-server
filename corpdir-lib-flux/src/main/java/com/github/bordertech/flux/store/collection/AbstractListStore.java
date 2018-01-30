@@ -2,18 +2,17 @@ package com.github.bordertech.flux.store.collection;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.action.StoreActionType;
-import com.github.bordertech.flux.action.base.ListBaseActionType;
-import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.action.type.base.ListBaseActionType;
 import com.github.bordertech.flux.store.DefaultStore;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 
 /**
- * List store.
+ * Default List store.
  *
  * @param <T> the item type
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  *
@@ -22,6 +21,10 @@ public abstract class AbstractListStore<T> extends DefaultStore implements ListS
 
 	public AbstractListStore(final String storeKey) {
 		super(storeKey);
+	}
+
+	public AbstractListStore(final String storeKey, final Set<String> actionCreatorKeys) {
+		super(storeKey, actionCreatorKeys);
 	}
 
 	@Override
@@ -35,8 +38,7 @@ public abstract class AbstractListStore<T> extends DefaultStore implements ListS
 					handleListActions(action);
 				}
 			};
-			String id = registerListener(type, listener);
-			ids.add(id);
+			ids.addAll(registerActionCreatorListeners(type, listener));
 		}
 	}
 
@@ -98,17 +100,6 @@ public abstract class AbstractListStore<T> extends DefaultStore implements ListS
 		} else if (data instanceof Object[]) {
 			getItems().addAll(Arrays.asList((T[]) data));
 		}
-	}
-
-	/**
-	 * A helper method to register a listener with an Action Type and the Controller qualifier automatically added.
-	 *
-	 * @param listener the listener to register
-	 * @param actionType the action type
-	 * @return the listener id
-	 */
-	protected String registerListener(final StoreActionType actionType, final Listener listener) {
-		return getDispatcher().registerListener(new ActionKey(actionType, getKey()), listener);
 	}
 
 }

@@ -1,13 +1,9 @@
 package com.github.bordertech.flux.wc.view.smart.crud;
 
 import com.github.bordertech.flux.Action;
-import com.github.bordertech.flux.crud.action.base.RetrieveActionBaseType;
-import com.github.bordertech.flux.crud.action.retrieve.CallType;
-import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
-import com.github.bordertech.flux.crud.store.EntityStore;
-import com.github.bordertech.flux.crud.store.RetrieveActionException;
-import com.github.bordertech.flux.crud.store.SearchStore;
-import com.github.bordertech.flux.crud.store.StoreUtil;
+import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
+import com.github.bordertech.flux.crud.store.CrudStore;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.FormMode;
@@ -36,7 +32,7 @@ import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
-import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.wcomponents.Request;
@@ -52,7 +48,7 @@ import java.util.List;
  * @param <S> the criteria type
  * @param <T> the entity type
  */
-public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> implements CrudSmartView<S, T> {
+public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> implements CrudSearchSmartView<S, K, T> {
 
 	private final SearchView<S> searchView;
 	private final SelectSingleView<T> selectView;
@@ -133,7 +129,7 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	@Override
-	public EntityActionCreator<T> getEntityActionCreator() {
+	public CrudActionCreator<T> getEntityActionCreator() {
 		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
 	}
 
@@ -148,23 +144,8 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	@Override
-	public EntityStore<T> getEntityStore() {
+	public CrudStore<S, K, T> getEntityStore() {
 		return StoreUtil.getStore(getEntityStoreKey());
-	}
-
-	@Override
-	public void setSearchStoreKey(final String searchStoreKey) {
-		getOrCreateComponentModel().searchStoreKey = searchStoreKey;
-	}
-
-	@Override
-	public String getSearchStoreKey() {
-		return getComponentModel().searchStoreKey;
-	}
-
-	@Override
-	public SearchStore<S, T> getSearchStore() {
-		return StoreUtil.getStore(getSearchStoreKey());
 	}
 
 	@Override
@@ -387,17 +368,21 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	}
 
 	protected void doDispatchSearchAction() {
-		// Start Search
-		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
+//		// Start Search
+//		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
 	protected boolean isSearchActionDone() {
-		return getSearchStore().isSearchDone(getCriteria());
+		// FIXME
+		return true;
+//		return getSearchStore().isSearchDone(getCriteria());
 	}
 
-	protected List<T> getSearchActionResult() throws RetrieveActionException {
-		// Just get from the cache
-		return (List<T>) getSearchStore().getActionResultCacheOnly(RetrieveActionBaseType.SEARCH, getCriteria());
+	protected List<T> getSearchActionResult() {
+		// FIXME
+		return null;
+//		// Just get from the cache
+//		return (List<T>) getSearchStore().getActionResultCacheOnly(RetrieveActionBaseType.SEARCH, getCriteria());
 	}
 
 	@Override
@@ -420,8 +405,6 @@ public class DefaultCrudSmartView<S, T> extends DefaultMessageSmartView<T> imple
 	 * Holds the extrinsic state information of the edit view.
 	 */
 	public static class CrudFormModel extends SmartViewModel {
-
-		private String searchStoreKey;
 
 		private String entityStoreKey;
 

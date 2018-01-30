@@ -3,19 +3,16 @@ package com.github.bordertech.flux.wc.view;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.action.base.StateBaseActionType;
+import com.github.bordertech.flux.action.ActionKey;
+import com.github.bordertech.flux.action.ActionType;
+import com.github.bordertech.flux.action.type.base.StateBaseActionType;
 import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
-import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.EntityStoreConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.RetrieveStoreConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.SearchStoreConsumer;
+import com.github.bordertech.flux.view.consumer.SearchStoreConsumer;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
@@ -27,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import com.github.bordertech.flux.crud.view.consumer.CrudActionCreatorConsumer;
+import com.github.bordertech.flux.crud.view.consumer.CrudStoreConsumer;
 
 /**
  * Smart view.
@@ -287,16 +286,12 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	protected void registerStoreConsumerListeners() {
-		if (this instanceof EntityActionCreatorConsumer) {
-			String key = ((EntityActionCreatorConsumer) this).getEntityActionCreatorKey();
+		if (this instanceof CrudActionCreatorConsumer) {
+			String key = ((CrudActionCreatorConsumer) this).getEntityActionCreatorKey();
 			registerStoreKeyChangeListener(key);
 		}
-		if (this instanceof EntityStoreConsumer) {
-			String key = ((EntityStoreConsumer) this).getEntityStoreKey();
-			registerStoreKeyChangeListener(key);
-		}
-		if (this instanceof RetrieveStoreConsumer) {
-			String key = ((RetrieveStoreConsumer) this).getRetrieveStoreKey();
+		if (this instanceof CrudStoreConsumer) {
+			String key = ((CrudStoreConsumer) this).getEntityStoreKey();
 			registerStoreKeyChangeListener(key);
 		}
 		if (this instanceof SearchStoreConsumer) {
