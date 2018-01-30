@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.event.util;
+package com.github.bordertech.flux.wc.crud.util;
 
 import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -8,7 +8,8 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.crud.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.crud.smart.CrudSmartView;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.util.SystemException;

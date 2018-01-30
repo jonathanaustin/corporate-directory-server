@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;

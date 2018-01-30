@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart.crud;
+package com.github.bordertech.flux.wc.crud.smart.impl;
 
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;

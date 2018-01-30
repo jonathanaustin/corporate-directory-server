@@ -7,7 +7,7 @@ import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;

@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.dumb.toolbar;
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.flux.wc.common.FluxMenuItem;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.AbstractMenuToolbarView;
 import com.github.bordertech.wcomponents.MenuItem;
 import com.github.bordertech.wcomponents.MenuSelectContainer;

@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
 import com.github.bordertech.flux.wc.common.FluxMenuItem;
 import com.github.bordertech.flux.wc.mode.FormMode;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.WMenu;

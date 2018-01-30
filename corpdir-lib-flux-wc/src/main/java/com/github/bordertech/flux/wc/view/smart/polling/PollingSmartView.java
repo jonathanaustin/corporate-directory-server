@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart;
+package com.github.bordertech.flux.wc.view.smart.polling;
 
 import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.PollingView;

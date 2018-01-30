@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.crud;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
-import com.github.bordertech.flux.wc.view.smart.crud.DefaultCrudSmartView;
+import com.github.bordertech.flux.wc.crud.smart.impl.DefaultCrudSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**

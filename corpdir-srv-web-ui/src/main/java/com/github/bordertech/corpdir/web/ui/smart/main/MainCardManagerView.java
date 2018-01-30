@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;
-import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
+import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardManagerView;
 import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 import java.util.HashMap;

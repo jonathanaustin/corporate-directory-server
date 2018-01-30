@@ -1,5 +1,7 @@
-package com.github.bordertech.flux.wc.view;
+package com.github.bordertech.flux.wc.view.util;
 
+import com.github.bordertech.flux.wc.view.FluxDumbView;
+import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WMenuItem;

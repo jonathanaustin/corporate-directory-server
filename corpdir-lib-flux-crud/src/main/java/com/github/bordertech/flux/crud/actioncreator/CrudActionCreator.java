@@ -16,5 +16,6 @@ public interface CrudActionCreator<T> extends ActionCreator {
 
 	void delete(final T entity);
 
+	// FIXME JA Seperate Interface
 	T createInstance();
 }

@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart.crud;
+package com.github.bordertech.flux.wc.crud.smart.impl;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
@@ -30,9 +30,9 @@ import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
-import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
-import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
+import com.github.bordertech.flux.wc.crud.util.FormEventUtil;
+import com.github.bordertech.flux.wc.view.util.MessageEventUtil;
+import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;

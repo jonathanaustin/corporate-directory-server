@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.common.table;
 
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;

@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.event.util;
+package com.github.bordertech.flux.wc.view.util;
 
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;

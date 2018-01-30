@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart.form;
+package com.github.bordertech.flux.wc.crud.smart.impl;
 
 import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.store.CrudStore;
@@ -10,8 +10,8 @@ import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.DefaultFormView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.DefaultFormToolbarView;
-import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
-import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.crud.util.FormEventUtil;
+import com.github.bordertech.flux.wc.crud.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WContainer;
 

@@ -16,6 +16,7 @@ public interface ListOrTreeSelectView<K, T> extends SmartView<List<T>>, SelectSi
 
 	void setUseTree(final boolean useTree);
 
+	// FIXME JA USE Consumer Interface
 	String getEntityTreeStoreKey();
 
 	void setEntityTreeStoreKey(final String entityTreeStoreKey);

@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart;
+package com.github.bordertech.flux.wc.crud.smart;
 
 import com.github.bordertech.flux.crud.actioncreator.CrudTreeActionCreator;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
