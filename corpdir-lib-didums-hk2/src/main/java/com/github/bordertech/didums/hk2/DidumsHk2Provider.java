@@ -19,19 +19,33 @@ import org.glassfish.hk2.utilities.binding.ServiceBindingBuilder;
  */
 public class DidumsHk2Provider implements DidumsProvider {
 
+	/**
+	 * Default HK2 context name.
+	 */
 	public static final String CONTEXT_NAME = Config.getInstance().getString("bordertech.didums.hk2.context", "bt-hk2");
 
 	private final ServiceLocator serviceLocator;
 
+	/**
+	 * Use the default HK2 service locator.
+	 */
 	public DidumsHk2Provider() {
 		ServiceLocatorFactory factory = ServiceLocatorFactory.getInstance();
 		serviceLocator = factory.create(CONTEXT_NAME);
 	}
 
+	/**
+	 * Use a predefined HK2 service locator.
+	 *
+	 * @param serviceLocator the HK2 service locator to use
+	 */
 	public DidumsHk2Provider(final ServiceLocator serviceLocator) {
 		this.serviceLocator = serviceLocator;
 	}
 
+	/**
+	 * @return the HK2 service locator
+	 */
 	public final ServiceLocator getServiceLocator() {
 		return serviceLocator;
 	}
