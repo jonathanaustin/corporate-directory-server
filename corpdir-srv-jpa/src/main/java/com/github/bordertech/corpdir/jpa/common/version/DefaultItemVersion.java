@@ -5,7 +5,6 @@ import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.EmbeddedId;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -31,7 +30,7 @@ public class DefaultItemVersion<T extends PersistVersionableKeyId<T, V>, V exten
 	@MapsId(value = "versionId")
 	private VersionCtrlEntity versionCtrl;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@MapsId(value = "id")
 	private T item;
 

@@ -61,7 +61,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().criteria;
 	}
 
-	protected ResultHolder<S, R> handleRetrieveStoreResult() {
+	protected ResultHolder<S, R> doStoreRetrieve() {
 		Store store = getStoreByKey();
 		if (store instanceof SearchStore) {
 			SearchStore searchStore = (SearchStore) store;
@@ -103,7 +103,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 	protected void handlePollingStartEvent(final PollingBaseEventType type) {
 		super.handlePollingStartEvent(type);
 		// Check if result is already in the cache (dont need to poll)
-		ResultHolder<S, R> resultHolder = handleRetrieveStoreResult();
+		ResultHolder<S, R> resultHolder = doStoreRetrieve();
 		if (resultHolder != null) {
 			handleStoreResult(resultHolder);
 			setContineStart(false);
@@ -112,7 +112,7 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingCheckStatusEvent() {
-		ResultHolder<S, R> result = handleRetrieveStoreResult();
+		ResultHolder<S, R> result = doStoreRetrieve();
 		if (result != null) {
 			setPollingStatus(PollingStatus.STOPPED);
 			handleStoreResult(result);

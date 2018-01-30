@@ -12,14 +12,14 @@ import org.apache.commons.logging.LogFactory;
 /**
  *
  * @author jonathan
- * @param <T> the treeable Object
- * @param <B> the basic versionable tree service type
+ * @param <T> the treeable API type
+ * @param <S> the versionable tree service type
  */
-public class DefaultModelTreeVersionService<T extends ApiTreeable & ApiVersionable, B extends BasicVersionTreeService<T>> extends DefaultModelTreeService<T, B> {
+public class DefaultCrudTreeVersionDataApi<T extends ApiTreeable & ApiVersionable, S extends BasicVersionTreeService<T>> extends DefaultCrudTreeDataApi<T, S> implements CorpCrudTreeVersionApi<T, S> {
 
-	private static final Log LOG = LogFactory.getLog(DefaultModelTreeVersionService.class);
+	private static final Log LOG = LogFactory.getLog(DefaultCrudTreeVersionDataApi.class);
 
-	public DefaultModelTreeVersionService(final Class<T> apiClass, final Class<? extends B> serviceClass) {
+	public DefaultCrudTreeVersionDataApi(final Class<T> apiClass, final Class<? extends S> serviceClass) {
 		super(apiClass, serviceClass);
 	}
 

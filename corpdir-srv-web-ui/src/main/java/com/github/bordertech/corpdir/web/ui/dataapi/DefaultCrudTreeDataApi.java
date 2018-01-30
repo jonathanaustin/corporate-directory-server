@@ -3,7 +3,6 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
-import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 import org.apache.commons.logging.Log;
@@ -11,15 +10,16 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
+ * @param <T> the CorpDir Treeable API object
+ * @param <S> the CorpDir tree service type
+ *
  * @author jonathan
- * @param <T> the treeable Object
- * @param <B> the basic tree service type
  */
-public class DefaultModelTreeService<T extends ApiTreeable, B extends BasicTreeService<T>> extends DefaultModelSearchActionService<T, B> implements CrudTreeApi<String, String, T> {
+public class DefaultCrudTreeDataApi<T extends ApiTreeable, S extends BasicTreeService<T>> extends DefaultCrudDataApi<T, S> implements CorpCrudTreeApi<T, S> {
 
-	private static final Log LOG = LogFactory.getLog(DefaultModelTreeService.class);
+	private static final Log LOG = LogFactory.getLog(DefaultCrudTreeDataApi.class);
 
-	public DefaultModelTreeService(final Class<T> apiClass, final Class<? extends B> serviceClass) {
+	public DefaultCrudTreeDataApi(final Class<T> apiClass, final Class<? extends S> serviceClass) {
 		super(apiClass, serviceClass);
 	}
 

@@ -4,28 +4,28 @@ import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicIdService;
 import com.github.bordertech.didums.Didums;
-import com.github.bordertech.flux.crud.dataapi.CrudApi;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 /**
- * API Search and Action Model.
+ * CRUD API calling CorpDir Services.
  *
- * @param <T> the API object type
- * @param <B> the basic service type
+ * @param <T> the CorpDir API object type
+ * @param <S> the CorpDir service type
  *
  * @author jonathan
  */
-public class DefaultModelSearchActionService<T extends ApiIdObject, B extends BasicIdService<T>> implements CrudApi<String, String, T> {
+public class DefaultCrudDataApi<T extends ApiIdObject, S extends BasicIdService<T>> implements CorpCrudApi<T, S> {
 
 	private final Class<T> apiClass;
-	private final B service;
+	private final S service;
 
-	public DefaultModelSearchActionService(final Class<T> apiClass, final Class<? extends B> serviceClass) {
+	public DefaultCrudDataApi(final Class<T> apiClass, final Class<? extends S> serviceClass) {
 		this.apiClass = apiClass;
 		this.service = Didums.getService(serviceClass);
 	}
 
-	protected final B getService() {
+	protected final S getService() {
 		return service;
 	}
 
@@ -67,7 +67,7 @@ public class DefaultModelSearchActionService<T extends ApiIdObject, B extends Ba
 	public T createInstance() {
 		try {
 			return (T) apiClass.getConstructor(String.class).newInstance((Object) null);
-		} catch (Exception e) {
+		} catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
 			throw new IllegalStateException("Could not create API class. " + e.getMessage(), e);
 		}
 	}

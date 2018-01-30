@@ -248,16 +248,12 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			ResultHolder<S, List<T>> resultHolder = getSearchActionResult();
+			ResultHolder<S, List<T>> resultHolder = handleCheckSearchResult();
 			if (resultHolder != null) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
-				if (resultHolder.isResult()) {
-					handleSearchResult(resultHolder.getResult());
-				} else {
-					handleSearchException(resultHolder.getException());
-				}
+				handleResult(resultHolder);
 			}
 
 			// SELECT
@@ -268,11 +264,15 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 		}
 	}
 
-	protected void handleSearchException(final Exception e) {
-		dispatchMessageError("Error loading details. " + e.getMessage());
+	protected void handleResult(final ResultHolder<S, List<T>> resultHolder) {
+		if (resultHolder.isResult()) {
+			handleSearchSuccessful(resultHolder.getResult());
+		} else {
+			handleSearchException(resultHolder.getException());
+		}
 	}
 
-	protected void handleSearchResult(final List<T> items) {
+	protected void handleSearchSuccessful(final List<T> items) {
 		selectView.setItems(items);
 		selectView.setContentVisible(true);
 		if (items == null || items.isEmpty()) {
@@ -283,6 +283,10 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 			selectView.setSelectedItem(item);
 			dispatchViewEvent(SelectBaseEventType.SELECT, item);
 		}
+	}
+
+	protected void handleSearchException(final Exception e) {
+		dispatchMessageError("Error loading details. " + e.getMessage());
 	}
 
 	@Override
@@ -343,21 +347,26 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 
 	protected void handleSearchEvent() {
 		selectView.resetView();
-		// TODO Maybe check for CACHED but are clearing the cache anyway
-		doDispatchSearchAction();
+		ResultHolder<S, List<T>> resultHolder = handleStartSearch();
+		if (resultHolder != null) {
+			handleResult(resultHolder);
+			return;
+		}
 		// Start Polling
 		pollingView.resetView();
 		pollingView.doManualStart();
 	}
 
-	protected void doDispatchSearchAction() {
-		// Start Search
-		getStoreByKey().search(getCriteria(), CallType.REFRESH_ASYNC);
+	protected ResultHolder<S, List<T>> handleStartSearch() {
+		return doSearchAction(CallType.REFRESH_ASYNC);
 	}
 
-	protected ResultHolder<S, List<T>> getSearchActionResult() {
-		ResultHolder<S, List<T>> resultHolder = getStoreByKey().search(getCriteria(), CallType.CALL_ASYNC);
-		return resultHolder;
+	protected ResultHolder<S, List<T>> handleCheckSearchResult() {
+		return doSearchAction(CallType.CALL_SYNC);
+	}
+
+	protected ResultHolder<S, List<T>> doSearchAction(final CallType callType) {
+		return getStoreByKey().search(getCriteria(), callType);
 	}
 
 	@Override

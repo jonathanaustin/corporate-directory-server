@@ -21,16 +21,16 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final CrudTreeStore<?, K, T> model;
+	private final CrudTreeStore<?, K, T> store;
 
-	public EntityStoreTreeItemModel(final List<T> rootItems, final CrudTreeStore<?, K, T> model) {
+	public EntityStoreTreeItemModel(final List<T> rootItems, final CrudTreeStore<?, K, T> store) {
 		this.rootItems = rootItems;
-		this.model = model;
+		this.store = store;
 	}
 
 	@Override
 	public String getItemId(final T item) {
-		return model.getItemId(item);
+		return store.getItemId(item);
 	}
 
 	@Override
@@ -45,14 +45,14 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public String getItemId(final List<Integer> row) {
 		T item = getItem(row);
-		String id = model.getItemId(item);
+		String id = store.getItemId(item);
 		return id == null ? TableUtil.rowIndexListToString(row) : id;
 	}
 
 	@Override
 	public String getItemLabel(final List<Integer> row) {
 		T item = getItem(row);
-		return model.getItemLabel(item);
+		return store.getItemLabel(item);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public boolean hasChildren(final List<Integer> row) {
 		T item = getItem(row);
-		return model.hasChildren(item);
+		return store.hasChildren(item);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	}
 
 	protected List<T> loadChildren(final T item) {
-		ResultHolder<T, List<T>> resultHolder = model.getChildren(item, CallType.CALL_SYNC);
+		ResultHolder<T, List<T>> resultHolder = store.getChildren(item, CallType.CALL_SYNC);
 		if (resultHolder.isResult()) {
 			return resultHolder.getResult();
 		} else {

@@ -2,16 +2,16 @@ package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.web.ui.dataapi.DefaultModelSearchActionService;
+import com.github.bordertech.corpdir.web.ui.dataapi.DefaultCrudDataApi;
 
 /**
  * Unit Type search and action model.
  *
  * @author jonathan
  */
-public class UnitTypeModel extends DefaultModelSearchActionService<UnitType, UnitTypeService> {
+public class UnitTypeCrudApi extends DefaultCrudDataApi<UnitType, UnitTypeService> {
 
-	public UnitTypeModel() {
+	public UnitTypeCrudApi() {
 		super(UnitType.class, UnitTypeService.class);
 	}
 }

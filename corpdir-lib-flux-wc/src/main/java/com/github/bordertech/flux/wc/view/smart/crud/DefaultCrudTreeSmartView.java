@@ -53,32 +53,22 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 	}
 
 	@Override
-	protected void doDispatchSearchAction() {
+	protected ResultHolder<S, List<T>> doSearchAction(final CallType callType) {
 		if (getCriteria() == null) {
-			// Use Root Items
-			getStoreByKey().getRootItems(CallType.REFRESH_ASYNC);
+			return getStoreByKey().getRootItems(callType);
 		} else {
-			super.doDispatchSearchAction();
+			return super.doSearchAction(callType);
 		}
 	}
 
 	@Override
-	protected ResultHolder<S, List<T>> getSearchActionResult() {
-		if (getCriteria() == null) {
-			return getStoreByKey().getRootItems(CallType.CALL_ASYNC);
-		} else {
-			return super.getSearchActionResult();
-		}
-	}
-
-	@Override
-	protected void handleSearchResult(final List<T> items) {
+	protected void handleSearchSuccessful(final List<T> items) {
 		if (getCriteria() == null) {
 			getSelectView().resetView();
 			getSelectView().setUseTree(true);
 			getSelectView().setEntityTreeStoreKey(getStoreKey());
 		}
-		super.handleSearchResult(items);
+		super.handleSearchSuccessful(items);
 	}
 
 	@Override

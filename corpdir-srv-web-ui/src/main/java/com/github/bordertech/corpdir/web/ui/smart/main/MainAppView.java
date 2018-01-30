@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.smart;
+package com.github.bordertech.corpdir.web.ui.smart.main;
 
 import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.corpdir.web.ui.config.DataApiType;

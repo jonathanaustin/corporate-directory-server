@@ -1,6 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.smart.crud;
+package com.github.bordertech.corpdir.web.ui.smart.card;
 
+import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.smart.crud.CorpCrudSmartView;
 import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
@@ -12,7 +14,6 @@ import com.github.bordertech.flux.wc.view.dumb.MessageView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
-import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardView;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WSection;
@@ -21,14 +22,14 @@ import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
 /**
  * Secure card with a WSection Wrapper.
  *
- * @author jonathan
+ * @param <T> the form CORP Dir entity type
  */
-public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> implements CrudSearchSmartView<S, String, T> {
+public class AppSecureCrudCardView<T extends ApiIdObject> extends DefaultSecureCardView<T> implements CorpCrudSmartView<T> {
 
 	private final WSection wrapper;
-	private final CrudSearchSmartView<S, String, T> crudView;
+	private final CorpCrudSmartView<T> crudView;
 
-	public AppSecureCrudWrapperView(final String viewId, CardType cardType, final CrudSearchSmartView<S, String, T> crudView) {
+	public AppSecureCrudCardView(final String viewId, final CardType cardType, final CorpCrudSmartView<T> crudView) {
 		super(viewId, new DefaultAppPath(cardType.getPath()));
 		this.wrapper = new WSection(cardType.getDesc());
 		this.crudView = crudView;
@@ -46,7 +47,7 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 
 	@Override
 	public void handleShowCardRequest(final Request request) {
-		S criteria = getRequestCriteria(request);
+		String criteria = getRequestCriteria(request);
 		if (criteria != null) {
 			doRequestCriteria(criteria);
 		}
@@ -54,25 +55,25 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 
 	@Override
 	public void handleCheckCardRequest(final Request request) {
-		SearchView<S> view = getSearchView();
+		SearchView<String> view = getSearchView();
 		// Current search
-		S current = view.getViewBean();
+		String current = view.getViewBean();
 		// Search parameter on the request
-		S criteria = getRequestCriteria(request);
+		String criteria = getRequestCriteria(request);
 		// Check state is OK
 		if (criteria != null && !java.util.Objects.equals(current, criteria)) {
 			doRequestCriteria(criteria);
 		}
 	}
 
-	protected void doRequestCriteria(final S criteria) {
+	protected void doRequestCriteria(final String criteria) {
 		resetView();
 		setAutoSearch(true);
 		getSearchView().setViewBean(criteria);
 	}
 
-	protected S getRequestCriteria(final Request request) {
-		return (S) request.getParameter("id");
+	protected String getRequestCriteria(final Request request) {
+		return (String) request.getParameter("id");
 	}
 
 	@Override
@@ -86,12 +87,12 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public S getCriteria() {
+	public String getCriteria() {
 		return crudView.getCriteria();
 	}
 
 	@Override
-	public SearchView<S> getSearchView() {
+	public SearchView<String> getSearchView() {
 		return crudView.getSearchView();
 	}
 
@@ -161,7 +162,7 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public CrudStore<S, String, T> getStoreByKey() {
+	public CrudStore<String, String, T> getStoreByKey() {
 		return crudView.getStoreByKey();
 	}
 
