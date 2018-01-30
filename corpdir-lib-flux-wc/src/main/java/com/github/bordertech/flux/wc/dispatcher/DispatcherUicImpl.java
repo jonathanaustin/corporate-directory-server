@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.dispatcher;
 
-import com.github.bordertech.flux.dispatcher.DispatcherModel;
 import com.github.bordertech.flux.dispatcher.AbstractDispatcher;
+import com.github.bordertech.flux.dispatcher.DispatcherModel;
 import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 

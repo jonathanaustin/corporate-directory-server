@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view.event.util;
 
+import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.mode.FormMode;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
@@ -8,6 +9,8 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.smart.CrudSmartView;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**
@@ -213,19 +216,17 @@ public class FormEventUtil {
 			return;
 		}
 		T bean = form.getViewBean();
-		K key = null;
-		// FIXME
-//		ResultHolder resultHolder = view.getEntityStore().fetch(key, CallType.REFRESH_ASYNC);
-//		if (resultHolder.isResult()){
-//
-//		}
-//		try {
-//			// Get Bean from the Store
-//			ResultHolder bean = view.getEntityStore().fetch(bean);
-//			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK, bean);
-//		} catch (Exception e) {
-//			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_ERROR, e);
-//		}
+		CrudStore<?, K, T> store = view.getStoreByKey();
+		// FIXME JA - Make sure works
+		// DO SYNC Refresh CALL
+		K key = store.getItemKey(bean);
+		ResultHolder<K, T> resultHolder = store.fetch(key, CallType.REFRESH_SYNC);
+		if (resultHolder.isResult()) {
+			bean = resultHolder.getResult();
+			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_OK, bean);
+		} else {
+			dispatchViewEvent(view, FormBaseOutcomeEventType.REFRESH_ERROR, resultHolder.getException());
+		}
 	}
 
 	private static void dispatchViewEvent(final CrudSmartView view, final ViewEventType event) {

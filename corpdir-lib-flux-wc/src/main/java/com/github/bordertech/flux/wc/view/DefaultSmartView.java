@@ -293,11 +293,6 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 			String key = ((StoreConsumerByKey) this).getStoreKey();
 			registerStoreKeyChangeListener(key);
 		}
-// FIXME
-//		if (this instanceof SearchStoreConsumer) {
-//			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
-//			registerStoreKeyChangeListener(key);
-//		}
 	}
 
 	protected void registerStoreKeyChangeListener(final String storeKey) {

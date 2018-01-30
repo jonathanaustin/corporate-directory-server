@@ -1,11 +1,14 @@
 package com.github.bordertech.flux.wc.view.smart.polling;
 
+import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.store.SearchStore;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.view.consumer.StoreConsumerByKey;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 
@@ -17,7 +20,7 @@ import com.github.bordertech.wcomponents.util.SystemException;
  * @param <R> the result type
  * @param <T> the view type
  */
-public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultPollingMessageSmartView<T> {
+public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultPollingMessageSmartView<T> implements StoreConsumerByKey<Store> {
 
 	public AbstractPollingRetrieveSmartView(final String viewId, final String template) {
 		this(viewId, template, true);
@@ -35,12 +38,19 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().callType;
 	}
 
+	@Override
 	public void setStoreKey(final String storeKey) {
 		getOrCreateComponentModel().storeKey = storeKey;
 	}
 
+	@Override
 	public String getStoreKey() {
 		return getComponentModel().storeKey;
+	}
+
+	@Override
+	public Store getStoreByKey() {
+		return StoreUtil.getStore(getStoreKey());
 	}
 
 	public void setStoreCriteria(final S criteria) {
@@ -51,9 +61,17 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 		return getComponentModel().criteria;
 	}
 
-	abstract protected void handleRetrieveOKEvent(final R result);
+	protected ResultHolder<S, R> handleRetrieveStoreResult() {
+		Store store = getStoreByKey();
+		if (store instanceof SearchStore) {
+			SearchStore searchStore = (SearchStore) store;
+			return searchStore.search(getStoreCriteria(), getStoreCallType());
+		} else {
+			throw new IllegalStateException("Store type is not handled.");
+		}
+	}
 
-	abstract protected ResultHolder<S, R> handleRetrieveStoreResult();
+	abstract protected void handleRetrieveOKEvent(final R result);
 
 	@Override
 	protected void handleViewEvent(final String viewId, final ViewEventType event, final Object data) {
@@ -94,15 +112,10 @@ public abstract class AbstractPollingRetrieveSmartView<S, R, T> extends DefaultP
 
 	@Override
 	protected void handlePollingCheckStatusEvent() {
-		try {
-			ResultHolder<S, R> result = handleRetrieveStoreResult();
-			if (result != null) {
-				setPollingStatus(PollingStatus.STOPPED);
-				handleStoreResult(result);
-			}
-		} catch (ServiceException e) {
+		ResultHolder<S, R> result = handleRetrieveStoreResult();
+		if (result != null) {
 			setPollingStatus(PollingStatus.STOPPED);
-			dispatchViewEvent(RetrieveOutcomeBaseEventType.RETRIEVE_ERROR, e);
+			handleStoreResult(result);
 		}
 	}
 

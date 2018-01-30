@@ -76,10 +76,10 @@ public class DefaultCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>> exten
 	}
 
 	@Override
-	public ResultHolder<T, List<T>> getRootItems(final CallType callType) {
-		ServiceAction<T, List<T>> action = new ServiceAction<T, List<T>>() {
+	public ResultHolder<S, List<T>> getRootItems(final CallType callType) {
+		ServiceAction<S, List<T>> action = new ServiceAction<S, List<T>>() {
 			@Override
-			public List<T> service(final T criteria) {
+			public List<T> service(final S criteria) {
 				return getDataApi().getRootItems();
 			}
 		};

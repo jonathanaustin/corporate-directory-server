@@ -9,8 +9,9 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.smart.CrudSearchTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.DefaultListOrTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.ListOrTreeSelectView;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.WComponent;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -53,38 +54,31 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 
 	@Override
 	protected void doDispatchSearchAction() {
-		// FIXME
-//		if (getCriteria() == null) {
-//			// Use Root Items
-//			StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_ASYNC);
-//		} else {
-//			super.doDispatchSearchAction();
-//		}
+		if (getCriteria() == null) {
+			// Use Root Items
+			getStoreByKey().getRootItems(CallType.REFRESH_ASYNC);
+		} else {
+			super.doDispatchSearchAction();
+		}
 	}
 
 	@Override
-	protected boolean isSearchActionDone() {
-		return true;
-// FIXME
-//		if (getCriteria() == null) {
-//			return getEntityStore().isRootItemsDone();
-//		} else {
-//			return super.isSearchActionDone();
-//		}
+	protected ResultHolder<S, List<T>> getSearchActionResult() {
+		if (getCriteria() == null) {
+			return getStoreByKey().getRootItems(CallType.CALL_ASYNC);
+		} else {
+			return super.getSearchActionResult();
+		}
 	}
 
 	@Override
-	protected List<T> getSearchActionResult() {
-		return null;
-		// FIXME
-//		if (getCriteria() == null) {
-//			getSelectView().resetView();
-//			getSelectView().setUseTree(true);
-//			getSelectView().setEntityTreeStoreKey(getEntityStoreKey());
-//			return getEntityStore().getRootItems();
-//		} else {
-//			return super.getSearchActionResult();
-//		}
+	protected void handleSearchResult(final List<T> items) {
+		if (getCriteria() == null) {
+			getSelectView().resetView();
+			getSelectView().setUseTree(true);
+			getSelectView().setEntityTreeStoreKey(getStoreKey());
+		}
+		super.handleSearchResult(items);
 	}
 
 	@Override
@@ -94,18 +88,17 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 				case CREATE_OK:
 				case DELETE_OK:
 				case UPDATE_OK:
+					// FIXME Check this works
 					// Refresh Tree
 					// Get Root Items (SYNC)
-//					StoreUtil.dispatchRetrieveAction(getEntityStoreKey(), RetrieveActionBaseType.ROOT, null, CallType.REFRESH_SYNC);
-//					getSelectView().resetView();
-					List<T> items = new ArrayList<>();
-					// FIXME
-//					try {
-//						items = getEntityStore().getRootItems();
-//					} catch (RetrieveActionException e) {
-//						dispatchMessageError("Error refreshing items. " + e.getMessage());
-//						return;
-//					}
+					ResultHolder<S, List<T>> resultHolder = getStoreByKey().getRootItems(CallType.CALL_ASYNC);
+					getSelectView().resetView();
+					if (resultHolder.isException()) {
+						dispatchMessageError("Error refreshing items. " + resultHolder.getException().getMessage());
+						return;
+					}
+
+					List<T> items = resultHolder.getResult();
 					getSelectView().setUseTree(true);
 					getSelectView().setEntityTreeStoreKey(getStoreKey());
 					getSelectView().setContentVisible(true);

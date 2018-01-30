@@ -20,7 +20,7 @@ public interface CrudTreeStore<S, K, T> extends CrudStore<S, K, T> {
 
 	ResultHolder<T, List<T>> getChildren(final T item, final CallType callType);
 
-	ResultHolder<T, List<T>> getRootItems(final CallType callType);
+	ResultHolder<S, List<T>> getRootItems(final CallType callType);
 
 	String getItemLabel(final T item);
 

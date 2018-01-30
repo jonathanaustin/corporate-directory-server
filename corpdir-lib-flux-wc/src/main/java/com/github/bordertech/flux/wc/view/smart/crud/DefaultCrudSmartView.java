@@ -34,7 +34,8 @@ import com.github.bordertech.flux.wc.view.event.util.FormEventUtil;
 import com.github.bordertech.flux.wc.view.event.util.MessageEventUtil;
 import com.github.bordertech.flux.wc.view.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
-import com.github.bordertech.taskmanager.service.ServiceException;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -247,23 +248,15 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 			// POLLING
 		} else if (isEvent(PollingBaseEventType.CHECK_STATUS, event)) {
 			// Check if action is done
-			boolean done;
-			try {
-				done = isSearchActionDone();
-			} catch (ServiceException e) {
-				dispatchMessageError("Error processing async service. " + e.getMessage());
-				pollingView.setPollingStatus(PollingStatus.STOPPED);
-				return;
-			}
-			if (done) {
+			ResultHolder<S, List<T>> resultHolder = getSearchActionResult();
+			if (resultHolder != null) {
 				// Stop polling
 				pollingView.setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
-				try {
-					List<T> result = getSearchActionResult();
-					handleSearchResult(result);
-				} catch (Exception e) {
-					handleSearchException(e);
+				if (resultHolder.isResult()) {
+					handleSearchResult(resultHolder.getResult());
+				} else {
+					handleSearchException(resultHolder.getException());
 				}
 			}
 
@@ -350,17 +343,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 
 	protected void handleSearchEvent() {
 		selectView.resetView();
-		// Check cached result
-		try {
-			List<T> result = getSearchActionResult();
-			if (result != null) {
-				handleSearchResult(result);
-				return;
-			}
-		} catch (Exception e) {
-			handleSearchException(e);
-			return;
-		}
+		// TODO Maybe check for CACHED but are clearing the cache anyway
 		doDispatchSearchAction();
 		// Start Polling
 		pollingView.resetView();
@@ -368,21 +351,13 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	}
 
 	protected void doDispatchSearchAction() {
-//		// Start Search
-//		StoreUtil.dispatchSearchAction(getSearchStoreKey(), getCriteria(), CallType.REFRESH_ASYNC);
+		// Start Search
+		getStoreByKey().search(getCriteria(), CallType.REFRESH_ASYNC);
 	}
 
-	protected boolean isSearchActionDone() {
-		// FIXME
-		return true;
-//		return getSearchStore().isSearchDone(getCriteria());
-	}
-
-	protected List<T> getSearchActionResult() {
-		// FIXME
-		return null;
-//		// Just get from the cache
-//		return (List<T>) getSearchStore().getActionResultCacheOnly(RetrieveActionBaseType.SEARCH, getCriteria());
+	protected ResultHolder<S, List<T>> getSearchActionResult() {
+		ResultHolder<S, List<T>> resultHolder = getStoreByKey().search(getCriteria(), CallType.CALL_ASYNC);
+		return resultHolder;
 	}
 
 	@Override

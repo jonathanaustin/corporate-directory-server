@@ -7,8 +7,6 @@ import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.DefaultToolbarView;
 import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import java.util.List;
 
 /**
  * Collection View with a Search View.
@@ -72,12 +70,6 @@ public class DefaultListWithSearchView<S, T> extends AbstractListSmartView<S, T>
 	protected void handleSearchValidatingEvent() {
 		getListView().reset();
 		getPollingView().reset();
-	}
-
-	@Override
-	protected ResultHolder<S, List<T>> handleRetrieveStoreResult() {
-		// FIXME
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 }
