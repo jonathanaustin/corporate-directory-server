@@ -5,7 +5,7 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.base.CrudActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.CrudStore;
-import com.github.bordertech.flux.store.datapi.DefaultSearchStore;
+import com.github.bordertech.flux.store.impl.DefaultSearchKeyableDataApiStore;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
@@ -23,7 +23,7 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class DefaultCrudStore<S, K, T, D extends CrudApi<S, K, T>> extends DefaultSearchStore<S, K, T, D> implements CrudStore<S, K, T> {
+public class DefaultCrudStore<S, K, T, D extends CrudApi<S, K, T>> extends DefaultSearchKeyableDataApiStore<S, K, T, D> implements CrudStore<S, K, T> {
 
 	public DefaultCrudStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
 		super(storeKey, actionCreatorKeys, api);

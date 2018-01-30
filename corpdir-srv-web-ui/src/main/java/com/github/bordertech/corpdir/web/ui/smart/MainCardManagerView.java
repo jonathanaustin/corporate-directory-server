@@ -26,8 +26,8 @@ public class MainCardManagerView extends DefaultSecureCardManagerView<Object, Se
 			if (view instanceof CrudSearchSmartView) {
 				CrudSearchSmartView form = (CrudSearchSmartView) view;
 				DataApiType api = card.getApiType();
-				form.setEntityActionCreatorKey(api.getActionCreatorKey());
-				form.setEntityStoreKey(api.getEntityStoreKey());
+				form.setActionCreatorKey(api.getActionCreatorKey());
+				form.setStoreKey(api.getEntityStoreKey());
 			}
 			setupCard(card, view);
 		}

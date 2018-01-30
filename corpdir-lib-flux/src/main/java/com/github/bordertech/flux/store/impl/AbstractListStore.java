@@ -1,9 +1,9 @@
-package com.github.bordertech.flux.store.collection;
+package com.github.bordertech.flux.store.impl;
 
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.type.base.ListBaseActionType;
-import com.github.bordertech.flux.store.DefaultStore;
+import com.github.bordertech.flux.store.ListStore;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;

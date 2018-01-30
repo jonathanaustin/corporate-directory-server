@@ -119,33 +119,33 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	}
 
 	@Override
-	public String getEntityActionCreatorKey() {
+	public String getActionCreatorKey() {
 		return getComponentModel().entityCreatorKey;
 	}
 
 	@Override
-	public void setEntityActionCreatorKey(final String entityCreatorKey) {
+	public void setActionCreatorKey(final String entityCreatorKey) {
 		getOrCreateComponentModel().entityCreatorKey = entityCreatorKey;
 	}
 
 	@Override
-	public CrudActionCreator<T> getEntityActionCreator() {
-		return StoreUtil.getActionCreator(getEntityActionCreatorKey());
+	public CrudActionCreator<T> getActionCreatorByKey() {
+		return StoreUtil.getActionCreator(getActionCreatorKey());
 	}
 
 	@Override
-	public String getEntityStoreKey() {
+	public String getStoreKey() {
 		return getComponentModel().entityStoreKey;
 	}
 
 	@Override
-	public void setEntityStoreKey(final String entityStoreKey) {
+	public void setStoreKey(final String entityStoreKey) {
 		getOrCreateComponentModel().entityStoreKey = entityStoreKey;
 	}
 
 	@Override
-	public CrudStore<S, K, T> getEntityStore() {
-		return StoreUtil.getStore(getEntityStoreKey());
+	public CrudStore<S, K, T> getStoreByKey() {
+		return StoreUtil.getStore(getStoreKey());
 	}
 
 	@Override
@@ -209,7 +209,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	@Override
 	protected void handleStoreChangedAction(final String storeKey, final Action action) {
 		super.handleStoreChangedAction(storeKey, action);
-		String key = getEntityActionCreatorKey();
+		String key = getActionCreatorKey();
 		if (Objects.equal(key, storeKey) && formHolder.isContentVisible() && formView.getFormMode() == FormMode.VIEW) {
 			// Do a refresh
 			dispatchViewEvent(ToolbarBaseEventType.REFRESH);

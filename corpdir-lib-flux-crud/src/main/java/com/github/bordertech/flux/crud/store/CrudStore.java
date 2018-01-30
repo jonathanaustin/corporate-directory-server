@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.crud.store;
 
-import com.github.bordertech.flux.store.SearchStore;
+import com.github.bordertech.flux.store.SearchKeyableStore;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 
@@ -14,7 +14,7 @@ import com.github.bordertech.taskmanager.service.ResultHolder;
  * @author Jonathan Austin
  * @since 1.0.0 *
  */
-public interface CrudStore<S, K, T> extends SearchStore<S, K, T> {
+public interface CrudStore<S, K, T> extends SearchKeyableStore<S, K, T> {
 
 	ResultHolder<K, T> fetch(final K entityKey, final CallType callType);
 }

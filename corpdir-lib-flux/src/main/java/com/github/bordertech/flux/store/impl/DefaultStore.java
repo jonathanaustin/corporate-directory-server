@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.store;
+package com.github.bordertech.flux.store.impl;
 
 import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Action;

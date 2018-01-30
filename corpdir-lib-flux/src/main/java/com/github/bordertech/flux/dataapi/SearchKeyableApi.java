@@ -1,20 +1,16 @@
 package com.github.bordertech.flux.dataapi;
 
-import com.github.bordertech.flux.DataApi;
-import java.util.List;
-
 /**
- * Search API.
+ * Search API with Keyable Item.
  *
  * @param <S> the search criteria type
+ * @param <K> the entity key type
  * @param <T> the entity type
  *
  * @author Jonathan Austin
  * @since 1.0.0
  *
  */
-public interface SearchApi<S, T> extends DataApi {
-
-	List<T> search(final S criteria);
+public interface SearchKeyableApi<S, K, T> extends SearchApi<S, T>, KeyableApi<K, T> {
 
 }

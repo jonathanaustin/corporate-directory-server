@@ -1,7 +1,8 @@
-package com.github.bordertech.flux.crud.actioncreator;
+package com.github.bordertech.flux.crud.actioncreator.impl;
 
 import com.github.bordertech.flux.actioncreator.DefaultActionCreator;
 import com.github.bordertech.flux.crud.action.base.CrudActionBaseType;
+import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 
 /**

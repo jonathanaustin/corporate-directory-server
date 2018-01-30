@@ -6,14 +6,14 @@ import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.DataApi;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.crud.actioncreator.DefaultCrudActionCreator;
-import com.github.bordertech.flux.crud.actioncreator.DefaultCrudTreeActionCreator;
+import com.github.bordertech.flux.crud.actioncreator.impl.DefaultCrudActionCreator;
+import com.github.bordertech.flux.crud.actioncreator.impl.DefaultCrudTreeActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
-import com.github.bordertech.flux.dataapi.SearchApi;
 import com.github.bordertech.flux.crud.store.impl.DefaultCrudStore;
 import com.github.bordertech.flux.crud.store.impl.DefaultCrudTreeStore;
-import com.github.bordertech.flux.store.datapi.DefaultSearchStore;
+import com.github.bordertech.flux.dataapi.SearchApi;
+import com.github.bordertech.flux.store.impl.DefaultSearchDataApiStore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -75,7 +75,7 @@ public final class FluxFactory {
 			} else if (api instanceof CrudApi && storeKey.startsWith("e-")) {
 				return (T) new DefaultCrudStore(storeKey, actionCreatorKeys, (CrudApi) api);
 			} else if (api instanceof SearchApi && storeKey.startsWith("s-")) {
-				return (T) new DefaultSearchStore(storeKey, actionCreatorKeys, (SearchApi) api);
+				return (T) new DefaultSearchDataApiStore(storeKey, actionCreatorKeys, (SearchApi) api);
 			} else {
 				throw new IllegalStateException("Default Stores do not support Data API [" + storeKey + "].");
 			}

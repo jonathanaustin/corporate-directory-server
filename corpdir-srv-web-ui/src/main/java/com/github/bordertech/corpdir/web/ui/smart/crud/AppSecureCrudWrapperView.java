@@ -136,33 +136,33 @@ public class AppSecureCrudWrapperView<S, T> extends DefaultSecureCardView<T> imp
 	}
 
 	@Override
-	public void setEntityActionCreatorKey(String creatorKey) {
-		crudView.setEntityActionCreatorKey(creatorKey);
+	public void setActionCreatorKey(String creatorKey) {
+		crudView.setActionCreatorKey(creatorKey);
 	}
 
 	@Override
-	public String getEntityActionCreatorKey() {
-		return crudView.getEntityActionCreatorKey();
+	public String getActionCreatorKey() {
+		return crudView.getActionCreatorKey();
 	}
 
 	@Override
-	public CrudActionCreator<T> getEntityActionCreator() {
-		return crudView.getEntityActionCreator();
+	public CrudActionCreator<T> getActionCreatorByKey() {
+		return crudView.getActionCreatorByKey();
 	}
 
 	@Override
-	public void setEntityStoreKey(String storeKey) {
-		crudView.setEntityStoreKey(storeKey);
+	public void setStoreKey(String storeKey) {
+		crudView.setStoreKey(storeKey);
 	}
 
 	@Override
-	public String getEntityStoreKey() {
-		return crudView.getEntityStoreKey();
+	public String getStoreKey() {
+		return crudView.getStoreKey();
 	}
 
 	@Override
-	public CrudStore<S, String, T> getEntityStore() {
-		return crudView.getEntityStore();
+	public CrudStore<S, String, T> getStoreByKey() {
+		return crudView.getStoreByKey();
 	}
 
 }

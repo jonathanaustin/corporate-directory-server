@@ -5,9 +5,9 @@ import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.action.ActionKey;
 import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.type.base.DispatcherBaseActionType;
-import com.github.bordertech.flux.action.ActionKey;
 
 /**
  * Partial implementation of Dispatcher.
@@ -125,7 +125,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	protected abstract DispatcherModel getDispatcherModel();
 
 	protected DispatcherModel createNewModel() {
-		DispatcherModel model = new DefaultDispatcherModel();
+		DispatcherModel model = new DispatcherModel();
 		doConfigModel(model);
 		return model;
 	}

@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.store.datapi;
+package com.github.bordertech.flux.store.impl;
 
 import com.github.bordertech.flux.dataapi.SearchApi;
 import com.github.bordertech.flux.store.SearchStore;
@@ -13,7 +13,6 @@ import java.util.Set;
  * Default search store.
  *
  * @param <S> the criteria type
- * @param <K> the item key type
  * @param <T> the item type
  * @param <D> the data API type
  *
@@ -21,9 +20,9 @@ import java.util.Set;
  * @since 1.0.0
  *
  */
-public class DefaultSearchStore<S, K, T, D extends SearchApi<S, K, T>> extends DefaultDataApiStore<D> implements SearchStore<S, K, T> {
+public class DefaultSearchDataApiStore<S, T, D extends SearchApi<S, T>> extends DefaultDataApiStore<D> implements SearchStore<S, T> {
 
-	public DefaultSearchStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
+	public DefaultSearchDataApiStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
 		super(storeKey, actionCreatorKeys, api);
 	}
 
@@ -36,11 +35,6 @@ public class DefaultSearchStore<S, K, T, D extends SearchApi<S, K, T>> extends D
 			}
 		};
 		return ServiceUtil.handleServiceCallType(getStoreCache(), getCacheKey("search", criteria), criteria, action, callType);
-	}
-
-	@Override
-	public K getItemKey(final T item) {
-		return getDataApi().getItemKey(item);
 	}
 
 }

@@ -136,7 +136,7 @@ public class FormEventUtil {
 	public static <T> void handleToolbarAddEvent(final CrudSmartView<?, ?, T> view) {
 		view.resetFormViews();
 		try {
-			T bean = view.getEntityActionCreator().createInstance();
+			T bean = view.getActionCreatorByKey().createInstance();
 			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_OK, bean);
 		} catch (Exception e) {
 			dispatchViewEvent(view, FormBaseOutcomeEventType.ADD_ERROR, e);
@@ -157,9 +157,9 @@ public class FormEventUtil {
 		// Do Save
 		try {
 			if (create) {
-				bean = view.getEntityActionCreator().create(bean);
+				bean = view.getActionCreatorByKey().create(bean);
 			} else {
-				bean = view.getEntityActionCreator().update(bean);
+				bean = view.getActionCreatorByKey().update(bean);
 			}
 			if (bean == null) {
 				throw new SystemException("An updated item was not returned from the action service.");
@@ -177,7 +177,7 @@ public class FormEventUtil {
 		}
 		T bean = form.getViewBean();
 		try {
-			view.getEntityActionCreator().delete(bean);
+			view.getActionCreatorByKey().delete(bean);
 			view.resetFormViews();
 			dispatchViewEvent(view, FormBaseOutcomeEventType.DELETE_OK, bean);
 		} catch (Exception e) {

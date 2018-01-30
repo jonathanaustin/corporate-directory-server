@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.crud.view.consumer;
 
 import com.github.bordertech.flux.crud.store.CrudStore;
-import com.github.bordertech.flux.view.consumer.ActionCreatorConsumer;
+import com.github.bordertech.flux.view.consumer.StoreConsumerByKey;
 
 /**
  * View is a CRUD Entity Store Consumer.
@@ -13,11 +13,5 @@ import com.github.bordertech.flux.view.consumer.ActionCreatorConsumer;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface CrudStoreConsumer<S, K, T> extends ActionCreatorConsumer {
-
-	void setEntityStoreKey(final String storeKey);
-
-	String getEntityStoreKey();
-
-	CrudStore<S, K, T> getEntityStore();
+public interface CrudStoreConsumer<S, K, T> extends StoreConsumerByKey<CrudStore<S, K, T>> {
 }

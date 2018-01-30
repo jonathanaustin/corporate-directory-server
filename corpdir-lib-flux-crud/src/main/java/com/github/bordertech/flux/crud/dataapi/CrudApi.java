@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.crud.dataapi;
 
-import com.github.bordertech.flux.dataapi.SearchApi;
+import com.github.bordertech.flux.dataapi.SearchKeyableApi;
 
 /**
  * CRUD Entity API.
@@ -12,7 +12,7 @@ import com.github.bordertech.flux.dataapi.SearchApi;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface CrudApi<S, K, T> extends SearchApi<S, K, T> {
+public interface CrudApi<S, K, T> extends SearchKeyableApi<S, K, T> {
 
 	T retrieve(final K key);
 

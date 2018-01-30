@@ -5,6 +5,9 @@ import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Store;
 import com.github.bordertech.flux.action.ActionKey;
 import com.github.bordertech.flux.action.ActionType;
+import java.io.Serializable;
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -16,30 +19,66 @@ import java.util.Set;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface DispatcherModel {
+public class DispatcherModel implements Serializable {
 
 	// Listeners that have ActionType and Qualifier
-	Map<ActionKey, List<ListenerWrapper>> getListenersByKey();
-
+	private final Map<ActionKey, List<ListenerWrapper>> listenersByKey = new HashMap<>();
 	// Listeners that only have a match to ActionType
-	Map<ActionType, List<ListenerWrapper>> getListenersByType();
-
+	private final Map<ActionType, List<ListenerWrapper>> listenersByType = new HashMap<>();
 	// Listeners that only match to the qualifier
-	Map<String, List<ListenerWrapper>> getListenersByQualifiers();
-
+	private final Map<String, List<ListenerWrapper>> listenersByQualifiers = new HashMap<>();
 	// Listeners by ID
-	Map<String, ListenerWrapper> getListenersById();
+	private final Map<String, ListenerWrapper> listenersById = new HashMap<>();
 
-	Queue<Action> getQueuedActions();
+	private final Map<String, Store> storesByKey = new HashMap<>();
+	private final Map<String, Set<String>> storeRegisteredIds = new HashMap<>();
+	private final Map<String, ActionCreator> creatorsByKey = new HashMap<>();
 
-	boolean isDispatching();
+	private final Queue<Action> queuedActions = new ArrayDeque<>();
+	private boolean dispatching;
 
-	void setDispatching(final boolean disaptching);
+	public Map<ActionKey, List<ListenerWrapper>> getListenersByKey() {
+		return listenersByKey;
+	}
 
-	Map<String, Store> getStoresByKey();
+	public Map<ActionType, List<ListenerWrapper>> getListenersByType() {
+		return listenersByType;
+	}
 
-	Map<String, Set<String>> getStoreRegisteredIds();
+	public Map<String, List<ListenerWrapper>> getListenersByQualifiers() {
+		return listenersByQualifiers;
+	}
 
-	Map<String, ActionCreator> getActionCreatorsByKey();
+	public Map<String, ListenerWrapper> getListenersById() {
+		return listenersById;
+	}
+
+	public Queue<Action> getQueuedActions() {
+		return queuedActions;
+	}
+
+	public boolean isDispatching() {
+		return dispatching;
+	}
+
+	public void setDispatching(final boolean dispatching) {
+		this.dispatching = dispatching;
+	}
+
+	public boolean hasQueuedActions() {
+		return !queuedActions.isEmpty();
+	}
+
+	public Map<String, Store> getStoresByKey() {
+		return storesByKey;
+	}
+
+	public Map<String, Set<String>> getStoreRegisteredIds() {
+		return storeRegisteredIds;
+	}
+
+	public Map<String, ActionCreator> getActionCreatorsByKey() {
+		return creatorsByKey;
+	}
 
 }

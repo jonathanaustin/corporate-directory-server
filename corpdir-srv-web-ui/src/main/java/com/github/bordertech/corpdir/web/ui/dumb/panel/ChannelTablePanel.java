@@ -130,7 +130,7 @@ public class ChannelTablePanel extends DefaultDumbView<List<Channel>> {
 		tableView = new TableInlineEditingSmartView<>("CHNLT", cols);
 		tableView.setBeanProperty(".");
 		tableView.setSearchAncestors(true);
-		tableView.setEntityActionCreatorKey(DataApiType.CHANNEL.getActionCreatorKey());
+		tableView.setActionCreatorKey(DataApiType.CHANNEL.getActionCreatorKey());
 		tableView.getTableView().getAddButton().setText("Add channel");
 		getContent().add(tableView);
 	}

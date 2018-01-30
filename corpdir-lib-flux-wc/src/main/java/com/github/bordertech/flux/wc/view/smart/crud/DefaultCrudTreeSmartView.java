@@ -37,13 +37,13 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 	}
 
 	@Override
-	public CrudTreeActionCreator<T> getEntityActionCreator() {
-		return (CrudTreeActionCreator<T>) super.getEntityActionCreator();
+	public CrudTreeActionCreator<T> getActionCreatorByKey() {
+		return (CrudTreeActionCreator<T>) super.getActionCreatorByKey();
 	}
 
 	@Override
-	public CrudTreeStore<S, K, T> getEntityStore() {
-		return (CrudTreeStore<S, K, T>) super.getEntityStore();
+	public CrudTreeStore<S, K, T> getStoreByKey() {
+		return (CrudTreeStore<S, K, T>) super.getStoreByKey();
 	}
 
 	@Override
@@ -107,7 +107,7 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 //						return;
 //					}
 					getSelectView().setUseTree(true);
-					getSelectView().setEntityTreeStoreKey(getEntityStoreKey());
+					getSelectView().setEntityTreeStoreKey(getStoreKey());
 					getSelectView().setContentVisible(true);
 					getSelectView().setItems(items);
 					if (type != FormBaseOutcomeEventType.DELETE_OK) {

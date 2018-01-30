@@ -1,7 +1,7 @@
-package com.github.bordertech.flux.store.datapi;
+package com.github.bordertech.flux.store.impl;
 
 import com.github.bordertech.flux.DataApi;
-import com.github.bordertech.flux.store.DefaultStore;
+import com.github.bordertech.flux.store.DataApiStore;
 import java.util.Set;
 
 /**
@@ -13,7 +13,7 @@ import java.util.Set;
  * @since 1.0.0
  *
  */
-public class DefaultDataApiStore<D extends DataApi> extends DefaultStore {
+public class DefaultDataApiStore<D extends DataApi> extends DefaultStore implements DataApiStore<D> {
 
 	private final D api;
 
@@ -22,7 +22,8 @@ public class DefaultDataApiStore<D extends DataApi> extends DefaultStore {
 		this.api = api;
 	}
 
-	protected D getDataApi() {
+	@Override
+	public D getDataApi() {
 		return api;
 	}
 

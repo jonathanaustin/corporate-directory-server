@@ -10,9 +10,10 @@ import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.view.consumer.ActionCreatorConsumerByKey;
+import com.github.bordertech.flux.view.consumer.StoreConsumerByKey;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.view.consumer.SearchStoreConsumer;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
@@ -24,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import com.github.bordertech.flux.crud.view.consumer.CrudActionCreatorConsumer;
-import com.github.bordertech.flux.crud.view.consumer.CrudStoreConsumer;
 
 /**
  * Smart view.
@@ -286,18 +285,19 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	protected void registerStoreConsumerListeners() {
-		if (this instanceof CrudActionCreatorConsumer) {
-			String key = ((CrudActionCreatorConsumer) this).getEntityActionCreatorKey();
+		if (this instanceof ActionCreatorConsumerByKey) {
+			String key = ((ActionCreatorConsumerByKey) this).getActionCreatorKey();
 			registerStoreKeyChangeListener(key);
 		}
-		if (this instanceof CrudStoreConsumer) {
-			String key = ((CrudStoreConsumer) this).getEntityStoreKey();
+		if (this instanceof StoreConsumerByKey) {
+			String key = ((StoreConsumerByKey) this).getStoreKey();
 			registerStoreKeyChangeListener(key);
 		}
-		if (this instanceof SearchStoreConsumer) {
-			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
-			registerStoreKeyChangeListener(key);
-		}
+// FIXME
+//		if (this instanceof SearchStoreConsumer) {
+//			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
+//			registerStoreKeyChangeListener(key);
+//		}
 	}
 
 	protected void registerStoreKeyChangeListener(final String storeKey) {

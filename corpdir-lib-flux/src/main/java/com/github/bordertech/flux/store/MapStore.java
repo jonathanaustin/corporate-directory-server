@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.store.collection;
+package com.github.bordertech.flux.store;
 
 import com.github.bordertech.flux.Store;
 import java.util.Map;
