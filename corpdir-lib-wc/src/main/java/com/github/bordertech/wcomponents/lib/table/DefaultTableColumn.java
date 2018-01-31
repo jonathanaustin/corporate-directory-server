@@ -7,6 +7,7 @@ import java.util.Comparator;
  * Default table column that returns the row bean as the column bean.
  *
  * @author jonathan
+ * @param <T> the row and column bean type
  */
 public class DefaultTableColumn<T> extends AbstractTableColumn<T, T> {
 

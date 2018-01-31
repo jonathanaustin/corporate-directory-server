@@ -14,12 +14,28 @@ public final class EnvironmentHelper {
 
 	private static final ThreadLocal<Environment> THREAD_LOCAL_ENVIRONMENT = new ThreadLocal<>();
 
+	/**
+	 * Private constructor.
+	 */
+	private EnvironmentHelper() {
+	}
+
+	/**
+	 * Clear the details of the current Environment on the thread.
+	 */
+	public static void clearDetails() {
+		THREAD_LOCAL_ENVIRONMENT.remove();
+	}
+
+	/**
+	 * @param env the current environment details
+	 */
 	public static void setEnvironment(final Environment env) {
 		THREAD_LOCAL_ENVIRONMENT.set(env);
 	}
 
 	/**
-	 * Get the base url at which this web application is hosted.
+	 * Get the base URL at which this web application is hosted.
 	 * <p>
 	 * Implementations ensure that this method returns a URL WITHOUT a trailing slash, as in above example.
 	 * </p>
@@ -31,6 +47,12 @@ public final class EnvironmentHelper {
 		return env == null ? "" : env.getBaseUrl();
 	}
 
+	/**
+	 * Helper method to append the base URL.
+	 *
+	 * @param relativeUrl the relative URL
+	 * @return the URL with the base URL appended
+	 */
 	public static String prefixBaseUrl(final String relativeUrl) {
 		return prefixUrl(getBaseUrl(), relativeUrl);
 	}
@@ -48,6 +70,7 @@ public final class EnvironmentHelper {
 	}
 
 	/**
+	 * Helper method to append the secure servlet path.
 	 *
 	 * @param relativeUrl the relative URL to prefix with the servlet path
 	 * @return the relative URL with the sevlet path
@@ -87,13 +110,6 @@ public final class EnvironmentHelper {
 			result.append(relativeUrl);
 		}
 		return result.toString();
-	}
-
-	/**
-	 * Clear the details of the current AJAX operation on the thread.
-	 */
-	public static void clearDetails() {
-		THREAD_LOCAL_ENVIRONMENT.remove();
 	}
 
 }

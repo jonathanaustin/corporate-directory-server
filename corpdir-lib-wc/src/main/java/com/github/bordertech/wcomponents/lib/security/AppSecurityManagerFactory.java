@@ -7,10 +7,13 @@ import com.github.bordertech.didums.Didums;
  *
  * @author Jonathan Austin
  */
-public class AppSecurityManagerFactory {
+public final class AppSecurityManagerFactory {
 
 	private static final AppSecurityManager INSTANCE = Didums.getService(AppSecurityManager.class);
 
+	/**
+	 * Private constructor.
+	 */
 	private AppSecurityManagerFactory() {
 	}
 

@@ -24,7 +24,7 @@ public class WLibServlet extends WServlet {
 	private static final boolean THEME_USE_BASEURL = Config.getInstance().getBoolean("wclib.theme.use.baseurl", true);
 
 	@Override
-	protected void serviceInt(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void serviceInt(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
 		try {
 			WLibServletHelper helper = new WLibServletHelper(this, request, response);
 			Environment env = helper.createEnvironment();

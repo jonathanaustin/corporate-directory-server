@@ -3,6 +3,7 @@ package com.github.bordertech.wcomponents.lib.security;
 import com.github.bordertech.wcomponents.lib.common.WLibMenuItem;
 
 /**
+ * Menu item that links to a secure path.
  *
  * @author jonathan
  */
@@ -10,23 +11,42 @@ public class MenuItemSecurePath extends WLibMenuItem {
 
 	private final AppPath appPath;
 
+	/**
+	 * @param text the menu item text
+	 * @param path the secure path
+	 */
 	public MenuItemSecurePath(final String text, final String path) {
 		this(text, new DefaultAppPath(path));
 	}
 
+	/**
+	 *
+	 * @param text the menu item text
+	 * @param path the application path
+	 */
 	public MenuItemSecurePath(final String text, final AppPath path) {
 		super(text, path.getPath());
 		this.appPath = path;
 	}
 
+	/**
+	 *
+	 * @return the liked application path
+	 */
 	public AppPath getAppPath() {
 		return appPath;
 	}
 
+	/**
+	 * @param secureMode true if menu item is secured
+	 */
 	public void setSecureMode(final boolean secureMode) {
 		getOrCreateComponentModel().secureMode = secureMode;
 	}
 
+	/**
+	 * @return true if the menu item is secured
+	 */
 	public boolean isSecureMode() {
 		return getComponentModel().secureMode;
 	}
@@ -36,6 +56,9 @@ public class MenuItemSecurePath extends WLibMenuItem {
 		return super.isVisible() && checkAccess();
 	}
 
+	/**
+	 * @return true if the user has access to this menu item
+	 */
 	protected boolean checkAccess() {
 		if (!isSecureMode()) {
 			return true;
@@ -64,7 +87,7 @@ public class MenuItemSecurePath extends WLibMenuItem {
 	public static final class SecureMenuItemModel extends MenuItemModel {
 
 		/**
-		 * Set true if using security
+		 * Set true if using security.
 		 */
 		private boolean secureMode;
 

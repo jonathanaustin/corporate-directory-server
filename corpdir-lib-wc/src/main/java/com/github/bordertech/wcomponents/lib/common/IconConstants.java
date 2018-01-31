@@ -7,6 +7,12 @@ package com.github.bordertech.wcomponents.lib.common;
 public final class IconConstants {
 
 	/**
+	 * Private constructor.
+	 */
+	private IconConstants() {
+	}
+
+	/**
 	 * Add image.
 	 */
 	public static final String ADD_IMAGE = "wclib/icons/add.png";

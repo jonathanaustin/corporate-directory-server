@@ -33,9 +33,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PollingServicePanel<S extends Serializable, T extends Serializable> extends PollingPanel implements PollableService<S, T> {
 
-	/**
-	 * The logger instance for this class.
-	 */
 	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
 
 	private final WDiv contentResultHolder = new WDiv() {
@@ -67,6 +64,9 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		contentResultHolder.setVisible(false);
 	}
 
+	/**
+	 * @return the container holding the result content
+	 */
 	public final WDiv getContentResultHolder() {
 		return contentResultHolder;
 	}
@@ -139,6 +139,12 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		super.doRefreshContent();
 	}
 
+	/**
+	 * Manually load a result.
+	 *
+	 * @param criteria the service criteria
+	 * @param result the service result
+	 */
 	@Override
 	public void doManuallyLoadResult(final S criteria, final T result) {
 		if (result == null || criteria == null) {
@@ -241,16 +247,26 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		return super.checkForStopPolling();
 	}
 
+	/**
+	 * @return a generated key to uniquely identify a service request
+	 */
 	protected String generateServiceKey() {
 		String key = "polling=" + UUID.randomUUID().toString();
 		getOrCreateComponentModel().serviceKey = key;
 		return key;
 	}
 
+	/**
+	 *
+	 * @return the service request unique key
+	 */
 	protected String getServiceKey() {
 		return getComponentModel().serviceKey;
 	}
 
+	/**
+	 * Clear the current service request key.
+	 */
 	protected void clearServiceKey() {
 		String key = getServiceKey();
 		if (key != null) {

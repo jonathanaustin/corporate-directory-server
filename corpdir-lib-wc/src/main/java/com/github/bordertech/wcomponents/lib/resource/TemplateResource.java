@@ -145,18 +145,18 @@ public class TemplateResource implements ContentStreamAccess {
 			return this;
 		}
 
-		public Builder setEngineName(final String engineName) {
-			this.engineName = engineName;
+		public Builder setEngineName(final String name) {
+			this.engineName = name;
 			return this;
 		}
 
-		public Builder setDescription(final String description) {
-			this.description = description;
+		public Builder setDescription(final String desc) {
+			this.description = desc;
 			return this;
 		}
 
-		public Builder setMimeType(final String mimeType) {
-			this.mimeType = mimeType;
+		public Builder setMimeType(final String type) {
+			this.mimeType = type;
 			return this;
 		}
 

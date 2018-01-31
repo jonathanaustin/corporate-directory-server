@@ -18,7 +18,7 @@ import java.util.UUID;
  * @param <V> the columns value type
  * @param <T> the row bean type
  * @author Jonathan Austin
- * @since POC1
+ * @since 1.0.0
  */
 public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 
@@ -97,8 +97,8 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		this.renderer = renderer;
 	}
 
-	protected final void checkComparator(final Comparator comparator) {
-		if (comparator != null && !(comparator instanceof Serializable)) {
+	protected final void checkComparator(final Comparator comp) {
+		if (comp != null && !(comp instanceof Serializable)) {
 			throw new IllegalArgumentException("Comparator must implement serializable");
 		}
 	}
@@ -148,7 +148,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		return width;
 	}
 
-	public void setWidth(int width) {
+	public void setWidth(final int width) {
 		this.width = width;
 	}
 
@@ -157,7 +157,7 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		return alignment;
 	}
 
-	public void setAlignment(WTableColumn.Alignment align) {
+	public void setAlignment(final WTableColumn.Alignment align) {
 		this.alignment = align;
 	}
 

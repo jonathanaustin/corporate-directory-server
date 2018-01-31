@@ -7,7 +7,10 @@ import java.util.Comparator;
 /**
  * Editable column that defaults to a TextField instead of a WText.
  *
- * @author jonathan
+ * @param <V> the columns value type
+ * @param <T> the row bean type
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
 public abstract class AbstractTableEditableColumn<V, T> extends AbstractTableColumn<V, T> {
 

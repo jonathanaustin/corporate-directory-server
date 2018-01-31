@@ -20,6 +20,8 @@ import java.util.Map;
 /**
  * Table column renderer that allows row edit actions.
  *
+ * @param <T> the row bean type
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */
@@ -130,7 +132,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 	}
 
 	/**
-	 * @param rowKey row key to include in edits.
+	 * @param rowKey row key to include in edits
 	 */
 	@Override
 	public void addRowModeKey(final Object rowKey, final RowMode mode) {
@@ -189,7 +191,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 	}
 
 	/**
-	 * Setup the row action AJAX targets (ie each column)
+	 * Setup the row action AJAX targets (ie each column).
 	 */
 	protected void setupColumnAjaxTargets() {
 		WTable table = getTable();

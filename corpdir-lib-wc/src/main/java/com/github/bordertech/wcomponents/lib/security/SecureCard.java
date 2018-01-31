@@ -9,6 +9,10 @@ import com.github.bordertech.wcomponents.WComponent;
  */
 public interface SecureCard extends WComponent {
 
+	/**
+	 *
+	 * @return the card application path and roles
+	 */
 	AppPath getAppPath();
 
 	/**

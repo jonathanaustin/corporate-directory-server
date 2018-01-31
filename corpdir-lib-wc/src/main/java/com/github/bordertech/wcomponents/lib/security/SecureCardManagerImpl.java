@@ -74,7 +74,7 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 	}
 
 	@Override
-	public void add(final WComponent component, String tag) {
+	public void add(final WComponent component, final String tag) {
 		if (component instanceof SecureCard) {
 			super.add(component, tag);
 		}
@@ -87,9 +87,6 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void makeVisible(final WComponent component) {
 		if ((component instanceof SecureCard) && getSecureCards().contains((T) component)) {
@@ -98,27 +95,16 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		}
 	}
 
-	/**
-	 * @param card the card to add
-	 */
 	@Override
 	public void addSecureCard(final T card) {
 		add(card);
 	}
 
-	/**
-	 *
-	 * @param card the card to remove
-	 */
 	@Override
 	public void removeSecureCard(final T card) {
 		remove(card);
 	}
 
-	/**
-	 * @param screenPath the screen path
-	 * @return the matching card
-	 */
 	@Override
 	public T getSecureCard(final String screenPath) {
 		for (T card : getSecureCards()) {
@@ -196,10 +182,17 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		}
 	}
 
+	/**
+	 * Handle a user does not have access.
+	 */
 	protected void handleAccessError() {
 		throw new SystemException("You don't have access to this system.");
 	}
 
+	/**
+	 * @param postPath the post path
+	 * @return the current screen path
+	 */
 	protected String getCurrentScreenPath(final String postPath) {
 		String servletPath = EnvironmentHelper.getSecureServletPath();
 		int idx = postPath.lastIndexOf(servletPath) + servletPath.length();
@@ -207,33 +200,37 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		return currentScreenPath;
 	}
 
+	/**
+	 * @param path the application path
+	 * @return the redirect URL
+	 */
 	protected String getRedirectUrl(final AppPath path) {
 		String servletPath = EnvironmentHelper.getSecureServletPath();
 		return EnvironmentHelper.prefixBaseUrl(servletPath + path.getPath());
 	}
 
 	@Override
-	protected SecureCardManagerModel<T> newComponentModel() {
+	protected SecureCardManagerModel newComponentModel() {
 		return new SecureCardManagerModel();
 	}
 
 	@Override
-	protected SecureCardManagerModel<T> getOrCreateComponentModel() {
+	protected SecureCardManagerModel getOrCreateComponentModel() {
 		return (SecureCardManagerModel) super.getOrCreateComponentModel();
 	}
 
 	@Override
-	protected SecureCardManagerModel<T> getComponentModel() {
+	protected SecureCardManagerModel getComponentModel() {
 		return (SecureCardManagerModel) super.getComponentModel();
 	}
 
 	/**
 	 * This model holds the state information.
 	 */
-	public static final class SecureCardManagerModel<T> extends CardManagerModel {
+	public static final class SecureCardManagerModel extends CardManagerModel {
 
 		/**
-		 * Set true if using security
+		 * Set true if using security.
 		 */
 		private boolean secureMode;
 	}

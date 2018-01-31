@@ -14,13 +14,23 @@ import java.util.List;
  */
 public interface SecureCardManager<T extends SecureCard> extends WComponent {
 
+	/**
+	 * @param card the card to add
+	 */
 	void addSecureCard(final T card);
 
+	/**
+	 * @param card the card to remove
+	 */
 	void removeSecureCard(final T card);
 
 	List<T> getSecureCards();
 
-	T getSecureCard(final String path);
+	/**
+	 * @param screenPath the screen path
+	 * @return the matching card
+	 */
+	T getSecureCard(final String screenPath);
 
 	void setSecureMode(final boolean secureMode);
 
