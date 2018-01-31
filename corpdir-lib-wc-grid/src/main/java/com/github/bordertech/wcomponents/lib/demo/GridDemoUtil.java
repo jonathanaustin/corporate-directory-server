@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.lib.grid.Grid;
 import com.github.bordertech.wcomponents.lib.grid.GridItem;
 import com.github.bordertech.wcomponents.lib.grid.MediaSize;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
-import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWcLibJsResource;
+import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWclibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
 
 /**
@@ -29,7 +29,7 @@ public class GridDemoUtil {
 		app.addCssUrl("wclib/css/layout-grid.css");
 
 		// Custom JS
-		TemplateWContent registerWclib = new TemplateWContent(new TemplateRegisterWcLibJsResource(), "reg");
+		TemplateWContent registerWclib = new TemplateWContent(new TemplateRegisterWclibJsResource(), "reg");
 		app.add(registerWclib);
 		app.addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
 

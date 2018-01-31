@@ -1,18 +1,19 @@
-package com.github.bordertech.wcomponents.lib.config;
+package com.github.bordertech.wcomponents.lib.common;
 
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
-import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWcLibJsResource;
+import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWclibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
 import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
 
 /**
+ * Helper class for Applications to configure the library resources.
  *
  * @author jonathan
  */
-public class ConfigLibUtil {
+public final class LibHelperUtil {
 
-	private ConfigLibUtil() {
+	private LibHelperUtil() {
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class ConfigLibUtil {
 		app.addCssUrl(url);
 
 		// Javascript - Allow requireJS to load wclib js libraries
-		TemplateWContent registerWclib = new TemplateWContent(new TemplateRegisterWcLibJsResource(), "reg");
+		TemplateWContent registerWclib = new TemplateWContent(new TemplateRegisterWclibJsResource(), "reg");
 		app.add(registerWclib);
 		app.addJsResource(new ApplicationResourceWContent(registerWclib, "regkey"));
 	}

@@ -15,7 +15,7 @@ import com.github.bordertech.flux.wc.view.event.base.SelectBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WDialog;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.io.Serializable;
 import java.util.List;
 

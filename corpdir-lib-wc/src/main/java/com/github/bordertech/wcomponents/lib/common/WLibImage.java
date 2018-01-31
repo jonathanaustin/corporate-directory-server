@@ -8,7 +8,7 @@ import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
  * Allows a relative base URL to be used.
  * <p>
  * This will be put into WComponents core.
- * </p[>
+ * </p>
  *
  * @author jonathan
  */

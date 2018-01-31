@@ -1,11 +1,11 @@
-package com.github.bordertech.wcomponents.lib.grid;
+package com.github.bordertech.wcomponents.lib.common;
 
 /**
  *
  * @author jonathan
  */
-public enum DragMode {
-	TRUE, FALSE, AUTO;
+public enum DropMode {
+	COPY, MOVE, LINK;
 
 	@Override
 	public String toString() {

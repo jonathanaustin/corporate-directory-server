@@ -1,6 +1,5 @@
 package com.github.bordertech.flux.wc.view;
 
-import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;
@@ -8,6 +7,7 @@ import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;

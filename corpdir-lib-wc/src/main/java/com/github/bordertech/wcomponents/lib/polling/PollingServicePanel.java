@@ -5,7 +5,7 @@ import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.io.Serializable;
 import java.util.UUID;
 import javax.cache.Cache;

@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.icons;
+package com.github.bordertech.wcomponents.lib.common;
 
 /**
  *

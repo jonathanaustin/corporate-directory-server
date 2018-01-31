@@ -5,13 +5,13 @@ import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.crud.smart.CrudSmartView;
+import com.github.bordertech.flux.wc.crud.util.FormEventUtil;
 import com.github.bordertech.flux.wc.mode.FormMode;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.form.DefaultFormView;
 import com.github.bordertech.flux.wc.view.dumb.toolbar.DefaultFormToolbarView;
-import com.github.bordertech.flux.wc.crud.util.FormEventUtil;
-import com.github.bordertech.flux.wc.crud.smart.CrudSmartView;
 import com.github.bordertech.flux.wc.view.smart.msg.DefaultMessageSmartView;
 import com.github.bordertech.wcomponents.WContainer;
 
