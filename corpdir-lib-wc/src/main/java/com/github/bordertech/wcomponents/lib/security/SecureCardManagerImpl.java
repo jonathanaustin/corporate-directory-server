@@ -6,8 +6,6 @@ import com.github.bordertech.wcomponents.UIContext;
 import com.github.bordertech.wcomponents.UIContextHolder;
 import com.github.bordertech.wcomponents.WCardManager;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
-import com.github.bordertech.wcomponents.lib.servlet.WLibServlet;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.Util;
 import com.google.common.base.Objects;

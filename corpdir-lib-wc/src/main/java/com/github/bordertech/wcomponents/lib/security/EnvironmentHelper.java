@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.servlet;
+package com.github.bordertech.wcomponents.lib.security;
 
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.util.Config;
@@ -41,17 +41,27 @@ public final class EnvironmentHelper {
 	 * Implementations ensure that this method returns a URL WITH a trailing slash.
 	 * </p>
 	 *
-	 * @param relativeUrl the relative url
 	 * @return the secure servlet path at which this web application is hosted.
 	 */
 	public static String getSecureServletPath() {
 		return SECURE_SERVLET_PATH;
 	}
 
+	/**
+	 *
+	 * @param relativeUrl the relative URL to prefix with the servlet path
+	 * @return the relative URL with the sevlet path
+	 */
 	public static String prefixSecureServletPath(final String relativeUrl) {
 		return prefixUrl(getSecureServletPath(), relativeUrl);
 	}
 
+	/**
+	 *
+	 * @param prefix the URL prefix
+	 * @param relativeUrl the relative URL to append
+	 * @return a URL with the prefix attached
+	 */
 	private static String prefixUrl(final String prefix, final String relativeUrl) {
 		if (prefix == null) {
 			throw new IllegalArgumentException("Prefix cannot be null");

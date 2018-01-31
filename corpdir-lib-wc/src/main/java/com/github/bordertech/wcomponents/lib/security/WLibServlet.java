@@ -1,4 +1,4 @@
-package com.github.bordertech.wcomponents.lib.servlet;
+package com.github.bordertech.wcomponents.lib.security;
 
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.UserAgentInfo;

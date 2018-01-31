@@ -3,7 +3,7 @@ package com.github.bordertech.wcomponents.lib.common;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
 
 /**
  * Allows a relative base URL to be used.

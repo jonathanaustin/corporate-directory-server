@@ -4,7 +4,7 @@ import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.lib.resource.ApplicationResourceWContent;
 import com.github.bordertech.wcomponents.lib.resource.TemplateRegisterWclibJsResource;
 import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
 
 /**
  * Helper class for Applications to configure the library resources.

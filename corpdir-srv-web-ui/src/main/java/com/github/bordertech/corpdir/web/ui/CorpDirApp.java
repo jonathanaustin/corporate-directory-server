@@ -11,7 +11,7 @@ import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WebUtilities;
 import com.github.bordertech.wcomponents.lib.common.LibHelperUtil;
 import com.github.bordertech.wcomponents.lib.common.WLibLink;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
 
 /**
  * Corporate Directory Admin UI.

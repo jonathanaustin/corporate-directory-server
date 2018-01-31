@@ -1,7 +1,7 @@
 package com.github.bordertech.wcomponents.lib.common;
 
 import com.github.bordertech.wcomponents.WLink;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
 
 /**
  * Allows a relative base URL to be used.
