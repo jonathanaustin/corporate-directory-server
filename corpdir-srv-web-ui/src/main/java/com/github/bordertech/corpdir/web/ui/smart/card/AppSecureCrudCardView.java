@@ -2,12 +2,11 @@ package com.github.bordertech.corpdir.web.ui.smart.card;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.smart.crud.CorpCrudSmartView;
 import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
+import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
-import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
@@ -15,6 +14,7 @@ import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardView;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WSection;
 import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
@@ -22,14 +22,14 @@ import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
 /**
  * Secure card with a WSection Wrapper.
  *
- * @param <T> the form CORP Dir entity type
+ * @param <T> the Corp Dir entity type
  */
-public class AppSecureCrudCardView<T extends ApiIdObject> extends DefaultSecureCardView<T> implements CorpCrudSmartView<T> {
+public class AppSecureCrudCardView<T extends ApiIdObject> extends DefaultSecureCardView<T> implements CrudSearchSmartView<String, String, T> {
 
 	private final WSection wrapper;
-	private final CorpCrudSmartView<T> crudView;
+	private final CrudSearchSmartView<String, String, T> crudView;
 
-	public AppSecureCrudCardView(final String viewId, final CardType cardType, final CorpCrudSmartView<T> crudView) {
+	public AppSecureCrudCardView(final String viewId, final CardType cardType, final CrudSearchSmartView<String, String, T> crudView) {
 		super(viewId, new DefaultAppPath(cardType.getPath()));
 		this.wrapper = new WSection(cardType.getDesc());
 		this.crudView = crudView;

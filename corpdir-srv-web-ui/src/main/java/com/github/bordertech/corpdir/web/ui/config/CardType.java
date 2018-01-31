@@ -2,9 +2,9 @@ package com.github.bordertech.corpdir.web.ui.config;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
 import com.github.bordertech.corpdir.web.ui.smart.card.ContactCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.LocationCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.OrgUnitCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.PositionCardView;
+import com.github.bordertech.corpdir.web.ui.smart.card.LocationCardTreeView;
+import com.github.bordertech.corpdir.web.ui.smart.card.OrgUnitCardTreeView;
+import com.github.bordertech.corpdir.web.ui.smart.card.PositionCardTreeView;
 import com.github.bordertech.corpdir.web.ui.smart.card.PositionTypeCardView;
 import com.github.bordertech.corpdir.web.ui.smart.card.SystemCtrlCardView;
 import com.github.bordertech.corpdir.web.ui.smart.card.UnitTypeCardView;
@@ -17,9 +17,9 @@ import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
  * @author jonathan
  */
 public enum CardType {
-	POSITION("position", "Position", false, PositionCardView.class, IconConstants.POSITION_IMAGE, DataApiType.POSITION),
-	ORG_UNIT("orgunit", "Org Unit", false, OrgUnitCardView.class, IconConstants.ORG_UNIT_IMAGE, DataApiType.ORG_UNIT),
-	LOCATION("location", "Location", true, LocationCardView.class, null, DataApiType.LOCATION),
+	POSITION("position", "Position", false, PositionCardTreeView.class, IconConstants.POSITION_IMAGE, DataApiType.POSITION),
+	ORG_UNIT("orgunit", "Org Unit", false, OrgUnitCardTreeView.class, IconConstants.ORG_UNIT_IMAGE, DataApiType.ORG_UNIT),
+	LOCATION("location", "Location", true, LocationCardTreeView.class, null, DataApiType.LOCATION),
 	POSITION_TYPE("positiontype", "Position Type", true, PositionTypeCardView.class, null, DataApiType.POSITION_TYPE),
 	CONTACT("contact", "Contact", false, ContactCardView.class, IconConstants.CONTACT_IMAGE, DataApiType.CONTACT),
 	// System

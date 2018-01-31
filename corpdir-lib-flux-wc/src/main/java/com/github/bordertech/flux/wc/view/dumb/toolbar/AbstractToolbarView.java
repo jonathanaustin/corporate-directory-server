@@ -66,7 +66,7 @@ public class AbstractToolbarView<T> extends DefaultDumbView<T> implements Toolba
 	@Override
 	public boolean isUseToolbarItem(final ToolbarItem type) {
 		ToolbarModel model = getComponentModel();
-		return model.toolbarTypes == null ? false : model.toolbarTypes.contains(type);
+		return model.toolbarTypes != null && model.toolbarTypes.contains(type);
 	}
 
 	@Override

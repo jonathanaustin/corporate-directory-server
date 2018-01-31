@@ -44,7 +44,7 @@ public class WLibButton extends WButton {
 
 	public boolean isRelativeBaseUrl() {
 		Boolean flag = (Boolean) getAttribute("wc_relative");
-		return flag == null ? false : flag;
+		return flag != null && flag;
 	}
 
 }

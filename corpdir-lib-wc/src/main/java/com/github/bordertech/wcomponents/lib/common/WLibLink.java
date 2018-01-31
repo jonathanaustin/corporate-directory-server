@@ -54,7 +54,7 @@ public class WLibLink extends WLink {
 
 	public boolean isRelativeBaseUrl() {
 		Boolean flag = (Boolean) getAttribute("wc_relative");
-		return flag == null ? false : flag;
+		return flag != null && flag;
 	}
 
 	public void setImageRelativeBaseUrl(final boolean relativeBaseUrl) {
@@ -63,7 +63,7 @@ public class WLibLink extends WLink {
 
 	public boolean isImageRelativeBaseUrl() {
 		Boolean flag = (Boolean) getAttribute("wc_relative_img");
-		return flag == null ? false : flag;
+		return flag != null && flag;
 	}
 
 }

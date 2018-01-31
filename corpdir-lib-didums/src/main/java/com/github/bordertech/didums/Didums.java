@@ -62,8 +62,12 @@ public final class Didums {
 		if (impl != null) {
 			return true;
 		}
+		// Cant fall back to factory if has qualifiers
+		if (qualifiers.length > 0) {
+			return false;
+		}
 		// Fallback to basic factory
-		return qualifiers.length == 0 ? Factory.hasImplementation(service) : false;
+		return Factory.hasImplementation(service);
 	}
 
 	/**

@@ -218,7 +218,7 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 
 	protected boolean isRowEdittable(final Object key) {
 		// Default to true if no action column provided
-		return actionColumn == null ? true : actionColumn.getRowMode(key) != RowMode.READ;
+		return actionColumn == null || actionColumn.getRowMode(key) != RowMode.READ;
 	}
 
 }

@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.WComponent;
  *
  * @param <T> the form entity type
  */
-public class DefaultCorpCrudSmartView<T extends ApiIdObject> extends DefaultCrudSmartView<String, String, T> implements CorpCrudSmartView<T> {
+public class DefaultCorpCrudSmartView<T extends ApiIdObject> extends DefaultCrudSmartView<String, String, T> {
 
 	public DefaultCorpCrudSmartView(final String viewId, final String title, final WComponent panel) {
 		super(viewId, title, panel);

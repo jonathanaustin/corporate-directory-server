@@ -6,7 +6,7 @@ import com.github.bordertech.corpdir.web.ui.dumb.panel.ContactPanel;
 import com.github.bordertech.corpdir.web.ui.smart.crud.DefaultCorpCrudSmartView;
 
 /**
- * Contact crud view.
+ * Contact CRUD view.
  *
  * @author jonathan
  */

@@ -67,7 +67,7 @@ public class WLibMenuItem extends WMenuItem {
 
 	public boolean isRelativeBaseUrl() {
 		Boolean flag = (Boolean) getAttribute("wc_relative");
-		return flag == null ? false : flag;
+		return flag != null && flag;
 	}
 
 }

@@ -62,16 +62,6 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param delay the AJAX polling delay
 	 */
 	public PollingServicePanel(final int delay) {
-		this(delay, false);
-	}
-
-	/**
-	 * Construct polling panel.
-	 *
-	 * @param delay the AJAX polling delay
-	 * @param manualStart true if start polling with manual start button action
-	 */
-	public PollingServicePanel(final int delay, final boolean manualStart) {
 		super(delay);
 		getHolder().add(contentResultHolder);
 		contentResultHolder.setVisible(false);

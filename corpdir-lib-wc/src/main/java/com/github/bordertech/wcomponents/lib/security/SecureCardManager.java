@@ -18,7 +18,7 @@ public interface SecureCardManager<T extends SecureCard> extends WComponent {
 
 	void removeSecureCard(final T card);
 
-	public List<T> getSecureCards();
+	List<T> getSecureCards();
 
 	T getSecureCard(final String path);
 

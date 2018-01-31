@@ -16,9 +16,9 @@ import com.github.bordertech.flux.crud.store.CrudTreeStore;
 public interface CrudSearchTreeSmartView<S, K, T> extends CrudSearchSmartView<S, K, T> {
 
 	@Override
-	public CrudTreeActionCreator<T> getActionCreatorByKey();
+	CrudTreeActionCreator<T> getActionCreatorByKey();
 
 	@Override
-	public CrudTreeStore<S, K, T> getStoreByKey();
+	CrudTreeStore<S, K, T> getStoreByKey();
 
 }

@@ -2,11 +2,11 @@ package com.github.bordertech.flux.wc.crud.smart.impl;
 
 import com.github.bordertech.flux.crud.actioncreator.CrudTreeActionCreator;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
+import com.github.bordertech.flux.wc.crud.smart.CrudSearchTreeSmartView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
-import com.github.bordertech.flux.wc.crud.smart.CrudSearchTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.DefaultListOrTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.ListOrTreeSelectView;
 import com.github.bordertech.taskmanager.service.CallType;
