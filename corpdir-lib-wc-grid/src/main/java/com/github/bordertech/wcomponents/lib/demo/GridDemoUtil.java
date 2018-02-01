@@ -16,7 +16,7 @@ import com.github.bordertech.wcomponents.lib.resource.TemplateWContent;
  *
  * @author jonathan
  */
-public class GridDemoUtil {
+public final class GridDemoUtil {
 
 	private GridDemoUtil() {
 	}
