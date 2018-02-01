@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.main;
 
-import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.CardType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardManagerView;
 import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
@@ -25,9 +25,9 @@ public class MainCardManagerView extends DefaultSecureCardManagerView<Object, Se
 			view.setQualifierContext(true);
 			if (view instanceof CrudSearchSmartView) {
 				CrudSearchSmartView form = (CrudSearchSmartView) view;
-				DataApiType api = card.getApiType();
+				CorpEntityType api = card.getApiType();
 				form.setActionCreatorKey(api.getActionCreatorKey());
-				form.setStoreKey(api.getEntityStoreKey());
+				form.setStoreKey(api.getStoreKey());
 			}
 			setupCard(card, view);
 		}

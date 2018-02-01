@@ -10,7 +10,7 @@ import java.util.Set;
  * @param <S> the criteria type
  * @param <K> the item key type
  * @param <T> the item type
- * @param <D> the data API type
+ * @param <D> the Search Data API type
  *
  * @author Jonathan Austin
  * @since 1.0.0

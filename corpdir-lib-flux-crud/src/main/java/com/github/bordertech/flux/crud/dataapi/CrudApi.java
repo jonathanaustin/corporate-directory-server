@@ -6,8 +6,8 @@ import com.github.bordertech.flux.dataapi.SearchKeyableApi;
  * CRUD Entity API.
  *
  * @param <S> the search criteria
- * @param <K> the item key type
- * @param <T> the item type
+ * @param <K> the entity key type
+ * @param <T> the entity type
  *
  * @author Jonathan Austin
  * @since 1.0.0

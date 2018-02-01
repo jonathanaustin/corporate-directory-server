@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiTreeablePanel;
 import com.github.bordertech.wcomponents.WCollapsible;
 

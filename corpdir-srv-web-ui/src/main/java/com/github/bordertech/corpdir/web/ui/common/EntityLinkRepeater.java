@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.common;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.wcomponents.WList;
 import com.github.bordertech.wcomponents.lib.common.WDiv;
 

@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.store;
 
 /**
- * Store that performs a search and has a keyable item.
+ * Store that performs a search with a keyable item.
  *
  * @param <S> the search criteria
  * @param <K> the item key type

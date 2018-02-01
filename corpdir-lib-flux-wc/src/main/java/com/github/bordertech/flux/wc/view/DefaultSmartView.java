@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.action.ActionKey;
 import com.github.bordertech.flux.action.ActionType;
 import com.github.bordertech.flux.action.type.base.StateBaseActionType;
-import com.github.bordertech.flux.crud.factory.FluxFactory;
 import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
@@ -33,6 +33,8 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements FluxSmartView<T> {
+
+	private static final Dispatcher DISPATCHER = Didums.getService(Dispatcher.class);
 
 	public DefaultSmartView(final String viewId) {
 		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
@@ -281,7 +283,7 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	protected final Dispatcher getDispatcher() {
-		return FluxFactory.getDispatcher();
+		return DISPATCHER;
 	}
 
 	protected void registerStoreConsumerListeners() {

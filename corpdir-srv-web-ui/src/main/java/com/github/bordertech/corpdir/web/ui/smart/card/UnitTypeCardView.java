@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.card;
 
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.panel.UnitTypePanel;
 import com.github.bordertech.corpdir.web.ui.smart.crud.DefaultCorpCrudSmartView;
 

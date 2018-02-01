@@ -3,6 +3,7 @@ package com.github.bordertech.flux.crud.actioncreator;
 /**
  * Provides the action creator interface to handle change store actions.
  *
+ * @param <T> the item type
  * @author Jonathan Austin
  * @since 1.0.0
  */

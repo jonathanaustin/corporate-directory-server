@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.smart.card;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
+import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
 import com.github.bordertech.flux.crud.store.CrudStore;
 import com.github.bordertech.flux.wc.common.TemplateConstants;

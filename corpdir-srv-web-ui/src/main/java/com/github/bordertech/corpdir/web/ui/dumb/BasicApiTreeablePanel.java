@@ -1,9 +1,9 @@
 package com.github.bordertech.corpdir.web.ui.dumb;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
+import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.common.EntityLink;
 import com.github.bordertech.corpdir.web.ui.common.EntityLinkRepeater;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
 import com.github.bordertech.wcomponents.WLabel;
@@ -42,14 +42,14 @@ public class BasicApiTreeablePanel<T extends ApiTreeable> extends BasicApiKeyPan
 		drpParent.setIncludeNullOption(true);
 		drpParent.setCodeProperty("id");
 		drpParent.getOptionsView().setBeanProperty("parentId");
-		drpParent.setStoreKey(card.getApiType().getSearchStoreKey());
+		drpParent.setStoreKey(card.getApiType().getStoreKey());
 
 		// Sub Items
 		lbl = new WLabel("Sub " + desc, multiSub.getSelectInput());
 		getFormLayout().addField(lbl, multiSub);
 		multiSub.setCodeProperty("id");
 		multiSub.getOptionsView().setBeanProperty("subIds");
-		multiSub.setStoreKey(card.getApiType().getSearchStoreKey());
+		multiSub.setStoreKey(card.getApiType().getStoreKey());
 
 		// Set up readonly container
 		drpParent.getReadonlyContainer().add(new EntityLink(card));

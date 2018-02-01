@@ -15,4 +15,9 @@ public interface ActionCreator extends Serializable {
 	 */
 	String getKey();
 
+	/**
+	 * @return the attached dispatcher.
+	 */
+	Dispatcher getDispatcher();
+
 }

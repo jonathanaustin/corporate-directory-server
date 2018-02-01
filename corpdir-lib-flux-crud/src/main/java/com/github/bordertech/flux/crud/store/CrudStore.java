@@ -12,7 +12,7 @@ import com.github.bordertech.taskmanager.service.ResultHolder;
  * @param <T> the entity type
  *
  * @author Jonathan Austin
- * @since 1.0.0 *
+ * @since 1.0.0
  */
 public interface CrudStore<S, K, T> extends SearchKeyableStore<S, K, T> {
 
