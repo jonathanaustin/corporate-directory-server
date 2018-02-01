@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.security;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.wcomponents.Environment;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.UIContext;
@@ -22,6 +23,8 @@ import java.util.List;
  * @param <T> the card type
  */
 public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager implements SecureCardManager<T> {
+
+	private static final AppSecurityManager MANAGER = Didums.getService(AppSecurityManager.class);
 
 	@Override
 	public void handleRequest(final Request request) {
@@ -174,7 +177,7 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 		getVisible().setVisible(true);
 		if (isSecureMode()) {
 			AppPath path = getCurrentCard().getAppPath();
-			boolean allowed = AppSecurityManagerFactory.getInstance().userAccessToPath(path);
+			boolean allowed = MANAGER.userAccessToPath(path);
 			if (!allowed) {
 				getVisible().setVisible(false);
 				handleAccessError();

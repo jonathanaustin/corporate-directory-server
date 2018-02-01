@@ -31,18 +31,30 @@ public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 		xml.appendClose();
 	}
 
+	/**
+	 * @param mode the drag mode for this DIV
+	 */
 	public void setDragMode(final DragMode mode) {
 		getOrCreateComponentModel().dragMode = mode;
 	}
 
+	/**
+	 * @return the drag mode for this DIV
+	 */
 	public DragMode getDragMode() {
 		return getComponentModel().dragMode;
 	}
 
+	/**
+	 * @param mode the drop mode for this DIV
+	 */
 	public void setDropMode(final DropMode mode) {
 		getOrCreateComponentModel().dropMode = mode;
 	}
 
+	/**
+	 * @return the drop mode for this DIV
+	 */
 	public DropMode getDropMode() {
 		return getComponentModel().dropMode;
 	}
@@ -68,6 +80,9 @@ public class WDiv extends WContainer implements AjaxTarget, SubordinateTarget {
 		return (DivModel) super.getOrCreateComponentModel();
 	}
 
+	/**
+	 * Div intrinsic state.
+	 */
 	public static class DivModel extends BeanAndProviderBoundComponentModel {
 
 		private DragMode dragMode;

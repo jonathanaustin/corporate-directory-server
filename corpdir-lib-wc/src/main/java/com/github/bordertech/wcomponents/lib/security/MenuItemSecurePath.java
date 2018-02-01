@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.security;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.wcomponents.lib.common.WLibMenuItem;
 
 /**
@@ -8,6 +9,8 @@ import com.github.bordertech.wcomponents.lib.common.WLibMenuItem;
  * @author jonathan
  */
 public class MenuItemSecurePath extends WLibMenuItem {
+
+	private static final AppSecurityManager MANAGER = Didums.getService(AppSecurityManager.class);
 
 	private final AppPath appPath;
 
@@ -63,7 +66,7 @@ public class MenuItemSecurePath extends WLibMenuItem {
 		if (!isSecureMode()) {
 			return true;
 		}
-		return AppSecurityManagerFactory.getInstance().userAccessToPath(appPath);
+		return MANAGER.userAccessToPath(appPath);
 	}
 
 	@Override

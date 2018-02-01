@@ -13,6 +13,9 @@ import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
  */
 public final class LibHelperUtil {
 
+	/**
+	 * Private constructor.
+	 */
 	private LibHelperUtil() {
 	}
 

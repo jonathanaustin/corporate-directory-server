@@ -1,6 +1,7 @@
 package com.github.bordertech.wcomponents.lib.common;
 
 /**
+ * Helper class for Icon Constant paths.
  *
  * @author jonathan
  */

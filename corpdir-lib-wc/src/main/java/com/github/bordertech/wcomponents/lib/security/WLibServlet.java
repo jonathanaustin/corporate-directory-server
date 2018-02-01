@@ -45,6 +45,11 @@ public class WLibServlet extends WServlet {
 	 */
 	public static class WLibServletHelper extends WServlet.WServletHelper {
 
+		/**
+		 * @param servlet the servlet instance
+		 * @param httpServletRequest the current request
+		 * @param httpServletResponse the current response
+		 */
 		public WLibServletHelper(final WServlet servlet, final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse) {
 			super(servlet, httpServletRequest, httpServletResponse);
 		}
@@ -84,10 +89,20 @@ public class WLibServlet extends WServlet {
 	 */
 	public static class WLibServletEnvironment extends WServlet.WServletEnvironment {
 
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base URL
+		 * @param userAgent the user agent string
+		 */
 		public WLibServletEnvironment(final String postPath, final String baseUrl, final String userAgent) {
 			super(postPath, baseUrl, userAgent);
 		}
 
+		/**
+		 * @param postPath the post path
+		 * @param baseUrl the base URL
+		 * @param userAgentInfo the user agent details
+		 */
 		public WLibServletEnvironment(final String postPath, final String baseUrl, final UserAgentInfo userAgentInfo) {
 			super(postPath, baseUrl, userAgentInfo);
 		}

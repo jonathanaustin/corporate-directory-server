@@ -5,6 +5,9 @@ import com.github.bordertech.wcomponents.util.Config;
 
 /**
  * Environment helper to make the environment details available on the thread.
+ * <p>
+ * Allows relative base URLs to be used so the URLs can be used in different contexts without changing.
+ * </p>
  *
  * @author jonathan
  */

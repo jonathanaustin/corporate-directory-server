@@ -1,11 +1,23 @@
 package com.github.bordertech.wcomponents.lib.common;
 
 /**
+ * Drag modes for draggable components.
  *
  * @author jonathan
  */
 public enum DragMode {
-	TRUE, FALSE, AUTO;
+	/**
+	 * DRAG Mode enabled.
+	 */
+	TRUE,
+	/**
+	 * DRAG Mode disabled.
+	 */
+	FALSE,
+	/**
+	 * Use DRAG Mode if available.
+	 */
+	AUTO;
 
 	@Override
 	public String toString() {
