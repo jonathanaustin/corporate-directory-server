@@ -86,7 +86,7 @@ public class SecureCardManagerImpl<T extends SecureCard> extends WCardManager im
 	@Override
 	public void remove(final WComponent component) {
 		if (component instanceof SecureCard) {
-			remove(component);
+			super.remove(component);
 		}
 	}
 

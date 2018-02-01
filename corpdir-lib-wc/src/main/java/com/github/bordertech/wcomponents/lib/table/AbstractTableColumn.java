@@ -46,8 +46,15 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 	 * Column is editable.
 	 */
 	private boolean editable;
+
+	/**
+	 * Column width.
+	 */
 	private int width;
 
+	/**
+	 * Column alignment.
+	 */
 	private WTableColumn.Alignment alignment;
 
 	/**
@@ -97,6 +104,9 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		this.renderer = renderer;
 	}
 
+	/**
+	 * @param comp the comparator to check is valid
+	 */
 	protected final void checkComparator(final Comparator comp) {
 		if (comp != null && !(comp instanceof Serializable)) {
 			throw new IllegalArgumentException("Comparator must implement serializable");
@@ -128,6 +138,9 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		return editable;
 	}
 
+	/**
+	 * @param editable true if column is editable
+	 */
 	public void setEditable(final boolean editable) {
 		this.editable = editable;
 	}
@@ -148,6 +161,9 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		return width;
 	}
 
+	/**
+	 * @param width the column width
+	 */
 	public void setWidth(final int width) {
 		this.width = width;
 	}
@@ -157,6 +173,9 @@ public abstract class AbstractTableColumn<V, T> implements TableColumn<V, T> {
 		return alignment;
 	}
 
+	/**
+	 * @param align the column alignment
+	 */
 	public void setAlignment(final WTableColumn.Alignment align) {
 		this.alignment = align;
 	}

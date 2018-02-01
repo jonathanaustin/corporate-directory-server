@@ -22,7 +22,6 @@ public interface RelativeUrlBaseable extends WComponent {
 	void setRelativeBaseUrl(final boolean relativeBaseUrl);
 
 	/**
-	 * '
 	 *
 	 * @return true if URL is relative to base URL
 	 */

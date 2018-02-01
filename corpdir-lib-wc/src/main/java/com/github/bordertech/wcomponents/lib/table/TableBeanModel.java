@@ -28,6 +28,9 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 	 */
 	private final List<U> columns;
 
+	/**
+	 * The column used for row actions.
+	 */
 	private final RowActionable actionColumn;
 
 	/**
@@ -45,13 +48,13 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 		this.actionColumn = actionCol;
 	}
 
+	/**
+	 * @return the column used for row actions
+	 */
 	public final RowActionable getActionColumn() {
 		return actionColumn;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getValueAt(final List<Integer> row, final int col) {
 		// Get the bean for the row
@@ -72,52 +75,34 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 		column.setValue(bean, value);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getRowCount() {
 		return getBeanList().size();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int getChildCount(final List<Integer> row) {
 		return 0;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isCellEditable(final List<Integer> row, final int col) {
 		TableColumn column = getColumn(col);
-		return column.isEditable() && isRowEdittable(getRowKey(row));
+		return column.isEditable() && isRowEditable(getRowKey(row));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean isSortable(final int col) {
 		TableColumn column = getColumn(col);
 		return column.getComparator() != null;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Object getRowKey(final List<Integer> row) {
 		T bean = getRowBean(row);
 		return getBeanKey(bean);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public int[] sort(final int col, final boolean ascending) {
 		TableColumn column = getColumn(col);
@@ -216,7 +201,11 @@ public class TableBeanModel<T, U extends TableColumn<?, T>> extends AbstractBean
 		this.selectable = selectable;
 	}
 
-	protected boolean isRowEdittable(final Object key) {
+	/**
+	 * @param key the row key
+	 * @return true if the row is editable
+	 */
+	protected boolean isRowEditable(final Object key) {
 		// Default to true if no action column provided
 		return actionColumn == null || actionColumn.getRowMode(key) != RowMode.READ;
 	}

@@ -36,6 +36,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 			return isAllowEdit() && getRowModeKey(key) == RowMode.READ;
 		}
 	};
+
 	private final WLibButton cancelButton = new WLibButton("Cancel") {
 		@Override
 		public boolean isVisible() {
@@ -43,6 +44,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 			return getRowModeKey(key) == RowMode.EDIT;
 		}
 	};
+
 	private final WLibButton deleteButton = new WLibButton("Delete") {
 		@Override
 		public boolean isVisible() {
@@ -65,6 +67,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	};
 
+	/**
+	 * Default constructor.
+	 */
 	public RowActionPanel() {
 
 		// Buttons Panel
@@ -131,9 +136,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		return getRowModeKey(rowKey);
 	}
 
-	/**
-	 * @param rowKey row key to include in edits
-	 */
 	@Override
 	public void addRowModeKey(final Object rowKey, final RowMode mode) {
 		if (mode == null) {
@@ -148,9 +150,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		editRows.put(rowKey, mode);
 	}
 
-	/**
-	 * @param rowKey the row key to remove from the edits.
-	 */
 	@Override
 	public void removeRowModeKey(final Object rowKey) {
 		WTable table = getTable();
@@ -160,10 +159,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	}
 
-	/**
-	 * @param key the row key to test
-	 * @return true if row key is being edited
-	 */
 	@Override
 	public RowMode getRowModeKey(final Object key) {
 		WTable table = getTable();
@@ -200,11 +195,17 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		deleteButton.setAjaxTarget(table);
 	}
 
+	/**
+	 * Handle the edit button action.
+	 */
 	protected void handleEditButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
 		addRowModeKey(key, RowMode.EDIT);
 	}
 
+	/**
+	 * Handle the delete button action.
+	 */
 	protected void handleDeleteButtonAction() {
 		WTable table = getTable();
 		Object key = TableUtil.getCurrentRowKey();
@@ -215,6 +216,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		table.handleDataChanged();
 	}
 
+	/**
+	 * Handle the cancel button action.
+	 */
 	protected void handleCancelButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
 		removeRowModeKey(key);
@@ -223,6 +227,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	}
 
+	/**
+	 * @return the column AJAX targets
+	 */
 	protected List<AjaxTarget> getColumnAjaxTargets() {
 		List<AjaxTarget> targets = new ArrayList<>();
 		WTable table = getTable();
@@ -235,10 +242,16 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		return targets;
 	}
 
+	/**
+	 * @return the parent table
+	 */
 	protected WTable getTable() {
 		return WebUtilities.getAncestorOfClass(WTable.class, this);
 	}
 
+	/**
+	 * @return true if table is in edit mode
+	 */
 	protected boolean isAllowEdit() {
 		return getTable().isEditable();
 	}

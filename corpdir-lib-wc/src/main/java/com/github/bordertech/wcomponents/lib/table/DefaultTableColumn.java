@@ -11,6 +11,9 @@ import java.util.Comparator;
  */
 public class DefaultTableColumn<T> extends AbstractTableColumn<T, T> {
 
+	/**
+	 * @param label the column label
+	 */
 	public DefaultTableColumn(final String label) {
 		super(label);
 	}
