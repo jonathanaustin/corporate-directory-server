@@ -3,10 +3,10 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
+import com.github.bordertech.corpdir.web.ui.CardType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.common.EntityLink;
 import com.github.bordertech.corpdir.web.ui.common.EntityLinkRepeater;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiTreeablePanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
@@ -37,7 +37,7 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 		drpUnitType.setIncludeNullOption(true);
 		drpUnitType.setCodeProperty("id");
 		drpUnitType.getOptionsView().setBeanProperty("typeId");
-		drpUnitType.setStoreKey(DataApiType.UNIT_TYPE.getSearchStoreKey());
+		drpUnitType.setStoreKey(CorpEntityType.UNIT_TYPE.getStoreKey());
 
 		// Manager Position
 		PollingDropdownOptionsView<String, Position> drpMgrPos = new PollingDropdownOptionsView<>("MP");
@@ -48,7 +48,7 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 		drpMgrPos.setIncludeNullOption(true);
 		drpMgrPos.setCodeProperty("id");
 		drpMgrPos.getOptionsView().setBeanProperty("managerPosId");
-		drpMgrPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
+		drpMgrPos.setStoreKey(CorpEntityType.POSITION.getStoreKey());
 
 		// Positions in Org Unit
 		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
@@ -58,7 +58,7 @@ public class OrgUnitPanel extends BasicApiTreeablePanel<OrgUnit> {
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
-		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
+		multiPos.setStoreKey(CorpEntityType.POSITION.getStoreKey());
 
 		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpUnitType.getPollingView().setPollingInterval(100);

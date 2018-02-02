@@ -5,9 +5,9 @@ import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
+import com.github.bordertech.flux.action.ActionKey;
 import com.github.bordertech.flux.action.DefaultAction;
-import com.github.bordertech.flux.action.DispatcherActionType;
-import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.action.type.base.DispatcherBaseActionType;
 
 /**
  * Partial implementation of Dispatcher.
@@ -33,13 +33,13 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	@Override
 	public final String registerListener(final ActionKey matcher, final Listener listener) {
 		ListenerWrapper wrapper = new ListenerWrapper(matcher, listener);
-		dispatch(new DefaultAction(DispatcherActionType.REGISTER_LISTENER, wrapper));
+		dispatch(new DefaultAction(DispatcherBaseActionType.REGISTER_LISTENER, wrapper));
 		return wrapper.getRegisterId();
 	}
 
 	@Override
 	public final void unregisterListener(final String registerId) {
-		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_LISTENER, registerId));
+		dispatch(new DefaultAction(DispatcherBaseActionType.UNREGISTER_LISTENER, registerId));
 	}
 
 	@Override
@@ -50,12 +50,12 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public void registerStore(final Store store) {
-		dispatch(new DefaultAction(DispatcherActionType.REGISTER_STORE, store));
+		dispatch(new DefaultAction(DispatcherBaseActionType.REGISTER_STORE, store));
 	}
 
 	@Override
 	public void unregisterStore(final String storeKey) {
-		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_STORE, storeKey));
+		dispatch(new DefaultAction(DispatcherBaseActionType.UNREGISTER_STORE, storeKey));
 	}
 
 	@Override
@@ -65,12 +65,12 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	@Override
 	public void registerActionCreator(final ActionCreator creator) {
-		dispatch(new DefaultAction(DispatcherActionType.REGISTER_CREATOR, creator));
+		dispatch(new DefaultAction(DispatcherBaseActionType.REGISTER_CREATOR, creator));
 	}
 
 	@Override
 	public void unregisterActionCreator(final String creatorKey) {
-		dispatch(new DefaultAction(DispatcherActionType.UNREGISTER_CREATOR, creatorKey));
+		dispatch(new DefaultAction(DispatcherBaseActionType.UNREGISTER_CREATOR, creatorKey));
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 
 	protected void doConfigModel(final DispatcherModel model) {
 		// Register the dispatcher actions
-		for (DispatcherActionType actionType : DispatcherActionType.values()) {
+		for (DispatcherBaseActionType actionType : DispatcherBaseActionType.values()) {
 			DispatcherModelUtil.registerDispatcherListener(actionType, model, new Listener<Action>() {
 				@Override
 				public void handleAction(final Action action) {
@@ -91,7 +91,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	}
 
 	protected void doHandleDispatcherAction(final Action action) {
-		DispatcherActionType type = (DispatcherActionType) action.getKey().getType();
+		DispatcherBaseActionType type = (DispatcherBaseActionType) action.getKey().getType();
 		switch (type) {
 			case REGISTER_LISTENER:
 				ListenerWrapper wrapper = (ListenerWrapper) action.getData();
@@ -125,7 +125,7 @@ public abstract class AbstractDispatcher implements Dispatcher {
 	protected abstract DispatcherModel getDispatcherModel();
 
 	protected DispatcherModel createNewModel() {
-		DispatcherModel model = new DefaultDispatcherModel();
+		DispatcherModel model = new DispatcherModel();
 		doConfigModel(model);
 		return model;
 	}

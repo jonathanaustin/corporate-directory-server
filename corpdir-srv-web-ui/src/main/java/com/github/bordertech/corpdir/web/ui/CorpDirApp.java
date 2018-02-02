@@ -1,6 +1,6 @@
 package com.github.bordertech.corpdir.web.ui;
 
-import com.github.bordertech.corpdir.web.ui.smart.MainAppView;
+import com.github.bordertech.corpdir.web.ui.smart.main.MainAppView;
 import com.github.bordertech.wcomponents.HeadingLevel;
 import com.github.bordertech.wcomponents.WApplication;
 import com.github.bordertech.wcomponents.WComponent;
@@ -9,9 +9,9 @@ import com.github.bordertech.wcomponents.WHeading;
 import com.github.bordertech.wcomponents.WLink;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.common.LibHelperUtil;
 import com.github.bordertech.wcomponents.lib.common.WLibLink;
-import com.github.bordertech.wcomponents.lib.config.ConfigLibUtil;
-import com.github.bordertech.wcomponents.lib.servlet.EnvironmentHelper;
+import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
 
 /**
  * Corporate Directory Admin UI.
@@ -30,7 +30,7 @@ public class CorpDirApp extends WApplication {
 		addCssFile("/css/app.css");
 
 		// Add wclib Setup
-		ConfigLibUtil.configApplication(this);
+		LibHelperUtil.configApplication(this);
 
 		// Header
 		final WPanel header = new WPanel(WPanel.Type.HEADER);

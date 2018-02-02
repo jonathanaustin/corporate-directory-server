@@ -3,71 +3,81 @@ package com.github.bordertech.taskmanager.service;
 import java.io.Serializable;
 
 /**
- * Service result holder to use in the Future.
+ * Result holder for service calls.
  * <p>
- * The result can be an exception or the result. Does not need to serializable as it is held on a Future that is not
- * Serializable.
+ * The result can be an exception or the service response.
  * </p>
  *
- * @author Jonathan Austin
  * @param <M> the meta type
  * @param <T> the result type
+ * @author Jonathan Austin
  * @since 1.0.0
  */
 public class ResultHolder<M, T> implements Serializable {
 
 	private final M metaData;
-	private T result;
-	private Exception exception;
+	private final T result;
+	private final Exception exception;
 
-	public ResultHolder(final M metaData) {
-		this.metaData = metaData;
-	}
-
+	/**
+	 * Hold a successful result.
+	 *
+	 * @param metaData the service meta data
+	 * @param result the service result
+	 */
 	public ResultHolder(final M metaData, final T result) {
-		this(metaData);
+		this.metaData = metaData;
 		this.result = result;
+		this.exception = null;
 	}
 
+	/**
+	 * Hold an exception.
+	 *
+	 * @param metaData the service meta data
+	 * @param exception the exception that occurred
+	 */
 	public ResultHolder(final M metaData, final Exception exception) {
-		this(metaData);
+		this.metaData = metaData;
+		this.result = null;
 		this.exception = exception;
 	}
 
+	/**
+	 * @return the meta data for the service call
+	 */
 	public M getMetaData() {
 		return metaData;
 	}
 
 	/**
-	 * @return the polling result
+	 * @return the successful result, can be null
 	 */
 	public T getResult() {
 		return result;
 	}
 
 	/**
-	 * @param result the polling result
+	 * @return the exception that occurred or null if result was successful
 	 */
-	public void setResult(final T result) {
-		this.result = result;
-		this.exception = null;
-	}
-
 	public Exception getException() {
 		return exception;
 	}
 
-	public void setException(final Exception exception) {
-		this.exception = exception;
-		this.result = null;
-	}
-
+	/**
+	 *
+	 * @return true if the result is an exception
+	 */
 	public boolean isException() {
 		return exception != null;
 	}
 
+	/**
+	 *
+	 * @return true if holding a successful result
+	 */
 	public boolean isResult() {
-		return !isException();
+		return exception == null;
 	}
 
 }

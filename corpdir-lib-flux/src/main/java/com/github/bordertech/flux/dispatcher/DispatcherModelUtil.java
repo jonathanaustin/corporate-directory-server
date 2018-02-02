@@ -4,8 +4,8 @@ import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.ActionCreator;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.Store;
-import com.github.bordertech.flux.action.DispatcherActionType;
-import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.action.ActionKey;
+import com.github.bordertech.flux.action.type.base.DispatcherBaseActionType;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,7 +47,7 @@ public class DispatcherModelUtil {
 		return true;
 	}
 
-	public static void registerDispatcherListener(final DispatcherActionType actionType, final DispatcherModel model, final Listener listener) {
+	public static void registerDispatcherListener(final DispatcherBaseActionType actionType, final DispatcherModel model, final Listener listener) {
 		ListenerWrapper wrapper = new ListenerWrapper(new ActionKey(actionType), listener);
 		handleRegisterListener(wrapper, model);
 	}

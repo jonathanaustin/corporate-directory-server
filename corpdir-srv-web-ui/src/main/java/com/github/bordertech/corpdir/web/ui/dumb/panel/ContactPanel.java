@@ -3,10 +3,10 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.api.v1.model.Position;
+import com.github.bordertech.corpdir.web.ui.CardType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.common.EntityLink;
 import com.github.bordertech.corpdir.web.ui.common.EntityLinkRepeater;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiKeyPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
@@ -57,7 +57,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		drpLocation.setIncludeNullOption(true);
 		drpLocation.setCodeProperty("id");
 		drpLocation.getOptionsView().setBeanProperty("locationId");
-		drpLocation.setStoreKey(DataApiType.LOCATION.getSearchStoreKey());
+		drpLocation.setStoreKey(CorpEntityType.LOCATION.getStoreKey());
 
 		// Assigned Positions
 		PollingMultiSelectPairOptionsView<String, Position> multiPos = new PollingMultiSelectPairOptionsView<>("POS");
@@ -67,7 +67,7 @@ public class ContactPanel extends BasicApiKeyPanel<Contact> {
 		getFormLayout().addField(lbl, multiPos);
 		multiPos.setCodeProperty("id");
 		multiPos.getOptionsView().setBeanProperty("positionIds");
-		multiPos.setStoreKey(DataApiType.POSITION.getSearchStoreKey());
+		multiPos.setStoreKey(CorpEntityType.POSITION.getStoreKey());
 
 		// Address
 		AddressPanel addressPanel = new AddressPanel("ADDR");

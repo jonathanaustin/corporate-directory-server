@@ -6,6 +6,7 @@ import java.util.concurrent.RejectedExecutionException;
  * Task Manager interface.
  *
  * @author Jonathan Austin
+ * @since 1.0.0
  */
 public interface TaskManager {
 
@@ -35,6 +36,6 @@ public interface TaskManager {
 	 * @throws RejectedExecutionException if the task cannot be scheduled for execution
 	 * @throws NullPointerException if the task is null
 	 */
-	<T> TaskFuture<T> submit(Runnable task, T result);
+	<T> TaskFuture<T> submit(final Runnable task, final T result);
 
 }

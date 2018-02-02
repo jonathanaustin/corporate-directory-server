@@ -4,10 +4,10 @@ import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
+import com.github.bordertech.corpdir.web.ui.CardType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.common.EntityLink;
 import com.github.bordertech.corpdir.web.ui.common.EntityLinkRepeater;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiTreeablePanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.flux.wc.view.smart.input.PollingMultiSelectPairOptionsView;
@@ -38,7 +38,7 @@ public class PositionPanel extends BasicApiTreeablePanel<Position> {
 		drpPosType.setIncludeNullOption(true);
 		drpPosType.setCodeProperty("id");
 		drpPosType.getOptionsView().setBeanProperty("typeId");
-		drpPosType.setStoreKey(DataApiType.POSITION_TYPE.getSearchStoreKey());
+		drpPosType.setStoreKey(CorpEntityType.POSITION_TYPE.getStoreKey());
 
 		// Owner OU
 		PollingDropdownOptionsView<String, OrgUnit> drpOwnerOU = new PollingDropdownOptionsView<>("BOU");
@@ -49,7 +49,7 @@ public class PositionPanel extends BasicApiTreeablePanel<Position> {
 		drpOwnerOU.setIncludeNullOption(true);
 		drpOwnerOU.setCodeProperty("id");
 		drpOwnerOU.getOptionsView().setBeanProperty("ouId");
-		drpOwnerOU.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
+		drpOwnerOU.setStoreKey(CorpEntityType.ORG_UNIT.getStoreKey());
 
 		// Assigned OU
 		PollingMultiSelectPairOptionsView<String, OrgUnit> multiOUs = new PollingMultiSelectPairOptionsView<>("MOU");
@@ -59,7 +59,7 @@ public class PositionPanel extends BasicApiTreeablePanel<Position> {
 		getFormLayout().addField(lbl, multiOUs);
 		multiOUs.setCodeProperty("id");
 		multiOUs.getOptionsView().setBeanProperty("manageOuIds");
-		multiOUs.setStoreKey(DataApiType.ORG_UNIT.getSearchStoreKey());
+		multiOUs.setStoreKey(CorpEntityType.ORG_UNIT.getStoreKey());
 
 		// Assigned Contacts
 		PollingMultiSelectPairOptionsView<String, Contact> multiContact = new PollingMultiSelectPairOptionsView<>("CON");
@@ -69,7 +69,7 @@ public class PositionPanel extends BasicApiTreeablePanel<Position> {
 		getFormLayout().addField(lbl, multiContact);
 		multiContact.setCodeProperty("id");
 		multiContact.getOptionsView().setBeanProperty("contactIds");
-		multiContact.setStoreKey(DataApiType.CONTACT.getSearchStoreKey());
+		multiContact.setStoreKey(CorpEntityType.CONTACT.getStoreKey());
 
 		// FIXME: Temporary delays as firing extra AJAX Trigger
 		drpPosType.getPollingView().setPollingInterval(100);

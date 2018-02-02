@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.servlet;
 
 import com.github.bordertech.corpdir.web.ui.CorpDirApp;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.servlet.WLibServlet;
+import com.github.bordertech.wcomponents.lib.security.WLibServlet;
 import com.github.bordertech.wcomponents.registry.UIRegistry;
 
 /**

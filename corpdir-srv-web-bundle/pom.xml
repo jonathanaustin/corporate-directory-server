@@ -80,6 +80,11 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- Needed by Hibernate. -->
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
+		</dependency>
 
 	</dependencies>
 

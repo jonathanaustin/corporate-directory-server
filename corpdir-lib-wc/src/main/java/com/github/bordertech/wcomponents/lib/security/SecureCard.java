@@ -4,11 +4,16 @@ import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
 
 /**
+ * Secure WComponent (usually a card in a card manager) that is assigned to an application path.
  *
  * @author jonathan
  */
 public interface SecureCard extends WComponent {
 
+	/**
+	 *
+	 * @return the card application path and roles
+	 */
 	AppPath getAppPath();
 
 	/**

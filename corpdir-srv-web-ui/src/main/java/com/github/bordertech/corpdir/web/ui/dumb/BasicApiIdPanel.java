@@ -75,7 +75,7 @@ public class BasicApiIdPanel<T extends ApiIdObject> extends BasicApiPanel<T> {
 	}
 
 	private boolean isExistingEntity() {
-		return getBeanValue() == null ? false : getBeanValue().getId() != null;
+		return getBeanValue() != null && getBeanValue().getId() != null;
 	}
 
 }

@@ -9,9 +9,9 @@ import java.sql.Timestamp;
  */
 public interface ApiIdObject extends ApiObject {
 
-	final static String ID_PREFIX = "_";
+	String ID_PREFIX = "_";
 
-	final static String TEMP_NEW_ID_PREFIX = "_TEMP_";
+	String TEMP_NEW_ID_PREFIX = "_TEMP_";
 
 	String getId();
 

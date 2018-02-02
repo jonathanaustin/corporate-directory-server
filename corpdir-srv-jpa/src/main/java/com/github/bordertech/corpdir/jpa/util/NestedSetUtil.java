@@ -56,7 +56,7 @@ public final class NestedSetUtil {
 
 	private static void rebuildLeftRightThreadBasedOnParent(final List<? extends PersistentNestedObject> entities) {
 		PersistentNestedObject root = findRootFromList(entities);
-		if(root == null) {
+		if (root == null) {
 			throw new NotFoundException("No root found for entity list");
 		}
 		root.setLeftIdx(0L);
@@ -103,7 +103,7 @@ public final class NestedSetUtil {
 		return pred;
 	}
 
-	public static interface PersistentNestedTreeObject<T extends PersistentNestedTreeObject> extends PersistKeyIdObject {
+	public interface PersistentNestedTreeObject<T extends PersistentNestedTreeObject> extends PersistKeyIdObject {
 
 		void setParent(final T parent);
 
@@ -116,7 +116,7 @@ public final class NestedSetUtil {
 		void removeChild(final T child);
 	}
 
-	public static interface PersistentNestedObject<T extends PersistentNestedObject> extends PersistentNestedTreeObject<T> {
+	public interface PersistentNestedObject<T extends PersistentNestedObject> extends PersistentNestedTreeObject<T> {
 
 		Long getParentId();
 

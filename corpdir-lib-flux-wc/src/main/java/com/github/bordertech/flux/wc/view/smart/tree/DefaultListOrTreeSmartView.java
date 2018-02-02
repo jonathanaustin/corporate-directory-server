@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
-import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.flux.crud.store.StoreUtil;
+import com.github.bordertech.flux.crud.store.CrudTreeStore;
+import com.github.bordertech.flux.store.StoreUtil;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.mode.SelectMode;
@@ -20,7 +20,7 @@ import java.util.List;
  * @author jonathan
  * @param <T> the entity type
  */
-public class DefaultListOrTreeSmartView<T> extends DefaultMessageSmartView<List<T>> implements ListOrTreeSelectView<T> {
+public class DefaultListOrTreeSmartView<K, T> extends DefaultMessageSmartView<List<T>> implements ListOrTreeSelectView<K, T> {
 
 	private final SelectSingleView<T> listView;
 
@@ -52,7 +52,7 @@ public class DefaultListOrTreeSmartView<T> extends DefaultMessageSmartView<List<
 			treeView.setVisible(true);
 			List<T> rootItems = getItems();
 			if (rootItems != null && !rootItems.isEmpty()) {
-				EntityTreeStore store = getEntityTreeStore();
+				CrudTreeStore store = getEntityTreeStore();
 				if (store == null) {
 					throw new IllegalStateException("No entity tree store available.");
 				}
@@ -80,7 +80,7 @@ public class DefaultListOrTreeSmartView<T> extends DefaultMessageSmartView<List<
 	}
 
 	@Override
-	public EntityTreeStore<T> getEntityTreeStore() {
+	public CrudTreeStore<?, K, T> getEntityTreeStore() {
 		return StoreUtil.getStore(getEntityTreeStoreKey());
 	}
 
