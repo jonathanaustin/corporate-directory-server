@@ -78,7 +78,6 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 				case CREATE_OK:
 				case DELETE_OK:
 				case UPDATE_OK:
-					// FIXME Check this works
 					// Refresh Tree
 					getSelectView().resetView();
 					getSelectView().setUseTree(true);
