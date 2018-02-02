@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.dispatcher;
 
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.action.ActionKey;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;

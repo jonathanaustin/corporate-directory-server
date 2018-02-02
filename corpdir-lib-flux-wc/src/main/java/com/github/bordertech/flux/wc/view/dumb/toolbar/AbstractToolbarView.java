@@ -6,7 +6,7 @@ import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
@@ -66,7 +66,7 @@ public class AbstractToolbarView<T> extends DefaultDumbView<T> implements Toolba
 	@Override
 	public boolean isUseToolbarItem(final ToolbarItem type) {
 		ToolbarModel model = getComponentModel();
-		return model.toolbarTypes == null ? false : model.toolbarTypes.contains(type);
+		return model.toolbarTypes != null && model.toolbarTypes.contains(type);
 	}
 
 	@Override

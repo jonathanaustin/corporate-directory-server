@@ -1,11 +1,12 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
-import com.github.bordertech.taskmanager.service.AsyncException;
+import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.taskmanager.service.ServiceException;
 import com.github.bordertech.taskmanager.service.ServiceUtil;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.io.Serializable;
 import java.util.UUID;
 import javax.cache.Cache;
@@ -33,9 +34,6 @@ import org.apache.commons.logging.LogFactory;
  */
 public class PollingServicePanel<S extends Serializable, T extends Serializable> extends PollingPanel implements PollableService<S, T> {
 
-	/**
-	 * The logger instance for this class.
-	 */
 	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
 
 	private final WDiv contentResultHolder = new WDiv() {
@@ -62,21 +60,14 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param delay the AJAX polling delay
 	 */
 	public PollingServicePanel(final int delay) {
-		this(delay, false);
-	}
-
-	/**
-	 * Construct polling panel.
-	 *
-	 * @param delay the AJAX polling delay
-	 * @param manualStart true if start polling with manual start button action
-	 */
-	public PollingServicePanel(final int delay, final boolean manualStart) {
 		super(delay);
 		getHolder().add(contentResultHolder);
 		contentResultHolder.setVisible(false);
 	}
 
+	/**
+	 * @return the container holding the result content
+	 */
 	public final WDiv getContentResultHolder() {
 		return contentResultHolder;
 	}
@@ -149,6 +140,12 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		super.doRefreshContent();
 	}
 
+	/**
+	 * Manually load a result.
+	 *
+	 * @param criteria the service criteria
+	 * @param result the service result
+	 */
 	@Override
 	public void doManuallyLoadResult(final S criteria, final T result) {
 		if (result == null || criteria == null) {
@@ -157,7 +154,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		getHolder().reset();
 		getStartButton().setVisible(false);
 		setPollingCriteria(criteria);
-		handleResult(new ResultHolder(result));
+		handleResult(new ResultHolder(criteria, result));
 	}
 
 	/**
@@ -174,7 +171,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		clearServiceKey();
 		String key = generateServiceKey();
 		// Start Service action
-		ServiceUtil.handleAsyncServiceCall(getPollingCache(), key, criteria, getServiceAction());
+		ServiceUtil.handleServiceCallType(getPollingCache(), key, criteria, getServiceAction(), CallType.CALL_ASYNC);
 	}
 
 	/**
@@ -197,16 +194,15 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @param resultHolder the polling action result
 	 */
 	protected void handleResult(final ResultHolder<S, T> resultHolder) {
-		// Exception message
-		if (resultHolder.isException()) {
-			Exception excp = resultHolder.getException();
-			handleExceptionResult(excp);
-			// Log error
-			LOG.error("Error loading data. " + excp.getMessage());
-		} else {
+		if (resultHolder.isResult()) {
 			// Successful Result
 			T result = resultHolder.getResult();
 			handleSuccessfulResult(result);
+		} else {
+			// Exception message
+			Exception excp = resultHolder.getException();
+			handleExceptionResult(excp);
+			LOG.error("Error loading data. " + excp.getMessage());
 		}
 	}
 
@@ -243,7 +239,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 			if (ServiceUtil.checkASyncResult(getPollingCache(), key) != null) {
 				setPollingStatus(PollingStatus.STOPPED);
 			}
-		} catch (AsyncException e) {
+		} catch (ServiceException e) {
 			// Put Exception in the CACHE so it can be retrieved after it stops polling (Will be cleared straight away).
 			ResultHolder result = new ResultHolder(key, e);
 			getPollingCache().put(key, result);
@@ -252,16 +248,26 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		return super.checkForStopPolling();
 	}
 
+	/**
+	 * @return a generated key to uniquely identify a service request
+	 */
 	protected String generateServiceKey() {
 		String key = "polling=" + UUID.randomUUID().toString();
 		getOrCreateComponentModel().serviceKey = key;
 		return key;
 	}
 
+	/**
+	 *
+	 * @return the service request unique key
+	 */
 	protected String getServiceKey() {
 		return getComponentModel().serviceKey;
 	}
 
+	/**
+	 * Clear the current service request key.
+	 */
 	protected void clearServiceKey() {
 		String key = getServiceKey();
 		if (key != null) {

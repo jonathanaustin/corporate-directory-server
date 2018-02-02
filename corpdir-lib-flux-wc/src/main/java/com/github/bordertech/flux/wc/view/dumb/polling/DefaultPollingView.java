@@ -106,7 +106,8 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	@Override
 	public boolean isContinueStart() {
 		Boolean flag = (Boolean) pollingPanel.getAttribute("wc-cont");
-		return flag == null ? true : flag;
+		// Default to true if no flag
+		return flag == null || flag;
 	}
 
 	@Override

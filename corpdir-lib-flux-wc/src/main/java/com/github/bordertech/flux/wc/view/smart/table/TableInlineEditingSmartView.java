@@ -1,12 +1,12 @@
 package com.github.bordertech.flux.wc.view.smart.table;
 
-import com.github.bordertech.flux.crud.actioncreator.EntityActionCreator;
+import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
+import com.github.bordertech.flux.crud.view.consumer.CrudActionCreatorConsumer;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.table.TableInlineEditingView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
 import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
 import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
@@ -18,7 +18,7 @@ import java.util.List;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> implements EntityActionCreatorConsumer<T>, RowActionable {
+public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> implements CrudActionCreatorConsumer<T>, RowActionable {
 
 	private final TableInlineEditingView tableView;
 
@@ -49,18 +49,18 @@ public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> im
 	}
 
 	@Override
-	public void setEntityActionCreatorKey(final String actionCreatorKey) {
+	public void setActionCreatorKey(final String actionCreatorKey) {
 		getOrCreateComponentModel().actionCreatorKey = actionCreatorKey;
 	}
 
 	@Override
-	public String getEntityActionCreatorKey() {
+	public String getActionCreatorKey() {
 		return getComponentModel().actionCreatorKey;
 	}
 
 	@Override
-	public EntityActionCreator<T> getEntityActionCreator() {
-		return (EntityActionCreator<T>) getDispatcher().getActionCreator(getEntityActionCreatorKey());
+	public CrudActionCreator<T> getActionCreatorByKey() {
+		return (CrudActionCreator<T>) getDispatcher().getActionCreator(getActionCreatorKey());
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class TableInlineEditingSmartView<T> extends DefaultSmartView<List<T>> im
 	}
 
 	protected void handleAddEvent() {
-		T bean = getEntityActionCreator().createInstance();
+		T bean = getActionCreatorByKey().createInstance();
 		tableView.addItem(bean);
 	}
 

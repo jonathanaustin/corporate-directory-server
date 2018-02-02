@@ -3,12 +3,16 @@ package com.github.bordertech.flux.crud.dataapi;
 import java.util.List;
 
 /**
- * Entity with a Tree Structure crud API.
+ * CRUD Entity with a Tree Structure API.
  *
- * @author jonathan
+ * @param <S> the search criteria
+ * @param <K> the entity key type
  * @param <T> the entity type
+ *
+ * @author Jonathan Austin
+ * @since 1.0.0
  */
-public interface CrudTreeApi<T> extends CrudApi<T> {
+public interface CrudTreeApi<S, K, T> extends CrudApi<S, K, T> {
 
 	boolean hasChildren(final T item);
 

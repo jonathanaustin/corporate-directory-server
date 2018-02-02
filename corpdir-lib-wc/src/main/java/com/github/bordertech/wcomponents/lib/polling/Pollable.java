@@ -16,7 +16,7 @@ public interface Pollable extends WComponent {
 	/**
 	 * Default polling timeout of 120 seconds.
 	 */
-	static final int DEFAULT_POLLING_TIMEOUT = 120;
+	int DEFAULT_POLLING_TIMEOUT = 120;
 
 	/**
 	 * The AJAX targets that will be refreshed when the polling is complete.

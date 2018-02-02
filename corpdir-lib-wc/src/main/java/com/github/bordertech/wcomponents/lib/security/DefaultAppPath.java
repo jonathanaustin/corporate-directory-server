@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
+ * Default application path and roles implementation.
  *
  * @author Jonathan Austin
  */
@@ -12,6 +13,10 @@ public class DefaultAppPath implements AppPath {
 
 	private final String path;
 
+	/**
+	 *
+	 * @param path the application path.
+	 */
 	public DefaultAppPath(final String path) {
 		this.path = path;
 	}
@@ -34,7 +39,7 @@ public class DefaultAppPath implements AppPath {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

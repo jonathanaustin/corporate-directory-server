@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Comparator;
 
 /**
- * Table column.
+ * Table column renderer and bean value definitions.
  *
  * @param <V> the table column value
  * @param <T> the row bean type

@@ -9,6 +9,7 @@ import java.io.Serializable;
  * @see DumbView
  *
  * @param <T> the view bean
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */

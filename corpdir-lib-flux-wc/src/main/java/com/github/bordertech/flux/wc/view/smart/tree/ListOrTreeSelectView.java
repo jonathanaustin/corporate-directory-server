@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
-import com.github.bordertech.flux.crud.store.EntityTreeStore;
+import com.github.bordertech.flux.crud.store.CrudTreeStore;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
 import java.util.List;
@@ -10,15 +10,16 @@ import java.util.List;
  *
  * @author jonathan
  */
-public interface ListOrTreeSelectView<T> extends SmartView<List<T>>, SelectSingleView<T> {
+public interface ListOrTreeSelectView<K, T> extends SmartView<List<T>>, SelectSingleView<T> {
 
 	boolean isUseTree();
 
 	void setUseTree(final boolean useTree);
 
+	// FIXME JA USE Consumer Interface
 	String getEntityTreeStoreKey();
 
 	void setEntityTreeStoreKey(final String entityTreeStoreKey);
 
-	EntityTreeStore<T> getEntityTreeStore();
+	CrudTreeStore<?, K, T> getEntityTreeStore();
 }

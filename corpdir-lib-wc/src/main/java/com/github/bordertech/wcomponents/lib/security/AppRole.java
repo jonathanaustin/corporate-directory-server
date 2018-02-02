@@ -9,6 +9,9 @@ import java.io.Serializable;
  */
 public interface AppRole extends Serializable {
 
+	/**
+	 * @return the role name
+	 */
 	String getRoleName();
 
 }

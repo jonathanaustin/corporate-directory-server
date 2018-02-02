@@ -1,8 +1,9 @@
 package com.github.bordertech.flux.wc.view.smart.tree;
 
-import com.github.bordertech.flux.crud.store.EntityTreeStore;
-import com.github.bordertech.flux.crud.store.RetrieveActionException;
+import com.github.bordertech.flux.crud.store.CrudTreeStore;
 import com.github.bordertech.flux.wc.view.dumb.tree.TreeViewItemModel;
+import com.github.bordertech.taskmanager.service.CallType;
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;
@@ -20,16 +21,16 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 
 	private final T EMPTY_ITEM = null;
 	private final List<T> rootItems;
-	private final EntityTreeStore<T> model;
+	private final CrudTreeStore<?, K, T> store;
 
-	public EntityStoreTreeItemModel(final List<T> rootItems, final EntityTreeStore<T> model) {
+	public EntityStoreTreeItemModel(final List<T> rootItems, final CrudTreeStore<?, K, T> store) {
 		this.rootItems = rootItems;
-		this.model = model;
+		this.store = store;
 	}
 
 	@Override
 	public String getItemId(final T item) {
-		return model.getItemId(item);
+		return store.getItemId(item);
 	}
 
 	@Override
@@ -44,14 +45,14 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public String getItemId(final List<Integer> row) {
 		T item = getItem(row);
-		String id = model.getItemId(item);
+		String id = store.getItemId(item);
 		return id == null ? TableUtil.rowIndexListToString(row) : id;
 	}
 
 	@Override
 	public String getItemLabel(final List<Integer> row) {
 		T item = getItem(row);
-		return model.getItemLabel(item);
+		return store.getItemLabel(item);
 	}
 
 	@Override
@@ -68,11 +69,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	@Override
 	public boolean hasChildren(final List<Integer> row) {
 		T item = getItem(row);
-		try {
-			return model.hasChildren(item);
-		} catch (RetrieveActionException e) {
-			throw new SystemException("Could not retrieve child count. " + e.getMessage(), e);
-		}
+		return store.hasChildren(item);
 	}
 
 	@Override
@@ -86,9 +83,12 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	}
 
 	protected List<T> loadChildren(final T item) {
-		try {
-			return model.getChildren(item);
-		} catch (Exception e) {
+		// Load Children SYNC
+		ResultHolder<T, List<T>> resultHolder = store.getChildren(item, CallType.CALL_SYNC);
+		if (resultHolder.isResult()) {
+			return resultHolder.getResult();
+		} else {
+			Exception e = resultHolder.getException();
 			throw new SystemException("Could not load child items. " + e.getMessage(), e);
 		}
 	}

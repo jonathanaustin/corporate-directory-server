@@ -1,21 +1,19 @@
 package com.github.bordertech.flux.wc.view;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Dispatcher;
 import com.github.bordertech.flux.Listener;
-import com.github.bordertech.flux.action.base.StateBaseActionType;
-import com.github.bordertech.flux.crud.factory.FluxFactory;
+import com.github.bordertech.flux.action.ActionKey;
+import com.github.bordertech.flux.action.ActionType;
+import com.github.bordertech.flux.action.type.base.StateBaseActionType;
 import com.github.bordertech.flux.dispatcher.DispatcherModelUtil;
-import com.github.bordertech.flux.key.ActionKey;
-import com.github.bordertech.flux.key.ActionType;
 import com.github.bordertech.flux.view.SmartView;
 import com.github.bordertech.flux.view.ViewEventType;
+import com.github.bordertech.flux.view.consumer.ActionCreatorConsumerByKey;
+import com.github.bordertech.flux.view.consumer.StoreConsumerByKey;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.flux.wc.view.smart.consumer.EntityActionCreatorConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.EntityStoreConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.RetrieveStoreConsumer;
-import com.github.bordertech.flux.wc.view.smart.consumer.SearchStoreConsumer;
 import com.github.bordertech.wcomponents.Container;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
@@ -35,6 +33,8 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements FluxSmartView<T> {
+
+	private static final Dispatcher DISPATCHER = Didums.getService(Dispatcher.class);
 
 	public DefaultSmartView(final String viewId) {
 		this(viewId, TemplateConstants.TEMPLATE_DEFAULT);
@@ -283,24 +283,16 @@ public class DefaultSmartView<T> extends DefaultDumbTemplateView<T> implements F
 	}
 
 	protected final Dispatcher getDispatcher() {
-		return FluxFactory.getDispatcher();
+		return DISPATCHER;
 	}
 
 	protected void registerStoreConsumerListeners() {
-		if (this instanceof EntityActionCreatorConsumer) {
-			String key = ((EntityActionCreatorConsumer) this).getEntityActionCreatorKey();
+		if (this instanceof ActionCreatorConsumerByKey) {
+			String key = ((ActionCreatorConsumerByKey) this).getActionCreatorKey();
 			registerStoreKeyChangeListener(key);
 		}
-		if (this instanceof EntityStoreConsumer) {
-			String key = ((EntityStoreConsumer) this).getEntityStoreKey();
-			registerStoreKeyChangeListener(key);
-		}
-		if (this instanceof RetrieveStoreConsumer) {
-			String key = ((RetrieveStoreConsumer) this).getRetrieveStoreKey();
-			registerStoreKeyChangeListener(key);
-		}
-		if (this instanceof SearchStoreConsumer) {
-			String key = ((SearchStoreConsumer) this).getSearchStoreKey();
+		if (this instanceof StoreConsumerByKey) {
+			String key = ((StoreConsumerByKey) this).getStoreKey();
 			registerStoreKeyChangeListener(key);
 		}
 	}

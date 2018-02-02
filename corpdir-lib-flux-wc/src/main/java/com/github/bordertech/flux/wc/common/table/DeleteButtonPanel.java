@@ -1,13 +1,13 @@
 package com.github.bordertech.flux.wc.common.table;
 
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.flux.wc.view.ViewUtil;
+import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.WDiv;
+import com.github.bordertech.wcomponents.lib.common.IconConstants;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import com.github.bordertech.wcomponents.lib.common.WLibButton;
-import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 
 /**
  * Panel with a Button that can be used in a table column.

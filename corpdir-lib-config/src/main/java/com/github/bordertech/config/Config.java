@@ -21,7 +21,18 @@ import org.apache.commons.configuration.MapConfiguration;
  * the configuration with whatever mechanism is used to configure their applications.
  * <b>Note:</b>To prevent against accidental modifications, the default configuration is read-only, and any attempt to
  * modify it will result in a runtime exception.</p>
- *
+ * <p>
+ * The default configuration can be overridden by setting properties in a file
+ * <code>bordertech-config.properties</code>. Refer to {@link InitHelper} for property details.
+ * </p>
+ * <p>
+ * The default resources Config looks for are:-
+ * </p>
+ * <ul>
+ * <li><code>bordertech-defaults.properties</code> - framework defaults</li>
+ * <li><code>bordertech-app.properties</code> - application properties</li>
+ * <li><code>bordertech-local.properties</code> - local developer properties</li>
+ * </ul>
  *
  * @author Joshua Barclay
  * @author Jonathan Austin
@@ -32,7 +43,7 @@ public final class Config {
 	/**
 	 * The current configuration.
 	 */
-	private static Configuration CONFIGURATION = loadConfiguration();
+	private static Configuration configuration = loadConfiguration();
 
 	/**
 	 * Contains the complete set of property change listeners that have registered with this class.
@@ -49,7 +60,7 @@ public final class Config {
 	 * @return the current configuration.
 	 */
 	public static Configuration getInstance() {
-		return CONFIGURATION;
+		return configuration;
 	}
 
 	/**
@@ -57,7 +68,7 @@ public final class Config {
 	 * made will be lost. This method is primarily intended for unit testing.
 	 */
 	public static synchronized void reset() {
-		CONFIGURATION = loadConfiguration();
+		configuration = loadConfiguration();
 		notifyListeners();
 	}
 
@@ -93,7 +104,7 @@ public final class Config {
 	 * @param configuration the configuration to set.
 	 */
 	public static synchronized void setConfiguration(final Configuration configuration) {
-		Config.CONFIGURATION = configuration;
+		Config.configuration = configuration;
 		notifyListeners();
 	}
 
@@ -143,6 +154,10 @@ public final class Config {
 		return config == null ? getDefaultConfiguration() : config;
 	}
 
+	/**
+	 *
+	 * @return a SLI Configuration or null if none available
+	 */
 	private static Configuration checkSLIConfiguration() {
 
 		if (!InitHelper.SLI_ENABLED) {
@@ -169,6 +184,9 @@ public final class Config {
 		return null;
 	}
 
+	/**
+	 * @return the default configuration
+	 */
 	private static Configuration getDefaultConfiguration() {
 		// Create Instance
 		try {

@@ -12,6 +12,7 @@ import com.github.bordertech.wcomponents.WComponent;
  * View with WComponent requirements.
  *
  * @param <T> the view bean
+ *
  * @author Jonathan Austin
  * @since 1.0.0
  */

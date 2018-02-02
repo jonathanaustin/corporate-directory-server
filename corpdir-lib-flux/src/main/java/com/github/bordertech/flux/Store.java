@@ -1,6 +1,5 @@
 package com.github.bordertech.flux;
 
-import com.github.bordertech.flux.key.ActionType;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -29,14 +28,13 @@ public interface Store extends Serializable {
 	void registerListeners(final Set<String> ids);
 
 	/**
-	 * Dispatch the change action.
-	 *
-	 * @param actionType the action type that caused the change
-	 */
-	void dispatchChangeAction(final ActionType actionType);
-
-	/**
 	 * @return the attached dispatcher.
 	 */
 	Dispatcher getDispatcher();
+
+	/**
+	 * @return the action creators this store will listen to
+	 */
+	Set<String> getActionCreatorKeys();
+
 }

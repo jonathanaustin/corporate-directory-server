@@ -2,14 +2,14 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.api.v1.model.ChannelTypeEnum;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.smart.table.TableInlineEditingSmartView;
 import com.github.bordertech.wcomponents.WAjaxControl;
-import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import com.github.bordertech.wcomponents.lib.table.AbstractTableEditableColumn;
 import com.github.bordertech.wcomponents.lib.table.TableColumn;
 import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
@@ -130,7 +130,7 @@ public class ChannelTablePanel extends DefaultDumbView<List<Channel>> {
 		tableView = new TableInlineEditingSmartView<>("CHNLT", cols);
 		tableView.setBeanProperty(".");
 		tableView.setSearchAncestors(true);
-		tableView.setEntityActionCreatorKey(DataApiType.CHANNEL.getActionCreatorKey());
+		tableView.setActionCreatorKey(CorpEntityType.CHANNEL.getActionCreatorKey());
 		tableView.getTableView().getAddButton().setText("Add channel");
 		getContent().add(tableView);
 	}

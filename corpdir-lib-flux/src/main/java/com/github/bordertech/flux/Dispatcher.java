@@ -1,6 +1,6 @@
 package com.github.bordertech.flux;
 
-import com.github.bordertech.flux.key.ActionKey;
+import com.github.bordertech.flux.action.ActionKey;
 import java.io.Serializable;
 
 /**
@@ -18,7 +18,6 @@ import java.io.Serializable;
  * called in a particular order. At the moment, only matching listeners are called and there is no mechanism for
  * specifying an order.
  * </p>
- *
  *
  * @author Jonathan Austin
  * @since 1.0.0

@@ -2,9 +2,9 @@ package com.github.bordertech.corpdir.web.ui.dumb.panel;
 
 import com.github.bordertech.corpdir.api.v1.model.SystemCtrl;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
+import com.github.bordertech.corpdir.web.ui.CardType;
+import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.common.EntityLink;
-import com.github.bordertech.corpdir.web.ui.config.CardType;
-import com.github.bordertech.corpdir.web.ui.config.DataApiType;
 import com.github.bordertech.corpdir.web.ui.dumb.BasicApiIdPanel;
 import com.github.bordertech.flux.wc.view.smart.input.PollingDropdownOptionsView;
 import com.github.bordertech.wcomponents.WLabel;
@@ -34,7 +34,7 @@ public class SystemCtrlPanel extends BasicApiIdPanel<SystemCtrl> {
 		drpVersion.setIncludeNullOption(true);
 		drpVersion.setCodeProperty("id");
 		drpVersion.getOptionsView().setBeanProperty("currentVersionId");
-		drpVersion.setStoreKey(DataApiType.VERSION_CTRL.getSearchStoreKey());
+		drpVersion.setStoreKey(CorpEntityType.VERSION_CTRL.getStoreKey());
 	}
 
 }

@@ -6,11 +6,11 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.WDiv;
 import com.github.bordertech.wcomponents.WTable;
 import com.github.bordertech.wcomponents.WebUtilities;
+import com.github.bordertech.wcomponents.lib.common.IconConstants;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import com.github.bordertech.wcomponents.lib.common.WLibButton;
-import com.github.bordertech.wcomponents.lib.icons.IconConstants;
 import com.github.bordertech.wcomponents.util.TableUtil;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +19,8 @@ import java.util.Map;
 
 /**
  * Table column renderer that allows row edit actions.
+ *
+ * @param <T> the row bean type
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -34,6 +36,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 			return isAllowEdit() && getRowModeKey(key) == RowMode.READ;
 		}
 	};
+
 	private final WLibButton cancelButton = new WLibButton("Cancel") {
 		@Override
 		public boolean isVisible() {
@@ -41,6 +44,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 			return getRowModeKey(key) == RowMode.EDIT;
 		}
 	};
+
 	private final WLibButton deleteButton = new WLibButton("Delete") {
 		@Override
 		public boolean isVisible() {
@@ -63,6 +67,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	};
 
+	/**
+	 * Default constructor.
+	 */
 	public RowActionPanel() {
 
 		// Buttons Panel
@@ -129,9 +136,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		return getRowModeKey(rowKey);
 	}
 
-	/**
-	 * @param rowKey row key to include in edits.
-	 */
 	@Override
 	public void addRowModeKey(final Object rowKey, final RowMode mode) {
 		if (mode == null) {
@@ -146,9 +150,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		editRows.put(rowKey, mode);
 	}
 
-	/**
-	 * @param rowKey the row key to remove from the edits.
-	 */
 	@Override
 	public void removeRowModeKey(final Object rowKey) {
 		WTable table = getTable();
@@ -158,10 +159,6 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	}
 
-	/**
-	 * @param key the row key to test
-	 * @return true if row key is being edited
-	 */
 	@Override
 	public RowMode getRowModeKey(final Object key) {
 		WTable table = getTable();
@@ -189,7 +186,7 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 	}
 
 	/**
-	 * Setup the row action AJAX targets (ie each column)
+	 * Setup the row action AJAX targets (ie each column).
 	 */
 	protected void setupColumnAjaxTargets() {
 		WTable table = getTable();
@@ -198,11 +195,17 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		deleteButton.setAjaxTarget(table);
 	}
 
+	/**
+	 * Handle the edit button action.
+	 */
 	protected void handleEditButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
 		addRowModeKey(key, RowMode.EDIT);
 	}
 
+	/**
+	 * Handle the delete button action.
+	 */
 	protected void handleDeleteButtonAction() {
 		WTable table = getTable();
 		Object key = TableUtil.getCurrentRowKey();
@@ -213,6 +216,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		table.handleDataChanged();
 	}
 
+	/**
+	 * Handle the cancel button action.
+	 */
 	protected void handleCancelButtonAction() {
 		Object key = TableUtil.getCurrentRowKey();
 		removeRowModeKey(key);
@@ -221,6 +227,9 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		}
 	}
 
+	/**
+	 * @return the column AJAX targets
+	 */
 	protected List<AjaxTarget> getColumnAjaxTargets() {
 		List<AjaxTarget> targets = new ArrayList<>();
 		WTable table = getTable();
@@ -233,10 +242,16 @@ public class RowActionPanel<T> extends WDiv implements RowActionable {
 		return targets;
 	}
 
+	/**
+	 * @return the parent table
+	 */
 	protected WTable getTable() {
 		return WebUtilities.getAncestorOfClass(WTable.class, this);
 	}
 
+	/**
+	 * @return true if table is in edit mode
+	 */
 	protected boolean isAllowEdit() {
 		return getTable().isEditable();
 	}

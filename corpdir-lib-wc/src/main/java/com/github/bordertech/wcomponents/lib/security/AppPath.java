@@ -10,8 +10,14 @@ import java.util.Set;
  */
 public interface AppPath extends Serializable {
 
+	/**
+	 * @return the application path
+	 */
 	String getPath();
 
+	/**
+	 * @return the roles that have access to this path
+	 */
 	Set<AppRole> getAppRoles();
 
 }

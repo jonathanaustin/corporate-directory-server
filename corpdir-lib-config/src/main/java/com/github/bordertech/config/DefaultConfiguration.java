@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.Stack;
@@ -40,7 +41,6 @@ import org.apache.commons.configuration.MapConfiguration;
  * primitive mechanism for recording significant events which can be accessed later for logging if need be.
  * </p>
  *
- * @author Yiannis Paschalidis
  * @author Jonathan Austin
  * @since 1.0.0
  */
@@ -152,7 +152,7 @@ public class DefaultConfiguration implements Configuration {
 	 * Creates a Default Configuration.
 	 */
 	public DefaultConfiguration() {
-		this(InitHelper.DEFAULT_RESOURCE_LOAD_ORDER);
+		this(InitHelper.getDefaultResourceLoadOrder());
 	}
 
 	/**
@@ -162,7 +162,7 @@ public class DefaultConfiguration implements Configuration {
 	 */
 	public DefaultConfiguration(final String... resourceLoadOrder) {
 		if (resourceLoadOrder == null || resourceLoadOrder.length == 0) {
-			this.resourceLoadOrder = InitHelper.DEFAULT_RESOURCE_LOAD_ORDER;
+			this.resourceLoadOrder = InitHelper.getDefaultResourceLoadOrder();
 		} else {
 			this.resourceLoadOrder = resourceLoadOrder;
 		}
@@ -295,10 +295,16 @@ public class DefaultConfiguration implements Configuration {
 		System.getProperties().putAll(systemProperties);
 	}
 
+	/**
+	 * @return true if load system properties into config
+	 */
 	private boolean isUseSystemProperties() {
 		return getBoolean(USE_SYSTEM_PROPERTIES) || getBoolean(LEGACY_USE_SYSTEM_PROPERTIES);
 	}
 
+	/**
+	 * @return true if dump properties to the console
+	 */
 	private boolean isDumpProperties() {
 		return getBoolean(DUMP) || getBoolean(LEGACY_DUMP);
 	}
@@ -917,6 +923,19 @@ public class DefaultConfiguration implements Configuration {
 				return super.put(key, value);
 			}
 		}
+
+		@Override
+		public int hashCode() {
+			int hash = 5;
+			hash = 97 * hash + Objects.hashCode(this.location);
+			return hash;
+		}
+
+		@Override
+		public boolean equals(final Object obj) {
+			return obj instanceof IncludeProperties && Objects.equals(this.location, ((IncludeProperties) obj).location);
+		}
+
 	}
 
 	/**
@@ -1111,7 +1130,10 @@ public class DefaultConfiguration implements Configuration {
 	 */
 	@Override
 	public Boolean getBoolean(final String key, final Boolean defaultValue) {
-		return containsKey(key) ? getBoolean(key) : defaultValue;
+		if (containsKey(key)) {
+			return getBoolean(key);
+		}
+		return defaultValue;
 	}
 
 	/**
