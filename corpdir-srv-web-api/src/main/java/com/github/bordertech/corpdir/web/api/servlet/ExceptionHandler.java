@@ -41,7 +41,16 @@ public class ExceptionHandler implements ExceptionMapper<Throwable> {
 		} else if (excp instanceof NotFoundException) {
 			status = Response.Status.NOT_FOUND.getStatusCode();
 		}
-		return new ErrorDetail(status, excp.getMessage());
+		String msg;
+		if (excp == null) {
+			msg = "Error has occurred but no exception provided.";
+		} else {
+			msg = excp.getMessage();
+			if (excp.getCause() != null) {
+				msg += " Cause: " + excp.getMessage();
+			}
+		}
+		return new ErrorDetail(status, msg);
 	}
 
 }

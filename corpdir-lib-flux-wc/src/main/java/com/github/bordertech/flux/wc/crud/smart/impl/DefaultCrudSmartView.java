@@ -362,7 +362,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	}
 
 	protected ResultHolder<S, List<T>> handleCheckSearchResult() {
-		return doSearchAction(CallType.CALL_SYNC);
+		return doSearchAction(CallType.CALL_ASYNC);
 	}
 
 	protected ResultHolder<S, List<T>> doSearchAction(final CallType callType) {

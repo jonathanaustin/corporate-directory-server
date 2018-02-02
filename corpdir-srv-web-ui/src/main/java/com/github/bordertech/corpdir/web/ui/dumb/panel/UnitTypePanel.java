@@ -17,6 +17,6 @@ public class UnitTypePanel extends BasicApiKeyPanel<UnitType> {
 	 * @param viewId the viewId
 	 */
 	public UnitTypePanel(final String viewId) {
-		super(viewId, false);
+		super(viewId);
 	}
 }

@@ -80,18 +80,23 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 				case UPDATE_OK:
 					// FIXME Check this works
 					// Refresh Tree
-					// Get Root Items (SYNC)
-					ResultHolder<S, List<T>> resultHolder = getStoreByKey().getRootItems(CallType.CALL_ASYNC);
 					getSelectView().resetView();
+					getSelectView().setUseTree(true);
+					getSelectView().setEntityTreeStoreKey(getStoreKey());
+					getSelectView().setContentVisible(true);
+
+					// Get Root Items (SYNC) - SYNC should always have a result
+					ResultHolder<S, List<T>> resultHolder = getStoreByKey().getRootItems(CallType.CALL_SYNC);
+					if (resultHolder == null) {
+						dispatchMessageError("Error refreshing items as no result returned. ");
+						return;
+					}
 					if (resultHolder.isException()) {
 						dispatchMessageError("Error refreshing items. " + resultHolder.getException().getMessage());
 						return;
 					}
 
 					List<T> items = resultHolder.getResult();
-					getSelectView().setUseTree(true);
-					getSelectView().setEntityTreeStoreKey(getStoreKey());
-					getSelectView().setContentVisible(true);
 					getSelectView().setItems(items);
 					if (type != FormBaseOutcomeEventType.DELETE_OK) {
 						getSelectView().setSelectedItem(entity);

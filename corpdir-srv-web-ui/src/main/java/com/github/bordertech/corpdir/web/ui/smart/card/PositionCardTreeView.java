@@ -1,10 +1,10 @@
 package com.github.bordertech.corpdir.web.ui.smart.card;
 
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpSecureCrudCardView;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.panel.PositionPanel;
 import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeSmartView;
+import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpSecureCrudCardView;
 
 /**
  * Position CRUD Tree view.

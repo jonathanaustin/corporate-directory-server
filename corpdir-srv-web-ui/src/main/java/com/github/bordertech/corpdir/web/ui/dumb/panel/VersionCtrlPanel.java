@@ -17,6 +17,6 @@ public class VersionCtrlPanel extends BasicApiIdPanel<VersionCtrl> {
 	 * @param viewId the viewId
 	 */
 	public VersionCtrlPanel(final String viewId) {
-		super(viewId, false);
+		super(viewId);
 	}
 }

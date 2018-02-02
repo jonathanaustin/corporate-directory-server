@@ -17,6 +17,6 @@ public class PositionTypePanel extends BasicApiKeyPanel<PositionType> {
 	 * @param viewId the viewId
 	 */
 	public PositionTypePanel(final String viewId) {
-		super(viewId, false);
+		super(viewId);
 	}
 }

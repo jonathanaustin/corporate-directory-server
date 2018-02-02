@@ -1,5 +1,6 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
@@ -170,7 +171,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		clearServiceKey();
 		String key = generateServiceKey();
 		// Start Service action
-		ServiceUtil.handleAsyncServiceCall(getPollingCache(), key, criteria, getServiceAction());
+		ServiceUtil.handleServiceCallType(getPollingCache(), key, criteria, getServiceAction(), CallType.CALL_ASYNC);
 	}
 
 	/**

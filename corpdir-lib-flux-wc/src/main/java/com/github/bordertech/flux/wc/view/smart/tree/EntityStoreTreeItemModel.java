@@ -83,6 +83,7 @@ public class EntityStoreTreeItemModel<K, T> extends AbstractTreeItemModel implem
 	}
 
 	protected List<T> loadChildren(final T item) {
+		// Load Children SYNC
 		ResultHolder<T, List<T>> resultHolder = store.getChildren(item, CallType.CALL_SYNC);
 		if (resultHolder.isResult()) {
 			return resultHolder.getResult();
