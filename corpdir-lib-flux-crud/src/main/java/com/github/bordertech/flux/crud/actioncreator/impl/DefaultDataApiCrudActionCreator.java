@@ -6,7 +6,7 @@ import com.github.bordertech.flux.crud.actioncreator.DataApiCrudActionCreator;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 
 /**
- * Modify action creator used by views.
+ * CRUD action creator with backing API.
  *
  * @param <K> the entity key type
  * @param <T> the entity type

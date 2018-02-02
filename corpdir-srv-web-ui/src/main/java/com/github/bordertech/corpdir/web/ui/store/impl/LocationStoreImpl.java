@@ -3,6 +3,7 @@ package com.github.bordertech.corpdir.web.ui.store.impl;
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.dataapi.LocationApi;
+import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeStore;
 import com.github.bordertech.corpdir.web.ui.store.LocationStore;
 import javax.inject.Inject;
 
@@ -11,7 +12,7 @@ import javax.inject.Inject;
  *
  * @author jonathan
  */
-public class LocationStoreImpl extends DefaultCorpTreeStore<Location, LocationApi> implements LocationStore {
+public class LocationStoreImpl extends DefaultCorpCrudTreeStore<Location, LocationApi> implements LocationStore {
 
 	/**
 	 * @param api the backing API

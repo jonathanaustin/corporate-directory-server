@@ -6,7 +6,7 @@ import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 /**
- * Modify tree action creator used by views.
+ * CRUD Tree action creator with backing API.
  *
  * @param <K> the entity key type
  * @param <T> the entity type

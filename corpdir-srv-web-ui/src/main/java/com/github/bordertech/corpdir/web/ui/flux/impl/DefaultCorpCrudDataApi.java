@@ -1,9 +1,9 @@
-package com.github.bordertech.corpdir.web.ui.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicIdService;
-import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudDataApi;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -15,12 +15,12 @@ import java.util.List;
  *
  * @author jonathan
  */
-public class DefaultCorpCrudApi<T extends ApiIdObject, S extends BasicIdService<T>> implements CorpCrudApi<T, S> {
+public class DefaultCorpCrudDataApi<T extends ApiIdObject, S extends BasicIdService<T>> implements CorpCrudDataApi<T, S> {
 
 	private final Class<T> apiClass;
 	private final S service;
 
-	public DefaultCorpCrudApi(final Class<T> apiClass, final S service) {
+	public DefaultCorpCrudDataApi(final Class<T> apiClass, final S service) {
 		this.apiClass = apiClass;
 		this.service = service;
 	}

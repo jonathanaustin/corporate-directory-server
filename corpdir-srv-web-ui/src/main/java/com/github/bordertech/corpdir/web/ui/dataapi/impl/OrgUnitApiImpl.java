@@ -2,15 +2,16 @@ package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import javax.inject.Inject;
 import com.github.bordertech.corpdir.web.ui.dataapi.OrgUnitApi;
+import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeVersionDataApi;
+import javax.inject.Inject;
 
 /**
  * OrgUnit CRUD API implementation.
  *
  * @author jonathan
  */
-public class OrgUnitApiImpl extends DefaultCorpCrudTreeVersionApi<OrgUnit, OrgUnitService> implements OrgUnitApi {
+public class OrgUnitApiImpl extends DefaultCorpCrudTreeVersionDataApi<OrgUnit, OrgUnitService> implements OrgUnitApi {
 
 	@Inject
 	public OrgUnitApiImpl(final OrgUnitService service) {

@@ -1,20 +1,20 @@
-package com.github.bordertech.corpdir.web.ui.actioncreator.impl;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.actioncreator.CorpCrudTreeActionCreator;
-import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudTreeApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeDataApi;
 import com.github.bordertech.flux.crud.actioncreator.impl.DefaultDataApiCrudTreeActionCreator;
 
 /**
- * Corp CRUD Tree Action Creator.
+ * Corp CRUD Tree Action Creator with defined types.
  *
  * @param <T> the Corp API object type
  * @param <D> the backing Corp API
  *
  * @author jonathan
  */
-public class DefaultCorpCrudTreeActionCreator<T extends ApiTreeable, D extends CorpCrudTreeApi<T, ?>> extends DefaultDataApiCrudTreeActionCreator<String, T, D> implements CorpCrudTreeActionCreator<T, D> {
+public class DefaultCorpCrudTreeActionCreator<T extends ApiTreeable, D extends CorpCrudTreeDataApi<T, ?>> extends DefaultDataApiCrudTreeActionCreator<String, T, D> implements CorpCrudTreeActionCreator<T, D> {
 
 	/**
 	 * @param type the entity type

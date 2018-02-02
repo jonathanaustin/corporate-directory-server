@@ -12,7 +12,7 @@ import com.github.bordertech.corpdir.web.ui.smart.card.VersionCtrlCardView;
 import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 
 /**
- * Cards.
+ * Application Cards and config details.
  *
  * @author jonathan
  */

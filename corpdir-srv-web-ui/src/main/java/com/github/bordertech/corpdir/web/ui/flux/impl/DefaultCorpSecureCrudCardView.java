@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.smart.card;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.CardType;
@@ -24,12 +24,12 @@ import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
  *
  * @param <T> the Corp Dir entity type
  */
-public class AppSecureCrudCardView<T extends ApiIdObject> extends DefaultSecureCardView<T> implements CrudSearchSmartView<String, String, T> {
+public class DefaultCorpSecureCrudCardView<T extends ApiIdObject> extends DefaultSecureCardView<T> implements CrudSearchSmartView<String, String, T> {
 
 	private final WSection wrapper;
 	private final CrudSearchSmartView<String, String, T> crudView;
 
-	public AppSecureCrudCardView(final String viewId, final CardType cardType, final CrudSearchSmartView<String, String, T> crudView) {
+	public DefaultCorpSecureCrudCardView(final String viewId, final CardType cardType, final CrudSearchSmartView<String, String, T> crudView) {
 		super(viewId, new DefaultAppPath(cardType.getPath()));
 		this.wrapper = new WSection(cardType.getDesc());
 		this.crudView = crudView;

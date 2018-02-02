@@ -1,26 +1,28 @@
-package com.github.bordertech.corpdir.web.ui.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
-import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudTreeVersionApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeVersionDataApi;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * CRUD Tree Version API calling CorpDir Services.
  *
- * @author jonathan
  * @param <T> the treeable API type
  * @param <S> the versionable tree service type
+ *
+ * @author jonathan
  */
-public class DefaultCorpCrudTreeVersionApi<T extends ApiTreeable & ApiVersionable, S extends BasicVersionTreeService<T>> extends DefaultCorpCrudTreeApi<T, S> implements CorpCrudTreeVersionApi<T, S> {
+public class DefaultCorpCrudTreeVersionDataApi<T extends ApiTreeable & ApiVersionable, S extends BasicVersionTreeService<T>> extends DefaultCorpCrudTreeDataApi<T, S> implements CorpCrudTreeVersionDataApi<T, S> {
 
-	private static final Log LOG = LogFactory.getLog(DefaultCorpCrudTreeVersionApi.class);
+	private static final Log LOG = LogFactory.getLog(DefaultCorpCrudTreeVersionDataApi.class);
 
-	public DefaultCorpCrudTreeVersionApi(final Class<T> apiClass, final S service) {
+	public DefaultCorpCrudTreeVersionDataApi(final Class<T> apiClass, final S service) {
 		super(apiClass, service);
 	}
 

@@ -2,12 +2,12 @@ package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
+import com.github.bordertech.corpdir.web.ui.dataapi.ChannelApi;
 import java.util.List;
 import java.util.UUID;
-import com.github.bordertech.corpdir.web.ui.dataapi.ChannelApi;
 
 /**
- * Channel CRUD API implementation.
+ * Channel CRUD API implementation. Only used for creating a new instance.
  *
  * @author jonathan
  */

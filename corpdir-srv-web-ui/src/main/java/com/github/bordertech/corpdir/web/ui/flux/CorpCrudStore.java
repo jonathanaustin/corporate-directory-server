@@ -1,7 +1,6 @@
-package com.github.bordertech.corpdir.web.ui.store;
+package com.github.bordertech.corpdir.web.ui.flux;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
-import com.github.bordertech.corpdir.web.ui.dataapi.*;
 import com.github.bordertech.flux.crud.store.DataApiCrudStore;
 
 /**
@@ -11,6 +10,6 @@ import com.github.bordertech.flux.crud.store.DataApiCrudStore;
  * @param <T> the CorpDir API Object
  * @param <D> the CorpDir data API type
  */
-public interface CorpCrudStore<T extends ApiIdObject, D extends CorpCrudApi<T, ?>>
+public interface CorpCrudStore<T extends ApiIdObject, D extends CorpCrudDataApi<T, ?>>
 		extends DataApiCrudStore<String, String, T, D> {
 }

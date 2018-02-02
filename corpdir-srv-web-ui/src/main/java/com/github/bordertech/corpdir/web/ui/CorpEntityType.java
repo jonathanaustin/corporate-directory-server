@@ -9,6 +9,8 @@ import com.github.bordertech.corpdir.web.ui.actioncreator.PositionTypeActionCrea
 import com.github.bordertech.corpdir.web.ui.actioncreator.SystemCtrlActionCreator;
 import com.github.bordertech.corpdir.web.ui.actioncreator.UnitTypeActionCreator;
 import com.github.bordertech.corpdir.web.ui.actioncreator.VersionCtrlActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudStore;
 import com.github.bordertech.corpdir.web.ui.store.ContactStore;
 import com.github.bordertech.corpdir.web.ui.store.LocationStore;
 import com.github.bordertech.corpdir.web.ui.store.OrgUnitStore;
@@ -17,13 +19,11 @@ import com.github.bordertech.corpdir.web.ui.store.PositionTypeStore;
 import com.github.bordertech.corpdir.web.ui.store.SystemCtrlStore;
 import com.github.bordertech.corpdir.web.ui.store.UnitTypeStore;
 import com.github.bordertech.corpdir.web.ui.store.VersionCtrlStore;
-import com.github.bordertech.flux.crud.actioncreator.CrudActionCreator;
-import com.github.bordertech.flux.crud.store.CrudStore;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Corp Dir Entity Types.
+ * CorpDir Entity Type and related Store and ActionCreator.
  *
  * @author jonathan
  */
@@ -38,7 +38,7 @@ public enum CorpEntityType {
 	SYSTEM_CTRL("systemctrl", true, SystemCtrlActionCreator.class, SystemCtrlStore.class),
 	CHANNEL("channel", false, ChannelActionCreator.class, null);
 
-	CorpEntityType(final String key, final boolean linked, final Class<? extends CrudActionCreator> actionCreatorClass, final Class<? extends CrudStore> storeClass) {
+	CorpEntityType(final String key, final boolean linked, final Class<? extends CorpCrudActionCreator> actionCreatorClass, final Class<? extends CorpCrudStore> storeClass) {
 		this.key = key;
 		this.linked = linked;
 		this.actionCreatorClass = actionCreatorClass;
@@ -47,14 +47,14 @@ public enum CorpEntityType {
 
 	final String key;
 	final boolean linked;
-	final Class<? extends CrudActionCreator> actionCreatorClass;
-	final Class<? extends CrudStore> storeClass;
+	final Class<? extends CorpCrudActionCreator> actionCreatorClass;
+	final Class<? extends CorpCrudStore> storeClass;
 
-	public Class<? extends CrudActionCreator> getActionCreatorClass() {
+	public Class<? extends CorpCrudActionCreator> getActionCreatorClass() {
 		return actionCreatorClass;
 	}
 
-	public Class<? extends CrudStore> getStoreClass() {
+	public Class<? extends CorpCrudStore> getStoreClass() {
 		return storeClass;
 	}
 

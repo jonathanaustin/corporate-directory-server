@@ -1,26 +1,27 @@
-package com.github.bordertech.corpdir.web.ui.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
-import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudTreeApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeDataApi;
 import com.github.bordertech.wcomponents.util.SystemException;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
+ * CRUD Tree API calling CorpDir Services.
  *
  * @param <T> the CorpDir Treeable API object
  * @param <S> the CorpDir tree service type
  *
  * @author jonathan
  */
-public class DefaultCorpCrudTreeApi<T extends ApiTreeable, S extends BasicTreeService<T>> extends DefaultCorpCrudApi<T, S> implements CorpCrudTreeApi<T, S> {
+public class DefaultCorpCrudTreeDataApi<T extends ApiTreeable, S extends BasicTreeService<T>> extends DefaultCorpCrudDataApi<T, S> implements CorpCrudTreeDataApi<T, S> {
 
-	private static final Log LOG = LogFactory.getLog(DefaultCorpCrudTreeApi.class);
+	private static final Log LOG = LogFactory.getLog(DefaultCorpCrudTreeDataApi.class);
 
-	public DefaultCorpCrudTreeApi(final Class<T> apiClass, final S service) {
+	public DefaultCorpCrudTreeDataApi(final Class<T> apiClass, final S service) {
 		super(apiClass, service);
 	}
 

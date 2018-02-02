@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 
 import com.github.bordertech.corpdir.api.v1.LocationService;
 import com.github.bordertech.corpdir.api.v1.model.Location;
-import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudTreeApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeDataApi;
 
 /**
  * Location CRUD API.
@@ -10,5 +10,5 @@ import com.github.bordertech.corpdir.web.ui.dataapi.CorpCrudTreeApi;
  * @author Jonathan Austin
  * @since 1.0.0
  */
-public interface LocationApi extends CorpCrudTreeApi<Location, LocationService> {
+public interface LocationApi extends CorpCrudTreeDataApi<Location, LocationService> {
 }

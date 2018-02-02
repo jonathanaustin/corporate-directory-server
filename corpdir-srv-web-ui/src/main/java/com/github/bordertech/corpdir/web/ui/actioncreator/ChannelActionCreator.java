@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.actioncreator;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.web.ui.dataapi.ChannelApi;
-import com.github.bordertech.flux.crud.actioncreator.DataApiCrudActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudActionCreator;
 
 /**
  * Channel CRUD ActionCreator.
@@ -12,5 +12,5 @@ import com.github.bordertech.flux.crud.actioncreator.DataApiCrudActionCreator;
  *
  * @author jonathan
  */
-public interface ChannelActionCreator extends DataApiCrudActionCreator<String, Channel, ChannelApi> {
+public interface ChannelActionCreator extends CorpCrudActionCreator<Channel, ChannelApi> {
 }

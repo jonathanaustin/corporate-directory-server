@@ -2,9 +2,10 @@ package com.github.bordertech.corpdir.web.ui.store;
 
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
 import com.github.bordertech.corpdir.web.ui.dataapi.VersionCtrlApi;
+import com.github.bordertech.corpdir.web.ui.flux.CorpCrudStore;
 
 /**
- * Version Ctrl Store with backing API.
+ * VersionCtrl Store with backing API.
  *
  * @author jonathan
  */

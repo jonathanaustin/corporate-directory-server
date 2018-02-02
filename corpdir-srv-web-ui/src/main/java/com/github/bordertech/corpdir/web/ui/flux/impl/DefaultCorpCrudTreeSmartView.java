@@ -1,4 +1,4 @@
-package com.github.bordertech.corpdir.web.ui.smart.crud;
+package com.github.bordertech.corpdir.web.ui.flux.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.flux.wc.crud.smart.impl.DefaultCrudTreeSmartView;
