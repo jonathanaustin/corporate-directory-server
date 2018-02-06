@@ -24,15 +24,14 @@ import javax.persistence.Table;
 @Table(name = "Contact")
 public class ContactEntity extends DefaultVersionableKeyIdObject<ContactEntity, ContactVersionEntity> {
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "item_id")
+	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
 	private Set<ContactVersionEntity> versions;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany(orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "contact_id")
 	private Set<ChannelEntity> channels;
 
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne(orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private ImageEntity image;
 
 	@ManyToOne(fetch = FetchType.EAGER)

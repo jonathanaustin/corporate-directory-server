@@ -3,8 +3,8 @@ package com.github.bordertech.corpdir.web.ui.smart.card;
 import com.github.bordertech.corpdir.api.v1.model.Contact;
 import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.panel.ContactPanel;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudSmartView;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpSecureCrudCardView;
+import com.github.bordertech.corpdir.web.ui.flux.view.impl.DefaultCorpCrudSmartView;
+import com.github.bordertech.corpdir.web.ui.flux.view.impl.DefaultCorpSecureCrudCardView;
 
 /**
  * Contact CRUD view.

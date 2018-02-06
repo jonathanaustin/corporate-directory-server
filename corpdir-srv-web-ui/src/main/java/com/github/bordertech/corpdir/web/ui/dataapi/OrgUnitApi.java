@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 
 import com.github.bordertech.corpdir.api.v1.OrgUnitService;
 import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeVersionDataApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudTreeVersionDataApi;
 
 /**
  * OrgUnit CRUD API.

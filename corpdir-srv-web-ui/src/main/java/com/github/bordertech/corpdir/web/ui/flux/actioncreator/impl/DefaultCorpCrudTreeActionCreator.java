@@ -1,9 +1,9 @@
-package com.github.bordertech.corpdir.web.ui.flux.impl;
+package com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeActionCreator;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudTreeDataApi;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.CorpCrudTreeActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudTreeDataApi;
 import com.github.bordertech.flux.crud.actioncreator.impl.DefaultDataApiCrudTreeActionCreator;
 
 /**

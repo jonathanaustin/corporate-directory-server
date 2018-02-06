@@ -7,7 +7,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -22,8 +21,7 @@ import javax.persistence.Table;
 @Table(name = "OrgUnit")
 public class OrgUnitEntity extends DefaultVersionableKeyIdTreeObject<OrgUnitEntity, OrgUnitVersionEntity> {
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "item_id")
+	@OneToMany(mappedBy = "item", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private Set<OrgUnitVersionEntity> versions;
 
 	@ManyToOne

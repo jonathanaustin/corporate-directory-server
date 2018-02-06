@@ -3,8 +3,8 @@ package com.github.bordertech.corpdir.web.ui.smart.card;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
 import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.dumb.panel.VersionCtrlPanel;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudSmartView;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpSecureCrudCardView;
+import com.github.bordertech.corpdir.web.ui.flux.view.impl.DefaultCorpCrudSmartView;
+import com.github.bordertech.corpdir.web.ui.flux.view.impl.DefaultCorpSecureCrudCardView;
 
 /**
  * Version Ctrl crud view.

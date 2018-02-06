@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 import com.github.bordertech.corpdir.api.v1.VersionCtrlService;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
 import com.github.bordertech.corpdir.web.ui.dataapi.VersionCtrlApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudDataApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.DefaultCorpCrudDataApi;
 import javax.inject.Inject;
 
 /**

@@ -67,29 +67,13 @@ public class SystemCtrlServiceImpl extends JpaBasicIdService<SystemCtrl, SystemC
 	}
 
 	protected SystemCtrlEntity getSystemCtrlEntity() {
-		SystemCtrlEntity ctrl = getEntityManager().find(SystemCtrlEntity.class, 1);
+		SystemCtrlEntity ctrl = getEntityManager().find(SystemCtrlEntity.class, Long.valueOf("1"));
 		if (ctrl == null) {
 			throw new IllegalStateException("No System Control Record Available.");
-//			ctrl = createSystemCtrlEntity();
 		}
 		return ctrl;
 	}
 
-//	protected SystemCtrlEntity createSystemCtrlEntity() {
-//		LOG.info("Creating System Control Record and First Version.");
-//		EntityManager em = getEntityManager();
-//		em.getTransaction().begin();
-//		// Create a version
-//		VersionCtrlEntity vers = new VersionCtrlEntity(null);
-//		vers.setDescription("Initial");
-//		em.persist(vers);
-//		// Create Control with Default Version
-//		SystemCtrlEntity ctrl = new SystemCtrlEntity();
-//		ctrl.setCurrentVersion(vers);
-//		em.persist(ctrl);
-//		em.getTransaction().commit();
-//		return ctrl;
-//	}
 	@Override
 	public BasicResponse delete(final String id) {
 		throw new UnsupportedOperationException("Delete not supported.");
