@@ -144,7 +144,13 @@ public class PositionServiceImpl extends JpaBasicVersionTreeService<Position, Po
 	}
 
 	@Override
+	protected Class<PositionVersionEntity> getVersionEntityClass() {
+		return PositionVersionEntity.class;
+	}
+
+	@Override
 	protected MapperApiVersion<Position, PositionVersionEntity, PositionEntity> getMapper() {
 		return POSITION_MAPPER;
 	}
+
 }

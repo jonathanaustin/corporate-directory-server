@@ -9,8 +9,8 @@ import com.github.bordertech.corpdir.web.ui.actioncreator.PositionTypeActionCrea
 import com.github.bordertech.corpdir.web.ui.actioncreator.SystemCtrlActionCreator;
 import com.github.bordertech.corpdir.web.ui.actioncreator.UnitTypeActionCreator;
 import com.github.bordertech.corpdir.web.ui.actioncreator.VersionCtrlActionCreator;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudActionCreator;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudStore;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.CorpCrudActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.store.CorpCrudStore;
 import com.github.bordertech.corpdir.web.ui.store.ContactStore;
 import com.github.bordertech.corpdir.web.ui.store.LocationStore;
 import com.github.bordertech.corpdir.web.ui.store.OrgUnitStore;

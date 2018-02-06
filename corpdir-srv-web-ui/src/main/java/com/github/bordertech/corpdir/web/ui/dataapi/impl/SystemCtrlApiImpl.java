@@ -1,9 +1,10 @@
 package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 
+import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.v1.SystemCtrlService;
 import com.github.bordertech.corpdir.api.v1.model.SystemCtrl;
 import com.github.bordertech.corpdir.web.ui.dataapi.SystemCtrlApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudDataApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.DefaultCorpCrudDataApi;
 import javax.inject.Inject;
 
 /**
@@ -17,4 +18,11 @@ public class SystemCtrlApiImpl extends DefaultCorpCrudDataApi<SystemCtrl, System
 	public SystemCtrlApiImpl(final SystemCtrlService service) {
 		super(SystemCtrl.class, service);
 	}
+
+	@Override
+	public Long getCurrentVersion() {
+		DataResponse<Long> resp = getService().getCurrentVersion();
+		return resp.getData();
+	}
+
 }

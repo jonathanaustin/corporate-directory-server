@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.v1.model.OrgUnit;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.actioncreator.OrgUnitActionCreator;
 import com.github.bordertech.corpdir.web.ui.dataapi.OrgUnitApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.DefaultCorpCrudTreeActionCreator;
 import javax.inject.Inject;
 
 /**

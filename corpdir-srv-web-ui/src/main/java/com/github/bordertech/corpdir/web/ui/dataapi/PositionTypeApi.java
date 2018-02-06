@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.dataapi;
 
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.web.ui.flux.CorpCrudDataApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudDataApi;
 
 /**
  * PositionType CRUD API.

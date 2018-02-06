@@ -151,6 +151,11 @@ public class OrgUnitServiceImpl extends JpaBasicVersionTreeService<OrgUnit, OrgU
 	}
 
 	@Override
+	protected Class<OrgUnitVersionEntity> getVersionEntityClass() {
+		return OrgUnitVersionEntity.class;
+	}
+
+	@Override
 	protected MapperApiVersion<OrgUnit, OrgUnitVersionEntity, OrgUnitEntity> getMapper() {
 		return ORGUNIT_MAPPER;
 	}
