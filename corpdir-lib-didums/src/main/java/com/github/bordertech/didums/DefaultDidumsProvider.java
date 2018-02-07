@@ -4,6 +4,9 @@ import java.lang.annotation.Annotation;
 
 /**
  * Default Provider.
+ * <p>
+ * The default implementation provides no DI functionality.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0

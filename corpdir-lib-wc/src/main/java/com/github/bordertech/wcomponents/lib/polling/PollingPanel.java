@@ -19,7 +19,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This panel is used to poll via AJAX and also do a Reload of Views via AJAX.
+ * This panel is used to poll via AJAX and can reload other components via AJAX.
+ * <p>
+ * The panel start type defaults to {@link PollingStartType#MANUAL}, which means to start the panel polling call
+ * {@link #doManualStart()}. The start type {@link PollingStartType#AUTOMATIC} will start polling when the panel is made
+ * visible and {@link PollingStartType#BUTTON} provides a button that the user can click to start polling.
+ * </p>
+ *
  *
  * @author Jonathan Austin
  * @since 1.0.0
@@ -71,6 +77,11 @@ public class PollingPanel extends WDiv implements Pollable {
 	private final WProgressBar pollingProgressBar = new WProgressBar(100);
 
 	private final WText progressBarScript = new WText() {
+		@Override
+		public boolean isVisible() {
+			return pollingProgressBar.isVisible();
+		}
+
 		@Override
 		protected void preparePaintComponent(final Request request) {
 			if (!isInitialised()) {
@@ -198,89 +209,56 @@ public class PollingPanel extends WDiv implements Pollable {
 		startButton.setVisible(false);
 	}
 
-	/**
-	 * @return the root container that holds the polling components
-	 */
-	public final WDiv getHolder() {
+	@Override
+	public final WDiv getContentHolder() {
 		return holder;
 	}
 
-	/**
-	 * @return the retry button.
-	 */
 	@Override
 	public WButton getRetryButton() {
 		return retryButton;
 	}
 
-	/**
-	 * @return the start button
-	 */
 	@Override
 	public WButton getStartButton() {
 		return startButton;
 	}
 
-	/**
-	 * @return the AJAX polling interval in milli seconds
-	 */
 	@Override
 	public int getPollingInterval() {
 		return getComponentModel().pollingInterval;
 	}
 
-	/**
-	 *
-	 * @param interval the AJAX polling interval in milli seconds
-	 */
 	@Override
 	public final void setPollingInterval(final int interval) {
 		getOrCreateComponentModel().pollingInterval = interval;
 	}
 
-	/**
-	 * @param text the text displayed while polling
-	 */
 	@Override
 	public void setPollingText(final String text) {
 		getOrCreateComponentModel().pollingText = text;
 	}
 
-	/**
-	 * @return the text displayed while polling
-	 */
 	@Override
 	public String getPollingText() {
 		return getComponentModel().pollingText;
 	}
 
-	/**
-	 * @param pollingStatus the panel status
-	 */
 	@Override
 	public void setPollingStatus(final PollingStatus pollingStatus) {
 		getOrCreateComponentModel().serviceStatus = pollingStatus == null ? PollingStatus.STOPPED : pollingStatus;
 	}
 
-	/**
-	 * @return the panel status
-	 */
 	@Override
 	public PollingStatus getPollingStatus() {
 		return getComponentModel().serviceStatus;
 	}
 
-	/**
-	 * Manually start polling.
-	 */
 	@Override
 	public void doManualStart() {
 		doStartPolling();
 	}
 
-	/**
-	 * Show the retry button.
-	 */
 	@Override
 	public void doShowRetry() {
 		getStartButton().setVisible(false);
@@ -288,36 +266,23 @@ public class PollingPanel extends WDiv implements Pollable {
 		pollingProgressContainer.setVisible(false);
 	}
 
-	/**
-	 * Retry the polling action.
-	 */
 	@Override
 	public void doRetry() {
 		doRefreshContent();
 		doStartPolling();
 	}
 
-	/**
-	 * Reset to start load again.
-	 */
 	@Override
 	public void doRefreshContent() {
-		getHolder().reset();
+		getContentHolder().reset();
 		setPollingStatus(PollingStatus.STOPPED);
 	}
 
-	/**
-	 * @return the current AJAX polling targets
-	 */
 	@Override
 	public List<AjaxTarget> getAjaxTargets() {
 		return getComponentModel().extraTargets;
 	}
 
-	/**
-	 *
-	 * @param target the target to include with the AJAX polling
-	 */
 	@Override
 	public void addAjaxTarget(final AjaxTarget target) {
 		PollingModel model = getOrCreateComponentModel();
@@ -329,52 +294,39 @@ public class PollingPanel extends WDiv implements Pollable {
 		}
 	}
 
-	/**
-	 * @return the polling start type
-	 */
 	@Override
 	public PollingStartType getStartType() {
 		return getComponentModel().startType;
 	}
 
-	/**
-	 * @param startType the polling start type
-	 */
 	@Override
 	public void setStartType(final PollingStartType startType) {
 		getOrCreateComponentModel().startType = startType == null ? PollingStartType.MANUAL : startType;
 	}
 
-	/**
-	 * @return the polling timeout in seconds
-	 */
 	@Override
 	public int getPollingTimeout() {
 		return getComponentModel().pollingTimeout;
 	}
 
-	/**
-	 * @param pollingTimeout the polling timeout in seconds
-	 */
 	@Override
 	public void setPollingTimeout(final int pollingTimeout) {
 		getOrCreateComponentModel().pollingTimeout = pollingTimeout > 0 ? pollingTimeout : 0;
 	}
 
-	/**
-	 * @param useRetryOnError true if display retry button when an error has occurred
-	 */
 	@Override
 	public void setUseRetryOnError(final boolean useRetryOnError) {
 		getOrCreateComponentModel().useRetryOnError = useRetryOnError;
 	}
 
-	/**
-	 * @return true if display retry button when an error has occurred
-	 */
 	@Override
 	public boolean isUseRetryOnError() {
 		return getComponentModel().useRetryOnError;
+	}
+
+	@Override
+	public WProgressBar getProgressBar() {
+		return pollingProgressBar;
 	}
 
 	/**
@@ -433,7 +385,7 @@ public class PollingPanel extends WDiv implements Pollable {
 	 */
 	protected void handleStartButton() {
 		doStartPolling();
-		startButton.setVisible(false);
+		getStartButton().setVisible(false);
 	}
 
 	/**
@@ -452,7 +404,7 @@ public class PollingPanel extends WDiv implements Pollable {
 
 		// Start AJAX polling
 		setPollingStatus(PollingStatus.PROCESSING);
-		messages.reset();
+		getMessages().reset();
 		pollingContainer.reset();
 		pollingContainer.setVisible(true);
 		ajaxPolling.setVisible(true);
@@ -567,25 +519,16 @@ public class PollingPanel extends WDiv implements Pollable {
 		return script.toString();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PollingModel newComponentModel() {
 		return new PollingModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PollingModel getOrCreateComponentModel() {
 		return (PollingModel) super.getOrCreateComponentModel();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	protected PollingModel getComponentModel() {
 		return (PollingModel) super.getComponentModel();
@@ -631,6 +574,9 @@ public class PollingPanel extends WDiv implements Pollable {
 		 */
 		private Date pollingStartTime;
 
+		/**
+		 * Use retry button flag.
+		 */
 		private boolean useRetryOnError = true;
 
 	}
