@@ -1,12 +1,13 @@
 package com.github.bordertech.flux.store.impl;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.dataapi.SearchApi;
 import com.github.bordertech.flux.store.DataApiStore;
 import com.github.bordertech.flux.store.SearchStore;
 import com.github.bordertech.taskmanager.service.CallType;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.taskmanager.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,8 @@ import java.util.Set;
  *
  */
 public class DefaultSearchDataApiStore<S, T, D extends SearchApi<S, T>> extends DefaultStore implements SearchStore<S, T>, DataApiStore<D> {
+
+	private static final ServiceHelper SERVICE_HELPER = Didums.getService(ServiceHelper.class);
 
 	private final D api;
 
@@ -43,7 +46,7 @@ public class DefaultSearchDataApiStore<S, T, D extends SearchApi<S, T>> extends 
 				return getDataApi().search(criteria);
 			}
 		};
-		return ServiceUtil.handleServiceCallType(getStoreCache(), getCacheKey("search", criteria), criteria, action, callType);
+		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("search", criteria), criteria, action, callType);
 	}
 
 }

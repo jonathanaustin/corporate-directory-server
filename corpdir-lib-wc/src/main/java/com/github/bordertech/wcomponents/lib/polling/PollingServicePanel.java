@@ -1,9 +1,10 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
 import com.github.bordertech.taskmanager.service.ServiceException;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.taskmanager.service.ServiceHelper;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.io.Serializable;
@@ -51,6 +52,8 @@ import org.apache.commons.logging.LogFactory;
 public class PollingServicePanel<S extends Serializable, T extends Serializable> extends PollingPanel implements PollableService<S, T> {
 
 	private static final Log LOG = LogFactory.getLog(PollingServicePanel.class);
+
+	private static final ServiceHelper SERVICE_HELPER = Didums.getService(ServiceHelper.class);
 
 	private final WDiv contentResultHolder = new WDiv() {
 		@Override
@@ -179,7 +182,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	protected boolean checkForStopPolling() {
 		String key = getServiceCacheKey();
 		try {
-			if (ServiceUtil.checkASyncResult(getServiceCache(), key) != null) {
+			if (SERVICE_HELPER.checkASyncResult(getServiceCache(), key) != null) {
 				setPollingStatus(PollingStatus.STOPPED);
 			}
 		} catch (ServiceException e) {
@@ -226,7 +229,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 		}
 
 		// Start Service action (will return result if already cached)
-		return ServiceUtil.handleAsyncServiceCall(getServiceCache(), key, getServiceCriteria(), action);
+		return SERVICE_HELPER.handleAsyncServiceCall(getServiceCache(), key, getServiceCriteria(), action);
 	}
 
 	/**
@@ -314,7 +317,7 @@ public class PollingServicePanel<S extends Serializable, T extends Serializable>
 	 * @return the service cache instance
 	 */
 	protected Cache<String, ResultHolder> getServiceCache() {
-		return ServiceUtil.getDefaultResultHolderCache();
+		return SERVICE_HELPER.getDefaultResultHolderCache();
 	}
 
 	/**

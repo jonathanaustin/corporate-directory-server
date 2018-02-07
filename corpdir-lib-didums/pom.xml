@@ -25,6 +25,14 @@
 			<artifactId>corpdir-lib-config</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
+		<!-- Injection interface. JSR 330 -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- Commons config brings in servlet.api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
