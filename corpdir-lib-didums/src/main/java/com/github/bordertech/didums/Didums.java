@@ -35,7 +35,9 @@ public final class Didums {
 	private static final DidumsProvider PROVIDER;
 
 	static {
+		// Load the Provider via the tradional Factory
 		PROVIDER = Factory.newInstance(DidumsProvider.class, DefaultDidumsProvider.class);
+		// Load the Bunders (if any)
 		List<DidumsBinder> binders = Factory.newMultiInstances(DidumsBinder.class);
 		for (DidumsBinder binder : binders) {
 			binder.configBindings(PROVIDER);

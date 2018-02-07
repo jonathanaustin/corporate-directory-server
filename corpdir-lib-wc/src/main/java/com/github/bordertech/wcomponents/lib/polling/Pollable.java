@@ -3,6 +3,8 @@ package com.github.bordertech.wcomponents.lib.polling;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WComponent;
+import com.github.bordertech.wcomponents.WProgressBar;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.util.List;
 
 /**
@@ -17,6 +19,11 @@ public interface Pollable extends WComponent {
 	 * Default polling timeout of 120 seconds.
 	 */
 	int DEFAULT_POLLING_TIMEOUT = 120;
+
+	/**
+	 * @return the root container that holds the polling components
+	 */
+	WDiv getContentHolder();
 
 	/**
 	 * The AJAX targets that will be refreshed when the polling is complete.
@@ -127,5 +134,10 @@ public interface Pollable extends WComponent {
 	 * @return true if display retry button on error
 	 */
 	boolean isUseRetryOnError();
+
+	/**
+	 * @return the progress bar used while polling
+	 */
+	WProgressBar getProgressBar();
 
 }

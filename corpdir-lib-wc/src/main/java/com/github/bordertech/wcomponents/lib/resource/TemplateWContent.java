@@ -42,7 +42,7 @@ public class TemplateWContent extends WContent {
 		final int bufferSize = 1024;
 		try (InputStream stream = resource.getStream()) {
 			// Compute CRC-32 checksum
-			// TODO: Is a 1 in 2^32 chance of a cache bust fail good enough?
+			// TODO Is a 1 in 2^32 chance of a cache bust fail good enough?
 			// Checksum checksumEngine = new Adler32();
 			Checksum checksumEngine = new CRC32();
 			byte[] buf = new byte[bufferSize];

@@ -27,7 +27,7 @@
 			<artifactId>corpdir-lib-flux-crud</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- WComponents -->
+		<!-- WComponents Library -->
 		<dependency>
 			<groupId>com.github.bordertech.corpdir</groupId>
 			<artifactId>corpdir-lib-wc</artifactId>

@@ -1,6 +1,8 @@
 package com.github.bordertech.wcomponents.lib.polling;
 
+import com.github.bordertech.taskmanager.service.ResultHolder;
 import com.github.bordertech.taskmanager.service.ServiceAction;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import java.io.Serializable;
 
 /**
@@ -14,27 +16,17 @@ import java.io.Serializable;
 public interface PollableService<S extends Serializable, T extends Serializable> extends Pollable {
 
 	/**
+	 * @return the container holding the result components
+	 */
+	WDiv getContentResultHolder();
+
+	/**
 	 * Manually set the criteria and the result.
 	 *
 	 * @param criteria the criteria
 	 * @param result the result
 	 */
 	void doManuallyLoadResult(final S criteria, final T result);
-
-	/**
-	 * @return the id for the record
-	 */
-	S getPollingCriteria();
-
-	/**
-	 * @param criteria the id for the record
-	 */
-	void setPollingCriteria(final S criteria);
-
-	/**
-	 * @return the polling result, or null if not processed successfully yet
-	 */
-	T getPollingResult();
 
 	/**
 	 *
@@ -47,5 +39,40 @@ public interface PollableService<S extends Serializable, T extends Serializable>
 	 * @param serviceAction the service action to use for polling
 	 */
 	void setServiceAction(final ServiceAction<S, T> serviceAction);
+
+	/**
+	 * @return the service criteria to use in the service call
+	 */
+	S getServiceCriteria();
+
+	/**
+	 * @param criteria the service criteria to use in the service call
+	 */
+	void setServiceCriteria(final S criteria);
+
+	/**
+	 * @return the service cache key
+	 */
+	String getServiceCacheKey();
+
+	/**
+	 * @param serviceCacheKey the service cache key
+	 */
+	void setServiceCacheKey(final String serviceCacheKey);
+
+	/**
+	 * @return true if keep the result in the service cache
+	 */
+	boolean isHoldCachedResult();
+
+	/**
+	 * @param holdCachedResult true if keep the result in the service cache
+	 */
+	void setHoldCachedResult(final boolean holdCachedResult);
+
+	/**
+	 * @return the service result, or null if still processing.
+	 */
+	ResultHolder<S, T> getServiceResult();
 
 }
