@@ -36,6 +36,7 @@ public final class Didums {
 
 	static {
 		// Load the Provider via the tradional Factory
+		// TODO Also use SPI
 		PROVIDER = Factory.newInstance(DidumsProvider.class, DefaultDidumsProvider.class);
 		// Load the Bunders (if any)
 		List<DidumsBinder> binders = Factory.newMultiInstances(DidumsBinder.class);

@@ -2,7 +2,10 @@ package com.github.bordertech.didums;
 
 import com.github.bordertech.config.Config;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javax.inject.Singleton;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -30,6 +33,8 @@ public final class Factory {
 	private static final Log LOG = LogFactory.getLog(Factory.class);
 
 	private static final String PREFIX = "bordertech.factory.impl.";
+
+	private static final Map<String, Object> SINGLETONS = new HashMap<>();
 
 	/**
 	 * Private constructor.
@@ -139,8 +144,37 @@ public final class Factory {
 	 * @return a new class instance
 	 */
 	private static <T> T createInstance(final Class<T> clazz) {
+
+		// Check singleton annotation
+		if (clazz.getAnnotation(Singleton.class) != null) {
+			return createSingletonInstance(clazz);
+		}
+
 		try {
 			return clazz.newInstance();
+		} catch (IllegalAccessException | InstantiationException e) {
+			throw new FactoryException("Failed to instantiate object of class " + clazz.getName(), e);
+		}
+	}
+
+	/**
+	 * @param <T> the contract type
+	 * @param clazz the class to create an instance
+	 * @return a new class instance
+	 */
+	private static synchronized <T> T createSingletonInstance(final Class<T> clazz) {
+
+		// Check already have an instance
+		String key = clazz.getName();
+		if (SINGLETONS.containsKey(key)) {
+			return (T) SINGLETONS.get(clazz.getName());
+		}
+
+		// Create a single instance and put in the MAP
+		try {
+			T obj = clazz.newInstance();
+			SINGLETONS.put(key, obj);
+			return obj;
 		} catch (IllegalAccessException | InstantiationException e) {
 			throw new FactoryException("Failed to instantiate object of class " + clazz.getName(), e);
 		}
