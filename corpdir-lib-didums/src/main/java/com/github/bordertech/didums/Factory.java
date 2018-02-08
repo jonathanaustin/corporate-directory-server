@@ -24,6 +24,9 @@ import org.apache.commons.logging.LogFactory;
  * <pre>
  * bordertech.factory.impl.my.example.util.Foo=my.example.FooImpl
  * </pre>
+ * <p>
+ * Factory also supports the Singleton annotation to make sure only one instance of a requested class is created.
+ * </p>
  *
  * @author Jonathan Austin
  * @since 1.0.0
