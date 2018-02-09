@@ -1,4 +1,4 @@
 /**
  * Task Manager Servlet Helpers.
  */
-package com.github.bordertech.taskmanager.servlet;
+package com.github.bordertech.taskmaster.servlet;

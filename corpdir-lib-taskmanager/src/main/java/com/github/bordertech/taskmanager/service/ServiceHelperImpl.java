@@ -1,11 +1,11 @@
-package com.github.bordertech.taskmanager.service;
+package com.github.bordertech.taskmaster.service;
 
 import com.github.bordertech.config.Config;
 import com.github.bordertech.didums.Didums;
-import com.github.bordertech.taskmanager.TaskFuture;
-import com.github.bordertech.taskmanager.TaskManager;
-import com.github.bordertech.taskmanager.TaskManagerException;
-import com.github.bordertech.taskmanager.cache.CacheHelper;
+import com.github.bordertech.taskmaster.TaskFuture;
+import com.github.bordertech.taskmaster.TaskManager;
+import com.github.bordertech.taskmaster.TaskManagerException;
+import com.github.bordertech.taskmaster.cache.CacheHelper;
 import java.io.Serializable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -31,12 +31,12 @@ public final class ServiceHelperImpl implements ServiceHelper {
 	private static final TaskManager TASK_MANAGER = Didums.getService(TaskManager.class);
 	private static final CacheHelper CACHE_HELPER = Didums.getService(CacheHelper.class);
 
-	private static final String DEFAULT_RESULT_CACHE_NAME = "taskmanager-resultholder-default";
-	private static final Long DEFAULT_RESULT_HOLDER_DURATION_SECONDS = Config.getInstance().getLong("bordertech.taskmanager.service.resultholder.cache.duration", Long.valueOf("1800"));
+	private static final String DEFAULT_RESULT_CACHE_NAME = "taskmaster-resultholder-default";
+	private static final Long DEFAULT_RESULT_HOLDER_DURATION_SECONDS = Config.getInstance().getLong("bordertech.taskmaster.service.resultholder.cache.duration", Long.valueOf("1800"));
 	private static final Duration DEFAULT_RESULT_DURATION = new Duration(TimeUnit.SECONDS, DEFAULT_RESULT_HOLDER_DURATION_SECONDS);
 
-	private static final String DEFAULT_PROCESSING_CACHE_NAME = "taskmanager-processing-default";
-	private static final Long DEFAULT_PROCESSING_DURATION_SECONDS = Config.getInstance().getLong("bordertech.taskmanager.service.processing.cache.duration", Long.valueOf("300"));
+	private static final String DEFAULT_PROCESSING_CACHE_NAME = "taskmaster-processing-default";
+	private static final Long DEFAULT_PROCESSING_DURATION_SECONDS = Config.getInstance().getLong("bordertech.taskmaster.service.processing.cache.duration", Long.valueOf("300"));
 	private static final Duration DEFAULT_PROCESSING_DURATION = new Duration(TimeUnit.SECONDS, DEFAULT_PROCESSING_DURATION_SECONDS);
 
 	@Override

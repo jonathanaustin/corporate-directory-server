@@ -1,8 +1,8 @@
 package com.github.bordertech.flux.crud.store;
 
 import com.github.bordertech.flux.store.SearchKeyableStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
 
 /**
  * CRUD Entity Store.

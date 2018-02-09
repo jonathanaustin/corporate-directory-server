@@ -7,8 +7,8 @@ import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.view.consumer.StoreConsumerByKey;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 

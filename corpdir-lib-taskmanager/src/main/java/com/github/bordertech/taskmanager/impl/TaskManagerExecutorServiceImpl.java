@@ -1,7 +1,7 @@
-package com.github.bordertech.taskmanager.impl;
+package com.github.bordertech.taskmaster.impl;
 
-import com.github.bordertech.taskmanager.TaskFuture;
-import com.github.bordertech.taskmanager.TaskManager;
+import com.github.bordertech.taskmaster.TaskFuture;
+import com.github.bordertech.taskmaster.TaskManager;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;

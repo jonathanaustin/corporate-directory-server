@@ -5,8 +5,8 @@ import java.io.Serializable;
 /**
  * Views are responsible for rendering the UI.
  *
- * @see SmartView
- * @see DumbView
+ * @see com.github.bordertech.flux.view.SmartView
+ * @see com.github.bordertech.flux.view.DumbView
  *
  * @param <T> the view bean
  *

@@ -6,10 +6,10 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.base.CrudTreeActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceHelper;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
 

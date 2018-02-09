@@ -1,4 +1,4 @@
-package com.github.bordertech.taskmanager;
+package com.github.bordertech.taskmaster;
 
 /**
  * Task Manager Exception has occurred.

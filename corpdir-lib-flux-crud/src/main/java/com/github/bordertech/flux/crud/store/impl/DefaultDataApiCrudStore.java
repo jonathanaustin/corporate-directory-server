@@ -7,10 +7,10 @@ import com.github.bordertech.flux.crud.action.base.CrudActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.DataApiCrudStore;
 import com.github.bordertech.flux.store.impl.DefaultSearchDataApiStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceHelper;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.Set;
 
 /**

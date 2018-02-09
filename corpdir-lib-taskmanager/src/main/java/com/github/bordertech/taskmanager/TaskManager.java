@@ -1,4 +1,4 @@
-package com.github.bordertech.taskmanager;
+package com.github.bordertech.taskmaster;
 
 import java.util.concurrent.RejectedExecutionException;
 

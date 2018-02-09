@@ -9,7 +9,7 @@ import java.util.List;
  * Corp CRUD Tree Version API with defined types.
  *
  * @author jonathan
- * @param <T> the Corp API Treeable & Versionable Object
+ * @param <T> the Corp API Treeable &amp; Versionable Object
  * @param <S> the Corp backing Tree Service
  */
 public interface CorpCrudTreeVersionDataApi<T extends ApiTreeable & ApiVersionable, S extends BasicVersionTreeService<T>> extends CorpCrudTreeDataApi<T, S>, CorpCrudVersionDataApi<T, S> {

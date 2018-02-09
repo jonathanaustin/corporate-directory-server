@@ -1,7 +1,7 @@
-package com.github.bordertech.taskmanager.servlet;
+package com.github.bordertech.taskmaster.servlet;
 
 import com.github.bordertech.didums.Didums;
-import com.github.bordertech.taskmanager.TaskManager;
+import com.github.bordertech.taskmaster.TaskManager;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -14,7 +14,7 @@ import javax.servlet.ServletContextListener;
  * &lt;web-app ...&gt;
  *   &lt;listener&gt;
  *     &lt;listener-class&gt;>
- *           com.github.bordertech.taskmanager.servlet.TaskContextListener
+ *           com.github.bordertech.taskmaster.servlet.TaskContextListener
  *     &lt;/listener-class&gt;
  *   &lt;/listener&gt;
  * &lt;/web-app&gt;

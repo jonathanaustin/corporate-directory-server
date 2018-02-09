@@ -1,4 +1,4 @@
 /**
  * Concurrent Task Manager Implementations.
  */
-package com.github.bordertech.taskmanager.impl;
+package com.github.bordertech.taskmaster.impl;
