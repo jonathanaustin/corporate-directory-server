@@ -38,7 +38,7 @@ import com.github.bordertech.taskmaster.service.CallType;
 import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WComponent;
-import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.addons.polling.PollingStatus;
 import com.google.common.base.Objects;
 import java.util.List;
 

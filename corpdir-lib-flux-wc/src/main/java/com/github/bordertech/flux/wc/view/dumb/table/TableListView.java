@@ -3,8 +3,8 @@ package com.github.bordertech.flux.wc.view.dumb.table;
 import com.github.bordertech.flux.wc.common.table.TextBeanColumn;
 import com.github.bordertech.flux.wc.view.dumb.list.AbstractListView;
 import com.github.bordertech.wcomponents.WTable;
-import com.github.bordertech.wcomponents.lib.table.TableBeanModel;
-import com.github.bordertech.wcomponents.lib.table.TableColumn;
+import com.github.bordertech.wcomponents.addons.table.TableBeanModel;
+import com.github.bordertech.wcomponents.addons.table.TableColumn;
 import java.util.Arrays;
 import java.util.List;
 

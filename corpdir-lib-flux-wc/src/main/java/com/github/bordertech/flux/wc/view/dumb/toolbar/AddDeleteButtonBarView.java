@@ -7,9 +7,9 @@ import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.common.IconConstants;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.common.WLibButton;
+import com.github.bordertech.wcomponents.addons.common.IconConstants;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.common.relative.WLibButton;
 
 /**
  * ADD and REMOVE Toolbar.

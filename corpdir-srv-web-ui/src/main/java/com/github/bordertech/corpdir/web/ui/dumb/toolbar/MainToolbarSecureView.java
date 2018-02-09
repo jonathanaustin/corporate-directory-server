@@ -10,7 +10,7 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WSubMenu;
-import com.github.bordertech.wcomponents.lib.security.MenuItemSecurePath;
+import com.github.bordertech.wcomponents.addons.cardpath.impl.MenuItemSecurePath;
 import java.util.Objects;
 
 /**

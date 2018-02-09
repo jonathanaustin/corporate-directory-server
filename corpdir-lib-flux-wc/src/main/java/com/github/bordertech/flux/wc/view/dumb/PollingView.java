@@ -1,7 +1,7 @@
 package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.wcomponents.lib.polling.Pollable;
+import com.github.bordertech.wcomponents.addons.polling.Pollable;
 
 /**
  * Polling View.

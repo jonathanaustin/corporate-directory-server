@@ -5,7 +5,7 @@ import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.common.IconConstants;
+import com.github.bordertech.wcomponents.addons.common.IconConstants;
 
 /**
  * Toolbar default implementation.

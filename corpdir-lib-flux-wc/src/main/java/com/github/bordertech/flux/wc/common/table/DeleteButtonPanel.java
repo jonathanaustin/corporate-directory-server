@@ -5,9 +5,9 @@ import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.common.IconConstants;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.common.WLibButton;
+import com.github.bordertech.wcomponents.addons.common.IconConstants;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.common.relative.WLibButton;
 
 /**
  * Panel with a Button that can be used in a table column.

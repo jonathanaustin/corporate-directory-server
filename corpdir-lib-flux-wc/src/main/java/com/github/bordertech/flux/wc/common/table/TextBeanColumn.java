@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.common.table;
 
-import com.github.bordertech.wcomponents.lib.table.AbstractTableColumn;
+import com.github.bordertech.wcomponents.addons.table.AbstractTableColumn;
 
 /**
  * Text bean column.

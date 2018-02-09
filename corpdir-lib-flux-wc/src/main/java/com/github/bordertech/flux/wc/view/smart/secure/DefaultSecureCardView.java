@@ -2,7 +2,7 @@ package com.github.bordertech.flux.wc.view.smart.secure;
 
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.wcomponents.Request;
-import com.github.bordertech.wcomponents.lib.security.AppPath;
+import com.github.bordertech.wcomponents.addons.cardpath.AppPath;
 
 /**
  * Smart View that is a secure card.
