@@ -4,10 +4,10 @@ import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.dataapi.SearchApi;
 import com.github.bordertech.flux.store.DataApiStore;
 import com.github.bordertech.flux.store.SearchStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceHelper;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
 

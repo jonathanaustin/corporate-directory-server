@@ -2,8 +2,8 @@ package com.github.bordertech.flux.wc.view.smart.tree;
 
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
 import com.github.bordertech.flux.wc.view.dumb.tree.TreeViewItemModel;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.wcomponents.AbstractTreeItemModel;
 import com.github.bordertech.wcomponents.util.SystemException;
 import com.github.bordertech.wcomponents.util.TableUtil;

@@ -29,9 +29,9 @@
 		</dependency>
 		<!-- WComponents Library -->
 		<dependency>
-			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-lib-wc</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-lib</artifactId>
+			<version>1.0.0-SNAPSHOT</version><!-- TODO -->
 		</dependency>
 
 		<!-- Servlet Interface. -->

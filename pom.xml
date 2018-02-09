@@ -3,14 +3,15 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
+	<groupId>com.github.bordertech.corpdir</groupId>
 	<name>corpdir-srv-parent</name>
 	<artifactId>corpdir-srv-parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 
 	<parent>
-		<groupId>com.github.bordertech.corpdir</groupId>
-		<artifactId>config-qa-plugins</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-		<relativePath>config-qa-plugins/pom.xml</relativePath>
+		<groupId>com.github.bordertech.common</groupId>
+		<artifactId>qa-parent</artifactId>
+		<version>1.0.4</version>
 	</parent>
 
 	<profiles>
@@ -138,16 +139,17 @@
 				<version>1.7.25</version>
 			</dependency>
 
+
 			<!-- WComponents -->
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-bundle</artifactId>
-				<version>1.4.16</version>
+				<version>1.4.22</version>
 			</dependency>
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-lde</artifactId>
-				<version>1.4.16</version>
+				<version>1.4.22</version>
 			</dependency>
 
 			<!-- Servlet API -->
@@ -158,31 +160,13 @@
 			</dependency>
 
 			<!-- Caching API. -->
-			<dependency>
-				<groupId>javax.cache</groupId>
-				<artifactId>cache-api</artifactId>
-				<version>1.0.0</version>
-			</dependency>
 
-			<!-- Commons Config. -->
-			<dependency>
-				<groupId>commons-configuration</groupId>
-				<artifactId>commons-configuration</artifactId>
-				<version>1.10</version>
-			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
-		<module>config-qa-plugins</module>
-		<module>corpdir-lib-config</module>
-		<module>corpdir-lib-didums</module>
-		<module>corpdir-lib-didums-hk2</module>
-		<module>corpdir-lib-taskmanager</module>
 		<module>corpdir-lib-flux</module>
-		<module>corpdir-lib-wc</module>
-		<module>corpdir-lib-wc-grid</module>
 		<module>corpdir-lib-flux-wc</module>
 		<module>corpdir-lib-flux-crud</module>
 		<module>corpdir-lib-swagger</module>
