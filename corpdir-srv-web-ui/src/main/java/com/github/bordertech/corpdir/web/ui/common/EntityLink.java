@@ -5,9 +5,9 @@ import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
 import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.common.WLibLink;
-import com.github.bordertech.wcomponents.lib.security.EnvironmentHelper;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.common.relative.EnvironmentHelper;
+import com.github.bordertech.wcomponents.addons.common.relative.WLibLink;
 import java.util.HashMap;
 import java.util.Map;
 

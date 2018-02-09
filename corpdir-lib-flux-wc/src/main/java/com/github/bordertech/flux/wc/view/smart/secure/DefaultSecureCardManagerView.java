@@ -3,8 +3,8 @@ package com.github.bordertech.flux.wc.view.smart.secure;
 import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.wcomponents.lib.security.SecureCardManager;
-import com.github.bordertech.wcomponents.lib.security.SecureCardManagerImpl;
+import com.github.bordertech.wcomponents.addons.cardpath.SecureCardManager;
+import com.github.bordertech.wcomponents.addons.cardpath.impl.SecureCardManagerImpl;
 import java.util.List;
 import java.util.Objects;
 

@@ -9,7 +9,7 @@ import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.RetrieveOutcomeBaseEventType;
 import com.github.bordertech.taskmaster.service.CallType;
 import com.github.bordertech.taskmaster.service.ResultHolder;
-import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.addons.polling.PollingStatus;
 import com.github.bordertech.wcomponents.util.SystemException;
 
 /**

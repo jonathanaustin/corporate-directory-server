@@ -159,7 +159,26 @@
 				<version>2.5</version>
 			</dependency>
 
-			<!-- Caching API. -->
+			<!-- WComponents Addons. -->
+			<dependency>
+				<groupId>com.github.bordertech.wcomponents</groupId>
+				<artifactId>wcomponents-addons-bundle</artifactId>
+				<version>1.0.0-SNAPSHOT</version>
+			</dependency>
+
+			<!-- Taskmaster for ASYNC -->
+			<dependency>
+				<groupId>com.github.bordertech.taskmaster</groupId>
+				<artifactId>taskmaster</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<!-- Didums HK2 -->
+			<dependency>
+				<groupId>com.github.bordertech.didums</groupId>
+				<artifactId>didums-hk2</artifactId>
+				<version>1.0.0</version>
+			</dependency>
 
 
 		</dependencies>

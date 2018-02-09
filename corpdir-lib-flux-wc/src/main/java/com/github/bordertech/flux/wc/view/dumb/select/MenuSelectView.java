@@ -9,7 +9,7 @@ import com.github.bordertech.wcomponents.MenuSelectContainer;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WMenu;
 import com.github.bordertech.wcomponents.WMenuItem;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
 import java.util.List;
 import java.util.Objects;
 

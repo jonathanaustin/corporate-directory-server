@@ -44,7 +44,6 @@
 		<dependency>
 			<groupId>com.github.bordertech.didums</groupId>
 			<artifactId>didums-hk2</artifactId>
-			<version>1.0.0</version>
 		</dependency>
 
 		<!-- Hibernate for JPA -->

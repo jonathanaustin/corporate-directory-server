@@ -9,10 +9,10 @@ import com.github.bordertech.wcomponents.WAjaxControl;
 import com.github.bordertech.wcomponents.WDropdown;
 import com.github.bordertech.wcomponents.WEmailField;
 import com.github.bordertech.wcomponents.WPhoneNumberField;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.table.AbstractTableEditableColumn;
-import com.github.bordertech.wcomponents.lib.table.TableColumn;
-import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.table.AbstractTableEditableColumn;
+import com.github.bordertech.wcomponents.addons.table.TableColumn;
+import com.github.bordertech.wcomponents.addons.table.edit.RowMode;
 import java.util.ArrayList;
 import java.util.List;
 

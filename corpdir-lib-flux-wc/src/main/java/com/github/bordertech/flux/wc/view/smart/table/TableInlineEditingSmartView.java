@@ -7,9 +7,9 @@ import com.github.bordertech.flux.wc.common.TemplateConstants;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
 import com.github.bordertech.flux.wc.view.dumb.table.TableInlineEditingView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.wcomponents.lib.table.TableColumn;
-import com.github.bordertech.wcomponents.lib.table.edit.RowActionable;
-import com.github.bordertech.wcomponents.lib.table.edit.RowMode;
+import com.github.bordertech.wcomponents.addons.table.TableColumn;
+import com.github.bordertech.wcomponents.addons.table.edit.RowActionable;
+import com.github.bordertech.wcomponents.addons.table.edit.RowMode;
 import java.util.List;
 
 /**

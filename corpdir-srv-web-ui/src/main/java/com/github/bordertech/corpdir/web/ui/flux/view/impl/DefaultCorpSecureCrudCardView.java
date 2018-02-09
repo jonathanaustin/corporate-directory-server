@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardView;
 import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WSection;
-import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
+import com.github.bordertech.wcomponents.addons.cardpath.impl.DefaultAppPath;
 
 /**
  * Secure card with a WSection Wrapper.

@@ -6,7 +6,7 @@ import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
