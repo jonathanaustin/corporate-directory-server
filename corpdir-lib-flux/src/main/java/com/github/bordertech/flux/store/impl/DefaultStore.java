@@ -11,8 +11,8 @@ import com.github.bordertech.flux.action.DefaultAction;
 import com.github.bordertech.flux.action.type.ModifyStoreActionType;
 import com.github.bordertech.flux.action.type.base.RetrieveOutcomeBaseActionType;
 import com.github.bordertech.flux.action.type.base.StateBaseActionType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,6 +25,8 @@ import javax.cache.Cache;
  * @since 1.0.0
  */
 public class DefaultStore implements Store {
+
+	private static final ServiceHelper SERVICE_HELPER = Didums.getService(ServiceHelper.class);
 
 	private final Set<String> actionCreatorKeys;
 
@@ -162,7 +164,7 @@ public class DefaultStore implements Store {
 	 * @return the cache instance
 	 */
 	protected synchronized Cache<String, ResultHolder> getStoreCache() {
-		return ServiceUtil.getResultHolderCache("flux-default-" + getKey());
+		return SERVICE_HELPER.getResultHolderCache("flux-default-" + getKey());
 	}
 
 	protected String getCacheKey(final String action, final Object criteria) {

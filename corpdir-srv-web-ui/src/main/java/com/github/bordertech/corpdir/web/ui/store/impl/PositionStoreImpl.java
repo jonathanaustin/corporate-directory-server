@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.store.impl;
 import com.github.bordertech.corpdir.api.v1.model.Position;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.dataapi.PositionApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeStore;
+import com.github.bordertech.corpdir.web.ui.flux.store.impl.DefaultCorpCrudTreeVersionStore;
 import com.github.bordertech.corpdir.web.ui.store.PositionStore;
 import javax.inject.Inject;
 
@@ -12,7 +12,7 @@ import javax.inject.Inject;
  *
  * @author jonathan
  */
-public class PositionStoreImpl extends DefaultCorpCrudTreeStore<Position, PositionApi> implements PositionStore {
+public class PositionStoreImpl extends DefaultCorpCrudTreeVersionStore<Position, PositionApi> implements PositionStore {
 
 	/**
 	 * @param api the backing API

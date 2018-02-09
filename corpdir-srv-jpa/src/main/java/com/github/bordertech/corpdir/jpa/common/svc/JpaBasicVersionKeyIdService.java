@@ -150,4 +150,6 @@ public abstract class JpaBasicVersionKeyIdService<A extends ApiVersionable, U ex
 
 	protected abstract MapperApiVersion<A, U, P> getMapper();
 
+	protected abstract Class<U> getVersionEntityClass();
+
 }

@@ -148,16 +148,6 @@ public class ContactServiceImpl extends JpaBasicVersionKeyIdService<Contact, Con
 	}
 
 	@Override
-	protected Class<ContactEntity> getEntityClass() {
-		return ContactEntity.class;
-	}
-
-	@Override
-	protected MapperApiVersion<Contact, ContactVersionEntity, ContactEntity> getMapper() {
-		return CONTACT_MAPPER;
-	}
-
-	@Override
 	public DataResponse<Contact> create(final Contact apiContact) {
 		EntityManager em = getEntityManager();
 		try {
@@ -240,6 +230,21 @@ public class ContactServiceImpl extends JpaBasicVersionKeyIdService<Contact, Con
 			throw new NotFoundException("Entity [" + keyId + "] not found.");
 		}
 		return entity;
+	}
+
+	@Override
+	protected Class<ContactEntity> getEntityClass() {
+		return ContactEntity.class;
+	}
+
+	@Override
+	protected Class<ContactVersionEntity> getVersionEntityClass() {
+		return ContactVersionEntity.class;
+	}
+
+	@Override
+	protected MapperApiVersion<Contact, ContactVersionEntity, ContactEntity> getMapper() {
+		return CONTACT_MAPPER;
 	}
 
 }

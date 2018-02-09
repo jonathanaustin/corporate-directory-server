@@ -2,6 +2,7 @@
 Administer your corporate structure and contact details.
 
 ## Status
+[![CircleCI](https://circleci.com/gh/BorderTech/corporate-directory-server.svg?style=svg)](https://circleci.com/gh/BorderTech/corporate-directory-server)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ee22a2d561da4403bdd407dc02698f5c)](https://www.codacy.com/app/BorderTech/corporate-directory-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=bordertech/corporate-directory-server&amp;utm_campaign=Badge_Grade)
 
 ## Live Demo

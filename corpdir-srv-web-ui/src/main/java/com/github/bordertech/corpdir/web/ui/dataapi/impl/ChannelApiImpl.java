@@ -1,6 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
+import com.github.bordertech.corpdir.api.service.BasicIdService;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.web.ui.dataapi.ChannelApi;
 import java.util.List;
@@ -46,6 +47,16 @@ public class ChannelApiImpl implements ChannelApi {
 	@Override
 	public String getItemKey(final Channel item) {
 		return item.getId();
+	}
+
+	@Override
+	public Class<Channel> getApiClass() {
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public BasicIdService<Channel> getService() {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 }

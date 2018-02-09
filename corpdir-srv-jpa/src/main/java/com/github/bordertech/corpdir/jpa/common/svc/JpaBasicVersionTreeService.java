@@ -7,18 +7,13 @@ import com.github.bordertech.corpdir.api.service.BasicVersionTreeService;
 import com.github.bordertech.corpdir.jpa.common.feature.PersistVersionableKeyId;
 import com.github.bordertech.corpdir.jpa.common.version.ItemTreeVersion;
 import com.github.bordertech.corpdir.jpa.entity.VersionCtrlEntity;
-import com.github.bordertech.corpdir.jpa.util.CriteriaUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.Query;
+import javax.persistence.Table;
 
 /**
  * Tree Entity service.
@@ -148,8 +143,7 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 	public DataResponse<List<A>> getRootItems(final Long versionId) {
 		EntityManager em = getEntityManager();
 		try {
-			CriteriaQuery<P> qry = handleRootSearchCriteria(em, versionId);
-			List<P> rows = em.createQuery(qry).getResultList();
+			List<P> rows = handleRootItems(em, versionId);
 			List<A> list = getMapper().convertEntitiesToApis(em, rows, versionId);
 			return new DataResponse<>(list);
 		} finally {
@@ -157,22 +151,31 @@ public abstract class JpaBasicVersionTreeService<A extends ApiTreeable & ApiVers
 		}
 	}
 
-	protected CriteriaQuery<P> handleRootSearchCriteria(final EntityManager em, final Long versionId) {
-		CriteriaBuilder cb = em.getCriteriaBuilder();
-		CriteriaQuery<P> qry = cb.createQuery(getEntityClass());
+	protected List<P> handleRootItems(final EntityManager em, final Long versionId) {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT E.* FROM ").append(getEntityTableName()).append(" AS E");
+		sql.append(" LEFT JOIN ").append(getVersionTableName()).append(" AS V");
+		sql.append(" ON E.id = V.item_id");
+		sql.append(" AND V.versionCtrl_id = ").append(" :vid ");
+		sql.append(" WHERE V.item_id IS NULL");
+		sql.append(" OR (");
+		sql.append(" V.item_id IS NOT NULL");
+		sql.append(" AND V.parent_item_id IS NULL");
+		sql.append(" )");
+		sql.append(" ORDER BY E.description");
+		Query qry = em.createNativeQuery(sql.toString(), getEntityClass());
+		qry.setParameter("vid", versionId);
+		return qry.getResultList();
+	}
 
-		// Search (has null parent on the version data)
-		Root<P> from = qry.from(getEntityClass());
+	protected String getEntityTableName() {
+		Table tbl = getEntityClass().getAnnotation(Table.class);
+		return tbl.name();
+	}
 
-		// Has No Parent or has no version join
-		Join<P, U> join = from.join("versions", JoinType.LEFT);
-		Predicate p1 = cb.equal(join.get("versionKey").get("versionId"), versionId);
-		Predicate p2 = cb.isNull(join.get("parentVersionItem"));
-		qry.where(cb.and(p1, p2));
-		qry.select(from);
-		// Order by
-		qry.orderBy(CriteriaUtil.getDefaultOrderBy(cb, from));
-		return qry;
+	protected String getVersionTableName() {
+		Table tbl = getVersionEntityClass().getAnnotation(Table.class);
+		return tbl.name();
 	}
 
 }

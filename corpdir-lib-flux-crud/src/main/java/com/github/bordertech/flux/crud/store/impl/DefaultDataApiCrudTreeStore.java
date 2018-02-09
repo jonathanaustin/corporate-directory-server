@@ -1,14 +1,15 @@
 package com.github.bordertech.flux.crud.store.impl;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.base.CrudTreeActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +25,8 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class DefaultDataApiCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>> extends DefaultDataApiCrudStore<S, K, T, D> implements CrudTreeStore<S, K, T> {
+
+	private static final ServiceHelper SERVICE_HELPER = Didums.getService(ServiceHelper.class);
 
 	public DefaultDataApiCrudTreeStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
 		super(storeKey, actionCreatorKeys, api);
@@ -72,7 +75,7 @@ public class DefaultDataApiCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>
 			}
 		};
 		K key = getDataApi().getItemKey(item);
-		return ServiceUtil.handleServiceCallType(getStoreCache(), getCacheKey("children", key), item, action, callType);
+		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("children", key), item, action, callType);
 	}
 
 	@Override
@@ -83,7 +86,7 @@ public class DefaultDataApiCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>
 				return getDataApi().getRootItems();
 			}
 		};
-		return ServiceUtil.handleServiceCallType(getStoreCache(), getCacheKey("root", ""), null, action, callType);
+		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("root", ""), null, action, callType);
 	}
 
 }

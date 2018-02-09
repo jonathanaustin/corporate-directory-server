@@ -9,8 +9,8 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.smart.tree.DefaultListOrTreeSmartView;
 import com.github.bordertech.flux.wc.view.smart.tree.ListOrTreeSelectView;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.wcomponents.WComponent;
 import java.util.List;
 
@@ -78,7 +78,6 @@ public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K
 				case CREATE_OK:
 				case DELETE_OK:
 				case UPDATE_OK:
-					// FIXME Check this works
 					// Refresh Tree
 					getSelectView().resetView();
 					getSelectView().setUseTree(true);

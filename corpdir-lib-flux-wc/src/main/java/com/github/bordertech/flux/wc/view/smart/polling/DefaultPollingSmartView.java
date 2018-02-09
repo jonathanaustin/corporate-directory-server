@@ -8,6 +8,8 @@ import com.github.bordertech.flux.wc.view.dumb.polling.DefaultPollingView;
 import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WProgressBar;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
 import java.util.List;
@@ -78,6 +80,11 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	}
 
 	protected void handlePollingCheckStatusEvent() {
+	}
+
+	@Override
+	public WDiv getContentHolder() {
+		return pollingView.getContentHolder();
 	}
 
 	@Override
@@ -188,6 +195,11 @@ public class DefaultPollingSmartView<T> extends DefaultSmartView<T> implements P
 	@Override
 	public boolean isContinueStart() {
 		return pollingView.isContinueStart();
+	}
+
+	@Override
+	public WProgressBar getProgressBar() {
+		return pollingView.getProgressBar();
 	}
 
 }

@@ -8,6 +8,8 @@ import com.github.bordertech.flux.wc.view.event.base.PollingBaseEventType;
 import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
+import com.github.bordertech.wcomponents.WProgressBar;
+import com.github.bordertech.wcomponents.lib.common.WDiv;
 import com.github.bordertech.wcomponents.lib.polling.PollingPanel;
 import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
 import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
@@ -121,6 +123,11 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	}
 
 	@Override
+	public WDiv getContentHolder() {
+		return pollingPanel.getContentHolder();
+	}
+
+	@Override
 	public List<AjaxTarget> getAjaxTargets() {
 		return pollingPanel.getAjaxTargets();
 	}
@@ -218,6 +225,11 @@ public class DefaultPollingView<T> extends DefaultDumbView<T> implements Polling
 	@Override
 	public boolean isUseRetryOnError() {
 		return pollingPanel.isUseRetryOnError();
+	}
+
+	@Override
+	public WProgressBar getProgressBar() {
+		return pollingPanel.getProgressBar();
 	}
 
 }

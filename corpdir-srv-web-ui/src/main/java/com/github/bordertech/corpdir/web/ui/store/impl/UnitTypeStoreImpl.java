@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.store.impl;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.dataapi.UnitTypeApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudStore;
+import com.github.bordertech.corpdir.web.ui.flux.store.impl.DefaultCorpCrudStore;
 import com.github.bordertech.corpdir.web.ui.store.UnitTypeStore;
 import javax.inject.Inject;
 

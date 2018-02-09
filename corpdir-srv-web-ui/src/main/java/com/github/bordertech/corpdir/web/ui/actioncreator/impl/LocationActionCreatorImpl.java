@@ -4,7 +4,7 @@ import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.actioncreator.LocationActionCreator;
 import com.github.bordertech.corpdir.web.ui.dataapi.LocationApi;
-import com.github.bordertech.corpdir.web.ui.flux.impl.DefaultCorpCrudTreeActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.DefaultCorpCrudTreeActionCreator;
 import javax.inject.Inject;
 
 /**

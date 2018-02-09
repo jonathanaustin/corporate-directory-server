@@ -1,15 +1,16 @@
 package com.github.bordertech.flux.crud.store.impl;
 
+import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.Action;
 import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.base.CrudActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.DataApiCrudStore;
 import com.github.bordertech.flux.store.impl.DefaultSearchDataApiStore;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
-import com.github.bordertech.taskmanager.service.ServiceAction;
-import com.github.bordertech.taskmanager.service.ServiceUtil;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.Set;
 
 /**
@@ -24,6 +25,8 @@ import java.util.Set;
  * @since 1.0.0
  */
 public class DefaultDataApiCrudStore<S, K, T, D extends CrudApi<S, K, T>> extends DefaultSearchDataApiStore<S, T, D> implements DataApiCrudStore<S, K, T, D> {
+
+	private static final ServiceHelper SERVICE_HELPER = Didums.getService(ServiceHelper.class);
 
 	public DefaultDataApiCrudStore(final String storeKey, final Set<String> actionCreatorKeys, final D api) {
 		super(storeKey, actionCreatorKeys, api);
@@ -57,7 +60,7 @@ public class DefaultDataApiCrudStore<S, K, T, D extends CrudApi<S, K, T>> extend
 				return getDataApi().retrieve(criteria);
 			}
 		};
-		return ServiceUtil.handleServiceCallType(getStoreCache(), getCacheKey("fetch", entityKey), entityKey, action, callType);
+		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("fetch", entityKey), entityKey, action, callType);
 	}
 
 	@Override

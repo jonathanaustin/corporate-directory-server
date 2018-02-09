@@ -42,9 +42,9 @@
 
 		<!-- Didums HK2 -->
 		<dependency>
-			<groupId>com.github.bordertech.corpdir</groupId>
-			<artifactId>corpdir-lib-didums-hk2</artifactId>
-			<version>${project.version}</version>
+			<groupId>com.github.bordertech.didums</groupId>
+			<artifactId>didums-hk2</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 
 		<!-- Hibernate for JPA -->

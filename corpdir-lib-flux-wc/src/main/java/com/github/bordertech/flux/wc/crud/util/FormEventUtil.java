@@ -9,9 +9,11 @@ import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.event.base.MessageBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
-import com.github.bordertech.taskmanager.service.CallType;
-import com.github.bordertech.taskmanager.service.ResultHolder;
+import com.github.bordertech.taskmaster.service.CallType;
+import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.wcomponents.util.SystemException;
+import java.util.Objects;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * Process form events.
@@ -73,6 +75,9 @@ public class FormEventUtil {
 			// ERROR
 			case ADD_ERROR:
 				dispatchErrorMessage(view, "Add failed.", data);
+				break;
+			case DELETE_ERROR:
+				dispatchErrorMessage(view, "Delete failed.", data);
 				break;
 			case CREATE_ERROR:
 			case UPDATE_ERROR:
@@ -217,7 +222,6 @@ public class FormEventUtil {
 		}
 		T bean = form.getViewBean();
 		CrudStore<?, K, T> store = view.getStoreByKey();
-		// FIXME JA - Make sure works
 		// DO SYNC Refresh CALL
 		K key = store.getItemKey(bean);
 		ResultHolder<K, T> resultHolder = store.fetch(key, CallType.REFRESH_SYNC);
@@ -238,12 +242,8 @@ public class FormEventUtil {
 	}
 
 	private static void dispatchErrorMessage(final CrudSmartView view, final String msg, final Object data) {
-		if (data instanceof Exception) {
-			Exception excp = (Exception) data;
-			dispatchErrorMessage(view, msg + " " + excp.getMessage());
-		} else {
-			dispatchErrorMessage(view, msg);
-		}
+		String excpMsg = extractException(data);
+		dispatchErrorMessage(view, msg + " " + excpMsg);
 	}
 
 	private static void dispatchErrorMessage(final CrudSmartView view, final String msg) {
@@ -252,6 +252,25 @@ public class FormEventUtil {
 
 	private static void dispatchSuccessMessage(final CrudSmartView view, final String msg) {
 		view.dispatchViewEvent(MessageBaseEventType.SUCCESS, msg);
+	}
+
+	private static String extractException(final Object data) {
+		if (data == null) {
+			return "No error details provided.";
+		} else if (data instanceof Throwable) {
+			Throwable excp = (Throwable) data;
+			// Exception Message
+			String msg = excp.getMessage() == null ? "" : excp.getMessage();
+			// Append Root Cause
+			String origMsg = ExceptionUtils.getRootCauseMessage(excp);
+			if (origMsg != null && !Objects.equals(msg, origMsg)) {
+				msg += " [" + origMsg + "]";
+			}
+			return msg;
+		} else {
+			return data.toString();
+		}
+
 	}
 
 }

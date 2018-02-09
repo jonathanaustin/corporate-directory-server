@@ -7,7 +7,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 /**
- * Map {@link ApiObject} and {@link PersistentKeyIdObject}.
+ * Map {@link com.github.bordertech.corpdir.api.common.ApiObject} and {@link com.github.bordertech.corpdir.jpa.common.feature.PersistObject}.
  *
  * @author jonathan
  * @param <A> the API object
