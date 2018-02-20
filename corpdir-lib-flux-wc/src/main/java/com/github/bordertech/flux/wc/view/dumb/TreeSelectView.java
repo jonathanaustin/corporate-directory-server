@@ -1,6 +1,4 @@
-package com.github.bordertech.flux.wc.view.dumb.tree;
-
-import com.github.bordertech.flux.wc.view.dumb.SelectSingleView;
+package com.github.bordertech.flux.wc.view.dumb;
 
 /**
  *

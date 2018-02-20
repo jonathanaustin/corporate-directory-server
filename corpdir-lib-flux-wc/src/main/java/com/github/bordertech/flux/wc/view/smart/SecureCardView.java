@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart.secure;
+package com.github.bordertech.flux.wc.view.smart;
 
 import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.wcomponents.addons.cardpath.SecureCard;

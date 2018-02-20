@@ -1,6 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.table;
 
-import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
+import com.github.bordertech.flux.wc.view.dumb.FormUpdateable;
 import com.github.bordertech.flux.wc.view.dumb.list.AbstractListView;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 import com.github.bordertech.wcomponents.Action;

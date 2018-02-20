@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.flux.wc.view.dumb.form.FormUpdateable;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
 import com.github.bordertech.wcomponents.addons.common.WDiv;
 import java.util.List;

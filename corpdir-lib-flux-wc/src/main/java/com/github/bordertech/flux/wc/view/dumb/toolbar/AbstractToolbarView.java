@@ -3,6 +3,7 @@ package com.github.bordertech.flux.wc.view.dumb.toolbar;
 import com.github.bordertech.flux.view.ViewEventType;
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.view.DefaultDumbView;
+import com.github.bordertech.flux.wc.view.dumb.ToolbarItem;
 import com.github.bordertech.flux.wc.view.dumb.ToolbarView;
 import com.github.bordertech.wcomponents.AjaxTrigger;
 import com.github.bordertech.wcomponents.WContainer;

@@ -5,6 +5,7 @@ import com.github.bordertech.flux.wc.view.DefaultDumbView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
+import com.github.bordertech.flux.wc.view.util.FormUtil;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WContainer;
 

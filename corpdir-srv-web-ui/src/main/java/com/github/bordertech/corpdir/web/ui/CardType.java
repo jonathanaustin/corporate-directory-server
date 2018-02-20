@@ -9,7 +9,7 @@ import com.github.bordertech.corpdir.web.ui.smart.card.PositionTypeCardView;
 import com.github.bordertech.corpdir.web.ui.smart.card.SystemCtrlCardView;
 import com.github.bordertech.corpdir.web.ui.smart.card.UnitTypeCardView;
 import com.github.bordertech.corpdir.web.ui.smart.card.VersionCtrlCardView;
-import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
+import com.github.bordertech.flux.wc.view.smart.SecureCardView;
 
 /**
  * Application Cards and config details.

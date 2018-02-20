@@ -2,6 +2,8 @@ package com.github.bordertech.flux.wc.view.dumb.tree;
 
 import com.github.bordertech.flux.wc.common.FluxAjaxControl;
 import com.github.bordertech.flux.wc.mode.SelectMode;
+import com.github.bordertech.flux.wc.view.dumb.TreeSelectView;
+import com.github.bordertech.flux.wc.view.dumb.TreeViewItemModel;
 import com.github.bordertech.flux.wc.view.dumb.select.AbstractListSingleSelectView;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
