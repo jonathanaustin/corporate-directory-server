@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.dumb.toolbar;
+package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.flux.wc.view.event.ToolbarEventType;
 import java.io.Serializable;

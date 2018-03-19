@@ -9,10 +9,10 @@ import com.github.bordertech.wcomponents.AjaxTarget;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WButton;
 import com.github.bordertech.wcomponents.WProgressBar;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.polling.PollingPanel;
-import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
-import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.polling.PollingPanel;
+import com.github.bordertech.wcomponents.addons.polling.PollingStartType;
+import com.github.bordertech.wcomponents.addons.polling.PollingStatus;
 import java.util.List;
 
 /**

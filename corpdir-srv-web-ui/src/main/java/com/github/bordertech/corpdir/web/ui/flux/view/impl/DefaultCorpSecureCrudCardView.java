@@ -17,7 +17,7 @@ import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardView;
 import com.github.bordertech.flux.wc.view.util.ViewUtil;
 import com.github.bordertech.wcomponents.Request;
 import com.github.bordertech.wcomponents.WSection;
-import com.github.bordertech.wcomponents.lib.security.DefaultAppPath;
+import com.github.bordertech.wcomponents.addons.cardpath.impl.DefaultAppPath;
 
 /**
  * Secure card with a WSection Wrapper.
@@ -102,13 +102,13 @@ public class DefaultCorpSecureCrudCardView<T extends ApiIdObject> extends Defaul
 	}
 
 	@Override
-	public ToolbarView getSearchToolbar() {
-		return crudView.getSearchToolbar();
+	public ToolbarView getSearchToolbarView() {
+		return crudView.getSearchToolbarView();
 	}
 
 	@Override
-	public MessageView getSearchMessages() {
-		return crudView.getSearchMessages();
+	public MessageView getSearchMessagesView() {
+		return crudView.getSearchMessagesView();
 	}
 
 	@Override
@@ -117,8 +117,8 @@ public class DefaultCorpSecureCrudCardView<T extends ApiIdObject> extends Defaul
 	}
 
 	@Override
-	public MessageView getFormMessages() {
-		return crudView.getFormMessages();
+	public MessageView getFormMessagesView() {
+		return crudView.getFormMessagesView();
 	}
 
 	@Override

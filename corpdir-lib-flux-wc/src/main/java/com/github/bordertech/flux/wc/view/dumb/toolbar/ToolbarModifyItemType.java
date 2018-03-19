@@ -1,5 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb.toolbar;
 
+import com.github.bordertech.flux.wc.view.dumb.ToolbarItem;
 import com.github.bordertech.flux.wc.view.event.ToolbarEventType;
 import com.github.bordertech.flux.wc.view.event.base.ToolbarBaseEventType;
 

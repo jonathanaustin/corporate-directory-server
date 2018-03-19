@@ -7,8 +7,8 @@ import com.github.bordertech.flux.wc.view.event.base.SearchBaseEventType;
 import com.github.bordertech.wcomponents.Action;
 import com.github.bordertech.wcomponents.ActionEvent;
 import com.github.bordertech.wcomponents.WButton;
-import com.github.bordertech.wcomponents.lib.common.IconConstants;
-import com.github.bordertech.wcomponents.lib.common.WLibButton;
+import com.github.bordertech.wcomponents.addons.common.IconConstants;
+import com.github.bordertech.wcomponents.addons.common.relative.WLibButton;
 
 /**
  * Default search view.

@@ -7,7 +7,7 @@ import com.github.bordertech.wcomponents.WDecoratedLabel;
 import com.github.bordertech.wcomponents.WMenuItem;
 import com.github.bordertech.wcomponents.WText;
 import com.github.bordertech.wcomponents.WebUtilities;
-import com.github.bordertech.wcomponents.lib.common.WLibImage;
+import com.github.bordertech.wcomponents.addons.common.relative.WLibImage;
 
 /**
  * Utility methods useful when working with Views.

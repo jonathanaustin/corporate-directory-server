@@ -5,8 +5,8 @@ import com.github.bordertech.flux.wc.view.FluxDumbView;
 import com.github.bordertech.flux.wc.view.dumb.InputOptionsView;
 import com.github.bordertech.flux.wc.view.smart.polling.AbstractPollingRetrieveSmartView;
 import com.github.bordertech.wcomponents.AbstractWSelectList;
-import com.github.bordertech.wcomponents.lib.common.WDiv;
-import com.github.bordertech.wcomponents.lib.polling.PollingStartType;
+import com.github.bordertech.wcomponents.addons.common.WDiv;
+import com.github.bordertech.wcomponents.addons.polling.PollingStartType;
 import java.util.List;
 
 /**

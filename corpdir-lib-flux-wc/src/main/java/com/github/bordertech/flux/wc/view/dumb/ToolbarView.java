@@ -1,7 +1,6 @@
 package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.flux.wc.view.FluxDumbView;
-import com.github.bordertech.flux.wc.view.dumb.toolbar.ToolbarItem;
 import java.util.Set;
 
 /**

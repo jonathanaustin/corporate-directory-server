@@ -27,11 +27,16 @@
 			<artifactId>corpdir-lib-flux-crud</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<!-- WComponents Library -->
+
+		<!-- WComponents bundle -->
 		<dependency>
 			<groupId>com.github.bordertech.wcomponents</groupId>
-			<artifactId>wcomponents-lib</artifactId>
-			<version>1.0.0-SNAPSHOT</version><!-- TODO -->
+			<artifactId>wcomponents-bundle</artifactId>
+		</dependency>
+		<!-- WComponents Addons bundle -->
+		<dependency>
+			<groupId>com.github.bordertech.wcomponents</groupId>
+			<artifactId>wcomponents-addons-bundle</artifactId>
 		</dependency>
 
 		<!-- Servlet Interface. -->

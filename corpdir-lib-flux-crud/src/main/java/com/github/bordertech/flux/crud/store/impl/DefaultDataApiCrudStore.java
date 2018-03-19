@@ -7,9 +7,11 @@ import com.github.bordertech.flux.crud.action.base.CrudActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudApi;
 import com.github.bordertech.flux.crud.store.DataApiCrudStore;
 import com.github.bordertech.flux.store.impl.DefaultSearchDataApiStore;
+import com.github.bordertech.taskmaster.RejectedTaskException;
 import com.github.bordertech.taskmaster.service.CallType;
 import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceException;
 import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.Set;
 
@@ -60,7 +62,15 @@ public class DefaultDataApiCrudStore<S, K, T, D extends CrudApi<S, K, T>> extend
 				return getDataApi().retrieve(criteria);
 			}
 		};
-		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("fetch", entityKey), entityKey, action, callType);
+		try {
+			return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("fetch", entityKey), entityKey, action, callType);
+		} catch (RejectedTaskException e) {
+			// Could not start a thread
+			return new ResultHolder(entityKey, new ServiceException("Unable to start service. " + e.getMessage(), e));
+		} catch (Exception e) {
+			// Error calling service
+			return new ResultHolder(entityKey, new ServiceException("Error calling service. " + e.getMessage(), e));
+		}
 	}
 
 	@Override

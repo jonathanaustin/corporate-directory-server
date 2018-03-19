@@ -1,7 +1,7 @@
 package com.github.bordertech.corpdir.web.ui.columns;
 
 import com.github.bordertech.corpdir.api.common.ApiKeyIdObject;
-import com.github.bordertech.wcomponents.lib.table.AbstractTableColumn;
+import com.github.bordertech.wcomponents.addons.table.AbstractTableColumn;
 import com.github.bordertech.wcomponents.util.ComparableComparator;
 
 /**

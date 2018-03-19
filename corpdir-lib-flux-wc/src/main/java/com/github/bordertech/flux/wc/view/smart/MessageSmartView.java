@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.smart.msg;
+package com.github.bordertech.flux.wc.view.smart;
 
 import com.github.bordertech.flux.wc.view.FluxSmartView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;

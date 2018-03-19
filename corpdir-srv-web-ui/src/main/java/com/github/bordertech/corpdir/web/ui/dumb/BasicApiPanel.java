@@ -12,7 +12,7 @@ import com.github.bordertech.wcomponents.WField;
 import com.github.bordertech.wcomponents.WFieldLayout;
 import com.github.bordertech.wcomponents.WPanel;
 import com.github.bordertech.wcomponents.WTextField;
-import com.github.bordertech.wcomponents.lib.polling.PollingStatus;
+import com.github.bordertech.wcomponents.addons.polling.PollingStatus;
 import com.github.bordertech.wcomponents.validation.Diagnostic;
 import java.util.List;
 

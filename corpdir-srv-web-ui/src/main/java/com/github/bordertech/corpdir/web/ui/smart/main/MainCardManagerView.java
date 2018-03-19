@@ -3,8 +3,8 @@ package com.github.bordertech.corpdir.web.ui.smart.main;
 import com.github.bordertech.corpdir.web.ui.CardType;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
+import com.github.bordertech.flux.wc.view.smart.SecureCardView;
 import com.github.bordertech.flux.wc.view.smart.secure.DefaultSecureCardManagerView;
-import com.github.bordertech.flux.wc.view.smart.secure.SecureCardView;
 import java.util.HashMap;
 import java.util.Map;
 

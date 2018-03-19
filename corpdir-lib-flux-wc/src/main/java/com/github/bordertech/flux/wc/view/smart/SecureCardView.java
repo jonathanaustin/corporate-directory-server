@@ -1,7 +1,7 @@
-package com.github.bordertech.flux.wc.view.smart.secure;
+package com.github.bordertech.flux.wc.view.smart;
 
 import com.github.bordertech.flux.wc.view.FluxSmartView;
-import com.github.bordertech.wcomponents.lib.security.SecureCard;
+import com.github.bordertech.wcomponents.addons.cardpath.SecureCard;
 
 /**
  * Secure view used by a Secure Card Manager.

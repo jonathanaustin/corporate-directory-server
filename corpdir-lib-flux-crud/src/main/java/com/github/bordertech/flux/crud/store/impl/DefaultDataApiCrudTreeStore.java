@@ -6,9 +6,11 @@ import com.github.bordertech.flux.Listener;
 import com.github.bordertech.flux.crud.action.base.CrudTreeActionBaseType;
 import com.github.bordertech.flux.crud.dataapi.CrudTreeApi;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
+import com.github.bordertech.taskmaster.RejectedTaskException;
 import com.github.bordertech.taskmaster.service.CallType;
 import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceException;
 import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +77,15 @@ public class DefaultDataApiCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>
 			}
 		};
 		K key = getDataApi().getItemKey(item);
-		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("children", key), item, action, callType);
+		try {
+			return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("children", key), item, action, callType);
+		} catch (RejectedTaskException e) {
+			// Could not start a thread
+			return new ResultHolder(item, new ServiceException("Unable to start service. " + e.getMessage(), e));
+		} catch (Exception e) {
+			// Error calling service
+			return new ResultHolder(item, new ServiceException("Error calling service. " + e.getMessage(), e));
+		}
 	}
 
 	@Override
@@ -86,7 +96,15 @@ public class DefaultDataApiCrudTreeStore<S, K, T, D extends CrudTreeApi<S, K, T>
 				return getDataApi().getRootItems();
 			}
 		};
-		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("root", ""), null, action, callType);
+		try {
+			return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("root", ""), null, action, callType);
+		} catch (RejectedTaskException e) {
+			// Could not start a thread
+			return new ResultHolder(null, new ServiceException("Unable to start service. " + e.getMessage(), e));
+		} catch (Exception e) {
+			// Error calling service
+			return new ResultHolder(null, new ServiceException("Error calling service. " + e.getMessage(), e));
+		}
 	}
 
 }
