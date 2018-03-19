@@ -4,9 +4,11 @@ import com.github.bordertech.didums.Didums;
 import com.github.bordertech.flux.dataapi.SearchApi;
 import com.github.bordertech.flux.store.DataApiStore;
 import com.github.bordertech.flux.store.SearchStore;
+import com.github.bordertech.taskmaster.RejectedTaskException;
 import com.github.bordertech.taskmaster.service.CallType;
 import com.github.bordertech.taskmaster.service.ResultHolder;
 import com.github.bordertech.taskmaster.service.ServiceAction;
+import com.github.bordertech.taskmaster.service.ServiceException;
 import com.github.bordertech.taskmaster.service.ServiceHelper;
 import java.util.List;
 import java.util.Set;
@@ -46,7 +48,15 @@ public class DefaultSearchDataApiStore<S, T, D extends SearchApi<S, T>> extends 
 				return getDataApi().search(criteria);
 			}
 		};
-		return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("search", criteria), criteria, action, callType);
+		try {
+			return SERVICE_HELPER.handleServiceCallType(getStoreCache(), getCacheKey("search", criteria), criteria, action, callType);
+		} catch (RejectedTaskException e) {
+			// Could not start a thread
+			return new ResultHolder(criteria, new ServiceException("Unable to start service. " + e.getMessage(), e));
+		} catch (Exception e) {
+			// Error calling service
+			return new ResultHolder(criteria, new ServiceException("Error calling service. " + e.getMessage(), e));
+		}
 	}
 
 }

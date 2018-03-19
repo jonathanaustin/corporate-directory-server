@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.dumb.form;
+package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.wcomponents.WComponent;
 

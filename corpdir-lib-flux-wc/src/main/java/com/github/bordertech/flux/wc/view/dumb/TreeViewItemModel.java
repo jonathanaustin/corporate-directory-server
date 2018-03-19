@@ -1,4 +1,4 @@
-package com.github.bordertech.flux.wc.view.dumb.tree;
+package com.github.bordertech.flux.wc.view.dumb;
 
 import com.github.bordertech.wcomponents.TreeItemModel;
 import java.util.List;

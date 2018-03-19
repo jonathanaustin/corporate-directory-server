@@ -40,6 +40,7 @@ public class DeleteButtonPanel extends WDiv {
 	protected void doDefaultAction() {
 		FluxDumbView view = ViewUtil.findParentView(this);
 		if (view != null) {
+			// TODO fix this
 //			view.dispatchViewEvent(CollectionEventType.REMOVE_ITEM, getBean());
 		}
 	}

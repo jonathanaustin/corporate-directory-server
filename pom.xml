@@ -163,14 +163,14 @@
 			<dependency>
 				<groupId>com.github.bordertech.wcomponents</groupId>
 				<artifactId>wcomponents-addons-bundle</artifactId>
-				<version>1.0.1</version>
+				<version>1.0.3</version>
 			</dependency>
 
 			<!-- Taskmaster for ASYNC -->
 			<dependency>
 				<groupId>com.github.bordertech.taskmaster</groupId>
 				<artifactId>taskmaster</artifactId>
-				<version>1.0.0</version>
+				<version>1.0.1</version>
 			</dependency>
 
 			<!-- Didums HK2 -->
