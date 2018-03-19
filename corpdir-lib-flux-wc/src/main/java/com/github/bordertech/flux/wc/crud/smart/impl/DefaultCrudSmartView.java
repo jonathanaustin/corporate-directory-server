@@ -10,6 +10,7 @@ import com.github.bordertech.flux.wc.crud.smart.CrudSearchSmartView;
 import com.github.bordertech.flux.wc.crud.util.FormEventUtil;
 import com.github.bordertech.flux.wc.mode.FormMode;
 import com.github.bordertech.flux.wc.view.DefaultSmartView;
+import com.github.bordertech.flux.wc.view.ViewHolder;
 import com.github.bordertech.flux.wc.view.dumb.FormToolbarView;
 import com.github.bordertech.flux.wc.view.dumb.FormView;
 import com.github.bordertech.flux.wc.view.dumb.MessageView;
@@ -51,70 +52,82 @@ import java.util.List;
  */
 public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> implements CrudSearchSmartView<S, K, T> {
 
-	private final SearchView<S> searchView;
-	private final SelectSingleView<T> selectView;
-	private final PollingView pollingView = new DefaultPollingView<>("vw_poll");
-	private final ToolbarView searchToolbar = new DefaultToolbarView("vw_toolbar_1");
-	private final MessageView searchMessages = new DefaultMessageView("vw_crit_msg");
-	// Form Details
+	// View holders that allow the view instances to be changed
+	private final ViewHolder<SearchView<S>> searchViewHolder = new ViewHolder();
+	private final ViewHolder<SelectSingleView<T>> selectViewHolder = new ViewHolder();
+	private final ViewHolder<PollingView> pollingViewHolder = new ViewHolder();
+	private final ViewHolder<ToolbarView> searchToolbarViewHolder = new ViewHolder();
+	private final ViewHolder<MessageView> searchMessagesViewHolder = new ViewHolder();
+	private final ViewHolder<MessageView> formMessagesViewHolder = new ViewHolder();
+	private final ViewHolder<FormToolbarView<T>> formToolbarViewHolder = new ViewHolder();
+	private final ViewHolder<FormView<T>> formViewHolder = new ViewHolder();
+
+	// TODO Put this into the one template
+	// Form Details (form views held in own template)
 	private final DefaultSmartView formHolder = new DefaultSmartView("vw_form", TemplateConstants.TEMPLATE_ENT_CRUD_FORM);
-	private final MessageView formMessages = new DefaultMessageView("vw_form_msg");
-	private final FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw_form_toolbar");
-	private final FormView<T> formView;
 
 	public DefaultCrudSmartView(final String viewId, final String title, final WComponent panel) {
-		this(viewId, title, null, null, null, panel);
-	}
-
-	public DefaultCrudSmartView(final String viewId, final String title, final WComponent panel, final SelectSingleView<T> selectView2) {
-		this(viewId, title, null, selectView2, null, panel);
-	}
-
-	public DefaultCrudSmartView(final String viewId, final String title, final SearchView<S> criteriaView2, final SelectSingleView<T> selectView2, final FormView<T> formView2, final WComponent panel) {
 		super(viewId, TemplateConstants.TEMPLATE_ENT_CRUD, false);
 
 		setAjaxContext(true);
+		setQualifierContext(true);
 
-		// Setup Defaults
-		searchView = criteriaView2 == null ? (SearchView<S>) new SearchTextView("vw_crit") : criteriaView2;
-		selectView = selectView2 == null ? (SelectSingleView) new MenuSelectView("vw_list") : selectView2;
-		formView = formView2 == null ? new DefaultFormView<T>("vw_form") : formView2;
-		if (panel != null) {
-			formView.getFormHolder().add(panel);
-		}
+		// Title
+		getContent().addParameter(TemplateConstants.PARAM_TITLE, title);
 
 		// Form Holder
 		formHolder.setDumbMode(true);
 		formHolder.setPassAllEvents(true);
 		formHolder.addHtmlClass("wc-panel-type-box");
-		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_TOOLBAR, formToolbarView);
-		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_MSG, formMessages);
-		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_VIEW, formView);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_TOOLBAR, formToolbarViewHolder);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_MSG, formMessagesViewHolder);
+		formHolder.addComponentToTemplate(TemplateConstants.TAG_VW_FORM_VIEW, formViewHolder);
 
-		// Add views
-		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR_TOP, searchToolbar);
-		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT_MSG, searchMessages);
-		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT, searchView);
-		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingView);
-		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, selectView);
+		// View holders
+		addComponentToTemplate(TemplateConstants.TAG_VW_TOOLBAR_TOP, searchToolbarViewHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT_MSG, searchMessagesViewHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_CRIT, searchViewHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_POLL, pollingViewHolder);
+		addComponentToTemplate(TemplateConstants.TAG_VW_LIST, selectViewHolder);
 		addComponentToTemplate(TemplateConstants.TAG_VW_FORM, formHolder);
 
-		// Title
-		getContent().addParameter(TemplateConstants.PARAM_TITLE, title);
+		// Setup Default views
+		SearchView searchView = new SearchTextView("vw_crit");
+		SelectSingleView<T> selectView = new MenuSelectView("vw_list");
+		FormView<T> formView = new DefaultFormView("vw_form");
+		PollingView pollingView = new DefaultPollingView<>("vw_poll");
+		ToolbarView searchToolbarView = new DefaultToolbarView("vw_toolbar_1");
+		MessageView searchMessagesView = new DefaultMessageView("vw_crit_msg");
+		MessageView formMessagesView = new DefaultMessageView("vw_form_msg");
+		FormToolbarView<T> formToolbarView = new DefaultFormToolbarView("vw_form_toolbar");
+		if (panel != null) {
+			formView.getFormHolder().add(panel);
+		}
 
-		// Toolbar Defaults
-		searchToolbar.addToolbarItem(ToolbarModifyItemType.ADD);
+		// Add views to holders
+		setSearchToolbarView(searchToolbarView);
+		setSearchMessagesView(searchMessagesView);
+		setSearchView(searchView);
+		setPollingView(pollingView);
+		setSelectView(selectView);
+		setFormToolbarView(formToolbarView);
+		setFormMessagesView(formMessagesView);
+		setFormView(formView);
 
+		// Set Defaults
+		searchToolbarView.addToolbarItem(ToolbarModifyItemType.ADD);
 		// Default visibility
 		selectView.setContentVisible(false);
 		formHolder.setContentVisible(false);
-		setQualifierContext(true);
+
 	}
 
+	@Override
 	public boolean isAutoSearch() {
 		return getComponentModel().autoSearch;
 	}
 
+	@Override
 	public void setAutoSearch(final boolean autoSearch) {
 		getOrCreateComponentModel().autoSearch = autoSearch;
 	}
@@ -150,53 +163,81 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	}
 
 	@Override
-	public FormView<T> getFormView() {
-		return formView;
-	}
-
-	@Override
-	public FormToolbarView<T> getFormToolbarView() {
-		return formToolbarView;
-	}
-
-	@Override
 	public void resetFormViews() {
-		formHolder.resetContent();
+		getFormHolder().resetContent();
 	}
 
 	@Override
 	public S getCriteria() {
-		return searchView.getViewBean();
+		return getSearchView().getViewBean();
+	}
+
+	@Override
+	public FormView<T> getFormView() {
+		return formViewHolder.getView();
+	}
+
+	public final void setFormView(final FormView<T> view) {
+		formViewHolder.setView(view);
+	}
+
+	@Override
+	public FormToolbarView<T> getFormToolbarView() {
+		return formToolbarViewHolder.getView();
+	}
+
+	public final void setFormToolbarView(final FormToolbarView<T> view) {
+		formToolbarViewHolder.setView(view);
 	}
 
 	@Override
 	public SearchView<S> getSearchView() {
-		return searchView;
+		return searchViewHolder.getView();
+	}
+
+	public final void setSearchView(final SearchView<S> view) {
+		searchViewHolder.setView(view);
 	}
 
 	@Override
 	public SelectSingleView<T> getSelectView() {
-		return selectView;
+		return selectViewHolder.getView();
+	}
+
+	public final void setSelectView(final SelectSingleView<T> view) {
+		selectViewHolder.setView(view);
 	}
 
 	@Override
-	public ToolbarView getSearchToolbar() {
-		return searchToolbar;
+	public ToolbarView getSearchToolbarView() {
+		return searchToolbarViewHolder.getView();
+	}
+
+	public final void setSearchToolbarView(final ToolbarView view) {
+		searchToolbarViewHolder.setView(view);
 	}
 
 	@Override
-	public MessageView getSearchMessages() {
-		return searchMessages;
+	public MessageView getSearchMessagesView() {
+		return searchMessagesViewHolder.getView();
+	}
+
+	public final void setSearchMessagesView(final MessageView view) {
+		searchMessagesViewHolder.setView(view);
 	}
 
 	@Override
-	public DefaultSmartView getFormHolder() {
+	public MessageView getFormMessagesView() {
+		return formMessagesViewHolder.getView();
+	}
+
+	public final void setFormMessagesView(final MessageView view) {
+		formMessagesViewHolder.setView(view);
+	}
+
+	@Override
+	public final DefaultSmartView getFormHolder() {
 		return formHolder;
-	}
-
-	@Override
-	public MessageView getFormMessages() {
-		return formMessages;
 	}
 
 	@Override
@@ -211,7 +252,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	protected void handleStoreChangedAction(final String storeKey, final Action action) {
 		super.handleStoreChangedAction(storeKey, action);
 		String key = getActionCreatorKey();
-		if (Objects.equal(key, storeKey) && formHolder.isContentVisible() && formView.getFormMode() == FormMode.VIEW) {
+		if (Objects.equal(key, storeKey) && getFormHolder().isContentVisible() && getFormView().getFormMode() == FormMode.VIEW) {
 			// Do a refresh
 			dispatchViewEvent(ToolbarBaseEventType.REFRESH);
 		}
@@ -222,8 +263,8 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 
 		// Message Events
 		if (event instanceof MessageBaseEventType) {
-			if ((isView(viewId, formToolbarView) || isView(viewId, formView)) && formHolder.isContentVisible()) {
-				MessageEventUtil.handleMessageBaseViewEvents(formMessages, (MessageBaseEventType) event, data);
+			if ((isView(viewId, getFormToolbarView()) || isView(viewId, getFormView())) && getFormHolder().isContentVisible()) {
+				MessageEventUtil.handleMessageBaseViewEvents(getFormMessagesView(), (MessageBaseEventType) event, data);
 			} else {
 				MessageEventUtil.handleMessageBaseViewEvents(this, (MessageBaseEventType) event, data);
 			}
@@ -239,8 +280,8 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 
 		// Search Validating
 		if (isEvent(SearchBaseEventType.SEARCH_VALIDATING, event)) {
-			selectView.resetView();
-			pollingView.resetView();
+			getSelectView().resetView();
+			getPollingView().resetView();
 			resetFormViews();
 			// Search
 		} else if (isEvent(SearchBaseEventType.SEARCH, event)) {
@@ -251,15 +292,15 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 			ResultHolder<S, List<T>> resultHolder = handleCheckSearchResult();
 			if (resultHolder != null) {
 				// Stop polling
-				pollingView.setPollingStatus(PollingStatus.STOPPED);
+				getPollingView().setPollingStatus(PollingStatus.STOPPED);
 				// Handle the result
 				handleResult(resultHolder);
 			}
 
 			// SELECT
 		} else if (isEvent(SelectBaseEventType.SELECT, event)) {
-			formHolder.resetView();
-			formHolder.setContentVisible(true);
+			getFormHolder().resetView();
+			getFormHolder().setContentVisible(true);
 			dispatchViewEvent(FormBaseEventType.LOAD, (T) data);
 		}
 	}
@@ -273,6 +314,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	}
 
 	protected void handleSearchSuccessful(final List<T> items) {
+		SelectSingleView<T> selectView = getSelectView();
 		selectView.setItems(items);
 		selectView.setContentVisible(true);
 		if (items == null || items.isEmpty()) {
@@ -291,7 +333,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 
 	@Override
 	protected void handleResetEvent(final String viewId) {
-		if (isView(viewId, formToolbarView)) {
+		if (isView(viewId, getFormToolbarView())) {
 			resetFormViews();
 		} else {
 			super.handleResetEvent(viewId);
@@ -305,6 +347,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 	 * @param entity
 	 */
 	protected void handleFormOutcomeEvents(final FormBaseOutcomeEventType type, final T entity) {
+		SelectSingleView<T> selectView = getSelectView();
 		switch (type) {
 			case ADD_OK:
 				dispatchMessageReset();
@@ -313,7 +356,7 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 				break;
 
 			case LOAD_OK:
-				formHolder.setContentVisible(true);
+				getFormHolder().setContentVisible(true);
 				break;
 
 			case CREATE_OK:
@@ -336,25 +379,30 @@ public class DefaultCrudSmartView<S, K, T> extends DefaultMessageSmartView<T> im
 				if (selectView.getViewBean().isEmpty()) {
 					selectView.setContentVisible(false);
 				}
-				formHolder.setContentVisible(false);
+				getFormHolder().setContentVisible(false);
 				break;
 		}
 	}
 
 	protected PollingView getPollingView() {
-		return pollingView;
+		return pollingViewHolder.getView();
+	}
+
+	protected final void setPollingView(final PollingView pollingView) {
+		pollingViewHolder.setView(pollingView);
 	}
 
 	protected void handleSearchEvent() {
-		selectView.resetView();
+		getSelectView().resetView();
 		ResultHolder<S, List<T>> resultHolder = handleStartSearch();
 		if (resultHolder != null) {
 			handleResult(resultHolder);
 			return;
 		}
 		// Start Polling
-		pollingView.resetView();
-		pollingView.doManualStart();
+		PollingView polling = getPollingView();
+		polling.resetView();
+		polling.doManualStart();
 	}
 
 	protected ResultHolder<S, List<T>> handleStartSearch() {

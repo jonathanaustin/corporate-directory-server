@@ -3,8 +3,6 @@ package com.github.bordertech.flux.wc.crud.smart.impl;
 import com.github.bordertech.flux.crud.actioncreator.CrudTreeActionCreator;
 import com.github.bordertech.flux.crud.store.CrudTreeStore;
 import com.github.bordertech.flux.wc.crud.smart.CrudSearchTreeSmartView;
-import com.github.bordertech.flux.wc.view.dumb.FormView;
-import com.github.bordertech.flux.wc.view.dumb.SearchView;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseEventType;
 import com.github.bordertech.flux.wc.view.event.base.FormBaseOutcomeEventType;
 import com.github.bordertech.flux.wc.view.smart.ListOrTreeSelectView;
@@ -19,22 +17,19 @@ import java.util.List;
  *
  * @author jonathan
  * @param <S> the criteria type
+ * @param <K> the entity key type
  * @param <T> the entity type
  */
 public class DefaultCrudTreeSmartView<S, K, T> extends DefaultCrudSmartView<S, K, T> implements CrudSearchTreeSmartView<S, K, T> {
 
 	public DefaultCrudTreeSmartView(final String viewId, final String title, final WComponent panel) {
-		this(viewId, title, panel, new DefaultListOrTreeSmartView<K, T>("vw_list"));
-	}
-
-	public DefaultCrudTreeSmartView(final String viewId, final String title, final WComponent panel, final ListOrTreeSelectView<K, T> selectView2) {
-		this(viewId, title, null, selectView2, null, panel);
-	}
-
-	public DefaultCrudTreeSmartView(final String viewId, final String title, final SearchView<S> criteriaView2, final ListOrTreeSelectView<K, T> selectView2, final FormView<T> formView2, final WComponent panel) {
-		super(viewId, title, criteriaView2, selectView2, formView2, panel);
-		selectView2.setDumbMode(true);
-		selectView2.setPassAllEvents(true);
+		super(viewId, title, panel);
+		// Setup Tree View and Defaults
+		DefaultListOrTreeSmartView selectView = new DefaultListOrTreeSmartView("vw_list");
+		selectView.setContentVisible(false);
+		selectView.setDumbMode(true);
+		selectView.setPassAllEvents(true);
+		setSelectView(selectView);
 	}
 
 	@Override

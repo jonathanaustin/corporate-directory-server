@@ -102,13 +102,13 @@ public class DefaultCorpSecureCrudCardView<T extends ApiIdObject> extends Defaul
 	}
 
 	@Override
-	public ToolbarView getSearchToolbar() {
-		return crudView.getSearchToolbar();
+	public ToolbarView getSearchToolbarView() {
+		return crudView.getSearchToolbarView();
 	}
 
 	@Override
-	public MessageView getSearchMessages() {
-		return crudView.getSearchMessages();
+	public MessageView getSearchMessagesView() {
+		return crudView.getSearchMessagesView();
 	}
 
 	@Override
@@ -117,8 +117,8 @@ public class DefaultCorpSecureCrudCardView<T extends ApiIdObject> extends Defaul
 	}
 
 	@Override
-	public MessageView getFormMessages() {
-		return crudView.getFormMessages();
+	public MessageView getFormMessagesView() {
+		return crudView.getFormMessagesView();
 	}
 
 	@Override

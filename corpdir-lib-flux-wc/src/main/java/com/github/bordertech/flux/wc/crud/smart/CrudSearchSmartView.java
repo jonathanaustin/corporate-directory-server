@@ -29,11 +29,12 @@ public interface CrudSearchSmartView<S, K, T> extends CrudSmartView<S, K, T> {
 
 	SelectSingleView<T> getSelectView();
 
-	ToolbarView getSearchToolbar();
+	ToolbarView getSearchToolbarView();
 
-	MessageView getSearchMessages();
+	MessageView getSearchMessagesView();
 
 	DefaultSmartView getFormHolder();
 
-	MessageView getFormMessages();
+	MessageView getFormMessagesView();
+
 }
