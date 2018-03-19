@@ -1,14 +1,14 @@
 package com.github.bordertech.corpdir.web.ui;
 
 import com.github.bordertech.corpdir.web.ui.common.IconConstants;
-import com.github.bordertech.corpdir.web.ui.smart.card.ContactCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.LocationCardTreeView;
-import com.github.bordertech.corpdir.web.ui.smart.card.OrgUnitCardTreeView;
-import com.github.bordertech.corpdir.web.ui.smart.card.PositionCardTreeView;
-import com.github.bordertech.corpdir.web.ui.smart.card.PositionTypeCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.SystemCtrlCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.UnitTypeCardView;
-import com.github.bordertech.corpdir.web.ui.smart.card.VersionCtrlCardView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.ContactCardView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.LocationCardTreeView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.OrgUnitCardTreeView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.PositionCardTreeView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.PositionTypeCardView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.SystemCtrlCardView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.UnitTypeCardView;
+import com.github.bordertech.corpdir.web.ui.view.smart.card.VersionCtrlCardView;
 import com.github.bordertech.flux.wc.view.smart.SecureCardView;
 
 /**
