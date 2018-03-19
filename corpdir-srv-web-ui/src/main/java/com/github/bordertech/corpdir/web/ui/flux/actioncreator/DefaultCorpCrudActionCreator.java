@@ -1,8 +1,7 @@
-package com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl;
+package com.github.bordertech.corpdir.web.ui.flux.actioncreator;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.actioncreator.CorpCrudActionCreator;
 import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudDataApi;
 import com.github.bordertech.flux.crud.actioncreator.impl.DefaultDataApiCrudActionCreator;
 

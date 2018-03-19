@@ -1,10 +1,9 @@
-package com.github.bordertech.corpdir.web.ui.flux.store.impl;
+package com.github.bordertech.corpdir.web.ui.flux.store;
 
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudVersionDataApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.SystemCtrlApi;
-import com.github.bordertech.corpdir.web.ui.flux.store.CorpCrudVersionStore;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.SystemCtrlApi;
 import com.github.bordertech.didums.Didums;
 
 /**

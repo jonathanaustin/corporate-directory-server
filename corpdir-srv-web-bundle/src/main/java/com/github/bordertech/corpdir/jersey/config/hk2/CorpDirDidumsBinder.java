@@ -9,24 +9,15 @@ import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.PositionType
 import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.SystemCtrlActionCreator;
 import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.UnitTypeActionCreator;
 import com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl.VersionCtrlActionCreator;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.ChannelApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.ContactApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.LocationApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.OrgUnitApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.PositionApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.PositionTypeApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.SystemCtrlApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.UnitTypeApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.VersionCtrlApi;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.ChannelApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.ContactApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.LocationApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.OrgUnitApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.PositionApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.PositionTypeApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.SystemCtrlApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.UnitTypeApiImpl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.VersionCtrlApiImpl;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.ChannelApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.ContactApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.LocationApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.OrgUnitApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.PositionApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.PositionTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.SystemCtrlApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.UnitTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.VersionCtrlApi;
 import com.github.bordertech.corpdir.web.ui.flux.store.impl.ContactStore;
 import com.github.bordertech.corpdir.web.ui.flux.store.impl.LocationStore;
 import com.github.bordertech.corpdir.web.ui.flux.store.impl.OrgUnitStore;
@@ -53,15 +44,15 @@ public class CorpDirDidumsBinder implements DidumsBinder {
 //		provider.bind(TaskManager.class, TaskManagerExecutorServiceImpl.class, true);
 
 		// DATA APIs
-		provider.bind(ChannelApi.class, ChannelApiImpl.class, true);
-		provider.bind(ContactApi.class, ContactApiImpl.class, true);
-		provider.bind(LocationApi.class, LocationApiImpl.class, true);
-		provider.bind(OrgUnitApi.class, OrgUnitApiImpl.class, true);
-		provider.bind(PositionApi.class, PositionApiImpl.class, true);
-		provider.bind(PositionTypeApi.class, PositionTypeApiImpl.class, true);
-		provider.bind(SystemCtrlApi.class, SystemCtrlApiImpl.class, true);
-		provider.bind(UnitTypeApi.class, UnitTypeApiImpl.class, true);
-		provider.bind(VersionCtrlApi.class, VersionCtrlApiImpl.class, true);
+		provider.bind(ChannelApi.class, ChannelApi.class, true);
+		provider.bind(ContactApi.class, ContactApi.class, true);
+		provider.bind(LocationApi.class, LocationApi.class, true);
+		provider.bind(OrgUnitApi.class, OrgUnitApi.class, true);
+		provider.bind(PositionApi.class, PositionApi.class, true);
+		provider.bind(PositionTypeApi.class, PositionTypeApi.class, true);
+		provider.bind(SystemCtrlApi.class, SystemCtrlApi.class, true);
+		provider.bind(UnitTypeApi.class, UnitTypeApi.class, true);
+		provider.bind(VersionCtrlApi.class, VersionCtrlApi.class, true);
 
 		// Action Creators
 		provider.bind(ChannelActionCreator.class, ChannelActionCreator.class, true);

@@ -2,7 +2,8 @@ package com.github.bordertech.corpdir.web.ui.flux.store.impl;
 
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.PositionTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.PositionTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.store.DefaultCorpCrudStore;
 import javax.inject.Inject;
 
 /**

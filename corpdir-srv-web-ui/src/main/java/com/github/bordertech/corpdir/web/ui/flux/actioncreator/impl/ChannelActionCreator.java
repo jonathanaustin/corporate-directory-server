@@ -2,7 +2,8 @@ package com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl;
 
 import com.github.bordertech.corpdir.api.v1.model.Channel;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.ChannelApi;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.DefaultCorpCrudActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.ChannelApi;
 import javax.inject.Inject;
 
 /**

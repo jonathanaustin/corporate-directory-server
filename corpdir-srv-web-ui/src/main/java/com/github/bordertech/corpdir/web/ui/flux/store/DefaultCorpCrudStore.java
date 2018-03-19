@@ -1,9 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.flux.store.impl;
+package com.github.bordertech.corpdir.web.ui.flux.store;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
 import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudDataApi;
-import com.github.bordertech.corpdir.web.ui.flux.store.CorpCrudStore;
 import com.github.bordertech.flux.crud.store.impl.DefaultDataApiCrudStore;
 
 /**

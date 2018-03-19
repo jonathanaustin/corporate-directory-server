@@ -2,7 +2,8 @@ package com.github.bordertech.corpdir.web.ui.flux.store.impl;
 
 import com.github.bordertech.corpdir.api.v1.model.Location;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.LocationApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.LocationApi;
+import com.github.bordertech.corpdir.web.ui.flux.store.DefaultCorpCrudTreeStore;
 import javax.inject.Inject;
 
 /**

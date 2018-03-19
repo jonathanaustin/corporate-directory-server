@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.v1.VersionCtrlService;
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.VersionCtrlApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.DefaultCorpCrudDataApi;
 import javax.inject.Inject;
 
 /**
@@ -10,10 +10,10 @@ import javax.inject.Inject;
  *
  * @author jonathan
  */
-public class VersionCtrlApiImpl extends DefaultCorpCrudDataApi<VersionCtrl, VersionCtrlService> implements VersionCtrlApi {
+public class VersionCtrlApi extends DefaultCorpCrudDataApi<VersionCtrl, VersionCtrlService> {
 
 	@Inject
-	public VersionCtrlApiImpl(final VersionCtrlService service) {
+	public VersionCtrlApi(final VersionCtrlService service) {
 		super(VersionCtrl.class, service);
 	}
 }

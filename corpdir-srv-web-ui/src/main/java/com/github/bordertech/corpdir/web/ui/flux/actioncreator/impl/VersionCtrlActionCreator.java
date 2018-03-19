@@ -2,7 +2,8 @@ package com.github.bordertech.corpdir.web.ui.flux.actioncreator.impl;
 
 import com.github.bordertech.corpdir.api.v1.model.VersionCtrl;
 import com.github.bordertech.corpdir.web.ui.CorpEntityType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.VersionCtrlApi;
+import com.github.bordertech.corpdir.web.ui.flux.actioncreator.DefaultCorpCrudActionCreator;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.impl.VersionCtrlApi;
 import javax.inject.Inject;
 
 /**

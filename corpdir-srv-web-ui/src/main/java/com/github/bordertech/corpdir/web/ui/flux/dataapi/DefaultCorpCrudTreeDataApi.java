@@ -1,9 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.dataapi;
 
 import com.github.bordertech.corpdir.api.common.ApiTreeable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicTreeService;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudTreeDataApi;
 import java.util.List;
 
 /**

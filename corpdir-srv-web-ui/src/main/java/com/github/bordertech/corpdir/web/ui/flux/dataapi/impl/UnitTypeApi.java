@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.v1.UnitTypeService;
 import com.github.bordertech.corpdir.api.v1.model.UnitType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.UnitTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.DefaultCorpCrudDataApi;
 import javax.inject.Inject;
 
 /**
@@ -10,10 +10,10 @@ import javax.inject.Inject;
  *
  * @author jonathan
  */
-public class UnitTypeApiImpl extends DefaultCorpCrudDataApi<UnitType, UnitTypeService> implements UnitTypeApi {
+public class UnitTypeApi extends DefaultCorpCrudDataApi<UnitType, UnitTypeService> {
 
 	@Inject
-	public UnitTypeApiImpl(final UnitTypeService service) {
+	public UnitTypeApi(final UnitTypeService service) {
 		super(UnitType.class, service);
 	}
 }

@@ -2,7 +2,7 @@ package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
 
 import com.github.bordertech.corpdir.api.v1.PositionTypeService;
 import com.github.bordertech.corpdir.api.v1.model.PositionType;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.PositionTypeApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.DefaultCorpCrudDataApi;
 import javax.inject.Inject;
 
 /**
@@ -10,10 +10,10 @@ import javax.inject.Inject;
  *
  * @author jonathan
  */
-public class PositionTypeApiImpl extends DefaultCorpCrudDataApi<PositionType, PositionTypeService> implements PositionTypeApi {
+public class PositionTypeApi extends DefaultCorpCrudDataApi<PositionType, PositionTypeService> {
 
 	@Inject
-	public PositionTypeApiImpl(final PositionTypeService service) {
+	public PositionTypeApi(final PositionTypeService service) {
 		super(PositionType.class, service);
 	}
 }

@@ -1,9 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.dataapi;
 
 import com.github.bordertech.corpdir.api.common.ApiVersionable;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicVersionKeyIdService;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudVersionDataApi;
 import java.util.List;
 
 /**

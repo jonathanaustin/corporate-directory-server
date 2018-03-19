@@ -3,7 +3,7 @@ package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.service.BasicIdService;
 import com.github.bordertech.corpdir.api.v1.model.Channel;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.ChannelApi;
+import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudDataApi;
 import java.util.List;
 import java.util.UUID;
 
@@ -12,7 +12,7 @@ import java.util.UUID;
  *
  * @author jonathan
  */
-public class ChannelApiImpl implements ChannelApi {
+public class ChannelApi implements CorpCrudDataApi<Channel, BasicIdService<Channel>> {
 
 	@Override
 	public Channel createInstance() {

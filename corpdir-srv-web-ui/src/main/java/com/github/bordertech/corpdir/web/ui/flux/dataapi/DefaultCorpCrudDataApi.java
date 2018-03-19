@@ -1,9 +1,8 @@
-package com.github.bordertech.corpdir.web.ui.flux.dataapi.impl;
+package com.github.bordertech.corpdir.web.ui.flux.dataapi;
 
 import com.github.bordertech.corpdir.api.common.ApiIdObject;
 import com.github.bordertech.corpdir.api.response.DataResponse;
 import com.github.bordertech.corpdir.api.service.BasicIdService;
-import com.github.bordertech.corpdir.web.ui.flux.dataapi.CorpCrudDataApi;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
